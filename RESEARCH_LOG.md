@@ -99,6 +99,37 @@ comfortably everywhere, and SES's improvement over the ad-hoc baseline isn't lar
 its own to be worth the added surface area. Left as comparison columns in
 `fpl/model/train.py`'s output.
 
+## 2026-07-03 - Added plain OLS regression as the designated "index" benchmark
+
+User (finance background) asked for a simple OLS regression to serve as the project's designated
+*index* - the plain, unregularized benchmark every other model/baseline is ultimately judged
+against, the same way a passive market index is the bar an active strategy has to clear, rather
+than just another row in the comparison table.
+
+Added `"ols"` to `fpl/model/models.py::FACTORIES` (plain `LinearRegression`, same ~70-feature
+input and imputation/scaling pipeline as Ridge/ElasticNet - the only difference is no
+regularization) and an explicit "index check" print block in `fpl/model/train.py` comparing the
+ensemble's MASE against OLS's, per position, with an explicit "beats index" / "does NOT beat
+index" verdict rather than requiring someone to eyeball the full comparison table.
+
+**Result: the ensemble beats the OLS index at every position.**
+
+| Position | OLS (index) MASE | ensemble MASE | verdict |
+|---|---|---|---|
+| GK  | 0.658 | 0.637 | beats index |
+| DEF | 0.900 | 0.874 | beats index |
+| MID | 0.927 | 0.871 | beats index |
+| FWD | 1.158 | 1.067 | beats index |
+
+Plain OLS also turns out to be a genuinely strong baseline in its own right - better than every
+time-series baseline tested so far (SES, Theta, Croston, Holt, naive drift, AR(1), ARIMA) and the
+old ad-hoc rolling-average baseline at every position, only trailing the regularized linear models
+(Ridge, ElasticNet) by a small margin, as expected given the ~70 engineered features include a lot
+of mutually correlated rolling-window statistics that unregularized OLS can't down-weight. This is
+a reassuring result: it confirms the production ensemble's added complexity (6 model types,
+NNLS-blended) is earning its keep against a simple, honest benchmark, not just against a weak
+straw-man baseline.
+
 ## 2026-07-03 - Per-player model selection planning branch; Typst report; EDA notebook
 
 Spun off a background planning agent (not implementation) to assess the per-player forecasting

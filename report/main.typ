@@ -186,23 +186,23 @@ without assuming a "more principled" technique must help:
 
 #align(center)[
   #table(
-    columns: 8,
-    align: (left,) + (right,) * 7,
+    columns: 9,
+    align: (left,) + (right,) * 8,
     table.header(
-      [*Position*], [*Ensemble*], [*Baseline*#footnote[3-gameweek rolling mean, falling back to season-to-date mean.]],
+      [*Position*], [*Ensemble*], [*OLS (index)*], [*Baseline*#footnote[3-gameweek rolling mean, falling back to season-to-date mean.]],
       [*SES*], [*Theta*], [*Croston*], [*AR(1)*], [*ARIMA*],
     ),
-    [GK],  [0.64], [0.69], [*0.68*], [0.70], [0.89], [0.87], [0.86],
-    [DEF], [0.87], [0.94], [*0.90*], [0.91], [1.06], [1.06], [1.10],
-    [MID], [0.87], [0.98], [*0.94*], [0.95], [1.10], [1.11], [1.14],
-    [FWD], [1.07], [1.13], [*1.11*], [1.14], [1.39], [1.29], [1.36],
+    [GK],  [*0.64*], [0.66], [0.69], [0.68], [0.70], [0.89], [0.87], [0.86],
+    [DEF], [*0.87*], [0.90], [0.94], [0.90], [0.91], [1.06], [1.06], [1.10],
+    [MID], [*0.87*], [0.93], [0.98], [0.94], [0.95], [1.10], [1.11], [1.14],
+    [FWD], [*1.07*], [1.16], [1.13], [1.11], [1.14], [1.39], [1.29], [1.36],
   )
 ]
-#align(center)[#text(size: 9pt, style: "italic")[MASE, GW77-107 static split. Lower is better; bold marks the best-performing simple baseline per position.]]
+#align(center)[#text(size: 9pt, style: "italic")[MASE, GW77-107 static split. Lower is better; bold marks the ensemble, the best performer at every position.]]
 
 Naive drift and Holt's linear trend were also tested (see `RESEARCH_LOG.md` for full figures) and
-likewise underperformed the existing baseline everywhere. Across all seven techniques tested:
-*simple exponential smoothing (SES) is consistently the best of the simple baselines, but nothing
+likewise underperformed the existing baseline everywhere. Across all seven simple techniques
+tested: *simple exponential smoothing (SES) is the best of the simple baselines, but nothing
 tested beats the full ensemble at any position.* Croston's method - specifically designed for
 intermittent-demand series and flagged in the source literature as a strong performer - was the
 worst performer here, because pooling it across an entire position (rather than selecting it only
@@ -210,6 +210,18 @@ for the specific players whose scoring pattern it suits, as the source literatur
 hides the per-player heterogeneity that made it work in the original study. This motivated a
 subsequent planning exercise into per-player model selection (@sec-per-player), rather than
 per-position pooling, as the more promising remaining direction.
+
+*Plain OLS regression as the designated index.* On the recommendation that a simple, unregularized
+multiple linear regression should serve as the project's designated benchmark - "index" - that
+every other technique must clear, exactly as a passive market index is the bar an active strategy
+has to beat, plain OLS regression on the full approximately 70-feature set was added to the comparison
+(`fpl/model/models.py`). It turns out to be a genuinely strong baseline: better than every
+time-series technique in the table above at every position, trailing only the regularized linear
+models (Ridge, ElasticNet) by a small margin - expected, since the engineered feature set includes
+many mutually correlated rolling-window statistics that unregularized OLS cannot down-weight the
+way Ridge/ElasticNet can. The production ensemble beats this index at every position (by 0.02-0.09
+MASE), which is a reassuring result: it confirms the ensemble's added complexity is earning its
+keep against a genuinely competitive simple benchmark, not merely against a weak straw man.
 
 == Optimizer constraint testing
 
@@ -292,7 +304,7 @@ live as of this writing, since the 2026-27 season had not yet opened.
 = Conclusion and future work
 
 This project has been rewritten from a one-off Master's thesis validation into a maintainable,
-weekly-runnable Python pipeline that measurably outperforms its LSTM-based predecessor (a ~25%
+weekly-runnable Python pipeline that measurably outperforms its LSTM-based predecessor (an approximately 25%
 improvement in realized backtest points). This phase of work added a proper error metric (MASE), a
 regression test suite, and tested seven alternative forecasting techniques against the production
 system - honestly reporting that none beat it, which is itself useful information ruling out a

@@ -6,12 +6,19 @@ everything on one algorithm.
 Tree-based models (LightGBM, Random Forest, Extra Trees) get raw features -
 they handle the NaNs at the start of a player's career fine (LightGBM
 natively; the sklearn forests via the imputer below). Linear/distance-based
-models (Ridge, ElasticNet, kNN) need imputation and scaling to behave.
+models (Ridge, ElasticNet, kNN, OLS) need imputation and scaling to behave.
+
+"ols" (plain, unregularized multiple linear regression on the full feature
+set) is the designated INDEX: the simple, textbook benchmark every other
+model/baseline in this project is ultimately judged against, the way a
+passive market index is the bar an active strategy has to clear - not just
+another entry in the comparison table. See RESEARCH_LOG.md for the standing
+verdict on whether anything actually beats it.
 """
 import lightgbm as lgb
 from sklearn.ensemble import ExtraTreesRegressor, RandomForestRegressor
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import ElasticNet, Ridge
+from sklearn.linear_model import ElasticNet, LinearRegression, Ridge
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -44,6 +51,7 @@ def _tree_pipeline(estimator):
 
 
 FACTORIES = {
+    "ols": lambda: _scaled_pipeline(LinearRegression()),
     "lightgbm": lambda: lgb.LGBMRegressor(**LGB_PARAMS),
     "ridge": lambda: _scaled_pipeline(Ridge(alpha=1.0)),
     "elasticnet": lambda: _scaled_pipeline(ElasticNet(alpha=0.02, l1_ratio=0.5, max_iter=5000)),

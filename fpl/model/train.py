@@ -158,6 +158,17 @@ def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, tes
     for pos in POSITIONS:
         print(f"{pos:<8}" + "".join(f"{v:<14.4f}" for v in mase_rows[pos]))
 
+    # "ols" (plain, unregularized multiple linear regression) is the designated INDEX - the
+    # simple textbook benchmark everything else in this project is ultimately judged against,
+    # the way a passive market index is the bar an active strategy has to clear. Everything
+    # above is one table; this is the one number per position that actually matters.
+    ols_idx = models.MODEL_NAMES.index("ols")
+    print("\n--- Index check: does the ensemble beat plain OLS regression? ---")
+    for pos in POSITIONS:
+        ols_mase, ensemble_mase = mase_rows[pos][ols_idx], mase_rows[pos][-1]
+        verdict = "beats index" if ensemble_mase < ols_mase else "does NOT beat index"
+        print(f"{pos}: OLS (index) MASE={ols_mase:.4f}  ensemble MASE={ensemble_mase:.4f}  -> {verdict}")
+
     old_lstm_path = config.ROOT / "legacy" / "baseline_outputs" / "Validation_Predictions_Clean_v2.csv"
     if old_lstm_path.exists():
         old = pd.read_csv(old_lstm_path)
