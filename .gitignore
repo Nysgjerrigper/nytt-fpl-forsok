@@ -6,3 +6,4 @@ __pycache__/
 fpl/models/
 fpl/predictions_latest.csv
 fpl/squad_selections/
+.ipynb_checkpoints/

@@ -99,6 +99,27 @@ comfortably everywhere, and SES's improvement over the ad-hoc baseline isn't lar
 its own to be worth the added surface area. Left as comparison columns in
 `fpl/model/train.py`'s output.
 
+## 2026-07-03 - Per-player model selection planning branch; Typst report; EDA notebook
+
+Spun off a background planning agent (not implementation) to assess the per-player forecasting
+model selection idea flagged as the real remaining structural direction in the entry below - see
+`PER_PLAYER_MODEL_SELECTION_PLAN.md` on branch `worktree-agent-afeff933546ce7d37`. Its key
+finding: ~35% of players active in the current season have zero prior-season history, and median
+prior history among the rest is only 38 gameweeks - capping the technique's plausible reach to
+roughly 60-65% of the live pool. Recommendation: a cautious, single-position pilot before any
+larger commitment, not a full implementation yet.
+
+Added `notebooks/eda.ipynb` - a Python rebuild of the thesis-era R EDA (`legacy/R Forecast/EDA.R`,
+since deleted): descriptive statistics, boxplots, KDE density plots, QQ plots, season comparisons,
+a ridgeline plot, and formal ADF/Shapiro-Wilk tests, all per position. Confirms empirically what
+motivated MASE over MAE in the first place: `total_points` is heavily right-skewed and
+zero-inflated at every position, and Shapiro-Wilk rejects normality decisively everywhere.
+
+Added `report/main.typ` (compiles to `report/main.pdf` via `typst compile`) - a project status
+report summarizing the architecture, evaluation methodology, and all forecasting experiments and
+their results from the entries below, for anyone who wants the project state without reading this
+whole log.
+
 ## 2026-07-03 - Tested Theta method and per-player ARIMA: both rejected, SES remains best baseline
 
 Added the two remaining econometric/financial-forecasting techniques the Venter paper flagged
