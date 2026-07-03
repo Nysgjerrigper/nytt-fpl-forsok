@@ -99,6 +99,34 @@ comfortably everywhere, and SES's improvement over the ad-hoc baseline isn't lar
 its own to be worth the added surface area. Left as comparison columns in
 `fpl/model/train.py`'s output.
 
+## 2026-07-03 - Tested Theta method and per-player ARIMA: both rejected, SES remains best baseline
+
+Added the two remaining econometric/financial-forecasting techniques the Venter paper flagged
+as relatively strong that hadn't been tried yet: the **Theta method** (averages a linear trend
+line with an exponentially-smoothed curvature-doubled line - a standout simple method in the
+M3/M4 forecasting competitions) and **per-player ARIMA(1,0,1)** (via `statsmodels`, the one new
+dependency added for this - fit once per player on `train_df`, not re-fit every gameweek, since
+per-row refitting at this scale would be far too slow).
+
+**Result: both rejected as production baselines.** MASE on the GW77-107 static split:
+
+| Position | ensemble | baseline (roll3) | SES (best so far) | theta | ARIMA |
+|---|---|---|---|---|---|
+| GK  | 0.64 | 0.69 | 0.68 | 0.70 | 0.86 |
+| DEF | 0.87 | 0.94 | 0.90 | 0.91 | 1.10 |
+| MID | 0.87 | 0.98 | 0.94 | 0.95 | 1.14 |
+| FWD | 1.07 | 1.13 | 1.11 | 1.14 | 1.36 |
+
+Theta beats the ad-hoc rolling-average baseline at DEF/MID but is roughly tied or slightly
+worse at GK/FWD - and loses to SES at every position. ARIMA underperforms the existing
+baseline everywhere, likely because a single fixed-order (1,0,1) fit per player, estimated
+once and never updated, can't adapt to the short, noisy, zero-heavy series FPL points produce.
+
+**Standing verdict across all baselines tested so far: SES is the best of the simple methods,
+but nothing beats the full ensemble anywhere.** No further econometric baselines planned unless
+a new candidate technique is specifically proposed - the marginal-return pattern here (test
+honestly, most things lose to the existing ensemble) is now well established.
+
 ## 2026-07-03 - Explored Matthews et al. (2012) Bayesian belief-state MDP as a parallel branch
 
 User found the paper's Bayesian RL approach (belief-state MDP + Q-learning over simulated

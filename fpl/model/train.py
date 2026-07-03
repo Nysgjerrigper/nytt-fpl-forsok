@@ -32,8 +32,8 @@ from fpl.model import models
 from fpl.model.ensemble import PositionEnsemble, fit_blend_weights
 from fpl.model.metrics import mae, mase, naive_lag1_scale
 from fpl.model.baselines import (
-    add_croston_column, add_naive_drift_column, add_ses_column, add_holt_column,
-    fit_ar1, predict_ar1,
+    add_croston_column, add_naive_drift_column, add_ses_column, add_holt_column, add_theta_column,
+    fit_ar1, predict_ar1, fit_predict_arima_per_player,
 )
 
 POSITIONS = ["GK", "DEF", "MID", "FWD"]
@@ -63,6 +63,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, tes
     df = add_naive_drift_column(df)
     df = add_ses_column(df)
     df = add_holt_column(df)
+    df = add_theta_column(df)
 
     train_df = df[df["GW_global"] <= train_max_gw]
     test_df = df[(df["GW_global"] >= test_min_gw) & (df["GW_global"] <= test_max_gw)].copy()
@@ -84,13 +85,14 @@ def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, tes
         "naive_drift": "naive_drift_pred",
         "ses": "ses_pred",
         "holt": "holt_pred",
+        "theta": "theta_pred",
         "croston": "croston_pred",
     }
 
     print("\n--- Static split evaluation (GW<=76 train, GW77-107 test) ---")
     header = (f"{'Position':<8}" + "".join(f"{name:<14}" for name in models.MODEL_NAMES)
               + f"{'baseline':<14}" + "".join(f"{name:<14}" for name in extra_baseline_cols)
-              + f"{'ar1':<14}{'ensemble*':<14}")
+              + f"{'ar1':<14}{'arima':<14}{'ensemble*':<14}")
     print("MAE:")
     print(header)
 
@@ -123,9 +125,17 @@ def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, tes
         ar1_c, ar1_phi = fit_ar1(train_df[train_df["position"] == pos])
         ar1_pred = predict_ar1(test_df.loc[pos_mask], ar1_c, ar1_phi)
 
+        # Per-player ARIMA: one fit per player (not per row) on this position's train_df,
+        # forecast forward across the whole test window - see baselines.py for why this
+        # doesn't re-fit every gameweek like the recursive baselines above.
+        arima_pred = fit_predict_arima_per_player(
+            train_df[train_df["position"] == pos], test_df.loc[pos_mask]
+        )
+
         row.append(mae(y_true_pos, baseline_pos))
         row.extend(mae(y_true_pos, p) for p in extra_preds.values())
         row.append(mae(y_true_pos, ar1_pred))
+        row.append(mae(y_true_pos, arima_pred))
         row.append(ensemble_mae)
         print(f"{row[0]:<8}" + "".join(f"{v:<14.4f}" for v in row[1:]))
 
@@ -133,7 +143,8 @@ def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, tes
             [mase(y_true_pos, preds_by_model[name], naive_scale) for name in models.MODEL_NAMES]
             + [mase(y_true_pos, baseline_pos, naive_scale)]
             + [mase(y_true_pos, p, naive_scale) for p in extra_preds.values()]
-            + [mase(y_true_pos, ar1_pred, naive_scale), mase(y_true_pos[eval_idx], blended_eval, naive_scale)]
+            + [mase(y_true_pos, ar1_pred, naive_scale), mase(y_true_pos, arima_pred, naive_scale),
+               mase(y_true_pos[eval_idx], blended_eval, naive_scale)]
         )
 
         ensembles[pos] = PositionEnsemble(per_model_preds_full[pos], weights)

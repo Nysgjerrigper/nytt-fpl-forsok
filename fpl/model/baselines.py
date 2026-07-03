@@ -15,7 +15,15 @@ trend (double exponential smoothing), and a pooled AR(1) - standard econometric/
 financial-forecasting baselines (Hyndman & Athanasopoulos' textbook set, plus the
 classic single-lag autoregression), tested the same way and reported honestly in
 RESEARCH_LOG.md rather than assumed to help just because they're "more principled."
+
+Added again afterwards: the Theta method (a strong, simple M3/M4-competition
+baseline - averages a linear trend line with an exponentially-smoothed
+curvature-doubled line) and per-player ARIMA (via statsmodels, the one new
+dependency here - see requirements.txt). Both were flagged by the Venter paper
+as relatively strong individual forecasters; both tested the same honest way.
 """
+import warnings
+
 import numpy as np
 import pandas as pd
 
@@ -103,6 +111,73 @@ def holt_forecast(values, alpha=0.3, beta=0.1):
     return forecasts
 
 
+def theta_forecast(values, theta=2.0, alpha=0.2):
+    """One-step-ahead Theta method forecasts (Assimakopoulos & Nikolopoulos, 2000):
+    average a long-term linear trend line (theta=0 component) with a curvature-doubled
+    line (theta=2 component, smoothed via SES) - the trend line captures the slow-moving
+    signal, the doubled-curvature line reacts faster to recent swings, and averaging the
+    two is what made this method a standout in the M3/M4 forecasting competitions despite
+    its simplicity. Refit from scratch at each step (the trend line changes as more history
+    arrives), unlike the single-pass recursions above - still leakage-free, since every
+    fit only uses values[0..i-1]."""
+    values = np.asarray(values, dtype=float)
+    n = len(values)
+    forecasts = np.zeros(n)
+    for i in range(n):
+        hist = values[:i]
+        m = len(hist)
+        if m == 0:
+            continue
+        if m == 1:
+            forecasts[i] = hist[0]
+            continue
+        t = np.arange(m, dtype=float)
+        b, a = np.polyfit(t, hist, 1)
+        trend = a + b * t
+        theta_line = theta * hist + (1 - theta) * trend
+
+        level = theta_line[0]
+        for k in range(1, m):
+            level = alpha * theta_line[k] + (1 - alpha) * level
+
+        theta0_forecast = a + b * m
+        forecasts[i] = 0.5 * theta0_forecast + 0.5 * level
+    return forecasts
+
+
+def fit_predict_arima_per_player(train_df, test_df, group_col="player_id", value_col="total_points",
+                                  gw_col="GW_global", order=(1, 0, 1), min_obs=8):
+    """Fit ONE ARIMA(order) model per player on their train_df history, then forecast
+    forward however many steps that player has rows in test_df. Fit once, not re-fit at
+    every gameweek like the recursive baselines above - statsmodels' MLE-based fitting
+    is too slow to redo per-row per-player at this scale (hundreds of players). Players
+    with fewer than `min_obs` training observations (not enough history to identify AR/MA
+    parameters) fall back to their training mean."""
+    from statsmodels.tsa.arima.model import ARIMA
+
+    train_sorted = train_df.sort_values([group_col, gw_col])
+    test_sorted = test_df.sort_values([group_col, gw_col])
+    preds = pd.Series(index=test_sorted.index, dtype=float)
+
+    for pid, test_rows in test_sorted.groupby(group_col):
+        hist = train_sorted.loc[train_sorted[group_col] == pid, value_col].to_numpy()
+        n_steps = len(test_rows)
+        fallback = float(hist.mean()) if len(hist) else 0.0
+        if len(hist) < min_obs:
+            forecast = np.full(n_steps, fallback)
+        else:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                try:
+                    fitted = ARIMA(hist, order=order, trend="c").fit()
+                    forecast = np.asarray(fitted.forecast(steps=n_steps))
+                except Exception:
+                    forecast = np.full(n_steps, fallback)
+        preds.loc[test_rows.index] = forecast
+
+    return preds.reindex(test_df.index)
+
+
 def _add_per_player_column(df, forecast_fn, out_col, group_col, value_col, gw_col, **kwargs):
     df = df.sort_values([group_col, gw_col])
     df[out_col] = df.groupby(group_col)[value_col].transform(
@@ -127,6 +202,10 @@ def add_ses_column(df, group_col="player_id", value_col="total_points", gw_col="
 
 def add_holt_column(df, group_col="player_id", value_col="total_points", gw_col="GW_global", alpha=0.3, beta=0.1):
     return _add_per_player_column(df, holt_forecast, "holt_pred", group_col, value_col, gw_col, alpha=alpha, beta=beta)
+
+
+def add_theta_column(df, group_col="player_id", value_col="total_points", gw_col="GW_global", theta=2.0, alpha=0.2):
+    return _add_per_player_column(df, theta_forecast, "theta_pred", group_col, value_col, gw_col, theta=theta, alpha=alpha)
 
 
 def fit_ar1(train_df, lag_col="total_points_prev", target_col="total_points"):
