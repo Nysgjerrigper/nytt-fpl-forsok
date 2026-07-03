@@ -1,0 +1,17 @@
+% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Tue May 20 13:09:39 2025
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrrr}
+  \hline
+position & n & mean\_residual & mse & rmse & mean\_actual & mean\_predicted \\ 
+  \hline
+ALL & 21098 & -0.29 & 5.13 & 2.27 & 1.18 & 1.47 \\ 
+  GK & 2228 & -0.33 & 3.63 & 1.91 & 0.91 & 1.24 \\ 
+  DEF & 7026 & -0.22 & 4.45 & 2.11 & 1.04 & 1.26 \\ 
+  MID & 9502 & -0.38 & 5.54 & 2.35 & 1.29 & 1.67 \\ 
+  FWD & 2342 & -0.08 & 6.95 & 2.64 & 1.44 & 1.53 \\ 
+   \hline
+\end{tabular}
+\caption{Prediction Error Metrics by Position} 
+\end{table}

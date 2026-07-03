@@ -1,0 +1,16 @@
+% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon May 19 17:56:10 2025
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrrrrr}
+  \hline
+position & Count & Mean & Median & SD & Min & Max & Skewness & Kurtosis \\ 
+  \hline
+GK & 625 & 3.29 & 2.00 & 2.71 & -1.00 & 15.00 & 1.35 & 4.42 \\ 
+  DEF & 3077 & 2.41 & 1.00 & 2.69 & -5.00 & 15.00 & 1.61 & 5.77 \\ 
+  MID & 4645 & 2.69 & 2.00 & 2.89 & -2.00 & 25.00 & 2.58 & 11.10 \\ 
+  FWD & 1036 & 3.31 & 2.00 & 3.50 & -2.00 & 18.00 & 1.61 & 5.01 \\ 
+   \hline
+\end{tabular}
+\caption{Position Statistics for Players with 1+ Min 24/25} 
+\end{table}

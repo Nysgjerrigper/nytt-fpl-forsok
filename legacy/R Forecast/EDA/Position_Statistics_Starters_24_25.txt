@@ -1,0 +1,16 @@
+% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon May 19 17:56:09 2025
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrrrrr}
+  \hline
+position & Count & Mean & Median & SD & Min & Max & Skewness & Kurtosis \\ 
+  \hline
+GK & 618 & 3.31 & 2.00 & 2.72 & -1.00 & 15.00 & 1.34 & 4.39 \\ 
+  DEF & 2513 & 2.72 & 2.00 & 2.86 & -5.00 & 15.00 & 1.35 & 4.87 \\ 
+  MID & 3033 & 3.40 & 2.00 & 3.19 & -2.00 & 25.00 & 2.24 & 8.88 \\ 
+  FWD & 634 & 4.48 & 2.00 & 3.81 & -2.00 & 18.00 & 1.17 & 3.60 \\ 
+   \hline
+\end{tabular}
+\caption{Position Statistics for Starters 24/25} 
+\end{table}

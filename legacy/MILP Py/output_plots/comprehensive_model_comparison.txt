@@ -1,0 +1,42 @@
+% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Tue May 20 13:09:38 2025
+\begin{table}[ht]
+\centering
+\begin{tabular}{llrrr}
+  \hline
+model\_type & sub\_horizon & end\_gameweek & final\_forecasted\_points & final\_actual\_points \\ 
+  \hline
+LSTM & SHL1 & 107 & 1627 & 1459 \\ 
+  LSTM & SHL2 & 107 & 1673 & 1516 \\ 
+  LSTM & SHL3 & 107 & 1683 & 1526 \\ 
+  LSTM & SHL4 & 107 & 1688 & 1502 \\ 
+  LSTM & SHL5 & 107 & 1685 & 1515 \\ 
+  LSTM & SHL6 & 107 & 1682 & 1533 \\ 
+  LSTM & SHL7 & 107 & 1686 & 1525 \\ 
+  LSTM & SHL8 & 107 & 1684 & 1534 \\ 
+  LSTM & SHL9 & 107 & 1685 & 1526 \\ 
+  LSTM & SHL10 & 107 & 1686 & 1521 \\ 
+  Actual & SHL1 & 107 & 3745 &  \\ 
+  Actual & SHL2 & 107 & 3874 &  \\ 
+  Actual & SHL3 & 107 & 3907 &  \\ 
+  Actual & SHL4 & 107 & 3921 &  \\ 
+  Actual & SHL5 & 107 & 3944 &  \\ 
+  Actual & SHL6 & 107 & 3938 &  \\ 
+  Actual & SHL7 & 107 & 3936 &  \\ 
+  Actual & SHL8 & 107 & 3934 &  \\ 
+  Actual & SHL9 & 107 & 3939 &  \\ 
+  Actual & SHL10 & 107 & 3936 &  \\ 
+  Forced & SHL1 & 107 & 1652 & 1505 \\ 
+  Forced & SHL2 & 107 & 1698 & 1537 \\ 
+  Forced & SHL3 & 107 & 1707 & 1572 \\ 
+  Forced & SHL4 & 107 & 1709 & 1574 \\ 
+  Forced & SHL5 & 107 & 1700 & 1546 \\ 
+  Actual Forced & SHL1 & 107 &  & 3740 \\ 
+  Actual Forced & SHL2 & 107 &  & 3929 \\ 
+  Actual Forced & SHL3 & 107 &  & 3946 \\ 
+  Actual Forced & SHL4 & 107 &  & 3976 \\ 
+  Actual Forced & SHL5 & 107 &  & 3982 \\ 
+   \hline
+\end{tabular}
+\caption{Comprehensive Comparison of All Models and Sub-Horizons} 
+\end{table}

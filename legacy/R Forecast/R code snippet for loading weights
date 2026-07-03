@@ -1,0 +1,110 @@
+# { # Start of commented-out block for loading pre-trained GK weights
+
+# --- Essential Prerequisites ---
+# 1. Load necessary libraries
+# library(keras)
+# library(tensorflow)
+# library(tidyverse) # Or other libraries needed for data prep
+
+# 2. Define Model Parameters (MUST match the training setup)
+# ws <- 3 # The window size used during training
+# emb_dim <- 20 # Embedding dimension used
+# numF_gk <- c("feature1", "feature2", ...) # The EXACT list of Lasso-selected features for GK
+                                         # You MUST load/define this list correctly.
+# num_players_gk <- ... # Max player ID + 1 used for GK embedding input_dim
+# num_teams_gk <- ...   # Max team ID + 1 used for GK embedding input_dim
+# num_opponents_gk <- ... # Max opponent ID + 1 used for GK embedding input_dim
+
+# 3. Load Scaling Factors (MUST match the training setup)
+#    You need to have saved mu, sigma, and numF during/after training.
+#    Example: Load from an RDS file if you saved them like:
+#    saveRDS(scaling_factors$gk, "/path/to/your/downloaded/gk_scaling_factors.rds")
+# scaling_info_gk <- readRDS("/path/to/your/downloaded/gk_scaling_factors.rds")
+# mu_gk <- scaling_info_gk$mu
+# sigma_gk <- scaling_info_gk$sigma
+# numF_gk <- scaling_info_gk$numF # Overwrite placeholder if loaded from file
+
+# --- Step 1: Rebuild the EXACT Model Architecture ---
+# (Copy the architecture definition from Cell 1.7 of your training notebook)
+
+# Input layers
+# input_seq <- layer_input(shape = c(ws, length(numF_gk)), name = "input_seq")
+# input_player_id <- layer_input(shape = c(1), dtype = "int32", name = "input_player_id")
+# input_tID <- layer_input(shape = c(1), dtype = "int32", name = "input_tID")
+# input_oID <- layer_input(shape = c(1), dtype = "int32", name = "input_oID")
+# input_hID <- layer_input(shape = c(1), dtype = "int32", name = "input_hID")
+
+# Embedding layers
+# embedding_player_id <- input_player_id %>%
+#   layer_embedding(input_dim = num_players_gk, output_dim = emb_dim, mask_zero = TRUE) %>%
+#   layer_flatten()
+# embedding_tID <- input_tID %>%
+#   layer_embedding(input_dim = num_teams_gk, output_dim = emb_dim, mask_zero = TRUE) %>%
+#   layer_flatten()
+# embedding_oID <- input_oID %>%
+#   layer_embedding(input_dim = num_opponents_gk, output_dim = emb_dim, mask_zero = TRUE) %>%
+#   layer_flatten()
+# input_hID_flat <- input_hID %>%
+#   layer_lambda(function(x) tf$cast(x, tf$float32)) %>%
+#   layer_flatten()
+
+# Merge categorical branch
+# cat_merged <- layer_concatenate(list(embedding_player_id, embedding_tID, embedding_oID, input_hID_flat)) %>%
+#   layer_dense(units = 16, activation = "relu")
+
+# Numerical branch (LSTM)
+# lstm_branch <- input_seq %>%
+#   layer_lstm(units = 64, return_sequences = FALSE) %>% # Use same units as training
+#   layer_dropout(rate = 0.2) # Use same dropout rate as training
+
+# Merge both branches
+# merged <- layer_concatenate(list(lstm_branch, cat_merged))
+# dense_layer <- merged %>% layer_dense(units = 32, activation = "relu") # Use same units
+# output <- dense_layer %>% layer_dense(units = 1, activation = "linear")
+
+# Build the model structure
+# loaded_gk_model <- keras_model(
+#   inputs = list(input_seq, input_player_id, input_tID, input_oID, input_hID),
+#   outputs = output,
+#   name = "Goalkeeper_LSTM_Model" # MUST match the name used during training
+# )
+
+# cat("Model architecture rebuilt.\n")
+# summary(loaded_gk_model)
+
+# --- Step 2: Compile the Rebuilt Model ---
+# (MUST use the same optimizer, loss, and metrics as during training)
+# metrics_regression <- c( # Define the same metrics list used in training
+#   metric_mean_absolute_error(),
+#   metric_mean_squared_error(),
+#   metric_root_mean_squared_error(),
+#   metric_mean_absolute_percentage_error(),
+#   metric_cosine_similarity()
+# )
+
+# loaded_gk_model %>% compile(
+#   optimizer = optimizer_adam(), # Use the same optimizer
+#   loss = "mse",                 # Use the same loss function
+#   metrics = metrics_regression  # Use the same metrics
+#   # DO NOT use run_eagerly=TRUE unless you specifically need it for debugging here
+# )
+# cat("Rebuilt model compiled.\n")
+
+# --- Step 3: Load the Saved Weights ---
+# weights_filepath_gk <- "/path/to/your/downloaded/best_gk_weights.hdf5" # <-- UPDATE THIS PATH
+
+# if (file.exists(weights_filepath_gk)) {
+#   load_model_weights_hdf5(loaded_gk_model, filepath = weights_filepath_gk)
+#   cat("Successfully loaded weights from:", weights_filepath_gk, "\n")
+#
+#   # Now 'loaded_gk_model' is ready for predictions
+#   # Example: You would prepare your new input data (scaled using mu_gk, sigma_gk)
+#   # new_predictions_scaled <- loaded_gk_model %>% predict(list(new_num_array, new_cat_pid, ...))
+#   # new_predictions <- new_predictions_scaled * sigma_gk + mu_gk
+#
+# } else {
+#   cat("ERROR: Weights file not found at:", weights_filepath_gk, "\n")
+#   # Handle the error - cannot proceed without weights
+# }
+
+# } # End of commented-out block
