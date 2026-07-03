@@ -2,17 +2,23 @@
 Train and compare several cheap, non-data-hungry model types per position
 (see fpl.model.models.FACTORIES: LightGBM, Ridge, ElasticNet, Random Forest,
 Extra Trees, kNN), then blend them into a per-position ensemble - replacing
-the old per-position LSTM models in `legacy/R Forecast`.
+the old per-position LSTM models this project used originally (a Keras/R
+sequence model, since removed - see git history for `legacy/R Forecast`).
 
 Evaluates on the same GW77-107 window the old LSTM was validated on
-(legacy/baseline_outputs/Validation_Predictions_Clean_v2.csv) so the two
-approaches are directly comparable, and also reports a walk-forward
-(expanding window, GW by GW) evaluation across the full dataset, which is a
-more honest estimate of out-of-sample performance than one fixed split.
+(legacy/baseline_outputs/Validation_Predictions_Clean_v2.csv, the one file
+kept from that old approach - it's still read below) so the two approaches
+are directly comparable, and also reports a walk-forward (expanding window,
+GW by GW) evaluation across the full dataset, which is a more honest
+estimate of out-of-sample performance than one fixed split.
 
 The ensemble blend weights are fit on the FIRST HALF of the test window and
 evaluated on the SECOND HALF (a held-out split), so the reported ensemble
 MAE isn't just overfit noise-chasing on the same data used to pick weights.
+
+Both MAE and MASE (fpl.model.metrics) are reported per model/baseline/ensemble
+- see that module's docstring for why MASE matters for an intermittent series
+like FPL points.
 """
 import sys
 from pathlib import Path
@@ -24,6 +30,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
 from fpl.model import models
 from fpl.model.ensemble import PositionEnsemble, fit_blend_weights
+from fpl.model.metrics import mae, mase, naive_lag1_scale
+from fpl.model.baselines import (
+    add_croston_column, add_naive_drift_column, add_ses_column, add_holt_column,
+    fit_ar1, predict_ar1,
+)
 
 POSITIONS = ["GK", "DEF", "MID", "FWD"]
 
@@ -42,13 +53,17 @@ def train_position_model(train_df, feature_cols, position, model_name="lightgbm"
     return models.fit_model(model_name, X, y)
 
 
-def mae(y_true, y_pred):
-    return float(np.mean(np.abs(np.asarray(y_true) - np.asarray(y_pred))))
-
-
 def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, test_max_gw=107):
     """Same split window the old LSTM was validated on: train on GW<=76
     (2022-23 + 2023-24), test on GW77-107 (2024-25 GW1-31)."""
+    # These per-player forecasts need each player's FULL prior history, not just train_df's
+    # window, so compute over the whole df before splitting - still leakage-free, since each
+    # row's forecast only ever uses that player's strictly earlier gameweeks (see baselines.py).
+    df = add_croston_column(df)
+    df = add_naive_drift_column(df)
+    df = add_ses_column(df)
+    df = add_holt_column(df)
+
     train_df = df[df["GW_global"] <= train_max_gw]
     test_df = df[(df["GW_global"] >= test_min_gw) & (df["GW_global"] <= test_max_gw)].copy()
     blend_split_gw = test_min_gw + (test_max_gw - test_min_gw) // 2
@@ -57,11 +72,31 @@ def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, tes
 
     baseline_pred = test_df["total_points_roll3"].fillna(test_df["total_points_season_avg"]).fillna(0)
 
+    # In-sample scale for MASE - fit on train_df only, so the score-intermittency benchmark
+    # itself can't leak information from the test window it's used to judge.
+    naive_scale = naive_lag1_scale(train_df)
+
+    # Extra per-player time-series baselines (fpl.model.baselines) reported alongside the
+    # models - econometric/financial-forecasting techniques (Croston, naive drift, SES,
+    # Holt's linear trend), tested honestly rather than assumed to help. See RESEARCH_LOG.md
+    # for the actual verdict on each.
+    extra_baseline_cols = {
+        "naive_drift": "naive_drift_pred",
+        "ses": "ses_pred",
+        "holt": "holt_pred",
+        "croston": "croston_pred",
+    }
+
     print("\n--- Static split evaluation (GW<=76 train, GW77-107 test) ---")
-    print(f"{'Position':<8}" + "".join(f"{name:<14}" for name in models.MODEL_NAMES) + f"{'baseline':<14}{'ensemble*':<14}")
+    header = (f"{'Position':<8}" + "".join(f"{name:<14}" for name in models.MODEL_NAMES)
+              + f"{'baseline':<14}" + "".join(f"{name:<14}" for name in extra_baseline_cols)
+              + f"{'ar1':<14}{'ensemble*':<14}")
+    print("MAE:")
+    print(header)
 
     ensembles = {}
     per_model_preds_full = {pos: {} for pos in POSITIONS}
+    mase_rows = {}
     for pos in POSITIONS:
         pos_mask = test_df["position"] == pos
         row = [pos]
@@ -79,16 +114,38 @@ def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, tes
         weights = fit_blend_weights({n: p[fit_idx] for n, p in preds_by_model.items()}, y_true_pos[fit_idx])
         blended_eval = sum(weights[n] * p[eval_idx] for n, p in preds_by_model.items())
         ensemble_mae = mae(y_true_pos[eval_idx], blended_eval)
+        baseline_pos = baseline_pred.loc[pos_mask]
 
-        row.append(mae(y_true_pos, baseline_pred.loc[pos_mask]))
+        extra_preds = {name: test_df.loc[pos_mask, col] for name, col in extra_baseline_cols.items()}
+
+        # Pooled AR(1): fit once on this position's train_df, unlike the per-player
+        # recursive baselines above - the classic single-lag econometric autoregression.
+        ar1_c, ar1_phi = fit_ar1(train_df[train_df["position"] == pos])
+        ar1_pred = predict_ar1(test_df.loc[pos_mask], ar1_c, ar1_phi)
+
+        row.append(mae(y_true_pos, baseline_pos))
+        row.extend(mae(y_true_pos, p) for p in extra_preds.values())
+        row.append(mae(y_true_pos, ar1_pred))
         row.append(ensemble_mae)
         print(f"{row[0]:<8}" + "".join(f"{v:<14.4f}" for v in row[1:]))
+
+        mase_rows[pos] = (
+            [mase(y_true_pos, preds_by_model[name], naive_scale) for name in models.MODEL_NAMES]
+            + [mase(y_true_pos, baseline_pos, naive_scale)]
+            + [mase(y_true_pos, p, naive_scale) for p in extra_preds.values()]
+            + [mase(y_true_pos, ar1_pred, naive_scale), mase(y_true_pos[eval_idx], blended_eval, naive_scale)]
+        )
 
         ensembles[pos] = PositionEnsemble(per_model_preds_full[pos], weights)
         print(f"    blend weights ({pos}): " + ", ".join(f"{n}={w:.2f}" for n, w in weights.items() if w > 0.01))
 
     print("(*ensemble MAE measured on the 2nd half of the test window only, using weights fit on the 1st half - "
           "a genuine holdout, not the same rows the weights were chosen from.)")
+
+    print("\nMASE (< 1 beats the naive last-gameweek forecast, scale fit on train_df only):")
+    print(header)
+    for pos in POSITIONS:
+        print(f"{pos:<8}" + "".join(f"{v:<14.4f}" for v in mase_rows[pos]))
 
     old_lstm_path = config.ROOT / "legacy" / "baseline_outputs" / "Validation_Predictions_Clean_v2.csv"
     if old_lstm_path.exists():
@@ -105,8 +162,14 @@ def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lig
     """Expanding-window walk-forward validation: for each GW from `start_gw`
     onward, train on everything strictly before it and predict that GW only.
     More gameweeks of true out-of-sample error than a single static split."""
+    # Scale fit ONCE, globally (not re-fit per fold): this is a secondary diagnostic metric,
+    # not something used to pick hyperparameters, so a single fixed denominator makes MASE
+    # comparable fold-to-fold - refitting it per fold would make early folds (small training
+    # windows) noisy and conflate "the scale changed" with "the model got worse".
+    naive_scale = naive_lag1_scale(df[df["GW_global"] < start_gw])
     gws = sorted(g for g in df["GW_global"].unique() if g >= start_gw)
     errors = []
+    mase_errors = []
     for gw in gws[::step]:
         train_df = df[df["GW_global"] < gw]
         test_df = df[df["GW_global"] == gw]
@@ -119,9 +182,13 @@ def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lig
                 continue
             model = train_position_model(pos_train, feature_cols, pos, model_name)
             preds = model.predict(pos_test[feature_cols])
-            errors.append(mae(pos_test["total_points"], preds))
+            y_true = pos_test["total_points"]
+            errors.append(mae(y_true, preds))
+            mase_errors.append(mase(y_true, preds, naive_scale))
     print(f"\nWalk-forward MAE across GW{start_gw}+ (step={step}, model={model_name}): "
           f"{np.mean(errors):.4f} (n windows={len(errors)})")
+    print(f"Walk-forward MASE across GW{start_gw}+ (step={step}, model={model_name}): "
+          f"{np.mean(mase_errors):.4f}")
     return errors
 
 

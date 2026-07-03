@@ -7,8 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A Fantasy Premier League (FPL) points-prediction + squad-optimization system, originally a Master's thesis
 (LSTM forecasting in R + MILP squad selection in Python). It has since been rewritten into a single Python
 pipeline (`fpl/`) so it can actually be run weekly during a season, not just as a one-off academic validation.
-The old R/LSTM code and the original 8 near-duplicate MILP scripts are preserved under `legacy/` for reference
-- they are not maintained and should not be edited or treated as the source of truth for how the system works now.
+The old R/LSTM code and the original 8 near-duplicate MILP scripts have been deleted (they added no value once
+`fpl/` replaced them, and the code itself was copy-pasted per position with no shared functions - see git
+history if you need to look at them). `legacy/baseline_outputs/` is the one thing kept from that era: it holds
+the old LSTM's validation predictions, read by `fpl/model/train.py` purely as a fixed benchmark input.
 
 ## Setup & commands
 
@@ -27,9 +29,12 @@ python -m fpl.milp.optimize --start-gw N --max-gw M --horizon H   # run the squa
 python -m fpl.run_week --team-id <id> --horizon 3       # weekly driver: refresh data, retrain, recommend transfers
 ```
 
-There is no test suite. Validate changes by re-running `fpl.model.train` (prints MAE per model/position vs. a
-rolling-average baseline and the old LSTM) and/or a `fpl.milp.optimize` backtest, and checking the resulting
-`actual_total_points` sum against a prior run - see "Backtesting" below.
+`pytest tests/` runs a lightweight regression suite (currently: a sanity check that the MILP optimizer's output
+always satisfies budget/position/club/formation constraints - see `tests/test_optimize_constraints.py`). This
+guards against constraint-violation bugs; it does NOT tell you whether a modeling/optimizer change is actually
+better. For that, re-run `fpl.model.train` (prints MAE and MASE per model/position vs. a rolling-average
+baseline and the old LSTM - see `fpl/model/metrics.py` for why MASE matters here) and/or a `fpl.milp.optimize`
+backtest, and check the resulting `actual_total_points` sum against a prior run - see "Backtesting" below.
 
 ## Gameweek numbering (important, easy to get wrong)
 

@@ -1,16 +1,16 @@
 """
 Consolidated MILP squad-selection optimizer.
 
-Replaces the 8 near-identical scripts in `legacy/MILP Py`
-(MILP.py, MILP-GC.py, AUTO-MILP-GC*.py, t-auto*.py) with one parameterized
-version. The optimization model itself (budget, formation, captaincy,
-transfers, chip logic) is unchanged from `legacy/MILP Py/t-auto.py` - that
-formulation, based on Kristiansen et al., was already correct (see the
-`actual_total_points` fix in git history). What changed is that every
-hardcoded path/gameweek-range/chip-target is now a CLI argument, so one
-script covers live weekly runs, backtests against actual results, and
-sweeps over sub-horizon lengths, instead of needing a different .py/.bat
-file per scenario.
+Originally replaced 8 near-identical scripts this project used to have
+(MILP.py, MILP-GC.py, AUTO-MILP-GC*.py, t-auto*.py - since deleted, see git
+history) with one parameterized version. The optimization model itself
+(budget, formation, captaincy, transfers, chip logic) is unchanged from that
+original t-auto.py - that formulation, based on Kristiansen et al., was
+already correct (see the `actual_total_points` fix in git history). What
+changed is that every hardcoded path/gameweek-range/chip-target is now a CLI
+argument, so one script covers live weekly runs, backtests against actual
+results, and sweeps over sub-horizon lengths, instead of needing a different
+.py/.bat file per scenario.
 """
 import argparse
 import math
