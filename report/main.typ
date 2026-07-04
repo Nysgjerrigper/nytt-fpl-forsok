@@ -9,7 +9,7 @@
   #v(0.3cm)
   #text(size: 13pt)[Project status report]
   #v(0.5cm)
-  #text(size: 11pt, style: "italic")[Generated 2026-07-03]
+  #text(size: 11pt, style: "italic")[Generated 2026-07-04]
 ]
 
 #v(1cm)
@@ -21,12 +21,15 @@
     points-prediction and squad-optimization system, originally developed as a Master's thesis
     (LSTM forecasting in R combined with a hand-written MILP squad optimizer) and since rewritten
     into a single, weekly-runnable Python pipeline. It documents the pipeline's architecture, the
-    evaluation methodology used to validate changes, the results of several forecasting-technique
-    experiments conducted against the production system (all reported honestly, including the
-    negative results), and two exploratory branches investigating alternative approaches. The
-    project's own backtesting shows the current 6-model ensemble improves on the original LSTM
-    system by approximately 25% in realized squad points over an identical 31-gameweek backtest
-    window.
+    evaluation methodology used to validate changes, the results of forecasting-technique
+    experiments conducted against the production system (all reported honestly, including
+    negative results), and two exploratory branches investigating alternative approaches. History
+    now spans six seasons (2020-21 through 2025-26); the current 6-model ensemble improves on the
+    original LSTM system by approximately 29% in realized squad points over an equivalent
+    31-gameweek backtest window. The most recent addition - fixture-difficulty and
+    minutes-projection features plus a probabilistic (quantile) forecasting module - improved
+    forecast accuracy at every position but *regressed* realized squad points, an unresolved,
+    honestly-reported finding discussed in @sec-fixmin.
   ]
 ]
 
@@ -53,23 +56,60 @@ must help.
 
 Historical data is sourced from Vaastav Anand's public FPL data repository
 (`vaastav/Fantasy-Premier-League` on GitHub), which mirrors the official FPL API's per-gameweek
-player statistics back to the 2016-17 season. This project uses data from the 2022-23 season
-onward (four seasons at the time of writing: 2022-23 through 2025-26).
+player statistics back to the 2016-17 season. This project originally used four seasons (2022-23
+onward); history was subsequently extended back to *2020-21*, giving six seasons at the time of
+writing (2020-21 through 2025-26, 162,981 player-gameweek rows). The extension was a clear win
+(@sec-history-extension) and cost only the Opta expected-goals family and the `starts` column for
+the two oldest seasons (not available in `merged_gw.csv` before 2022-23; encoded as missing, which
+LightGBM handles natively).
 
 Gameweeks are indexed with a single ascending counter (`GW_global`) across all seasons rather than
 resetting to 1 each season, since a raw `GW` value is ambiguous without knowing which season it
-belongs to. Season $N$ occupies gameweeks $(N-1) times 38 + 1$ through $N times 38$.
+belongs to. Season $N$ occupies gameweeks $(N-1) times 38 + 1$ through $N times 38$; with the
+current six-season history, the 2024-25 validation window used throughout this report (season
+gameweeks 1-31) is GW153-183.
 
-An exploratory data analysis (`notebooks/eda.ipynb`) was conducted covering the distribution of
-`total_points` by position and season. The key finding, consistent with domain expectations, is
-that `total_points` is heavily right-skewed and zero-inflated: most player-gameweek observations
-score between 0 and 2 points, with an occasional large-value outlier from a goal, hat-trick, or
-high bonus-point haul. A Shapiro-Wilk test rejects normality decisively at every position
-(starters only, $p < 0.001$ throughout), and an Augmented Dickey-Fuller test on the average points
-per gameweek per position indicates the series' mean level is reasonably stable across a season.
-This distributional shape - not merely a stylistic preference - is the reason the mean absolute
-scaled error (MASE), rather than mean absolute error (MAE) alone, is used to judge forecast
-quality throughout this project (see @sec-metrics).
+== Exploratory data analysis, all six seasons
+
+`notebooks/eda.ipynb` covers the distribution of `total_points` by position and season across the
+full six-season history. The key finding, consistent with domain expectations, is that
+`total_points` is heavily right-skewed and zero-inflated: most player-gameweek observations score
+between 0 and 2 points, with an occasional large-value outlier from a goal, hat-trick, or high
+bonus-point haul. This distributional shape - not merely a stylistic preference - is the reason
+the mean absolute scaled error (MASE), rather than mean absolute error (MAE) alone, is used to
+judge forecast quality throughout this project (see @sec-metrics).
+
+Descriptive statistics of `total_points` for players who featured (minutes >= 1), per season and
+position, show the distribution has been broadly stable across all six seasons - no season stands
+out as an outlier, and medians are flat at 1-2 points everywhere:
+
+#align(center)[
+  #table(
+    columns: 6,
+    align: (left,) + (right,) * 5,
+    table.header([*Season*], [*GK mean*], [*DEF mean*], [*MID mean*], [*FWD mean*], [*n (all positions)*]),
+    [2020-21], [3.75], [3.00], [2.88], [3.18], [10393],
+    [2021-22], [3.59], [2.96], [2.92], [3.04], [10461],
+    [2022-23], [3.61], [2.63], [2.74], [3.00], [11345],
+    [2023-24], [3.19], [2.42], [2.81], [3.14], [11384],
+    [2024-25], [3.31], [2.43], [2.69], [3.21], [11566],
+    [2025-26], [3.34], [3.05], [2.91], [2.95], [11498],
+  )
+]
+#align(center)[#text(size: 9pt, style: "italic")[Mean `total_points`, players with minutes >= 1, per season/position. Full descriptive statistics (count/mean/median/std/min/max) and per-season boxplots/KDE/QQ plots are in `notebooks/eda.ipynb`.]]
+
+Formal tests confirm what the plots show. A Shapiro-Wilk test rejects normality decisively at
+every position (starters only, $p < 0.001$ throughout) - motivating MASE over MAE and the choice
+of tree/linear models over anything assuming Gaussian errors. An Augmented Dickey-Fuller test on
+the average points per gameweek per position is more mixed with six seasons of history than it was
+with four: GK, MID, and FWD reject the unit-root null (stationary, $p < 0.05$), but *DEF does
+not* ($p = 0.41$) - the average defender score-per-gameweek series has drifted enough over six
+seasons (plausibly the 2025-26 introduction of `defensive_contribution` points, which
+disproportionately affects DEF/MID scoring) that a constant mean can no longer be assumed for that
+position over the full history. This is a refinement to note, not an alarm: it doesn't change any
+modeling choice already made (rolling-window features and per-position models already adapt to a
+drifting mean by construction), but it is a reason to treat any classical fixed-mean time-series
+baseline (AR(1), ARIMA) at DEF with more caution than the other three positions.
 
 = Forecasting methodology
 
@@ -81,6 +121,20 @@ including points, minutes, expected goals/assists, bonus points system score, an
 Every feature is shifted by one gameweek relative to its target row, so that no row's features can
 see that row's own outcome - a standard no-leakage discipline for supervised time-series
 forecasting.
+
+Two further feature groups were added most recently:
+
+- *Fixture difficulty.* The official FPL Fixture Difficulty Rating (FDR, 1-5) merged onto every
+  player row by (team, gameweek): `fixture_difficulty` (the opponent faced that gameweek) and
+  `fixture_difficulty_next3` (mean FDR across this fixture and the next two scheduled - an "easy
+  run of fixtures" signal). These are *not* shifted: fixture lists are published ahead of a
+  gameweek being played, so a model forecasting gameweek $t$ genuinely knows the opponents at
+  $t, t+1, t+2$ without any leakage.
+- *Minutes projection ("nailedness").* `start_rate_roll5` and `mins60_rate_roll5` - rolling 5-game
+  rates of starting and of a full 60+-minute appearance, both shifted one gameweek like the other
+  rolling features. A player who won't start scores approximately zero regardless of ability, so
+  projecting playing time from recent starts is one of the most predictive signals in FPL
+  forecasting generally.
 
 == Per-position ensemble
 
@@ -156,22 +210,52 @@ penalties incurred, summed across the lookahead horizon.
 == Backtesting reference point
 
 The pipeline was validated against the original LSTM+R system by running both through the same
-MILP optimizer on the same GW77-107 backtest window (2024-25 season, gameweeks 1-31), using actual
-realized points rather than forecasts to score the resulting squads:
+MILP optimizer on an equivalent 31-gameweek backtest window (2024-25 season, gameweeks 1-31 -
+originally GW77-107 under the four-season history, now GW153-183 under the current six-season
+history), using actual realized points rather than forecasts to score the resulting squads:
 
 #align(center)[
   #table(
     columns: 2,
     align: (left, right),
-    table.header([*System*], [*Actual points, GW77-107*]),
+    table.header([*System*], [*Actual points, 2024-25 GW1-31*]),
     [Old LSTM + MILP], [1526],
-    [New LightGBM + MILP], [1811],
-    [New 6-model ensemble + MILP], [*1900*],
+    [New LightGBM + MILP (4-season history)], [1811],
+    [New 6-model ensemble + MILP (4-season history)], [1900],
+    [New 6-model ensemble + MILP (6-season history)], [*1966*],
+    [+ fixture/minutes features + probabilistic module], [1880 #footnote[Unresolved regression despite improved MASE - see @sec-fixmin.]],
   )
 ]
 
-The 6-model ensemble improves on the original LSTM system by approximately 25% in realized squad
-points over an identical evaluation window and identical optimizer.
+The 6-model ensemble on the extended 6-season history improves on the original LSTM system by
+approximately 29% in realized squad points over an equivalent evaluation window and identical
+optimizer - the project's best validated configuration to date. The most recent feature additions
+improved forecast accuracy but reduced this number; see @sec-fixmin before treating them as a net
+win.
+
+== History extension: 2022-23 -> 2020-21 <sec-history-extension>
+
+`config.DEFAULT_START_SEASON` was extended from 2022-23 back to 2020-21 after confirming
+empirically (checking vaastav's raw column headers season by season) that the key power
+predictors (`bps`, `ict_index`, `influence`, `creativity`, `threat`, `position`, `team`) are
+available that far back; only the Opta expected-goals family and `starts` are lost for the two
+oldest seasons. Dataset size grew from ~113k to ~163k rows.
+
+#align(center)[
+  #table(
+    columns: 4,
+    align: (left,) + (right,) * 3,
+    table.header([*Position*], [*Ensemble MASE, 4 seasons*], [*Ensemble MASE, 6 seasons*], [*OLS index, 6 seasons*]),
+    [GK],  [0.637], [0.595], [*0.579* #footnote[The one case where the plain OLS index beats the ensemble - see @sec-discussion.]],
+    [DEF], [0.874], [0.830], [0.842],
+    [MID], [0.871], [0.811], [0.869],
+    [FWD], [1.067], [*0.984*], [1.056],
+  )
+]
+#align(center)[#text(size: 9pt, style: "italic")[MASE, 2024-25 GW1-31 static split. FWD dropped below 1.0 (beats the naive forecast) for the first time across every experiment run in this project.]]
+
+This translated directly into realized points: the same backtest scored *1966, up from 1900
+(+3.5%)* - confirmation that the MASE improvement was not just a metric artifact.
 
 == Forecasting-technique experiments
 
@@ -182,7 +266,11 @@ credits full-season lookahead and forecast quality, not MILP sophistication, for
 (top 4.08% of roughly 8.24 million FPL managers in the 2020-21 season using a broadly similar
 optimizer). Several additional forecasting techniques flagged by that paper as relatively strong
 individual performers were implemented and tested against the production ensemble, honestly and
-without assuming a "more principled" technique must help:
+without assuming a "more principled" technique must help. This comparison was run on the
+four-season history (GW77-107) before the extension in @sec-history-extension, so the ensemble/OLS
+columns below are superseded by the 6-season numbers above - the point of this table is the
+*relative* ranking of simple techniques against each other and against the ensemble, which is not
+expected to change with more history:
 
 #align(center)[
   #table(
@@ -198,7 +286,7 @@ without assuming a "more principled" technique must help:
     [FWD], [*1.07*], [1.16], [1.13], [1.11], [1.14], [1.39], [1.29], [1.36],
   )
 ]
-#align(center)[#text(size: 9pt, style: "italic")[MASE, GW77-107 static split. Lower is better; bold marks the ensemble, the best performer at every position.]]
+#align(center)[#text(size: 9pt, style: "italic")[MASE, GW77-107 static split (4-season history). Lower is better; bold marks the ensemble, the best performer at every position in this comparison.]]
 
 Naive drift and Holt's linear trend were also tested (see `RESEARCH_LOG.md` for full figures) and
 likewise underperformed the existing baseline everywhere. Across all seven simple techniques
@@ -219,9 +307,51 @@ has to beat, plain OLS regression on the full approximately 70-feature set was a
 time-series technique in the table above at every position, trailing only the regularized linear
 models (Ridge, ElasticNet) by a small margin - expected, since the engineered feature set includes
 many mutually correlated rolling-window statistics that unregularized OLS cannot down-weight the
-way Ridge/ElasticNet can. The production ensemble beats this index at every position (by 0.02-0.09
-MASE), which is a reassuring result: it confirms the ensemble's added complexity is earning its
-keep against a genuinely competitive simple benchmark, not merely against a weak straw man.
+way Ridge/ElasticNet can. The production ensemble beats this index at every position in this
+comparison (by 0.02-0.09 MASE) - reassuring, since it confirms the ensemble's added complexity is
+earning its keep against a genuinely competitive simple benchmark, not merely against a weak straw
+man. (On the extended 6-season history, OLS goes on to edge the ensemble specifically at GK - see
+@sec-history-extension and @sec-discussion.)
+
+== Fixture difficulty, minutes projection, and probabilistic forecasting <sec-fixmin>
+
+Three additions were made together: fixture-difficulty and fixture-window features, minutes-
+projection ("nailedness") features, and a separate probabilistic (quantile regression) forecasting
+module producing a p10/p50/p90 interval per player-gameweek instead of a single number (motivated
+by captaincy: two players with equal expected points are not equal decisions once the 2x captain
+multiplier rewards upside).
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: (left,) + (right,) * 2,
+    table.header([*Position*], [*Ensemble MASE, before*], [*+ fixture + minutes*]),
+    [GK],  [0.595], [0.588],
+    [DEF], [0.830], [*0.799*],
+    [MID], [0.811], [0.799],
+    [FWD], [0.984], [*0.959*],
+  )
+]
+#align(center)[#text(size: 9pt, style: "italic")[MASE, 2024-25 GW1-31 static split, 6-season history. DEF improved most, consistent with fixture difficulty mattering most for clean-sheet-dependent scoring.]]
+
+Forecast accuracy improved at every position, and the ensemble still beat the OLS index everywhere.
+*However, the actual-points backtest regressed from 1966 to 1880 (-86 points, -4.4%) on the same
+window* - a genuine, important divergence between forecast accuracy and realized outcome. The
+leading hypothesis is that fixture-difficulty features make the mean forecast smoother and more
+regressed-to-the-mean, nudging the MILP (which maximizes *expected* points and is blind to
+variance) toward safe, nailed players and away from the high-ceiling differentials that actually
+haul on the captain multiplier. This is precisely the gap the new probabilistic module exists to
+close, and it is why the actual-points backtest, not MASE, remains this project's gold-standard
+check (see `CLAUDE.md`). *These features are committed but not yet declared a net win* -
+resolving the divergence (checking whether it is noise on a second window, or feeding the
+probabilistic p90/upside signal into captain selection) is the highest-priority open item, tracked
+in `TODO.md`.
+
+The probabilistic module's [p10, p90] interval coverage came out at 0.88-0.93 against an ideal 0.80
+- the intervals are somewhat wider than a perfectly calibrated 80% band, most likely because the
+p10 quantile pins near 0 for blank-prone players in a zero-inflated target; FWD was best-calibrated
+at 0.88. Usable as-is for relative risk ranking; a conformal-prediction calibration pass is a
+possible follow-up.
 
 == Optimizer constraint testing
 
@@ -281,20 +411,43 @@ larger commitment), noting it is plausible - and would itself be a legitimate, c
 negative result - that per-player selection mostly just re-selects the existing ensemble anyway,
 consistent with the pattern established across @sec-metrics's experiments.
 
-= Discussion and limitations
+= Discussion and limitations <sec-discussion>
 
 The forecasting experiments conducted so far establish a consistent pattern: the existing
-6-model, per-position ensemble outperforms every simpler alternative tested at every position.
-This is a meaningful finding in itself - it means further effort spent adding individual
-"more sophisticated" model types to the existing architecture is unlikely to yield further gains,
-and that any future improvement is more likely to come from a genuine architectural change (such
-as per-player rather than per-position model selection) than from adding another candidate model
-type to the existing pool.
+6-model, per-position ensemble outperforms every simpler alternative tested at every position,
+with one exception. This is a meaningful finding in itself - it means further effort spent adding
+individual "more sophisticated" model types to the existing architecture is unlikely to yield
+further gains, and that any future improvement is more likely to come from a genuine architectural
+change (such as per-player rather than per-position model selection) than from adding another
+candidate model type to the existing pool.
 
-The forward (FWD) position remains the hardest to forecast across every technique tested (MASE
-consistently above 1.0, i.e. worse than a naive last-gameweek forecast, for several of the simpler
-baselines), consistent with forwards having the highest-variance, most "boom-or-bust" scoring
-profile of the four positions.
+The exception, introduced by the six-season history extension, is *goalkeeper*: plain OLS
+regression (MASE 0.579) now slightly beats the 6-model ensemble (0.595) - the first position where
+the simple index wins. A plausible explanation is that GK is a small, simple-signal position
+(saves, clean sheets, few confounding statistics) that benefits more from the extra two seasons of
+raw data volume than from ensemble complexity, which may be overfitting a small/simple signal.
+Worth a cheap follow-up check on the GK ensemble's NNLS blend weights (`TODO.md`).
+
+The forward (FWD) position remains the hardest to forecast in absolute terms (highest MASE at
+every stage of this project), consistent with forwards having the highest-variance, most
+"boom-or-bust" scoring profile of the four positions - though it is also the position that improved
+most from added history, dropping below the naive-forecast benchmark (MASE < 1) for the first time
+once six seasons were available.
+
+The six-season extension also surfaced a *defender non-stationarity* finding in the EDA (Data
+section): the average DEF score-per-gameweek series no longer rejects the Augmented Dickey-Fuller
+unit-root null over the full six seasons, plausibly reflecting the 2025-26
+`defensive_contribution` scoring-rule change. This doesn't invalidate any modeling choice already
+made (the rolling/shifted features already adapt to a drifting mean), but is a reason for caution
+around any future fixed-mean time-series baseline at DEF specifically.
+
+The most significant open finding is the *MASE-vs-points divergence* introduced by the
+fixture/minutes features (@sec-fixmin): forecast accuracy improved at every position, yet the
+squads built from those forecasts scored fewer real points. This is the clearest demonstration yet
+of why this project treats the actual-points backtest, not MASE, as the gold-standard check - a
+model can become more accurate in aggregate while becoming worse at the specific job (identifying
+high-ceiling captaincy differentials) that most affects the score. Resolving it is the top
+priority before any further forecasting work.
 
 A known limitation of the live weekly driver (`fpl/run_week.py`) is that its fixture and
 current-squad fetching from the official FPL API can only be exercised end-to-end once a season
@@ -304,18 +457,24 @@ live as of this writing, since the 2026-27 season had not yet opened.
 = Conclusion and future work
 
 This project has been rewritten from a one-off Master's thesis validation into a maintainable,
-weekly-runnable Python pipeline that measurably outperforms its LSTM-based predecessor (an approximately 25%
-improvement in realized backtest points). This phase of work added a proper error metric (MASE), a
-regression test suite, and tested seven alternative forecasting techniques against the production
-system - honestly reporting that none beat it, which is itself useful information ruling out a
-class of "add more model types" improvements. Two exploratory branches (a Bayesian belief-state
-MDP manager and a per-player model-selection plan) remain available for future investigation
-without having touched the production pipeline.
+weekly-runnable Python pipeline that measurably outperforms its LSTM-based predecessor (an
+approximately 29% improvement in realized backtest points, on the current six-season history).
+This phase of work added a proper error metric (MASE), a regression test suite, tested seven
+alternative forecasting techniques against the production system (honestly reporting that none
+beat it), extended the training history from four to six seasons (a clear win), and added fixture-
+difficulty, minutes-projection, and probabilistic (quantile) forecasting - the last of which
+improved accuracy but regressed realized points, an open and unresolved finding. Two exploratory
+branches (a Bayesian belief-state MDP manager and a per-player model-selection plan) remain
+available for future investigation without having touched the production pipeline.
 
-The most promising concrete next step identified is a small-scale pilot of per-player forecasting
-model selection at a single position, to test - cheaply - whether the heterogeneity that this
-project's position-pooled experiments could not exploit is in fact present and exploitable at the
-individual-player level.
+The most pressing concrete next step is resolving the MASE-vs-points divergence from the
+fixture/minutes/probabilistic work: determine whether the -86-point regression is noise (re-run
+the backtest on a second window), whether feeding the probabilistic module's upside signal into
+captain selection recovers it, or whether the features should be reverted if neither resolves it.
+After that, a small-scale pilot of per-player forecasting model selection at a single position
+remains the most promising longer-term direction, to test - cheaply - whether the heterogeneity
+that this project's position-pooled experiments could not exploit is in fact present and
+exploitable at the individual-player level.
 
 #pagebreak()
 

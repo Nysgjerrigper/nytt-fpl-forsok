@@ -5,6 +5,34 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-04 - Refreshed `report/main.typ` and `notebooks/eda.ipynb` for the current 6-season state
+
+The report and EDA notebook were last generated against the 4-season (2022-23+) history and were
+stale after the history extension to 2020-21 and the fixture/minutes/probabilistic work (both
+below) - still citing 1900 points and the old GW77-107 window.
+
+**Re-ran `notebooks/eda.ipynb`** against the current 6-season `master_dataset.csv` (162,981 rows).
+Per-season/position descriptive stats now cover 2020-21 through 2025-26 (previously 2022-23
+onward only) - distribution shape is stable across all six seasons (medians flat at 1-2 points
+everywhere). One new finding from the extra history: the Augmented Dickey-Fuller test on average
+DEF points-per-gameweek no longer rejects the unit-root null over the full six seasons (p=0.41,
+was stationary with 4 seasons) - plausibly the 2025-26 `defensive_contribution` scoring-rule
+change shifting the series' mean. GK/MID/FWD remain stationary. Doesn't change any modeling
+choice (rolling/shifted features already track a drifting mean), but is a reason for caution
+around any future fixed-mean baseline (AR(1)/ARIMA) specifically at DEF.
+
+**Rewrote `report/main.typ`** to reflect the current state: 6-season data/history-extension
+section (with its own MASE table), the fixture/minutes/probabilistic results and the unresolved
+1966->1880 actual-points regression, an updated backtest table (1526/1811/1900/**1966**/1880),
+updated abstract/conclusion (25% -> 29% improvement figure, since that's now measured against the
+6-season 1966 result rather than the 4-season 1900 one), and discussion-section notes on the new
+GK-OLS and DEF-non-stationarity findings. The original 4-season forecasting-technique comparison
+table (SES/Theta/Croston/AR1/ARIMA vs ensemble) was kept as-is with a caveat that it predates the
+history extension - re-running all seven baselines on the current 6-season/GW153-183 window was
+judged not worth doing right now (the *relative* ranking between simple techniques is not expected
+to change with more history; only the absolute ensemble/OLS numbers, which are already refreshed
+elsewhere in the report). Recompiled to `report/main.pdf` via `typst compile`, clean (no warnings).
+
 ## 2026-07-03 - Forecasting hardening: MASE, constraint tests, legacy cleanup
 
 **Context:** repo previously had no formal error metric beyond MAE and no test suite at all.
