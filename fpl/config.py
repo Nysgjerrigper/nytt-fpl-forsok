@@ -15,9 +15,17 @@ GITHUB_API_SEASONS_URL = "https://api.github.com/repos/vaastav/Fantasy-Premier-L
 
 GWS_PER_SEASON = 38
 
-# Original thesis scope started at 2022-23; earlier seasons use different
-# underlying data/rules. Override by passing an explicit `seasons` list.
-DEFAULT_START_SEASON = "2022-23"
+# Extended back from the original 2022-23 thesis scope to get more history per player
+# (see RESEARCH_LOG.md). 2020-21 is the earliest season where `position`/`team` are still
+# present directly in vaastav's merged_gw.csv (older seasons need a players_raw.csv join
+# fetch.py doesn't do yet) and BPS/ICT-index/influence/creativity/threat go back even
+# further (to 2016-17) - NOT the limiting factor. What IS lost for 2020-21/2021-22 rows:
+# the Opta expected-goals family (expected_goals/expected_assists/expected_goal_involvements/
+# expected_goals_conceded) and `starts`, both only present from 2022-23 onward - those
+# columns are NaN for the older two seasons, which LightGBM (this pipeline's main model)
+# handles natively; linear models fall back to imputing 0 there via SimpleImputer.
+# Override by passing an explicit `seasons` list.
+DEFAULT_START_SEASON = "2020-21"
 
 # Manual name/team corrections carried over from the original R data pipeline
 # (Datasett/R-Script 1 fetching data.r) — vaastav's raw data has inconsistent

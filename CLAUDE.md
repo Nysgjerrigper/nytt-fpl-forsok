@@ -39,9 +39,12 @@ backtest, and check the resulting `actual_total_points` sum against a prior run 
 ## Gameweek numbering (important, easy to get wrong)
 
 There is no per-season GW1-38 reset in this codebase. `GW_global` (built in `fpl/data/fetch.py`) is a single
-ascending counter across all seasons: season N's gameweeks occupy `((N-1) * 38 + 1)` to `(N * 38)`
-(`config.GWS_PER_SEASON = 38`). E.g. 2022-23 = GW 1-38, 2023-24 = GW 39-76, 2024-25 = GW 77-114, 2025-26 = GW
-115-152. `fpl/milp/optimize.py` derives wildcard-half boundaries from this (`math.ceil(start_gw / 38)`), so
+ascending counter across all seasons: the counter starts at `config.DEFAULT_START_SEASON`, so GW numbering is
+season-ORDINAL, not calendar-fixed - it SHIFTS if you change the start season. With the current start of
+2020-21: 2020-21 = GW 1-38, 2021-22 = GW 39-76, 2022-23 = GW 77-114, 2023-24 = GW 115-152, 2024-25 = GW
+153-190, 2025-26 = GW 191-228 (`config.GWS_PER_SEASON = 38`). (Before history was extended back from 2022-23,
+these were all 76 lower - e.g. 2024-25 was GW 77-114; this is why the backtest window moved from GW77-107 to
+GW153-183.) `fpl/milp/optimize.py` derives wildcard-half boundaries from this (`math.ceil(start_gw / 38)`), so
 never assume a raw `GW` column value maps directly to a real-world gameweek without checking which season it's in.
 
 Season/gameweek discovery is dynamic, not hardcoded: `fpl/data/fetch.py` queries the GitHub API for what
@@ -85,11 +88,13 @@ git history if touching this code).
 ## Backtesting reference point
 
 The pipeline was validated against the old system by running both through the *same* MILP on the *same*
-GW77-107 window (2024-25 season, GW1-31): old LSTM+MILP scored 1526 actual points, new LightGBM+MILP scored
-1811, new 6-model ensemble+MILP scored 1900. When changing the modeling or MILP code, re-running this
-comparison (`fpl.model.predict` walk-forward predictions into `fpl.milp.optimize`, same GW range) is the way to
-check whether a change actually helps, not just whether MAE looks better in isolation - MAE improvements don't
-always translate 1:1 into more actual points once the optimizer is in the loop.
+2024-25-season-GW1-31 window: old LSTM+MILP scored 1526 actual points, new LightGBM+MILP scored 1811, new
+6-model ensemble+MILP scored 1900 - all with history starting at 2022-23 (so that window was GW77-107 then).
+After extending history back to 2020-21 (see RESEARCH_LOG.md), the same 2024-25-GW1-31 window is now GW153-183,
+and the 6-model ensemble+MILP scored 1966 there (+3.5%). When changing the modeling or MILP code, re-running
+this comparison (`fpl.model.predict` walk-forward predictions into `fpl.milp.optimize`, same GW range) is the
+way to check whether a change actually helps, not just whether MAE looks better in isolation - MAE improvements
+don't always translate 1:1 into more actual points once the optimizer is in the loop.
 
 ## Known limitation
 

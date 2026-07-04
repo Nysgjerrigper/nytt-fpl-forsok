@@ -99,6 +99,46 @@ comfortably everywhere, and SES's improvement over the ad-hoc baseline isn't lar
 its own to be worth the added surface area. Left as comparison columns in
 `fpl/model/train.py`'s output.
 
+## 2026-07-04 - Extended history back to 2020-21 (from 2022-23): a clear win
+
+Extended `config.DEFAULT_START_SEASON` from 2022-23 to 2020-21 to give models more history per
+player. Verified empirically first (checked vaastav's raw column headers season by season) that
+this does NOT cost the power predictors: `bps`, `ict_index`, `influence`, `creativity`, `threat`
+are present all the way back to 2016-17, and `position`/`team` come directly from `merged_gw.csv`
+back to 2020-21 (older seasons would need a `players_raw.csv` join `fetch.py` doesn't do). What IS
+lost for 2020-21/2021-22 rows: the Opta expected-goals family (`expected_goals`, `expected_assists`,
+`expected_goal_involvements`, `expected_goals_conceded`) and `starts`, all only present from
+2022-23 - NaN for the older two seasons, which LightGBM handles natively.
+
+Dataset grew from ~113k rows (4 seasons) to ~163k (6 seasons). Because `GW_global` is
+season-ORDINAL, the backtest window moved: the 2024-25-GW1-31 validation window that was GW77-107
+is now GW153-183 (updated `evaluate_static_split` defaults and the walk-forward start-GW in
+`train.py`, plus CLAUDE.md's numbering examples).
+
+**Result: a clear improvement at every position.** MASE on the same 2024-25-GW1-31 window:
+
+| Position | ensemble, 4 seasons | ensemble, 6 seasons | OLS index, 6 seasons |
+|---|---|---|---|
+| GK  | 0.637 | 0.595 | **0.579** (now beats ensemble) |
+| DEF | 0.874 | 0.830 | 0.842 |
+| MID | 0.871 | 0.811 | 0.869 |
+| FWD | 1.067 | **0.984** | 1.056 |
+
+Two notable findings: (1) **FWD's MASE dropped below 1.0 for the first time** across every
+experiment this project has run - the extra history specifically helps the hardest position; and
+(2) **OLS now edges the ensemble at GK** (0.579 vs 0.595) - the first position where the index
+wins, plausibly because GK is a small/simple-signal position that benefits more from raw data
+volume than from ensemble complexity. Worth revisiting the GK ensemble blend (see TODO.md).
+
+**Actual-points backtest** (fpl.model.predict walk-forward -> fpl.milp.optimize, same GW153-183
+window, horizon 3): **1966 actual points, up from the 1900 reference (+3.5%)** - the MASE
+improvement translated into real squad points, not just a metric that looked better in isolation.
+
+**Known imprecision left for tomorrow:** `fpl/features.py` fills missing stat columns with 0.0
+before computing rolling averages, so for 2020-21/2021-22 the absent xG-family columns are encoded
+as "this player recorded exactly 0 xG" rather than "this metric didn't exist yet." Results improved
+despite this, but it's an imperfect encoding - see TODO.md.
+
 ## 2026-07-03 - Added plain OLS regression as the designated "index" benchmark
 
 User (finance background) asked for a simple OLS regression to serve as the project's designated

@@ -5,7 +5,10 @@ Extra Trees, kNN), then blend them into a per-position ensemble - replacing
 the old per-position LSTM models this project used originally (a Keras/R
 sequence model, since removed - see git history for `legacy/R Forecast`).
 
-Evaluates on the same GW77-107 window the old LSTM was validated on
+Evaluates on the same 2024-25-season-GW1-31 window the old LSTM was validated on (GW_global
+153-183 now that history has been extended back to 2020-21 - see config.DEFAULT_START_SEASON;
+this was GW77-107 before the extension, since GW_global numbering is season-ORDINAL, not
+calendar-fixed, so it shifts whenever the start season changes)
 (legacy/baseline_outputs/Validation_Predictions_Clean_v2.csv, the one file
 kept from that old approach - it's still read below) so the two approaches
 are directly comparable, and also reports a walk-forward (expanding window,
@@ -53,9 +56,9 @@ def train_position_model(train_df, feature_cols, position, model_name="lightgbm"
     return models.fit_model(model_name, X, y)
 
 
-def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, test_max_gw=107):
-    """Same split window the old LSTM was validated on: train on GW<=76
-    (2022-23 + 2023-24), test on GW77-107 (2024-25 GW1-31)."""
+def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, test_max_gw=183):
+    """Same split window the old LSTM was validated on: train on GW<=152
+    (2020-21 through 2023-24), test on GW153-183 (2024-25 GW1-31)."""
     # These per-player forecasts need each player's FULL prior history, not just train_df's
     # window, so compute over the whole df before splitting - still leakage-free, since each
     # row's forecast only ever uses that player's strictly earlier gameweeks (see baselines.py).
@@ -89,7 +92,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=76, test_min_gw=77, tes
         "croston": "croston_pred",
     }
 
-    print("\n--- Static split evaluation (GW<=76 train, GW77-107 test) ---")
+    print("\n--- Static split evaluation (GW<=152 train, GW153-183 test) ---")
     header = (f"{'Position':<8}" + "".join(f"{name:<14}" for name in models.MODEL_NAMES)
               + f"{'baseline':<14}" + "".join(f"{name:<14}" for name in extra_baseline_cols)
               + f"{'ar1':<14}{'arima':<14}{'ensemble*':<14}")
@@ -233,5 +236,5 @@ if __name__ == "__main__":
     print(f"Loaded {len(df)} rows, {len(feature_cols)} features.")
 
     ensembles, _ = evaluate_static_split(df, feature_cols)
-    walk_forward_evaluate(df, feature_cols, start_gw=100, step=4, model_name="lightgbm")
+    walk_forward_evaluate(df, feature_cols, start_gw=176, step=4, model_name="lightgbm")
     train_final_ensembles(df, feature_cols, {pos: ens.weights for pos, ens in ensembles.items()})
