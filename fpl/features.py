@@ -37,6 +37,17 @@ FORM_STATS = [
 
 CATEGORICAL_FEATURES = ["was_home"]
 
+# Fixture-difficulty columns merged in by fpl.data.fetch (official FPL FDR, 1-5).
+# These are NOT shifted: the fixture list and its difficulty are published before a
+# gameweek is played, so knowing GW t's opponent (and the next two) is a legitimate
+# input at prediction time, not leakage.
+FIXTURE_FEATURES = ["fixture_difficulty", "fixture_difficulty_next3"]
+
+# Minutes-projection ("nailedness") features - see add_minutes_features. A player who
+# won't start scores ~0, so projecting minutes from recent starts is one of the single
+# most predictive signals in modern FPL models.
+MINUTES_FEATURES = ["start_rate_roll5", "mins60_rate_roll5"]
+
 TARGET_COL = "total_points"
 
 
@@ -70,6 +81,37 @@ def add_rolling_features(df):
     return df
 
 
+def add_minutes_features(df):
+    """Add rolling "nailedness" features projecting whether a player will get minutes.
+
+    - start_rate_roll5: rolling fraction of the last 5 games the player started. Uses
+      the `starts` column where present (2022-23 onward) and falls back to a minutes>=60
+      proxy for older seasons where `starts` doesn't exist.
+    - mins60_rate_roll5: rolling fraction of the last 5 games with a "full" appearance
+      (>=60 minutes, the FPL clean-sheet threshold). Available for every season since
+      `minutes` always exists, so it's the more robust of the two.
+
+    Both are shifted by one gameweek (computed only from strictly-earlier games), exactly
+    like the rolling form features, so a row never sees its own outcome.
+    """
+    df = _ensure_sorted(df)
+
+    started = df["starts"] if "starts" in df.columns else pd.Series(np.nan, index=df.index)
+    started = pd.to_numeric(started, errors="coerce").fillna((df["minutes"] >= 60).astype(float))
+    flags = pd.DataFrame({
+        "start_rate_roll5": started,
+        "mins60_rate_roll5": (df["minutes"] >= 60).astype(float),
+    }, index=df.index)
+
+    new_cols = {}
+    for out_col in flags.columns:
+        shifted = flags[out_col].groupby(df["player_id"]).shift(1)
+        new_cols[out_col] = (
+            shifted.groupby(df["player_id"]).rolling(5, min_periods=1).mean().reset_index(level=0, drop=True)
+        )
+    return pd.concat([df, pd.DataFrame(new_cols, index=df.index)], axis=1)
+
+
 def build_feature_frame(raw_df):
     """Full feature pipeline: clean dtypes, add rolling form features.
 
@@ -83,14 +125,21 @@ def build_feature_frame(raw_df):
     df["was_home"] = df["was_home"].astype(int)
 
     df = add_rolling_features(df)
+    df = add_minutes_features(df)
     return df
 
 
 def feature_columns(df):
     suffixes = ("_prev", "_season_avg") + tuple(f"_roll{w}" for w in ROLLING_WINDOWS)
     cols = [c for c in df.columns if c.endswith(suffixes)]
-    cols += ["games_played_so_far"] + CATEGORICAL_FEATURES
-    return [c for c in cols if c in df.columns]
+    cols += ["games_played_so_far"] + CATEGORICAL_FEATURES + FIXTURE_FEATURES + MINUTES_FEATURES
+    # start_rate_roll5 / mins60_rate_roll5 already end in _roll5, so dedupe.
+    seen, deduped = set(), []
+    for c in cols:
+        if c in df.columns and c not in seen:
+            seen.add(c)
+            deduped.append(c)
+    return deduped
 
 
 def split_by_position(df):

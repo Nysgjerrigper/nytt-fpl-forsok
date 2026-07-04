@@ -4,6 +4,32 @@ Working notes for what to pick up next. Newest planning at the top; check `RESEA
 the full "why" behind each item. Nothing here is urgent - the repo is in a clean, committed,
 pushed state.
 
+## Done since last sign-off (2026-07-04)
+- Fixture-difficulty + fixture-window features (`fetch.py`/`features.py`) - improved MASE at every
+  position, DEF/FWD most. See RESEARCH_LOG.md.
+- Minutes-projection ("nailedness") features - `start_rate_roll5`, `mins60_rate_roll5`.
+- Probabilistic forecasting module (`fpl/model/probabilistic.py`) - quantile regression, pinball +
+  coverage eval, unit tests. Intervals slightly over-cover (see follow-up below).
+
+## New follow-ups from that work
+- **[HIGH] Resolve the fixture/minutes MASE-vs-points divergence.** Fixture+minutes features
+  improved MASE at every position but the actual-points backtest DROPPED 1966 -> 1880 on GW153-183.
+  Forecast got more accurate, squads scored fewer real points. Likely the smoother mean forecast
+  makes the MILP prefer safe nailed players over high-ceiling captain differentials. Before trusting
+  these features as a net win, investigate: (a) is it noise? re-run the backtest with a different
+  horizon / a second window; (b) does feeding the probabilistic p90/upside into captain selection
+  recover the points? (c) if not, consider dropping FIXTURE_FEATURES/MINUTES_FEATURES from
+  `features.feature_columns` to revert to the 1966 config. This is the gold-standard-metric
+  regression, so it outranks the MASE improvement until understood.
+- **Calibrate the probabilistic intervals.** [p10,p90] coverage is 0.88-0.93 vs the ideal 0.80 -
+  slightly under-confident. A conformal-prediction adjustment on a held-out slice would tighten it.
+- **Use the probabilistic output for captaincy.** The p90/upside signal is exactly what should drive
+  captain choice (upside on the 2x multiplier); currently the MILP just uses expected points. Could
+  feed a variance/upside term into the captain selection.
+- **Dedicated minutes model.** Current minutes features are lag-based projections; a proper two-stage
+  model (predict expected minutes, feed into the points model) may help further, especially for
+  rotation-risk players.
+
 ## Left open at sign-off (2026-07-04)
 
 ### 1. Decide how far back to extend history (the main open decision)

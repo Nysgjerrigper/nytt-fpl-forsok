@@ -55,10 +55,12 @@ list or a hardcoded "last gameweek" constant - that was the recurring maintenanc
 ## Architecture
 
 **Data flow:** `fpl/data/fetch.py` (pulls + cleans vaastav's FPL GitHub data, resolves opponent-team IDs via
-each season's `teams.csv`, applies name/team corrections in `fpl/config.py`) -> `Datasett/master_dataset.csv`
--> `fpl/features.py` (adds shifted rolling-window and season-to-date form features per player, so no row ever
-sees its own outcome) -> `fpl/model/` (trains per-position models on `features.feature_columns(df)`) ->
-predictions CSV -> `fpl/milp/optimize.py` (turns predicted points into an actual squad/transfer/chip decision).
+each season's `teams.csv`, merges official fixture-difficulty ratings from `fixtures.csv`, applies name/team
+corrections in `fpl/config.py`) -> `Datasett/master_dataset.csv` -> `fpl/features.py` (adds shifted
+rolling-window and season-to-date form features, minutes-projection "nailedness" features, and fixture-difficulty
+features per player, so no row ever sees its own outcome - fixture features are known-ahead, so not shifted)
+-> `fpl/model/` (trains per-position models on `features.feature_columns(df)`) -> predictions CSV ->
+`fpl/milp/optimize.py` (turns predicted points into an actual squad/transfer/chip decision).
 `fpl/run_week.py` chains all of this for a live weekly run, additionally pulling fixtures/current-squad state
 from the official FPL API (`fantasy.premierleague.com/api/...`), which vaastav's historical dumps don't have.
 
@@ -74,6 +76,12 @@ fitting weights and evaluating them on the same rows. Saved ensembles live in `f
 Tree models (LightGBM) get raw features including NaNs (a player's first few gameweeks have no rolling history
 yet) since LightGBM handles missing values natively. Everything else in `fpl/model/models.py` gets wrapped in a
 `SimpleImputer` (+`StandardScaler` for linear/distance models) because sklearn estimators can't take NaN input.
+
+**Probabilistic forecasting:** `fpl/model/probabilistic.py` is a separate, parallel view - per-position LightGBM
+quantile regression (p10/p50/p90) giving a prediction interval per player-gameweek instead of a single number,
+for uncertainty-aware analysis like captaincy. It reuses the same `fpl.features` inputs but does NOT feed the
+squad optimizer (which still consumes the point-forecast ensemble's single-number CSV). Evaluated with pinball
+loss + interval coverage (`python -m fpl.model.probabilistic`), not MAE/MASE.
 
 **MILP optimizer:** `fpl/milp/optimize.py` is Kristiansen et al.'s formulation (budget, formation constraints,
 captain/vice-captain, transfer costs, wildcard/free-hit/bench-boost/triple-captain chip logic), solved with PuLP

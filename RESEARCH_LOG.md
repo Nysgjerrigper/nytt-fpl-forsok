@@ -99,6 +99,66 @@ comfortably everywhere, and SES's improvement over the ad-hoc baseline isn't lar
 its own to be worth the added surface area. Left as comparison columns in
 `fpl/model/train.py`'s output.
 
+## 2026-07-04 - Added fixture difficulty, minutes projection, and probabilistic forecasting
+
+Three additions requested together, all validated the same honest way.
+
+**Fixture difficulty + fixture-window features** (`fpl/data/fetch.py`, `fpl/features.py`). Merged
+the official FPL Fixture Difficulty Rating (FDR, 1-5) from each season's `fixtures.csv` onto every
+player row by (team, GW): `fixture_difficulty` (this GW's opponent) and `fixture_difficulty_next3`
+(mean FDR over this + the next two scheduled fixtures - the "easy run of fixtures" signal). These
+are NOT shifted/leakage: fixture lists and their ratings are published before a gameweek is played,
+so a model predicting GW t genuinely knows who each team plays at t, t+1, t+2. 100% merge coverage
+across all six seasons (double gameweeks averaged to one value per team-GW).
+
+**Minutes-projection ("nailedness") features** (`fpl/features.py::add_minutes_features`):
+`start_rate_roll5` (rolling fraction of last 5 games started - uses the `starts` column where
+present, falls back to a minutes>=60 proxy for 2020-21/2021-22) and `mins60_rate_roll5` (rolling
+fraction with a full 60+-minute appearance, robust across all seasons since `minutes` always
+exists). Both shifted one GW like the other rolling features - a player who won't start scores ~0,
+so projecting minutes from recent starts is one of the single most predictive FPL signals.
+
+**Result: ensemble MASE improved at every position** (same GW153-183 window):
+
+| Position | before (6-season) | + fixture + minutes |
+|---|---|---|
+| GK  | 0.595 | 0.588 |
+| DEF | 0.830 | **0.799** |
+| MID | 0.811 | 0.799 |
+| FWD | 0.984 | **0.959** |
+
+DEF improved most, exactly where fixture difficulty should matter most (clean-sheet dependence).
+Walk-forward MASE also improved (0.777 -> 0.772). Ensemble still beats the OLS index everywhere.
+
+**BUT the actual-points backtest REGRESSED: 1880, down from 1966 (-86) on the same GW153-183
+window.** This is a genuine, important divergence - forecast accuracy (MASE) improved at every
+position, yet the squads the optimizer built from those "better" forecasts scored fewer real
+points. It's exactly the failure mode CLAUDE.md's "Backtesting reference point" warns about (MASE
+improvements don't translate 1:1 to points once the MILP is in the loop), showing up for real for
+the first time this project. Most likely cause: fixture-difficulty features make the mean forecast
+smoother/more regressed-to-the-mean, which nudges the optimizer toward "safe" nailed players and
+away from the high-ceiling differentials that actually haul on the 2x captain multiplier - the MILP
+maximizes *expected* points and is blind to variance/upside. This is precisely the gap the new
+probabilistic module (below) exists to close, and it's why the actual-points backtest, not MASE, is
+the project's gold-standard check. **Decision: the features are committed (requested, well-tested,
+and genuinely better forecasters) but this points regression is flagged as unresolved - do NOT
+treat fixture+minutes features as a settled net win until the captaincy/variance interaction is
+understood (see TODO.md). If actual points are the only thing that matters, reverting to the
+1966-scoring config is a one-line change (drop FIXTURE_FEATURES/MINUTES_FEATURES from
+features.feature_columns).**
+
+**Probabilistic forecasting** (`fpl/model/probabilistic.py`, `tests/test_probabilistic.py`). New,
+separate module (does NOT touch the point-forecast ensemble or the squad optimizer): per-position
+LightGBM quantile regression at p10/p50/p90, giving a prediction interval + median per
+player-gameweek instead of a single number. Motivation is captaincy/risk: two players with equal
+expected points aren't equal decisions - a boom-or-bust forward has more upside on the 2x captain
+multiplier. Evaluated with pinball loss (the proper scoring rule these models minimize) and
+interval coverage. Coverage of the [p10, p90] band came out 0.88-0.93 vs the ideal 0.80 - the
+intervals are slightly too wide (mildly under-confident), expected with zero-inflated data where
+the p10 quantile pins at 0 for blank-prone players; FWD was best-calibrated at 0.88. Usable as-is
+for relative uncertainty ranking; tightening calibration (e.g. conformal adjustment) is a possible
+follow-up. Quantile-crossing is repaired by row-wise sorting; a unit test guards the monotonicity.
+
 ## 2026-07-04 - Extended history back to 2020-21 (from 2022-23): a clear win
 
 Extended `config.DEFAULT_START_SEASON` from 2022-23 to 2020-21 to give models more history per
