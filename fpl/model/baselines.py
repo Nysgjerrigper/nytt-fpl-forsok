@@ -21,6 +21,15 @@ baseline - averages a linear trend line with an exponentially-smoothed
 curvature-doubled line) and per-player ARIMA (via statsmodels, the one new
 dependency here - see requirements.txt). Both were flagged by the Venter paper
 as relatively strong individual forecasters; both tested the same honest way.
+
+Latest addition: empirical-Bayes hierarchical shrinkage (add_eb_shrinkage_column)
+- the Bayesian partial-pooling idea, done cheaply. Each row's forecast is the
+player's own historical mean shrunk toward their position's mean, with the
+weight on the player's own history growing as that history accumulates. This
+is the one baseline here that structurally addresses the new-player problem
+(a debutant with zero history gets the position mean instead of a zero/NaN),
+which none of the (X, y) feature-matrix models in fpl.model.models can do -
+they never see player identity or group structure.
 """
 import warnings
 
@@ -206,6 +215,58 @@ def add_holt_column(df, group_col="player_id", value_col="total_points", gw_col=
 
 def add_theta_column(df, group_col="player_id", value_col="total_points", gw_col="GW_global", theta=2.0, alpha=0.2):
     return _add_per_player_column(df, theta_forecast, "theta_pred", group_col, value_col, gw_col, theta=theta, alpha=alpha)
+
+
+def add_eb_shrinkage_column(df, group_col="player_id", value_col="total_points",
+                            gw_col="GW_global", pos_col="position", prior_strength=10.0):
+    """Add an `eb_shrinkage_pred` column: empirical-Bayes partial pooling of each
+    player's mean toward their position's mean.
+
+        forecast = (n * player_mean + k * position_mean) / (n + k)
+
+    where n is how many gameweeks of history the player has, player_mean is their
+    mean over those gameweeks, position_mean is the mean over ALL players at that
+    position across strictly earlier gameweeks, and k (`prior_strength`) is how many
+    gameweeks of "pseudo-history" the position prior counts for. A debutant (n=0)
+    gets the position mean outright; a 100-gameweek veteran is barely shrunk at all.
+    This is the conjugate normal-normal posterior mean with a fixed prior weight -
+    the honest cheap version of a hierarchical Bayesian model, no MCMC required.
+
+    Leakage-free like every other baseline here: both means only ever use strictly
+    earlier gameweeks (the position prior is computed from per-GW aggregates, so a
+    row never sees any outcome from its own gameweek - not even other players').
+    """
+    df = df.sort_values([group_col, gw_col]).copy()
+    grouped = df.groupby(group_col, sort=False)
+    n_prior = grouped.cumcount().to_numpy(dtype=float)
+    shifted = grouped[value_col].shift(1)
+    player_mean = (
+        shifted.groupby(df[group_col]).expanding(min_periods=1).mean().reset_index(level=0, drop=True)
+    ).to_numpy()
+
+    # Position prior over strictly earlier gameweeks: aggregate per (position, GW),
+    # then subtract each GW's own sum/count from the running total so a gameweek
+    # never contributes to its own prior.
+    gw_stats = (
+        df.groupby([pos_col, gw_col], observed=True)[value_col]
+        .agg(gw_sum="sum", gw_count="count")
+        .sort_index()
+    )
+    pos_grp = gw_stats.groupby(level=0, observed=True)
+    prior_sum = pos_grp["gw_sum"].cumsum() - gw_stats["gw_sum"]
+    prior_count = pos_grp["gw_count"].cumsum() - gw_stats["gw_count"]
+    pos_prior_map = prior_sum / prior_count  # NaN at each position's first gameweek
+
+    keys = pd.MultiIndex.from_arrays([df[pos_col], df[gw_col]])
+    pos_prior = pos_prior_map.reindex(keys).to_numpy()
+
+    k = float(prior_strength)
+    player_term = np.where(n_prior > 0, np.nan_to_num(player_mean) * n_prior, 0.0)
+    prior_available = ~np.isnan(pos_prior)
+    pos_term = np.where(prior_available, np.nan_to_num(pos_prior) * k, 0.0)
+    denom = n_prior + np.where(prior_available, k, 0.0)
+    df["eb_shrinkage_pred"] = np.where(denom > 0, (player_term + pos_term) / np.where(denom > 0, denom, 1.0), 0.0)
+    return df
 
 
 def fit_ar1(train_df, lag_col="total_points_prev", target_col="total_points"):

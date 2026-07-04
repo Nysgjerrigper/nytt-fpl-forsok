@@ -65,16 +65,19 @@ features per player, so no row ever sees its own outcome - fixture features are 
 from the official FPL API (`fantasy.premierleague.com/api/...`), which vaastav's historical dumps don't have.
 
 **Modeling:** Four independent models per position (GK/DEF/MID/FWD) rather than one global model - position
-determines what stats matter, and separating them avoids one position's scale dominating. Per position, six
-cheap model types are trained (`fpl/model/models.py`: LightGBM, Ridge, ElasticNet, Random Forest, Extra Trees,
-kNN) and blended into a `PositionEnsemble` (`fpl/model/ensemble.py`) via non-negative least squares weights.
-Those blend weights are fit on one half of a held-out test window and evaluated on the other half
+determines what stats matter, and separating them avoids one position's scale dominating. Per position, every
+model type registered in `fpl/model/models.py::FACTORIES` (LightGBM, XGBoost, CatBoost, OLS, Ridge, ElasticNet,
+PLS, Random Forest, Extra Trees, kNN, LinearSVR, a capped-sample RBF SVR) is trained and blended into a `PositionEnsemble`
+(`fpl/model/ensemble.py`) via non-negative least squares weights - including model types a preliminary check
+found don't help (XGBoost, RBF SVR): they're kept as real (near-zero-weighted) blend candidates rather than
+deleted, per this project's practice of reporting negative results honestly instead of hiding them. Those blend
+weights are fit on one half of a held-out test window and evaluated on the other half
 (`fpl/model/train.py::evaluate_static_split`) specifically so the reported ensemble accuracy isn't inflated by
 fitting weights and evaluating them on the same rows. Saved ensembles live in `fpl/models/<POSITION>.*`
 (gitignored - regenerate with `python -m fpl.model.train`, don't expect them to exist in a fresh clone).
 
-Tree models (LightGBM) get raw features including NaNs (a player's first few gameweeks have no rolling history
-yet) since LightGBM handles missing values natively. Everything else in `fpl/model/models.py` gets wrapped in a
+Tree models (LightGBM, XGBoost) get raw features including NaNs (a player's first few gameweeks have no rolling
+history yet) since both handle missing values natively. Everything else in `fpl/model/models.py` gets wrapped in a
 `SimpleImputer` (+`StandardScaler` for linear/distance models) because sklearn estimators can't take NaN input.
 
 **Probabilistic forecasting:** `fpl/model/probabilistic.py` is a separate, parallel view - per-position LightGBM

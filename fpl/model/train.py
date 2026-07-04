@@ -36,13 +36,10 @@ from fpl.model.ensemble import PositionEnsemble, fit_blend_weights
 from fpl.model.metrics import mae, mase, naive_lag1_scale
 from fpl.model.baselines import (
     add_croston_column, add_naive_drift_column, add_ses_column, add_holt_column, add_theta_column,
-    fit_ar1, predict_ar1, fit_predict_arima_per_player,
+    add_eb_shrinkage_column, fit_ar1, predict_ar1, fit_predict_arima_per_player,
 )
 
 POSITIONS = ["GK", "DEF", "MID", "FWD"]
-
-# Kept for backwards compatibility with anything importing the old single-model API.
-LGB_PARAMS = models.LGB_PARAMS
 
 
 def load_features():
@@ -67,6 +64,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
     df = add_ses_column(df)
     df = add_holt_column(df)
     df = add_theta_column(df)
+    df = add_eb_shrinkage_column(df)
 
     train_df = df[df["GW_global"] <= train_max_gw]
     test_df = df[(df["GW_global"] >= test_min_gw) & (df["GW_global"] <= test_max_gw)].copy()
@@ -90,6 +88,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
         "holt": "holt_pred",
         "theta": "theta_pred",
         "croston": "croston_pred",
+        "eb_shrink": "eb_shrinkage_pred",
     }
 
     print("\n--- Static split evaluation (GW<=152 train, GW153-183 test) ---")
