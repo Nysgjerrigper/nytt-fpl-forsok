@@ -53,6 +53,34 @@ def train_position_model(train_df, feature_cols, position, model_name="lightgbm"
     return models.fit_model(model_name, X, y)
 
 
+def fit_holdout_weights(df, feature_cols, first_holdout_gw, window=16):
+    """Fit NNLS blend weights per position on a window strictly BEFORE first_holdout_gw:
+    members are trained on GW < first_holdout_gw - window, weights are fit on their
+    predictions over [first_holdout_gw - window, first_holdout_gw).
+
+    This is the production/backtest weight-fitting path. It exists because the earlier
+    scheme (reusing evaluate_static_split's weights, which are fit on the first half of
+    the GW153-183 test window) leaked those rows' outcomes into any backtest run over
+    the same window - see RESEARCH_LOG.md 2026-07-04. Weights fit here never see any
+    gameweek at or after first_holdout_gw, so a backtest starting there is clean.
+    """
+    member_train = df[df["GW_global"] < first_holdout_gw - window]
+    fit_df = df[(df["GW_global"] >= first_holdout_gw - window) & (df["GW_global"] < first_holdout_gw)]
+    weights = {}
+    for pos in POSITIONS:
+        pos_train = member_train[member_train["position"] == pos]
+        pos_fit = fit_df[fit_df["position"] == pos]
+        if pos_train.empty or pos_fit.empty:
+            weights[pos] = {"lightgbm": 1.0}  # not enough history for a holdout - fall back
+            continue
+        member_preds = {}
+        for name in models.MODEL_NAMES:
+            member = models.fit_model(name, pos_train[feature_cols], pos_train[features.TARGET_COL])
+            member_preds[name] = member.predict(pos_fit[feature_cols])
+        weights[pos] = fit_blend_weights(member_preds, pos_fit[features.TARGET_COL].to_numpy())
+    return weights
+
+
 def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, test_max_gw=183):
     """Same split window the old LSTM was validated on: train on GW<=152
     (2020-21 through 2023-24), test on GW153-183 (2024-25 GW1-31)."""
@@ -101,6 +129,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
     ensembles = {}
     per_model_preds_full = {pos: {} for pos in POSITIONS}
     mase_rows = {}
+    index_check = {}
     for pos in POSITIONS:
         pos_mask = test_df["position"] == pos
         row = [pos]
@@ -148,6 +177,13 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
             + [mase(y_true_pos, ar1_pred, naive_scale), mase(y_true_pos, arima_pred, naive_scale),
                mase(y_true_pos[eval_idx], blended_eval, naive_scale)]
         )
+        # Index check on the SAME held-out rows the ensemble is scored on - comparing the
+        # ensemble's 2nd-half MASE against OLS's full-window MASE (as the table above does)
+        # would let a difficulty difference between the halves bias the verdict.
+        index_check[pos] = (
+            mase(y_true_pos[eval_idx], preds_by_model["ols"][eval_idx], naive_scale),
+            mase(y_true_pos[eval_idx], blended_eval, naive_scale),
+        )
 
         ensembles[pos] = PositionEnsemble(per_model_preds_full[pos], weights)
         print(f"    blend weights ({pos}): " + ", ".join(f"{n}={w:.2f}" for n, w in weights.items() if w > 0.01))
@@ -164,10 +200,9 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
     # simple textbook benchmark everything else in this project is ultimately judged against,
     # the way a passive market index is the bar an active strategy has to clear. Everything
     # above is one table; this is the one number per position that actually matters.
-    ols_idx = models.MODEL_NAMES.index("ols")
-    print("\n--- Index check: does the ensemble beat plain OLS regression? ---")
+    print("\n--- Index check: does the ensemble beat plain OLS regression? (same held-out rows) ---")
     for pos in POSITIONS:
-        ols_mase, ensemble_mase = mase_rows[pos][ols_idx], mase_rows[pos][-1]
+        ols_mase, ensemble_mase = index_check[pos]
         verdict = "beats index" if ensemble_mase < ols_mase else "does NOT beat index"
         print(f"{pos}: OLS (index) MASE={ols_mase:.4f}  ensemble MASE={ensemble_mase:.4f}  -> {verdict}")
 
@@ -236,4 +271,15 @@ if __name__ == "__main__":
 
     ensembles, _ = evaluate_static_split(df, feature_cols)
     walk_forward_evaluate(df, feature_cols, start_gw=176, step=4, model_name="lightgbm")
-    train_final_ensembles(df, feature_cols, {pos: ens.weights for pos, ens in ensembles.items()})
+
+    # Production weights: fit on the last 16 played gameweeks as a holdout (members trained
+    # on everything before that window), NOT on evaluate_static_split's test-window weights -
+    # those exist only to score the ensemble honestly, and reusing them for prediction was
+    # the blend-weight leakage documented in RESEARCH_LOG.md 2026-07-04.
+    max_gw = int(df["GW_global"].max())
+    print(f"\nFitting production blend weights on holdout GW{max_gw - 15}-{max_gw}...")
+    production_weights = fit_holdout_weights(df, feature_cols, first_holdout_gw=max_gw + 1)
+    for pos in POSITIONS:
+        picked = ", ".join(f"{n}={w:.2f}" for n, w in production_weights[pos].items() if w > 0.01)
+        print(f"    production weights ({pos}): {picked}")
+    train_final_ensembles(df, feature_cols, production_weights)

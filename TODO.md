@@ -6,33 +6,30 @@ pushed state.
 
 ## Code/concept review findings (2026-07-04)
 
-From a full review of `fpl/` (errors, dead code, modeling concepts). Dead code already deleted
+From a full review of `fpl/` (errors, dead code, modeling concepts). Dead code deleted
 (`features.split_by_position`, the `LGB_PARAMS` re-export chain, unused numpy import in
-optimize.py). What remains, by severity:
+optimize.py). The four modeling-concept fixes were implemented the same day:
 
-- **[HIGH][live-mode bug] `run_week.py` uses stale fixture features for future gameweeks.**
-  `build_future_predictions` copies each player's last-played-GW row - including its
-  `fixture_difficulty`/`fixture_difficulty_next3` - and only updates opponent/was_home from the
-  API. So live predictions score next week's fixture with LAST week's difficulty, and all
-  horizon GWs get identical features except was_home (the model can't tell the GW2 opponent from
-  the GW3 opponent). Fix: the FPL API's `/fixtures/` response already carries
-  `team_h_difficulty`/`team_a_difficulty` - set the fixture features per future GW from that.
-  Doesn't affect backtests (predict.py rows carry their own correct fixture features).
-- **[HIGH][live-mode bug] Live forecasts exclude each player's most recent match.** The snapshot
-  row's rolling features are shifted by one GW (correct for training), so when reused as "current
-  form" they end one game early - the freshest, most informative game a player just played never
-  enters the live forecast. Fix: recompute unshifted rolling stats as-of "after the last played
-  GW" for the live snapshot only.
-- **[MEDIUM][evaluation leakage] Blend weights leak into the actual-points backtest.** Weights are
-  fit on the FIRST half of GW153-183 (train.py), saved, then predict.py's walk-forward backtest
-  reuses them over that same window - so GW153-168 predictions use weights fit on those rows' own
-  outcomes. The 1966/1880 headline numbers are modestly inflated; the 1966-vs-1880 COMPARISON is
-  still fair (both leak identically). Fix: fit backtest weights on a window strictly before the
-  backtest (e.g. last ~15 GWs of training data).
-- **[LOW][evaluation inconsistency] The "index check" compares different eval sets.** Ensemble
-  MASE is measured on the test window's 2nd half (correct holdout), but OLS/others on the full
-  window. If the halves differ in difficulty, the "beats index" verdict is biased. Fix: report
-  the index check on the same 2nd-half rows for both.
+- **[FIXED] Live fixture staleness** - `run_week.build_future_predictions` now sets
+  `fixture_difficulty`/`fixture_difficulty_next3` per future GW from the FPL API's fixture list
+  (which carries official FDRs), instead of copying last week's values. Also fixed in passing:
+  API team names ("Spurs") are now corrected to dataset names ("Tottenham") before lookup -
+  previously those teams' players silently dropped out of every live prediction.
+- **[FIXED] Live forecasts excluded each player's most recent match** - `run_week` now builds a
+  synthetic next-GW row per player (`build_live_snapshot`), whose shifted features legitimately
+  include everything played. Also filters the live pool to players active in the last 38 GWs.
+  Guarded by `tests/test_live_snapshot.py`.
+- **[FIXED] Blend-weight leakage into the backtest** - new `train.fit_holdout_weights` fits NNLS
+  weights on a window strictly before whatever gets predicted. `predict.py` fits its own weights
+  on the 16 GWs before `--start-gw` (no longer reads saved weights); `train.py` saves production
+  weights fit on the last 16 played GWs; `run_week` does the same at run time. NOTE: the 1966 /
+  1880 backtest numbers predate this fix and are modestly inflated - re-baseline before the next
+  comparison (comparisons between them remain fair; both leaked identically).
+- **[FIXED] Index-check asymmetry** - the "beats index" verdict now compares OLS and the ensemble
+  on the same held-out rows.
+
+Still open from the review:
+
 - **[MEDIUM][rule currency] MILP free-transfer cap is outdated for live use.** `Q_bar=2` matches
   the pre-2024-25 rule; FPL now allows banking up to 5 FTs. Also the sell-at-current-value
   simplification (real FPL: purchase price + half the profit, rounded down) overstates budget
@@ -44,6 +41,16 @@ optimize.py). What remains, by severity:
 - **[LOW][robustness] Player identity is name-based** (`pd.factorize(name)`) - two players sharing
   a name merge into one id (the Ben Davies patch exists for exactly this). A players_raw.csv
   id-based join would be sturdier if ever extending pre-2020-21.
+
+## New from the expanded-registry run (2026-07-04)
+
+- **[HIGH] The NNLS ensemble no longer beats its best member.** With 12 registry models, CatBoost
+  alone (MASE 0.513/0.705/0.731/0.849) beats the blended ensemble (0.534/0.747/0.806/0.853) at
+  every position on the static split - and the MID blend didn't even select CatBoost. Likely
+  NNLS overfitting the half-window weight-fit with 12 collinear members. The holdout-weights fix
+  (longer window, strictly-prior data) may already help; re-check after the train.py re-run, and
+  consider member pruning or a simple "best single model per position" fallback if the blend
+  still loses to CatBoost.
 
 ## Done since last sign-off (2026-07-04)
 - Fixture-difficulty + fixture-window features (`fetch.py`/`features.py`) - improved MASE at every

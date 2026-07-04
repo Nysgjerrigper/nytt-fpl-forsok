@@ -13,7 +13,6 @@ Two modes:
   this from the official FPL API, since vaastav's historical data obviously
   has no rows yet for a gameweek that hasn't been played).
 """
-import json
 import sys
 from pathlib import Path
 
@@ -23,25 +22,27 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
 from fpl.model import models as model_registry
 from fpl.model.ensemble import PositionEnsemble
-from fpl.model.train import POSITIONS, train_position_model
+from fpl.model.train import POSITIONS, fit_holdout_weights
 
 
-def _load_blend_weights(position):
-    """Blend weights are fit once (fpl.model.train.evaluate_static_split) and
-    reused here at every retrain point - refitting them at each walk-forward
-    step would need its own held-out labelled slice per step, which isn't
-    worth the extra complexity for what's a secondary refinement on top of
-    already-good individual models."""
-    weights_path = (config.MODELS_DIR / position).with_suffix(".weights.json")
-    if weights_path.exists():
-        return json.loads(weights_path.read_text())
-    return None  # fall back to a plain LightGBM model if train.py hasn't been run yet
+def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16):
+    """Predict every GW in [start_gw, end_gw] using only data from earlier GWs.
 
-
-def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1):
-    """Predict every GW in [start_gw, end_gw] using only data from earlier GWs."""
+    Blend weights are fit ONCE, on the `weight_window` gameweeks strictly before
+    start_gw (members trained on data before that window) - so no weight ever sees
+    a gameweek this function goes on to predict. The old scheme reused weights
+    saved by train.py, which were fit INSIDE the GW153-183 test window and leaked
+    into any backtest over it (RESEARCH_LOG.md 2026-07-04). Zero-weight members
+    are skipped at every retrain - no point fitting a model the blend ignores.
+    """
     rows = []
     models_cache = {}
+    print(f"Fitting blend weights on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
+    weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw, window=weight_window)
+    for pos in POSITIONS:
+        picked = ", ".join(f"{n}={w:.2f}" for n, w in weights_by_pos[pos].items() if w > 0.01)
+        print(f"    weights ({pos}): {picked}")
+
     last_trained_gw = None
     for gw in range(start_gw, end_gw + 1):
         if gw not in df["GW_global"].unique():
@@ -54,13 +55,11 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
                 pos_train = train_df[train_df["position"] == pos]
                 if pos_train.empty:
                     continue
-                weights = _load_blend_weights(pos)
-                if weights is None:
-                    models_cache[pos] = train_position_model(train_df, feature_cols, pos)
-                else:
-                    X, y = pos_train[feature_cols], pos_train[features.TARGET_COL]
-                    members = {name: model_registry.fit_model(name, X, y) for name in weights}
-                    models_cache[pos] = PositionEnsemble(members, weights)
+                weights = weights_by_pos[pos]
+                X, y = pos_train[feature_cols], pos_train[features.TARGET_COL]
+                members = {name: model_registry.fit_model(name, X, y)
+                           for name, wgt in weights.items() if wgt > 1e-6}
+                models_cache[pos] = PositionEnsemble(members, weights)
             last_trained_gw = gw
             print(f"Retrained models for GW {gw}")
 

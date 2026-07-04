@@ -35,8 +35,7 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl import config, features
 from fpl.data import fetch
-from fpl.model.train import POSITIONS, load_features, train_position_model
-from fpl.model.predict import _load_blend_weights
+from fpl.model.train import POSITIONS, fit_holdout_weights
 from fpl.model import models as model_registry
 from fpl.model.ensemble import PositionEnsemble
 from fpl.milp import optimize
@@ -72,13 +71,29 @@ def fetch_fixtures(gw):
 
 
 def build_team_fixture_map(bootstrap, gw):
-    """team_name -> (opponent_team_name, was_home) for one gameweek."""
-    teams_by_id = {t["id"]: t["name"] for t in bootstrap["teams"]}
-    result = {}
+    """team_name -> (opponent_name, was_home, fixture_difficulty) for one gameweek.
+
+    Team names go through config.TEAM_NAME_CORRECTIONS so they match the dataset's
+    corrected `team` column (the API says "Spurs"/"Man Utd", the dataset says
+    "Tottenham"/"Man United" - without this, lookups for those teams silently miss
+    and their players get dropped from every live prediction).
+
+    Double gameweeks: opponent/home-away come from the first fixture, difficulty is
+    the mean across that GW's fixtures - matching fetch.py's historical DGW handling.
+    """
+    teams_by_id = {
+        t["id"]: config.TEAM_NAME_CORRECTIONS.get(t["name"], t["name"]) for t in bootstrap["teams"]
+    }
+    per_team = {}
     for fx in fetch_fixtures(gw):
         home, away = teams_by_id[fx["team_h"]], teams_by_id[fx["team_a"]]
-        result[home] = (away, True)
-        result[away] = (home, False)
+        per_team.setdefault(home, []).append((away, True, fx.get("team_h_difficulty")))
+        per_team.setdefault(away, []).append((home, False, fx.get("team_a_difficulty")))
+    result = {}
+    for team, fixtures in per_team.items():
+        opp, is_home, _ = fixtures[0]
+        fdrs = [f[2] for f in fixtures if f[2] is not None]
+        result[team] = (opp, is_home, sum(fdrs) / len(fdrs) if fdrs else None)
     return result
 
 
@@ -105,32 +120,67 @@ def get_user_squad(team_id, bootstrap, name_to_player_id):
     return squad_ids, float(bank)
 
 
-def latest_snapshot(feat_df):
-    """One row per player: their most recent played gameweek, used as the
-    jump-off point for projecting form into the future."""
-    return feat_df.sort_values("GW_global").groupby("player_id", as_index=False).tail(1)
+def build_live_snapshot(raw_df):
+    """One synthetic next-gameweek row per active player, with form features computed
+    AS OF NOW - i.e. including each player's most recent played match.
+
+    Why not just reuse each player's last played row (the old approach)? Training rows'
+    features are shifted one gameweek so a row never sees its own outcome - which means a
+    played row's features EXCLUDE the match played that week. Reused as "current form",
+    they silently drop every player's freshest game. A synthetic future row has no outcome
+    of its own to leak, so its shifted features legitimately include everything played.
+
+    Active = played within the last GWS_PER_SEASON global gameweeks (roughly, appeared
+    during the most recent season) - keeps long-gone players out of the optimizer's pool.
+    """
+    max_gw = int(raw_df["GW_global"].max())
+    latest = raw_df.sort_values("GW_global").groupby("player_id", as_index=False).tail(1)
+    active = latest[latest["GW_global"] > max_gw - config.GWS_PER_SEASON]
+    future = active.copy()
+    future["GW_global"] = max_gw + 1
+    combined = pd.concat([raw_df, future], ignore_index=True)
+    feat = features.build_feature_frame(combined)
+    return feat[feat["GW_global"] == max_gw + 1].copy()
 
 
-def build_future_predictions(feat_df, feature_cols, models, bootstrap, start_gw, horizon):
-    snapshot = latest_snapshot(feat_df)
+def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw, horizon):
+    """Predict every horizon gameweek from the live snapshot, with per-GW fixture info
+    (opponent, home/away, official FDR) taken from the FPL API's fixture list - the
+    fixture-difficulty features MUST be per-future-GW, not copied from the player's last
+    played row, or the model scores next week's fixture with last week's difficulty."""
+    # Prefetch two GWs past the horizon so fixture_difficulty_next3 has a full window.
+    fixture_maps = {}
+    for gw in range(start_gw, start_gw + horizon + 2):
+        try:
+            fixture_maps[gw] = build_team_fixture_map(bootstrap, gw)
+        except requests.HTTPError:
+            break
+
     rows = []
     for i in range(horizon):
         gw = start_gw + i
-        try:
-            fixture_map = build_team_fixture_map(bootstrap, gw)
-        except requests.HTTPError:
+        if gw not in fixture_maps:
             print(f"No fixtures available yet for GW {gw}, stopping horizon there.")
             break
+        fixture_map = fixture_maps[gw]
         gw_rows = snapshot.copy()
         gw_rows["GW"] = gw
-        gw_rows["GW_global"] = gw
-        opponents, homes = [], []
+        opponents, homes, fdrs, fdr3s = [], [], [], []
         for team in gw_rows["team"]:
-            opp, is_home = fixture_map.get(team, (None, None))
+            opp, is_home, fdr = fixture_map.get(team, (None, None, None))
             opponents.append(opp)
             homes.append(is_home)
+            fdrs.append(fdr)
+            upcoming = []
+            for later_gw in range(gw, gw + 3):
+                later_map = fixture_maps.get(later_gw, {})
+                if team in later_map and later_map[team][2] is not None:
+                    upcoming.append(later_map[team][2])
+            fdr3s.append(sum(upcoming) / len(upcoming) if upcoming else fdr)
         gw_rows["opponent_team"] = opponents
         gw_rows["was_home"] = pd.Series(homes).fillna(False).astype(int).values
+        gw_rows["fixture_difficulty"] = fdrs
+        gw_rows["fixture_difficulty_next3"] = fdr3s
         gw_rows = gw_rows[gw_rows["opponent_team"].notna()]  # drop teams without a fixture this GW (blanks)
 
         gw_rows["predicted_total_points"] = 0.0
@@ -156,26 +206,30 @@ def main():
     fetch.build_master_dataset()
 
     print("--- Building features & training models on all data so far ---")
-    feat_df = load_features()
+    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    feat_df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(feat_df)
+
+    # Blend weights fit on the last 16 played GWs as a genuine holdout (members trained on
+    # everything before it) - fresh every run, no dependence on stale saved weights.
+    max_played_gw = int(feat_df["GW_global"].max())
+    print(f"--- Fitting blend weights on holdout GW{max_played_gw - 15}-{max_played_gw} ---")
+    weights_by_pos = fit_holdout_weights(feat_df, feature_cols, first_holdout_gw=max_played_gw + 1)
     models = {}
     for pos in POSITIONS:
         pos_df = feat_df[feat_df["position"] == pos]
-        weights = _load_blend_weights(pos)
-        if weights is None:
-            print(f"No saved ensemble weights for {pos} yet - run `python -m fpl.model.train` first "
-                  f"for the full ensemble; using a plain LightGBM model for now.")
-            models[pos] = train_position_model(feat_df, feature_cols, pos)
-        else:
-            X, y = pos_df[feature_cols], pos_df[features.TARGET_COL]
-            members = {name: model_registry.fit_model(name, X, y) for name in weights}
-            models[pos] = PositionEnsemble(members, weights)
+        weights = weights_by_pos[pos]
+        X, y = pos_df[feature_cols], pos_df[features.TARGET_COL]
+        members = {name: model_registry.fit_model(name, X, y)
+                   for name, wgt in weights.items() if wgt > 1e-6}
+        models[pos] = PositionEnsemble(members, weights)
 
     bootstrap = fetch_bootstrap()
     target_gw = determine_target_gw(bootstrap)
     print(f"--- Target gameweek: {target_gw} ---")
 
-    preds = build_future_predictions(feat_df, feature_cols, models, bootstrap, target_gw, args.horizon)
+    snapshot = build_live_snapshot(raw)
+    preds = build_future_predictions(snapshot, feature_cols, models, bootstrap, target_gw, args.horizon)
     if preds.empty:
         sys.exit("Could not build any predictions - fixtures for the target gameweek aren't published yet.")
 

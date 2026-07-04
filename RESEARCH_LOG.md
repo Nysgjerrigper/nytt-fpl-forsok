@@ -5,6 +5,62 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-04 - Expanded model registry: CatBoost is the new best single model; ensemble now trails it
+
+Added six techniques in one push (user request to "try everything"): LinearSVR, capped-sample RBF
+SVR, XGBoost, CatBoost (MAE loss), PLS regression (20 components), and an empirical-Bayes
+hierarchical shrinkage baseline (player mean shrunk toward position mean - the cheap conjugate
+version of a Bayesian hierarchical model, lives in `baselines.py` since it needs player identity).
+All kept in the registry regardless of result, per project convention. MASE on the GW153-183
+static split, best performers:
+
+| Position | catboost | linear_svr | rbf_svr | pls | xgboost | eb_shrink | ensemble* (12-member) | old ensemble (7-member) |
+|---|---|---|---|---|---|---|---|---|
+| GK  | **0.513** | 0.513 | 0.571 | 0.602 | 0.661 | 0.832 | 0.534 | 0.588 |
+| DEF | **0.705** | 0.713 | 0.758 | 0.847 | 0.831 | 1.090 | 0.747 | 0.799 |
+| MID | **0.731** | 0.751 | 0.785 | 0.854 | 0.881 | 1.060 | 0.806 | 0.799 |
+| FWD | **0.849** | 0.869 | 0.898 | 1.050 | 1.066 | 1.328 | 0.853 | 0.959 |
+
+Findings, honestly stated: **CatBoost with MAE loss is the best single model at every position** -
+by a wide margin over everything that existed before this run (the MAE-aligned-loss hypothesis
+from the LinearSVR check held, and CatBoost's ordered boosting beat LightGBM's tuned config
+outright). LinearSVR is a close second. PLS gave no benefit over OLS (the collinearity idea didn't
+pay). XGBoost and EB-shrinkage underperformed (EB worse than the rolling-mean baseline everywhere -
+a fixed prior_strength=10 pooled over six seasons of drifting scoring rules is too blunt); both
+kept as near-zero-weight registry members / comparison columns. **BUT the blended ensemble now
+LOSES to standalone CatBoost at every position** (and the MID blend didn't even pick CatBoost) -
+classic NNLS weight overfitting on a ~15-GW half-window with 12 collinear members. See TODO.md;
+the holdout-weights fix below may partly address it.
+
+## 2026-07-04 - Code/concept review: four modeling fixes, dead code deleted
+
+Full review of `fpl/` at user request (bugs, dead code, SWE quality, conceptual errors). Dead code
+deleted; four conceptual errors found and fixed same-day:
+
+1. **Blend-weight leakage into the actual-points backtest.** train.py fit blend weights on the
+   first half of GW153-183, saved them, and predict.py's walk-forward backtest reused them over
+   that same window - the first half's predictions used weights fit on their own outcomes. Fixed
+   with `train.fit_holdout_weights`: weights now always fit on a window strictly before whatever
+   is being predicted (predict.py: 16 GWs before --start-gw; train.py/run_week.py: last 16 played
+   GWs for production). **The 1966/1880 backtest numbers are modestly inflated by the old scheme**
+   (their comparison remains fair - both leaked identically); re-baseline before quoting them
+   against future runs.
+2. **Live fixture staleness.** run_week.py copied each player's last-played row into future GWs,
+   so live predictions scored next week's fixture with last week's FDR, and horizon GWs were
+   feature-identical except home/away. Now: per-GW FDR from the FPL API's fixtures endpoint
+   (incl. DGW averaging, matching fetch.py). Found in passing and also fixed: API team names
+   ("Spurs") never matched dataset names ("Tottenham"), silently dropping those teams' players
+   from every live prediction.
+3. **Live forecasts excluded each player's most recent match** (shifted features reused as
+   "current form" end one game early). Fixed with a synthetic next-GW row per player whose
+   shifted features legitimately include everything played (`build_live_snapshot`, unit-tested),
+   plus an active-in-last-38-GWs filter so departed players stay out of the optimizer pool.
+4. **Index-check asymmetry** - ensemble was scored on the test window's 2nd half but OLS on the
+   full window. Both now scored on the same held-out rows.
+
+Backtests were never affected by 2-3 (their rows carry correct features); live mode was. None of
+this changes any relative comparison already logged.
+
 ## 2026-07-04 - Refreshed `report/main.typ` and `notebooks/eda.ipynb` for the current 6-season state
 
 The report and EDA notebook were last generated against the 4-season (2022-23+) history and were
