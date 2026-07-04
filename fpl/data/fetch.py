@@ -12,11 +12,13 @@ so this keeps working next season without edits.
 import re
 import sys
 import unicodedata
+from io import StringIO
+from pathlib import Path
 
 import pandas as pd
 import requests
 
-sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config
 
 SEASON_RE = re.compile(r"^(\d{4})-(\d{2})$")
@@ -113,8 +115,6 @@ def fetch_season_gws(season):
         resp = requests.get(url, timeout=30)
         if resp.status_code != 200:
             break
-        from io import StringIO
-
         gw_df = pd.read_csv(StringIO(resp.text), encoding="utf-8")
         gw_df["GW"] = gw
         frames.append(gw_df)

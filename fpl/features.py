@@ -140,7 +140,3 @@ def feature_columns(df):
             seen.add(c)
             deduped.append(c)
     return deduped
-
-
-def split_by_position(df):
-    return {pos: df[df["position"] == pos].copy() for pos in ["GK", "DEF", "MID", "FWD"]}

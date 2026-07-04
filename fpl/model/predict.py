@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
 from fpl.model import models as model_registry
 from fpl.model.ensemble import PositionEnsemble
-from fpl.model.train import POSITIONS, LGB_PARAMS, train_position_model
+from fpl.model.train import POSITIONS, train_position_model
 
 
 def _load_blend_weights(position):
