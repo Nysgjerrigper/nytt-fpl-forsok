@@ -47,10 +47,13 @@ Still open from the review:
 - **[HIGH] The NNLS ensemble no longer beats its best member.** With 12 registry models, CatBoost
   alone (MASE 0.513/0.705/0.731/0.849) beats the blended ensemble (0.534/0.747/0.806/0.853) at
   every position on the static split - and the MID blend didn't even select CatBoost. Likely
-  NNLS overfitting the half-window weight-fit with 12 collinear members. The holdout-weights fix
-  (longer window, strictly-prior data) may already help; re-check after the train.py re-run, and
-  consider member pruning or a simple "best single model per position" fallback if the blend
-  still loses to CatBoost.
+  NNLS overfitting the half-window weight-fit with 12 collinear members. Post-fix re-run update:
+  production weights fit on the honest GW213-228 holdout ALSO don't weight CatBoost heavily
+  (0 at GK/FWD, ~0.2 at DEF/MID; tree ensembles dominate) - so the weight instability isn't just
+  the leaky window, NNLS weights genuinely swing hard between adjacent windows. Next step: an
+  honest head-to-head - walk-forward CatBoost-only vs walk-forward blend over the same GWs -
+  and if CatBoost wins, switch to best-single-model-per-position (or blend only the top 2-3
+  members) instead of blending all 12.
 
 ## Done since last sign-off (2026-07-04)
 - Fixture-difficulty + fixture-window features (`fetch.py`/`features.py`) - improved MASE at every
