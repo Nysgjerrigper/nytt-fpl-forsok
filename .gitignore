@@ -7,3 +7,4 @@ fpl/models/
 fpl/predictions_latest.csv
 fpl/squad_selections/
 .ipynb_checkpoints/
+.DS_Store
