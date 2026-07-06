@@ -20,23 +20,33 @@ The system - a per-position machine-learning ensemble feeding a MILP squad optim
 thesis-era LSTM predecessor by 29% in realized backtest points over an identical 31-gameweek
 window (1,966 vs 1,526; @sec-backtests). The current state of play, most decision-relevant first:
 
-+ *CatBoost (MAE loss) is the best single forecaster at every position* (MASE 0.513-0.849),
-  displacing the NNLS-blended ensemble, which now trails its own best member - a weight-fitting
-  overfit under investigation after a same-day fix to how blend weights are estimated
-  (@sec-registry, @sec-limitations).
++ *CatBoost (MAE loss) is now the production forecaster at every position*, selected empirically:
+  a 20-gameweek walk-forward head-to-head and a static-window combination bake-off both found the
+  single CatBoost model beats the NNLS blend, equal-weight top-k, and ridge stacking everywhere
+  (weighted walk-forward MASE 0.684 vs the blend's 0.761) - the classic Clemen (1989) result that
+  estimated combination weights lose to the best single member when members are many and
+  collinear (@sec-registry).
++ *Best ranker, worst calibrated*: the new decision-aligned diagnostics show CatBoost ranks
+  players and picks captains better than any blend (top-1 capture up to 0.57 vs 0.42) while
+  under-predicting the aggregate point level by ~40-55% - a direct consequence of its MAE loss
+  fitting conditional medians of a zero-inflated target. Its level must be recalibrated before it
+  feeds the MILP, whose transfer penalties are absolute-scale (@sec-registry, @sec-limitations).
 + *The fixture-difficulty and minutes-projection features remain an unresolved trade-off*: they
   improved forecast accuracy at every position yet reduced realized backtest points 1,966 → 1,880
-  (@sec-fixmin) - the project's clearest evidence that the actual-points backtest, not forecast
-  accuracy, must be the gold-standard check.
-+ *No simple or econometric technique tested beats the ML models* (eight baselines, all reported
-  in @sec-experiments) - future gains must come from architecture, not from adding model types.
-+ A same-day code-and-concept review found and fixed four methodological errors (blend-weight
-  leakage, two live-mode staleness bugs, an evaluation asymmetry); the absolute backtest numbers
-  predate the leakage fix and will be re-baselined (@sec-limitations).
+  (@sec-fixmin). The mean-vs-median finding above is a plausible mechanism, and the diagnostics
+  now exist to test it.
++ *No simple or econometric technique tested beats the ML models* (nine baselines, @sec-experiments);
+  a further ~37 engineered features (opponent form, exponentially-weighted form, per-90 rates, xP)
+  were roughly accuracy-neutral on the validation window - reported honestly, kept pending
+  hyperparameter tuning, which remains unexplored territory.
++ A code-and-concept review found and fixed four methodological errors (blend-weight leakage, two
+  live-mode staleness bugs, an evaluation asymmetry); the absolute backtest numbers predate the
+  leakage fix and will be re-baselined (@sec-limitations).
 
-Priorities, in order: re-baseline the backtest under the fixed weight scheme; resolve the
-fixture/minutes divergence (noise-check on a second window, probabilistic-upside captaincy);
-re-examine the ensemble-vs-CatBoost gap; then a per-player model-selection pilot.
+Priorities, in order: recalibrate CatBoost's level, then re-baseline the actual-points backtest
+under the fixed weight scheme with CatBoost-only forecasts; run the new Optuna tuner at scale;
+revisit the fixture/minutes divergence with the new diagnostics; then a per-player
+model-selection pilot.
 
 = Introduction
 
@@ -68,17 +78,29 @@ plausibly reflecting the 2025-26 `defensive_contribution` scoring change.
 
 == Feature engineering <sec-features>
 
-Each player-gameweek row carries roughly 80 engineered features:
+Each player-gameweek row carries ~115 engineered features:
 
-- *Form.* Rolling 3- and 5-gameweek means, previous-gameweek values, and season-to-date expanding
-  means over ~18 per-gameweek statistics (points, minutes, xG family, BPS, ICT, price,
-  ownership). All shifted one gameweek relative to the target row, so no row's features contain
-  its own outcome.
+- *Form.* Rolling 3- and 5-gameweek means, previous-gameweek values, and two expanding-mean
+  horizons - season-to-date (resets each season) and career-to-date - over ~18 per-gameweek
+  statistics (points, minutes, xG family, BPS, ICT, price, ownership), plus exponentially-weighted
+  means (halflife 3 gameweeks) for the ten most form-sensitive statistics, motivated by the
+  earlier finding that exponential smoothing beats flat windows among simple baselines. All
+  shifted one gameweek relative to the target row, so no row's features contain its own outcome.
+- *Rates.* Per-90-minute rates (goals, assists, xG, xA over rolling minutes) separating
+  production efficiency from playing time.
+- *Opponent strength.* The upcoming opponent's rolling 6-gameweek attacking/defensive form and
+  clean-sheet rate, computed at team level and merged by opponent with the same strict
+  one-gameweek shift - a dynamic, in-season complement to the static FDR.
 - *Fixture difficulty.* The official FPL Fixture Difficulty Rating (1-5) of that gameweek's
   opponent, plus the mean over this and the next two fixtures. Deliberately _not_ shifted:
   fixture lists are published ahead of play, so these are known-ahead inputs, not leakage.
 - *Minutes projection.* Rolling 5-game start rate and 60+-minute rate, shifted like form - a
   "will he actually play?" signal.
+- *FPL's own forecast.* Shifted forms of xP, FPL's published pre-match expected points.
+
+Statistics absent for entire early seasons (the Opta xG family and starts before 2022-23) are
+kept as missing values rather than zero-filled: "not collected" is a different fact from "recorded
+zero", and the gradient-boosted models branch on missingness natively.
 
 == Forecasting models <sec-models>
 
@@ -91,14 +113,25 @@ including missing values; linear/kernel/distance models get a zero-imputer and s
 Registry members that tests find unhelpful are retained - the blend simply assigns them near-zero
 weight, preserving the comparison for later revisiting.
 
-Predictions are combined per position by non-negative least squares (weights $w >= 0$ minimizing
-$norm(sum_i w_i hat(y)_i - y)$, normalized to sum to one). Weight fitting is separated by
-purpose: _evaluation_ weights are fit on one half of the held-out test window and scored on the
-other half, so reported ensemble accuracy is a genuine holdout figure; _production and backtest_
-weights are fit on a 16-gameweek window strictly before whatever is subsequently predicted, so no
-weight ever sees a gameweek it will be used to forecast. Plain OLS is designated the _index_ -
-the simple benchmark every technique must beat, as a passive market index is the bar an active
-strategy must clear.
+How the registry members are _combined_ is itself an empirical question, answered per position by
+a combination bake-off scored on identical held-out rows: the best single member (no combination
+at all) vs. non-negative least squares (NNLS) vs. an equal-weight average of the top-$k$ members
+vs. ridge-regularised stacking - the latter two being the forecast-combination literature's
+standard remedies for the instability of estimated weights (Clemen, 1989). Whatever wins becomes
+the production combiner, so the choice tracks the evidence rather than an assumption. Weight
+fitting is separated by purpose: _evaluation_ weights are fit on one half of the held-out test
+window and scored on the other half, so reported accuracy is a genuine holdout figure;
+_production and backtest_ weights are fit on a 16-gameweek window strictly before whatever is
+subsequently predicted, so no weight ever sees a gameweek it will be used to forecast. Plain OLS
+is designated the _index_ - the simple benchmark every technique must beat, as a passive market
+index is the bar an active strategy must clear.
+
+Beyond MAE/MASE, evaluation includes decision-aligned diagnostics motivated by a structural trap:
+MAE-family metrics are minimized by conditional _medians_, while the downstream optimizer consumes
+conditional _means_ and captaincy rewards the upside tail. The diagnostics - RMSE (mean-aligned),
+bias, total calibration (ratio of predicted to actual total points), within-gameweek Spearman rank
+correlation, and top-1 capture (how often the highest-ranked player actually scored most) - make
+that gap visible instead of letting MASE alone select median-flattening models.
 
 A parallel probabilistic view - per-position LightGBM quantile regressors (p10/p50/p90, crossing
 repaired by row-wise sorting) - produces a prediction interval per player-gameweek, because two
@@ -186,8 +219,47 @@ strong showing) that MAE-aligned training objectives suit a zero-inflated target
 hauls better than squared error. PLS and XGBoost added nothing (retained as near-zero-weight
 members). Second, *the blended ensemble now trails standalone CatBoost everywhere* - with 12
 collinear members, NNLS overfits its half-window weight fit (the MID blend failed to select
-CatBoost at all). Whether the stricter production weight-fitting scheme (@sec-models) closes
-this gap is under evaluation.
+CatBoost at all).
+
+That second finding was settled by two independent tests. A 20-gameweek walk-forward head-to-head
+(GW169-226, members retrained each step, weights fit strictly before the window) had CatBoost-only
+beat the blend at every position - weighted MASE 0.684 vs 0.761 - and the combination bake-off on
+the static window agreed, with equal-weight top-$k$ second and ridge stacking last:
+
+#align(center)[
+  #table(
+    columns: 5,
+    align: (left,) + (right,) * 4,
+    table.header([*Position*], [*CatBoost only*], [*top-k (k=3)*], [*NNLS*], [*ridge*]),
+    [GK],  [*0.502*], [0.517], [0.547], [0.551],
+    [DEF], [*0.689*], [0.705], [0.782], [0.801],
+    [MID], [*0.702*], [0.720], [0.797], [0.780],
+    [FWD], [*0.788*], [0.805], [0.884], [0.887],
+  )
+]
+#align(center)[#text(size: 9pt, style: "italic")[Combination bake-off: MASE on identical held-out rows (GW168-183 eval half). The best single member beats every combination scheme - Clemen's (1989) forecast-combination result in the wild.]]
+
+Production forecasting is therefore CatBoost-per-position, chosen by the bake-off on every
+training run rather than hard-coded - if a future change makes a combination win again, production
+follows automatically.
+
+The decision-aligned diagnostics add a critical nuance: *CatBoost is the best ranker but the worst
+calibrated*. It captures the actual top scorer far better than the blend (top-1 capture 0.57 vs
+0.42 at MID; higher at every position) with near-equal rank correlation - yet its bias is -0.32 to
+-0.60 points per player-gameweek and its forecasts sum to only 44-63% of the points actually
+scored, exactly the median-flattening the MAE loss predicts on a zero-inflated target. Ranking
+quality is what transfers and captaincy consume, so this is the right model to keep - but the MILP
+also makes _absolute-scale_ decisions (a 4-point transfer penalty, chip thresholds), which
+deflated forecasts would distort. A level recalibration (scalar or isotonic, fit on the same
+pre-window holdout as the weights) is required before the backtest re-baseline
+(@sec-limitations).
+
+A further honest null result: the ~37 new features added alongside this batch (opponent form,
+EWMA form, per-90 rates, xP) left CatBoost's full-window MASE essentially unchanged
+(0.513→0.517 GK, 0.705→0.706 DEF, 0.731→0.730 MID, 0.849→0.847 FWD). They are retained - the
+underlying semantic corrections are correctness fixes regardless, and no hyperparameter tuning
+has yet been attempted that might exploit them - but they have not yet earned their keep on
+accuracy alone.
 
 == Fixture/minutes features: better forecasts, worse squads <sec-fixmin>
 
@@ -210,7 +282,15 @@ given documented simplifications - and a per-player model-selection plan (feasib
 = Methodological limitations <sec-limitations>
 
 An internal code-and-concept review (2026-07-04) found four errors; all four were fixed the same
-day. Recorded here because published numbers predate some fixes:
+day. One further limitation emerged from the diagnostics added afterwards. Recorded here because
+published numbers predate some fixes:
+
++ *Production forecast level is miscalibrated (open, fix designed).* The production CatBoost
+  models under-predict the aggregate point level by ~40-55% (a structural consequence of MAE loss
+  on a zero-inflated target), while ranking players better than any alternative. Harmless for
+  pure ranking, but the MILP's transfer penalty and chip logic operate on the absolute point
+  scale, so a level recalibration on the pre-window holdout must precede the backtest
+  re-baseline.
 
 + *Blend-weight leakage (fixed).* Backtest predictions formerly reused blend weights fit inside
   the backtest window itself. Weights are now always fit on a window strictly before whatever is

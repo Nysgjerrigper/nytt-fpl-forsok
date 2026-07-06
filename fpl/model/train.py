@@ -32,8 +32,10 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
 from fpl.model import models
-from fpl.model.ensemble import PositionEnsemble, fit_blend_weights
-from fpl.model.metrics import mae, mase, naive_lag1_scale
+from fpl.model.ensemble import PositionEnsemble, fit_weights
+from fpl.model.metrics import (
+    mae, mase, naive_lag1_scale, rmse, bias, total_calibration, spearman_by_group, top1_capture,
+)
 from fpl.model.baselines import (
     add_croston_column, add_naive_drift_column, add_ses_column, add_holt_column, add_theta_column,
     add_eb_shrinkage_column, fit_ar1, predict_ar1, fit_predict_arima_per_player,
@@ -53,8 +55,8 @@ def train_position_model(train_df, feature_cols, position, model_name="lightgbm"
     return models.fit_model(model_name, X, y)
 
 
-def fit_holdout_weights(df, feature_cols, first_holdout_gw, window=16):
-    """Fit NNLS blend weights per position on a window strictly BEFORE first_holdout_gw:
+def fit_holdout_weights(df, feature_cols, first_holdout_gw, window=16, strategy="nnls"):
+    """Fit per-position combination weights on a window strictly BEFORE first_holdout_gw:
     members are trained on GW < first_holdout_gw - window, weights are fit on their
     predictions over [first_holdout_gw - window, first_holdout_gw).
 
@@ -63,11 +65,25 @@ def fit_holdout_weights(df, feature_cols, first_holdout_gw, window=16):
     the GW153-183 test window) leaked those rows' outcomes into any backtest run over
     the same window - see RESEARCH_LOG.md 2026-07-04. Weights fit here never see any
     gameweek at or after first_holdout_gw, so a backtest starting there is clean.
+
+    `strategy` selects the combiner (per position if a dict is passed):
+      - "nnls" / "top_k" / "ridge": fit that combiner over all registry members
+        (fpl.model.ensemble.fit_weights);
+      - "single:<model>": skip the holdout fit entirely and put weight 1.0 on that one
+        member. The GW169-226 walk-forward head-to-head found "single:catboost" beats the
+        12-member NNLS blend at every position (RESEARCH_LOG.md 2026-07-05) - the classic
+        Clemen-1989 result that estimated weights lose to the best single model when members
+        are many and collinear. "single:catboost" needs no member-prediction fit, so it also
+        skips training the other 11 members here.
     """
     member_train = df[df["GW_global"] < first_holdout_gw - window]
     fit_df = df[(df["GW_global"] >= first_holdout_gw - window) & (df["GW_global"] < first_holdout_gw)]
     weights = {}
     for pos in POSITIONS:
+        strat = strategy[pos] if isinstance(strategy, dict) else strategy
+        if isinstance(strat, str) and strat.startswith("single:"):
+            weights[pos] = {strat.split(":", 1)[1]: 1.0}
+            continue
         pos_train = member_train[member_train["position"] == pos]
         pos_fit = fit_df[fit_df["position"] == pos]
         if pos_train.empty or pos_fit.empty:
@@ -77,7 +93,7 @@ def fit_holdout_weights(df, feature_cols, first_holdout_gw, window=16):
         for name in models.MODEL_NAMES:
             member = models.fit_model(name, pos_train[feature_cols], pos_train[features.TARGET_COL])
             member_preds[name] = member.predict(pos_fit[feature_cols])
-        weights[pos] = fit_blend_weights(member_preds, pos_fit[features.TARGET_COL].to_numpy())
+        weights[pos] = fit_weights(member_preds, pos_fit[features.TARGET_COL].to_numpy(), method=strat)
     return weights
 
 
@@ -130,6 +146,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
     per_model_preds_full = {pos: {} for pos in POSITIONS}
     mase_rows = {}
     index_check = {}
+    bakeoff_data = {}  # per-position raw predictions + eval masks, reused for the combination bake-off
     for pos in POSITIONS:
         pos_mask = test_df["position"] == pos
         row = [pos]
@@ -144,10 +161,14 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
         y_true_pos = test_df.loc[pos_mask, "total_points"].to_numpy()
         fit_idx = fit_mask.loc[pos_mask].to_numpy()
         eval_idx = eval_mask.loc[pos_mask].to_numpy()
-        weights = fit_blend_weights({n: p[fit_idx] for n, p in preds_by_model.items()}, y_true_pos[fit_idx])
+        weights = fit_weights({n: p[fit_idx] for n, p in preds_by_model.items()}, y_true_pos[fit_idx], method="nnls")
         blended_eval = sum(weights[n] * p[eval_idx] for n, p in preds_by_model.items())
         ensemble_mae = mae(y_true_pos[eval_idx], blended_eval)
         baseline_pos = baseline_pred.loc[pos_mask]
+        bakeoff_data[pos] = {
+            "preds": preds_by_model, "y": y_true_pos, "fit_idx": fit_idx, "eval_idx": eval_idx,
+            "gw_eval": test_df.loc[pos_mask, "GW_global"].to_numpy()[eval_idx],
+        }
 
         extra_preds = {name: test_df.loc[pos_mask, col] for name, col in extra_baseline_cols.items()}
 
@@ -214,7 +235,56 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
         print("(Not a perfectly like-for-like comparison - different train data cutoff/label noise - "
               "but same GW window and same task.)")
 
-    return ensembles, test_df
+    # --- Combination bake-off ---------------------------------------------------------------
+    # All combiners fit on the fit-half, scored on the SAME eval-half rows. The GW169-226
+    # walk-forward head-to-head found single:catboost beats the NNLS blend everywhere (the
+    # Clemen-1989 effect: estimated weights lose to the best single model when members are
+    # many and collinear); this bake-off re-checks that on the static window and picks the
+    # production combiner per position by honest held-out MASE.
+    candidates = ["single:catboost", "nnls", "top_k", "ridge"]
+    print("\n--- Combination bake-off (eval-half MASE; lower is better) ---")
+    print(f"{'Position':<8}" + "".join(f"{c:<16}" for c in candidates) + f"{'-> chosen':<20}")
+    best_strategy_per_pos = {}
+    for pos in POSITIONS:
+        d = bakeoff_data[pos]
+        y_fit, y_eval = d["y"][d["fit_idx"]], d["y"][d["eval_idx"]]
+        fit_preds = {n: p[d["fit_idx"]] for n, p in d["preds"].items()}
+        scores = {}
+        for c in candidates:
+            if c.startswith("single:"):
+                m = c.split(":", 1)[1]
+                pred_eval = d["preds"][m][d["eval_idx"]]
+            else:
+                w = fit_weights(fit_preds, y_fit, method=c)
+                pred_eval = sum(w[n] * p[d["eval_idx"]] for n, p in d["preds"].items())
+            scores[c] = mase(y_eval, pred_eval, naive_scale)
+        chosen = min(scores, key=scores.get)
+        best_strategy_per_pos[pos] = chosen
+        print(f"{pos:<8}" + "".join(f"{scores[c]:<16.4f}" for c in candidates) + f"-> {chosen}")
+
+    # --- Mean-vs-median diagnostics ---------------------------------------------------------
+    # MAE/MASE reward predicting the conditional MEDIAN, but the MILP needs conditional MEANS
+    # and captaincy needs the UPSIDE TAIL. These metrics expose that gap: RMSE (mean-optimal),
+    # bias/calibration (aggregate level), and top1_capture (did our #1 pick actually haul).
+    print("\n--- Mean-vs-median diagnostics (eval half): NNLS blend vs catboost-only ---")
+    print(f"{'Position':<8}{'method':<10}{'rmse':<9}{'bias':<9}{'calib':<9}{'spearman':<10}{'top1_cap':<9}")
+    for pos in POSITIONS:
+        d = bakeoff_data[pos]
+        y_eval = d["y"][d["eval_idx"]]
+        fit_preds = {n: p[d["fit_idx"]] for n, p in d["preds"].items()}
+        w = fit_weights(fit_preds, d["y"][d["fit_idx"]], method="nnls")
+        variants = {
+            "nnls": sum(w[n] * p[d["eval_idx"]] for n, p in d["preds"].items()),
+            "catboost": d["preds"]["catboost"][d["eval_idx"]],
+        }
+        for name, pred in variants.items():
+            diag = pd.DataFrame({"gw": d["gw_eval"], "y": y_eval, "p": pred})
+            print(f"{pos:<8}{name:<10}"
+                  f"{rmse(y_eval, pred):<9.3f}{bias(y_eval, pred):<9.3f}{total_calibration(y_eval, pred):<9.3f}"
+                  f"{spearman_by_group(y_eval, pred, d['gw_eval']):<10.3f}"
+                  f"{top1_capture(diag, 'gw', 'y', 'p'):<9.3f}")
+
+    return ensembles, test_df, best_strategy_per_pos
 
 
 def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lightgbm"):
@@ -252,16 +322,17 @@ def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lig
 
 
 def train_final_ensembles(df, feature_cols, blend_weights):
-    """Train every registered model type on ALL available data per position,
-    and save as a PositionEnsemble using blend weights estimated during
-    evaluate_static_split (there's no real holdout left once we train on
-    everything, so we reuse the backtested weights for production)."""
+    """Train the model types that carry non-zero weight per position on ALL available
+    data, and save as a PositionEnsemble using the production weights. Only members with
+    weight > 0 are trained - under a single:<model> strategy that's just one model, so we
+    don't waste time fitting eleven members the blend ignores."""
     config.MODELS_DIR.mkdir(parents=True, exist_ok=True)
     for pos in POSITIONS:
-        members = {name: train_position_model(df, feature_cols, pos, name) for name in models.MODEL_NAMES}
+        used = [name for name, w in blend_weights[pos].items() if w > 1e-6]
+        members = {name: train_position_model(df, feature_cols, pos, name) for name in used}
         ensemble = PositionEnsemble(members, blend_weights[pos])
         ensemble.save(config.MODELS_DIR / pos)
-        print(f"Saved final {pos} ensemble to {config.MODELS_DIR / pos}.*")
+        print(f"Saved final {pos} ensemble to {config.MODELS_DIR / pos}.* ({'+'.join(used)})")
 
 
 if __name__ == "__main__":
@@ -269,16 +340,19 @@ if __name__ == "__main__":
     feature_cols = features.feature_columns(df)
     print(f"Loaded {len(df)} rows, {len(feature_cols)} features.")
 
-    ensembles, _ = evaluate_static_split(df, feature_cols)
+    ensembles, _, best_strategy = evaluate_static_split(df, feature_cols)
     walk_forward_evaluate(df, feature_cols, start_gw=176, step=4, model_name="lightgbm")
 
-    # Production weights: fit on the last 16 played gameweeks as a holdout (members trained
-    # on everything before that window), NOT on evaluate_static_split's test-window weights -
-    # those exist only to score the ensemble honestly, and reusing them for prediction was
-    # the blend-weight leakage documented in RESEARCH_LOG.md 2026-07-04.
+    # Production weights: the bake-off's winning combiner per position, fit on the last 16
+    # played gameweeks as a holdout (members trained on everything before that window), NOT
+    # on evaluate_static_split's test-window weights - those exist only to score the ensemble
+    # honestly, and reusing them for prediction was the blend-weight leakage documented in
+    # RESEARCH_LOG.md 2026-07-04.
     max_gw = int(df["GW_global"].max())
-    print(f"\nFitting production blend weights on holdout GW{max_gw - 15}-{max_gw}...")
-    production_weights = fit_holdout_weights(df, feature_cols, first_holdout_gw=max_gw + 1)
+    print(f"\nFitting production weights on holdout GW{max_gw - 15}-{max_gw} "
+          f"(strategy per position: {best_strategy})...")
+    production_weights = fit_holdout_weights(df, feature_cols, first_holdout_gw=max_gw + 1,
+                                             strategy=best_strategy)
     for pos in POSITIONS:
         picked = ", ".join(f"{n}={w:.2f}" for n, w in production_weights[pos].items() if w > 0.01)
         print(f"    production weights ({pos}): {picked}")

@@ -25,20 +25,27 @@ from fpl.model.ensemble import PositionEnsemble
 from fpl.model.train import POSITIONS, fit_holdout_weights
 
 
-def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16):
+def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16,
+                             weight_strategy="nnls"):
     """Predict every GW in [start_gw, end_gw] using only data from earlier GWs.
 
-    Blend weights are fit ONCE, on the `weight_window` gameweeks strictly before
+    Combination weights are fit ONCE, on the `weight_window` gameweeks strictly before
     start_gw (members trained on data before that window) - so no weight ever sees
     a gameweek this function goes on to predict. The old scheme reused weights
     saved by train.py, which were fit INSIDE the GW153-183 test window and leaked
     into any backtest over it (RESEARCH_LOG.md 2026-07-04). Zero-weight members
     are skipped at every retrain - no point fitting a model the blend ignores.
+
+    `weight_strategy` passes through to train.fit_holdout_weights: "nnls"/"top_k"/"ridge",
+    or "single:<model>" (e.g. "single:catboost", which the GW169-226 head-to-head found
+    beats every blend - see RESEARCH_LOG.md 2026-07-05).
     """
     rows = []
     models_cache = {}
-    print(f"Fitting blend weights on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
-    weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw, window=weight_window)
+    print(f"Fitting combination weights (strategy={weight_strategy}) "
+          f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
+    weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
+                                         window=weight_window, strategy=weight_strategy)
     for pos in POSITIONS:
         picked = ", ".join(f"{n}={w:.2f}" for n, w in weights_by_pos[pos].items() if w > 0.01)
         print(f"    weights ({pos}): {picked}")
@@ -86,6 +93,9 @@ if __name__ == "__main__":
     parser.add_argument("--end-gw", type=int, required=True)
     parser.add_argument("--retrain-every", type=int, default=4,
                          help="Retrain models every N gameweeks instead of every single GW (much faster).")
+    parser.add_argument("--weight-strategy", type=str, default="nnls",
+                         help="Combination strategy: nnls | top_k | ridge | single:<model> "
+                              "(e.g. single:catboost).")
     parser.add_argument("--output", type=str, default=str(config.PREDICTIONS_PATH))
     args = parser.parse_args()
 
@@ -93,7 +103,8 @@ if __name__ == "__main__":
     df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(df)
 
-    preds = walk_forward_predictions(df, feature_cols, args.start_gw, args.end_gw, args.retrain_every)
+    preds = walk_forward_predictions(df, feature_cols, args.start_gw, args.end_gw, args.retrain_every,
+                                     weight_strategy=args.weight_strategy)
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     preds.to_csv(args.output, index=False)
     print(f"Saved {len(preds)} rows to {args.output}")

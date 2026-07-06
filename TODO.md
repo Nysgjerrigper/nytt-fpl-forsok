@@ -42,18 +42,29 @@ Still open from the review:
   a name merge into one id (the Ben Davies patch exists for exactly this). A players_raw.csv
   id-based join would be sturdier if ever extending pre-2020-21.
 
-## New from the expanded-registry run (2026-07-04)
+## New from the Tier-1 batch (2026-07-06)
 
-- **[HIGH] The NNLS ensemble no longer beats its best member.** With 12 registry models, CatBoost
-  alone (MASE 0.513/0.705/0.731/0.849) beats the blended ensemble (0.534/0.747/0.806/0.853) at
-  every position on the static split - and the MID blend didn't even select CatBoost. Likely
-  NNLS overfitting the half-window weight-fit with 12 collinear members. Post-fix re-run update:
-  production weights fit on the honest GW213-228 holdout ALSO don't weight CatBoost heavily
-  (0 at GK/FWD, ~0.2 at DEF/MID; tree ensembles dominate) - so the weight instability isn't just
-  the leaky window, NNLS weights genuinely swing hard between adjacent windows. Next step: an
-  honest head-to-head - walk-forward CatBoost-only vs walk-forward blend over the same GWs -
-  and if CatBoost wins, switch to best-single-model-per-position (or blend only the top 2-3
-  members) instead of blending all 12.
+- **[HIGH] Recalibrate CatBoost's level before the MILP backtest re-baseline.** The bake-off made
+  CatBoost-only the production forecaster (best ranker: top1_capture 0.35-0.57, beats every blend),
+  but its MAE loss median-flattens the LEVEL: bias -0.32..-0.60, total_calibration 0.44-0.63 - its
+  forecasts sum to roughly half the points actually scored. The MILP's -4 transfer penalty and chip
+  thresholds are absolute-scale, so deflated forecasts will suppress transfers/chips. Fit a simple
+  level recalibration (scalar multiplier, or isotonic for shape) on the pre-window holdout, THEN
+  run the pending backtest re-baseline (`fpl.model.predict --weight-strategy single:catboost` ->
+  MILP over GW153-183) and compare honestly against the (inflated, old-scheme) 1966/1880.
+- **[MEDIUM] Run the Optuna tuner at scale.** `fpl/model/tuning.py` exists (time-ordered CV) but
+  hasn't been run with real trial budgets. Tune catboost per position first (it's the production
+  model), then lightgbm/xgboost; save via save_best_params and wire tuned params into models.py
+  factories (needs position-aware factories - see tuning.py integration notes).
+- **[LOW] New features were a wash on the static window** (CatBoost MASE ~unchanged, see
+  RESEARCH_LOG 2026-07-06). Revisit after tuning - untuned trees may simply not be exploiting the
+  new opponent/EWMA columns yet. If still a wash, consider pruning to keep the feature set lean.
+
+## RESOLVED (2026-07-06): NNLS-ensemble-vs-CatBoost question
+The walk-forward head-to-head (GW169-226) and the static-window bake-off both found
+single:catboost beats NNLS/top-k/ridge at every position. Production is now CatBoost-only per
+position, selected empirically by the bake-off in `fpl.model.train` each run (so if a future
+feature/tuning change makes a blend win again, production follows automatically).
 
 ## Done since last sign-off (2026-07-04)
 - Fixture-difficulty + fixture-window features (`fetch.py`/`features.py`) - improved MASE at every

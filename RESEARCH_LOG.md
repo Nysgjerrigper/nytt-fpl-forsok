@@ -5,6 +5,68 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-06 - Tier-1 upgrade batch: new features, combination bake-off, mean-vs-median diagnostics
+
+One coordinated batch implementing the research review's Tier-1 recommendations. New code:
+~37 new features in `fpl/features.py` (EWMA form halflife-3, per-90 rates, opponent recent-form
+strength `opp_*_roll6`, shifted xP, plus a semantic split of the old mislabeled `_season_avg` -
+which was actually a CAREER mean - into honest `_season_avg` (resets per season) and `_career_avg`;
+78 -> 115 columns); season-aware NaN handling (xG family / `starts` stay NaN pre-2022-23 instead of
+being 0-filled as fake zeroes); decision-aligned metrics (`rmse`, `bias`, `total_calibration`,
+`spearman_by_group`, `top1_capture`); robust combiners (equal-weight top-k, ridge stacking) +
+`fit_weights` dispatcher; a combination bake-off + diagnostics table in `fpl.model.train`; Optuna
+tuning module (`fpl/model/tuning.py`, time-ordered CV, not yet run at scale); experiment logger
+(`fpl/experiment.py` -> `experiments/results.csv`); GitHub Actions CI. All adversarially reviewed
+for leakage (opponent-merge verified shift-strict; new-feature/target correlations sane at
++-0.03-0.5). Results on the standard GW153-183 split:
+
+**1. Combination bake-off: `single:catboost` wins at ALL four positions** (eval-half MASE
+0.502/0.689/0.702/0.788 vs NNLS 0.547/0.782/0.797/0.884; equal-weight top-k is second everywhere,
+ridge worst). Production ensembles are now CatBoost-only per position, chosen empirically by the
+bake-off rather than assumed. Confirms the GW169-226 head-to-head (next entry) on a second window.
+
+**2. The new features are roughly a WASH for CatBoost on this window** - honest negative-ish
+result: full-window CatBoost MASE moved 0.513->0.517 (GK), 0.705->0.706 (DEF), 0.731->0.730 (MID),
+0.849->0.847 (FWD). The feature expansion + semantic fixes neither helped nor hurt headline
+accuracy here. They're kept: the semantic fixes are correctness issues regardless, the opponent/
+EWMA features may pay off after hyperparameter tuning (still untuned), and nothing regressed.
+
+**3. Mean-vs-median diagnostics confirm the suspected trap, with a twist.** CatBoost (MAE loss)
+is heavily level-miscalibrated: bias -0.32 to -0.60, total_calibration 0.44-0.63 - its forecasts
+sum to only ~half the points actually scored (median-flattening, exactly as predicted). The NNLS
+blend is far better calibrated (0.80-0.99). BUT CatBoost still RANKS better where it matters:
+higher top1_capture (captaincy quality) at every position - MID 0.565 vs 0.420 is a huge gap -
+with near-equal Spearman. So: best ranker = worst calibrated. **Implication for the MILP: a
+uniformly deflated forecast ranks players fine, but the MILP's -4-point transfer penalty and chip
+logic are ABSOLUTE-scale - deflated predictions make transfers look relatively more expensive and
+will distort those decisions. Before the backtest re-baseline, CatBoost's level should be
+recalibrated (scalar or isotonic fit on the holdout window) - see TODO.**
+
+## 2026-07-05 - Walk-forward head-to-head: CatBoost-only beats the 12-member blend everywhere
+
+The decisive follow-up to the entry below. Honest walk-forward over GW169-226 (20 gameweeks,
+step 3, members retrained each step, blend weights fit ONCE on GW153-168 - strictly before the
+window, no leakage). Pooled MASE:
+
+| Position | catboost-only | linear_svr-only | 12-member NNLS blend |
+|---|---|---|---|
+| GK  | **0.438** | 0.439 | 0.462 |
+| DEF | **0.770** | 0.899 | 0.838 |
+| MID | **0.677** | 0.690 | 0.780 |
+| FWD | **0.701** | 0.749 | 0.753 |
+| weighted avg | **0.684** | 0.738 | 0.761 |
+
+**CatBoost-only wins at every position, ~10% ahead of the blend on the weighted average** - even
+though the blend WEIGHTS CatBoost heavily at three positions, diluting it with noisier members
+costs accuracy. This is the textbook Clemen (1989) forecast-combination result: with many
+collinear members and a short weight-fitting window, weight-estimation error swamps the
+theoretical gain from combining. Consequences implemented same-day: (a) `single:<model>` strategy
+in `train.fit_holdout_weights` + `--weight-strategy` on `fpl.model.predict`; (b) a combination
+bake-off in `evaluate_static_split` (single:catboost vs NNLS vs equal-weight top-k vs ridge
+stacking, all on identical held-out rows) that picks the production combiner per position; (c)
+top-k / ridge combiners added to `fpl/model/ensemble.py` as the literature's standard remedies,
+so "simple average of a few good models" gets a fair shot against both extremes.
+
 ## 2026-07-04 - Expanded model registry: CatBoost is the new best single model; ensemble now trails it
 
 Added six techniques in one push (user request to "try everything"): LinearSVR, capped-sample RBF

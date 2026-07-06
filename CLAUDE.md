@@ -56,29 +56,48 @@ list or a hardcoded "last gameweek" constant - that was the recurring maintenanc
 
 **Data flow:** `fpl/data/fetch.py` (pulls + cleans vaastav's FPL GitHub data, resolves opponent-team IDs via
 each season's `teams.csv`, merges official fixture-difficulty ratings from `fixtures.csv`, applies name/team
-corrections in `fpl/config.py`) -> `Datasett/master_dataset.csv` -> `fpl/features.py` (adds shifted
-rolling-window and season-to-date form features, minutes-projection "nailedness" features, and fixture-difficulty
-features per player, so no row ever sees its own outcome - fixture features are known-ahead, so not shifted)
--> `fpl/model/` (trains per-position models on `features.feature_columns(df)`) -> predictions CSV ->
-`fpl/milp/optimize.py` (turns predicted points into an actual squad/transfer/chip decision).
-`fpl/run_week.py` chains all of this for a live weekly run, additionally pulling fixtures/current-squad state
-from the official FPL API (`fantasy.premierleague.com/api/...`), which vaastav's historical dumps don't have.
+corrections in `fpl/config.py`) -> `Datasett/master_dataset.csv` -> `fpl/features.py` (~115 features per row:
+shifted rolling-window form, TWO expanding-mean horizons per stat - `_season_avg` resets each season,
+`_career_avg` doesn't; the pre-2026-07-06 `_season_avg` was actually the career mean under a wrong name -
+plus EWMA form (halflife 3), per-90 rates, minutes-projection "nailedness", opponent recent-form strength
+(`opp_*_roll6`, merged by opponent with a strict one-GW shift), shifted xP, and fixture-difficulty features.
+Everything player-derived is shifted so no row sees its own outcome; fixture features are known-ahead, so not
+shifted. Stats absent for a whole season - the Opta xG family and `starts` before 2022-23 - stay NaN rather
+than being 0-filled: "not collected" is not "zero") -> `fpl/model/` (trains per-position models on
+`features.feature_columns(df)`) -> predictions CSV -> `fpl/milp/optimize.py` (turns predicted points into an
+actual squad/transfer/chip decision). `fpl/run_week.py` chains all of this for a live weekly run, additionally
+pulling fixtures/current-squad state from the official FPL API (`fantasy.premierleague.com/api/...`), which
+vaastav's historical dumps don't have.
 
 **Modeling:** Four independent models per position (GK/DEF/MID/FWD) rather than one global model - position
-determines what stats matter, and separating them avoids one position's scale dominating. Per position, every
-model type registered in `fpl/model/models.py::FACTORIES` (LightGBM, XGBoost, CatBoost, OLS, Ridge, ElasticNet,
-PLS, Random Forest, Extra Trees, kNN, LinearSVR, a capped-sample RBF SVR) is trained and blended into a `PositionEnsemble`
-(`fpl/model/ensemble.py`) via non-negative least squares weights - including model types a preliminary check
-found don't help (XGBoost, RBF SVR): they're kept as real (near-zero-weighted) blend candidates rather than
-deleted, per this project's practice of reporting negative results honestly instead of hiding them. Those blend
-weights are fit on one half of a held-out test window and evaluated on the other half
-(`fpl/model/train.py::evaluate_static_split`) specifically so the reported ensemble accuracy isn't inflated by
-fitting weights and evaluating them on the same rows. Saved ensembles live in `fpl/models/<POSITION>.*`
-(gitignored - regenerate with `python -m fpl.model.train`, don't expect them to exist in a fresh clone).
+determines what stats matter, and separating them avoids one position's scale dominating. The registry
+(`fpl/model/models.py::FACTORIES`: LightGBM, XGBoost, CatBoost, OLS, Ridge, ElasticNet, PLS, Random Forest,
+Extra Trees, kNN, LinearSVR, a capped-sample RBF SVR) keeps every model type ever tried - including ones that
+don't help - per this project's practice of reporting negative results rather than hiding them. HOW the
+registry members are combined is chosen empirically per position by a combination bake-off in
+`fpl/model/train.py::evaluate_static_split`: `single:catboost` (best single model, no blending) vs NNLS vs
+equal-weight top-k vs ridge stacking (`fpl/model/ensemble.py::fit_weights`), all scored on the same held-out
+rows. This exists because a GW169-226 walk-forward head-to-head found CatBoost-only BEATS the 12-member NNLS
+blend at every position (weighted MASE 0.684 vs 0.761) - the classic Clemen-1989 result that estimated
+combination weights lose to the best single model when members are many and collinear. Production/backtest
+weights are always fit via `train.fit_holdout_weights` on a window strictly BEFORE whatever gets predicted
+(never reuse evaluation-window weights - that was a real leakage bug, see RESEARCH_LOG.md 2026-07-04). Saved
+ensembles live in `fpl/models/<POSITION>.*` (gitignored - regenerate with `python -m fpl.model.train`).
 
-Tree models (LightGBM, XGBoost) get raw features including NaNs (a player's first few gameweeks have no rolling
-history yet) since both handle missing values natively. Everything else in `fpl/model/models.py` gets wrapped in a
-`SimpleImputer` (+`StandardScaler` for linear/distance models) because sklearn estimators can't take NaN input.
+Tree models (LightGBM, XGBoost, CatBoost) get raw features including NaNs (a player's first few gameweeks have
+no rolling history yet; pre-2022-23 rows have no xG family at all) since they handle missing values natively.
+Everything else in `fpl/model/models.py` gets wrapped in a `SimpleImputer` (+`StandardScaler` for
+linear/distance models) because sklearn estimators can't take NaN input.
+
+**Metrics** (`fpl/model/metrics.py`): MAE/MASE remain the headline accuracy numbers, but note the mean-vs-median
+trap: MAE/MASE are minimized by predicting the conditional MEDIAN, while the MILP consumes conditional MEANS
+and captaincy needs the upside tail - so a model can improve MASE yet build worse squads (observed for real:
+see the fixture/minutes 1966->1880 regression in RESEARCH_LOG.md). The diagnostics that expose this - `rmse`
+(mean-aligned), `bias`, `total_calibration`, `spearman_by_group` (ranking quality), `top1_capture` (captaincy
+quality) - are printed by `fpl.model.train` alongside the MASE table; don't judge a modeling change by MASE
+alone. `fpl/model/tuning.py` (Optuna, time-ordered expanding-window CV) tunes the GBM hyperparameters;
+`fpl/experiment.py` appends run results to `experiments/results.csv` so experiments stay reproducible; CI
+(`.github/workflows/ci.yml`) runs pytest on every push.
 
 **Probabilistic forecasting:** `fpl/model/probabilistic.py` is a separate, parallel view - per-position LightGBM
 quantile regression (p10/p50/p90) giving a prediction interval per player-gameweek instead of a single number,

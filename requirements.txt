@@ -10,6 +10,7 @@ joblib>=1.3
 requests>=2.31
 pytest>=7
 statsmodels>=0.14
+optuna>=4.0  # only needed for fpl.model.tuning (imported lazily there)
 matplotlib>=3.8
 seaborn>=0.13
 ipykernel>=6.29
