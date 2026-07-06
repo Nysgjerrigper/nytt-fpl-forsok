@@ -52,10 +52,15 @@ Still open from the review:
   by weight leakage. `--calibrate-level` kept in predict.py, off by default, as a documented
   negative result. Judge future changes on realized points, never MASE alone (demonstrated twice
   now).
-- **[MEDIUM] Run the Optuna tuner at scale.** `fpl/model/tuning.py` exists (time-ordered CV) but
-  hasn't been run with real trial budgets. Tune catboost per position first (it's the production
-  model), then lightgbm/xgboost; save via save_best_params and wire tuned params into models.py
-  factories (needs position-aware factories - see tuning.py integration notes).
+- **[DONE 2026-07-06 - big win] Optuna tuning for CatBoost: 2107 realized points (+251 vs
+  untuned, new record; see RESEARCH_LOG).** Params in fpl/models/tuned_params_*_catboost.json,
+  auto-loaded by the position-aware fit_model. Follow-ups now open:
+  - **[HIGH] Re-run `python -m fpl.model.train`** so production ensembles + the bake-off use the
+    tuned params (saved models predate them).
+  - **[MEDIUM] Tune lightgbm/xgboost too** so the registry ranking is default-luck-free, and
+    re-check the bake-off (a tuned blend might beat tuned CatBoost).
+  - **[LOW] Stability: more trials (50-100) and a second seed/window** before trusting 2107 as
+    THE number rather than a very good draw.
 - **[LOW] New features were a wash on the static window** (CatBoost MASE ~unchanged, see
   RESEARCH_LOG 2026-07-06). Revisit after tuning - untuned trees may simply not be exploiting the
   new opponent/EWMA columns yet. If still a wash, consider pruning to keep the feature set lean.

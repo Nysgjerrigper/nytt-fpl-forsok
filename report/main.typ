@@ -21,10 +21,15 @@ its thesis-era LSTM predecessor by roughly 22% in realized backtest points over 
 31-gameweek window (~1,870 vs 1,526 under honest evaluation discipline; @sec-backtests). The
 current state of play, most decision-relevant first:
 
-+ *The honest re-baseline lowered the headline.* Re-running the backtest with combination weights
-  fit strictly before the window shows the long-quoted 1,966 was flattered by weight leakage: the
-  clean figures are 1,869 (NNLS blend) and 1,856 (CatBoost-only) - a statistical tie
-  (@sec-backtests). *~1,870 is the number every future change must beat.*
++ *Hyperparameter tuning delivered the largest single gain in the project's history*: 30 Optuna
+  trials per position (time-ordered CV, tuned strictly on pre-backtest data) lifted the honest
+  backtest from 1,856 to *2,107 realized points* (+13.5%), past even the old leakage-inflated
+  headline. The hand-set defaults were learning too fast and too deep (@sec-backtests).
++ *The honest re-baseline first lowered the headline.* Re-running the backtest with combination
+  weights fit strictly before the window showed the long-quoted 1,966 was flattered by weight
+  leakage: the clean untuned figures are 1,869 (NNLS blend) and 1,856 (CatBoost-only) - a
+  statistical tie (@sec-backtests). With tuning, *2,107 is the number every future change must
+  beat*.
 + *CatBoost (MAE loss) is the production forecaster at every position*, selected empirically: a
   20-gameweek walk-forward head-to-head and a static-window combination bake-off both found it
   beats the NNLS blend, equal-weight top-k, and ridge stacking on forecast accuracy everywhere
@@ -45,10 +50,10 @@ current state of play, most decision-relevant first:
   live-mode staleness bugs, an evaluation asymmetry); the re-baseline above closes out the last
   of its follow-ups (@sec-limitations).
 
-Priorities, in order: run the Optuna tuner at scale (the registry is still untuned - every
-ranking is partly default-parameter luck); revisit the fixture/minutes divergence with the new
-diagnostics; probabilistic-upside captaincy; then the larger architectural bets (component
-decomposition of the target, a global sequence model).
+Priorities, in order: retrain production on the tuned parameters and tune the other GBMs so the
+registry ranking is default-luck-free (a tuned blend deserves a re-match); stability-check the
+2,107 (more trials, second window); probabilistic-upside captaincy; then the larger
+architectural bets (component decomposition of the target, a global sequence model).
 
 = Introduction
 
@@ -187,18 +192,23 @@ feature set:
     [Ensemble + MILP, 6-season history], [1966],
     [+ fixture/minutes features], [1880 #footnote[Regression despite improved forecast accuracy (@sec-fixmin) - the first demonstration that MASE gains need not translate into points.]],
     table.hline(stroke: 0.5pt),
-    [NNLS blend, honest weights, current features], [*1869*],
-    [CatBoost-only, honest weights, current features], [*1856*],
+    [NNLS blend, honest weights, current features], [1869],
+    [CatBoost-only, honest weights, current features], [1856],
     [CatBoost + level recalibration], [1800 #footnote[A theory-driven fix that failed honestly: rescaling each position's deflated forecast level reshuffled cross-position budget allocation and cost 56 points (@sec-registry).]],
+    [CatBoost-only, Optuna-tuned hyperparameters], [*2107*],
   )
 ]
 
-Three lessons. Extending history from four to six seasons was an unambiguous win (1,900 → 1,966
+Four lessons. Extending history from four to six seasons was an unambiguous win (1,900 → 1,966
 like-for-like). The honest re-baseline shows the 1,966 headline carried roughly 100 points of
-weight-leakage-and-feature-drift inflation; *~1,870 is the clean baseline going forward*. And the
+weight-leakage-and-feature-drift inflation; ~1,870 was the clean untuned baseline. The
 blend-vs-CatBoost gap (13 points, 0.7%, one window) is noise: the accuracy winner and the
 calibration winner build equally good squads, so CatBoost is kept for simplicity and cost, not
-superiority.
+superiority. And *hyperparameter tuning was worth more than every other intervention combined*:
+30 Optuna trials per position (time-ordered CV, tuned strictly on pre-window data) lifted
+realized points 1,856 → 2,107 (+13.5%) - the tuned parameters uniformly prefer slower learning
+rates (~0.013 vs the hand-set 0.05) and shallower trees, i.e. the defaults were overfitting.
+*2,107 is the new number to beat*, with the standing caveats: one window, one seed, 30 trials.
 
 == Forecasting-technique experiments <sec-experiments>
 

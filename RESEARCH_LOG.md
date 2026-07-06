@@ -5,6 +5,34 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-06 - Optuna tuning: +251 realized points. Tuned CatBoost scores 2107, the new record
+
+The "most embarrassing gap" (untuned registry) is closed for the production model, and it was
+worth more than every other intervention this week combined. Setup: 30 Optuna trials per
+position for CatBoost, expanding-window time-ordered CV, **tuned on GW<153 only** so the
+hyperparameters can't absorb anything from the backtest window; tuned params saved to
+fpl/models/tuned_params_<POS>_catboost.json and picked up automatically by the position-aware
+fit_model. Then the identical honest GW153-183 / horizon-3 backtest:
+
+| Configuration | Realized points |
+|---|---|
+| honest CatBoost, hand-set defaults | 1856 |
+| honest NNLS blend | 1869 |
+| old leaky headline | 1966 |
+| **honest CatBoost, tuned** | **2107** |
+
++13.5% over untuned, +141 past even the leaky old number. The tuned params tell a consistent
+story at every position: much LOWER learning rate (~0.013 vs default 0.05), shallower trees
+(depth 4-6), similar-or-more iterations - i.e. the defaults were learning too fast and too
+deep, overfitting recent noise. CV MASE also improved (e.g. FWD best-trial 0.677 vs ~0.85
+untuned full-window - different eval windows, so indicative not exact).
+
+Caveats logged honestly: one window, one seed, 30 trials; and for once accuracy and realized
+points moved TOGETHER - no mean-vs-median paradox this time. Follow-ups: re-run
+`python -m fpl.model.train` so the saved production ensembles pick up the tuned params (the
+bake-off will also re-verify single:catboost vs blends under tuned params); consider tuning
+lightgbm/xgboost so the registry comparison is fair; consider more trials/seeds for stability.
+
 ## 2026-07-06 - Backtest re-baseline: honest weights erase most of the old lead; calibration HURTS; CatBoost ties NNLS on points
 
 The long-pending re-baseline after the blend-weight leakage fix, all on the standard
