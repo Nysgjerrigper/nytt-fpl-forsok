@@ -52,7 +52,7 @@ def load_features():
 def train_position_model(train_df, feature_cols, position, model_name="lightgbm"):
     pos_df = train_df[train_df["position"] == position]
     X, y = pos_df[feature_cols], pos_df[features.TARGET_COL]
-    return models.fit_model(model_name, X, y)
+    return models.fit_model(model_name, X, y, position=position)
 
 
 def fit_holdout_weights(df, feature_cols, first_holdout_gw, window=16, strategy="nnls"):
@@ -91,7 +91,7 @@ def fit_holdout_weights(df, feature_cols, first_holdout_gw, window=16, strategy=
             continue
         member_preds = {}
         for name in models.MODEL_NAMES:
-            member = models.fit_model(name, pos_train[feature_cols], pos_train[features.TARGET_COL])
+            member = models.fit_model(name, pos_train[feature_cols], pos_train[features.TARGET_COL], position=pos)
             member_preds[name] = member.predict(pos_fit[feature_cols])
         weights[pos] = fit_weights(member_preds, pos_fit[features.TARGET_COL].to_numpy(), method=strat)
     return weights
@@ -124,7 +124,7 @@ def fit_level_calibration(df, feature_cols, first_holdout_gw, weights_by_pos, wi
         for name, w in weights.items():
             if w <= 1e-6:
                 continue
-            member = models.fit_model(name, pos_train[feature_cols], pos_train[features.TARGET_COL])
+            member = models.fit_model(name, pos_train[feature_cols], pos_train[features.TARGET_COL], position=pos)
             blended += w * member.predict(pos_fit[feature_cols])
         pred_total = blended.sum()
         actual_total = pos_fit[features.TARGET_COL].sum()

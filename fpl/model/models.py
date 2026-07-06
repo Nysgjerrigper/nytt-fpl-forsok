@@ -24,6 +24,10 @@ them ~0 blend weight if they don't pull their weight, so leaving them in
 costs nothing at inference time and preserves the comparison for anyone
 revisiting the choice later.
 """
+import json
+import sys
+from pathlib import Path
+
 import lightgbm as lgb
 import numpy as np
 import xgboost as xgb
@@ -37,6 +41,9 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR, LinearSVR
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+from fpl import config
 
 LGB_PARAMS = dict(
     objective="regression",
@@ -168,8 +175,26 @@ FACTORIES = {
 
 MODEL_NAMES = list(FACTORIES.keys())
 
+# GBMs that fpl.model.tuning knows how to tune; only these ever get per-position params.
+_TUNABLE = {"lightgbm": lgb.LGBMRegressor, "xgboost": xgb.XGBRegressor, "catboost": CatBoostRegressor}
 
-def fit_model(name, X, y):
-    model = FACTORIES[name]()
+
+def _tuned_params(name, position):
+    """Per-(position, model) params saved by fpl.model.tuning, or None to use the
+    hand-set defaults above. Loaded from config.MODELS_DIR (gitignored artifacts):
+    the tuner writing a file is what activates it - delete the file to revert to
+    defaults. Position-aware because the pipeline trains one model per position and
+    there is no reason GK and MID should share a depth/learning-rate."""
+    if position is None or name not in _TUNABLE:
+        return None
+    path = config.MODELS_DIR / f"tuned_params_{position}_{name}.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
+def fit_model(name, X, y, position=None):
+    params = _tuned_params(name, position)
+    model = _TUNABLE[name](**params) if params is not None else FACTORIES[name]()
     model.fit(X, y)
     return model

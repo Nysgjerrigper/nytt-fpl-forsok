@@ -77,7 +77,7 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
                     continue
                 weights = weights_by_pos[pos]
                 X, y = pos_train[feature_cols], pos_train[features.TARGET_COL]
-                members = {name: model_registry.fit_model(name, X, y)
+                members = {name: model_registry.fit_model(name, X, y, position=pos)
                            for name, wgt in weights.items() if wgt > 1e-6}
                 models_cache[pos] = PositionEnsemble(members, weights)
             last_trained_gw = gw
