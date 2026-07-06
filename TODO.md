@@ -44,14 +44,14 @@ Still open from the review:
 
 ## New from the Tier-1 batch (2026-07-06)
 
-- **[HIGH] Recalibrate CatBoost's level before the MILP backtest re-baseline.** The bake-off made
-  CatBoost-only the production forecaster (best ranker: top1_capture 0.35-0.57, beats every blend),
-  but its MAE loss median-flattens the LEVEL: bias -0.32..-0.60, total_calibration 0.44-0.63 - its
-  forecasts sum to roughly half the points actually scored. The MILP's -4 transfer penalty and chip
-  thresholds are absolute-scale, so deflated forecasts will suppress transfers/chips. Fit a simple
-  level recalibration (scalar multiplier, or isotonic for shape) on the pre-window holdout, THEN
-  run the pending backtest re-baseline (`fpl.model.predict --weight-strategy single:catboost` ->
-  MILP over GW153-183) and compare honestly against the (inflated, old-scheme) 1966/1880.
+- **[RESOLVED 2026-07-06, negative + re-baseline done] Level recalibration & backtest re-baseline.**
+  Both completed same day - see RESEARCH_LOG 2026-07-06 for the full matrix. Headlines: honest
+  NNLS 1869, honest CatBoost 1856 (statistical tie; CatBoost kept for simplicity/cost), level
+  calibration HURT (1800; cross-position budget reallocation, not the predicted transfer
+  suppression). **The real current baseline is ~1870, not 1966** - the old headline was flattered
+  by weight leakage. `--calibrate-level` kept in predict.py, off by default, as a documented
+  negative result. Judge future changes on realized points, never MASE alone (demonstrated twice
+  now).
 - **[MEDIUM] Run the Optuna tuner at scale.** `fpl/model/tuning.py` exists (time-ordered CV) but
   hasn't been run with real trial budgets. Tune catboost per position first (it's the production
   model), then lightgbm/xgboost; save via save_best_params and wire tuned params into models.py

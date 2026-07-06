@@ -5,6 +5,82 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-06 - Backtest re-baseline: honest weights erase most of the old lead; calibration HURTS; CatBoost ties NNLS on points
+
+The long-pending re-baseline after the blend-weight leakage fix, all on the standard
+GW153-183 / horizon-3 window, all with the current 115-feature set unless noted:
+
+| Configuration | Realized points |
+|---|---|
+| leaky NNLS, pre-fixture/minutes features (old headline) | 1966 |
+| leaky NNLS + fixture/minutes | 1880 |
+| honest NNLS (weights fit GW137-152, strictly prior) | **1869** |
+| honest single:catboost | **1856** |
+| honest catboost + level calibration (scalars GK 1.39 / DEF 2.02 / MID 1.65 / FWD 1.83) | 1800 |
+
+Three conclusions, all honest-negative or sobering:
+
+1. **The 1966 headline was substantially flattered.** Under honest weight discipline the same
+   architecture scores 1869. The old number mixed weight leakage with a different feature set, so
+   the exact decomposition is unknowable, but ~1870 is the real current baseline. All docs/report
+   comparisons should use it going forward.
+2. **Level calibration HURT (-56 vs raw CatBoost).** The suppressed-transfers hypothesis was not
+   supported - both runs made ~1 transfer/GW. Mechanism: a per-position scalar preserves
+   within-position ranking but reshuffles CROSS-position budget allocation (DEF doubled, GK only
+   +39%), and that reallocation cost points. `--calibrate-level` stays in predict.py as a
+   documented negative result, off by default.
+3. **CatBoost's 10% MASE advantage bought zero realized points** (1856 vs 1869, a 13-point / 0.7%
+   difference on a single window - noise). The mean-vs-median trap is real but roughly OFFSETTING
+   here: CatBoost ranks better, NNLS is better level-calibrated, and the MILP nets out the same.
+   Decision: keep `single:catboost` as production anyway - identical points for 1/12th the
+   training cost and a much simpler system - but the "best forecaster" claim must be stated as
+   "best MASE, equal realized points", not as a squad-quality win. Corollary: future modeling
+   changes should be judged on the realized-points backtest (or at minimum the top1_capture /
+   calibration diagnostics), never on MASE movement alone - this is now demonstrated twice
+   (fixture/minutes 1966->1880, and here).
+
+## 2026-07-06 - EXPLORATION (branch `probability-of-loss-2026-27`): reframe forecasting as probability-of-loss
+
+Exploratory branch, not merged, forecasting-only (no MILP work, per the standing priority). Question:
+does modelling the *probability and magnitude of bad/good outcomes* - the finance downside-risk view
+(Roy 1952 safety-first, VaR, CVaR, Sortino) - carry signal the mean point-forecast discards? FPL points
+are an extreme case for it: 61% of player-GW rows are exactly 0, 59% didn't play at all, 68% of players
+who DID play still returned <=2, and only 1.7% are hauls (>=10). Frequent small losses, rare large gains -
+precisely where an expected-value forecast is least informative.
+
+New parallel module `fpl/model/loss_probability.py` (like `probabilistic.py`, does NOT feed the optimizer).
+Two per-position LightGBM binary classifiers on the same features / GW153-183 split as `train.py`:
+BLANK (total_points<=2, the loss event) and HAUL (>=10, the captaincy upside event). Scored with proper
+scoring rules (Brier, log-loss), ROC-AUC, and expected calibration error - NOT accuracy, since the ~86%
+blank base rate makes "always predict blank" 86% accurate and useless (the intermittent-series trap that
+motivated MASE, in classification form).
+
+**Results - the events are highly predictable:**
+- P(BLANK): AUC 0.84-0.88 every position, calibration error 0.01-0.05. The downside is very rankable
+  (dominated by the minutes/nailedness signal - a P(loss) model is partly a re-expression of "will he play").
+- P(HAUL): AUC 0.82-0.86 *despite* 0.8-2.6% base rates - the rare right tail is rankable well above chance.
+
+**Results - it changes the captaincy decision (the point of the exercise).** Per-GW top1_capture over the
+MID+FWD pool (actual points of your #1 pick / the week's true best):
+| ranking | top1_capture |
+|---|---|
+| E[points] (what production does) | 0.365 |
+| P(haul) alone | 0.360 |
+| blend E[pts]x(1+P(haul)) | **0.429** |
+P(haul) *alone* ties the mean forecast, but tilting the mean forecast by upside probability captures ~17%
+more of the actual top-scorer points. Spearman(E[pts], P(haul)) = 0.937 - high but not 1.0, i.e. genuine
+independent upside signal. This is direct evidence for the mechanism behind the unresolved 1966->1880
+fixture/minutes regression (2026-07-04): the MILP maximises *expected* points and is blind to the upside
+tail; a probability-of-haul term is exactly what a variance-aware decision would consume.
+
+**Caveats (why this is a probe, not a verdict):** one static window, not walk-forward; one untuned blend
+form; captaincy only; the E[pts] baseline here is a plain LightGBM (not production CatBoost), so 0.365 is
+internally-consistent-but-not-the-production number. Promising enough to justify the fuller options below,
+not settled. Next candidates mapped, none yet built: (a) a hurdle model P(plays)xE[pts|plays] to handle the
+59% non-appearance zeros explicitly; (b) ordinal/multiclass over point buckets giving E[pts], P(loss) and
+P(haul) from one model; (c) reading P(loss) off the existing quantile module's CDF; (d) a safety-first /
+CVaR MILP objective (deferred - MILP is parked).
+
 ## 2026-07-06 - Tier-1 upgrade batch: new features, combination bake-off, mean-vs-median diagnostics
 
 One coordinated batch implementing the research review's Tier-1 recommendations. New code:
