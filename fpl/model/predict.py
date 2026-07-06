@@ -22,11 +22,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
 from fpl.model import models as model_registry
 from fpl.model.ensemble import PositionEnsemble
-from fpl.model.train import POSITIONS, fit_holdout_weights
+from fpl.model.train import POSITIONS, fit_holdout_weights, fit_level_calibration
 
 
 def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16,
-                             weight_strategy="nnls"):
+                             weight_strategy="nnls", calibrate_level=False):
     """Predict every GW in [start_gw, end_gw] using only data from earlier GWs.
 
     Combination weights are fit ONCE, on the `weight_window` gameweeks strictly before
@@ -39,6 +39,12 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
     `weight_strategy` passes through to train.fit_holdout_weights: "nnls"/"top_k"/"ridge",
     or "single:<model>" (e.g. "single:catboost", which the GW169-226 head-to-head found
     beats every blend - see RESEARCH_LOG.md 2026-07-05).
+
+    `calibrate_level=True` multiplies each position's predictions by a scalar fit on the same
+    pre-window holdout (train.fit_level_calibration), correcting the median-flattened LEVEL of
+    MAE-loss forecasts before they hit the MILP's absolute-scale transfer/chip logic. Rankings
+    (and therefore MASE-style comparisons between calibrated and uncalibrated runs) are NOT
+    comparable on MAE after scaling - the point of this flag is realized MILP points, not MAE.
     """
     rows = []
     models_cache = {}
@@ -49,6 +55,13 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
     for pos in POSITIONS:
         picked = ", ".join(f"{n}={w:.2f}" for n, w in weights_by_pos[pos].items() if w > 0.01)
         print(f"    weights ({pos}): {picked}")
+
+    level_scalars = {pos: 1.0 for pos in POSITIONS}
+    if calibrate_level:
+        level_scalars = fit_level_calibration(df, feature_cols, first_holdout_gw=start_gw,
+                                              weights_by_pos=weights_by_pos, window=weight_window)
+        print("    level calibration scalars: "
+              + ", ".join(f"{pos}={s:.3f}" for pos, s in level_scalars.items()))
 
     last_trained_gw = None
     for gw in range(start_gw, end_gw + 1):
@@ -75,7 +88,9 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
         for pos in POSITIONS:
             mask = test_df["position"] == pos
             if mask.any() and pos in models_cache:
-                test_df.loc[mask, "predicted_total_points"] = models_cache[pos].predict(test_df.loc[mask, feature_cols])
+                test_df.loc[mask, "predicted_total_points"] = (
+                    level_scalars[pos] * models_cache[pos].predict(test_df.loc[mask, feature_cols])
+                )
         rows.append(test_df)
 
     result = pd.concat(rows, ignore_index=True)
@@ -96,6 +111,10 @@ if __name__ == "__main__":
     parser.add_argument("--weight-strategy", type=str, default="nnls",
                          help="Combination strategy: nnls | top_k | ridge | single:<model> "
                               "(e.g. single:catboost).")
+    parser.add_argument("--calibrate-level", action="store_true",
+                         help="Rescale each position's predictions by sum(actual)/sum(predicted) "
+                              "fit on the pre-window holdout - corrects MAE-loss median-flattening "
+                              "before the MILP's absolute-scale transfer/chip decisions.")
     parser.add_argument("--output", type=str, default=str(config.PREDICTIONS_PATH))
     args = parser.parse_args()
 
@@ -104,7 +123,8 @@ if __name__ == "__main__":
     feature_cols = features.feature_columns(df)
 
     preds = walk_forward_predictions(df, feature_cols, args.start_gw, args.end_gw, args.retrain_every,
-                                     weight_strategy=args.weight_strategy)
+                                     weight_strategy=args.weight_strategy,
+                                     calibrate_level=args.calibrate_level)
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     preds.to_csv(args.output, index=False)
     print(f"Saved {len(preds)} rows to {args.output}")

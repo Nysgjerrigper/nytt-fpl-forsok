@@ -97,6 +97,43 @@ def fit_holdout_weights(df, feature_cols, first_holdout_gw, window=16, strategy=
     return weights
 
 
+def fit_level_calibration(df, feature_cols, first_holdout_gw, weights_by_pos, window=16):
+    """Per-position scalar correcting the forecast LEVEL: sum(actual)/sum(predicted) on the same
+    strictly-prior holdout window the combination weights come from.
+
+    Exists because the production forecaster (CatBoost, MAE loss) fits conditional MEDIANS of a
+    zero-inflated target, so its forecasts sum to only ~half the points actually scored
+    (total_calibration 0.44-0.63, RESEARCH_LOG.md 2026-07-06). Rankings are unaffected by a
+    positive scalar, but the MILP's -4 transfer penalty and chip thresholds are absolute-scale -
+    deflated forecasts make every transfer look relatively more expensive. A single multiplier
+    fixes the aggregate level without disturbing the ranking that made CatBoost win the bake-off.
+    Same leakage discipline as fit_holdout_weights: members trained before the window, scalar fit
+    on the window, nothing at or after first_holdout_gw is ever seen.
+    """
+    member_train = df[df["GW_global"] < first_holdout_gw - window]
+    fit_df = df[(df["GW_global"] >= first_holdout_gw - window) & (df["GW_global"] < first_holdout_gw)]
+    scalars = {}
+    for pos in POSITIONS:
+        pos_train = member_train[member_train["position"] == pos]
+        pos_fit = fit_df[fit_df["position"] == pos]
+        weights = weights_by_pos[pos]
+        if pos_train.empty or pos_fit.empty:
+            scalars[pos] = 1.0
+            continue
+        blended = np.zeros(len(pos_fit))
+        for name, w in weights.items():
+            if w <= 1e-6:
+                continue
+            member = models.fit_model(name, pos_train[feature_cols], pos_train[features.TARGET_COL])
+            blended += w * member.predict(pos_fit[feature_cols])
+        pred_total = blended.sum()
+        actual_total = pos_fit[features.TARGET_COL].sum()
+        # Only correct the level when both sums are meaningfully positive; degenerate holdouts
+        # fall back to "no correction" rather than a wild multiplier.
+        scalars[pos] = float(actual_total / pred_total) if pred_total > 1e-9 and actual_total > 0 else 1.0
+    return scalars
+
+
 def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, test_max_gw=183):
     """Same split window the old LSTM was validated on: train on GW<=152
     (2020-21 through 2023-24), test on GW153-183 (2024-25 GW1-31)."""
