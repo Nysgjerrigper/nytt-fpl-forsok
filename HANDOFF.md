@@ -165,8 +165,10 @@ separate models (and still lacks some):
 
 ## Recommended next step
 
-Read the walk-forward results (RESEARCH_LOG.md 2026-07-08). If bucket E[pts] matches or beats the
-regression on Spearman/cap_ev, the distribution comes "for free" and the next question is whether a
-calibrated-mean forecast (bucket E[pts] has total_calibration near 1, unlike the MAE-flattened
-regression) changes MILP transfer/chip behaviour — that would be the first predictions-CSV experiment,
-compared against the honest ~1870 baseline.
+The walk-forward ran and the buckets WON (full numbers + interpretation: RESEARCH_LOG.md 2026-07-08):
+better ranking at all four positions (Spearman 0.703 vs 0.676), near-perfect level calibration
+(1.00 vs the regression's 0.54), better RMSE and captaincy capture; regression keeps only raw MAE,
+which is the median artifact. Next: route bucket E[points] into a predictions CSV
+(`fpl.model.predict`-compatible format) and run the standard GW153-183/horizon-3 MILP backtest against
+the honest ~1870 baseline. Realized points decide - remember the sibling branch's level-calibration
+scalar also looked sensible and LOST 56 points.

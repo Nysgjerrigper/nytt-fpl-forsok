@@ -5,6 +5,58 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-08 - Walk-forward: bucket expected points BEAT the tuned production regression on every decision metric except raw MAE
+
+The 2026-07-06 static split showed the bucket distribution is learnable; this answers the decision-grade
+question: does bucket-derived E[points] hold up against the *tuned production* CatBoost regression under
+honest conditions? New `evaluate_walk_forward` in `fpl/model/probabilistic_buckets.py`
+(`--walk-forward`), same protocol as `fpl.model.predict`: every GW in 153-183 predicted using only
+strictly-earlier data, retraining every 4 GWs. Fairness fix for the static split's caveat: the bucket
+CatBoost reuses the tuned per-position regression hyperparams (loss swapped MAE -> MultiClass/Logloss,
+`bootstrap_type=Bernoulli` pinned since CatBoost requires a sampling bootstrap when `subsample` is set),
+so this is tuned-vs-tuned. Baseline is `fpl.model.models.fit_model("catboost", ...)` - the actual
+production forecaster.
+
+**Pooled results (GW153-183, coarse5 scheme):**
+
+| metric | catboost_hurdle_bucket | catboost_bucket | catboost_regression |
+|---|---:|---:|---:|
+| ev_mae | 1.005 | 1.025 | **0.862** |
+| ev_rmse | **1.915** | 1.920 | 2.073 |
+| bias | **+0.004** | +0.020 | -0.532 |
+| total_calibration | **1.004** | 1.017 | 0.544 |
+| spearman_pos_gw | **0.703** | 0.702 | 0.676 |
+| cap_ev (MID/FWD top1_capture) | 0.526 | 0.556 | 0.543 |
+| cap_haul / cap_tilt | 0.554 / 0.556 | **0.569** / 0.541 | - |
+| loss_auc / haul_auc | 0.867 / 0.889 | 0.866 / 0.886 | - |
+
+**Reading it (mean-vs-median trap, again, but now in the buckets' favour):**
+- The regression "wins" MAE only because MAE rewards predicting the conditional median - and it pays
+  for that by under-predicting total points by 46% (total_calibration 0.544, bias -0.53). Bucket
+  E[points] is a true probability-weighted mean: calibration 1.00-1.04 at every position, bias ~0.
+  The MILP's absolute-scale transfer/chip logic consumes MEANS, so this is the scale it needs.
+- On mean-aligned accuracy (RMSE) the buckets win: 1.915 vs 2.073.
+- On ranking - the metric that survived every previous mean-vs-median dispute - buckets beat the
+  regression at ALL FOUR positions (pooled Spearman 0.703 vs 0.676; DEF 0.640/0.602, FWD 0.758/0.744,
+  GK 0.684/0.645, MID 0.730/0.711). Captaincy top1_capture also favours buckets (0.556 vs 0.543 on
+  E[pts]; 0.569 ranking by P(haul) alone).
+- The distribution itself (blank AUC 0.87, haul AUC 0.89) comes for free on top of that - no separate
+  classifier needed, unlike the sibling `probability-of-loss-2026-27` branch's two-model setup.
+- Hurdle vs plain bucket: effectively tied (hurdle marginally better distribution quality and
+  calibration, plain marginally better captaincy). No reason to pay the hurdle's 2-model complexity yet.
+
+**Verdict:** the bucket reframing is not just "extra information at equal accuracy" - it produces a
+*better-ranked, correctly-levelled* expected-points forecast than production. Caveat: 80 quick-mode
+iterations showed wildly different calibration (overshoot up to 2.3x), so these conclusions hold only
+with the tuned params; don't judge this model family from `--quick` runs.
+
+**Next question (the one that actually pays):** does a correctly-levelled mean change MILP realized
+points? Route bucket E[points] into a predictions CSV, run the standard GW153-183/horizon-3 backtest,
+and compare against the honest ~1870 baseline (per re-baseline commit `8081f20` on the sibling branch -
+NOT the leaked 1966). Note the level-calibration experiment on the sibling branch (scaling the MEDIAN
+forecast by a scalar) LOST points (1800); this is different - a genuine conditional mean, not a
+rescaled median - but that history is why the MILP test must decide, not the forecast metrics.
+
 ## 2026-07-06 - Probabilistic bucket model bake-off
 
 Implemented `fpl/model/probabilistic_buckets.py`: a standalone, forecasting-only bake-off that reuses the
