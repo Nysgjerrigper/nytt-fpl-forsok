@@ -172,3 +172,23 @@ which is the median artifact. Next: route bucket E[points] into a predictions CS
 (`fpl.model.predict`-compatible format) and run the standard GW153-183/horizon-3 MILP backtest against
 the honest ~1870 baseline. Realized points decide - remember the sibling branch's level-calibration
 scalar also looked sensible and LOST 56 points.
+
+## Handoff (2026-07-08)
+
+**What:** Completed both conceptual and implementation work on probabilistic buckets branch. Walk-forward
+evaluator implemented; full GW153–183 backtest ran.
+
+**Comparison:** Bucket model vs. tuned production regression (fair fight: both use tuned per-position
+hyperparams). Buckets won on: Spearman 0.703 vs 0.676 (all four positions), total_calibration 1.00 vs
+0.54, RMSE 1.92 vs 2.07, cap_ev 0.556 vs 0.543. Regression only beat on raw MAE (the median artifact).
+Blank/haul probabilities AUC 0.87/0.89 come free.
+
+**Consequence:** Bucket E[points] is a correctly-levelled mean forecast, unlike production's halved totals.
+That scale difference could change MILP transfer/chip decisions. But the loss branch already showed a
+rescaled median lost points, so realized-points backtest must decide.
+
+**Recommendation:** Build predictions CSV from bucket E[points] and run standard GW153–183/horizon-3 MILP
+backtest. Compare against honest ~1870 baseline. Code ready to go; waiting for signal.
+
+**Status:** All work committed and pushed (`b4ec6f9`). Sibling `probability-of-loss-2026-27` also on
+GitHub, carries the re-baseline commit for eventual merge.
