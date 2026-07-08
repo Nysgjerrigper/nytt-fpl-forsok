@@ -1,6 +1,15 @@
 # HANDOFF
 
-Current branch: `codex/probabilistic-bucket-models`
+Current branch: `probabilistic-buckets-2026-27` (renamed from `codex/probabilistic-bucket-models`)
+
+Division of labour between the two probabilistic branches (decided 2026-07-08): this branch's
+full 5-bucket distribution targets TEAM SELECTION (which players to buy/hold), while the sibling
+`probability-of-loss-2026-27` branch's binary P(blank)/P(haul) view targets CAPTAINCY. Both are
+kept; active work continues here. That sibling branch also carries the backtest re-baseline
+(commit `8081f20`): the old 1966-point headline contained ~100 points of weight leakage, so the
+honest realized-points baseline is ~1870. Any future realized-points claim from this branch must
+be compared against ~1870, not 1966. The commit is deliberately NOT cherry-picked here to keep
+the branches independent.
 
 ## Current objective
 
@@ -110,27 +119,54 @@ P(haul)  = P(>=10)
 risk/upside profile
 ```
 
+## Walk-forward head-to-head (added 2026-07-08)
+
+The static split above answered "can the distribution be learned?". The decision-grade question is
+whether bucket-derived expected points hold up against the tuned production CatBoost regression under
+honest conditions. `evaluate_walk_forward` now does that:
+
+```bash
+python -m fpl.model.probabilistic_buckets --walk-forward \
+    --test-min-gw 153 --test-max-gw 183 --retrain-every 4
+```
+
+- Same protocol as `fpl.model.predict`: each GW predicted using only strictly-earlier data,
+  retraining every 4 GWs.
+- Baseline `catboost_regression` = `fpl.model.models.fit_model("catboost", ...)`, which auto-loads
+  the tuned per-position params — the real production forecaster, not a strawman.
+- Fairness fix for the old caveat: the bucket CatBoost now reuses those same tuned per-position
+  hyperparameters (loss swapped MAE -> MultiClass/Logloss, `bootstrap_type=Bernoulli` pinned because
+  CatBoost requires a sampling bootstrap when `subsample` is set). Disable with `--no-tuned-params`.
+- Metrics now include `bias` and `total_calibration` next to MAE/Spearman/top1_capture. This is the
+  mean-vs-median trap made visible: the production regression is MAE-trained, so it predicts a
+  conditional MEDIAN and systematically under-predicts totals (total_calibration well below 1); bucket
+  expected points are a true probability-weighted MEAN. Consequence: `ev_mae` structurally favours the
+  regression and must NOT be the deciding metric — judge on ranking (spearman, cap_ev) and calibration.
+
+### How the distribution maps to team selection (the conceptual claim of this branch)
+
+One bucket model yields every quantity a selection decision needs, where production needs
+separate models (and still lacks some):
+
+- `E[points]` (probability-weighted bucket means) — what the MILP consumes.
+- `P(blank)` = P(<=2) — the downside. Two players with equal E[pts] are not equal picks: a steady
+  4-point defender and a 50/50 blank-or-8 midfielder differ exactly here (Roy's safety-first view).
+  Candidate uses: bench ordering, and risk-profiling the 11 starters.
+- `P(haul)` = P(>=10) — the upside tail; the sibling branch showed tilting by it lifts captaincy
+  top1_capture 0.365 -> 0.429.
+
 ## Known caveats
 
-- Only a static split has been tested so far. Do not call this settled until there is a walk-forward comparison.
-- The production model has tuned CatBoost params saved in `fpl/models/tuned_params_<POS>_catboost.json`; the
-  bucket CatBoost currently uses the hand-set classifier defaults adapted from the regressor defaults.
-- The probabilistic expected-points output has not yet been compared directly against the tuned production
-  CatBoost regression on the honest backtest.
 - Do not wire this into `fpl.milp.optimize` yet. The MILP remains intentionally untouched.
+- The full walk-forward run is expensive (~128 CatBoost fits over GW153-183 at retrain-every=4);
+  use `--quick` and a short GW window to smoke-test changes first.
 - LightGBM import can require writable temp/cache access because it imports matplotlib; in restricted sandbox
   contexts, run the bake-off with normal workspace write permissions.
 
 ## Recommended next step
 
-Implement a walk-forward evaluator for `catboost_bucket`, `catboost_hurdle_bucket`, and the current tuned
-CatBoost regression baseline. Compare:
-
-- expected-points MAE/RMSE
-- `bias` and `total_calibration`
-- position-GW Spearman
-- MID/FWD captaincy `top1_capture`
-- blank/haul AUC and Brier
-
-Only after that should this branch consider producing a predictions CSV or feeding any probabilistic signal
-to the optimizer.
+Read the walk-forward results (RESEARCH_LOG.md 2026-07-08). If bucket E[pts] matches or beats the
+regression on Spearman/cap_ev, the distribution comes "for free" and the next question is whether a
+calibrated-mean forecast (bucket E[pts] has total_calibration near 1, unlike the MAE-flattened
+regression) changes MILP transfer/chip behaviour — that would be the first predictions-CSV experiment,
+compared against the honest ~1870 baseline.

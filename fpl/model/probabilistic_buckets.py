@@ -18,7 +18,7 @@ import lightgbm as lgb
 import numpy as np
 import pandas as pd
 import xgboost as xgb
-from catboost import CatBoostClassifier
+from catboost import CatBoostClassifier, CatBoostRegressor
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import log_loss, roc_auc_score
@@ -28,7 +28,7 @@ from sklearn.preprocessing import StandardScaler
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
 from fpl.model import models as point_models
-from fpl.model.metrics import mae, rmse, spearman_by_group, top1_capture
+from fpl.model.metrics import bias, mae, rmse, spearman_by_group, top1_capture, total_calibration
 from fpl.model.train import POSITIONS
 
 
@@ -198,17 +198,28 @@ def _xgb_params(quick, objective, eval_metric):
     return dict(objective=objective, eval_metric=eval_metric, tree_method="hist", **params)
 
 
-def _cat_params(quick, loss_function):
-    params = point_models.CATBOOST_PARAMS.copy()
+def _cat_params(quick, loss_function, position=None, use_tuned=False):
+    """CatBoost params for a classifier, optionally adapted from the tuned
+    per-position REGRESSION params saved by fpl.model.tuning.
+
+    The tuned depth/learning-rate/iterations/l2/subsample transfer; the loss
+    function obviously cannot (MAE is a regression loss), so it is swapped for
+    the classification objective. CatBoost only allows `subsample` with a
+    sampling bootstrap, so Bernoulli is pinned when subsample is present.
+    """
+    tuned = point_models._tuned_params("catboost", position) if use_tuned else None
+    params = (tuned or point_models.CATBOOST_PARAMS).copy()
     params["loss_function"] = loss_function
+    if "subsample" in params and "bootstrap_type" not in params:
+        params["bootstrap_type"] = "Bernoulli"
     if quick:
         params["iterations"] = 80
     return params
 
 
-def make_bucket_estimator(name, quick=False):
+def make_bucket_estimator(name, quick=False, position=None, use_tuned=False):
     if name == "catboost_bucket":
-        return CatBoostClassifier(**_cat_params(quick, "MultiClass"))
+        return CatBoostClassifier(**_cat_params(quick, "MultiClass", position, use_tuned))
     if name == "lightgbm_bucket":
         return lgb.LGBMClassifier(**_lgb_params(quick, "multiclass", "multi_logloss"))
     if name == "xgboost_bucket":
@@ -222,9 +233,9 @@ def make_bucket_estimator(name, quick=False):
     raise KeyError(name)
 
 
-def make_binary_estimator(family, quick=False):
+def make_binary_estimator(family, quick=False, position=None, use_tuned=False):
     if family == "catboost":
-        return CatBoostClassifier(**_cat_params(quick, "Logloss"))
+        return CatBoostClassifier(**_cat_params(quick, "Logloss", position, use_tuned))
     if family == "lightgbm":
         return lgb.LGBMClassifier(**_lgb_params(quick, "binary", "binary_logloss"))
     raise KeyError(family)
@@ -235,13 +246,17 @@ class BucketModel:
     name: str
     scheme: BucketScheme = DEFAULT_BUCKET_SCHEME
     quick: bool = False
+    position: str | None = None
+    use_tuned: bool = False
 
     def fit(self, train_df, feature_cols):
         y_bucket = points_to_buckets(train_df[features.TARGET_COL], self.scheme)
         self.bucket_values_ = bucket_values_from_training(
             train_df[features.TARGET_COL], y_bucket, self.scheme
         )
-        self.model_ = make_bucket_estimator(self.name, quick=self.quick)
+        self.model_ = make_bucket_estimator(
+            self.name, quick=self.quick, position=self.position, use_tuned=self.use_tuned
+        )
         self.model_.fit(train_df[feature_cols], y_bucket)
         return self
 
@@ -265,18 +280,24 @@ class HurdleBucketModel:
     family: str
     scheme: BucketScheme = DEFAULT_BUCKET_SCHEME
     quick: bool = False
+    position: str | None = None
+    use_tuned: bool = False
 
     def fit(self, train_df, feature_cols):
         y_bucket = points_to_buckets(train_df[features.TARGET_COL], self.scheme)
         self.bucket_values_ = bucket_values_from_training(train_df[features.TARGET_COL], y_bucket, self.scheme)
-        self.play_model_ = make_binary_estimator(self.family, quick=self.quick)
+        self.play_model_ = make_binary_estimator(
+            self.family, quick=self.quick, position=self.position, use_tuned=self.use_tuned
+        )
         played = (train_df["minutes"] > 0).astype(int)
         self.play_model_.fit(train_df[feature_cols], played)
 
         played_df = train_df[played.astype(bool)]
         if played_df.empty:
             played_df = train_df
-        self.bucket_model_ = make_bucket_estimator(f"{self.family}_bucket", quick=self.quick)
+        self.bucket_model_ = make_bucket_estimator(
+            f"{self.family}_bucket", quick=self.quick, position=self.position, use_tuned=self.use_tuned
+        )
         self.bucket_model_.fit(played_df[feature_cols], points_to_buckets(played_df[features.TARGET_COL], self.scheme))
         return self
 
@@ -288,14 +309,17 @@ class HurdleBucketModel:
         return normalize_proba(proba)
 
 
-def candidate_models(quick=False, scheme=DEFAULT_BUCKET_SCHEME, model_names=None):
+def candidate_models(quick=False, scheme=DEFAULT_BUCKET_SCHEME, model_names=None, position=None, use_tuned=False):
     specs = {
-        "catboost_bucket": lambda: BucketModel("catboost_bucket", scheme=scheme, quick=quick),
+        "catboost_bucket": lambda: BucketModel(
+            "catboost_bucket", scheme=scheme, quick=quick, position=position, use_tuned=use_tuned
+        ),
         "lightgbm_bucket": lambda: BucketModel("lightgbm_bucket", scheme=scheme, quick=quick),
         "xgboost_bucket": lambda: BucketModel("xgboost_bucket", scheme=scheme, quick=quick),
         "logistic_bucket": lambda: BucketModel("logistic_bucket", scheme=scheme, quick=quick),
         "catboost_hurdle_bucket": lambda: HurdleBucketModel(
-            "catboost_hurdle_bucket", family="catboost", scheme=scheme, quick=quick
+            "catboost_hurdle_bucket", family="catboost", scheme=scheme, quick=quick,
+            position=position, use_tuned=use_tuned,
         ),
         "lightgbm_hurdle_bucket": lambda: HurdleBucketModel(
             "lightgbm_hurdle_bucket", family="lightgbm", scheme=scheme, quick=quick
@@ -313,6 +337,12 @@ def safe_auc(y_event, p_event):
 
 
 def evaluate_prediction_frame(pred_df):
+    """Score one (model, subset) prediction frame.
+
+    A pure point-forecast frame (the regression baseline) has NaN bucket
+    probabilities; its distribution metrics are reported as NaN while the
+    expected-points metrics stay comparable across all models.
+    """
     scheme = get_bucket_scheme(pred_df["scheme"].iloc[0])
     y = pred_df["actual_points"].to_numpy()
     y_bucket = pred_df["bucket"].to_numpy(dtype=int)
@@ -322,30 +352,49 @@ def evaluate_prediction_frame(pred_df):
     y_loss = (y <= 2).astype(int)
     y_haul = (y >= 10).astype(int)
     groups = pred_df["position"].astype(str) + "_" + pred_df["GW_global"].astype(str)
+    has_distribution = bool(np.isfinite(proba).all())
 
-    return {
-        "bucket_logloss": float(log_loss(y_bucket, normalize_proba(proba), labels=list(range(scheme.n_buckets)))),
-        "bucket_brier": multiclass_brier(y_bucket, proba, scheme.n_buckets),
+    metrics = {
+        "bucket_logloss": float("nan"),
+        "bucket_brier": float("nan"),
         "ev_mae": mae(y, pred_df["expected_points"]),
         "ev_rmse": rmse(y, pred_df["expected_points"]),
-        "loss_brier": float(np.mean((p_loss - y_loss) ** 2)),
-        "loss_auc": safe_auc(y_loss, p_loss),
-        "haul_brier": float(np.mean((p_haul - y_haul) ** 2)),
-        "haul_auc": safe_auc(y_haul, p_haul),
+        "bias": bias(y, pred_df["expected_points"]),
+        "total_calibration": total_calibration(y, pred_df["expected_points"]),
+        "loss_brier": float("nan"),
+        "loss_auc": float("nan"),
+        "haul_brier": float("nan"),
+        "haul_auc": float("nan"),
         "spearman_pos_gw": spearman_by_group(y, pred_df["expected_points"], groups),
     }
+    if has_distribution:
+        metrics.update({
+            "bucket_logloss": float(
+                log_loss(y_bucket, normalize_proba(proba), labels=list(range(scheme.n_buckets)))
+            ),
+            "bucket_brier": multiclass_brier(y_bucket, proba, scheme.n_buckets),
+            "loss_brier": float(np.mean((p_loss - y_loss) ** 2)),
+            "loss_auc": safe_auc(y_loss, p_loss),
+            "haul_brier": float(np.mean((p_haul - y_haul) ** 2)),
+            "haul_auc": safe_auc(y_haul, p_haul),
+        })
+    return metrics
 
 
 def captaincy_metrics(pred_df):
     pool = pred_df[pred_df["position"].isin(["MID", "FWD"])].copy()
     if pool.empty:
         return {"cap_ev": float("nan"), "cap_haul": float("nan"), "cap_tilt": float("nan")}
-    pool["haul_tilt"] = pool["expected_points"] * (1.0 + pool["p_haul"])
-    return {
+    out = {
         "cap_ev": top1_capture(pool, "GW_global", "actual_points", "expected_points"),
-        "cap_haul": top1_capture(pool, "GW_global", "actual_points", "p_haul"),
-        "cap_tilt": top1_capture(pool, "GW_global", "actual_points", "haul_tilt"),
+        "cap_haul": float("nan"),
+        "cap_tilt": float("nan"),
     }
+    if np.isfinite(pool["p_haul"].to_numpy()).all():
+        pool["haul_tilt"] = pool["expected_points"] * (1.0 + pool["p_haul"])
+        out["cap_haul"] = top1_capture(pool, "GW_global", "actual_points", "p_haul")
+        out["cap_tilt"] = top1_capture(pool, "GW_global", "actual_points", "haul_tilt")
+    return out
 
 
 def prediction_frame_for_model(model, test_df, feature_cols, position):
@@ -368,6 +417,44 @@ def prediction_frame_for_model(model, test_df, feature_cols, position):
     return out
 
 
+REGRESSION_BASELINE = "catboost_regression"
+
+
+def fit_regression_baseline(pos_train, feature_cols, position, quick=False):
+    """The production point-forecast: tuned per-position CatBoost regression
+    (fpl.model.models.fit_model auto-loads tuned_params_<POS>_catboost.json)."""
+    if quick:
+        params = point_models.CATBOOST_PARAMS.copy()
+        params["iterations"] = 80
+        model = CatBoostRegressor(**params)
+        model.fit(pos_train[feature_cols], pos_train[features.TARGET_COL])
+        return model
+    return point_models.fit_model(
+        "catboost", pos_train[feature_cols], pos_train[features.TARGET_COL], position=position
+    )
+
+
+def regression_prediction_frame(predictions, test_df, position, scheme):
+    """Wrap a point forecast in the bucket prediction-frame format so it can be
+    scored side-by-side. Distribution columns are NaN: a single number carries
+    no P(blank)/P(haul), which is the whole comparison."""
+    out = pd.DataFrame({
+        "scheme": scheme.name,
+        "n_buckets": scheme.n_buckets,
+        "model": REGRESSION_BASELINE,
+        "position": position,
+        "GW_global": test_df["GW_global"].to_numpy(),
+        "actual_points": test_df[features.TARGET_COL].to_numpy(dtype=float),
+        "bucket": points_to_buckets(test_df[features.TARGET_COL], scheme),
+        "expected_points": np.asarray(predictions, dtype=float),
+        "p_loss": float("nan"),
+        "p_haul": float("nan"),
+    })
+    for i in range(scheme.n_buckets):
+        out[f"p_bucket_{i}"] = float("nan")
+    return out
+
+
 def format_metric(value, digits=4):
     if isinstance(value, str):
         return value
@@ -385,6 +472,166 @@ def print_table(title, rows, columns):
     print("  ".join(col.ljust(widths[col]) for col in columns))
     for row in rows:
         print("  ".join(format_metric(row[col]).ljust(widths[col]) for col in columns))
+
+
+def report_predictions(predictions, n_schemes=1):
+    """Group a stacked prediction frame by scheme/model/position, print the
+    metric tables, and return (predictions, pooled_df, per_position_df)."""
+    per_pos_rows = []
+    pooled_rows = []
+    for (scheme_name, model_name, position), gdf in predictions.groupby(["scheme", "model", "position"], sort=True):
+        metrics = evaluate_prediction_frame(gdf)
+        per_pos_rows.append({"scheme": scheme_name, "model": model_name, "position": position, **metrics})
+    for (scheme_name, model_name), gdf in predictions.groupby(["scheme", "model"], sort=True):
+        metrics = evaluate_prediction_frame(gdf)
+        cap = captaincy_metrics(gdf)
+        pooled_rows.append({"scheme": scheme_name, "model": model_name, **metrics, **cap})
+
+    def _logloss_key(row):
+        value = row["bucket_logloss"]
+        return float("inf") if pd.isna(value) else value
+
+    per_pos_rows.sort(key=lambda row: (row["scheme"], row["position"], _logloss_key(row)))
+    pooled_rows.sort(key=lambda row: (row["scheme"], _logloss_key(row)))
+
+    print_table(
+        "Per-position probabilistic quality",
+        per_pos_rows,
+        [
+            "scheme",
+            "position",
+            "model",
+            "bucket_logloss",
+            "bucket_brier",
+            "ev_mae",
+            "bias",
+            "total_calibration",
+            "loss_auc",
+            "haul_auc",
+            "spearman_pos_gw",
+        ],
+    )
+    print_table(
+        "Pooled bake-off",
+        pooled_rows,
+        [
+            "scheme",
+            "model",
+            "bucket_logloss",
+            "bucket_brier",
+            "ev_mae",
+            "ev_rmse",
+            "bias",
+            "total_calibration",
+            "loss_brier",
+            "loss_auc",
+            "haul_brier",
+            "haul_auc",
+            "spearman_pos_gw",
+            "cap_ev",
+            "cap_haul",
+            "cap_tilt",
+        ],
+    )
+    if n_schemes > 1:
+        comparable_rows = sorted(pooled_rows, key=lambda row: (row["model"], row["ev_mae"]))
+        print_table(
+            "Cross-scheme comparable decision metrics",
+            comparable_rows,
+            [
+                "model",
+                "scheme",
+                "ev_mae",
+                "ev_rmse",
+                "loss_brier",
+                "loss_auc",
+                "haul_brier",
+                "haul_auc",
+                "spearman_pos_gw",
+                "cap_ev",
+                "cap_haul",
+                "cap_tilt",
+            ],
+        )
+    return predictions, pd.DataFrame(pooled_rows), pd.DataFrame(per_pos_rows)
+
+
+def evaluate_walk_forward(
+    start_gw=153,
+    end_gw=183,
+    retrain_every=4,
+    quick=False,
+    bucket_scheme_name="coarse5",
+    model_names=None,
+    include_regression=True,
+    use_tuned=True,
+):
+    """Walk-forward head-to-head: bucket models vs the tuned production
+    CatBoost regression, each GW predicted using only strictly-earlier data.
+
+    This is the decision-grade version of evaluate_static_split: a static
+    split fits once and can flatter a model; walk-forward retrains every
+    `retrain_every` GWs, matching how fpl.model.predict backtests the
+    production forecaster. `use_tuned=True` lets the bucket CatBoost reuse the
+    tuned per-position regression hyperparameters so the comparison is not
+    tuned-vs-defaults.
+    """
+    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    df = features.build_feature_frame(raw)
+    feature_cols = features.feature_columns(df)
+    scheme = get_bucket_scheme(bucket_scheme_name)
+    names = model_names or ["catboost_bucket", "catboost_hurdle_bucket"]
+
+    print(
+        "\n=== Probabilistic bucket walk-forward "
+        f"(GW {start_gw}-{end_gw}, retrain every {retrain_every}, scheme={scheme.name}, "
+        f"tuned_params={use_tuned}) ==="
+    )
+    print("Models: " + ", ".join(names + ([REGRESSION_BASELINE] if include_regression else [])))
+    if quick:
+        print("Quick mode: GBM iterations reduced to 80 for fast exploration.")
+
+    pred_frames = []
+    bucket_cache = {}
+    regression_cache = {}
+    last_trained_gw = None
+    available_gws = sorted(set(df["GW_global"].unique()) & set(range(start_gw, end_gw + 1)))
+    for gw in available_gws:
+        if last_trained_gw is None or gw - last_trained_gw >= retrain_every:
+            train_df = df[df["GW_global"] < gw]
+            if train_df.empty:
+                continue
+            for position in POSITIONS:
+                pos_train = train_df[train_df["position"] == position]
+                if pos_train.empty:
+                    continue
+                fitted = []
+                for model in candidate_models(
+                    quick=quick, scheme=scheme, model_names=names,
+                    position=position, use_tuned=use_tuned,
+                ):
+                    fitted.append(model.fit(pos_train, feature_cols))
+                bucket_cache[position] = fitted
+                if include_regression:
+                    regression_cache[position] = fit_regression_baseline(
+                        pos_train, feature_cols, position, quick=quick
+                    )
+            last_trained_gw = gw
+            print(f"Retrained models for GW {gw}")
+
+        test_df = df[df["GW_global"] == gw]
+        for position in POSITIONS:
+            pos_test = test_df[test_df["position"] == position]
+            if pos_test.empty or position not in bucket_cache:
+                continue
+            for model in bucket_cache[position]:
+                pred_frames.append(prediction_frame_for_model(model, pos_test, feature_cols, position))
+            if include_regression and position in regression_cache:
+                point_pred = regression_cache[position].predict(pos_test[feature_cols])
+                pred_frames.append(regression_prediction_frame(point_pred, pos_test, position, scheme))
+
+    predictions = pd.concat(pred_frames, ignore_index=True)
+    return report_predictions(predictions)
 
 
 def evaluate_static_split(
@@ -426,76 +673,7 @@ def evaluate_static_split(
                 pred_frames.append(prediction_frame_for_model(model, pos_test, feature_cols, position))
 
     predictions = pd.concat(pred_frames, ignore_index=True)
-
-    per_pos_rows = []
-    pooled_rows = []
-    for (scheme_name, model_name, position), gdf in predictions.groupby(["scheme", "model", "position"], sort=True):
-        metrics = evaluate_prediction_frame(gdf)
-        per_pos_rows.append({"scheme": scheme_name, "model": model_name, "position": position, **metrics})
-    for (scheme_name, model_name), gdf in predictions.groupby(["scheme", "model"], sort=True):
-        metrics = evaluate_prediction_frame(gdf)
-        cap = captaincy_metrics(gdf)
-        pooled_rows.append({"scheme": scheme_name, "model": model_name, **metrics, **cap})
-
-    per_pos_rows.sort(key=lambda row: (row["scheme"], row["position"], row["bucket_logloss"]))
-    pooled_rows.sort(key=lambda row: (row["scheme"], row["bucket_logloss"]))
-
-    print_table(
-        "Per-position probabilistic quality",
-        per_pos_rows,
-        [
-            "scheme",
-            "position",
-            "model",
-            "bucket_logloss",
-            "bucket_brier",
-            "ev_mae",
-            "loss_auc",
-            "haul_auc",
-            "spearman_pos_gw",
-        ],
-    )
-    print_table(
-        "Pooled bake-off",
-        pooled_rows,
-        [
-            "scheme",
-            "model",
-            "bucket_logloss",
-            "bucket_brier",
-            "ev_mae",
-            "ev_rmse",
-            "loss_brier",
-            "loss_auc",
-            "haul_brier",
-            "haul_auc",
-            "spearman_pos_gw",
-            "cap_ev",
-            "cap_haul",
-            "cap_tilt",
-        ],
-    )
-    if len(schemes) > 1:
-        comparable_rows = sorted(pooled_rows, key=lambda row: (row["model"], row["ev_mae"]))
-        print_table(
-            "Cross-scheme comparable decision metrics",
-            comparable_rows,
-            [
-                "model",
-                "scheme",
-                "ev_mae",
-                "ev_rmse",
-                "loss_brier",
-                "loss_auc",
-                "haul_brier",
-                "haul_auc",
-                "spearman_pos_gw",
-                "cap_ev",
-                "cap_haul",
-                "cap_tilt",
-            ],
-        )
-    return predictions, pd.DataFrame(pooled_rows), pd.DataFrame(per_pos_rows)
+    return report_predictions(predictions, n_schemes=len(schemes))
 
 
 def parse_args(argv=None):
@@ -518,11 +696,36 @@ def parse_args(argv=None):
         choices=MODEL_NAMES,
         help="Optional subset of probabilistic model candidates.",
     )
+    parser.add_argument(
+        "--walk-forward",
+        action="store_true",
+        help="Walk-forward head-to-head over [test-min-gw, test-max-gw] instead of the static split; "
+        "includes the tuned production CatBoost regression as baseline.",
+    )
+    parser.add_argument("--retrain-every", type=int, default=4,
+                        help="(walk-forward) Retrain every N gameweeks.")
+    parser.add_argument("--no-regression-baseline", action="store_true",
+                        help="(walk-forward) Skip the production CatBoost regression baseline.")
+    parser.add_argument("--no-tuned-params", action="store_true",
+                        help="(walk-forward) Use hand-set CatBoost defaults instead of the tuned "
+                        "per-position params for the bucket models.")
     return parser.parse_args(argv)
 
 
 def main(argv=None):
     args = parse_args(argv)
+    if args.walk_forward:
+        evaluate_walk_forward(
+            start_gw=args.test_min_gw,
+            end_gw=args.test_max_gw,
+            retrain_every=args.retrain_every,
+            quick=args.quick,
+            bucket_scheme_name=args.schemes[0],
+            model_names=args.models,
+            include_regression=not args.no_regression_baseline,
+            use_tuned=not args.no_tuned_params,
+        )
+        return
     evaluate_static_split(
         train_max_gw=args.train_max_gw,
         test_min_gw=args.test_min_gw,
