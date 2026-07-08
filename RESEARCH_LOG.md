@@ -5,6 +5,33 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-06 - Probabilistic bucket model bake-off
+
+Implemented `fpl/model/probabilistic_buckets.py`: a standalone, forecasting-only bake-off that reuses the
+normal feature pipeline but changes the target from one `total_points` number to a five-bucket distribution:
+`<=0`, `1-2`, `3-5`, `6-9`, `>=10`. This is a real model-family change, not a CSV reshape: the estimators are
+trained with multiclass/binary probability objectives and output `P(blank)`, `P(haul)`, and an implied
+`expected_points` from the same distribution. It deliberately does not feed the saved production ensembles or
+the MILP.
+
+Models tested on the standard static split (train GW<=152, test GW153-183), per position: CatBoost multiclass
+bucket, LightGBM multiclass bucket, XGBoost multiclass bucket, logistic multiclass bucket, CatBoost hurdle
+bucket (`P(plays)` x bucket distribution conditional on playing), and LightGBM hurdle bucket. Scored with
+multiclass log-loss/Brier, expected-points MAE/RMSE, blank/haul Brier + AUC, within position-GW Spearman, and
+MID/FWD captaincy `top1_capture`.
+
+**Result:** CatBoost owns the probabilistic quality. Pooled log-loss/Brier:
+`catboost_hurdle_bucket` 0.6898/0.3605, `catboost_bucket` 0.6904/0.3607, then XGBoost 0.6980/0.3635; LightGBM
+and logistic trail on distribution quality. CatBoost also has the best blank/haul ranking overall
+(`haul_auc` ~0.887). The hurdle split helps very slightly on log-loss, but plain CatBoost bucket gives better
+captaincy tilt (`E[points] * (1 + P(haul))`: 0.453 vs 0.416), so the pragmatic next candidate is probably
+plain CatBoost bucket unless walk-forward says otherwise.
+
+**Odd but useful signal:** logistic bucket has poor distribution quality but excellent captaincy capture
+(`cap_ev`/`cap_haul`/`cap_tilt` all ~0.52). Treat this as a ranker anomaly to investigate, not as a reason to
+prefer it as the calibrated probability model. Next step: add a walk-forward version and compare the implied
+`expected_points` against production CatBoost regression before considering any optimizer integration.
+
 ## 2026-07-06 - Optuna tuning: +251 realized points. Tuned CatBoost scores 2107, the new record
 
 The "most embarrassing gap" (untuned registry) is closed for the production model, and it was
