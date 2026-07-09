@@ -5,6 +5,52 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-08 - MILP backtest: bucket E[points] LOSES to the tuned regression on realized points (2059 vs 2107), despite winning every forecast metric
+
+The decisive test the previous entry set up. Bucket E[points] won calibration, RMSE, ranking, and
+captaincy in the walk-forward forecast eval - but the only thing that pays is realized MILP points, and
+here it LOST. New `walk_forward_predictions_csv` in `fpl/model/probabilistic_buckets.py`
+(`--export-predictions`) writes bucket E[points] in the exact predict.py CSV format; both models were run
+through the *identical* GW153-183 / horizon-3 MILP in this one session, so the comparison is generated
+under one setup with no cross-run drift:
+
+| Configuration | Realized points |
+|---|---|
+| tuned CatBoost **regression** (`single:catboost`, production) | **2107** |
+| tuned CatBoost **bucket** E[points] (`catboost_bucket`, `use_tuned`) | 2059 |
+
+Both used tuned per-position params, both made exactly 1 transfer/GW, both used zero chips over all 31
+GWs - so the 48-point gap (-2.3%) is purely *which players/captains* each model's numbers selected, not
+transfer or chip behaviour.
+
+**The baseline correction that matters.** The prior entry (and HANDOFF.md) said to compare against the
+honest ~1870. That is the *untuned* baseline. The bucket model uses tuned params, so the honest
+apples-to-apples baseline is the *tuned* regression, which I reproduced at exactly **2107** (matching the
+2026-07-06 Optuna result to the point). Against 1870 the bucket model looks like a +189 triumph; against
+the correct 2107 it is a 48-point loss. The ~1870 target in the handoff was the wrong yardstick for a
+tuned model - any future bucket claim must beat 2107, not 1870.
+
+**Why the forecast wins didn't convert (mean-vs-median trap, third instance).** The predictions confirm
+the calibration story cleanly: bucket sum(pred)/sum(actual) = 1.017 (near-perfect mean), regression =
+0.544 (MAE median-flattening roughly halves every total, per position: DEF pred 0.46 vs actual 1.02, FWD
+0.65 vs 1.43). So the bucket forecast *is* the correctly-levelled mean the MILP nominally wants - yet
+the MILP still scored fewer points with it. This is now the THIRD demonstration that better forecast
+metrics don't buy squad points: (1) level-calibration scalar LOST 56 (2026-07-06), (2) CatBoost's 10%
+MASE edge bought 0 (2026-07-06), (3) the bucket model's calibration+ranking+RMSE+captaincy sweep bought
+-48 here. The MILP's transfer decisions are driven by *within-GW cross-player ranking of predicted
+points*, and correct absolute levels don't help that ranking - the classification target (coarser signal
+on the exact point value) evidently ranks the borderline transfer/captain candidates slightly worse than
+the regression, even though it ranks the whole pool better on pooled Spearman.
+
+**Verdict:** keep the bucket model as a *forecasting-only* research result and for its free P(blank)/P(haul)
+distribution (the sibling branch's captaincy use), but do NOT route bucket E[points] into the production
+MILP as a point-forecast replacement - it costs realized points. The conceptual claim ("one model yields
+E[pts]+downside+upside") stands; the "and it also builds better squads" claim does not. Caveats as ever:
+one window, one seed; but the direction agrees with two prior instances, so it is not treated as noise.
+Reproduce: `python -m fpl.model.probabilistic_buckets --export-predictions --test-min-gw 153 --test-max-gw
+183` then the horizon-3 MILP on that CSV vs `fpl.model.predict --weight-strategy single:catboost` on the
+same window.
+
 ## 2026-07-08 - Walk-forward: bucket expected points BEAT the tuned production regression on every decision metric except raw MAE
 
 The 2026-07-06 static split showed the bucket distribution is learnable; this answers the decision-grade

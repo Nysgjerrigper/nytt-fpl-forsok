@@ -676,6 +676,73 @@ def evaluate_static_split(
     return report_predictions(predictions, n_schemes=len(schemes))
 
 
+def walk_forward_predictions_csv(
+    start_gw=153,
+    end_gw=183,
+    retrain_every=4,
+    quick=False,
+    bucket_scheme_name="coarse5",
+    model_name="catboost_bucket",
+    use_tuned=True,
+):
+    """Walk-forward predictions CSV from the bucket model for MILP backtesting.
+
+    Returns a dataframe in fpl/milp/optimize.py format:
+    player_id, GW, name, position, team, value, predicted_total_points, actual_total_points
+    """
+    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    df = features.build_feature_frame(raw)
+    feature_cols = features.feature_columns(df)
+    scheme = get_bucket_scheme(bucket_scheme_name)
+
+    print(
+        f"\n=== Bucket model predictions CSV (GW {start_gw}-{end_gw}, model={model_name}, "
+        f"tuned_params={use_tuned}) ==="
+    )
+
+    rows = []
+    bucket_cache = {}
+    last_trained_gw = None
+    available_gws = sorted(set(df["GW_global"].unique()) & set(range(start_gw, end_gw + 1)))
+
+    for gw in available_gws:
+        if last_trained_gw is None or gw - last_trained_gw >= retrain_every:
+            train_df = df[df["GW_global"] < gw]
+            if train_df.empty:
+                continue
+            for position in POSITIONS:
+                pos_train = train_df[train_df["position"] == position]
+                if pos_train.empty:
+                    continue
+                model = candidate_models(
+                    quick=quick, scheme=scheme, model_names=[model_name],
+                    position=position, use_tuned=use_tuned,
+                )[0]
+                model.fit(pos_train, feature_cols)
+                bucket_cache[position] = model
+            last_trained_gw = gw
+            print(f"Retrained models for GW {gw}")
+
+        test_df = df[df["GW_global"] == gw].copy()
+        test_df["predicted_total_points"] = 0.0
+
+        for position in POSITIONS:
+            mask = test_df["position"] == position
+            if mask.any() and position in bucket_cache:
+                model = bucket_cache[position]
+                proba = model.predict_distribution(test_df.loc[mask, feature_cols])
+                expected = expected_points_from_proba(proba, model.bucket_values_)
+                test_df.loc[mask, "predicted_total_points"] = expected
+
+        rows.append(test_df)
+
+    result = pd.concat(rows, ignore_index=True)
+    out_cols = ["player_id", "GW_global", "name", "position", "team", "value",
+                "predicted_total_points", "total_points"]
+    result = result[out_cols].rename(columns={"GW_global": "GW", "total_points": "actual_total_points"})
+    return result
+
+
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description="Compare probabilistic bucket models for FPL points.")
     parser.add_argument("--train-max-gw", type=int, default=152)
@@ -709,11 +776,43 @@ def parse_args(argv=None):
     parser.add_argument("--no-tuned-params", action="store_true",
                         help="(walk-forward) Use hand-set CatBoost defaults instead of the tuned "
                         "per-position params for the bucket models.")
+    parser.add_argument(
+        "--export-predictions",
+        action="store_true",
+        help="Export walk-forward bucket predictions to CSV for MILP backtesting (instead of evaluation metrics).",
+    )
+    parser.add_argument(
+        "--export-model",
+        type=str,
+        default="catboost_bucket",
+        choices=MODEL_NAMES,
+        help="(export-predictions) Model to use for predictions export.",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        help="(export-predictions) Output CSV path.",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv=None):
     args = parse_args(argv)
+    if args.export_predictions:
+        preds = walk_forward_predictions_csv(
+            start_gw=args.test_min_gw,
+            end_gw=args.test_max_gw,
+            retrain_every=args.retrain_every,
+            quick=args.quick,
+            bucket_scheme_name=args.schemes[0],
+            model_name=args.export_model,
+            use_tuned=not args.no_tuned_params,
+        )
+        output_path = args.output or str(config.PREDICTIONS_PATH)
+        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+        preds.to_csv(output_path, index=False)
+        print(f"Saved {len(preds)} rows to {output_path}")
+        return
     if args.walk_forward:
         evaluate_walk_forward(
             start_gw=args.test_min_gw,

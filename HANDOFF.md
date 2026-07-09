@@ -173,22 +173,31 @@ which is the median artifact. Next: route bucket E[points] into a predictions CS
 the honest ~1870 baseline. Realized points decide - remember the sibling branch's level-calibration
 scalar also looked sensible and LOST 56 points.
 
-## Handoff (2026-07-08)
+## Handoff (2026-07-08, MILP backtest ran - RESULT IN)
 
-**What:** Completed both conceptual and implementation work on probabilistic buckets branch. Walk-forward
-evaluator implemented; full GW153–183 backtest ran.
+**What:** Ran the recommended MILP backtest. Added `walk_forward_predictions_csv` /
+`--export-predictions` to `fpl/model/probabilistic_buckets.py`, exported bucket E[points] in predict.py
+CSV format, and ran the GW153-183 / horizon-3 MILP on it vs the tuned production regression. All 55 tests
+pass.
 
-**Comparison:** Bucket model vs. tuned production regression (fair fight: both use tuned per-position
-hyperparams). Buckets won on: Spearman 0.703 vs 0.676 (all four positions), total_calibration 1.00 vs
-0.54, RMSE 1.92 vs 2.07, cap_ev 0.556 vs 0.543. Regression only beat on raw MAE (the median artifact).
-Blank/haul probabilities AUC 0.87/0.89 come free.
+**Result - the bucket model LOST on realized points:**
 
-**Consequence:** Bucket E[points] is a correctly-levelled mean forecast, unlike production's halved totals.
-That scale difference could change MILP transfer/chip decisions. But the loss branch already showed a
-rescaled median lost points, so realized-points backtest must decide.
+| Configuration | Realized points |
+|---|---|
+| tuned CatBoost regression (production) | **2107** |
+| tuned CatBoost bucket E[points] | 2059 |
 
-**Recommendation:** Build predictions CSV from bucket E[points] and run standard GW153–183/horizon-3 MILP
-backtest. Compare against honest ~1870 baseline. Code ready to go; waiting for signal.
+Both tuned, both 1 transfer/GW, both zero chips - clean comparison, -48 pts (-2.3%) for buckets.
 
-**Status:** All work committed and pushed (`b4ec6f9`). Sibling `probability-of-loss-2026-27` also on
-GitHub, carries the re-baseline commit for eventual merge.
+**CRITICAL baseline correction:** the ~1870 target repeated above and throughout this handoff is the
+*untuned* baseline. The bucket model uses tuned params, so the honest comparison is the *tuned* regression
+= **2107** (reproduced exactly this session, matches 2026-07-06 Optuna). Against 1870 the bucket looked
+like +189; against the correct 2107 it is -48. Any future bucket realized-points claim must beat 2107.
+
+**Consequence:** Despite winning calibration (1.02 vs 0.54), Spearman, RMSE, and captaincy in the forecast
+eval, the bucket E[points] built worse squads - the third instance of "better forecast metric ≠ more MILP
+points" (see RESEARCH_LOG.md 2026-07-08). Keep the bucket model as forecasting-only + for its free
+P(blank)/P(haul); do NOT route it into the production MILP as a point-forecast replacement.
+
+**Status:** Backtest complete, RESEARCH_LOG.md updated with the decisive entry. Export code added but NOT
+yet committed. Sibling `probability-of-loss-2026-27` still carries the untuned re-baseline commit.
