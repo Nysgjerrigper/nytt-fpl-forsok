@@ -174,6 +174,11 @@ You have execution autonomy, but the PO stays in the loop on anything landed or 
 4. **Self-correct on failures, escalate on direction.** If a script crashes, read the traceback, fix it, and
    re-run without asking - that's execution. But if fixing it requires a *modeling or design* decision (which
    model to keep, whether a metric regression is acceptable), stop and bring it to the PO.
+5. **Push is deliberate, not automatic.** Push only when a coherent unit of work is finished and verified
+   (`pytest` green; backtest run for modeling changes) and the PO has asked for it, or to get CI/backup on a
+   long-lived branch. `main` must stay green and shareable at every pushed commit. Commit often locally (cheap,
+   reversible); push rarely and deliberately (visible, shared, triggers CI). Never `--force` to `main` without
+   explicit PO approval (and prefer `--force-with-lease`).
 
 ## Research & experimentation protocol
 
