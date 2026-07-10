@@ -56,8 +56,39 @@ def test_cat_params_without_tuning_uses_defaults():
     assert params["iterations"] == point_models.CATBOOST_PARAMS["iterations"]
 
 
+def test_binary_schemes_split_at_threshold():
+    y = np.array([-1, 0, 2, 3, 6, 7, 9, 10])
+    assert buckets.points_to_buckets(y, buckets.get_bucket_scheme("binary2")).tolist() == [0, 0, 0, 1, 1, 1, 1, 1]
+    assert buckets.points_to_buckets(y, buckets.get_bucket_scheme("binary6")).tolist() == [0, 0, 0, 0, 0, 1, 1, 1]
+    assert buckets.points_to_buckets(y, buckets.get_bucket_scheme("binary9")).tolist() == [0, 0, 0, 0, 0, 0, 0, 1]
+
+
+def test_int13_scheme_is_per_integer_up_to_nine():
+    scheme = buckets.get_bucket_scheme("int13")
+    y = np.arange(0, 10)
+    assert buckets.points_to_buckets(y, scheme).tolist() == list(range(10))
+    assert buckets.points_to_buckets(np.array([10, 11, 12, 14, 15, 20]), scheme).tolist() == [10, 10, 11, 11, 12, 12]
+
+
+def test_binary_scheme_gets_binary_objective_for_lgb_and_xgb():
+    lgb_est = buckets.make_bucket_estimator("lightgbm_bucket", scheme_name="binary6")
+    assert lgb_est.get_params()["objective"] == "binary"
+    xgb_est = buckets.make_bucket_estimator("xgboost_bucket", scheme_name="binary6")
+    assert xgb_est.get_params()["objective"] == "binary:logistic"
+    lgb_multi = buckets.make_bucket_estimator("lightgbm_bucket", scheme_name="fine8")
+    assert lgb_multi.get_params()["objective"] == "multiclass"
+
+
+def test_event_indices_align_with_scheme_boundaries():
+    assert buckets.get_bucket_scheme("binary2").loss_indices == (0,)
+    assert buckets.get_bucket_scheme("binary2").haul_indices == ()
+    assert buckets.get_bucket_scheme("binary6").loss_indices == ()
+    assert buckets.get_bucket_scheme("binary9").haul_indices == (1,)
+
+
 def _regression_frame():
     test_df = pd.DataFrame({
+        "player_id": [1, 2, 1, 2],
         "GW_global": [153, 153, 154, 154],
         "total_points": [0.0, 6.0, 2.0, 12.0],
     })

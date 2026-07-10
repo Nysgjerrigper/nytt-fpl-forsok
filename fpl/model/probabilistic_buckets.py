@@ -10,6 +10,7 @@ It is intentionally a parallel bake-off module. It reuses the normal feature
 pipeline but does not feed the saved production ensembles or the MILP optimizer.
 """
 import argparse
+import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -54,7 +55,34 @@ class BucketScheme:
         return tuple(i for i, (lo, _) in enumerate(self.ranges) if lo is not None and lo >= 10)
 
 
+def make_binary_scheme(threshold):
+    """Two buckets split at an inclusive integer threshold: <=threshold vs >threshold.
+
+    This is the 'binomial' framing: the model only learns P(points > threshold).
+    E[pts] from two buckets is a monotone transform of that single probability,
+    so ranking quality tests whether one well-chosen split carries most of the
+    decision-relevant signal. Default representative values are refit from
+    training data by bucket_values_from_training, so the ones here only matter
+    for empty-bucket fallbacks.
+    """
+    return BucketScheme(
+        name=f"binary{threshold}",
+        labels=(f"le_{threshold}", f"gt_{threshold}"),
+        ranges=((None, threshold), (threshold + 1, None)),
+        default_values=(float(max(threshold - 1, 0)), float(threshold + 3)),
+    )
+
+
 BUCKET_SCHEMES = {
+    "binary2": make_binary_scheme(2),
+    "binary6": make_binary_scheme(6),
+    "binary9": make_binary_scheme(9),
+    "tri3": BucketScheme(
+        name="tri3",
+        labels=("blank_le2", "modest_3_5", "return_6_plus"),
+        ranges=((None, 2), (3, 5), (6, None)),
+        default_values=(1.0, 4.0, 8.5),
+    ),
     "coarse5": BucketScheme(
         name="coarse5",
         labels=("zero_or_negative", "blank_1_2", "modest_3_5", "return_6_9", "haul_10_plus"),
@@ -92,6 +120,18 @@ BUCKET_SCHEMES = {
         ),
         ranges=((None, 0), (1, 1), (2, 2), (3, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 14), (15, None)),
         default_values=(0.0, 1.0, 2.0, 3.0, 4.5, 6.5, 8.5, 10.5, 13.0, 17.0),
+    ),
+    "int13": BucketScheme(
+        name="int13",
+        labels=(
+            "zero_or_negative", "one", "two", "three", "four", "five", "six",
+            "seven", "eight", "nine", "ten_eleven", "twelve_fourteen", "fifteen_plus",
+        ),
+        ranges=(
+            (None, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6),
+            (7, 7), (8, 8), (9, 9), (10, 11), (12, 14), (15, None),
+        ),
+        default_values=(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.5, 13.0, 17.0),
     ),
 }
 DEFAULT_BUCKET_SCHEME = BUCKET_SCHEMES["coarse5"]
@@ -198,16 +238,41 @@ def _xgb_params(quick, objective, eval_metric):
     return dict(objective=objective, eval_metric=eval_metric, tree_method="hist", **params)
 
 
-def _cat_params(quick, loss_function, position=None, use_tuned=False):
-    """CatBoost params for a classifier, optionally adapted from the tuned
-    per-position REGRESSION params saved by fpl.model.tuning.
+def bucket_tuned_params_path(position, scheme_name):
+    """Where the dedicated classification-tuned CatBoost params live for one
+    (position, scheme). Same gitignored artifact directory as the regression's
+    tuned_params_<POS>_catboost.json - regenerate with `--tune`."""
+    return config.MODELS_DIR / f"tuned_params_{position}_bucket_{scheme_name}.json"
 
-    The tuned depth/learning-rate/iterations/l2/subsample transfer; the loss
-    function obviously cannot (MAE is a regression loss), so it is swapped for
-    the classification objective. CatBoost only allows `subsample` with a
-    sampling bootstrap, so Bernoulli is pinned when subsample is present.
+
+def _bucket_tuned_params(position, scheme_name):
+    path = bucket_tuned_params_path(position, scheme_name)
+    if position and path.exists():
+        return json.loads(path.read_text())
+    return None
+
+
+def _cat_params(quick, loss_function, position=None, use_tuned=False, scheme_name=None):
+    """CatBoost params for a classifier, optionally reusing tuned params.
+
+    `use_tuned` accepts three values:
+    - False/None: the hand-set CATBOOST_PARAMS defaults.
+    - True: adapt the tuned per-position REGRESSION params saved by
+      fpl.model.tuning. Depth/learning-rate/iterations/l2/subsample transfer;
+      the loss function obviously cannot (MAE is a regression loss), so it is
+      swapped for the classification objective.
+    - "bucket": prefer dedicated classification-tuned params for this
+      (position, scheme) if `--tune` has produced them, falling back to the
+      regression params so a missing file degrades gracefully.
+
+    CatBoost only allows `subsample` with a sampling bootstrap, so Bernoulli is
+    pinned when subsample is present.
     """
-    tuned = point_models._tuned_params("catboost", position) if use_tuned else None
+    tuned = None
+    if use_tuned == "bucket":
+        tuned = _bucket_tuned_params(position, scheme_name)
+    if tuned is None and use_tuned:
+        tuned = point_models._tuned_params("catboost", position)
     params = (tuned or point_models.CATBOOST_PARAMS).copy()
     params["loss_function"] = loss_function
     if "subsample" in params and "bootstrap_type" not in params:
@@ -217,12 +282,21 @@ def _cat_params(quick, loss_function, position=None, use_tuned=False):
     return params
 
 
-def make_bucket_estimator(name, quick=False, position=None, use_tuned=False):
+def make_bucket_estimator(name, quick=False, position=None, use_tuned=False, scheme_name=None):
+    # LightGBM/XGBoost sklearn wrappers take the binary code path for 2-class
+    # targets and reject an explicit multiclass objective there, so binary
+    # schemes need the binary objective (predict_proba still gives 2 columns).
+    scheme = BUCKET_SCHEMES.get(scheme_name) if scheme_name else None
+    two_class = scheme is not None and scheme.n_buckets == 2
     if name == "catboost_bucket":
-        return CatBoostClassifier(**_cat_params(quick, "MultiClass", position, use_tuned))
+        return CatBoostClassifier(**_cat_params(quick, "MultiClass", position, use_tuned, scheme_name))
     if name == "lightgbm_bucket":
+        if two_class:
+            return lgb.LGBMClassifier(**_lgb_params(quick, "binary", "binary_logloss"))
         return lgb.LGBMClassifier(**_lgb_params(quick, "multiclass", "multi_logloss"))
     if name == "xgboost_bucket":
+        if two_class:
+            return xgb.XGBClassifier(**_xgb_params(quick, "binary:logistic", "logloss"))
         return xgb.XGBClassifier(**_xgb_params(quick, "multi:softprob", "mlogloss"))
     if name == "logistic_bucket":
         return Pipeline([
@@ -233,9 +307,9 @@ def make_bucket_estimator(name, quick=False, position=None, use_tuned=False):
     raise KeyError(name)
 
 
-def make_binary_estimator(family, quick=False, position=None, use_tuned=False):
+def make_binary_estimator(family, quick=False, position=None, use_tuned=False, scheme_name=None):
     if family == "catboost":
-        return CatBoostClassifier(**_cat_params(quick, "Logloss", position, use_tuned))
+        return CatBoostClassifier(**_cat_params(quick, "Logloss", position, use_tuned, scheme_name))
     if family == "lightgbm":
         return lgb.LGBMClassifier(**_lgb_params(quick, "binary", "binary_logloss"))
     raise KeyError(family)
@@ -255,7 +329,8 @@ class BucketModel:
             train_df[features.TARGET_COL], y_bucket, self.scheme
         )
         self.model_ = make_bucket_estimator(
-            self.name, quick=self.quick, position=self.position, use_tuned=self.use_tuned
+            self.name, quick=self.quick, position=self.position,
+            use_tuned=self.use_tuned, scheme_name=self.scheme.name,
         )
         self.model_.fit(train_df[feature_cols], y_bucket)
         return self
@@ -287,7 +362,8 @@ class HurdleBucketModel:
         y_bucket = points_to_buckets(train_df[features.TARGET_COL], self.scheme)
         self.bucket_values_ = bucket_values_from_training(train_df[features.TARGET_COL], y_bucket, self.scheme)
         self.play_model_ = make_binary_estimator(
-            self.family, quick=self.quick, position=self.position, use_tuned=self.use_tuned
+            self.family, quick=self.quick, position=self.position,
+            use_tuned=self.use_tuned, scheme_name=self.scheme.name,
         )
         played = (train_df["minutes"] > 0).astype(int)
         self.play_model_.fit(train_df[feature_cols], played)
@@ -296,7 +372,8 @@ class HurdleBucketModel:
         if played_df.empty:
             played_df = train_df
         self.bucket_model_ = make_bucket_estimator(
-            f"{self.family}_bucket", quick=self.quick, position=self.position, use_tuned=self.use_tuned
+            f"{self.family}_bucket", quick=self.quick, position=self.position,
+            use_tuned=self.use_tuned, scheme_name=self.scheme.name,
         )
         self.bucket_model_.fit(played_df[feature_cols], points_to_buckets(played_df[features.TARGET_COL], self.scheme))
         return self
@@ -331,9 +408,10 @@ def candidate_models(quick=False, scheme=DEFAULT_BUCKET_SCHEME, model_names=None
 
 def safe_auc(y_event, p_event):
     y = np.asarray(y_event, dtype=int)
-    if len(np.unique(y)) < 2:
+    p = np.asarray(p_event, dtype=float)
+    if len(np.unique(y)) < 2 or not np.isfinite(p).all():
         return float("nan")
-    return float(roc_auc_score(y, p_event))
+    return float(roc_auc_score(y, p))
 
 
 def evaluate_prediction_frame(pred_df):
@@ -400,19 +478,26 @@ def captaincy_metrics(pred_df):
 def prediction_frame_for_model(model, test_df, feature_cols, position):
     proba = model.predict_distribution(test_df[feature_cols])
     expected = expected_points_from_proba(proba, model.bucket_values_)
+    scheme = model.scheme
+    # A scheme whose bucket edges don't align with the <=2 / >=10 events cannot
+    # express those probabilities (e.g. binary6 has one bucket spanning 0..6).
+    # NaN keeps the metric honest instead of scoring a constant-zero forecast.
+    p_loss = proba[:, scheme.loss_indices].sum(axis=1) if scheme.loss_indices else float("nan")
+    p_haul = proba[:, scheme.haul_indices].sum(axis=1) if scheme.haul_indices else float("nan")
     out = pd.DataFrame({
-        "scheme": model.scheme.name,
-        "n_buckets": model.scheme.n_buckets,
+        "scheme": scheme.name,
+        "n_buckets": scheme.n_buckets,
         "model": model.name,
         "position": position,
+        "player_id": test_df["player_id"].to_numpy(),
         "GW_global": test_df["GW_global"].to_numpy(),
         "actual_points": test_df[features.TARGET_COL].to_numpy(dtype=float),
-        "bucket": points_to_buckets(test_df[features.TARGET_COL], model.scheme),
+        "bucket": points_to_buckets(test_df[features.TARGET_COL], scheme),
         "expected_points": expected,
-        "p_loss": proba[:, model.scheme.loss_indices].sum(axis=1),
-        "p_haul": proba[:, model.scheme.haul_indices].sum(axis=1),
+        "p_loss": p_loss,
+        "p_haul": p_haul,
     })
-    for i in range(model.scheme.n_buckets):
+    for i in range(scheme.n_buckets):
         out[f"p_bucket_{i}"] = proba[:, i]
     return out
 
@@ -443,6 +528,7 @@ def regression_prediction_frame(predictions, test_df, position, scheme):
         "n_buckets": scheme.n_buckets,
         "model": REGRESSION_BASELINE,
         "position": position,
+        "player_id": test_df["player_id"].to_numpy(),
         "GW_global": test_df["GW_global"].to_numpy(),
         "actual_points": test_df[features.TARGET_COL].to_numpy(dtype=float),
         "bucket": points_to_buckets(test_df[features.TARGET_COL], scheme),
@@ -561,10 +647,11 @@ def evaluate_walk_forward(
     end_gw=183,
     retrain_every=4,
     quick=False,
-    bucket_scheme_name="coarse5",
+    bucket_scheme_names=("coarse5",),
     model_names=None,
     include_regression=True,
     use_tuned=True,
+    save_predictions=None,
 ):
     """Walk-forward head-to-head: bucket models vs the tuned production
     CatBoost regression, each GW predicted using only strictly-earlier data.
@@ -574,18 +661,24 @@ def evaluate_walk_forward(
     `retrain_every` GWs, matching how fpl.model.predict backtests the
     production forecaster. `use_tuned=True` lets the bucket CatBoost reuse the
     tuned per-position regression hyperparameters so the comparison is not
-    tuned-vs-defaults.
+    tuned-vs-defaults; `use_tuned="bucket"` prefers dedicated
+    classification-tuned params saved by `--tune`.
+
+    Accepts multiple schemes so a bucket-count sweep shares one retrain loop:
+    the regression baseline is fitted once per retrain, not once per scheme.
+    `save_predictions` writes the stacked per-player prediction frame to CSV so
+    ensemble/blend analysis can run as pure post-processing without refitting.
     """
     raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
     df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(df)
-    scheme = get_bucket_scheme(bucket_scheme_name)
+    schemes = [get_bucket_scheme(name) for name in bucket_scheme_names]
     names = model_names or ["catboost_bucket", "catboost_hurdle_bucket"]
 
     print(
         "\n=== Probabilistic bucket walk-forward "
-        f"(GW {start_gw}-{end_gw}, retrain every {retrain_every}, scheme={scheme.name}, "
-        f"tuned_params={use_tuned}) ==="
+        f"(GW {start_gw}-{end_gw}, retrain every {retrain_every}, "
+        f"schemes={[s.name for s in schemes]}, tuned_params={use_tuned}) ==="
     )
     print("Models: " + ", ".join(names + ([REGRESSION_BASELINE] if include_regression else [])))
     if quick:
@@ -605,13 +698,14 @@ def evaluate_walk_forward(
                 pos_train = train_df[train_df["position"] == position]
                 if pos_train.empty:
                     continue
-                fitted = []
-                for model in candidate_models(
-                    quick=quick, scheme=scheme, model_names=names,
-                    position=position, use_tuned=use_tuned,
-                ):
-                    fitted.append(model.fit(pos_train, feature_cols))
-                bucket_cache[position] = fitted
+                for scheme in schemes:
+                    fitted = []
+                    for model in candidate_models(
+                        quick=quick, scheme=scheme, model_names=names,
+                        position=position, use_tuned=use_tuned,
+                    ):
+                        fitted.append(model.fit(pos_train, feature_cols))
+                    bucket_cache[(scheme.name, position)] = fitted
                 if include_regression:
                     regression_cache[position] = fit_regression_baseline(
                         pos_train, feature_cols, position, quick=quick
@@ -622,16 +716,24 @@ def evaluate_walk_forward(
         test_df = df[df["GW_global"] == gw]
         for position in POSITIONS:
             pos_test = test_df[test_df["position"] == position]
-            if pos_test.empty or position not in bucket_cache:
+            if pos_test.empty:
                 continue
-            for model in bucket_cache[position]:
-                pred_frames.append(prediction_frame_for_model(model, pos_test, feature_cols, position))
+            for scheme in schemes:
+                for model in bucket_cache.get((scheme.name, position), []):
+                    pred_frames.append(prediction_frame_for_model(model, pos_test, feature_cols, position))
             if include_regression and position in regression_cache:
                 point_pred = regression_cache[position].predict(pos_test[feature_cols])
-                pred_frames.append(regression_prediction_frame(point_pred, pos_test, position, scheme))
+                # Emitted once per GW under the first scheme's name; the frame
+                # carries no distribution, so the scheme tag is only a grouping key.
+                pred_frames.append(regression_prediction_frame(point_pred, pos_test, position, schemes[0]))
 
     predictions = pd.concat(pred_frames, ignore_index=True)
-    return report_predictions(predictions)
+    if save_predictions:
+        out_path = Path(save_predictions)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        predictions.to_csv(out_path, index=False)
+        print(f"Saved {len(predictions)} prediction rows to {out_path}")
+    return report_predictions(predictions, n_schemes=len(schemes))
 
 
 def evaluate_static_split(
@@ -674,6 +776,90 @@ def evaluate_static_split(
 
     predictions = pd.concat(pred_frames, ignore_index=True)
     return report_predictions(predictions, n_schemes=len(schemes))
+
+
+def tune_bucket_position(df, feature_cols, position, scheme, n_trials=30, n_splits=3, train_max_gw=152):
+    """Optuna-tune the CatBoost bucket CLASSIFIER for one (position, scheme).
+
+    The production tuned params were searched for a MAE regression objective;
+    reusing them for MultiClass is a convenience, not a fair shot. This gives
+    the classifier its own search over the same knobs (iterations, depth,
+    learning rate, l2, subsample), scored by mean multiclass log loss - the
+    proper scoring rule for the distribution the model actually outputs -
+    across expanding-window folds (fpl.model.tuning's causal CV).
+
+    Only rows with GW_global <= train_max_gw are used, so tuning never sees the
+    walk-forward evaluation window that will judge the tuned model.
+
+    Returns (best_params_dict, best_cv_logloss). Optuna is imported lazily -
+    it is an optional dependency, same policy as fpl.model.tuning.
+    """
+    import optuna
+
+    from fpl.model.tuning import _expanding_window_folds
+
+    pos_df = df[(df["position"] == position) & (df["GW_global"] <= train_max_gw)].sort_values("GW_global")
+    folds = list(_expanding_window_folds(pos_df["GW_global"].unique(), n_splits))
+    if not folds:
+        raise ValueError(f"not enough gameweeks for {position} to build {n_splits} folds")
+
+    fixed = dict(
+        loss_function="MultiClass",
+        bootstrap_type="Bernoulli",
+        random_seed=0,
+        verbose=0,
+        allow_writing_files=False,
+    )
+
+    def objective(trial):
+        params = dict(
+            iterations=trial.suggest_int("iterations", 100, 800),
+            depth=trial.suggest_int("depth", 4, 10),
+            learning_rate=trial.suggest_float("learning_rate", 0.01, 0.2, log=True),
+            l2_leaf_reg=trial.suggest_float("l2_leaf_reg", 1e-1, 30.0, log=True),
+            subsample=trial.suggest_float("subsample", 0.5, 1.0),
+            **fixed,
+        )
+        fold_scores = []
+        for train_gws, val_gws in folds:
+            train = pos_df[pos_df["GW_global"].isin(train_gws)]
+            val = pos_df[pos_df["GW_global"].isin(val_gws)]
+            if train.empty or val.empty:
+                continue
+            model = CatBoostClassifier(**params)
+            model.fit(train[feature_cols], points_to_buckets(train[features.TARGET_COL], scheme))
+            proba = aligned_multiclass_proba(model, val[feature_cols], scheme)
+            y_val = points_to_buckets(val[features.TARGET_COL], scheme)
+            fold_scores.append(log_loss(y_val, proba, labels=list(range(scheme.n_buckets))))
+        if not fold_scores:
+            raise optuna.TrialPruned()
+        return float(np.mean(fold_scores))
+
+    study = optuna.create_study(direction="minimize", sampler=optuna.samplers.TPESampler(seed=0))
+    study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
+    best = dict(study.best_trial.params, **fixed)
+    return best, float(study.best_value)
+
+
+def run_bucket_tuning(scheme_names, positions=None, n_trials=30, n_splits=3, train_max_gw=152):
+    """Tune and persist bucket-classifier params for every (scheme, position)."""
+    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    df = features.build_feature_frame(raw)
+    feature_cols = features.feature_columns(df)
+    for scheme_name in scheme_names:
+        scheme = get_bucket_scheme(scheme_name)
+        for position in positions or POSITIONS:
+            print(f"Tuning bucket CatBoost: scheme={scheme.name} position={position} "
+                  f"({n_trials} trials, {n_splits} folds, GW<={train_max_gw})")
+            best, best_value = tune_bucket_position(
+                df, feature_cols, position, scheme,
+                n_trials=n_trials, n_splits=n_splits, train_max_gw=train_max_gw,
+            )
+            config.MODELS_DIR.mkdir(parents=True, exist_ok=True)
+            path = bucket_tuned_params_path(position, scheme.name)
+            path.write_text(json.dumps(best, indent=2, sort_keys=True))
+            print(f"  best CV logloss={best_value:.4f}  params={json.dumps(best, sort_keys=True)}")
+            print(f"  saved to {path}")
 
 
 def walk_forward_predictions_csv(
@@ -776,6 +962,22 @@ def parse_args(argv=None):
     parser.add_argument("--no-tuned-params", action="store_true",
                         help="(walk-forward) Use hand-set CatBoost defaults instead of the tuned "
                         "per-position params for the bucket models.")
+    parser.add_argument("--bucket-tuned-params", action="store_true",
+                        help="(walk-forward) Prefer dedicated classification-tuned params saved by "
+                        "--tune (falls back to the regression params where missing).")
+    parser.add_argument("--save-predictions", type=str, default=None,
+                        help="(walk-forward) Also write the stacked per-player prediction frame to "
+                        "this CSV for ensemble post-processing.")
+    parser.add_argument("--tune", action="store_true",
+                        help="Optuna-tune the CatBoost bucket classifier for each scheme in "
+                        "--schemes and each position, then exit.")
+    parser.add_argument("--tune-trials", type=int, default=30)
+    parser.add_argument("--tune-splits", type=int, default=3)
+    parser.add_argument("--tune-max-gw", type=int, default=152,
+                        help="(tune) Only use gameweeks <= this for tuning CV, so the tuner never "
+                        "sees the evaluation window.")
+    parser.add_argument("--positions", nargs="+", default=None, choices=list(POSITIONS),
+                        help="(tune) Subset of positions to tune.")
     parser.add_argument(
         "--export-predictions",
         action="store_true",
@@ -796,8 +998,25 @@ def parse_args(argv=None):
     return parser.parse_args(argv)
 
 
+def _resolve_use_tuned(args):
+    if args.no_tuned_params:
+        return False
+    if args.bucket_tuned_params:
+        return "bucket"
+    return True
+
+
 def main(argv=None):
     args = parse_args(argv)
+    if args.tune:
+        run_bucket_tuning(
+            scheme_names=args.schemes,
+            positions=args.positions,
+            n_trials=args.tune_trials,
+            n_splits=args.tune_splits,
+            train_max_gw=args.tune_max_gw,
+        )
+        return
     if args.export_predictions:
         preds = walk_forward_predictions_csv(
             start_gw=args.test_min_gw,
@@ -806,7 +1025,7 @@ def main(argv=None):
             quick=args.quick,
             bucket_scheme_name=args.schemes[0],
             model_name=args.export_model,
-            use_tuned=not args.no_tuned_params,
+            use_tuned=_resolve_use_tuned(args),
         )
         output_path = args.output or str(config.PREDICTIONS_PATH)
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
@@ -819,10 +1038,11 @@ def main(argv=None):
             end_gw=args.test_max_gw,
             retrain_every=args.retrain_every,
             quick=args.quick,
-            bucket_scheme_name=args.schemes[0],
+            bucket_scheme_names=args.schemes,
             model_names=args.models,
             include_regression=not args.no_regression_baseline,
-            use_tuned=not args.no_tuned_params,
+            use_tuned=_resolve_use_tuned(args),
+            save_predictions=args.save_predictions,
         )
         return
     evaluate_static_split(

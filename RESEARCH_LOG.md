@@ -5,6 +5,80 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-10 - Bucket-count sweep, dedicated classification tuning, and ensemble tests: 8 buckets confirmed, tuning helps, every ensemble is a negative result
+
+Branch `exp/bucket-scheme-sweep`. Three questions from the PO, all answered on the same GW153-183
+walk-forward (retrain every 4, tuned-vs-tuned against the production CatBoost regression):
+(1) how many probability buckets are best, and does moving the binary cutpoint from <=2/>2 to
+<=6/>6 help; (2) does the winning scheme improve with hyperparameters tuned for classification
+instead of borrowed from the regression; (3) do ensembles help - bucket x regression blend,
+"binomial for captaincy + 8 buckets for forecasting", bucket-model self-ensembles.
+
+**1. Bucket count: at least 5, and 8 is enough.** New parametric schemes (`binary2/6/9`, `tri3`,
+`int13`) next to the existing `coarse5/fine8/fine10`, all swept in one shared retrain loop
+(`--schemes` now takes a list; predictions dumpable via `--save-predictions` for post-processing):
+
+| scheme (buckets) | spearman | ev_rmse | total_calibration | cap_ev |
+|---|---|---|---|---|
+| fine8 (8) | 0.7015 | **1.9177** | 1.0175 | **0.5655** |
+| fine10 (10) | 0.7015 | 1.9178 | 1.0205 | 0.5655 |
+| int13 (13) | 0.7015 | 1.9181 | 1.0222 | 0.5655 |
+| coarse5 (5) | **0.7017** | 1.9200 | 1.0168 | 0.5562 |
+| tri3 (3) | 0.6926 | 1.9721 | 0.9964 | 0.5300 |
+| binary2 (<=2/>2) | 0.6939 | 1.9792 | 0.9918 | 0.4869 |
+| binary6 (<=6/>6) | 0.6877 | 2.0839 | 1.0241 | 0.5412 |
+| binary9 (<=9/>9) | 0.6772 | 2.1885 | 1.0436 | 0.5243 |
+| catboost_regression | 0.6755 | 2.0726 | 0.5439 | 0.5431 |
+
+5 through 13 buckets are identical to the third decimal - the distribution's value saturates
+fast, and past 8 buckets there is nothing left to buy. Below 5 the loss is real at every
+position. Moving the binary cut from 2 to 6 does NOT rescue the binomial framing for
+forecasting: one cut anywhere throws away too much of the outcome scale. **fine8 declared the
+scheme winner** (best ev_mae 1.0228, tied-best everything else, simplest of the tied group).
+Every multiclass scheme beats the regression on ranking, RMSE, and calibration - consistent
+with the 2026-07-08 entry, and still subject to its MILP caveat.
+
+**2. Dedicated classification tuning helps (where it aimed).** New `--tune` mode Optuna-tunes
+the CatBoost CLASSIFIER per position (multiclass logloss objective, expanding-window CV,
+GW<=152 only so the eval window stays unseen; saved as `tuned_params_<POS>_bucket_fine8.json`,
+loaded via `--bucket-tuned-params`). The tuner consistently chose shallower/slower-learning
+trees than the regression params (depth 4-5, lr ~0.02-0.03 vs depth 5, lr 0.014). Walk-forward,
+fine8, dedicated vs borrowed params: logloss 0.8985 vs 0.9035, ev_mae 0.9977 vs 1.0228, ev_rmse
+1.9130 vs 1.9177, bias -0.008 vs +0.020, spearman 0.7020 vs 0.7015, haul AUC 0.8876 vs 0.8846 -
+a small, uniform improvement on every proper/accuracy metric (exactly what tuning optimized).
+Captaincy capture moved the other way (cap_ev 0.5000 vs 0.5655) - see 3c.
+
+**3. Ensembles: all negative, reported per this project's practice.**
+- **(a) Blend with the regression** (w*bucket + (1-w)*regression, w chosen on GW153-167 by
+  spearman, scored only on GW168-183): chosen w=0.6 gets spearman 0.7071 vs 0.7062 for pure
+  bucket - a tie - while calibration degrades (0.80 vs 0.98) and RMSE is worse than pure bucket
+  (1.9076 vs 1.8742). The regression's conditional-median bias only dilutes the well-calibrated
+  bucket mean. No reason to blend.
+- **(b) Self-ensembles**: equal-weight E[pts] across schemes (fine8+coarse5+fine10+int13) is a
+  no-op - their forecasts are near-perfectly correlated (spearman 0.7016, identical captaincy).
+  CatBoost+LightGBM within fine8 gains noise-level ranking (0.7027 vs 0.7020) and loses
+  calibration (0.90) and captaincy (0.4719), because default-params LightGBM is biased low
+  (-0.22). Echoes the Clemen-1989 result already in CLAUDE.md: the best single model resists
+  dilution.
+- **(c) The "binomial for captaincy" hybrid is NOT confirmed.** PO hypothesis: rank captains by
+  fine8 E[pts] * (1 + P(>threshold)) with the probability from a dedicated binary model. On
+  borrowed-params fine8 the binary6 tilt looked good (top-1 capture 0.5749 vs 0.5655 base, and
+  the 6-cut beat both the 2-cut and the haul-cut) - but the entire gain lives in GW153-167 and
+  vanishes in the second half, and on the dedicated-tuned fine8 the same tilt HURTS (0.4963 vs
+  0.5000). A dedicated binary9 haul model also has WORSE haul AUC (0.8779) than the P(>=10)
+  implied by fine8's own distribution (0.8876), so the binomial model adds no tail information
+  the multiclass doesn't already carry. Verdict: captaincy stays E[pts]-ranked; top-1 capture
+  over 31 GWs is too noisy to certify any of these tilts, and nothing here replicates.
+
+**Decision:** fine8 with dedicated tuned params replaces coarse5 as the standing bucket
+configuration (forecasting-only view, per the 2026-07-08 decision); no ensemble layer is added.
+All pooled rows are in `experiments/results.csv` (`bucket_scheme_sweep`,
+`bucket_fine8_dedicated_tuning`, `bucket_regression_blend`, `bucket_captaincy_tilt`,
+`bucket_selfensemble_cb_lgb`); prediction dumps regenerate via
+`python -m fpl.model.probabilistic_buckets --walk-forward --schemes ... --save-predictions ...`
+(new `fpl/model/bucket_ensembles.py` post-processes them). If the bucket view is ever to feed
+the MILP again, re-run the 2026-07-08 backtest with the tuned fine8 first.
+
 ## 2026-07-08 - MILP backtest: bucket E[points] LOSES to the tuned regression on realized points (2059 vs 2107), despite winning every forecast metric
 
 The decisive test the previous entry set up. Bucket E[points] won calibration, RMSE, ranking, and
