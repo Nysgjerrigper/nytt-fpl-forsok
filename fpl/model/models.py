@@ -190,7 +190,10 @@ def _tuned_params(name, position):
     path = config.MODELS_DIR / f"tuned_params_{position}_{name}.json"
     if not path.exists():
         return None
-    return json.loads(path.read_text())
+    loaded = json.loads(path.read_text())
+    # Underscore-prefixed keys are provenance metadata written by tuning.save_best_params
+    # (e.g. "_meta": the GW cap the search ran under), not constructor arguments.
+    return {k: v for k, v in loaded.items() if not k.startswith("_")}
 
 
 def fit_model(name, X, y, position=None):

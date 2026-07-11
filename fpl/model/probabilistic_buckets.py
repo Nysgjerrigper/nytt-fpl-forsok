@@ -737,7 +737,7 @@ def evaluate_walk_forward(
 
 
 def evaluate_static_split(
-    train_max_gw=152,
+    train_max_gw=config.TUNING_TRAIN_MAX_GW,
     test_min_gw=153,
     test_max_gw=183,
     quick=False,
@@ -778,7 +778,7 @@ def evaluate_static_split(
     return report_predictions(predictions, n_schemes=len(schemes))
 
 
-def tune_bucket_position(df, feature_cols, position, scheme, n_trials=30, n_splits=3, train_max_gw=152):
+def tune_bucket_position(df, feature_cols, position, scheme, n_trials=30, n_splits=3, train_max_gw=config.TUNING_TRAIN_MAX_GW):
     """Optuna-tune the CatBoost bucket CLASSIFIER for one (position, scheme).
 
     The production tuned params were searched for a MAE regression objective;
@@ -841,7 +841,7 @@ def tune_bucket_position(df, feature_cols, position, scheme, n_trials=30, n_spli
     return best, float(study.best_value)
 
 
-def run_bucket_tuning(scheme_names, positions=None, n_trials=30, n_splits=3, train_max_gw=152):
+def run_bucket_tuning(scheme_names, positions=None, n_trials=30, n_splits=3, train_max_gw=config.TUNING_TRAIN_MAX_GW):
     """Tune and persist bucket-classifier params for every (scheme, position)."""
     raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
     df = features.build_feature_frame(raw)
@@ -931,7 +931,7 @@ def walk_forward_predictions_csv(
 
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description="Compare probabilistic bucket models for FPL points.")
-    parser.add_argument("--train-max-gw", type=int, default=152)
+    parser.add_argument("--train-max-gw", type=int, default=config.TUNING_TRAIN_MAX_GW)
     parser.add_argument("--test-min-gw", type=int, default=153)
     parser.add_argument("--test-max-gw", type=int, default=183)
     parser.add_argument("--quick", action="store_true", help="Reduce GBM iterations for a faster smoke run.")
@@ -973,7 +973,7 @@ def parse_args(argv=None):
                         "--schemes and each position, then exit.")
     parser.add_argument("--tune-trials", type=int, default=30)
     parser.add_argument("--tune-splits", type=int, default=3)
-    parser.add_argument("--tune-max-gw", type=int, default=152,
+    parser.add_argument("--tune-max-gw", type=int, default=config.TUNING_TRAIN_MAX_GW,
                         help="(tune) Only use gameweeks <= this for tuning CV, so the tuner never "
                         "sees the evaluation window.")
     parser.add_argument("--positions", nargs="+", default=None, choices=list(POSITIONS),

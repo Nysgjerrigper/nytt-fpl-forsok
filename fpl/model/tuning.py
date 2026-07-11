@@ -142,13 +142,21 @@ def _expanding_window_folds(gws, n_splits):
         train_gws = np.concatenate([train_gws, val_gws])
 
 
-def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=4):
+def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=4,
+                  train_max_gw=config.TUNING_TRAIN_MAX_GW):
     """Search hyperparameters for one GBM on one position, returning the best params dict.
 
     Runs an Optuna study whose objective refits `model_name` on each expanding-window fold
     and returns the mean validation MASE across folds (the study minimizes it). Only rows of
     the given `position` are used, since the pipeline trains a separate model per position and
     a mix of positions would blur the very scale differences that motivate that separation.
+
+    `train_max_gw` caps BOTH training and validation folds at that global gameweek
+    (default config.TUNING_TRAIN_MAX_GW = the last GW before the standing MILP backtest
+    window). Without the cap, hyperparameters get validated on the very gameweeks the
+    headline realized-points number is later computed on, which quietly turns that number
+    into in-sample performance (audit finding A2). Pass None only for experiments that will
+    never be judged on the standing backtest window.
 
     Returned dict is ready to splat straight into the corresponding LGBMRegressor/XGBRegressor/
     CatBoostRegressor constructor - it includes the fixed objective/seed/verbosity settings, not
@@ -157,6 +165,8 @@ def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=
     import optuna
 
     pos_df = df[df["position"] == position].sort_values("GW_global")
+    if train_max_gw is not None:
+        pos_df = pos_df[pos_df["GW_global"] <= train_max_gw]
     gws = pos_df["GW_global"].unique()
     folds = list(_expanding_window_folds(gws, n_splits))
     if not folds:
@@ -215,13 +225,19 @@ class _FrozenTrial:
         return self._params[name]
 
 
-def save_best_params(position, model_name, params):
+def save_best_params(position, model_name, params, train_max_gw=None):
     """Persist tuned params to fpl/models/tuned_params_<position>_<model>.json, returning
-    the path. Lives alongside the saved ensembles (config.MODELS_DIR, gitignored) since it is
-    a regenerable training artifact, not source - re-run the tuner to recreate it."""
+    the path. Lives in config.MODELS_DIR (gitignored) since it is a regenerable training
+    artifact, not source - re-run the tuner to recreate it.
+
+    `train_max_gw` (the data cap the search actually ran under) is recorded in a "_meta"
+    key so the file documents its own provenance - a params file with no recorded cap
+    cannot prove the search didn't validate on the backtest window. Underscore-prefixed
+    keys are stripped by models._tuned_params before the constructor splat."""
     config.MODELS_DIR.mkdir(parents=True, exist_ok=True)
     path = config.MODELS_DIR / f"tuned_params_{position}_{model_name}.json"
-    path.write_text(json.dumps(params, indent=2, sort_keys=True))
+    payload = {**params, "_meta": {"train_max_gw": train_max_gw}}
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True))
     return path
 
 
@@ -241,6 +257,10 @@ def main(argv=None):
     parser.add_argument("--model", required=True, choices=SUPPORTED_MODELS)
     parser.add_argument("--n-trials", type=int, default=50)
     parser.add_argument("--n-splits", type=int, default=4)
+    parser.add_argument("--train-max-gw", type=int, default=config.TUNING_TRAIN_MAX_GW,
+                        help="Cap all CV folds at this global gameweek so the search never "
+                             "validates on the standing backtest window (default: "
+                             f"{config.TUNING_TRAIN_MAX_GW}, the GW before that window starts).")
     args = parser.parse_args(argv)
 
     from fpl import features
@@ -248,9 +268,10 @@ def main(argv=None):
     df = _load_features()
     feature_cols = features.feature_columns(df)
     print(f"Tuning {args.model} for {args.position} over {args.n_trials} trials "
-          f"({args.n_splits}-fold expanding-window CV)...")
-    best = tune_position(df, feature_cols, args.position, args.model, args.n_trials, args.n_splits)
-    path = save_best_params(args.position, args.model, best)
+          f"({args.n_splits}-fold expanding-window CV, folds capped at GW{args.train_max_gw})...")
+    best = tune_position(df, feature_cols, args.position, args.model, args.n_trials, args.n_splits,
+                         train_max_gw=args.train_max_gw)
+    path = save_best_params(args.position, args.model, best, train_max_gw=args.train_max_gw)
     print(f"Best params: {json.dumps(best, indent=2, sort_keys=True)}")
     print(f"Saved to {path}")
 
