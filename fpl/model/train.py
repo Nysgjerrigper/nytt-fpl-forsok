@@ -156,8 +156,14 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
     baseline_pred = test_df["total_points_roll3"].fillna(test_df["total_points_season_avg"]).fillna(0)
 
     # In-sample scale for MASE - fit on train_df only, so the score-intermittency benchmark
-    # itself can't leak information from the test window it's used to judge.
-    naive_scale = naive_lag1_scale(train_df)
+    # itself can't leak information from the test window it's used to judge. PER POSITION,
+    # matching tuning.py: a single pooled denominator made per-position MASE a disguised MAE
+    # ranking ("FWD is hardest" was an artifact of the shared scale, audit finding B4) and
+    # made numbers incomparable across modules. Not comparable with MASE tables printed
+    # before 2026-07-11 - see RESEARCH_LOG.md.
+    naive_scale_by_pos = {
+        pos: naive_lag1_scale(train_df[train_df["position"] == pos]) for pos in POSITIONS
+    }
 
     # Extra per-player time-series baselines (fpl.model.baselines) reported alongside the
     # models - econometric/financial-forecasting techniques (Croston, naive drift, SES,
@@ -228,6 +234,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
         row.append(ensemble_mae)
         print(f"{row[0]:<8}" + "".join(f"{v:<14.4f}" for v in row[1:]))
 
+        naive_scale = naive_scale_by_pos[pos]
         mase_rows[pos] = (
             [mase(y_true_pos, preds_by_model[name], naive_scale) for name in models.MODEL_NAMES]
             + [mase(y_true_pos, baseline_pos, naive_scale)]
@@ -249,7 +256,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
     print("(*ensemble MAE measured on the 2nd half of the test window only, using weights fit on the 1st half - "
           "a genuine holdout, not the same rows the weights were chosen from.)")
 
-    print("\nMASE (< 1 beats the naive last-gameweek forecast, scale fit on train_df only):")
+    print("\nMASE (< 1 beats the naive last-gameweek forecast; scale fit per position, on train_df only):")
     print(header)
     for pos in POSITIONS:
         print(f"{pos:<8}" + "".join(f"{v:<14.4f}" for v in mase_rows[pos]))
@@ -294,7 +301,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
             else:
                 w = fit_weights(fit_preds, y_fit, method=c)
                 pred_eval = sum(w[n] * p[d["eval_idx"]] for n, p in d["preds"].items())
-            scores[c] = mase(y_eval, pred_eval, naive_scale)
+            scores[c] = mase(y_eval, pred_eval, naive_scale_by_pos[pos])
         chosen = min(scores, key=scores.get)
         best_strategy_per_pos[pos] = chosen
         print(f"{pos:<8}" + "".join(f"{scores[c]:<16.4f}" for c in candidates) + f"-> {chosen}")
@@ -328,11 +335,15 @@ def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lig
     """Expanding-window walk-forward validation: for each GW from `start_gw`
     onward, train on everything strictly before it and predict that GW only.
     More gameweeks of true out-of-sample error than a single static split."""
-    # Scale fit ONCE, globally (not re-fit per fold): this is a secondary diagnostic metric,
-    # not something used to pick hyperparameters, so a single fixed denominator makes MASE
-    # comparable fold-to-fold - refitting it per fold would make early folds (small training
-    # windows) noisy and conflate "the scale changed" with "the model got worse".
-    naive_scale = naive_lag1_scale(df[df["GW_global"] < start_gw])
+    # Scale fit ONCE (not re-fit per fold): this is a secondary diagnostic metric, not
+    # something used to pick hyperparameters, so a fixed denominator makes MASE comparable
+    # fold-to-fold - refitting it per fold would make early folds (small training windows)
+    # noisy and conflate "the scale changed" with "the model got worse". Per position, for
+    # the same B4 reason as evaluate_static_split.
+    pre_start = df[df["GW_global"] < start_gw]
+    naive_scale_by_pos = {
+        pos: naive_lag1_scale(pre_start[pre_start["position"] == pos]) for pos in POSITIONS
+    }
     gws = sorted(g for g in df["GW_global"].unique() if g >= start_gw)
     errors = []
     mase_errors = []
@@ -350,7 +361,7 @@ def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lig
             preds = model.predict(pos_test[feature_cols])
             y_true = pos_test["total_points"]
             errors.append(mae(y_true, preds))
-            mase_errors.append(mase(y_true, preds, naive_scale))
+            mase_errors.append(mase(y_true, preds, naive_scale_by_pos[pos]))
     print(f"\nWalk-forward MAE across GW{start_gw}+ (step={step}, model={model_name}): "
           f"{np.mean(errors):.4f} (n windows={len(errors)})")
     print(f"Walk-forward MASE across GW{start_gw}+ (step={step}, model={model_name}): "
