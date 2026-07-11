@@ -20,13 +20,11 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
-from fpl.model import models as model_registry
-from fpl.model.ensemble import PositionEnsemble
-from fpl.model.train import POSITIONS, fit_holdout_weights, fit_level_calibration
+from fpl.model.train import POSITIONS, fit_holdout_weights, fit_level_calibration, fit_position_ensembles
 
 
 def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16,
-                             weight_strategy="nnls", calibrate_level=False):
+                             weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY, calibrate_level=False):
     """Predict every GW in [start_gw, end_gw] using only data from earlier GWs.
 
     Combination weights are fit ONCE, on the `weight_window` gameweeks strictly before
@@ -71,15 +69,7 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
             train_df = df[df["GW_global"] < gw]
             if train_df.empty:
                 continue
-            for pos in POSITIONS:
-                pos_train = train_df[train_df["position"] == pos]
-                if pos_train.empty:
-                    continue
-                weights = weights_by_pos[pos]
-                X, y = pos_train[feature_cols], pos_train[features.TARGET_COL]
-                members = {name: model_registry.fit_model(name, X, y, position=pos)
-                           for name, wgt in weights.items() if wgt > 1e-6}
-                models_cache[pos] = PositionEnsemble(members, weights)
+            models_cache.update(fit_position_ensembles(train_df, feature_cols, weights_by_pos))
             last_trained_gw = gw
             print(f"Retrained models for GW {gw}")
 
@@ -108,9 +98,10 @@ if __name__ == "__main__":
     parser.add_argument("--end-gw", type=int, required=True)
     parser.add_argument("--retrain-every", type=int, default=4,
                          help="Retrain models every N gameweeks instead of every single GW (much faster).")
-    parser.add_argument("--weight-strategy", type=str, default="nnls",
-                         help="Combination strategy: nnls | top_k | ridge | single:<model> "
-                              "(e.g. single:catboost).")
+    parser.add_argument("--weight-strategy", type=str, default=config.PRODUCTION_WEIGHT_STRATEGY,
+                         help="Combination strategy: nnls | top_k | ridge | single:<model>. "
+                              "Defaults to the production strategy (config.PRODUCTION_WEIGHT_STRATEGY) "
+                              "so backtests measure the same configuration live runs use.")
     parser.add_argument("--calibrate-level", action="store_true",
                          help="Rescale each position's predictions by sum(actual)/sum(predicted) "
                               "fit on the pre-window holdout - corrects MAE-loss median-flattening "

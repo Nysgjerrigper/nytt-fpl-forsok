@@ -1,13 +1,11 @@
 """
 Per-position ensemble: a fitted model per algorithm in fpl.model.models.FACTORIES,
 blended with non-negative weights fit on held-out predictions (see
-fit_blend_weights). Persisted with joblib so the whole ensemble - members and
-weights - loads back as one object for live prediction in run_week.py.
+fit_blend_weights). Never persisted: every consumer (predict.py's walk-forward,
+run_week.py's live run) refits fresh through train.fit_position_ensembles, so
+there is exactly one definition of the production model and no stale-artifact
+path to diverge from it (a saved-but-never-loaded copy was audit finding A1).
 """
-import json
-from pathlib import Path
-
-import joblib
 import numpy as np
 from scipy.optimize import nnls
 
@@ -24,19 +22,6 @@ class PositionEnsemble:
     def predict(self, X):
         preds = self.member_predictions(X)
         return sum(self.weights.get(name, 0.0) * p for name, p in preds.items())
-
-    def save(self, path):
-        path = Path(path)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        joblib.dump(self.members, path.with_suffix(".members.joblib"))
-        path.with_suffix(".weights.json").write_text(json.dumps(self.weights))
-
-    @classmethod
-    def load(cls, path):
-        path = Path(path)
-        members = joblib.load(path.with_suffix(".members.joblib"))
-        weights = json.loads(path.with_suffix(".weights.json").read_text())
-        return cls(members, weights)
 
 
 def fit_blend_weights(predictions_by_model, y_true):

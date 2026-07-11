@@ -358,18 +358,29 @@ def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lig
     return errors
 
 
-def train_final_ensembles(df, feature_cols, blend_weights):
-    """Train the model types that carry non-zero weight per position on ALL available
-    data, and save as a PositionEnsemble using the production weights. Only members with
-    weight > 0 are trained - under a single:<model> strategy that's just one model, so we
-    don't waste time fitting eleven members the blend ignores."""
-    config.MODELS_DIR.mkdir(parents=True, exist_ok=True)
+def fit_position_ensembles(df, feature_cols, weights_by_pos):
+    """Train, per position, the members carrying non-zero weight in `weights_by_pos`
+    (position-aware, so tuned per-position hyperparameters load - see models.fit_model)
+    and wrap them in a PositionEnsemble.
+
+    This is the ONE production model-fitting path: predict.py's walk-forward retrains and
+    run_week.py's live weekly fit both call it. It exists because the live path used to
+    hand-roll this loop and silently diverged from the validated configuration (fit without
+    `position=`, so the Optuna-tuned params never loaded live - audit finding A1). Only
+    members with weight > 0 are trained; under a single:<model> strategy that's one model,
+    so we don't waste time fitting eleven members the blend ignores. Positions with no rows
+    in `df` are skipped (absent from the returned dict)."""
+    ensembles = {}
     for pos in POSITIONS:
-        used = [name for name, w in blend_weights[pos].items() if w > 1e-6]
-        members = {name: train_position_model(df, feature_cols, pos, name) for name in used}
-        ensemble = PositionEnsemble(members, blend_weights[pos])
-        ensemble.save(config.MODELS_DIR / pos)
-        print(f"Saved final {pos} ensemble to {config.MODELS_DIR / pos}.* ({'+'.join(used)})")
+        pos_df = df[df["position"] == pos]
+        if pos_df.empty:
+            continue
+        weights = weights_by_pos[pos]
+        X, y = pos_df[feature_cols], pos_df[features.TARGET_COL]
+        members = {name: models.fit_model(name, X, y, position=pos)
+                   for name, w in weights.items() if w > 1e-6}
+        ensembles[pos] = PositionEnsemble(members, weights)
+    return ensembles
 
 
 if __name__ == "__main__":
@@ -380,17 +391,17 @@ if __name__ == "__main__":
     ensembles, _, best_strategy = evaluate_static_split(df, feature_cols)
     walk_forward_evaluate(df, feature_cols, start_gw=176, step=4, model_name="lightgbm")
 
-    # Production weights: the bake-off's winning combiner per position, fit on the last 16
-    # played gameweeks as a holdout (members trained on everything before that window), NOT
-    # on evaluate_static_split's test-window weights - those exist only to score the ensemble
-    # honestly, and reusing them for prediction was the blend-weight leakage documented in
-    # RESEARCH_LOG.md 2026-07-04.
-    max_gw = int(df["GW_global"].max())
-    print(f"\nFitting production weights on holdout GW{max_gw - 15}-{max_gw} "
-          f"(strategy per position: {best_strategy})...")
-    production_weights = fit_holdout_weights(df, feature_cols, first_holdout_gw=max_gw + 1,
-                                             strategy=best_strategy)
-    for pos in POSITIONS:
-        picked = ", ".join(f"{n}={w:.2f}" for n, w in production_weights[pos].items() if w > 0.01)
-        print(f"    production weights ({pos}): {picked}")
-    train_final_ensembles(df, feature_cols, production_weights)
+    # The production strategy is the single constant config.PRODUCTION_WEIGHT_STRATEGY
+    # (consumed by predict.py and run_week.py, which fit fresh models per run - nothing is
+    # saved from here). The bake-off above is the empirical check on that constant: if its
+    # winner disagrees, say so loudly and let the change be made in config, deliberately.
+    disagreeing = {pos: s for pos, s in best_strategy.items()
+                   if s != config.PRODUCTION_WEIGHT_STRATEGY}
+    if disagreeing:
+        print(f"\nWARNING: bake-off winner differs from config.PRODUCTION_WEIGHT_STRATEGY "
+              f"({config.PRODUCTION_WEIGHT_STRATEGY!r}) at: {disagreeing}.")
+        print("If this persists across runs, update config.PRODUCTION_WEIGHT_STRATEGY - and "
+              "re-verify with the realized-points MILP backtest, never on MASE alone.")
+    else:
+        print(f"\nBake-off winners all match config.PRODUCTION_WEIGHT_STRATEGY "
+              f"({config.PRODUCTION_WEIGHT_STRATEGY!r}) - production config confirmed.")

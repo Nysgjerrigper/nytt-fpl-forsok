@@ -35,9 +35,7 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl import config, features
 from fpl.data import fetch
-from fpl.model.train import POSITIONS, fit_holdout_weights
-from fpl.model import models as model_registry
-from fpl.model.ensemble import PositionEnsemble
+from fpl.model.train import POSITIONS, fit_holdout_weights, fit_position_ensembles
 from fpl.milp import optimize
 
 FPL_API = "https://fantasy.premierleague.com/api"
@@ -210,19 +208,16 @@ def main():
     feat_df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(feat_df)
 
-    # Blend weights fit on the last 16 played GWs as a genuine holdout (members trained on
-    # everything before it) - fresh every run, no dependence on stale saved weights.
+    # Same production configuration the backtests validate (config.PRODUCTION_WEIGHT_STRATEGY),
+    # fit through the same code path (train.fit_position_ensembles, position-aware so tuned
+    # per-position params load). Under a blend strategy the weights come from the last 16
+    # played GWs as a genuine holdout - fresh every run, no stale saved weights; under
+    # single:<model> no weight fitting is needed at all.
     max_played_gw = int(feat_df["GW_global"].max())
-    print(f"--- Fitting blend weights on holdout GW{max_played_gw - 15}-{max_played_gw} ---")
-    weights_by_pos = fit_holdout_weights(feat_df, feature_cols, first_holdout_gw=max_played_gw + 1)
-    models = {}
-    for pos in POSITIONS:
-        pos_df = feat_df[feat_df["position"] == pos]
-        weights = weights_by_pos[pos]
-        X, y = pos_df[feature_cols], pos_df[features.TARGET_COL]
-        members = {name: model_registry.fit_model(name, X, y)
-                   for name, wgt in weights.items() if wgt > 1e-6}
-        models[pos] = PositionEnsemble(members, weights)
+    print(f"--- Fitting production models (strategy={config.PRODUCTION_WEIGHT_STRATEGY}) ---")
+    weights_by_pos = fit_holdout_weights(feat_df, feature_cols, first_holdout_gw=max_played_gw + 1,
+                                         strategy=config.PRODUCTION_WEIGHT_STRATEGY)
+    models = fit_position_ensembles(feat_df, feature_cols, weights_by_pos)
 
     bootstrap = fetch_bootstrap()
     target_gw = determine_target_gw(bootstrap)
