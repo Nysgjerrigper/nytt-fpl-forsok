@@ -181,3 +181,60 @@ def test_all_new_columns_registered_in_feature_columns():
     assert not missing, f"new feature columns not registered: {missing}"
     # And they must actually exist as columns on the built frame, not just in the name lists.
     assert all(c in out.columns for c in expected)
+
+
+def test_dgw_second_fixture_sees_no_same_round_information():
+    """Double-gameweek leakage guard (audit A3): in a DGW a player has two rows with the
+    same GW_global, and per-row shift(1) used to let the second fixture's features include
+    the first fixture of the SAME round. After the GW-level shift, tampering with the first
+    fixture's outcome must leave BOTH GW3 rows' features unchanged - the round is predicted
+    entirely from strictly-earlier gameweeks, like a real deadline."""
+    frame = pd.DataFrame({
+        "player_id": [1, 1, 1, 1, 1],
+        "GW_global": [1, 2, 3, 3, 4],  # GW3 is a double gameweek
+        "minutes": [90.0] * 5,
+        "total_points": [2.0, 4.0, 10.0, 6.0, 5.0],
+    })
+    base = features.build_feature_frame(_base_cols(frame))
+
+    tampered = frame.copy()
+    tampered.loc[2, "total_points"] = 999.0  # first fixture of the DGW
+    after = features.build_feature_frame(_base_cols(tampered))
+
+    checked = ["total_points_prev", "total_points_roll3", "total_points_roll5",
+               "total_points_ewm3", "total_points_season_avg", "total_points_career_avg",
+               "games_played_so_far"]
+    b3 = base.loc[base["GW_global"] == 3, checked].reset_index(drop=True)
+    a3 = after.loc[after["GW_global"] == 3, checked].reset_index(drop=True)
+    pd.testing.assert_frame_equal(a3, b3)
+
+    # Both fixtures of the round carry identical deadline-time form...
+    pd.testing.assert_series_equal(b3.iloc[0], b3.iloc[1], check_names=False)
+    # ...built from GW1-2 only: prev = GW2's 4.0, roll3 = mean(2, 4) = 3.0.
+    assert b3.loc[0, "total_points_prev"] == 4.0
+    assert b3.loc[0, "total_points_roll3"] == pytest.approx(3.0)
+
+    # And GW4 must still see the (tampered) DGW - features move forward, not frozen.
+    b4 = base.loc[base["GW_global"] == 4, "total_points_roll3"].iloc[0]
+    a4 = after.loc[after["GW_global"] == 4, "total_points_roll3"].iloc[0]
+    assert a4 != b4
+    assert b4 == pytest.approx((4.0 + 10.0 + 6.0) / 3.0)  # GW2 + both GW3 fixtures
+
+
+def test_dgw_keeps_per_fixture_known_ahead_columns():
+    """The GW-level shift must only touch player-form features: the two fixtures of a DGW
+    legitimately differ in opponent/home-away (known before the round), and each keeps its
+    own outcome as the target."""
+    frame = pd.DataFrame({
+        "player_id": [1, 1, 1],
+        "GW_global": [1, 2, 2],
+        "minutes": [90.0] * 3,
+        "total_points": [2.0, 8.0, 1.0],
+        "was_home": [1, 1, 0],
+        "opponent_team": ["OPP", "OPP_A", "OPP_B"],
+    })
+    out = features.build_feature_frame(_base_cols(frame))
+    gw2 = out[out["GW_global"] == 2].sort_values("was_home", ascending=False)
+    assert list(gw2["opponent_team"]) == ["OPP_A", "OPP_B"]
+    assert list(gw2["was_home"]) == [1, 0]
+    assert set(gw2["total_points"]) == {8.0, 1.0}  # targets stay per-fixture

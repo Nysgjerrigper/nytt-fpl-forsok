@@ -88,7 +88,10 @@ TARGET_COL = "total_points"
 
 
 def _ensure_sorted(df):
-    return df.sort_values(["player_id", "GW_global"]).reset_index(drop=True)
+    # Stable sort: rows within the same (player, GW_global) - double-gameweek fixtures -
+    # must keep their input (chronological) order, or "the first fixture of the round"
+    # would be arbitrary run to run. The default quicksort is not stable.
+    return df.sort_values(["player_id", "GW_global"], kind="mergesort").reset_index(drop=True)
 
 
 def _season_key(df):
@@ -292,6 +295,52 @@ def add_xp_features(df):
     return pd.concat([df, pd.DataFrame(new_cols, index=df.index)], axis=1)
 
 
+def _player_shifted_columns(df):
+    """Every player-level column built from a per-row shift(1): the _prev/rolling/expanding
+    families, EWMA, per-90, minutes-projection and xP features, plus the appearance counter.
+    Excludes opp_* (shifted per-TEAM-gameweek, so already strictly earlier-round) and the
+    fixture/was_home columns (known-ahead, legitimately per-fixture)."""
+    suffixes = (
+        ("_prev", "_season_avg", "_career_avg", f"_ewm{EWMA_HALFLIFE}")
+        + tuple(f"_roll{w}" for w in ROLLING_WINDOWS)
+    )
+    cols = [c for c in df.columns if c.endswith(suffixes) and not c.startswith("opp_")]
+    cols += [c for c in MINUTES_FEATURES + ["games_played_so_far"] if c in df.columns]
+    return sorted(set(cols))
+
+
+def enforce_gameweek_level_shift(df):
+    """Close the double-gameweek leak in all per-row-shifted player features.
+
+    shift(1) is per ROW, so when a player has two fixtures in one GW_global (a double
+    gameweek - 8.6% of rows), the second fixture's "form" includes the first fixture of
+    the SAME round: information that does not exist when the squad locks before the round.
+    DGW players are exactly the ones the MILP hunts, so this optimism concentrated where
+    decisions are made (audit finding A3).
+
+    Fix: within each (player_id, GW_global) group, broadcast the FIRST row's values of
+    every player-shifted feature to all rows of the group. The first row's shifted
+    features are built from strictly-earlier gameweeks only, and their value does not
+    depend on the within-round fixture order - so after this, every fixture of a round
+    is predicted with the same deadline-time form, exactly like live mode. Per-fixture
+    known-ahead columns (opponent, home/away, FDR) are untouched. games_played_so_far is
+    included: freezing the appearance counter at the round's start is the same
+    deadline-time semantic (the second-fixture count would technically be schedule-known,
+    but a one-appearance offset carries no signal worth a special case).
+    """
+    df = _ensure_sorted(df)
+    cols = _player_shifted_columns(df)
+    dup = df.duplicated(["player_id", "GW_global"], keep=False)
+    if dup.any() and cols:
+        firsts = (
+            df.loc[dup]
+            .groupby(["player_id", "GW_global"], sort=False)[cols]
+            .transform("first")
+        )
+        df.loc[dup, cols] = firsts
+    return df
+
+
 def build_feature_frame(raw_df):
     """Full feature pipeline: clean dtypes, add rolling form features.
 
@@ -321,6 +370,7 @@ def build_feature_frame(raw_df):
     df = add_per90_features(df)
     df = add_opponent_strength_features(df)
     df = add_xp_features(df)
+    df = enforce_gameweek_level_shift(df)
     return df
 
 
