@@ -37,8 +37,9 @@ re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation w
 - **[1.2][DONE 2026-07-11 (code)][repro A2] `--train-max-gw` in `fpl.model.tuning`** —
   done: folds capped at `config.TUNING_TRAIN_MAX_GW` (152) by default, cap recorded in the
   params JSON under `_meta` (stripped before the constructor splat), bucket module's
-  hardcoded 152s now point at the same constant. **Still open:** depending on the PO's Q2
-  answer, re-run the CatBoost tuning under the cap and re-verify 2107 (compute).
+  hardcoded 152s now point at the same constant. Residual closed same day: tuning re-run
+  under the cap; old-vs-new params a statistical tie on GW153-183 (2041 vs 2060, CI
+  [-139, +140]); clean params adopted as production. Q2 formally unprovable and moot.
 - **[1.3][DONE 2026-07-11][leakage A3] Shift by gameweek, not by row, in `features.py`.**
   Done (commit `d4ebdc2`): `enforce_gameweek_level_shift` broadcasts the round's
   first-row values of all 109 player-shifted columns within each (player, GW) group;
@@ -51,11 +52,12 @@ re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation w
   +105, 95% CI [+21, +206], P(standard better)=0.991. Standing rule (RESEARCH_LOG
   2026-07-11): comparisons run the standard protocol vs 2041; deployment claims quote
   1936. Found in passing: live opp_* staleness, logged as 3.6.
-- **[1.5][HIGH][method B1] One-shot confirmation backtest on the frozen 2025-26 window
-  (GW191-221).** Needs PO approval (Q3) and should run AFTER 1.1-1.4 so it certifies the
-  final protocol. Run the frozen production config there exactly once, report the number
-  whatever it is (RESEARCH_LOG + experiments/results.csv), and never use the window for
-  selection afterwards. *Effort: compute only.*
+- **[1.5][DONE 2026-07-11][method B1] One-shot confirmation backtest on GW191-221.** Run
+  exactly once after 1.1-1.4 + the capped re-tuning certified the config: **1705**
+  standard / **1499** origin-based (the window offered MORE raw points than GW153-183, so
+  the ~355-point drop vs 2060 is winner's curse, not season scarcity - audit B1
+  vindicated). **The window is now SPENT for selection, permanently.** Full ladder and
+  standing rules in RESEARCH_LOG 2026-07-11.
 - **[1.6][DONE 2026-07-11 (tool)][method B3] Uncertainty on realized-points comparisons.**
   Done: `python -m fpl.milp.compare_backtests runA.csv runB.csv` — paired per-GW
   moving-block bootstrap CI on the total points difference + binomial sign test, with
@@ -72,11 +74,13 @@ re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation w
   all configs. Either implement a simple auto-sub simulation in optimize.py's scoring
   block or document the omission in the report. *Effort: ~1 day or a footnote.*
 
-### Cluster 2 — Forecast improvements (gate lifted 2026-07-11: baseline is 2041)
+### Cluster 2 — Forecast improvements (gate lifted 2026-07-11: baseline is 2060)
 
-Judge every item here on the standard-protocol realized-points MILP backtest vs **2041**
-(the post-1.3/1.4 baseline), with a 1.6 uncertainty interval — never on MASE movement
-alone. Deployment claims use the origin-based protocol (1936-anchored) instead.
+Judge every item here on the standard-protocol realized-points MILP backtest vs **2060**
+(GW153-183, capped-tuned params), with a 1.6 uncertainty interval — never on MASE movement
+alone. Note the measured CI width on this window is ~±140 points: differences inside that
+are ties. Deployment claims use the honesty ladder (RESEARCH_LOG 2026-07-11; ~1500/31 GWs).
+GW191-221 is spent and must never be used for selection.
 
 - **[2.1][HIGH][C1] Dedicated minutes model** (two-stage: P(start)/E[minutes] × points
   per 90). 59% of rows are 0-minute rows and blank-prediction is dominated by the

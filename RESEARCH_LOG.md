@@ -5,6 +5,55 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-11 - Capped re-tuning (Q2 closed) + the one-shot GW191-221 confirmation: the honesty ladder 2060 / 1916 / 1705 / 1499
+
+Final act of the audit's Cluster 1. Two things ran, in order: (1) the CatBoost tuning was
+re-run under the new `TUNING_TRAIN_MAX_GW=152` cap (Optuna 50 trials/position, seed 0, cap
+recorded in `_meta`), and (2) with the config thereby final, the frozen 2025-26 window
+GW191-221 was spent - run exactly once, both protocols, per the standing one-shot rule.
+
+**Q2 resolution (was the 2026-07-06 tuning capped?): unprovable, and now moot.** The capped
+re-search found different params at every position, but the feature pipeline changed between
+the two searches (DGW fix), so this cannot distinguish "the old search was uncapped" from
+"the features moved". What CAN be said: on the GW153-183 backtest the old and new params are
+a statistical tie (2041 vs 2060, +19, 95% CI [-139, +140], P=0.49) - so whatever the old
+search saw, it bought no measurable window advantage. The retuned params are adopted as
+production regardless, because only they are provably clean; every params JSON now carries
+its own cap in `_meta`.
+
+**The honesty ladder.** Each step removes one source of optimism from the headline number,
+all with the identical production config (tuned single:catboost, horizon-3 MILP):
+
+| # | Window | Protocol | Points | Optimism removed at this step |
+|---|--------|----------|--------|-------------------------------|
+| 1 | GW153-183 (selection window) | standard | **2060** | - (the comparison baseline) |
+| 2 | GW153-183 | origin-based | 1916 | -144: lookahead (form after t in the horizon) |
+| 3 | GW191-221 (never-selected) | standard | 1705 | -355 vs #1: selection/winner's curse |
+| 4 | GW191-221 | origin-based | **1499** | both: the honest live expectation |
+
+**The confirmation window says the winner's curse was real and large.** GW191-221 actually
+OFFERED more raw points than GW153-183 (28,052 vs 25,374 summed over all players; top-100
+concentration similar at 11,760 vs 11,571), so the ~355-point drop is not a thin season - it
+is what dozens of selection decisions on one window cost in optimism, just as audit B1
+predicted (garden of forking paths). The lookahead gap replicated on the fresh window (-206
+vs -144; same direction, similar scale given CI widths ~+/-100), which independently
+validates the origin-based protocol.
+
+**Standing rules from here (supersedes this morning's 2041/1936 entry):**
+- Comparison baseline for model/feature A/B: **2060** (standard protocol, GW153-183,
+  retuned params), always with a `compare_backtests` CI.
+- Deploy expectation to quote externally: **~1500 points per 31 GWs** (the selection-free,
+  deploy-protocol number). 1916 remains the deploy-protocol figure on the selection window
+  and the ladder as a whole is the thesis-grade result: it decomposes exactly how a
+  research backtest overstates live performance (2060 -> 1499 = -27%).
+- **GW191-221 is SPENT.** It must never be used to choose a model, feature, or
+  hyperparameter. If a future confirmation is needed, freeze GW222+ or wait for 2026-27.
+
+All four runs in `experiments/results.csv` (`retuned_rebaseline_*`,
+`confirmation_oneshot_*`); squad CSVs under `fpl/squad_selections/` (`*_retuned.csv`,
+`*_confirm.csv`). Params backup of the superseded set kept for the session only - the live
+JSONs in `fpl/models/` are the clean ones.
+
 ## 2026-07-11 - Re-baseline after DGW-leak fix + origin-based protocol: 2107 -> 2041 (comparison) and 1936 (deploy expectation)
 
 Audit items 1.3 + 1.4 landed together (commits `d4ebdc2`, `ac927c4`) and the GW153-183 /

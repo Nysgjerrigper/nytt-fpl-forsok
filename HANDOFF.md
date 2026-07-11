@@ -20,23 +20,29 @@ Last updated: 2026-07-11. Current branch: `main` (clean, synced with `origin/mai
   artifacts that used to sit alongside them were deleted 2026-07-11 with their never-called
   save/load path - audit finding A1; nothing ever loaded them.)
 
-## The numbers that anchor everything: 2041 (comparison baseline) and 1936 (deploy expectation)
+## The numbers that anchor everything: the honesty ladder (2026-07-11 final)
 
-Re-baselined 2026-07-11 after the audit's measurement-system repairs (RESEARCH_LOG entry of
-that date). Two numbers, two jobs:
+Re-baselined twice on 2026-07-11 - first after the DGW-leak fix, then again after the capped
+re-tuning - and certified once on the frozen 2025-26 window. Full lineage in RESEARCH_LOG;
+the four standing numbers, identical config (capped-tuned single:catboost, horizon-3 MILP):
 
-- **2041** — the standing COMPARISON baseline on the standard **GW153-183 / horizon-3**
-  window: tuned single:catboost through the MILP, on DGW-leak-free features. Any future
-  model/feature claim is judged against this, with a `fpl.milp.compare_backtests` CI, same
-  protocol on both sides. It replaces **2107**, which was produced by the same config on
-  features with double-gameweek leakage (-66 points of it was leak).
-- **1936** — the honest DEPLOY expectation from the origin-based protocol (form frozen at
-  each origin's deadline, the live information set). The standard protocol's lookahead
-  optimism was measured once at +105 points, 95% CI [+21, +206]. Quote THIS number when
-  saying what the system would actually have scored playing live.
+| Window | standard protocol | origin-based (deploy) protocol |
+|---|---|---|
+| GW153-183 (selection window) | **2060** = the COMPARISON baseline | 1916 |
+| GW191-221 (one-shot, now SPENT) | 1705 | **1499** = the honest live expectation |
 
-Older anchors for context: ~1870 was the untuned honest baseline, 2107 the tuned pre-DGW-fix
-one; neither is a valid comparison target anymore. Reproduce:
+- Judge every model/feature claim against **2060**, standard protocol, same window, with a
+  `fpl.milp.compare_backtests` CI. (Ties within ~+/-140 points are not distinguishable on
+  this window - the old-vs-retuned params comparison measured exactly that.)
+- Quote **~1500 per 31 GWs** for "what would this score live": selection-free window AND
+  live information set. The 2060 -> 1499 staircase (-144 lookahead, -~355 winner's curse;
+  the confirmation window actually offered MORE raw points, so it is not season scarcity)
+  is the honest headline for the report.
+- **GW191-221 must never be used for selection again.** Next confirmation: GW222+ / 2026-27.
+
+Retired anchors: 2107 (DGW-leaking features), 2041 (pre-cap params; statistical tie with
+2060), 1966/1870/1900/1811/1526 (earlier eras). Relative conclusions from those eras stand;
+their absolute levels do not. Reproduce:
 
 ```bash
 python -m fpl.model.predict --start-gw 153 --end-gw 183 --retrain-every 4 --output <preds.csv>
