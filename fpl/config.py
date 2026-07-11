@@ -15,6 +15,22 @@ GITHUB_API_SEASONS_URL = "https://api.github.com/repos/vaastav/Fantasy-Premier-L
 
 GWS_PER_SEASON = 38
 
+# The ONE definition of the production forecaster's combination strategy, consumed as the
+# default by BOTH backtest predictions (fpl.model.predict) and the live weekly run
+# (fpl.run_week) - the two paths must never disagree about what "the production model" is
+# (that skew was audit finding A1: live ran an untuned 12-member NNLS blend while every
+# documented number came from tuned single:catboost). "single:<model>" puts weight 1.0 on
+# that member; other options: "nnls" | "top_k" | "ridge" (see fpl.model.ensemble).
+# fpl.model.train's combination bake-off warns when its empirical winner disagrees with
+# this constant - update it here, deliberately, not per-callsite.
+PRODUCTION_WEIGHT_STRATEGY = "single:catboost"
+
+# Hyperparameter tuning must never validate on gameweeks the standing MILP backtest is run
+# on, or the headline realized-points number stops being out-of-sample (audit finding A2).
+# 152 = last GW before the 2024-25-season GW1-31 evaluation window (GW153-183). Like every
+# global-GW constant this is season-ORDINAL: re-derive it if DEFAULT_START_SEASON changes.
+TUNING_TRAIN_MAX_GW = 152
+
 # Extended back from the original 2022-23 thesis scope to get more history per player
 # (see RESEARCH_LOG.md). 2020-21 is the earliest season where `position`/`team` are still
 # present directly in vaastav's merged_gw.csv (older seasons need a players_raw.csv join
