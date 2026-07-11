@@ -5,6 +5,63 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-11 - Audit Cluster 1, first batch: live-path parity, tuning cap, comparison CIs, per-position MASE (branch `fix/audit-cluster1`)
+
+First four measurement-system repairs from `AUDIT_2026-07-11.md` (items 1.1/1.2/1.6/1.7 in
+TODO.md). No modeling change and no new backtest number in this batch - these fix HOW results
+are produced and judged.
+
+**A1 - the live path now runs the validated configuration.** `run_week.py` used to hand-roll
+its model fit: members fit WITHOUT `position=` (so the Optuna-tuned params - the entire +251
+gain behind 2107 - never loaded live) under a default `"nnls"` strategy (the 12-member blend
+that lost the bake-off at every position). Live 2026-27 would have run a ~1856-level system
+while every documented number said 2107. Now: `config.PRODUCTION_WEIGHT_STRATEGY`
+(`single:catboost`) is the single definition of the production model, consumed as the default
+by both `fpl.model.predict` and `fpl.run_week`, and both fit through one shared code path,
+`train.fit_position_ensembles` (position-aware). The parallel never-loaded artifact path was
+deleted outright (`train_final_ensembles`, `PositionEnsemble.save/load`, stale
+`fpl/models/<POS>.*` files): three competing definitions of "the production model" became one.
+`fpl.model.train`'s bake-off now prints a loud warning if its empirical winner ever disagrees
+with the config constant. Note: all historical BACKTEST numbers (1966, 2107, ...) are
+unaffected - they always ran through predict.py with the strategy passed explicitly; the skew
+was live-only, which is why it never showed up in any logged experiment.
+
+**A2 - the tuner can no longer validate on the backtest window.** `tune_position` folds are
+now capped at `config.TUNING_TRAIN_MAX_GW` (152, the GW before the standing GW153-183 window)
+by default, matching the discipline the bucket tuner already had; the bucket module's
+hardcoded 152s now reference the same constant. The cap is recorded in the saved params JSON
+under a `_meta` key (stripped by `models._tuned_params` before the constructor splat), so a
+params file now documents its own provenance. OPEN: whether the 2026-07-06 tuning run
+actually respected GW<153 (PO question Q2) - today's saved `tuned_params_*_catboost.json`
+predate `_meta` and cannot prove it either way. If the answer is no/unknown, re-run tuning
+under the cap and re-verify 2107.
+
+**B3 - realized-points verdicts get an uncertainty interval.** New
+`python -m fpl.milp.compare_backtests runA.csv runB.csv`: paired per-GW differences between
+two squad_selection CSVs over the same window, moving-block bootstrap (default block 3, to
+respect squad-carryover autocorrelation - an iid bootstrap understates the variance of the
+total) 95% CI on the total difference, plus a binomial sign test. Unit-tested
+(`tests/test_compare_backtests.py`), including that the block bootstrap is wider than iid
+under autocorrelation. A synthetic demo with independent per-GW noise of realistic size shows
+even an 86-point gap failing to clear the CI - the standing 48-point bucket verdict badly
+needs this check. The retroactive 2107-vs-2059 comparison waits on regenerated per-GW CSVs
+(the 1.3/1.4 re-baseline will produce them); from now on, any promote/demote decision on
+realized points should quote this CI, not just the point difference.
+
+**B4 - MASE now uses per-position scales everywhere.** `train.py` (static split, bake-off,
+walk-forward) previously divided every position's MAE by one POOLED naive scale, while
+`tuning.py` used per-position scales - so per-position MASE claims were really MAE rankings
+in disguise ("FWD hardest, MASE 1.07 > 1" said FWD has high MAE against a shared denominator,
+not that the model loses to FWD's own naive forecast), and numbers were not comparable across
+modules. **MASE tables printed before 2026-07-11 are not comparable with those printed
+after.** Realized-points numbers, MAE columns, and all relative model rankings WITHIN a table
+are unaffected (a per-position scale is a constant within each row).
+
+All 68 tests pass (4 new: params-JSON `_meta` round-trip, tuning-cap application, and the
+compare_backtests suite). Remaining Cluster 1: 1.3 (DGW leakage GW-level shift), 1.4
+(origin-based horizon backtest) - to be landed together with ONE re-baseline - then 1.5
+(frozen 2025-26 confirmation window, needs PO approval Q3) and 1.8 (auto-subs footnote).
+
 ## 2026-07-11 - P(haul) captaincy tilt is a wash, NOT wired in (negative result)
 
 Question from the PO: the bucket distribution yields a P(haul >=10) per player; captaincy is a

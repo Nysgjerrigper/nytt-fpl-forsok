@@ -26,19 +26,19 @@ re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation w
 
 ### Cluster 1 — Repair the measurement system (do first, in this order)
 
-- **[1.1][HIGH][bug A1] Live-path production parity.** `run_week.py:223` fits members
-  without `position=pos` (tuned params never load live) and `run_week.py:217` defaults
-  to `"nnls"` instead of the bake-off winner. Fix: pass `position`, pass the production
-  strategy, and collapse run_week's inline refit onto the same code path predict.py
-  uses. Also decide the fate of the never-loaded `fpl/models/<POS>.*` ensembles
-  (`PositionEnsemble.load` has zero call sites): either make run_week load them or
-  delete the save path — one definition of "the production model", not three.
-  Independent of everything else; do first. *Effort: hours.*
-- **[1.2][HIGH][repro A2] Add `--train-max-gw` (default 152) to `fpl.model.tuning`** so
-  the regression tuner can no longer validate on the backtest window (the bucket tuner
-  already has this cap). Record the cap in the saved params JSON. Depending on the PO's
-  Q2 answer, re-run the CatBoost tuning under the cap and re-verify 2107.
-  *Effort: hours (+ compute if re-run needed).*
+- **[1.1][DONE 2026-07-11][bug A1] Live-path production parity.** Fixed on
+  `fix/audit-cluster1`: `config.PRODUCTION_WEIGHT_STRATEGY` (= `single:catboost`) is now
+  the one definition of the production model, consumed as the default by predict.py AND
+  run_week.py; both fit through the new shared `train.fit_position_ensembles` (position-
+  aware, so tuned params load live). The never-loaded save path was deleted
+  (`train_final_ensembles`, `PositionEnsemble.save/load`, the stale `fpl/models/<POS>.*`
+  artifacts); train.py's bake-off now warns if its empirical winner disagrees with the
+  config constant. Verified: one-GW walk-forward smoke run fits catboost=1.00 per position.
+- **[1.2][DONE 2026-07-11 (code)][repro A2] `--train-max-gw` in `fpl.model.tuning`** —
+  done: folds capped at `config.TUNING_TRAIN_MAX_GW` (152) by default, cap recorded in the
+  params JSON under `_meta` (stripped before the constructor splat), bucket module's
+  hardcoded 152s now point at the same constant. **Still open:** depending on the PO's Q2
+  answer, re-run the CatBoost tuning under the cap and re-verify 2107 (compute).
 - **[1.3][MEDIUM][leakage A3] Shift by gameweek, not by row, in `features.py`.** In
   double gameweeks (8.6% of rows) the second fixture's shifted features currently
   include the first fixture of the SAME gameweek — information unavailable at the
@@ -59,15 +59,17 @@ re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation w
   final protocol. Run the frozen production config there exactly once, report the number
   whatever it is (RESEARCH_LOG + experiments/results.csv), and never use the window for
   selection afterwards. *Effort: compute only.*
-- **[1.6][MEDIUM][method B3] Uncertainty on realized-points comparisons.** Small script:
-  paired per-GW block bootstrap (or sign test) over two squad_selection CSVs, reporting
-  a CI on the points difference. Run it retroactively on the 2107-vs-2059 bucket verdict
-  and prospectively on every future comparison (fold into the standing rules in
-  HANDOFF.md). Build before 1.5 so the confirmation run gets an interval. *Effort: hours.*
-- **[1.7][LOW][metric B4] Make the MASE scale consistent** — `train.py` uses one global
-  naive scale across positions, `tuning.py` uses per-position scales; per-position MASE
-  claims ("FWD hardest") are artifacts of the shared denominator. Pick per-position
-  scales everywhere, note the change where the old numbers are quoted. *Effort: hours.*
+- **[1.6][DONE 2026-07-11 (tool)][method B3] Uncertainty on realized-points comparisons.**
+  Done: `python -m fpl.milp.compare_backtests runA.csv runB.csv` — paired per-GW
+  moving-block bootstrap CI on the total points difference + binomial sign test, with
+  unit tests (`tests/test_compare_backtests.py`). **Still open:** the retroactive
+  2107-vs-2059 run (the per-GW squad_selection CSVs are not on disk; regenerate them with
+  the 1.3/1.4 re-baseline and run the comparison then), and folding "every realized-points
+  verdict carries a CI" into HANDOFF's standing rules once used in anger.
+- **[1.7][DONE 2026-07-11][metric B4] MASE scale consistent** — `train.py` (static split,
+  bake-off, walk-forward) now uses per-position naive scales like `tuning.py`. MASE tables
+  printed before 2026-07-11 are NOT comparable with new ones (see RESEARCH_LOG 2026-07-11);
+  realized-points numbers are unaffected.
 - **[1.8][LOW][scoring B5] Auto-subs + vice-captain activation in backtest scoring** —
   currently ignored, so absolute realized-points understate real FPL play equally for
   all configs. Either implement a simple auto-sub simulation in optimize.py's scoring

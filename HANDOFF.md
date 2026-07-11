@@ -16,8 +16,9 @@ Last updated: 2026-07-11. Current branch: `main` (clean, synced with `origin/mai
   `origin/experimental/*`). Junk (caches, `.DS_Store`, a stray R-output txt, old regeneratable
   prediction/squad CSVs) cleaned out. `git status` is clean.
 - `fpl/models/` is gitignored but **do not delete it**: it holds the tuned-params JSONs (expensive
-  Optuna output) that produce the 2107 baseline. The `.members.joblib`/`.weights.json` ensembles
-  there are cheap to regenerate (`python -m fpl.model.train`); the tuned params are not.
+  Optuna output) that produce the 2107 baseline. (The `.members.joblib`/`.weights.json` ensemble
+  artifacts that used to sit alongside them were deleted 2026-07-11 with their never-called
+  save/load path - audit finding A1; nothing ever loaded them.)
 
 ## The number that anchors everything: 2107
 

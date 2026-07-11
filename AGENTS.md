@@ -83,10 +83,16 @@ registry members are combined is chosen empirically per position by a combinatio
 equal-weight top-k vs ridge stacking (`fpl/model/ensemble.py::fit_weights`), all scored on the same held-out
 rows. This exists because a GW169-226 walk-forward head-to-head found CatBoost-only BEATS the 12-member NNLS
 blend at every position (weighted MASE 0.684 vs 0.761) - the classic Clemen-1989 result that estimated
-combination weights lose to the best single model when members are many and collinear. Production/backtest
-weights are always fit via `train.fit_holdout_weights` on a window strictly BEFORE whatever gets predicted
-(never reuse evaluation-window weights - that was a real leakage bug, see RESEARCH_LOG.md 2026-07-04). Saved
-ensembles live in `fpl/models/<POSITION>.*` (gitignored - regenerate with `python -m fpl.model.train`).
+combination weights lose to the best single model when members are many and collinear. The production
+combination strategy is the single constant `config.PRODUCTION_WEIGHT_STRATEGY` (currently
+`single:catboost`), consumed as the default by BOTH `fpl.model.predict` and `fpl.run_week`, which refit
+models fresh per run through the one shared path `train.fit_position_ensembles` - nothing is persisted
+(a saved-but-never-loaded ensemble copy was audit finding A1; the bake-off warns when its winner
+disagrees with the constant). Blend weights, when a blend strategy is ever chosen, are always fit via
+`train.fit_holdout_weights` on a window strictly BEFORE whatever gets predicted (never reuse
+evaluation-window weights - that was a real leakage bug, see RESEARCH_LOG.md 2026-07-04). `fpl/models/`
+holds only tuned-hyperparameter JSONs (gitignored - regenerate with `python -m fpl.model.tuning`, which
+caps its CV folds at `config.TUNING_TRAIN_MAX_GW` so tuning never validates on the backtest window).
 
 Tree models (LightGBM, XGBoost, CatBoost) get raw features including NaNs (a player's first few gameweeks have
 no rolling history yet; pre-2022-23 rows have no xG family at all) since they handle missing values natively.
