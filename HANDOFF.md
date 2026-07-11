@@ -20,18 +20,29 @@ Last updated: 2026-07-11. Current branch: `main` (clean, synced with `origin/mai
   artifacts that used to sit alongside them were deleted 2026-07-11 with their never-called
   save/load path - audit finding A1; nothing ever loaded them.)
 
-## The number that anchors everything: 2107
+## The numbers that anchor everything: 2041 (comparison baseline) and 1936 (deploy expectation)
 
-The honest production baseline on the standard **GW153-183 / horizon-3** window is **2107**
-realized points — tuned single:catboost regression through the MILP (2026-07-06 Optuna result,
-reproduced 2026-07-08). **Not** the ~1870 figure that older notes cite: 1870 is the *untuned*
-baseline. Any tuned model's realized-points claim must be compared against **2107**. Reproduce:
+Re-baselined 2026-07-11 after the audit's measurement-system repairs (RESEARCH_LOG entry of
+that date). Two numbers, two jobs:
+
+- **2041** — the standing COMPARISON baseline on the standard **GW153-183 / horizon-3**
+  window: tuned single:catboost through the MILP, on DGW-leak-free features. Any future
+  model/feature claim is judged against this, with a `fpl.milp.compare_backtests` CI, same
+  protocol on both sides. It replaces **2107**, which was produced by the same config on
+  features with double-gameweek leakage (-66 points of it was leak).
+- **1936** — the honest DEPLOY expectation from the origin-based protocol (form frozen at
+  each origin's deadline, the live information set). The standard protocol's lookahead
+  optimism was measured once at +105 points, 95% CI [+21, +206]. Quote THIS number when
+  saying what the system would actually have scored playing live.
+
+Older anchors for context: ~1870 was the untuned honest baseline, 2107 the tuned pre-DGW-fix
+one; neither is a valid comparison target anymore. Reproduce:
 
 ```bash
-python -m fpl.model.predict --start-gw 153 --end-gw 183 --retrain-every 4 \
-    --weight-strategy single:catboost --output <preds.csv>
+python -m fpl.model.predict --start-gw 153 --end-gw 183 --retrain-every 4 --output <preds.csv>
 python -m fpl.milp.optimize --predictions-csv <preds.csv> \
     --start-gw 153 --max-gw 183 --horizon 3     # prints "Total actual points over horizon"
+# deploy-honest variant: add --origin-based --horizon 3 to the predict call
 ```
 
 ## Settled this cycle: probabilistic buckets — forecasting-only, NOT a point-forecast replacement

@@ -39,21 +39,18 @@ re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation w
   params JSON under `_meta` (stripped before the constructor splat), bucket module's
   hardcoded 152s now point at the same constant. **Still open:** depending on the PO's Q2
   answer, re-run the CatBoost tuning under the cap and re-verify 2107 (compute).
-- **[1.3][MEDIUM][leakage A3] Shift by gameweek, not by row, in `features.py`.** In
-  double gameweeks (8.6% of rows) the second fixture's shifted features currently
-  include the first fixture of the SAME gameweek — information unavailable at the
-  deadline. Fix all player-level shifted features (rolling, EWMA, per-90, minutes, xP)
-  to use strictly-earlier `GW_global` values; also make the sort stable. Add a DGW
-  leakage unit test next to the existing guards in `test_features_advanced.py`.
-  Then **re-baseline**: re-run the GW153-183 backtest and update the standing number
-  (2107 will move slightly). *Effort: ~1 day + one backtest run.*
-- **[1.4][MEDIUM][method B2] Origin-based horizon backtest.** predict.py's walk-forward
-  gives the MILP lookahead forecasts for t+1/t+2 built with information through t/t+1 —
-  live mode can never have that. Add an export mode where, for each origin GW t, all of
-  t..t+h are predicted with features frozen at t (same freezing run_week does), and run
-  the MILP per origin set. Measure the gap vs the standard protocol once; this is the
-  honest deploy-expectation number. Combine with 1.3's re-baseline so there is ONE new
-  standing baseline, not two in sequence. *Effort: 1-2 days.*
+- **[1.3][DONE 2026-07-11][leakage A3] Shift by gameweek, not by row, in `features.py`.**
+  Done (commit `d4ebdc2`): `enforce_gameweek_level_shift` broadcasts the round's
+  first-row values of all 109 player-shifted columns within each (player, GW) group;
+  sort made stable; tamper-based DGW guards added. Re-baseline run: standard-protocol
+  backtest fell 2107 -> **2041** (-66, the measured size of the DGW leak).
+- **[1.4][DONE 2026-07-11][method B2] Origin-based horizon backtest.** Done (commit
+  `ac927c4`): `fpl.model.predict --origin-based` freezes form at each origin's deadline
+  via the live snapshot path; `optimize.py` solves each GW from its own origin set.
+  Measured once: origin-based scores **1936** vs standard 2041 — lookahead optimism
+  +105, 95% CI [+21, +206], P(standard better)=0.991. Standing rule (RESEARCH_LOG
+  2026-07-11): comparisons run the standard protocol vs 2041; deployment claims quote
+  1936. Found in passing: live opp_* staleness, logged as 3.6.
 - **[1.5][HIGH][method B1] One-shot confirmation backtest on the frozen 2025-26 window
   (GW191-221).** Needs PO approval (Q3) and should run AFTER 1.1-1.4 so it certifies the
   final protocol. Run the frozen production config there exactly once, report the number
@@ -62,10 +59,10 @@ re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation w
 - **[1.6][DONE 2026-07-11 (tool)][method B3] Uncertainty on realized-points comparisons.**
   Done: `python -m fpl.milp.compare_backtests runA.csv runB.csv` — paired per-GW
   moving-block bootstrap CI on the total points difference + binomial sign test, with
-  unit tests (`tests/test_compare_backtests.py`). **Still open:** the retroactive
-  2107-vs-2059 run (the per-GW squad_selection CSVs are not on disk; regenerate them with
-  the 1.3/1.4 re-baseline and run the comparison then), and folding "every realized-points
-  verdict carries a CI" into HANDOFF's standing rules once used in anger.
+  unit tests (`tests/test_compare_backtests.py`). Used in anger 2026-07-11 on the
+  standard-vs-origin gap (+105, CI [+21, +206]) and folded into HANDOFF's standing
+  rules. The once-planned retroactive 2107-vs-2059 run is MOOT: both sides ran on
+  pre-DGW-fix features and that baseline no longer stands (see RESEARCH_LOG).
 - **[1.7][DONE 2026-07-11][metric B4] MASE scale consistent** — `train.py` (static split,
   bake-off, walk-forward) now uses per-position naive scales like `tuning.py`. MASE tables
   printed before 2026-07-11 are NOT comparable with new ones (see RESEARCH_LOG 2026-07-11);
@@ -75,10 +72,11 @@ re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation w
   all configs. Either implement a simple auto-sub simulation in optimize.py's scoring
   block or document the omission in the report. *Effort: ~1 day or a footnote.*
 
-### Cluster 2 — Forecast improvements (gated on Cluster 1's new baseline)
+### Cluster 2 — Forecast improvements (gate lifted 2026-07-11: baseline is 2041)
 
-Judge every item here on the realized-points MILP backtest vs the post-1.3/1.4
-baseline, with a 1.6 uncertainty interval — never on MASE movement alone.
+Judge every item here on the standard-protocol realized-points MILP backtest vs **2041**
+(the post-1.3/1.4 baseline), with a 1.6 uncertainty interval — never on MASE movement
+alone. Deployment claims use the origin-based protocol (1936-anchored) instead.
 
 - **[2.1][HIGH][C1] Dedicated minutes model** (two-stage: P(start)/E[minutes] × points
   per 90). 59% of rows are 0-minute rows and blank-prediction is dominated by the

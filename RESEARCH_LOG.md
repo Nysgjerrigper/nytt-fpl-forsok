@@ -5,6 +5,55 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-11 - Re-baseline after DGW-leak fix + origin-based protocol: 2107 -> 2041 (comparison) and 1936 (deploy expectation)
+
+Audit items 1.3 + 1.4 landed together (commits `d4ebdc2`, `ac927c4`) and the GW153-183 /
+horizon-3 window was re-run once under both protocols, exactly so there would be ONE new
+standing baseline rather than two corrections in sequence. Same tuned single:catboost
+configuration throughout; the only changes are the measurement system's.
+
+| Configuration | Realized points |
+|---|---|
+| pre-fix standard protocol (the old standing baseline) | 2107 |
+| **standard protocol, DGW-leak-free features (new comparison baseline)** | **2041** |
+| **origin-based protocol, same features (deploy-honest expectation)** | **1936** |
+
+**What the -66 says (A3).** Removing the double-gameweek same-round leakage cost the
+standard backtest 66 points (-3.1%). That was never real skill: the second fixture of a DGW
+was being predicted with the first fixture of the same round already in its form features,
+and DGW players are exactly the ones the MILP loads up on. The audit called the effect
+"small but systematic"; measured, it is 2/3 the size of the entire Optuna tuning gain -
+worth remembering whenever a leak is dismissed as minor.
+
+**What the -105 says (B2).** With form frozen at each origin's deadline (the live
+information set, via the same `build_live_snapshot` path run_week uses), the identical
+model + MILP scores 105 fewer points than the standard walk-forward (95% block-bootstrap CI
+on the gap [+21, +206], P(standard better) = 0.991; sign test 20-11 GWs, p = 0.150 - the
+first comparison in this project to carry an interval, per the new
+`fpl.milp.compare_backtests`). The standard protocol lets the MILP's t+1/t+2 lookahead
+terms see forms that include GW t's outcomes; live never can. The CI excluding zero says
+the lookahead optimism is real, not window noise.
+
+**Standing decision rule from here.**
+- Model/feature comparisons: judge on the STANDARD protocol vs **2041**, with a
+  compare_backtests CI - the protocol is identical on both sides of any comparison, so it
+  stays fair, and it is half the compute of the origin-based run.
+- Deployment claims ("what would this have scored live"): quote **1936** / the
+  origin-based protocol. The +105 lookahead gap was measured once and does not need
+  re-measuring per experiment; re-check it only if the horizon logic or freezing mechanics
+  change.
+- All pre-2026-07-11 realized-points numbers (1526/1811/1900/1966/1870/1880/2059/2107)
+  were produced on leaking features and are not comparable with post-fix numbers. Their
+  RELATIVE conclusions stand (both sides of each comparison leaked identically).
+
+Both runs logged in `experiments/results.csv` (`audit_rebaseline_standard_protocol`,
+`audit_rebaseline_origin_based_protocol`); prediction dumps in `experiments/predictions/`
+(`preds_std_gw153_183_dgwfix.csv`, `preds_origin_gw153_183_dgwfix.csv`), squad CSVs in
+`fpl/squad_selections/` (`..._dgwfix.csv`, `..._origin_dgwfix.csv`). Note: the planned
+retroactive CI on the old 2107-vs-2059 bucket verdict is now moot - both sides of it ran on
+pre-fix features and the baseline they compared against no longer stands; if the bucket
+question is ever reopened it starts from a fresh 2041-baseline run.
+
 ## 2026-07-11 - Audit Cluster 1, first batch: live-path parity, tuning cap, comparison CIs, per-position MASE (branch `fix/audit-cluster1`)
 
 First four measurement-system repairs from `AUDIT_2026-07-11.md` (items 1.1/1.2/1.6/1.7 in

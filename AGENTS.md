@@ -137,11 +137,16 @@ git history if touching this code).
 The pipeline was validated against the old system by running both through the *same* MILP on the *same*
 2024-25-season-GW1-31 window: old LSTM+MILP scored 1526 actual points, new LightGBM+MILP scored 1811, new
 6-model ensemble+MILP scored 1900 - all with history starting at 2022-23 (so that window was GW77-107 then).
-After extending history back to 2020-21 (see RESEARCH_LOG.md), the same 2024-25-GW1-31 window is now GW153-183,
-and the 6-model ensemble+MILP scored 1966 there (+3.5%). When changing the modeling or MILP code, re-running
-this comparison (`fpl.model.predict` walk-forward predictions into `fpl.milp.optimize`, same GW range) is the
-way to check whether a change actually helps, not just whether MAE looks better in isolation - MAE improvements
-don't always translate 1:1 into more actual points once the optimizer is in the loop.
+After extending history back to 2020-21 (see RESEARCH_LOG.md), the same 2024-25-GW1-31 window is now GW153-183.
+The standing numbers there (re-baselined 2026-07-11 after the DGW-leakage fix; full lineage in HANDOFF.md and
+RESEARCH_LOG.md) are **2041** - tuned single:catboost through the MILP on the standard walk-forward protocol,
+the COMPARISON baseline every modeling change is judged against - and **1936** on the origin-based protocol
+(`fpl.model.predict --origin-based`, form frozen at each origin's deadline), the honest DEPLOY expectation
+(the +105 gap is the standard protocol's measured lookahead optimism). When changing the modeling or MILP
+code, re-running this comparison (`fpl.model.predict` walk-forward predictions into `fpl.milp.optimize`, same
+GW range, plus a `fpl.milp.compare_backtests` CI) is the way to check whether a change actually helps, not
+just whether MAE looks better in isolation - MAE improvements don't always translate 1:1 into more actual
+points once the optimizer is in the loop.
 
 ## Known limitation
 
