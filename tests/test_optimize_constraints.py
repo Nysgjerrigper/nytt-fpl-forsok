@@ -101,3 +101,63 @@ def test_optimizer_output_satisfies_all_constraints(tmp_path):
         # Same 0.1m-unit scale as the fixture's "value" column and BS=1000.0 in
         # optimize.py - NOT a pounds-millions (<=100.0) scale.
         assert row["budget_end"] <= 1000.0
+
+
+def _build_origin_predictions_csv(tmp_path):
+    """Origin-based CSV (audit B2): one forecast set per origin gameweek.
+
+    Origin 1 covers GW1-2, origin 2 covers GW2. The two origins DISAGREE about GW2 on
+    purpose: origin 1 thinks mid0 hauls and mid7 blanks; origin 2 (the set the GW2 solve
+    must use) thinks the opposite. Which player the optimizer captains at GW2 therefore
+    reveals which forecast set it consumed.
+    """
+    rows = []
+    def add(origin, gw, pid, points):
+        idx = [p[0] for p in PLAYERS].index(pid)
+        _, pos, club_idx, value = PLAYERS[idx]
+        rows.append({
+            "player_id": pid, "GW": gw, "origin_gw": origin, "name": pid, "position": pos,
+            "team": CLUBS[club_idx], "value": value,
+            "predicted_total_points": points, "actual_total_points": points,
+        })
+    for pid, _, _, _ in PLAYERS:
+        base = 2.0
+        add(1, 1, pid, 50.0 if pid == "mid0" else base)
+        add(1, 2, pid, 50.0 if pid == "mid0" else base)
+        add(2, 2, pid, 50.0 if pid == "mid7" else (0.0 if pid == "mid0" else base))
+    csv_path = tmp_path / "predictions_origin.csv"
+    pd.DataFrame(rows).to_csv(csv_path, index=False)
+    return csv_path
+
+
+def test_origin_based_solve_uses_each_gameweeks_own_forecast_set(tmp_path):
+    predictions_csv = _build_origin_predictions_csv(tmp_path)
+    output_csv = tmp_path / "squad_selection_origin.csv"
+
+    args = optimize.parse_args([
+        "--predictions-csv", str(predictions_csv),
+        "--points-col", "predicted_total_points",
+        "--start-gw", "1",
+        "--max-gw", "2",
+        "--horizon", "2",
+        "--output", str(output_csv),
+    ])
+    results_df = optimize.run(args)
+    assert len(results_df) == 2
+    by_gw = results_df.set_index("gameweek")
+
+    # GW1 solve sees only origin 1, where mid0 is the star and mid7 is nothing.
+    assert "mid0" in by_gw.loc[1, "squad"]
+    assert by_gw.loc[1, "captain"] == ["mid0"]
+    assert "mid7" not in by_gw.loc[1, "squad"]
+
+    # GW2 solve must switch to origin 2's set: mid7 is now the star, mid0 worthless.
+    # If the old single-matrix path were still in effect, GW2 would reuse origin 1's
+    # forecasts and keep captaining mid0.
+    assert "mid7" in by_gw.loc[2, "squad"]
+    assert by_gw.loc[2, "captain"] == ["mid7"]
+
+    # Structural sanity on both rows (full constraint sweep lives in the test above).
+    for gw in (1, 2):
+        assert len(by_gw.loc[gw, "squad"]) == 15
+        assert len(by_gw.loc[gw, "lineup"]) == 11

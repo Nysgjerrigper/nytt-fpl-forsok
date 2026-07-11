@@ -121,6 +121,14 @@ Do before the season opens on the FPL site; none of it affects backtests.
 - **[3.5][LOW][D2] FT/chip accounting test** — the solver's FT logic is duplicated in
   the Python state-rollover (`optimize.py:373-386`); a 5-6 GW synthetic test asserting
   the FT trajectory closes the silent-divergence class the constraint test doesn't cover.
+- **[3.6][MEDIUM][new 2026-07-11] Live opp_* features are stale.**
+  `run_week.build_future_predictions` overrides `fixture_difficulty`/`_next3` per future
+  GW from the API but NOT `opp_attack_roll6`/`opp_defense_roll6`/`opp_cs_rate_roll6` —
+  those still describe the form of the player's PREVIOUS fixture's opponent, not the
+  upcoming one. Found while building the origin-based backtest (1.4), whose
+  `predict._team_form_asof` does this correctly (upcoming opponent's form through the
+  last played GW) — reuse it in run_week. Same class as the fixed "live fixture
+  staleness" bug of 2026-07-04.
 
 ### Cluster 4 — Engineering hygiene (anytime; 4.1 early, it reduces recurrence risk)
 

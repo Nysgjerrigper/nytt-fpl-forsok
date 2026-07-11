@@ -65,12 +65,22 @@ def run(args):
     allesesonger["GW"] = pd.to_numeric(allesesonger["GW"])
     allesesonger["value"] = pd.to_numeric(allesesonger["value"]).fillna(50.0)
 
+    # Origin-based predictions (fpl.model.predict --origin-based, audit B2): the CSV holds
+    # one forecast per (origin_gw, player, GW), where the origin-t rows were built with only
+    # information available at t's deadline. The solve at GW t then uses exclusively the
+    # origin-t forecast set for its whole lookahead, mirroring what a live run knows.
+    has_origin = "origin_gw" in allesesonger.columns
+    if has_origin:
+        allesesonger["origin_gw"] = pd.to_numeric(allesesonger["origin_gw"])
+        print("origin_gw column found: solving each gameweek from its own origin forecast set.")
+
     # --- Double gameweek aggregation ---
+    group_keys = ["player_id", "GW"] + (["origin_gw"] if has_origin else [])
     sum_cols = [c for c in [args.points_col, "actual_total_points"] if c in allesesonger.columns]
     first_cols = ["name", "position", "team", "value"]
     agg = {c: "sum" for c in sum_cols}
     agg.update({c: "first" for c in first_cols if c in allesesonger.columns})
-    allesesonger = allesesonger.groupby(["player_id", "GW"], as_index=False).agg(agg)
+    allesesonger = allesesonger.groupby(group_keys, as_index=False).agg(agg)
 
     data_load_start_gw = args.start_gw - 1 if args.start_gw > 1 else args.start_gw
     data_full_range_raw = allesesonger[
@@ -110,9 +120,23 @@ def run(args):
     M_alpha = M_transfer + Q_bar
     M_q = Q_bar + 1
 
-    points_matrix_df = data_full_range_raw.pivot(index="player_id", columns="GW", values=args.points_col)
-    value_matrix_df = data_full_range_raw.pivot(index="player_id", columns="GW", values="value")
-    points_matrix_df = points_matrix_df.reindex(index=p, columns=T_setofgameweeks_full, fill_value=0.0).fillna(0.0)
+    # With origin_gw, (player, GW) pairs repeat across origins: values/actuals are identical
+    # on every copy (they come from the target row), so the first occurrence stands in; the
+    # POINTS differ per origin, so those get one matrix per origin, selected in the GW loop.
+    dedup_pg = (data_full_range_raw.drop_duplicates(subset=["player_id", "GW"])
+                if has_origin else data_full_range_raw)
+    points_matrix_by_origin = {}
+    if has_origin:
+        for origin, origin_rows in data_full_range_raw.groupby("origin_gw"):
+            points_matrix_by_origin[origin] = (
+                origin_rows.pivot(index="player_id", columns="GW", values=args.points_col)
+                .reindex(index=p).fillna(0.0)
+            )
+        points_matrix_df = None
+    else:
+        points_matrix_df = data_full_range_raw.pivot(index="player_id", columns="GW", values=args.points_col)
+        points_matrix_df = points_matrix_df.reindex(index=p, columns=T_setofgameweeks_full, fill_value=0.0).fillna(0.0)
+    value_matrix_df = dedup_pg.pivot(index="player_id", columns="GW", values="value")
     value_matrix_df = value_matrix_df.reindex(index=p, columns=T_setofgameweeks_full)
     for player_id in p:
         value_matrix_df.loc[player_id] = value_matrix_df.loc[player_id].ffill().bfill()
@@ -181,7 +205,14 @@ def run(args):
         alpha = pulp.LpVariable.dicts("PenalizedTransfers", t_sub, lowBound=0, upBound=M_alpha, cat="Integer")
         ft_carry = pulp.LpVariable.dicts("FT_Carry", t_sub, lowBound=0)
 
-        points_sub = points_matrix_df.loc[p, t_sub]
+        if has_origin:
+            origin_matrix = points_matrix_by_origin.get(current_gw)
+            if origin_matrix is None:
+                sys.exit(f"ERROR: origin-based predictions CSV has no origin_gw={current_gw} "
+                         f"forecast set - regenerate it over the full GW range.")
+            points_sub = origin_matrix.reindex(columns=t_sub, fill_value=0.0).fillna(0.0).loc[p]
+        else:
+            points_sub = points_matrix_df.loc[p, t_sub]
         value_sub = value_matrix_df.loc[p, t_sub]
 
         points_from_lineup = pulp.lpSum(points_sub.loc[p_, t_] * y[p_][t_] for p_ in p for t_ in t_sub)
@@ -421,7 +452,7 @@ def run(args):
                 lambda ids: sorted(player_name_map.get(i, f"ID:{i}") for i in ids) if isinstance(ids, list) else ids
             )
         if "actual_total_points" in data_full_range_raw.columns:
-            actual_matrix = data_full_range_raw.pivot(index="player_id", columns="GW", values="actual_total_points")
+            actual_matrix = dedup_pg.pivot(index="player_id", columns="GW", values="actual_total_points")
 
             def pts(ids, gw):
                 return sum(actual_matrix.loc[i, gw] for i in ids
@@ -448,8 +479,9 @@ def run(args):
         for col in id_cols:
             results_named[col] = results_named[col].apply(lambda x: ", ".join(map(str, x)) if isinstance(x, list) else x)
 
+        origin_tag = "_origin" if has_origin else ""
         output_path = args.output or str(
-            config.SQUAD_OUTPUT_DIR / f"squad_selection_W{args.start_gw}-{args.max_gw}_SHL{args.horizon}.csv"
+            config.SQUAD_OUTPUT_DIR / f"squad_selection_W{args.start_gw}-{args.max_gw}_SHL{args.horizon}{origin_tag}.csv"
         )
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         results_named.to_csv(output_path, index=False)
