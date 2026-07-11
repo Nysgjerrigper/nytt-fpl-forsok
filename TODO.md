@@ -4,6 +4,149 @@ Working notes for what to pick up next. Newest planning at the top; check `RESEA
 the full "why" behind each item. Nothing here is urgent - the repo is in a clean, committed,
 pushed state.
 
+## Audit follow-ups (2026-07-11) — see `AUDIT_2026-07-11.md` for full rationale
+
+A full-repo audit produced the findings referenced below by ID (A1-A4 bugs, B1-B5
+evaluation, C1-C5 prediction, D1-D2 optimizer, E1-E8 engineering). Items are grouped
+into four clusters by dependency. **Cluster 1 repairs the measurement system itself and
+must complete before Cluster 2's experiments are judged** — evaluating a new model
+against a baseline with known leakage/optimism repeats the mistake that produced the
+inflated 1966 headline. Clusters 3 and 4 are independent of the modeling work and can
+run in parallel. Absorbs these pre-existing TODO entries: "Tune lightgbm/xgboost"
+(2026-07-06 → item 2.4), "Dedicated minutes model" (2026-07-04 follow-ups → item 2.1),
+"MILP free-transfer cap is outdated" (2026-07-04 review → item 3.4), "xP never used as
+a current-GW feature" (2026-07-04 review → item 2.2), "Player identity is name-based"
+(2026-07-04 review → item 4.8).
+
+**Blocked on PO answers first** (audit §9): (Q1) what the project optimizes for now —
+live 2026-27, portfolio, or both (moves Cluster 3 up/down); (Q2) whether the 2026-07-06
+Optuna run really used GW<153 only (decides if item 1.2 is a docs gap or a
+re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation window
+(item 1.5 is a real commitment — the window is never reused for selection).
+
+### Cluster 1 — Repair the measurement system (do first, in this order)
+
+- **[1.1][HIGH][bug A1] Live-path production parity.** `run_week.py:223` fits members
+  without `position=pos` (tuned params never load live) and `run_week.py:217` defaults
+  to `"nnls"` instead of the bake-off winner. Fix: pass `position`, pass the production
+  strategy, and collapse run_week's inline refit onto the same code path predict.py
+  uses. Also decide the fate of the never-loaded `fpl/models/<POS>.*` ensembles
+  (`PositionEnsemble.load` has zero call sites): either make run_week load them or
+  delete the save path — one definition of "the production model", not three.
+  Independent of everything else; do first. *Effort: hours.*
+- **[1.2][HIGH][repro A2] Add `--train-max-gw` (default 152) to `fpl.model.tuning`** so
+  the regression tuner can no longer validate on the backtest window (the bucket tuner
+  already has this cap). Record the cap in the saved params JSON. Depending on the PO's
+  Q2 answer, re-run the CatBoost tuning under the cap and re-verify 2107.
+  *Effort: hours (+ compute if re-run needed).*
+- **[1.3][MEDIUM][leakage A3] Shift by gameweek, not by row, in `features.py`.** In
+  double gameweeks (8.6% of rows) the second fixture's shifted features currently
+  include the first fixture of the SAME gameweek — information unavailable at the
+  deadline. Fix all player-level shifted features (rolling, EWMA, per-90, minutes, xP)
+  to use strictly-earlier `GW_global` values; also make the sort stable. Add a DGW
+  leakage unit test next to the existing guards in `test_features_advanced.py`.
+  Then **re-baseline**: re-run the GW153-183 backtest and update the standing number
+  (2107 will move slightly). *Effort: ~1 day + one backtest run.*
+- **[1.4][MEDIUM][method B2] Origin-based horizon backtest.** predict.py's walk-forward
+  gives the MILP lookahead forecasts for t+1/t+2 built with information through t/t+1 —
+  live mode can never have that. Add an export mode where, for each origin GW t, all of
+  t..t+h are predicted with features frozen at t (same freezing run_week does), and run
+  the MILP per origin set. Measure the gap vs the standard protocol once; this is the
+  honest deploy-expectation number. Combine with 1.3's re-baseline so there is ONE new
+  standing baseline, not two in sequence. *Effort: 1-2 days.*
+- **[1.5][HIGH][method B1] One-shot confirmation backtest on the frozen 2025-26 window
+  (GW191-221).** Needs PO approval (Q3) and should run AFTER 1.1-1.4 so it certifies the
+  final protocol. Run the frozen production config there exactly once, report the number
+  whatever it is (RESEARCH_LOG + experiments/results.csv), and never use the window for
+  selection afterwards. *Effort: compute only.*
+- **[1.6][MEDIUM][method B3] Uncertainty on realized-points comparisons.** Small script:
+  paired per-GW block bootstrap (or sign test) over two squad_selection CSVs, reporting
+  a CI on the points difference. Run it retroactively on the 2107-vs-2059 bucket verdict
+  and prospectively on every future comparison (fold into the standing rules in
+  HANDOFF.md). Build before 1.5 so the confirmation run gets an interval. *Effort: hours.*
+- **[1.7][LOW][metric B4] Make the MASE scale consistent** — `train.py` uses one global
+  naive scale across positions, `tuning.py` uses per-position scales; per-position MASE
+  claims ("FWD hardest") are artifacts of the shared denominator. Pick per-position
+  scales everywhere, note the change where the old numbers are quoted. *Effort: hours.*
+- **[1.8][LOW][scoring B5] Auto-subs + vice-captain activation in backtest scoring** —
+  currently ignored, so absolute realized-points understate real FPL play equally for
+  all configs. Either implement a simple auto-sub simulation in optimize.py's scoring
+  block or document the omission in the report. *Effort: ~1 day or a footnote.*
+
+### Cluster 2 — Forecast improvements (gated on Cluster 1's new baseline)
+
+Judge every item here on the realized-points MILP backtest vs the post-1.3/1.4
+baseline, with a 1.6 uncertainty interval — never on MASE movement alone.
+
+- **[2.1][HIGH][C1] Dedicated minutes model** (two-stage: P(start)/E[minutes] × points
+  per 90). 59% of rows are 0-minute rows and blank-prediction is dominated by the
+  minutes signal; the current `start_rate_roll5` is a lagged proxy. Standard
+  architecture in strong FPL systems. Most likely single biggest forecast gain.
+  *Effort: 3-5 days.*
+- **[2.2][MEDIUM][C2] Current-GW xP as a feature** — legitimate (xP is pre-match) IF the
+  vaastav stamping is verified first: check per season whether raw xP correlates with
+  outcomes beyond the plausible; if any season looks post-match, keep the lagged forms
+  there. *Effort: hours + verification.*
+- **[2.3][MEDIUM][C3] LambdaRank experiment** — three "better metrics, fewer points"
+  episodes all point at within-GW ranking as what the MILP actually consumes. Train
+  LightGBM lambdarank grouped by (GW, position), map monotonically to the points scale
+  for the MILP's absolute-scale terms, backtest. A negative result is likely and fine —
+  it tests the mechanism directly. *Effort: 1-2 days.*
+- **[2.4][MEDIUM][C4] Tune LightGBM/XGBoost** so the registry ranking is
+  tuned-vs-tuned, then re-check the combination bake-off (a tuned blend might beat
+  tuned CatBoost). Mostly compute. Use the 1.2-capped tuner.
+- **[2.5][LOW/PARKED][C5] Bookmaker odds features** — strongest exogenous signal in the
+  football-prediction literature, but historical odds acquisition is a real data
+  project. Park until 2.1-2.4 are exhausted.
+
+### Cluster 3 — Live readiness for 2026-27 (needs 1.1; otherwise independent)
+
+Do before the season opens on the FPL site; none of it affects backtests.
+
+- **[3.1][HIGH][A4b] Use API availability in run_week** — filter or scale predictions by
+  `status` / `chance_of_playing_next_round` from bootstrap-static. Cheapest real gain
+  for live play; without it the optimizer happily buys injured players on good form.
+- **[3.2][MEDIUM][A4a] Current prices from the API** — override the snapshot's stale
+  `value` (last played row in vaastav's dump) with bootstrap `now_cost` so deadline
+  budget math is right.
+- **[3.3][MEDIUM][A4c] DGW handling in live horizon** — `build_team_fixture_map` keeps
+  only the first fixture of a double gameweek while backtests sum per fixture; emit one
+  prediction row per fixture (or scale by fixture count) so live stops undervaluing DGW
+  players.
+- **[3.4][MEDIUM][D1] Update FT rule to the 5-banked-transfers era** (`Q_bar=2`→5, one
+  line + a backtest to see if horizon behaviour changes). Document the sell-price
+  simplification and the chips-disabled backtest convention as known limitations.
+- **[3.5][LOW][D2] FT/chip accounting test** — the solver's FT logic is duplicated in
+  the Python state-rollover (`optimize.py:373-386`); a 5-6 GW synthetic test asserting
+  the FT trajectory closes the silent-divergence class the constraint test doesn't cover.
+
+### Cluster 4 — Engineering hygiene (anytime; 4.1 early, it reduces recurrence risk)
+
+- **[4.1][MEDIUM][E1] One shared walk-forward harness** — predict.py,
+  `probabilistic_buckets.evaluate_walk_forward`, and `walk_forward_predictions_csv` are
+  three near-copies of "retrain every N, predict GW"; `fit_holdout_weights` and
+  `fit_level_calibration` duplicate the member-training loop. A1 was exactly the class
+  of bug this duplication breeds. *Effort: ~1 day; do alongside/after 1.1.*
+- **[4.2][MEDIUM][E2] Reproducibility pinning** — lock dependency versions (pip-tools or
+  a constraints file) and extend `experiment.py` to log library versions + data state
+  (max GW, row count) per run. A CatBoost version bump can silently move 2107.
+- **[4.3][LOW][E3] Stop tracking `master_dataset.csv`** (33 MB regenerable file; .git is
+  159 MB because of it). Gitignore it, keep the thesis-era raw CSVs. History rewrite is
+  optional and the PO's call.
+- **[4.4][LOW][E4] Proper packaging** — `pyproject.toml` + `pip install -e .`, drop the
+  `sys.path.insert` hack from every module.
+- **[4.5][LOW][E5] Gate the rejected slow baselines** (per-row Theta refits, per-player
+  ARIMA) behind `--with-baselines` in train.py so the default run is fast.
+- **[4.6][LOW][E6] Feature-frame cache** — parquet keyed on (dataset hash, feature
+  version); every entrypoint currently rebuilds ~163k rows of features from scratch.
+- **[4.7][LOW][E7] Docs consolidation** — CLAUDE.md/AGENTS.md are near-duplicates (keep
+  one canonical + pointer); README still says `legacy/` holds the R code (deleted);
+  report/main.typ still cites stale numbers (also flagged under Housekeeping below).
+- **[4.8][LOW][E8] Data-quality guards in fetch.py** — assert FDR merge coverage and
+  duplicate-row counts after joins (the repo's own logging rule), replace the `iterrows`
+  in `fetch_fixture_difficulty`, and move player identity from name-factorize to
+  element-ID joins (also fixes silent player drops in live name-matching).
+
 ## Code/concept review findings (2026-07-04)
 
 From a full review of `fpl/` (errors, dead code, modeling concepts). Dead code deleted

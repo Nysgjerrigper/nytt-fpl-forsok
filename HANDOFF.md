@@ -67,6 +67,14 @@ it is not treated as noise.
 
 ## Open threads / candidate next steps (direction is the PO's call)
 
+- **Full-repo audit (2026-07-11):** `AUDIT_2026-07-11.md` holds a complete methodological/
+  engineering review; its follow-ups live as the dependency-ordered "Audit follow-ups" clusters
+  at the top of `TODO.md`. Headline findings: run_week does NOT run the validated production
+  config (untuned params + NNLS — fix first), the tuning CLI lacks the GW<153 cap the log
+  claims, DGW rows leak same-GW info into shifted features, and GW153-183 is overused as a
+  decision window (2025-26 proposed as a one-shot confirmation holdout). Blocked on three PO
+  answers listed in the audit's §9.
+
 - **Captaincy via P(haul) — RESOLVED NEGATIVE (2026-07-11), not wired in.** The E[pts]×(1+P(haul))
   tilt was re-tested walk-forward tuned-vs-tuned: it helps one base model, hurts the other
   (sign-flip = noise), and the best captaincy number comes from plain bucket E[pts] with no tilt.
