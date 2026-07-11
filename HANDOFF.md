@@ -8,9 +8,10 @@ Last updated: 2026-07-11. Current branch: `main` (clean, synced with `origin/mai
   fast-forward-merged in and its branch (`probabilistic-buckets-2026-27`) has been **deleted**
   local + remote — it lives on in `main`'s history, nothing lost. Before this merge `main` was
   27 commits stale (still the old R/LSTM code); it is now current.
-- **`probability-of-loss-2026-27`** is the one remaining side branch: binary P(blank)/P(haul)
-  classifiers (`fpl/model/loss_probability.py`) aimed at CAPTAINCY. Still open. It also carries
-  commit `8081f20` (the untuned backtest re-baseline note) which `main` does not have.
+- **`probability-of-loss-2026-27`** has been closed and archived as tag
+  `archive/probability-of-loss-2026-27` (on origin): its captaincy idea was tested against the
+  bucket module and came up a wash — see RESEARCH_LOG.md 2026-07-11 and "Settled" below. The tag
+  still carries commit `8081f20` (the untuned backtest re-baseline note) which `main` does not have.
 - Worktrees pruned to just the main checkout; stale agent branches deleted (all preserved on
   `origin/experimental/*`). Junk (caches, `.DS_Store`, a stray R-output txt, old regeneratable
   prediction/squad CSVs) cleaned out. `git status` is clean.
@@ -66,9 +67,11 @@ it is not treated as noise.
 
 ## Open threads / candidate next steps (direction is the PO's call)
 
-- **Captaincy via P(haul)** — the sibling branch's E[pts]×(1+P(haul)) tilt lifted top1_capture
-  0.365→0.429. The buckets give P(haul) for free. This is the most promising *live* use of the
-  probabilistic work: a captain-selection tweak in `run_week.py`, not a MILP point-forecast swap.
+- **Captaincy via P(haul) — RESOLVED NEGATIVE (2026-07-11), not wired in.** The E[pts]×(1+P(haul))
+  tilt was re-tested walk-forward tuned-vs-tuned: it helps one base model, hurts the other
+  (sign-flip = noise), and the best captaincy number comes from plain bucket E[pts] with no tilt.
+  Gate ("wire in only if it wins") failed; production captaincy stays on E[points]. See
+  RESEARCH_LOG.md 2026-07-11. The sibling branch's 0.365→0.429 lift did not replicate.
 - **Risk-aware bench/starter use of P(blank)** — untested; would need its own backtest, and the
   MILP consumes E[pts] only, so any use is downstream of the optimizer.
 - **Fair registry tuning** — only CatBoost is Optuna-tuned; LightGBM/XGBoost run on defaults, so
