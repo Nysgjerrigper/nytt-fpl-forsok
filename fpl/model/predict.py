@@ -91,33 +91,6 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
     return result
 
 
-def _team_form_asof(hist_df):
-    """Trailing team form through the last gameweek in `hist_df`, one row per team.
-
-    Same aggregation semantics as features.add_opponent_strength_features (goals scored =
-    sum over the team's player rows, conceded = max, clean sheet = conceded == 0; rolling
-    6-GW mean), but WITHOUT the shift and taken at each team's latest played GW - i.e.
-    "this team's form as of now". Used to attach opponent form to future fixtures the way
-    a live run could: the upcoming opponent is known from the fixture list, and their form
-    through the last played round is known; their form through rounds not yet played is not.
-    """
-    team_gw = (
-        hist_df.groupby(["team", "GW_global"], sort=True)
-        .agg(team_goals=("goals_scored", "sum"), team_conceded=("goals_conceded", "max"))
-        .reset_index()
-        .sort_values(["team", "GW_global"], kind="mergesort")
-    )
-    team_gw["team_cs"] = (team_gw["team_conceded"] == 0).astype(float)
-    grouped = team_gw.groupby("team", sort=False)
-    rolled = pd.DataFrame({
-        "team": team_gw["team"],
-        "opp_attack_roll6": grouped["team_goals"].rolling(6, min_periods=1).mean().reset_index(level=0, drop=True),
-        "opp_defense_roll6": grouped["team_conceded"].rolling(6, min_periods=1).mean().reset_index(level=0, drop=True),
-        "opp_cs_rate_roll6": grouped["team_cs"].rolling(6, min_periods=1).mean().reset_index(level=0, drop=True),
-    })
-    return rolled.groupby("team", sort=False).tail(1).set_index("team")
-
-
 def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon,
                              retrain_every=4, weight_window=16,
                              weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY):
@@ -144,9 +117,9 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
       both sides of the comparison;
     - the player-shifted feature columns of those target rows are OVERWRITTEN with the
       snapshot's frozen values, and opp_* is recomputed as the actual upcoming opponent's
-      form through GW t-1 (_team_form_asof) - NOT the target row's own opp_* (form through
+      form through GW t-1 (features.team_form_asof) - NOT the target row's own opp_* (form through
       target-1: future information), and NOT the snapshot's opp_* (the PREVIOUS fixture's
-      opponent - the staleness bug run_week itself still has, see TODO 3.6).
+      opponent - the staleness bug run_week also had, fixed 2026-07-11).
 
     Players with no snapshot row (no appearance in the trailing season before t) are
     dropped from that origin's pool - live would have no prediction for them either.
@@ -180,7 +153,7 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
         hist_raw = raw_df[raw_df["GW_global"] < origin]
         snapshot = build_live_snapshot(hist_raw)
         snapshot = snapshot.set_index("player_id")
-        opp_form = _team_form_asof(hist_raw)
+        opp_form = features.team_form_asof(hist_raw)
 
         for gw in range(origin, min(origin + horizon, end_gw + 1)):
             if gw not in played_gws:

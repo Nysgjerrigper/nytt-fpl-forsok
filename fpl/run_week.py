@@ -141,11 +141,18 @@ def build_live_snapshot(raw_df):
     return feat[feat["GW_global"] == max_gw + 1].copy()
 
 
-def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw, horizon):
+def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw, horizon,
+                             opp_form=None):
     """Predict every horizon gameweek from the live snapshot, with per-GW fixture info
     (opponent, home/away, official FDR) taken from the FPL API's fixture list - the
     fixture-difficulty features MUST be per-future-GW, not copied from the player's last
-    played row, or the model scores next week's fixture with last week's difficulty."""
+    played row, or the model scores next week's fixture with last week's difficulty.
+
+    `opp_form` (features.team_form_asof frame, indexed by team) supplies each UPCOMING
+    opponent's trailing form for the opp_* features. Without it the snapshot's own opp_*
+    values would be carried forward, and those describe the form of the player's PREVIOUS
+    fixture's opponent - the same staleness class as the fixture-difficulty bug above
+    (found 2026-07-11 while building the origin-based backtest, TODO 3.6)."""
     # Prefetch two GWs past the horizon so fixture_difficulty_next3 has a full window.
     fixture_maps = {}
     for gw in range(start_gw, start_gw + horizon + 2):
@@ -180,6 +187,9 @@ def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw
         gw_rows["fixture_difficulty"] = fdrs
         gw_rows["fixture_difficulty_next3"] = fdr3s
         gw_rows = gw_rows[gw_rows["opponent_team"].notna()]  # drop teams without a fixture this GW (blanks)
+        if opp_form is not None:
+            for col in features.OPPONENT_FEATURES:
+                gw_rows[col] = gw_rows["opponent_team"].map(opp_form[col]).to_numpy()
 
         gw_rows["predicted_total_points"] = 0.0
         for pos in POSITIONS:
@@ -224,7 +234,9 @@ def main():
     print(f"--- Target gameweek: {target_gw} ---")
 
     snapshot = build_live_snapshot(raw)
-    preds = build_future_predictions(snapshot, feature_cols, models, bootstrap, target_gw, args.horizon)
+    opp_form = features.team_form_asof(raw)
+    preds = build_future_predictions(snapshot, feature_cols, models, bootstrap, target_gw, args.horizon,
+                                     opp_form=opp_form)
     if preds.empty:
         sys.exit("Could not build any predictions - fixtures for the target gameweek aren't published yet.")
 

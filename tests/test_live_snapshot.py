@@ -55,3 +55,60 @@ def test_snapshot_rows_are_synthetic_future_rows():
     assert snapshot["GW_global"].iloc[0] == 3
     assert snapshot["team"].iloc[0] == "Arsenal"
     assert snapshot["position"].iloc[0] == "MID"
+
+
+def test_future_predictions_use_upcoming_opponents_form(monkeypatch):
+    """Live opp_* staleness guard (TODO 3.6): the opp_* features on a future-GW prediction
+    row must describe the UPCOMING opponent's trailing form, not whatever opponent the
+    player happened to face in his last played match (which is what the snapshot rows
+    carry)."""
+    import numpy as np
+    from fpl import features
+
+    # Arsenal last played Chelsea (leaky defence: concedes 3/game). Upcoming fixture is
+    # vs Wolves (concedes 1/game). Every team needs its own rows so team_form_asof sees it.
+    rows = []
+    for gw in (1, 2, 3):
+        rows.append({"player_id": 1, "GW_global": gw, "position": "MID", "team": "Arsenal",
+                     "name": "A", "was_home": 1, "total_points": 5.0, "minutes": 90,
+                     "value": 60, "opponent_team": "Chelsea",
+                     "goals_scored": 1.0, "goals_conceded": 0.0})
+        rows.append({"player_id": 2, "GW_global": gw, "position": "DEF", "team": "Chelsea",
+                     "name": "C", "was_home": 0, "total_points": 2.0, "minutes": 90,
+                     "value": 50, "opponent_team": "Arsenal",
+                     "goals_scored": 0.0, "goals_conceded": 3.0})
+        rows.append({"player_id": 3, "GW_global": gw, "position": "DEF", "team": "Wolves",
+                     "name": "W", "was_home": 1, "total_points": 2.0, "minutes": 90,
+                     "value": 50, "opponent_team": "Brentford",
+                     "goals_scored": 0.0, "goals_conceded": 1.0})
+        rows.append({"player_id": 4, "GW_global": gw, "position": "DEF", "team": "Brentford",
+                     "name": "B", "was_home": 0, "total_points": 2.0, "minutes": 90,
+                     "value": 50, "opponent_team": "Wolves",
+                     "goals_scored": 0.0, "goals_conceded": 2.0})
+    raw = pd.DataFrame(rows)
+
+    snapshot = run_week.build_live_snapshot(raw)
+    feature_cols = ["opp_attack_roll6", "opp_defense_roll6", "opp_cs_rate_roll6"]
+
+    bootstrap = {"teams": [{"id": 1, "name": "Arsenal"}, {"id": 2, "name": "Wolves"},
+                           {"id": 3, "name": "Chelsea"}, {"id": 4, "name": "Brentford"}]}
+    # GW4 fixtures: Arsenal (h) v Wolves, Chelsea (h) v Brentford.
+    monkeypatch.setattr(run_week, "fetch_fixtures", lambda gw: [
+        {"team_h": 1, "team_a": 2, "team_h_difficulty": 3, "team_a_difficulty": 3},
+        {"team_h": 3, "team_a": 4, "team_h_difficulty": 3, "team_a_difficulty": 3},
+    ])
+
+    class _Stub:
+        def predict(self, X):
+            return np.zeros(len(X))
+
+    models = {pos: _Stub() for pos in ("GK", "DEF", "MID", "FWD")}
+    opp_form = features.team_form_asof(raw)
+    preds = run_week.build_future_predictions(snapshot, feature_cols, models, bootstrap,
+                                              start_gw=4, horizon=1, opp_form=opp_form)
+
+    ars = preds[preds["player_id"] == 1].iloc[0]
+    assert ars["opponent_team"] == "Wolves"
+    # Wolves concede 1/game - the stale snapshot value would be Chelsea's 3/game.
+    assert ars["opp_defense_roll6"] == 1.0
+    assert snapshot.loc[snapshot["player_id"] == 1, "opp_defense_roll6"].iloc[0] == 3.0

@@ -274,6 +274,35 @@ def add_opponent_strength_features(df):
     return df.merge(opp_form, on=["opponent_team", "GW_global"], how="left")
 
 
+def team_form_asof(df):
+    """Trailing team form through the last gameweek in `df`, one row per team (indexed by
+    team name), columns named like OPPONENT_FEATURES.
+
+    Same aggregation semantics as add_opponent_strength_features (goals scored = sum over
+    the team's player rows, conceded = max, clean sheet = conceded == 0; rolling 6-GW
+    mean), but WITHOUT the shift and taken at each team's latest played GW - i.e. "this
+    team's form as of now". Used wherever a FUTURE fixture needs its opponent's form
+    attached (run_week's live horizon, predict's origin-based export): the upcoming
+    opponent is known from the fixture list and their form through the last played round
+    is known; their form through rounds not yet played is not.
+    """
+    team_gw = (
+        df.groupby(["team", "GW_global"], sort=True)
+        .agg(team_goals=("goals_scored", "sum"), team_conceded=("goals_conceded", "max"))
+        .reset_index()
+        .sort_values(["team", "GW_global"], kind="mergesort")
+    )
+    team_gw["team_cs"] = (team_gw["team_conceded"] == 0).astype(float)
+    grouped = team_gw.groupby("team", sort=False)
+    rolled = pd.DataFrame({
+        "team": team_gw["team"],
+        "opp_attack_roll6": grouped["team_goals"].rolling(6, min_periods=1).mean().reset_index(level=0, drop=True),
+        "opp_defense_roll6": grouped["team_conceded"].rolling(6, min_periods=1).mean().reset_index(level=0, drop=True),
+        "opp_cs_rate_roll6": grouped["team_cs"].rolling(6, min_periods=1).mean().reset_index(level=0, drop=True),
+    })
+    return rolled.groupby("team", sort=False).tail(1).set_index("team")
+
+
 def add_xp_features(df):
     """Add shifted forms of FPL's own pre-match expected-points column `xP`.
 
