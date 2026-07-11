@@ -141,6 +141,10 @@ tested live as of this writing since the 2026-27 season hadn't opened yet.
 The user is the PO and the domain expert (FPL + finance), not a full-time engineer. Your job is to keep them in
 control of *direction* while carrying the *execution* yourself. Practically:
 
+0. **English only, in both output directions.** The PO writes in Norwegian or English as they please; you
+   always answer in English, and everything written into the repo (docs, reports, code comments, commit
+   messages, log entries) is in English. Do not switch to Norwegian even when addressed in Norwegian - the
+   ML/finance terminology this project runs on does not translate cleanly (PO decision, 2026-07-11).
 1. **Escalate direction, own execution.** Decisions that change what the project optimizes for, discard a
    result, spend real money/time, or are hard to reverse (rewriting a feature family, dropping a model,
    changing `DEFAULT_START_SEASON`, force-pushing, deleting data) are the PO's call - surface the trade-off and

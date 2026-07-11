@@ -2,6 +2,10 @@
 
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
+**Language rule (PO decision, 2026-07-11):** always answer the user in English, and write everything
+that lands in the repo (docs, comments, commit messages, log entries) in English - even when the user
+writes to you in Norwegian. The project's ML/finance terminology does not translate cleanly.
+
 ## What this repo is
 
 A Fantasy Premier League (FPL) points-prediction + squad-optimization system, originally a Master's thesis
