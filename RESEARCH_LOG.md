@@ -5,6 +5,37 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-11 - Minutes hurdle v1: statistical tie on points (2085 vs 2060), sweeps every forecast diagnostic (branch `exp/minutes-hurdle`)
+
+First Cluster 2 experiment against the repaired measurement system (TODO 2.1, audit C1 -
+"probably the largest single gain"). New registry member `catboost_hurdle`
+(`models.TwoStageHurdle`): E[pts] = P(minutes>0) x E[pts | played] - an EXACT decomposition,
+since a player who never comes on scores exactly 0 and 59% of rows are 0-minute rows. The
+participation classifier (CatBoost Logloss) absorbs the zero mass; the regression head
+(CatBoost MAE, capped tuned params) trains on played rows only, so its median is no longer
+dragged to 0 by benchwarmers. fit_model gained a `minutes=` training label for this
+(participation is not recoverable from points: played rows can score 0 or negative).
+
+**Realized points (the decision metric): TIE.** GW153-183 / horizon-3, standard protocol:
+hurdle **2085** vs production catboost **2060** (+25, 95% CI [-128, +202], P(hurdle
+better)=0.71, sign test 14-15 - dead even). Under the standing rule this does not clear the
+promotion bar; `PRODUCTION_WEIGHT_STRATEGY` stays `single:catboost`.
+
+**Forecast diagnostics (walk-forward, same CSVs): a clean sweep at every position.** Better
+RMSE, less negative bias, better total calibration (e.g. DEF 0.565 vs 0.439), better
+within-GW Spearman, better top1_capture (DEF 0.444 vs 0.351) - with slightly worse MAE,
+exactly as theory predicts once a model stops fitting the zero-inflated median. Notably,
+this is the THIRD model to sweep the diagnostics, and the first that did NOT lose realized
+points doing it (level calibration lost 56, buckets lost 48). The mean-vs-median trap cost
+appears to be shrinking as the measurement system improves.
+
+**Verdict:** honest tie - kept in the registry per project convention (a real blend/bake-off
+candidate; the bake-off will flag it if it starts winning), production unchanged. Follow-up
+candidates if 2.1 is pushed further: a 3-class minutes stage (0 / cameo / 60+, capturing
+appearance-point structure), or feeding P(played)/E[min] as FEATURES to the production
+regressor (cross-fitted). Runs: `minutes_hurdle_v1_backtest` in experiments/results.csv;
+`preds_hurdle_gw153_183.csv` + `squad_selection_W153-183_SHL3_hurdle.csv` artifacts.
+
 ## 2026-07-11 - Capped re-tuning (Q2 closed) + the one-shot GW191-221 confirmation: the honesty ladder 2060 / 1916 / 1705 / 1499
 
 Final act of the audit's Cluster 1. Two things ran, in order: (1) the CatBoost tuning was
