@@ -238,3 +238,46 @@ def test_dgw_keeps_per_fixture_known_ahead_columns():
     assert list(gw2["opponent_team"]) == ["OPP_A", "OPP_B"]
     assert list(gw2["was_home"]) == [1, 0]
     assert set(gw2["total_points"]) == {8.0, 1.0}  # targets stay per-fixture
+
+
+def test_no_current_gw_xp_column_is_ever_built():
+    """The same-GW raw xP is a confirmed post-match leak (vaastav scrapes ep_this after the
+    round - RESEARCH_LOG 2026-07-16). Nothing unshifted may reach the feature list."""
+    df = _base_cols(pd.DataFrame({
+        "player_id": [1, 1, 1],
+        "GW_global": [1, 2, 3],
+        "xP": [4.0, 6.0, 2.5],
+        "minutes": [90.0, 90.0, 90.0],
+    }))
+    out = features.build_feature_frame(df)
+    assert "xP_current" not in out.columns
+    assert "xP" not in features.feature_columns(out)
+
+
+def test_xp_zero_filled_rounds_are_masked():
+    """A round where EVERY row's xP is exactly 0 is an unfilled dump round, not a forecast of 0:
+    it must stay out of the lagged forms (which previously averaged the fake zeros in)."""
+    df = _base_cols(pd.DataFrame({
+        "player_id": [1, 1, 1, 2, 2, 2],
+        "GW_global": [1, 2, 3, 1, 2, 3],
+        "xP": [4.0, 0.0, 6.0, 2.0, 0.0, 3.0],  # GW2 all-zero -> unfilled round
+        "minutes": [90.0] * 6,
+    }))
+    out = features.build_feature_frame(df)
+    p1 = out[out["player_id"] == 1].sort_values("GW_global")
+    assert np.isnan(p1["xP_prev"].iloc[2])                 # prev GW was unfilled -> NaN
+    assert p1["xP_roll3"].iloc[2] == 4.0                   # mean skips the masked round
+
+
+def test_xp_genuine_zero_in_populated_round_is_kept():
+    """A single player's xP of 0 in a round where others have real xP is a genuine value and
+    must survive into the next GW's lagged features."""
+    df = _base_cols(pd.DataFrame({
+        "player_id": [1, 1, 2, 2],
+        "GW_global": [1, 2, 1, 2],
+        "xP": [0.0, 1.0, 5.0, 4.0],
+        "minutes": [0.0, 0.0, 90.0, 90.0],
+    }))
+    out = features.build_feature_frame(df)
+    p1 = out[out["player_id"] == 1].sort_values("GW_global")
+    assert p1["xP_prev"].iloc[1] == 0.0                    # genuine 0, not masked

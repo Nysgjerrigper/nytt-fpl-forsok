@@ -46,6 +46,40 @@ Changes: `--solver {cbc,highs}` / `--threads` / `--gap-rel` CLI args on `fpl.mil
 added to requirements. `run_week.py` and the test suite inherit the new default through
 `parse_args`; pytest green (59 passed) on HiGHS.
 
+## 2026-07-16 - Current-GW xP is a confirmed post-match leak (TODO 2.2 closed NEGATIVE); zero-round mask kept (branch `exp/current-gw-xp`)
+
+TODO 2.2 asked whether the current GW's raw `xP` could be used as a feature, gated on verifying
+the vaastav stamping first. Verdict: **no, permanently - the column is stamped post-match.**
+
+**The statistical sniff tests passed, which is the instructive part.** Per-season checks looked
+pre-match-plausible everywhere: played-row corr(xP, points) ~= 0.52 in every season (nowhere near
+deterministic), and among nailed starters (prev 3 games all 60+ min) who surprisingly got 0
+minutes, only ~49% had xP < 1 - roughly what legitimate pre-deadline injury news could achieve.
+On those checks the feature shipped... and scored an **impossible 2915 vs 2060** (+855, CI
+[-1131, -588], 94 pts/GW - superhuman) on the standard GW153-183 backtest. Root cause, confirmed
+in vaastav's own docs: `xP` is the FPL API's `ep_this` scraped AFTER each round completes, and
+FPL revises that field post-match. A partially-revised pre-match estimate is exactly the kind of
+leak that passes correlation checks and fails only the end-to-end points test - the strongest
+vindication yet of the mandatory-backtest rule. Leaky prediction/squad artifacts deleted;
+`add_xp_features` now documents the leak as confirmed (not just "conservative choice"), and a
+unit test asserts nothing unshifted from xP can reach the feature list.
+
+**By-catch, kept: the xP zero-round mask.** Verification found whole rounds where every row's
+xP is exactly 0 - unfilled dump rounds, not forecasts (27 of 38 GWs in 2025-26; 1-3 per season
+2020-25, including 2024-25 GW22 inside the backtest window). Those fake zeros were polluting the
+existing lagged `xP_prev`/`xP_roll3`. They are now masked to NaN before the lagged forms are
+built. Backtest: **2086 vs 2060 - a tie** (CI [-112, +187], P(mask better)=0.72, sign test
+16-13); kept on data-correctness grounds, same logic as the DGW fix. If merged, 2086 becomes the
+new comparison baseline (PO call at merge time).
+
+**Live-only survivor idea (Cluster 3):** `ep_this` fetched from bootstrap-static BEFORE the
+deadline in `run_week` is legitimately pre-match - it just can't be backtested from this dataset.
+Logged as a possible companion to 3.1's availability filtering.
+
+Runs: `xp_current_leak_probe` (artifacts deleted) and `xp_zero_round_mask_backtest`
+(`preds_xpmask_gw153_183.csv`, `squad_selection_W153-183_SHL3_xpmask.csv`) in
+experiments/results.csv.
+
 ## 2026-07-11 - Minutes hurdle v1: statistical tie on points (2085 vs 2060), sweeps every forecast diagnostic (branch `exp/minutes-hurdle`)
 
 First Cluster 2 experiment against the repaired measurement system (TODO 2.1, audit C1 -

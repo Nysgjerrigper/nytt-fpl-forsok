@@ -74,9 +74,9 @@ re-verification); (Q3) approval to freeze GW191-221 as a one-shot confirmation w
   all configs. Either implement a simple auto-sub simulation in optimize.py's scoring
   block or document the omission in the report. *Effort: ~1 day or a footnote.*
 
-### Cluster 2 — Forecast improvements (gate lifted 2026-07-11: baseline is 2060)
+### Cluster 2 — Forecast improvements (gate lifted 2026-07-11: baseline is 2086 since the 2026-07-16 xP zero-round mask)
 
-Judge every item here on the standard-protocol realized-points MILP backtest vs **2060**
+Judge every item here on the standard-protocol realized-points MILP backtest vs **2086**
 (GW153-183, capped-tuned params), with a 1.6 uncertainty interval — never on MASE movement
 alone. Note the measured CI width on this window is ~±140 points: differences inside that
 are ties. Deployment claims use the honesty ladder (RESEARCH_LOG 2026-07-11; ~1500/31 GWs).
@@ -89,10 +89,13 @@ GW191-221 is spent and must never be used for selection.
   unchanged; member kept in the registry. Open v2 ideas if revisited: 3-class minutes
   stage (0/cameo/60+), or cross-fitted P(played)/E[min] as features into the production
   regressor. See RESEARCH_LOG 2026-07-11.
-- **[2.2][MEDIUM][C2] Current-GW xP as a feature** — legitimate (xP is pre-match) IF the
-  vaastav stamping is verified first: check per season whether raw xP correlates with
-  outcomes beyond the plausible; if any season looks post-match, keep the lagged forms
-  there. *Effort: hours + verification.*
+- **[2.2][DONE 2026-07-16 - NEGATIVE][C2] Current-GW xP as a feature** — the stamping
+  verification FAILED: vaastav scrapes xP (= API `ep_this`) after each round and FPL revises
+  it post-match. Statistical checks looked plausible; the backtest scored an impossible 2915
+  vs 2060, confirming the leak. Permanently unusable from this source. By-catch kept: all-zero
+  dump rounds now masked to NaN before the lagged xP forms (2086 vs 2060, tie - correctness
+  fix). Live-only idea: fetch `ep_this` pre-deadline in run_week (see Cluster 3 / 3.1).
+  Full story: RESEARCH_LOG 2026-07-16.
 - **[2.3][MEDIUM][C3] LambdaRank experiment** — three "better metrics, fewer points"
   episodes all point at within-GW ranking as what the MILP actually consumes. Train
   LightGBM lambdarank grouped by (GW, position), map monotonically to the points scale
