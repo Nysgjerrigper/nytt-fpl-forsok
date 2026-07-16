@@ -15,6 +15,19 @@ GITHUB_API_SEASONS_URL = "https://api.github.com/repos/vaastav/Fantasy-Premier-L
 
 GWS_PER_SEASON = 38
 
+# MILP solver settings for fpl/milp/optimize.py, benchmarked 2026-07-11 on the
+# GW153-183 standard backtest (see RESEARCH_LOG.md). MILP_SOLVER: "highs" (via the
+# highspy package) or "cbc" (PuLP's bundled COIN-OR CBC) - both prove optimality,
+# so squads are identical; HiGHS is ~20% faster overall with a better worst
+# gameweek (7.7s vs 12.7s). MILP_THREADS 0 = solver default (8 threads measured
+# no faster - the branch-and-bound tree here is too small to parallelize).
+# MILP_GAP_REL 0 = prove full optimality. Do NOT loosen the gap for speed:
+# gap 0.001 saved ~20% wall time but changed squads and cost 40 realized points
+# on the benchmark window.
+MILP_SOLVER = "highs"
+MILP_THREADS = 0
+MILP_GAP_REL = 0.0
+
 # Extended back from the original 2022-23 thesis scope to get more history per player
 # (see RESEARCH_LOG.md). 2020-21 is the earliest season where `position`/`team` are still
 # present directly in vaastav's merged_gw.csv (older seasons need a players_raw.csv join

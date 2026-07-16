@@ -37,6 +37,13 @@ def parse_args(argv=None):
     parser.add_argument("--max-gw", type=int, required=True)
     parser.add_argument("--horizon", type=int, default=3, help="Sub-horizon length (weeks to look ahead)")
     parser.add_argument("--time-limit", type=float, default=None, help="Solver time limit per GW, seconds")
+    parser.add_argument("--solver", type=str, default=config.MILP_SOLVER, choices=["cbc", "highs"],
+                         help="MILP solver backend. 'highs' requires the highspy package.")
+    parser.add_argument("--threads", type=int, default=config.MILP_THREADS,
+                         help="Solver threads (0 = solver default/single-threaded).")
+    parser.add_argument("--gap-rel", type=float, default=config.MILP_GAP_REL,
+                         help="Relative MIP optimality gap (0 = prove full optimality). "
+                              "A small gap (e.g. 0.001) trades a bounded objective loss for speed.")
     parser.add_argument("--wc1-gw", type=int, default=0, help="Force wildcard 1 at this absolute GW (0=disabled)")
     parser.add_argument("--wc2-gw", type=int, default=0, help="Force wildcard 2 at this absolute GW (0=disabled)")
     parser.add_argument("--tc-gw", type=int, default=0, help="Force triple captain at this absolute GW (0=disabled)")
@@ -52,8 +59,30 @@ def parse_args(argv=None):
     return parser.parse_args(argv)
 
 
+def make_solver(name: str, time_limit: float | None, threads: int = 0,
+                gap_rel: float = 0.0) -> pulp.LpSolver:
+    """Build the PuLP solver backend by name ('cbc' or 'highs').
+
+    With gap_rel=0 both backends return proven-optimal solutions, so squad
+    output is identical up to objective ties; they differ only in speed (see
+    config.MILP_SOLVER for the benchmark numbers behind the default).
+    """
+    if name == "highs":
+        kwargs = {"msg": False, "timeLimit": time_limit}
+        if threads:
+            kwargs["threads"] = threads
+        if gap_rel:
+            kwargs["gapRel"] = gap_rel
+        solver = pulp.HiGHS(**kwargs)
+        if not solver.available():
+            sys.exit("ERROR: --solver highs requires the highspy package (pip install highspy).")
+        return solver
+    return pulp.PULP_CBC_CMD(msg=True, timeLimit=time_limit, threads=threads or None,
+                             gapRel=gap_rel or None)
+
+
 def run(args):
-    solver = pulp.PULP_CBC_CMD(msg=True, timeLimit=args.time_limit)
+    solver = make_solver(args.solver, args.time_limit, args.threads, args.gap_rel)
 
     print(f"--- Loading predictions from {args.predictions_csv} ---")
     allesesonger = pd.read_csv(args.predictions_csv)
@@ -321,13 +350,15 @@ def run(args):
             model += alpha[t_prev] + M_alpha * q[t_curr] <= M_alpha * Q_bar
 
         print(f"Solving GW {current_gw}...")
+        solve_start = time.time()
         try:
             status = model.solve(solver)
         except Exception as exc:
             print(f"Solver error: {exc}")
             status = -1000
+        solve_time = time.time() - solve_start
         status_str = pulp.LpStatus.get(status, "Unknown Status")
-        print(f"Status: {status_str}")
+        print(f"Status: {status_str} (solve: {solve_time:.2f}s, model build: {solve_start - loop_start:.2f}s)")
 
         objective_value = model.objective.value() if model.objective is not None else None
         acceptable = status == pulp.LpStatusOptimal or (

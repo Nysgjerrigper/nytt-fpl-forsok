@@ -5,6 +5,47 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-11 - MILP solver swap CBC -> HiGHS: ~20% faster, identical squads; gap-tolerance shortcut rejected (branch `worktree-exp+milp-solver-speed`)
+
+Question from the PO: can the MILP be made faster with a newer solver/library? Infrastructure
+change only - no modeling content, no new baseline. All runs below are the standard GW153-183 /
+horizon-3 window on the same predictions file (`preds_std_gw153_183_retuned.csv`, the post-DGW-fix
+capped-retuned vintage, whose standing MILP total is 2060).
+
+| Solver configuration | Wall time | Realized points | Squad decisions |
+|---|---|---|---|
+| CBC (old default, exact) | 153.0s | 2060 | reference |
+| **HiGHS via highspy (new default, exact)** | **120.9s** | **2060** | byte-identical to CBC (diffs <= 1e-9, float noise) |
+| HiGHS, 8 threads | no change | 2060 | identical |
+| CBC, 8 threads | no change | 2060 | identical |
+| HiGHS, gapRel=0.001 | 97.7s | **2020** | 18 squad cells differ |
+
+Findings:
+- **HiGHS is the win, and it is exact.** Both solvers prove optimality, so the squad output is
+  the same by construction; HiGHS just proves it ~20% faster overall and, more usefully, caps
+  the worst gameweek at 7.7s where CBC occasionally stalls (12.7s GW163, ~11s GW154 in repeat
+  runs). Solver landscape check: HiGHS is the strongest open-source MILP engine reachable from
+  PuLP as of 2026 (SCIP/CBC behind it, CP-SAT would need an integer-coefficient rewrite);
+  commercial solvers (Gurobi, free academic licence) are the only step up, worth ~another
+  order of magnitude if solve time ever actually matters.
+- **Threads do nothing.** The per-GW problems (~700 players x 3 GWs, ~20k binaries) have too
+  shallow a branch-and-bound tree to parallelize; measured no benefit at 8 threads on either
+  solver. `--threads`/`config.MILP_THREADS` kept (default 0) since it cost nothing to expose.
+- **Do not buy speed with the MIP gap (negative result).** gapRel=0.001 (objective within 0.1%
+  of optimal per solve) saved a further ~20% wall time but changed real decisions: 2020 realized
+  points, -40 vs exact. A 0.1% slack on a ~90-point objective is ~0.09 predicted points per
+  solve - enough to flip marginal transfer/captaincy picks, and over 31 rolling solves those
+  flips compound (the rolling horizon feeds each GW's squad into the next). `--gap-rel` exists
+  for ad-hoc use but `config.MILP_GAP_REL` stays 0.
+- Model build time is NOT the bottleneck (~0.3s/GW vs 2-7s solving), so PuLP-level rewrites
+  (lpDot, variable pruning) were not pursued. Per-GW solve/build split now printed by
+  `optimize.py` for free future diagnosis.
+
+Changes: `--solver {cbc,highs}` / `--threads` / `--gap-rel` CLI args on `fpl.milp.optimize`
+(defaults from `config.MILP_SOLVER="highs"` / `MILP_THREADS=0` / `MILP_GAP_REL=0.0`), `highspy`
+added to requirements. `run_week.py` and the test suite inherit the new default through
+`parse_args`; pytest green (59 passed) on HiGHS.
+
 ## 2026-07-11 - P(haul) captaincy tilt is a wash, NOT wired in (negative result)
 
 Question from the PO: the bucket distribution yields a P(haul >=10) per player; captaincy is a
