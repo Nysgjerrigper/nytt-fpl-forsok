@@ -20,18 +20,20 @@ Last updated: 2026-07-11. Current branch: `main` (clean, synced with `origin/mai
   artifacts that used to sit alongside them were deleted 2026-07-11 with their never-called
   save/load path - audit finding A1; nothing ever loaded them.)
 
-## The numbers that anchor everything: the honesty ladder (2026-07-11 final)
+## The numbers that anchor everything: the honesty ladder (2026-07-16 update)
 
 Re-baselined twice on 2026-07-11 - first after the DGW-leak fix, then again after the capped
-re-tuning - and certified once on the frozen 2025-26 window. Full lineage in RESEARCH_LOG;
-the four standing numbers, identical config (capped-tuned single:catboost, horizon-3 MILP):
+re-tuning - certified once on the frozen 2025-26 window, then re-baselined 2026-07-16 after
+the xP zero-round mask (statistical tie with 2060, kept on data-correctness grounds). Full
+lineage in RESEARCH_LOG; the standing numbers, identical config (capped-tuned single:catboost,
+horizon-3 MILP):
 
 | Window | standard protocol | origin-based (deploy) protocol |
 |---|---|---|
-| GW153-183 (selection window) | **2060** = the COMPARISON baseline | 1916 |
+| GW153-183 (selection window) | **2086** = the COMPARISON baseline | 1916 (pre-mask, not re-run) |
 | GW191-221 (one-shot, now SPENT) | 1705 | **1499** = the honest live expectation |
 
-- Judge every model/feature claim against **2060**, standard protocol, same window, with a
+- Judge every model/feature claim against **2086**, standard protocol, same window, with a
   `fpl.milp.compare_backtests` CI. (Ties within ~+/-140 points are not distinguishable on
   this window - the old-vs-retuned params comparison measured exactly that.)
 - Quote **~1500 per 31 GWs** for "what would this score live": selection-free window AND
@@ -40,8 +42,8 @@ the four standing numbers, identical config (capped-tuned single:catboost, horiz
   is the honest headline for the report.
 - **GW191-221 must never be used for selection again.** Next confirmation: GW222+ / 2026-27.
 
-Retired anchors: 2107 (DGW-leaking features), 2041 (pre-cap params; statistical tie with
-2060), 1966/1870/1900/1811/1526 (earlier eras). Relative conclusions from those eras stand;
+Retired anchors: 2107 (DGW-leaking features), 2060 (pre-xP-mask; statistical tie with 2086),
+2041 (pre-cap params; statistical tie with 2060), 1966/1870/1900/1811/1526 (earlier eras). Relative conclusions from those eras stand;
 their absolute levels do not. Reproduce:
 
 ```bash
