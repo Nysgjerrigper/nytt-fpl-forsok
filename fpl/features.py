@@ -79,9 +79,13 @@ PER90_FEATURES = [f"{stat}_per90_roll5" for stat in PER90_STATS]
 # defensive form, which moves within a season as teams over- or under-perform their reputation.
 OPPONENT_FEATURES = ["opp_attack_roll6", "opp_defense_roll6", "opp_cs_rate_roll6"]
 
-# Bookmaker-style prior: FPL publishes its own pre-match expected points (xP). Using shifted
-# forms only (never the current GW's xP) keeps it conservative and guaranteed leakage-free even
-# if the raw column ever turned out to be populated post-match.
+# Bookmaker-style prior: FPL publishes its own expected points (xP). SHIFTED FORMS ONLY -
+# never the current GW's raw xP. This is not just caution: vaastav scrapes xP from the API's
+# `ep_this` AFTER the round, and FPL updates that field post-match, so the same-GW value
+# contains outcome information (verified 2026-07-16: feeding it unshifted scored an
+# impossible 2915 on the GW153-183 backtest - see RESEARCH_LOG). Rounds where the dump left
+# xP unfilled (every row exactly 0 - 27 of 38 GWs in 2025-26) are masked to NaN before the
+# lagged forms are built, so those fake zeros stop dragging the rolling means down.
 XP_FEATURES = ["xP_prev", "xP_roll3"]
 
 TARGET_COL = "total_points"
@@ -304,17 +308,23 @@ def team_form_asof(df):
 
 
 def add_xp_features(df):
-    """Add shifted forms of FPL's own pre-match expected-points column `xP`.
+    """Add shifted forms of FPL's expected-points column `xP` - lagged ONLY, never same-GW.
 
-    We deliberately use the previous-GW value and a shifted rolling(3) mean instead of the current
-    GW's raw xP: xP is nominally known before kickoff, but treating it as a lagged feature is the
-    conservative choice that stays leakage-free regardless of when the historical dumps stamped it.
+    The current GW's raw xP is a confirmed leak, not a conservative omission: vaastav scrapes
+    it from the API's `ep_this` after the round, and FPL updates that field post-match
+    (RESEARCH_LOG 2026-07-16 - unshifted xP scored an impossible 2915 on the standard backtest).
+    Rounds where the dump left xP unfilled (every row of the GW_global round exactly 0) are
+    masked to NaN before the lagged forms are built, so those fake zeros stop polluting
+    `xP_prev`/`xP_roll3` (27 of 38 rounds in 2025-26 are unfilled).
     """
     if "xP" not in df.columns:
         return df
     df = _ensure_sorted(df)
 
-    xp_shifted = df.groupby("player_id", sort=False)["xP"].shift(1)
+    round_max = df.groupby("GW_global", sort=False)["xP"].transform("max")
+    xp = df["xP"].mask(round_max == 0)
+
+    xp_shifted = xp.groupby(df["player_id"]).shift(1)
     new_cols = {
         "xP_prev": xp_shifted,
         "xP_roll3": (
