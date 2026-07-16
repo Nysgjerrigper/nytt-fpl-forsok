@@ -31,7 +31,7 @@ from pathlib import Path
 import lightgbm as lgb
 import numpy as np
 import xgboost as xgb
-from catboost import CatBoostRegressor
+from catboost import CatBoostClassifier, CatBoostRegressor
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.ensemble import ExtraTreesRegressor, RandomForestRegressor
@@ -141,6 +141,65 @@ def _tree_pipeline(estimator):
     ])
 
 
+class TwoStageHurdle(BaseEstimator, RegressorMixin):
+    """Minutes-aware two-stage forecast: E[points] = P(minutes > 0) x E[points | played].
+
+    FPL points are EXACTLY zero whenever a player does not come on, and 59% of
+    player-gameweek rows are 0-minute rows - so the expectation decomposes without
+    approximation into a participation probability times a conditional-on-playing
+    expectation (the classic hurdle model for zero-inflated targets). A single MAE
+    regressor on the mixed target fits its conditional MEDIAN, which for any
+    rotation-risk player is dragged toward 0 by the zero mass; here the zero mass is
+    handled by a dedicated CatBoost classifier (Logloss) and the regression head
+    (CatBoost, MAE, per-position tuned params when available) learns only from rows
+    where the player actually played.
+
+    fit() needs the row's MINUTES as a second training label (points alone cannot
+    recover participation: a played row can legitimately score 0 or negative), which
+    is why models.fit_model threads a `minutes=` argument through. predict() needs
+    only the ordinary feature matrix, so a fitted instance is a drop-in
+    PositionEnsemble member.
+    """
+
+    def __init__(self, position=None):
+        self.position = position
+
+    def fit(self, X, y, minutes):
+        played = np.asarray(minutes, dtype=float) > 0
+
+        reg_params = _tuned_params("catboost", self.position) or dict(CATBOOST_PARAMS)
+        clf_params = dict(reg_params)
+        clf_params["loss_function"] = "Logloss"
+
+        # Degenerate participation (all played / none played) would crash a one-class
+        # classifier; fall back to that constant probability instead.
+        if played.all() or not played.any():
+            self.p_played_const_ = float(played.mean())
+            self.classifier_ = None
+        else:
+            self.p_played_const_ = None
+            self.classifier_ = CatBoostClassifier(**clf_params)
+            self.classifier_.fit(X, played.astype(int))
+
+        if played.any():
+            X_played = X[played] if not hasattr(X, "loc") else X.loc[played]
+            self.regressor_ = CatBoostRegressor(**reg_params)
+            self.regressor_.fit(X_played, np.asarray(y, dtype=float)[played])
+        else:
+            self.regressor_ = None  # nobody ever played: E[pts | played] unlearnable
+        return self
+
+    def predict(self, X):
+        if self.regressor_ is None:
+            return np.zeros(len(X))
+        p_played = (
+            np.full(len(X), self.p_played_const_)
+            if self.classifier_ is None
+            else self.classifier_.predict_proba(X)[:, 1]
+        )
+        return p_played * self.regressor_.predict(X)
+
+
 FACTORIES = {
     "ols": lambda: _scaled_pipeline(LinearRegression()),
     "lightgbm": lambda: lgb.LGBMRegressor(**LGB_PARAMS),
@@ -171,6 +230,10 @@ FACTORIES = {
     # features into orthogonal components before regressing - the classic econometrics answer
     # to exactly the collinearity that makes plain OLS trail Ridge/ElasticNet here.
     "pls": lambda: _scaled_pipeline(_RavelPredict(PLSRegression(n_components=20))),
+    # Minutes-aware hurdle (audit C1): P(plays) x E[pts | played]. Needs the minutes
+    # training label, so fit_model special-cases it below - the factory entry exists so
+    # the name participates in MODEL_NAMES (comparison tables, bake-off, blends).
+    "catboost_hurdle": lambda: TwoStageHurdle(),
 }
 
 MODEL_NAMES = list(FACTORIES.keys())
@@ -196,7 +259,14 @@ def _tuned_params(name, position):
     return {k: v for k, v in loaded.items() if not k.startswith("_")}
 
 
-def fit_model(name, X, y, position=None):
+def fit_model(name, X, y, position=None, minutes=None):
+    """Fit one registry member. `minutes` is the per-row minutes TRAINING label, required
+    by the hurdle model (participation cannot be recovered from points alone) and ignored
+    by every other member - callers with a training frame should always pass it."""
+    if name == "catboost_hurdle":
+        if minutes is None:
+            raise ValueError("catboost_hurdle needs the `minutes` training label")
+        return TwoStageHurdle(position=position).fit(X, y, minutes=minutes)
     params = _tuned_params(name, position)
     model = _TUNABLE[name](**params) if params is not None else FACTORIES[name]()
     model.fit(X, y)

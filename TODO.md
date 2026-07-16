@@ -82,11 +82,13 @@ alone. Note the measured CI width on this window is ~±140 points: differences i
 are ties. Deployment claims use the honesty ladder (RESEARCH_LOG 2026-07-11; ~1500/31 GWs).
 GW191-221 is spent and must never be used for selection.
 
-- **[2.1][HIGH][C1] Dedicated minutes model** (two-stage: P(start)/E[minutes] × points
-  per 90). 59% of rows are 0-minute rows and blank-prediction is dominated by the
-  minutes signal; the current `start_rate_roll5` is a lagged proxy. Standard
-  architecture in strong FPL systems. Most likely single biggest forecast gain.
-  *Effort: 3-5 days.*
+- **[2.1][v1 DONE 2026-07-11 - tie][C1] Dedicated minutes model.** v1 hurdle
+  (`catboost_hurdle` registry member: P(min>0) × E[pts|played]) scored **2085 vs 2060 —
+  a statistical tie** (CI [-128, +202], sign test 14-15), while sweeping every forecast
+  diagnostic at every position (first diagnostic-sweeper to not LOSE points). Production
+  unchanged; member kept in the registry. Open v2 ideas if revisited: 3-class minutes
+  stage (0/cameo/60+), or cross-fitted P(played)/E[min] as features into the production
+  regressor. See RESEARCH_LOG 2026-07-11.
 - **[2.2][MEDIUM][C2] Current-GW xP as a feature** — legitimate (xP is pre-match) IF the
   vaastav stamping is verified first: check per season whether raw xP correlates with
   outcomes beyond the plausible; if any season looks post-match, keep the lagged forms
