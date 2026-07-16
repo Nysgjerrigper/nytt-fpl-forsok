@@ -117,7 +117,9 @@ loss + interval coverage (`python -m fpl.model.probabilistic`), not MAE/MASE.
 
 **MILP optimizer:** `fpl/milp/optimize.py` is Kristiansen et al.'s formulation (budget, formation constraints,
 captain/vice-captain, transfer costs, wildcard/free-hit/bench-boost/triple-captain chip logic), solved with PuLP
-+ CBC as a rolling horizon (re-solved every gameweek over a `--horizon`-week lookahead, only the first
++ HiGHS (`config.MILP_SOLVER`; CBC via `--solver cbc` remains as fallback - same proven-optimal squads, HiGHS
+is just ~20% faster; do NOT loosen `MILP_GAP_REL` for speed, a 0.1% gap measurably cost realized points) as a
+rolling horizon (re-solved every gameweek over a `--horizon`-week lookahead, only the first
 gameweek's decision is locked in before rolling forward). It supports two modes: fresh-build (default - assumes
 an empty squad and full budget, used for backtests) and continuing an existing squad
 (`--initial-squad`/`--initial-budget`/`--initial-ft`, used by `run_week.py` for real weekly use). Chip CLI args
