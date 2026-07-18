@@ -137,8 +137,9 @@ The standing numbers there (re-baselined 2026-07-11 after the DGW-leakage fix an
 2026-07-16 after the xP zero-round mask - a statistical tie with the prior 2060, kept on data-correctness
 grounds; full lineage in HANDOFF.md and RESEARCH_LOG.md) are **2086** - capped-tuned single:catboost through
 the MILP on the standard walk-forward protocol, the COMPARISON baseline every modeling change is judged
-against - and **1916** on the origin-based protocol (`fpl.model.predict --origin-based`, form frozen at each
-origin's deadline), the deploy-honest protocol (measured 2026-07-11, pre-mask - not yet re-run). A one-shot confirmation on the frozen, never-selected GW191-221 window (2025-26 GW1-31,
+against - and **1906** on the origin-based protocol (`fpl.model.predict --origin-based`, form frozen at each
+origin's deadline), the deploy-honest protocol (refreshed 2026-07-18 post-mask; statistical tie with the
+retired 1916, see RESEARCH_LOG.md). A one-shot confirmation on the frozen, never-selected GW191-221 window (2025-26 GW1-31,
 now SPENT for selection) scored 1705 standard / 1499 origin-based - quote ~1500/31 GWs as the honest live
 expectation; the 2060->1499 staircase decomposes lookahead (-144) and winner's-curse (~-355) optimism. When changing the modeling or MILP
 code, re-running this comparison (`fpl.model.predict` walk-forward predictions into `fpl.milp.optimize`, same
