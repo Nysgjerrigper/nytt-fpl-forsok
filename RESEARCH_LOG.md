@@ -5,6 +5,28 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-18 - Origin-based anchor refreshed post-mask-merge: 1906 (supersedes 1916)
+
+The 2026-07-16 xP zero-round mask merge left the origin-based (deploy-honest) anchor at its
+pre-mask 1916 value. Re-ran it: `fpl.model.predict --origin-based --horizon 3` over GW153-183
+(retrain-every 4, production `single:catboost`) into `fpl.milp.optimize --horizon 3`, same window.
+Masked run scores **1906**.
+
+**A reproduction note, not a regression.** Regenerating the pre-mask origin-based squad through
+today's MILP from the unchanged 2026-07-11 predictions file (`preds_origin_gw153_183_retuned.csv`)
+gives **1903**, not the originally-logged 1916 - a 13-point drift. Likely cause: the same-day
+CBC -> HiGHS default swap (see the entry below) - both solvers prove optimality, but on tied
+objectives they can select different, equally-optimal squads with different *realized* points
+(the MILP's proven-optimal guarantee is on predicted E[pts], not on the realized total). Paired
+`fpl.milp.compare_backtests` on the regenerated pair: 1903 vs 1906, CI [-135, +151], sign test
+10-15 (6 ties), p=0.424 - a clear tie, same verdict the standard protocol reached (2086 vs 2060).
+
+**New origin-based anchor: 1906** (retires 1916). Origin-based headline for reporting purposes
+(~1500/31 GWs live expectation) is unaffected - that number comes from the separate frozen
+GW191-221 confirmation, not this window.
+
+Run logged as `xp_zero_round_mask_backtest_origin_based` in experiments/results.csv.
+
 ## 2026-07-16 - MILP solver swap CBC -> HiGHS: ~20% faster, identical squads; gap-tolerance shortcut rejected (branch `worktree-exp+milp-solver-speed`)
 
 Question from the PO: can the MILP be made faster with a newer solver/library? Infrastructure
@@ -45,6 +67,32 @@ Changes: `--solver {cbc,highs}` / `--threads` / `--gap-rel` CLI args on `fpl.mil
 (defaults from `config.MILP_SOLVER="highs"` / `MILP_THREADS=0` / `MILP_GAP_REL=0.0`), `highspy`
 added to requirements. `run_week.py` and the test suite inherit the new default through
 `parse_args`; pytest green (59 passed) on HiGHS.
+
+## 2026-07-18 - LambdaRank v1: clear loss (1825 vs 2086), ranking hypothesis weakened (branch `exp/lambdarank`, NOT merged)
+
+TODO 2.3 / audit C3: three "better metrics, fewer points" episodes suggested the MILP consumes
+within-GW RANKING rather than point levels. This tested that mechanism directly: new registry
+member `lgbm_rank` (`models.LambdaRankScorer`) - LightGBM lambdarank with one query group per
+GW_global round (models are per-position, so groups are effectively (GW, position)), points
+clipped to integer relevance 0-15 with LINEAR label gains (default 2^rel gains would let one
+haul dominate a round's gradients), and an isotonic regression mapping ranker scores back to
+the points scale so the MILP's absolute-scale terms (transfer penalty, chip thresholds) stay
+meaningful. Group label threaded through `models.fit_model(gw=...)` exactly like the hurdle's
+`minutes=`.
+
+**Realized points: a CLEAR LOSS - 1825 vs 2086** (-261, 95% CI [-421, -93],
+P(baseline better)=0.998, sign test 20-10). Unlike most rejected candidates this is not a tie:
+optimizing pure within-round ordering destroys ~12% of realized points even after the scale is
+restored monotonically. The instructive read: the ranking hypothesis in its strong form is now
+WEAKENED - if ranking were all the MILP consumed, this should have at worst tied. Level and
+tail information a regressor preserves (how MUCH better a captaincy pick is, not just that it
+is better) evidently carries real squad value; consistent with `top1_capture` improvements
+alone never having translated into points either.
+
+Verdict: negative result, logged per convention. Branch NOT merged (registry member + tests
+live on `exp/lambdarank` only); production unchanged at `single:catboost`, baseline stays
+2086. Run: `lambdarank_v1_backtest` in experiments/results.csv;
+`preds_lambdarank_gw153_183.csv` + `squad_selection_W153-183_SHL3_lambdarank.csv` artifacts.
 
 ## 2026-07-16 - Current-GW xP is a confirmed post-match leak (TODO 2.2 closed NEGATIVE); zero-round mask kept (branch `exp/current-gw-xp`)
 

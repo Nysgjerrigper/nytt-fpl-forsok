@@ -36,6 +36,7 @@ from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.ensemble import ExtraTreesRegressor, RandomForestRegressor
 from sklearn.impute import SimpleImputer
+from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import ElasticNet, LinearRegression, Ridge
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import Pipeline
@@ -200,6 +201,58 @@ class TwoStageHurdle(BaseEstimator, RegressorMixin):
         return p_played * self.regressor_.predict(X)
 
 
+class LambdaRankScorer(BaseEstimator, RegressorMixin):
+    """Within-gameweek ranking model mapped back to the points scale (TODO 2.3, audit C3).
+
+    Three "better metrics, fewer points" episodes suggested the MILP consumes within-GW
+    RANKING, not point levels - this tests that mechanism directly. A LightGBM lambdarank
+    objective optimizes NDCG over query groups; each group is one GW_global round (models
+    are already per-position, so groups are effectively (GW, position) as the audit asked).
+
+    Two departures from a stock ranker:
+    - Relevance labels must be non-negative integers: points are clipped to [0, `label_max`]
+      (negative rows - cards/OGs - carry no ranking signal worth separating from 0) and gains
+      are LINEAR (label_gain=0..label_max), not the default 2^rel-1, which at 15+ point hauls
+      would make a single haul dominate every gradient in the round.
+    - The MILP's transfer penalty and chip thresholds are absolute-scale, so raw ranker scores
+      are unusable directly; an isotonic regression fit on the training rows maps scores back
+      to expected points monotonically - the ranking is preserved exactly, only the scale is
+      restored.
+
+    fit() needs the row's GW_global as a group label, threaded through models.fit_model the
+    same way the hurdle's `minutes` label is. predict() takes only features (scoring needs no
+    groups), so a fitted instance is a drop-in PositionEnsemble member.
+    """
+
+    def __init__(self, position=None, label_max=15):
+        self.position = position
+        self.label_max = label_max
+
+    def fit(self, X, y, gw):
+        gw = np.asarray(gw)
+        order = np.argsort(gw, kind="stable")  # ranker requires group-contiguous rows
+        X_ord = X.iloc[order] if hasattr(X, "iloc") else X[order]
+        y_ord = np.asarray(y, dtype=float)[order]
+        rel = np.clip(np.rint(y_ord), 0, self.label_max).astype(int)
+        group_sizes = np.unique(gw[order], return_counts=True)[1]
+
+        params = _tuned_params("lightgbm", self.position) or dict(LGB_PARAMS)
+        params = {k: v for k, v in params.items() if k not in ("objective", "metric")}
+        self.ranker_ = lgb.LGBMRanker(
+            objective="lambdarank",
+            label_gain=list(range(self.label_max + 1)),
+            **params,
+        )
+        self.ranker_.fit(X_ord, rel, group=group_sizes)
+
+        scores = self.ranker_.predict(X_ord)
+        self.score_to_points_ = IsotonicRegression(out_of_bounds="clip").fit(scores, y_ord)
+        return self
+
+    def predict(self, X):
+        return self.score_to_points_.predict(self.ranker_.predict(X))
+
+
 FACTORIES = {
     "ols": lambda: _scaled_pipeline(LinearRegression()),
     "lightgbm": lambda: lgb.LGBMRegressor(**LGB_PARAMS),
@@ -234,6 +287,10 @@ FACTORIES = {
     # training label, so fit_model special-cases it below - the factory entry exists so
     # the name participates in MODEL_NAMES (comparison tables, bake-off, blends).
     "catboost_hurdle": lambda: TwoStageHurdle(),
+    # Within-GW LambdaRank mapped isotonically back to points (audit C3). Needs the GW_global
+    # group label, so fit_model special-cases it below - the factory entry exists so the name
+    # participates in MODEL_NAMES (comparison tables, bake-off, blends).
+    "lgbm_rank": lambda: LambdaRankScorer(),
 }
 
 MODEL_NAMES = list(FACTORIES.keys())
@@ -259,14 +316,20 @@ def _tuned_params(name, position):
     return {k: v for k, v in loaded.items() if not k.startswith("_")}
 
 
-def fit_model(name, X, y, position=None, minutes=None):
-    """Fit one registry member. `minutes` is the per-row minutes TRAINING label, required
-    by the hurdle model (participation cannot be recovered from points alone) and ignored
-    by every other member - callers with a training frame should always pass it."""
+def fit_model(name, X, y, position=None, minutes=None, gw=None):
+    """Fit one registry member. `minutes` is the per-row minutes TRAINING label (required by
+    the hurdle: participation cannot be recovered from points alone) and `gw` the per-row
+    GW_global group label (required by the ranker: query groups cannot be recovered from
+    features); both are ignored by every other member - callers with a training frame should
+    always pass both."""
     if name == "catboost_hurdle":
         if minutes is None:
             raise ValueError("catboost_hurdle needs the `minutes` training label")
         return TwoStageHurdle(position=position).fit(X, y, minutes=minutes)
+    if name == "lgbm_rank":
+        if gw is None:
+            raise ValueError("lgbm_rank needs the `gw` (GW_global) group label")
+        return LambdaRankScorer(position=position).fit(X, y, gw=gw)
     params = _tuned_params(name, position)
     model = _TUNABLE[name](**params) if params is not None else FACTORIES[name]()
     model.fit(X, y)

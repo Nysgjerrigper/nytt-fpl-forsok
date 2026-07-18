@@ -96,11 +96,12 @@ GW191-221 is spent and must never be used for selection.
   dump rounds now masked to NaN before the lagged xP forms (2086 vs 2060, tie - correctness
   fix). Live-only idea: fetch `ep_this` pre-deadline in run_week (see Cluster 3 / 3.1).
   Full story: RESEARCH_LOG 2026-07-16.
-- **[2.3][MEDIUM][C3] LambdaRank experiment** — three "better metrics, fewer points"
-  episodes all point at within-GW ranking as what the MILP actually consumes. Train
-  LightGBM lambdarank grouped by (GW, position), map monotonically to the points scale
-  for the MILP's absolute-scale terms, backtest. A negative result is likely and fine —
-  it tests the mechanism directly. *Effort: 1-2 days.*
+- **[2.3][DONE 2026-07-18 - NEGATIVE][C3] LambdaRank experiment** — tested and CLEARLY
+  lost: 1825 vs 2086 (CI [-421, -93], sign test 10-20), not a tie. The strong ranking
+  hypothesis is weakened: even with an isotonic points-scale map, pure within-round
+  ordering destroys ~12% of realized points — the level/tail information a regressor
+  keeps carries real squad value. Code (`lgbm_rank` member + tests) lives on unmerged
+  branch `exp/lambdarank`. Full story: RESEARCH_LOG 2026-07-18.
 - **[2.4][MEDIUM][C4] Tune LightGBM/XGBoost** so the registry ranking is
   tuned-vs-tuned, then re-check the combination bake-off (a tuned blend might beat
   tuned CatBoost). Mostly compute. Use the 1.2-capped tuner.
