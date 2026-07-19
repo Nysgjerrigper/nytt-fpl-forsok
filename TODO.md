@@ -117,9 +117,14 @@ GW191-221 is spent and must never be used for selection.
 
 Do before the season opens on the FPL site; none of it affects backtests.
 
-- **[3.1][HIGH][A4b] Use API availability in run_week** — filter or scale predictions by
-  `status` / `chance_of_playing_next_round` from bootstrap-static. Cheapest real gain
-  for live play; without it the optimizer happily buys injured players on good form.
+- **[3.1][DONE 2026-07-19 (code)][A4b] Use API availability in run_week** — implemented on
+  `feature/api-availability`: `availability_multipliers` maps bootstrap-static `status` /
+  `chance_of_playing_next_round` to a per-player factor (a=1.0; d=chance/100 else 0.75;
+  i/s/u=chance/100 else 0.0), `apply_availability` scales every horizon GW's prediction
+  (conservative: an out-today player is down-weighted across the whole horizon; re-assessed
+  each run). Unit-tested with mocked bootstrap (`tests/test_availability.py`). Residual:
+  like all of run_week's live path, cannot be exercised end-to-end until the 2026-27
+  season opens on the FPL site (CLAUDE.md known limitation).
 - **[3.2][MEDIUM][A4a] Current prices from the API** — override the snapshot's stale
   `value` (last played row in vaastav's dump) with bootstrap `now_cost` so deadline
   budget math is right.
