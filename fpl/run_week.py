@@ -118,6 +118,55 @@ def get_user_squad(team_id, bootstrap, name_to_player_id):
     return squad_ids, float(bank)
 
 
+def availability_multipliers(bootstrap, name_to_player_id):
+    """Per-player availability scaling from the FPL API's own team-news fields (TODO 3.1).
+
+    The historical dataset carries no availability signal, so without this the optimizer
+    happily buys a player whose great trailing form ended in a two-month injury - form
+    features cannot see a knock announced yesterday. bootstrap-static's `status` and
+    `chance_of_playing_next_round` are FPL's official pre-deadline team news:
+
+    - status 'a' (available): factor 1.0.
+    - status 'd' (doubtful): chance_of_playing_next_round / 100, defaulting to 0.75 when
+      FPL hasn't quantified the doubt (their UI shows unquantified doubts as 75%).
+    - status 'i'/'s'/'u'/'n' (injured / suspended / unavailable / not in squad):
+      chance / 100, defaulting to 0.0 - these players will not play next round.
+
+    Returns {player_id: factor} for every API player matchable to a dataset player_id
+    (same name-normalization matching as get_user_squad; unmatched players are simply
+    absent and default to 1.0 downstream). The factor is applied to EVERY horizon
+    gameweek, not just the next one: `chance_of_playing_next_round` strictly describes
+    the next round, but scaling later rounds too errs on the side of not planning
+    transfers around a player who is out today (returns are re-assessed on every run).
+    """
+    factors = {}
+    for el in bootstrap["elements"]:
+        player_id = name_to_player_id.get(_normalize_name(f"{el['first_name']} {el['second_name']}"))
+        if player_id is None:
+            continue
+        status, chance = el.get("status", "a"), el.get("chance_of_playing_next_round")
+        if status == "a":
+            factor = 1.0
+        elif status == "d":
+            factor = (chance if chance is not None else 75.0) / 100.0
+        else:
+            factor = (chance if chance is not None else 0.0) / 100.0
+        factors[player_id] = factor
+    return factors
+
+
+def apply_availability(preds, factors):
+    """Scale predicted_total_points by each player's availability factor (1.0 when unknown).
+
+    Separated from main() so the scaling arithmetic is unit-testable without the API."""
+    scale = preds["player_id"].map(factors).fillna(1.0)
+    preds = preds.copy()
+    preds["predicted_total_points"] = preds["predicted_total_points"] * scale
+    flagged, zeroed = int((scale < 1.0).sum()), int((scale == 0.0).sum())
+    print(f"Availability scaling: {flagged} of {len(preds)} prediction rows scaled down ({zeroed} zeroed).")
+    return preds
+
+
 def build_live_snapshot(raw_df):
     """One synthetic next-gameweek row per active player, with form features computed
     AS OF NOW - i.e. including each player's most recent played match.
@@ -240,6 +289,9 @@ def main():
     if preds.empty:
         sys.exit("Could not build any predictions - fixtures for the target gameweek aren't published yet.")
 
+    name_to_player_id = dict(zip(feat_df["name"].apply(_normalize_name), feat_df["player_id"]))
+    preds = apply_availability(preds, availability_multipliers(bootstrap, name_to_player_id))
+
     out_cols = ["player_id", "GW", "name", "position", "team", "value", "predicted_total_points"]
     preds = preds[out_cols]
     config.PREDICTIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -255,7 +307,6 @@ def main():
     ]
 
     if args.team_id:
-        name_to_player_id = dict(zip(feat_df["name"].apply(_normalize_name), feat_df["player_id"]))
         squad_ids, bank = get_user_squad(args.team_id, bootstrap, name_to_player_id)
         print(f"--- Continuing team {args.team_id}: {len(squad_ids)} matched players, bank={bank} ---")
         opt_args += [
