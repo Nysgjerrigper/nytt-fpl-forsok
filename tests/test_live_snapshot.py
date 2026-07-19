@@ -112,3 +112,46 @@ def test_future_predictions_use_upcoming_opponents_form(monkeypatch):
     # Wolves concede 1/game - the stale snapshot value would be Chelsea's 3/game.
     assert ars["opp_defense_roll6"] == 1.0
     assert snapshot.loc[snapshot["player_id"] == 1, "opp_defense_roll6"].iloc[0] == 3.0
+
+
+def test_dgw_team_gets_one_prediction_row_per_fixture(monkeypatch):
+    """Live DGW handling (TODO 3.3): a team with two fixtures in the target GW must yield
+    TWO prediction rows per player (per-fixture opponent/home/FDR), matching the per-fixture
+    representation backtest CSVs use - the optimizer sums per (player, GW)."""
+    import numpy as np
+
+    rows = []
+    for gw in (1, 2, 3):
+        for pid, team, opp in ((1, "Arsenal", "Chelsea"), (2, "Chelsea", "Arsenal"),
+                               (3, "Wolves", "Brentford"), (4, "Brentford", "Wolves")):
+            rows.append({"player_id": pid, "GW_global": gw, "position": "MID", "team": team,
+                         "name": f"P{pid}", "was_home": 1, "total_points": 3.0, "minutes": 90,
+                         "value": 50, "opponent_team": opp,
+                         "goals_scored": 0.0, "goals_conceded": 1.0})
+    raw = pd.DataFrame(rows)
+    snapshot = run_week.build_live_snapshot(raw)
+
+    bootstrap = {"teams": [{"id": 1, "name": "Arsenal"}, {"id": 2, "name": "Wolves"},
+                           {"id": 3, "name": "Chelsea"}, {"id": 4, "name": "Brentford"}]}
+    # GW4: Arsenal plays TWICE (h v Wolves, a v Chelsea); Brentford blanks.
+    monkeypatch.setattr(run_week, "fetch_fixtures", lambda gw: [
+        {"team_h": 1, "team_a": 2, "team_h_difficulty": 2, "team_a_difficulty": 4},
+        {"team_h": 3, "team_a": 1, "team_h_difficulty": 3, "team_a_difficulty": 5},
+    ])
+
+    class _Stub:
+        def predict(self, X):
+            return np.full(len(X), 2.0)
+
+    models = {pos: _Stub() for pos in ("GK", "DEF", "MID", "FWD")}
+    preds = run_week.build_future_predictions(snapshot, ["value"], models, bootstrap,
+                                              start_gw=4, horizon=1)
+
+    ars = preds[preds["player_id"] == 1]
+    assert len(ars) == 2                                    # one row per fixture
+    assert sorted(ars["opponent_team"]) == ["Chelsea", "Wolves"]
+    assert sorted(ars["was_home"]) == [0, 1]
+    assert sorted(ars["fixture_difficulty"]) == [2, 5]      # per-fixture FDR, not the mean
+    assert (preds[preds["player_id"] == 2]["opponent_team"] == "Arsenal").all()
+    assert len(preds[preds["player_id"] == 3]) == 1         # single fixture -> single row
+    assert len(preds[preds["player_id"] == 4]) == 0         # blank GW -> dropped

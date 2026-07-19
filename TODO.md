@@ -131,10 +131,14 @@ Do before the season opens on the FPL site; none of it affects backtests.
   price kept when unmatched. Buy-price-for-everyone simplification documented in the
   docstring (sell-price nuance stays with 3.4). Mocked-bootstrap tests alongside 3.1's in
   `tests/test_availability.py`. Same live-verification residual as 3.1.
-- **[3.3][MEDIUM][A4c] DGW handling in live horizon** — `build_team_fixture_map` keeps
-  only the first fixture of a double gameweek while backtests sum per fixture; emit one
-  prediction row per fixture (or scale by fixture count) so live stops undervaluing DGW
-  players.
+- **[3.3][DONE 2026-07-19 (code)][A4c] DGW handling in live horizon** — implemented on
+  `feature/live-dgw`: `build_team_fixture_map` now returns EVERY fixture per team and
+  `build_future_predictions` emits one prediction row per fixture via a team-merge (a DGW
+  player carries both fixtures' predicted points; the optimizer already sums per
+  (player, GW), same as backtest CSVs). Per-fixture opponent/home/FDR;
+  `fixture_difficulty_next3` averages across all fixtures in the window; blank-GW teams
+  still drop out. Mocked DGW test in `test_live_snapshot.py`. Same live-verification
+  residual as 3.1/3.2.
 - **[3.4][MEDIUM][D1] Update FT rule to the 5-banked-transfers era** (`Q_bar=2`→5, one
   line + a backtest to see if horizon behaviour changes). Document the sell-price
   simplification and the chips-disabled backtest convention as known limitations.
