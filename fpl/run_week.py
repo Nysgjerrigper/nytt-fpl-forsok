@@ -167,6 +167,40 @@ def apply_availability(preds, factors):
     return preds
 
 
+def live_prices(bootstrap, name_to_player_id):
+    """Per-player CURRENT price from bootstrap-static `now_cost` (TODO 3.2, audit A4a).
+
+    The snapshot's `value` column is whatever price the player had on his last played
+    row in vaastav's dump - potentially weeks stale for rotation players and always
+    stale across a price change, so the optimizer's budget math drifts from what the
+    FPL site will actually charge at the deadline. `now_cost` is in the same 0.1m
+    units as the dataset's `value` (and get_user_squad's bank), so it overrides
+    directly. Returns {player_id: now_cost} for matchable players; unmatched players
+    keep their snapshot price downstream.
+
+    Known simplification (documented, TODO 3.4): this is the BUY price for everyone;
+    a real squad's sell prices can differ (FPL's 50% sell-on rule). The bank figure
+    from the API absorbs most of the discrepancy for continue-mode runs.
+    """
+    prices = {}
+    for el in bootstrap["elements"]:
+        player_id = name_to_player_id.get(_normalize_name(f"{el['first_name']} {el['second_name']}"))
+        if player_id is not None and el.get("now_cost") is not None:
+            prices[player_id] = float(el["now_cost"])
+    return prices
+
+
+def apply_live_prices(preds, prices):
+    """Override the stale snapshot `value` with current API prices (snapshot price when
+    unknown). Separated from main() so the override is unit-testable without the API."""
+    preds = preds.copy()
+    live = preds["player_id"].map(prices)
+    changed = int((live.notna() & (live != preds["value"])).sum())
+    preds["value"] = live.fillna(preds["value"])
+    print(f"Live prices: {changed} of {len(preds)} prediction rows re-priced from the API.")
+    return preds
+
+
 def build_live_snapshot(raw_df):
     """One synthetic next-gameweek row per active player, with form features computed
     AS OF NOW - i.e. including each player's most recent played match.
@@ -291,6 +325,7 @@ def main():
 
     name_to_player_id = dict(zip(feat_df["name"].apply(_normalize_name), feat_df["player_id"]))
     preds = apply_availability(preds, availability_multipliers(bootstrap, name_to_player_id))
+    preds = apply_live_prices(preds, live_prices(bootstrap, name_to_player_id))
 
     out_cols = ["player_id", "GW", "name", "position", "team", "value", "predicted_total_points"]
     preds = preds[out_cols]

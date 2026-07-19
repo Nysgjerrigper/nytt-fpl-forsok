@@ -125,9 +125,12 @@ Do before the season opens on the FPL site; none of it affects backtests.
   each run). Unit-tested with mocked bootstrap (`tests/test_availability.py`). Residual:
   like all of run_week's live path, cannot be exercised end-to-end until the 2026-27
   season opens on the FPL site (CLAUDE.md known limitation).
-- **[3.2][MEDIUM][A4a] Current prices from the API** — override the snapshot's stale
-  `value` (last played row in vaastav's dump) with bootstrap `now_cost` so deadline
-  budget math is right.
+- **[3.2][DONE 2026-07-19 (code)][A4a] Current prices from the API** — implemented on
+  `feature/live-prices`: `live_prices`/`apply_live_prices` override the snapshot's stale
+  `value` with bootstrap `now_cost` (same 0.1m units) for every matchable player, snapshot
+  price kept when unmatched. Buy-price-for-everyone simplification documented in the
+  docstring (sell-price nuance stays with 3.4). Mocked-bootstrap tests alongside 3.1's in
+  `tests/test_availability.py`. Same live-verification residual as 3.1.
 - **[3.3][MEDIUM][A4c] DGW handling in live horizon** — `build_team_fixture_map` keeps
   only the first fixture of a double gameweek while backtests sum per fixture; emit one
   prediction row per fixture (or scale by fixture count) so live stops undervaluing DGW

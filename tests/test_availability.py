@@ -60,3 +60,29 @@ def test_apply_scales_all_horizon_rows_and_defaults_to_one():
     assert out["predicted_total_points"].tolist() == [2.0, 3.0, 0.0, 3.0]
     # input frame untouched
     assert preds["predicted_total_points"].tolist() == [4.0, 6.0, 5.0, 3.0]
+
+
+# --- Live prices (TODO 3.2) share the same bootstrap plumbing ---
+
+from fpl.run_week import apply_live_prices, live_prices
+
+
+def test_live_prices_matches_and_converts():
+    boot = _bootstrap([
+        dict(_el("Alpha", "One"), now_cost=55),
+        dict(_el("Nobody", "Known"), now_cost=100),   # unmatched -> skipped
+        dict(_el("Bravo", "Two"), now_cost=None),     # no price -> skipped
+    ])
+    assert live_prices(boot, NAME_MAP) == {1: 55.0}
+
+
+def test_apply_live_prices_overrides_only_known():
+    preds = pd.DataFrame({
+        "player_id": [1, 1, 99],
+        "GW": [10, 11, 10],
+        "value": [50.0, 50.0, 45.0],
+        "predicted_total_points": [4.0, 6.0, 3.0],
+    })
+    out = apply_live_prices(preds, {1: 55.0})
+    assert out["value"].tolist() == [55.0, 55.0, 45.0]  # both horizon rows re-priced; unknown kept
+    assert preds["value"].tolist() == [50.0, 50.0, 45.0]  # input untouched
