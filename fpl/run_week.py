@@ -69,15 +69,19 @@ def fetch_fixtures(gw):
 
 
 def build_team_fixture_map(bootstrap, gw):
-    """team_name -> (opponent_name, was_home, fixture_difficulty) for one gameweek.
+    """team_name -> [(opponent_name, was_home, fixture_difficulty), ...] for one gameweek.
 
     Team names go through config.TEAM_NAME_CORRECTIONS so they match the dataset's
     corrected `team` column (the API says "Spurs"/"Man Utd", the dataset says
     "Tottenham"/"Man United" - without this, lookups for those teams silently miss
     and their players get dropped from every live prediction).
 
-    Double gameweeks: opponent/home-away come from the first fixture, difficulty is
-    the mean across that GW's fixtures - matching fetch.py's historical DGW handling.
+    Returns EVERY fixture of the round per team (TODO 3.3): a double-gameweek team gets
+    two entries, and build_future_predictions emits one prediction row per fixture -
+    matching how historical backtest predictions represent DGWs (per-fixture rows that
+    fpl.milp.optimize sums per (player, GW)). The previous first-fixture-only behaviour
+    made live mode value a DGW player at roughly half his backtest-equivalent points,
+    exactly the players the optimizer should be hunting.
     """
     teams_by_id = {
         t["id"]: config.TEAM_NAME_CORRECTIONS.get(t["name"], t["name"]) for t in bootstrap["teams"]
@@ -87,12 +91,7 @@ def build_team_fixture_map(bootstrap, gw):
         home, away = teams_by_id[fx["team_h"]], teams_by_id[fx["team_a"]]
         per_team.setdefault(home, []).append((away, True, fx.get("team_h_difficulty")))
         per_team.setdefault(away, []).append((home, False, fx.get("team_a_difficulty")))
-    result = {}
-    for team, fixtures in per_team.items():
-        opp, is_home, _ = fixtures[0]
-        fdrs = [f[2] for f in fixtures if f[2] is not None]
-        result[team] = (opp, is_home, sum(fdrs) / len(fdrs) if fdrs else None)
-    return result
+    return per_team
 
 
 def get_user_squad(team_id, bootstrap, name_to_player_id):
@@ -251,25 +250,33 @@ def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw
             print(f"No fixtures available yet for GW {gw}, stopping horizon there.")
             break
         fixture_map = fixture_maps[gw]
-        gw_rows = snapshot.copy()
+        # One row PER FIXTURE (not per team): a DGW team appears twice in fixture_df, and
+        # the inner merge duplicates its players' snapshot rows accordingly - the optimizer
+        # sums per (player, GW), so a DGW player is worth both fixtures' predicted points.
+        # Teams without a fixture this GW (blanks) simply don't match and drop out, same
+        # as before.
+        fixture_df = pd.DataFrame([
+            {"team": team, "opponent_team": opp, "was_home": int(bool(is_home)),
+             "fixture_difficulty": fdr}
+            for team, fixtures in fixture_map.items()
+            for opp, is_home, fdr in fixtures
+        ])
+        # Trailing-3-GW mean difficulty per TEAM (flattened across DGW fixtures), shared
+        # by all of that team's rows this GW.
+        fdr3_by_team = {}
+        for team in fixture_map:
+            upcoming = [fdr for later_gw in range(gw, gw + 3)
+                        for _, _, fdr in fixture_maps.get(later_gw, {}).get(team, [])
+                        if fdr is not None]
+            fdr3_by_team[team] = sum(upcoming) / len(upcoming) if upcoming else None
+        gw_rows = snapshot.drop(
+            columns=[c for c in ("opponent_team", "was_home", "fixture_difficulty",
+                                 "fixture_difficulty_next3") if c in snapshot.columns]
+        ).merge(fixture_df, on="team", how="inner")
         gw_rows["GW"] = gw
-        opponents, homes, fdrs, fdr3s = [], [], [], []
-        for team in gw_rows["team"]:
-            opp, is_home, fdr = fixture_map.get(team, (None, None, None))
-            opponents.append(opp)
-            homes.append(is_home)
-            fdrs.append(fdr)
-            upcoming = []
-            for later_gw in range(gw, gw + 3):
-                later_map = fixture_maps.get(later_gw, {})
-                if team in later_map and later_map[team][2] is not None:
-                    upcoming.append(later_map[team][2])
-            fdr3s.append(sum(upcoming) / len(upcoming) if upcoming else fdr)
-        gw_rows["opponent_team"] = opponents
-        gw_rows["was_home"] = pd.Series(homes).fillna(False).astype(int).values
-        gw_rows["fixture_difficulty"] = fdrs
-        gw_rows["fixture_difficulty_next3"] = fdr3s
-        gw_rows = gw_rows[gw_rows["opponent_team"].notna()]  # drop teams without a fixture this GW (blanks)
+        gw_rows["fixture_difficulty_next3"] = (
+            gw_rows["team"].map(fdr3_by_team).fillna(gw_rows["fixture_difficulty"])
+        )
         if opp_form is not None:
             for col in features.OPPONENT_FEATURES:
                 gw_rows[col] = gw_rows["opponent_team"].map(opp_form[col]).to_numpy()
