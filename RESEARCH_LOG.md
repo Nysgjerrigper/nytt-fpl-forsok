@@ -5,6 +5,26 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-18 - Tuned LightGBM/XGBoost: single:catboost survives tuned-vs-tuned (TODO 2.4 closed, branch `exp/tune-lgbm-xgb`)
+
+TODO 2.4 / audit C4: the registry ranking had been tuned-CatBoost vs default-everything-else,
+leaving open whether CatBoost's bake-off win was real or a tuning artifact. LightGBM and
+XGBoost were tuned per position (Optuna, 50 trials each, expanding-window CV under the
+`TUNING_TRAIN_MAX_GW=152` cap, cap recorded in `_meta`) and the full train.py comparison +
+combination bake-off re-run tuned-vs-tuned.
+
+**Verdict: production confirmed, nothing changes.** `single:catboost` wins the bake-off at
+all four positions (eval-half MASE 0.724/0.638/0.711/0.736 for GK/DEF/MID/FWD); the best
+blend (`top_k`) trails everywhere, and tuned LightGBM/XGBoost never get within 0.09 MASE of
+CatBoost at any position (e.g. DEF: catboost 0.651, tuned lightgbm 0.747, tuned xgboost
+0.744). The Clemen-1989 pattern holds even after leveling the tuning playing field. Since
+the bake-off winner did not change, no MILP backtest was triggered - the production config
+is byte-identical to what produced the standing 2086.
+
+Params live in the gitignored `fpl/models/tuned_params_{POS}_{lightgbm,xgboost}.json`
+(regenerate: `python -m fpl.model.tuning`). Run: `tuned_lgbm_xgb_bakeoff` in
+experiments/results.csv. Cluster 2 is now exhausted except parked 2.5 (bookmaker odds).
+
 ## 2026-07-18 - Origin-based anchor refreshed post-mask-merge: 1906 (supersedes 1916)
 
 The 2026-07-16 xP zero-round mask merge left the origin-based (deploy-honest) anchor at its
@@ -313,37 +333,6 @@ All 68 tests pass (4 new: params-JSON `_meta` round-trip, tuning-cap application
 compare_backtests suite). Remaining Cluster 1: 1.3 (DGW leakage GW-level shift), 1.4
 (origin-based horizon backtest) - to be landed together with ONE re-baseline - then 1.5
 (frozen 2025-26 confirmation window, needs PO approval Q3) and 1.8 (auto-subs footnote).
-
-## 2026-07-11 - P(haul) captaincy tilt is a wash, NOT wired in (negative result)
-
-Question from the PO: the bucket distribution yields a P(haul >=10) per player; captaincy is a
-pure right-tail bet, so does ranking captains by an upside *tilt* of the point forecast beat
-ranking by expected points? Rule to consider wiring into production: `E[pts] x (1 + P(haul))`.
-Gate agreed up front: wire it in ONLY if the tilt wins.
-
-Walk-forward GW153-183 (retrain every 4, `coarse5`, tuned-vs-tuned), MID+FWD pool, per-GW
-top1_capture (1.0 = always captained the week's true top scorer):
-
-| model | cap_ev (rank by E[pts]) | cap_haul (rank by P(haul)) | cap_tilt (E[pts]x(1+P(haul))) |
-|---|---|---|---|
-| catboost_hurdle_bucket | 0.5262 | 0.5543 | 0.5562 |
-| catboost_bucket | 0.5562 | 0.5693 | 0.5412 |
-| catboost_regression (production point forecast) | 0.5431 | - | - |
-
-**Verdict: wash, gate fails, NOT wired in.** The tilt does not win in any robust sense: it
-*helps* the hurdle model (0.5262 -> 0.5562) but *hurts* the plain bucket model (0.5562 ->
-0.5412), and the single best captaincy number (0.5562) is reached by plain-bucket E[pts] with no
-tilt at all. A real upside signal would help regardless of which base model produced E[pts]; a
-sign-flip across base models over a ~31-GW MID+FWD pool is the signature of noise, not signal.
-Production captaincy stays on E[points].
-
-This is now the third independent time the bucket/upside framing fails to beat the plain point
-forecast on an *actual decision* (MILP squad 2059 vs 2107, see 2026-07-08; captaincy here) -
-despite the buckets being far better calibrated (bias ~0.00 vs the regression's -0.53). Same
-mean-vs-decision gap seen before: better-calibrated distribution != better decisions. The
-`cap_tilt`/`cap_haul` diagnostics stay in `probabilistic_buckets.py` as a documented dead end.
-(The parallel prototype branch `probability-of-loss-2026-27`, which first raised this idea, was
-archived as tag `archive/probability-of-loss-2026-27` - superseded by this module.)
 
 ## 2026-07-10 - Bucket-count sweep, dedicated classification tuning, and ensemble tests: 8 buckets confirmed, tuning helps, every ensemble is a negative result
 
