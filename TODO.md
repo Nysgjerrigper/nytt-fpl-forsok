@@ -102,9 +102,13 @@ GW191-221 is spent and must never be used for selection.
   ordering destroys ~12% of realized points — the level/tail information a regressor
   keeps carries real squad value. Code (`lgbm_rank` member + tests) lives on unmerged
   branch `exp/lambdarank`. Full story: RESEARCH_LOG 2026-07-18.
-- **[2.4][MEDIUM][C4] Tune LightGBM/XGBoost** so the registry ranking is
-  tuned-vs-tuned, then re-check the combination bake-off (a tuned blend might beat
-  tuned CatBoost). Mostly compute. Use the 1.2-capped tuner.
+- **[2.4][DONE 2026-07-18 - production confirmed][C4] Tune LightGBM/XGBoost** — tuned
+  (Optuna 50 trials/position, GW<=152 cap) and the bake-off re-run tuned-vs-tuned:
+  `single:catboost` still wins at every position (tuned LGBM/XGB never get within 0.09
+  MASE of CatBoost; best blend `top_k` also trails everywhere). No promotion, no MILP
+  backtest needed. Params in gitignored `fpl/models/tuned_params_*_{lightgbm,xgboost}.json`
+  (regenerate via `python -m fpl.model.tuning`). Run: `tuned_lgbm_xgb_bakeoff` in
+  experiments/results.csv; RESEARCH_LOG 2026-07-18.
 - **[2.5][LOW/PARKED][C5] Bookmaker odds features** — strongest exogenous signal in the
   football-prediction literature, but historical odds acquisition is a real data
   project. Park until 2.1-2.4 are exhausted.
