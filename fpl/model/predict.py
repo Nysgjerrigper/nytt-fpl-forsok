@@ -22,6 +22,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
 from fpl.model.train import POSITIONS, fit_holdout_weights, fit_level_calibration, fit_position_ensembles
+from fpl.model.walk_forward import walk_forward_steps
 
 
 def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16,
@@ -46,7 +47,6 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
     comparable on MAE after scaling - the point of this flag is realized MILP points, not MAE.
     """
     rows = []
-    models_cache = {}
     print(f"Fitting combination weights (strategy={weight_strategy}) "
           f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
     weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
@@ -62,19 +62,13 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
         print("    level calibration scalars: "
               + ", ".join(f"{pos}={s:.3f}" for pos, s in level_scalars.items()))
 
-    last_trained_gw = None
-    for gw in range(start_gw, end_gw + 1):
-        if gw not in df["GW_global"].unique():
-            continue
-        if last_trained_gw is None or gw - last_trained_gw >= retrain_every:
-            train_df = df[df["GW_global"] < gw]
-            if train_df.empty:
-                continue
-            models_cache.update(fit_position_ensembles(train_df, feature_cols, weights_by_pos))
-            last_trained_gw = gw
-            print(f"Retrained models for GW {gw}")
+    def fit_fn(train_df):
+        return fit_position_ensembles(train_df, feature_cols, weights_by_pos)
 
-        test_df = df[df["GW_global"] == gw].copy()
+    for gw, models_cache, test_df in walk_forward_steps(
+        df, start_gw, end_gw, retrain_every, fit_fn
+    ):
+        test_df = test_df.copy()
         test_df["predicted_total_points"] = 0.0
         for pos in POSITIONS:
             mask = test_df["position"] == pos
@@ -137,19 +131,17 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
 
     played_gws = set(df["GW_global"].unique())
     rows = []
-    models_cache = {}
-    last_trained_gw = None
-    for origin in range(start_gw, end_gw + 1):
-        if origin not in played_gws:
-            continue
-        if last_trained_gw is None or origin - last_trained_gw >= retrain_every:
-            train_df = df[df["GW_global"] < origin]
-            if train_df.empty:
-                continue
-            models_cache.update(fit_position_ensembles(train_df, feature_cols, weights_by_pos))
-            last_trained_gw = origin
-            print(f"Retrained models for origin GW {origin}")
 
+    def fit_fn(train_df):
+        return fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+
+    # The retrain-and-step skeleton drives the OUTER origin loop; the snapshot rebuild
+    # below and the inner horizon loop are this backtest's own per-origin body (the
+    # snapshot is rebuilt every origin, not only on retrain). test_df (rows at the
+    # origin GW) is unused here - each target GW's rows are fetched inside the horizon loop.
+    for origin, models_cache, _ in walk_forward_steps(
+        df, start_gw, end_gw, retrain_every, fit_fn, gw_word="origin GW"
+    ):
         hist_raw = raw_df[raw_df["GW_global"] < origin]
         snapshot = build_live_snapshot(hist_raw)
         snapshot = snapshot.set_index("player_id")
