@@ -135,11 +135,12 @@ The pipeline was validated against the old system by running both through the *s
 After extending history back to 2020-21 (see RESEARCH_LOG.md), the same 2024-25-GW1-31 window is now GW153-183.
 The standing numbers there (re-baselined 2026-07-11 after the DGW-leakage fix and the capped re-tuning, then
 2026-07-16 after the xP zero-round mask - a statistical tie with the prior 2060, kept on data-correctness
-grounds; full lineage in HANDOFF.md and RESEARCH_LOG.md) are **2086** - capped-tuned single:catboost through
-the MILP on the standard walk-forward protocol, the COMPARISON baseline every modeling change is judged
-against - and **1906** on the origin-based protocol (`fpl.model.predict --origin-based`, form frozen at each
-origin's deadline), the deploy-honest protocol (refreshed 2026-07-18 post-mask; statistical tie with the
-retired 1916, see RESEARCH_LOG.md). A one-shot confirmation on the frozen, never-selected GW191-221 window (2025-26 GW1-31,
+grounds, then 2026-07-23 after the element-code identity fix - again a statistical tie with the prior 2086,
+adopted on data-correctness grounds; full lineage in HANDOFF.md and RESEARCH_LOG.md) are **2057** -
+capped-tuned single:catboost through the MILP on the standard walk-forward protocol, the COMPARISON baseline
+every modeling change is judged against - and **1906** on the origin-based protocol
+(`fpl.model.predict --origin-based`, form frozen at each origin's deadline), the deploy-honest protocol
+(refreshed 2026-07-18 post-mask; predates the identity fix - refresh it at the next natural opportunity). A one-shot confirmation on the frozen, never-selected GW191-221 window (2025-26 GW1-31,
 now SPENT for selection) scored 1705 standard / 1499 origin-based - quote ~1500/31 GWs as the honest live
 expectation; the 2060->1499 staircase decomposes lookahead (-144) and winner's-curse (~-355) optimism. When changing the modeling or MILP
 code, re-running this comparison (`fpl.model.predict` walk-forward predictions into `fpl.milp.optimize`, same
@@ -158,7 +159,7 @@ points once the optimizer is in the loop.
   players; the API's bank figure absorbs most of the discrepancy. Accepted (TODO 3.4) rather than modeled -
   fixing it properly needs per-player purchase-price history the public API only exposes for the
   authenticated owner.
-- **Chips-disabled backtest convention:** all standing backtest numbers (2086 baseline, the honesty ladder)
+- **Chips-disabled backtest convention:** all standing backtest numbers (2057 baseline, the honesty ladder)
   run with chips disabled (`--wc1-gw 0` etc. defaults) so configurations compare on transfer/selection skill
   alone rather than on where a wildcard happened to land. Live runs may enable chips; backtest totals
   therefore understate a real season's ceiling by roughly the chip value.
@@ -250,11 +251,11 @@ When touching features (`fpl/features.py`), the model registry (`fpl/model/model
      --end-gw 183` (predict) / `--start-gw 153 --max-gw 183 --horizon 3` (optimize). **Do not treat 153/183 as
      constants** - they shift with `DEFAULT_START_SEASON` (see "Gameweek numbering"); re-derive them if the
      start season ever changes.
-   - Extract the total `actual_total_points` from the optimizer log and compare to the **2086** baseline,
+   - Extract the total `actual_total_points` from the optimizer log and compare to the **2057** baseline,
      with a `python -m fpl.milp.compare_backtests` CI on the difference.
 3. **Log every experiment.** Append results via `fpl/experiment.py` to `experiments/results.csv`, and add a
    `RESEARCH_LOG.md` note: the hypothesis, the resulting MAE/MASE, the diagnostics (RMSE, bias, `top1_capture`),
-   and final backtest points vs. 2086. Report negative results - that is this project's standing practice.
+   and final backtest points vs. 2057. Report negative results - that is this project's standing practice.
 4. **Leakage guardrail.** Any rolling window, EWMA, or lagged feature must use an explicit `shift(1)` (or a
    strict per-opponent one-GW shift for `opp_*` merges) so no row sees Gameweek-t information when predicting
    Gameweek t. Fixture/known-ahead features are the deliberate exception and stay unshifted.

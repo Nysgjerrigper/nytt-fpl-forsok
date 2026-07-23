@@ -7,7 +7,7 @@ the 33 MB file remains in HISTORY (~159 MB .git); purging it needs a history rew
 force-push - PO's call, only worth it if clone size ever becomes a real annoyance.
 
 **Standing decision rules** (details in RESEARCH_LOG 2026-07-11): judge modeling changes on
-the standard-protocol realized-points backtest vs **2086** (GW153-183, chips disabled) with a
+the standard-protocol realized-points backtest vs **2057** (GW153-183, chips disabled; re-baselined 2026-07-23 after the element-code identity fix) with a
 `fpl.milp.compare_backtests` CI (window CI width ~±140 - differences inside that are ties);
 deployment claims quote the honesty ladder (~1500/31 GWs); GW191-221 is SPENT for selection.
 
