@@ -5,13 +5,14 @@ actually accumulate rows (one per run, header included) rather than overwrite,
 and it must tolerate the schema growing - a later run that reports a brand-new
 metric has to union the columns in, not crash on a mismatched CSV shape.
 """
+import json
 import sys
 from pathlib import Path
 
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from fpl.experiment import log_result
+from fpl.experiment import dataset_state, log_result
 
 
 def test_two_calls_produce_header_and_two_data_rows(tmp_path):
@@ -75,3 +76,25 @@ def test_float_looking_string_column_survives_reread(tmp_path):
     # Read the git_hash column as a string, the way a human tracing a result would.
     df = pd.read_csv(results_path, dtype={"git_hash": str})
     assert df.loc[0, "git_hash"] == "37328e2"
+
+
+def test_versions_column_records_result_moving_libraries(tmp_path):
+    # TODO 4.2: every row must record the library versions that actually ran, so
+    # a pinned-dependency bump (or a stray environment) is visible next to the
+    # number it may have moved. pandas/numpy are always importable in the test
+    # environment, so they must appear in the recorded dict.
+    results_path = tmp_path / "results.csv"
+    log_result("run", {}, {"mae": 2.5}, results_path=str(results_path))
+
+    df = pd.read_csv(results_path)
+    versions = json.loads(df.loc[0, "versions"])
+    assert versions["pandas"] == pd.__version__
+    assert "numpy" in versions
+
+
+def test_dataset_state_reports_rows_and_max_gw():
+    # Data provenance: same code + params on a longer dataset is a different
+    # experiment; dataset_state is what callers merge into params to record that.
+    df = pd.DataFrame({"GW_global": [1, 2, 5], "total_points": [0, 3, 8]})
+    state = dataset_state(df)
+    assert state == {"data_rows": 3, "data_max_gw": 5}

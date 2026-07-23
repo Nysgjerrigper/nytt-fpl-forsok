@@ -192,9 +192,18 @@ control of *direction* while carrying the *execution* yourself. Practically:
 
 You have execution autonomy, but the PO stays in the loop on anything landed or hard to undo.
 
-1. **Branch for non-trivial work.** For a new feature, modeling change, or non-trivial bugfix, create a branch
-   (`feature/<name>`, `fix/<name>`, or `exp/<name>` for a research parameter sweep). Trivial docs/markdown edits
-   can go straight to `main`.
+1. **Worktree + branch for ALL non-trivial work (PO decision, 2026-07-23).** For a new feature, modeling
+   change, or non-trivial bugfix, create a fresh git worktree with its own branch off current `main`:
+   `git worktree add .claude/worktrees/<name> -b feature/<name> main` (branch prefixes: `feature/`, `fix/`,
+   or `exp/` for a research parameter sweep). Worktrees - not bare branches in the main checkout - are the
+   standard because several agents may work concurrently: each gets an isolated checkout, so nobody's
+   uncommitted state, test runs, or generated artifacts collide with anyone else's. After a worktree's
+   branch is MERGED to `main`, that worktree is spent: remove it (`git worktree remove <path>`, then
+   `git branch -d <branch>`) and start the next task from a NEW worktree cut from the updated `main` -
+   never keep working in a merged worktree, its base is stale. Trivial docs/markdown edits can still go
+   straight to `main`. All worktrees share the repo root's `.venv` (activate it explicitly); everything under
+   `config.ROOT` - `Datasett/master_dataset.csv`, gitignored `fpl/models/` params, backtest artifacts -
+   resolves PER-WORKTREE, so regenerate what a task needs inside its own worktree.
 2. **Commit and push only when the PO asks.** Prepare atomic, semantically-messaged commits (`feat:`, `fix:`,
    `refactor:`, `exp:`, `docs:`), but do not commit or push on your own initiative - propose it and let the PO
    confirm. This respects the harness rule that commits/pushes happen on request, and keeps the PO from
