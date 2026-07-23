@@ -11,7 +11,8 @@ rather than default-luck.
 
 Two design choices worth stating up front:
 
-- Optuna is a heavy, optional dependency (it is NOT in requirements.txt). Every function that
+- Optuna is a heavy dependency only tuning needs (listed in requirements.txt, but an
+  environment without it should still run the rest of the pipeline). Every function that
   needs it imports it lazily, so this module imports fine without optuna installed - importing
   it must never break the rest of the pipeline just because tuning wasn't set up. The tests
   skip themselves when it's absent.
