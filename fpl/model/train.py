@@ -1,9 +1,10 @@
 """
-Train and compare several cheap, non-data-hungry model types per position
-(see fpl.model.models.FACTORIES: LightGBM, Ridge, ElasticNet, Random Forest,
-Extra Trees, kNN), then blend them into a per-position ensemble - replacing
-the old per-position LSTM models this project used originally (a Keras/R
-sequence model, since removed - see git history for `legacy/R Forecast`).
+Train and compare every model type in the registry per position (see
+fpl.model.models.FACTORIES - 14 members from OLS to CatBoost/hurdle/ranker),
+plus the combination bake-off that checks config.PRODUCTION_WEIGHT_STRATEGY.
+Nothing is persisted here: production consumers (predict.py, run_week.py)
+refit fresh through fit_position_ensembles. This replaced the old per-position
+LSTM models (a Keras/R sequence model, since removed - see git history).
 
 Evaluates on the same 2024-25-season-GW1-31 window the old LSTM was validated on (GW_global
 153-183 now that history has been extended back to 2020-21 - see config.DEFAULT_START_SEASON;
@@ -139,18 +140,27 @@ def fit_level_calibration(df, feature_cols, first_holdout_gw, weights_by_pos, wi
     return scalars
 
 
-def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, test_max_gw=183):
+def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, test_max_gw=183,
+                          include_baselines=False):
     """Same split window the old LSTM was validated on: train on GW<=152
-    (2020-21 through 2023-24), test on GW153-183 (2024-25 GW1-31)."""
-    # These per-player forecasts need each player's FULL prior history, not just train_df's
-    # window, so compute over the whole df before splitting - still leakage-free, since each
-    # row's forecast only ever uses that player's strictly earlier gameweeks (see baselines.py).
-    df = add_croston_column(df)
-    df = add_naive_drift_column(df)
-    df = add_ses_column(df)
-    df = add_holt_column(df)
-    df = add_theta_column(df)
-    df = add_eb_shrinkage_column(df)
+    (2020-21 through 2023-24), test on GW153-183 (2024-25 GW1-31).
+
+    `include_baselines=True` additionally refits the rejected per-player time-series
+    baselines (Croston, drift, SES, Holt, Theta, EB shrinkage, AR(1), per-player ARIMA -
+    fpl.model.baselines). Their verdicts are settled negative results (RESEARCH_LOG.md),
+    so the default run skips re-measuring them; pass --with-baselines to reproduce the
+    full comparison table. The rolling-average baseline and the OLS index check always run.
+    """
+    if include_baselines:
+        # These per-player forecasts need each player's FULL prior history, not just train_df's
+        # window, so compute over the whole df before splitting - still leakage-free, since each
+        # row's forecast only ever uses that player's strictly earlier gameweeks (see baselines.py).
+        df = add_croston_column(df)
+        df = add_naive_drift_column(df)
+        df = add_ses_column(df)
+        df = add_holt_column(df)
+        df = add_theta_column(df)
+        df = add_eb_shrinkage_column(df)
 
     train_df = df[df["GW_global"] <= train_max_gw]
     test_df = df[(df["GW_global"] >= test_min_gw) & (df["GW_global"] <= test_max_gw)].copy()
@@ -173,7 +183,7 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
     # Extra per-player time-series baselines (fpl.model.baselines) reported alongside the
     # models - econometric/financial-forecasting techniques (Croston, naive drift, SES,
     # Holt's linear trend), tested honestly rather than assumed to help. See RESEARCH_LOG.md
-    # for the actual verdict on each.
+    # for the actual verdict on each. Only refit when explicitly requested (docstring above).
     extra_baseline_cols = {
         "naive_drift": "naive_drift_pred",
         "ses": "ses_pred",
@@ -181,12 +191,12 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
         "theta": "theta_pred",
         "croston": "croston_pred",
         "eb_shrink": "eb_shrinkage_pred",
-    }
+    } if include_baselines else {}
 
     print("\n--- Static split evaluation (GW<=152 train, GW153-183 test) ---")
     header = (f"{'Position':<8}" + "".join(f"{name:<14}" for name in models.MODEL_NAMES)
               + f"{'baseline':<14}" + "".join(f"{name:<14}" for name in extra_baseline_cols)
-              + f"{'ar1':<14}{'arima':<14}{'ensemble*':<14}")
+              + (f"{'ar1':<14}{'arima':<14}" if include_baselines else "") + f"{'ensemble*':<14}")
     print("MAE:")
     print(header)
 
@@ -220,22 +230,25 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
 
         extra_preds = {name: test_df.loc[pos_mask, col] for name, col in extra_baseline_cols.items()}
 
-        # Pooled AR(1): fit once on this position's train_df, unlike the per-player
-        # recursive baselines above - the classic single-lag econometric autoregression.
-        ar1_c, ar1_phi = fit_ar1(train_df[train_df["position"] == pos])
-        ar1_pred = predict_ar1(test_df.loc[pos_mask], ar1_c, ar1_phi)
+        ar1_pred = arima_pred = None
+        if include_baselines:
+            # Pooled AR(1): fit once on this position's train_df, unlike the per-player
+            # recursive baselines above - the classic single-lag econometric autoregression.
+            ar1_c, ar1_phi = fit_ar1(train_df[train_df["position"] == pos])
+            ar1_pred = predict_ar1(test_df.loc[pos_mask], ar1_c, ar1_phi)
 
-        # Per-player ARIMA: one fit per player (not per row) on this position's train_df,
-        # forecast forward across the whole test window - see baselines.py for why this
-        # doesn't re-fit every gameweek like the recursive baselines above.
-        arima_pred = fit_predict_arima_per_player(
-            train_df[train_df["position"] == pos], test_df.loc[pos_mask]
-        )
+            # Per-player ARIMA: one fit per player (not per row) on this position's train_df,
+            # forecast forward across the whole test window - see baselines.py for why this
+            # doesn't re-fit every gameweek like the recursive baselines above.
+            arima_pred = fit_predict_arima_per_player(
+                train_df[train_df["position"] == pos], test_df.loc[pos_mask]
+            )
 
         row.append(mae(y_true_pos, baseline_pos))
         row.extend(mae(y_true_pos, p) for p in extra_preds.values())
-        row.append(mae(y_true_pos, ar1_pred))
-        row.append(mae(y_true_pos, arima_pred))
+        if include_baselines:
+            row.append(mae(y_true_pos, ar1_pred))
+            row.append(mae(y_true_pos, arima_pred))
         row.append(ensemble_mae)
         print(f"{row[0]:<8}" + "".join(f"{v:<14.4f}" for v in row[1:]))
 
@@ -244,8 +257,9 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
             [mase(y_true_pos, preds_by_model[name], naive_scale) for name in models.MODEL_NAMES]
             + [mase(y_true_pos, baseline_pos, naive_scale)]
             + [mase(y_true_pos, p, naive_scale) for p in extra_preds.values()]
-            + [mase(y_true_pos, ar1_pred, naive_scale), mase(y_true_pos, arima_pred, naive_scale),
-               mase(y_true_pos[eval_idx], blended_eval, naive_scale)]
+            + ([mase(y_true_pos, ar1_pred, naive_scale), mase(y_true_pos, arima_pred, naive_scale)]
+               if include_baselines else [])
+            + [mase(y_true_pos[eval_idx], blended_eval, naive_scale)]
         )
         # Index check on the SAME held-out rows the ensemble is scored on - comparing the
         # ensemble's 2nd-half MASE against OLS's full-window MASE (as the table above does)
@@ -401,11 +415,21 @@ def fit_position_ensembles(df, feature_cols, weights_by_pos):
 
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Model comparison + combination bake-off.")
+    parser.add_argument("--with-baselines", action="store_true",
+                        help="Also refit the rejected per-player time-series baselines "
+                             "(Croston/drift/SES/Holt/Theta/EB/AR(1)/ARIMA - slow; their "
+                             "verdicts are settled negative results, see RESEARCH_LOG.md).")
+    cli_args = parser.parse_args()
+
     df = load_features()
     feature_cols = features.feature_columns(df)
     print(f"Loaded {len(df)} rows, {len(feature_cols)} features.")
 
-    ensembles, _, best_strategy = evaluate_static_split(df, feature_cols)
+    ensembles, _, best_strategy = evaluate_static_split(df, feature_cols,
+                                                        include_baselines=cli_args.with_baselines)
     walk_forward_evaluate(df, feature_cols, start_gw=176, step=4, model_name="lightgbm")
 
     # The production strategy is the single constant config.PRODUCTION_WEIGHT_STRATEGY

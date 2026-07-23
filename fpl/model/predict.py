@@ -147,6 +147,7 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
         snapshot = snapshot.set_index("player_id")
         opp_form = features.team_form_asof(hist_raw)
 
+        origin_rows = 0
         for gw in range(origin, min(origin + horizon, end_gw + 1)):
             if gw not in played_gws:
                 continue
@@ -171,7 +172,8 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
                     )
             target["origin_gw"] = origin
             rows.append(target)
-        print(f"Origin GW {origin}: predicted {sum(len(r) for r in rows if r['origin_gw'].iat[0] == origin)} rows "
+            origin_rows += len(target)
+        print(f"Origin GW {origin}: predicted {origin_rows} rows "
               f"over GW{origin}-{min(origin + horizon - 1, end_gw)}")
 
     result = pd.concat(rows, ignore_index=True)

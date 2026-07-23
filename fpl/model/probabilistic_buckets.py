@@ -137,10 +137,6 @@ BUCKET_SCHEMES = {
 }
 DEFAULT_BUCKET_SCHEME = BUCKET_SCHEMES["coarse5"]
 
-# Backwards-compatible aliases for tests and simple imports.
-BUCKET_LABELS = list(DEFAULT_BUCKET_SCHEME.labels)
-N_BUCKETS = DEFAULT_BUCKET_SCHEME.n_buckets
-DEFAULT_BUCKET_VALUES = np.asarray(DEFAULT_BUCKET_SCHEME.default_values, dtype=float)
 MODEL_NAMES = [
     "catboost_bucket",
     "lightgbm_bucket",
@@ -652,7 +648,6 @@ def evaluate_walk_forward(
     model_names=None,
     include_regression=True,
     use_tuned=True,
-    save_predictions=None,
 ):
     """Walk-forward head-to-head: bucket models vs the tuned production
     CatBoost regression, each GW predicted using only strictly-earlier data.
@@ -667,8 +662,6 @@ def evaluate_walk_forward(
 
     Accepts multiple schemes so a bucket-count sweep shares one retrain loop:
     the regression baseline is fitted once per retrain, not once per scheme.
-    `save_predictions` writes the stacked per-player prediction frame to CSV so
-    ensemble/blend analysis can run as pure post-processing without refitting.
     """
     raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
     df = features.build_feature_frame(raw)
@@ -724,11 +717,6 @@ def evaluate_walk_forward(
                 pred_frames.append(regression_prediction_frame(point_pred, pos_test, position, schemes[0]))
 
     predictions = pd.concat(pred_frames, ignore_index=True)
-    if save_predictions:
-        out_path = Path(save_predictions)
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        predictions.to_csv(out_path, index=False)
-        print(f"Saved {len(predictions)} prediction rows to {out_path}")
     return report_predictions(predictions, n_schemes=len(schemes))
 
 
@@ -957,9 +945,6 @@ def parse_args(argv=None):
     parser.add_argument("--bucket-tuned-params", action="store_true",
                         help="(walk-forward) Prefer dedicated classification-tuned params saved by "
                         "--tune (falls back to the regression params where missing).")
-    parser.add_argument("--save-predictions", type=str, default=None,
-                        help="(walk-forward) Also write the stacked per-player prediction frame to "
-                        "this CSV for ensemble post-processing.")
     parser.add_argument("--tune", action="store_true",
                         help="Optuna-tune the CatBoost bucket classifier for each scheme in "
                         "--schemes and each position, then exit.")
@@ -1034,7 +1019,6 @@ def main(argv=None):
             model_names=args.models,
             include_regression=not args.no_regression_baseline,
             use_tuned=_resolve_use_tuned(args),
-            save_predictions=args.save_predictions,
         )
         return
     evaluate_static_split(

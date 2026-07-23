@@ -33,7 +33,7 @@ def test_normalize_proba_repairs_roundoff():
 
 def test_multiclass_brier_zero_for_perfect_probabilities():
     y = np.array([0, 2, 4])
-    proba = np.eye(buckets.N_BUCKETS)[y]
+    proba = np.eye(buckets.DEFAULT_BUCKET_SCHEME.n_buckets)[y]
     assert buckets.multiclass_brier(y, proba) == 0.0
 
 
