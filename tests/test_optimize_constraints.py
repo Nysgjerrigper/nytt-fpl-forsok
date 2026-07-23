@@ -161,3 +161,40 @@ def test_origin_based_solve_uses_each_gameweeks_own_forecast_set(tmp_path):
     for gw in (1, 2):
         assert len(by_gw.loc[gw, "squad"]) == 15
         assert len(by_gw.loc[gw, "lineup"]) == 11
+
+
+def test_initial_ft_above_policy_cap_is_honored(tmp_path):
+    """A real squad can arrive with more banked FTs than the solver's banking policy
+    (config.MILP_MAX_FREE_TRANSFERS=2 vs the site's cap of 5, TODO 3.4): the run must
+    be feasible and start from the full stack, not clamp it or die infeasible."""
+    # Same fixture as _build_predictions_csv but with integer player_ids, since
+    # --initial-squad round-trips ids through int().
+    int_id = {pid: i + 1 for i, (pid, _, _, _) in enumerate(PLAYERS)}
+    rows = []
+    for gw in (1, 2):
+        for idx, (pid, pos, club_idx, value) in enumerate(PLAYERS):
+            rows.append({"player_id": int_id[pid], "GW": gw, "name": pid, "position": pos,
+                         "team": CLUBS[club_idx], "value": value,
+                         "predicted_total_points": (idx * 7 + gw * 3) % 11})
+    predictions_csv = tmp_path / "predictions_int_ids.csv"
+    pd.DataFrame(rows).to_csv(predictions_csv, index=False)
+    # A valid 15: 2 GK, 5 DEF, 5 MID, 3 FWD (PLAYERS is grouped by position).
+    by_pos = {}
+    for pid, pos, _, _ in PLAYERS:
+        by_pos.setdefault(pos, []).append(int_id[pid])
+    squad_ids = by_pos["GK"][:2] + by_pos["DEF"][:5] + by_pos["MID"][:5] + by_pos["FWD"][:3]
+
+    args = optimize.parse_args([
+        "--predictions-csv", str(predictions_csv),
+        "--points-col", "predicted_total_points",
+        "--start-gw", "1",
+        "--max-gw", "2",
+        "--horizon", "2",
+        "--initial-squad", ",".join(str(pid) for pid in squad_ids),
+        "--initial-budget", "0",
+        "--initial-ft", "5",
+        "--output", str(tmp_path / "squad_selection.csv"),
+    ])
+    results_df = optimize.run(args)
+    assert not results_df.empty
+    assert results_df.iloc[0]["q_start"] == 5  # full banked stack available at GW1

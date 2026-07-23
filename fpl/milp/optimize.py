@@ -141,7 +141,15 @@ def run(args):
     ED, EM, EF, BS = 3, 2, 1, 1000.0
     phi = (MK + MD + MM + MF) - E
     phi_K = MK - EK
-    Q_bar, Q_under_bar = 2, 1
+    # Banking policy, not the site rule: config caps how many FTs the solver PLANS to bank
+    # (see config.py for the backtest evidence). A real squad can arrive with more already
+    # banked (the site allows 5), so the state bound honors --initial-ft rather than
+    # silently clamping it / going infeasible. Trade-off: when initial_ft exceeds the
+    # policy cap, the lifted bound applies to the whole horizon (the solver could in
+    # principle re-bank up to the initial stack); a per-period bound isn't worth the
+    # formulation complexity for a rare, live-only, few-GW situation.
+    Q_bar = max(config.MILP_MAX_FREE_TRANSFERS, args.initial_ft)
+    Q_under_bar = config.MILP_FT_PER_GW
     epsilon = 0.1
     kappa = {1: 0.01, 2: 0.005, 3: 0.001}
     M_transfer = MK + MD + MM + MF

@@ -139,9 +139,14 @@ Do before the season opens on the FPL site; none of it affects backtests.
   `fixture_difficulty_next3` averages across all fixtures in the window; blank-GW teams
   still drop out. Mocked DGW test in `test_live_snapshot.py`. Same live-verification
   residual as 3.1/3.2.
-- **[3.4][MEDIUM][D1] Update FT rule to the 5-banked-transfers era** (`Q_bar=2`→5, one
-  line + a backtest to see if horizon behaviour changes). Document the sell-price
-  simplification and the chips-disabled backtest convention as known limitations.
+- **[3.4][DONE 2026-07-20 - policy kept at 2][D1] Update FT rule to the 5-banked era** —
+  investigated with a full 2x2 backtest (cap {2,5} x horizon {3,5}): cap 5 costs ~100-135
+  points at both horizons (noisy forecasts make predicted-indifferent banking deferrals
+  realized-costly; cap 2's use-it-or-lose-it pressure is protective). PO decision: `Q_bar`
+  is a banking POLICY, kept at 2 (`config.MILP_MAX_FREE_TRANSFERS`); baseline stays 2086.
+  Shipped: `--initial-ft` above the policy cap is now honored instead of infeasible
+  (max(cap, initial_ft) bound + unit test), and the sell-price + chips-disabled
+  conventions are documented in CLAUDE.md. RESEARCH_LOG 2026-07-20.
 - **[3.5][LOW][D2] FT/chip accounting test** — the solver's FT logic is duplicated in
   the Python state-rollover (`optimize.py:373-386`); a 5-6 GW synthetic test asserting
   the FT trajectory closes the silent-divergence class the constraint test doesn't cover.

@@ -147,11 +147,21 @@ GW range, plus a `fpl.milp.compare_backtests` CI) is the way to check whether a 
 just whether MAE looks better in isolation - MAE improvements don't always translate 1:1 into more actual
 points once the optimizer is in the loop.
 
-## Known limitation
+## Known limitations
 
-`fpl/run_week.py`'s live fixture/current-squad fetching from the official FPL API can only be exercised
-end-to-end once a season is set up on the FPL site (typically a few weeks before its GW1) - it could not be
-tested live as of this writing since the 2026-27 season hadn't opened yet.
+- `fpl/run_week.py`'s live fixture/current-squad fetching from the official FPL API can only be exercised
+  end-to-end once a season is set up on the FPL site (typically a few weeks before its GW1) - it could not be
+  tested live as of this writing since the 2026-27 season hadn't opened yet.
+- **Sell-price simplification:** the optimizer values every owned player at his current BUY price
+  (`run_week.apply_live_prices` uses `now_cost` for everyone). Real FPL sell prices lag risers by the 50%
+  sell-on rule, so continue-mode budget math can be slightly optimistic for squads holding appreciated
+  players; the API's bank figure absorbs most of the discrepancy. Accepted (TODO 3.4) rather than modeled -
+  fixing it properly needs per-player purchase-price history the public API only exposes for the
+  authenticated owner.
+- **Chips-disabled backtest convention:** all standing backtest numbers (2086 baseline, the honesty ladder)
+  run with chips disabled (`--wc1-gw 0` etc. defaults) so configurations compare on transfer/selection skill
+  alone rather than on where a wildcard happened to land. Live runs may enable chips; backtest totals
+  therefore understate a real season's ceiling by roughly the chip value.
 
 ## Working with the Product Owner (communication)
 
