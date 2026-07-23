@@ -1,5 +1,8 @@
 .venv/
 __pycache__/
+# Regenerable 33 MB artifact (python -m fpl.data.fetch); untracked 2026-07-23 (TODO 4.3).
+# The thesis-era raw CSVs in Datasett/ stay tracked.
+Datasett/master_dataset.csv
 *.pyc
 .Rhistory
 *.lp
