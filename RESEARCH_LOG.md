@@ -5,6 +5,28 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-23 - Minutes-model v2 (3-class hurdle): 2053 vs 2057 - dead tie, production unchanged
+
+**Hypothesis (TODO 2.1 v2):** v1's binary hurdle pools cameos (1-59') and full games (60'+) into one
+E[pts | played] regressor, but those regimes have structurally different conditional distributions
+(a cameo is capped near the 1-point appearance floor; the 60' boundary gates the second appearance
+point and clean-sheet eligibility). A 3-class minutes stage - P(DNP)/P(cameo)/P(full), each playing
+class with its own CatBoost regressor - should fit two homogeneous targets instead of one mixture.
+
+**Result (standard protocol, GW153-183, single:catboost_hurdle3 vs single:catboost at 2057):**
+**2053 - the deadest tie yet**: diff -4, 95% CI [-151, +135], sign test 15-15 (p=1.000). Same story
+as v1 (2085 vs 2060, also a tie): minutes-aware decomposition changes nothing the MILP can monetize
+on this window. The likely reason: the minutes-projection features (start_rate_roll5,
+mins60_rate_roll5) already carry the participation signal into the plain regressor, so an explicit
+probability stage is redundant rather than wrong.
+
+**Decision:** production unchanged (single:catboost). `catboost_hurdle3` merged into the registry as
+a documented negative result next to `catboost_hurdle` (project convention). The remaining v2 idea -
+cross-fitted P(played)/E[min] as FEATURES - is now unlikely to pay: two hurdle variants in a row
+suggest the signal is already in the features. Parked. Run: `minutes_hurdle3_backtest` in
+experiments/results.csv; artifacts `experiments/preds_hurdle3_gw153_183.csv` +
+`squad_selection_hurdle3_gw153_183.csv`.
+
 ## 2026-07-23 - Origin-based baseline refreshed post-identity-fix: 1880 (tie with retired 1906)
 
 Follow-up to the element-code identity adoption (same day, above): the origin-based deploy-honest
