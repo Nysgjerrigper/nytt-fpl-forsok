@@ -56,7 +56,7 @@ Params live in the gitignored `fpl/models/tuned_params_{POS}_{lightgbm,xgboost}.
 (regenerate: `python -m fpl.model.tuning`). Run: `tuned_lgbm_xgb_bakeoff` in
 experiments/results.csv. Cluster 2 is now exhausted except parked 2.5 (bookmaker odds).
 
-## 2026-07-18 - P(haul) captaincy tilt is a wash, NOT wired in (negative result)
+## 2026-07-23 - P(haul) captaincy tilt is a wash, NOT wired in (negative result)
 
 Question from the PO: the bucket distribution yields a P(haul >=10) per player; captaincy is a
 pure right-tail bet, so does ranking captains by an upside *tilt* of the point forecast beat
