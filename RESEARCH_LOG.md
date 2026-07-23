@@ -1,4 +1,11 @@
-# 2026-07-23 - Element-code player identity + fetch join guards (TODO 4.8): tie, recommend adopt on correctness
+# Research log
+
+A running log of major decisions, experiments, and their results for this project - what was
+tried, why, and what actually happened, so results are reproducible and don't need to be
+re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
+for the current architecture; this file is the history of *why* it looks that way.
+
+## 2026-07-23 - Element-code player identity + fetch join guards (TODO 4.8): tie, recommend adopt on correctness
 
 **Hypothesis:** name-based identity (`pd.factorize(name)`) both merges distinct players sharing a
 name and splits one player across spelling variants; joining vaastav's per-season `element` id to
@@ -29,12 +36,32 @@ refreshed at the next natural opportunity. Run: `element_code_identity_backtest`
 experiments/results.csv; artifacts `experiments/preds_codeid_gw153_183.csv` +
 `squad_selection_codeid_gw153_183.csv` (worktree).
 
-# Research log
+## 2026-07-23 - Subagent delegation infrastructure: pinned models, quality-gate rule, config drift-guard test
 
-A running log of major decisions, experiments, and their results for this project - what was
-tried, why, and what actually happened, so results are reproducible and don't need to be
-re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
-for the current architecture; this file is the history of *why* it looks that way.
+Not a modeling experiment - a development-infrastructure change (PO-initiated, cost control).
+Subagents previously inherited the main session's model (Fable/Opus), so delegated mechanical
+work was billed at top-tier rates. Landed in three commits on `main`:
+
+- **`.claude/agents/implementer.md`** (Sonnet, medium effort): spec-driven code changes,
+  refactors, test scaffolding. Its prompt embeds the repo's binding rules (English-only,
+  shift(1) leakage guard, SimpleImputer wrapping, no inline magic numbers, pytest before done,
+  never commits). **`.claude/agents/searcher.md`** (Haiku, low effort): read-only lookup and
+  grep-and-summarize, with the global-GW-counter warning baked in. New CLAUDE.md section
+  "Subagent delegation (cost control)" documents the split; `CLAUDE_CODE_SUBAGENT_MODEL` env
+  var noted as an optional hard ceiling but deliberately not set (it would force the Haiku
+  searcher up to Sonnet).
+- **Quality-gate rule** added to CLAUDE.md: the main session is mission-giver AND verifier -
+  it must review the implementer's actual diff and re-run `pytest tests/` itself, and
+  spot-check searcher claims, never accepting a subagent summary as proof.
+- **Validation:** both agents exercised on real tasks. Searcher correctly located all
+  `PRODUCTION_WEIGHT_STRATEGY` usages (grep-verified, ~45k Haiku tokens). Implementer
+  delivered `tests/test_config_strategy.py` from a written spec (~47k Sonnet tokens): a
+  drift guard asserting the constant is a non-empty string, that `single:<name>` names a
+  `FACTORIES` key, and that non-single strategies match `ensemble._WEIGHT_FITTERS` (the
+  actual `fit_weights` dispatch table, asserted programmatically rather than hardcoded).
+  Suite grew 105 -> 108, all green; diff independently reviewed before merge.
+
+No modeling code touched; backtest baselines unaffected.
 
 ## 2026-07-20 - FT banking cap: site rule is 5, solver policy stays 2 (TODO 3.4 closed, branch `feature/ft-cap-5`)
 
