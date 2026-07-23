@@ -44,6 +44,19 @@ MILP_SOLVER = "highs"
 MILP_THREADS = 0
 MILP_GAP_REL = 0.0
 
+# The solver's free-transfer BANKING POLICY (Q_bar in the Kristiansen formulation) and FTs
+# gained per gameweek (Q_under_bar). NOTE: 2 is deliberately BELOW the site's banking cap
+# (FPL allows 5 since 2024-25) - banking less than allowed is legal play, and the tighter
+# policy measured better (TODO 3.4, RESEARCH_LOG 2026-07-20): on GW153-183, cap 5 scored
+# 1951 vs 2086 at horizon 3 and 1886 vs 1977 at horizon 5 - each a leaning-negative tie,
+# consistently negative in sign tests. Mechanism: forecasts are noisy, so a predicted-
+# indifferent deferral is realized-costly on average; cap 2's use-it-or-lose-it pressure
+# is accidentally protective (same regularization-beats-flexibility pattern as
+# single-CatBoost-vs-blends and MILP_GAP_REL=0). A live squad holding MORE than 2 banked
+# FTs is still honored: optimize.py bounds the FT state at max(this, --initial-ft).
+MILP_MAX_FREE_TRANSFERS = 2
+MILP_FT_PER_GW = 1
+
 # Extended back from the original 2022-23 thesis scope to get more history per player
 # (see RESEARCH_LOG.md). 2020-21 is the earliest season where `position`/`team` are still
 # present directly in vaastav's merged_gw.csv (older seasons need a players_raw.csv join

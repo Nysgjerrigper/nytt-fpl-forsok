@@ -5,6 +5,37 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-20 - FT banking cap: site rule is 5, solver policy stays 2 (TODO 3.4 closed, branch `feature/ft-cap-5`)
+
+FPL raised the bankable-free-transfer cap from 2 to 5 in 2024-25; the solver still used the
+thesis-era `Q_bar=2`. Updating it looked like a one-line rule fix - the backtest said
+otherwise. Full 2x2 on GW153-183, same production predictions CSV throughout:
+
+| | horizon 3 | horizon 5 |
+|---|---|---|
+| FT cap 2 | **2086** (baseline) | 1977 |
+| FT cap 5 | 1951 | 1886 |
+
+Cap 5 costs ~100-135 points at BOTH horizons (each pairwise CI straddles zero, but sign
+tests run 18-13 and 21-9 against it, and h5/cap5 vs the h3/cap2 baseline is a clear loss,
+P=0.996). A longer lookahead does not rescue it. Mechanism: the solver banks whenever the
+predicted gain from moving now looks smaller than the option value of waiting - but with
+noisy forecasts a predicted-indifferent deferral is realized-costly on average, and cap 2's
+use-it-or-lose-it pressure was accidentally protective. Third instance of the project's
+regularization-beats-flexibility pattern (single CatBoost > blends; `MILP_GAP_REL=0` >
+faster loose gap).
+
+**Decision (PO, 2026-07-20): `Q_bar` is a banking POLICY, not rule compliance - banking
+less than the site allows is legal play.** `config.MILP_MAX_FREE_TRANSFERS` stays 2 (the
+constant and the evidence now live in config.py); the baseline stays 2086, no re-baselining.
+One real code change shipped with this: a live squad arriving with MORE than 2 already
+banked (legal since 2024-25) is now honored - `optimize.py` bounds the FT state at
+`max(policy_cap, --initial-ft)` instead of going infeasible, guarded by a unit test.
+Verified byte-identical squad selection vs the 2086 baseline run under the final config.
+Also documented (CLAUDE.md known limitations): the sell-price simplification and the
+chips-disabled backtest convention. Runs: `ft_cap5_h3_backtest`, `ft_cap5_h5_backtest`,
+`ft_cap2_h5_backtest` in experiments/results.csv.
+
 ## 2026-07-18 - Tuned LightGBM/XGBoost: single:catboost survives tuned-vs-tuned (TODO 2.4 closed, branch `exp/tune-lgbm-xgb`)
 
 TODO 2.4 / audit C4: the registry ranking had been tuned-CatBoost vs default-everything-else,
