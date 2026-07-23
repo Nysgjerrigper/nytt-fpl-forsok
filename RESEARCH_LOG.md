@@ -5,6 +5,23 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-07-23 - Live readiness: first real 2026-27 end-to-end rehearsal; registered-player filter added
+
+Modeling is PARKED (PO decision, same day - every candidate since the re-baselines tied). The 2026-27
+season opened on the FPL API (GW1 deadline 2026-08-21, 555 elements), so `fpl.run_week` was exercised
+end-to-end for REAL for the first time - fresh-build mode, horizon 3: dataset refetch, retrain,
+live snapshot, API fixtures/availability/prices, MILP - all optimal solves.
+
+**Finding (fixed):** the live pool contained 264 phantom players (of 710) with dataset history but no
+2026-27 registration - outbound transfers/retirements the availability scaling structurally cannot
+catch (the API has no status for a player it does not list). New `run_week.filter_to_registered`
+restricts the pool to bootstrap-static's element list (the purchasable universe, matched by code ==
+player_id); re-run confirms 446/446 pool players registered and a phantom-free squad.
+
+**Documented, not fixed (structural):** the pool covers 17 of 20 teams - promoted-club players and
+new signings have no dataset rows, and the models cannot forecast debutants. Their rows accumulate as
+the season is played. Continue-mode (`--team-id`) remains untested until the PO registers a team.
+
 ## 2026-07-23 - Minutes-model v2 (3-class hurdle): 2053 vs 2057 - dead tie, production unchanged
 
 **Hypothesis (TODO 2.1 v2):** v1's binary hurdle pools cameos (1-59') and full games (60'+) into one

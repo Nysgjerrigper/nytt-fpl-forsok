@@ -150,9 +150,13 @@ points once the optimizer is in the loop.
 
 ## Known limitations
 
-- `fpl/run_week.py`'s live fixture/current-squad fetching from the official FPL API can only be exercised
-  end-to-end once a season is set up on the FPL site (typically a few weeks before its GW1) - it could not be
-  tested live as of this writing since the 2026-27 season hadn't opened yet.
+- `fpl/run_week.py`'s live path was exercised end-to-end for real on 2026-07-23 against the opened 2026-27
+  API (fresh-build mode; optimal GW1-3 squads). Continue-mode (`--team-id`) still needs a real team once the
+  PO registers one. The rehearsal's one finding - 264 of 710 pool players weren't in the season's register -
+  is fixed by `run_week.filter_to_registered` (bootstrap element list = the purchasable universe).
+- **New-player blind spot:** the pool only contains players with dataset history (promoted-club players and
+  new signings without PL rows are absent - the GW1 rehearsal covered 17 of 20 teams). Structural: the models
+  cannot forecast debutants. Their rows appear as the season's gameweeks get played.
 - **Sell-price simplification:** the optimizer values every owned player at his current BUY price
   (`run_week.apply_live_prices` uses `now_cost` for everyone). Real FPL sell prices lag risers by the 50%
   sell-on rule, so continue-mode budget math can be slightly optimistic for squads holding appreciated
