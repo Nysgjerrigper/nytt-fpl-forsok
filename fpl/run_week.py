@@ -26,7 +26,6 @@ this cannot be exercised end-to-end for 2026-27 until then.
 """
 import argparse
 import sys
-import unicodedata
 from pathlib import Path
 
 import pandas as pd
@@ -41,11 +40,10 @@ from fpl.milp import optimize
 FPL_API = "https://fantasy.premierleague.com/api"
 ELEMENT_TYPE_TO_POSITION = {1: "GK", 2: "DEF", 3: "MID", 4: "FWD"}
 
-
-def _normalize_name(name):
-    stripped = "".join(c for c in unicodedata.normalize("NFKD", name) if not unicodedata.combining(c))
-    stripped = config.NAME_CORRECTIONS.get(stripped, stripped)
-    return stripped.strip().lower()
+# The dataset's player_id IS the FPL `code` (fetch.assign_player_ids, TODO 4.8), and
+# bootstrap-static exposes the same `code` per element - so live API players map to
+# dataset players by a direct id equality, replacing the old normalized-name matching
+# that silently dropped players whose spelling differed between the two sources.
 
 
 def fetch_bootstrap():
@@ -94,8 +92,14 @@ def build_team_fixture_map(bootstrap, gw):
     return per_team
 
 
-def get_user_squad(team_id, bootstrap, name_to_player_id):
-    """Public FPL API: current squad, bank and free transfers for an existing team."""
+def get_user_squad(team_id, bootstrap, known_player_ids):
+    """Public FPL API: current squad, bank and free transfers for an existing team.
+
+    Squad players are matched to dataset player_ids by FPL `code` (== player_id).
+    A pick whose code is absent from `known_player_ids` (no appearance in the dataset,
+    e.g. a brand-new signing with zero PL history) is excluded with a warning - the
+    optimizer cannot reason about a player it has no rows for.
+    """
     last_finished_gw = max(e["id"] for e in bootstrap["events"] if e["finished"])
     resp = requests.get(f"{FPL_API}/entry/{team_id}/event/{last_finished_gw}/picks/", timeout=30)
     resp.raise_for_status()
@@ -105,11 +109,10 @@ def get_user_squad(team_id, bootstrap, name_to_player_id):
     squad_ids = []
     for pick in data["picks"]:
         el = elements_by_id[pick["element"]]
-        full_name = _normalize_name(f"{el['first_name']} {el['second_name']}")
-        player_id = name_to_player_id.get(full_name)
-        if player_id is None:
-            print(f"WARNING: could not match FPL player '{el['first_name']} {el['second_name']}' "
-                  f"to a known player_id - excluded from optimization.")
+        player_id = el.get("code")
+        if player_id not in known_player_ids:
+            print(f"WARNING: FPL player '{el['first_name']} {el['second_name']}' (code={player_id}) "
+                  f"has no rows in the dataset - excluded from optimization.")
             continue
         squad_ids.append(player_id)
 
@@ -117,7 +120,7 @@ def get_user_squad(team_id, bootstrap, name_to_player_id):
     return squad_ids, float(bank)
 
 
-def availability_multipliers(bootstrap, name_to_player_id):
+def availability_multipliers(bootstrap):
     """Per-player availability scaling from the FPL API's own team-news fields (TODO 3.1).
 
     The historical dataset carries no availability signal, so without this the optimizer
@@ -131,16 +134,15 @@ def availability_multipliers(bootstrap, name_to_player_id):
     - status 'i'/'s'/'u'/'n' (injured / suspended / unavailable / not in squad):
       chance / 100, defaulting to 0.0 - these players will not play next round.
 
-    Returns {player_id: factor} for every API player matchable to a dataset player_id
-    (same name-normalization matching as get_user_squad; unmatched players are simply
-    absent and default to 1.0 downstream). The factor is applied to EVERY horizon
-    gameweek, not just the next one: `chance_of_playing_next_round` strictly describes
-    the next round, but scaling later rounds too errs on the side of not planning
-    transfers around a player who is out today (returns are re-assessed on every run).
+    Returns {player_id: factor} keyed by FPL `code` (== dataset player_id); codes with no
+    dataset rows simply match nothing downstream and default to 1.0. The factor is applied
+    to EVERY horizon gameweek, not just the next one: `chance_of_playing_next_round`
+    strictly describes the next round, but scaling later rounds too errs on the side of not
+    planning transfers around a player who is out today (re-assessed on every run).
     """
     factors = {}
     for el in bootstrap["elements"]:
-        player_id = name_to_player_id.get(_normalize_name(f"{el['first_name']} {el['second_name']}"))
+        player_id = el.get("code")
         if player_id is None:
             continue
         status, chance = el.get("status", "a"), el.get("chance_of_playing_next_round")
@@ -166,7 +168,7 @@ def apply_availability(preds, factors):
     return preds
 
 
-def live_prices(bootstrap, name_to_player_id):
+def live_prices(bootstrap):
     """Per-player CURRENT price from bootstrap-static `now_cost` (TODO 3.2, audit A4a).
 
     The snapshot's `value` column is whatever price the player had on his last played
@@ -174,8 +176,8 @@ def live_prices(bootstrap, name_to_player_id):
     stale across a price change, so the optimizer's budget math drifts from what the
     FPL site will actually charge at the deadline. `now_cost` is in the same 0.1m
     units as the dataset's `value` (and get_user_squad's bank), so it overrides
-    directly. Returns {player_id: now_cost} for matchable players; unmatched players
-    keep their snapshot price downstream.
+    directly. Returns {player_id: now_cost} keyed by FPL `code` (== dataset player_id);
+    codes with no dataset rows match nothing and those players keep their snapshot price.
 
     Known simplification (documented, TODO 3.4): this is the BUY price for everyone;
     a real squad's sell prices can differ (FPL's 50% sell-on rule). The bank figure
@@ -183,7 +185,7 @@ def live_prices(bootstrap, name_to_player_id):
     """
     prices = {}
     for el in bootstrap["elements"]:
-        player_id = name_to_player_id.get(_normalize_name(f"{el['first_name']} {el['second_name']}"))
+        player_id = el.get("code")
         if player_id is not None and el.get("now_cost") is not None:
             prices[player_id] = float(el["now_cost"])
     return prices
@@ -330,9 +332,8 @@ def main():
     if preds.empty:
         sys.exit("Could not build any predictions - fixtures for the target gameweek aren't published yet.")
 
-    name_to_player_id = dict(zip(feat_df["name"].apply(_normalize_name), feat_df["player_id"]))
-    preds = apply_availability(preds, availability_multipliers(bootstrap, name_to_player_id))
-    preds = apply_live_prices(preds, live_prices(bootstrap, name_to_player_id))
+    preds = apply_availability(preds, availability_multipliers(bootstrap))
+    preds = apply_live_prices(preds, live_prices(bootstrap))
 
     out_cols = ["player_id", "GW", "name", "position", "team", "value", "predicted_total_points"]
     preds = preds[out_cols]
@@ -349,7 +350,7 @@ def main():
     ]
 
     if args.team_id:
-        squad_ids, bank = get_user_squad(args.team_id, bootstrap, name_to_player_id)
+        squad_ids, bank = get_user_squad(args.team_id, bootstrap, set(feat_df["player_id"]))
         print(f"--- Continuing team {args.team_id}: {len(squad_ids)} matched players, bank={bank} ---")
         opt_args += [
             "--initial-squad", ",".join(map(str, squad_ids)),

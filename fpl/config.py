@@ -109,3 +109,9 @@ TEAM_NAME_CORRECTIONS = {
 }
 
 ONFIELD_POSITIONS = ["GK", "DEF", "MID", "FWD"]
+
+# player_id is the FPL `code` (players_raw.csv / bootstrap-static) - a permanent per-person
+# integer, currently 6-7 digits. Rows whose element id is missing from players_raw.csv get
+# a name-factorized fallback id starting at this offset, far above any real code, so
+# fallback ids can never collide with (or be mistaken for) genuine FPL codes.
+FALLBACK_PLAYER_ID_OFFSET = 100_000_000
