@@ -198,3 +198,77 @@ def test_initial_ft_above_policy_cap_is_honored(tmp_path):
     results_df = optimize.run(args)
     assert not results_df.empty
     assert results_df.iloc[0]["q_start"] == 5  # full banked stack available at GW1
+
+
+def test_free_transfer_rollover_banks_and_caps(tmp_path):
+    """TODO 3.5: pin the plain-Python FT rollover in optimize.py against the solver's
+    own transfer/hit variables.
+
+    optimize.py re-solves a rolling horizon each GW but only locks in the first GW's
+    decision; the FT balance for the NEXT GW is then advanced outside the solver
+    (previous_ft -> next_ft, around optimize.py's `ft_used_eff`/`ft_carry_val`/`next_ft`
+    block) rather than being read off a solver variable. That duplicated bookkeeping can
+    silently diverge from the constraints the solver actually enforced, and nothing in
+    the existing suite exercises more than one GW of it.
+
+    Fixture: unlike the module-level PLAYERS pool (which deliberately has MORE players
+    than the squad needs, so transfer alternatives exist), this test uses a pool of
+    EXACTLY 15 players - 2 GK, 5 DEF, 5 MID, 3 FWD, 3 per club across the 5 CLUBS so the
+    max-3-per-club constraint is satisfied but not slack. With no eligible substitute at
+    any position, transferring is structurally impossible (there is no other player to
+    buy), not merely unattractive - so 0 transfers is forced regardless of predicted
+    points or solver tie-breaking, giving a fully deterministic FT trajectory.
+
+    With config.MILP_MAX_FREE_TRANSFERS=2 (Q_bar) and config.MILP_FT_PER_GW=1
+    (Q_under_bar), a fresh build starts at q_start=1 (default --initial-ft):
+      GW1: q_start=1, 0 transfers -> carry=max(0,1-0)=1 -> next_ft=min(2, 1+1)=2
+      GW2: q_start=2, 0 transfers -> carry=max(0,2-0)=2 -> next_ft=min(2, 2+1)=2 (capped)
+      GW3: q_start=2 (cap holds)
+    i.e. the q_start sequence across GW1-3 must be [1, 2, 2], pinning both the
+    "bank an unused FT up to the Q_bar=2 cap" behaviour and the "cap never exceeds
+    Q_bar" behaviour.
+    """
+    pool = (
+        [(f"rtgk{i}", "GK", 45 + i) for i in range(2)]
+        + [(f"rtdef{i}", "DEF", 40 + i * 2) for i in range(5)]
+        + [(f"rtmid{i}", "MID", 55 + i * 3) for i in range(5)]
+        + [(f"rtfwd{i}", "FWD", 60 + i * 4) for i in range(3)]
+    )
+    assert len(pool) == 15
+    rows = []
+    for gw in (1, 2, 3):
+        for idx, (pid, pos, value) in enumerate(pool):
+            club_idx = idx % len(CLUBS)  # 15 players over 5 clubs -> exactly 3 per club
+            rows.append({
+                "player_id": pid,
+                "GW": gw,
+                "name": pid,
+                "position": pos,
+                "team": CLUBS[club_idx],
+                "value": value,
+                # Points are identical across players and GWs - irrelevant here since
+                # the pool leaves no room to transfer at all, but kept simple/uniform
+                # rather than reusing a formula meant to force particular rankings.
+                "predicted_total_points": 10,
+            })
+    predictions_csv = tmp_path / "predictions_ft_rollover.csv"
+    pd.DataFrame(rows).to_csv(predictions_csv, index=False)
+
+    args = optimize.parse_args([
+        "--predictions-csv", str(predictions_csv),
+        "--points-col", "predicted_total_points",
+        "--start-gw", "1",
+        "--max-gw", "3",
+        "--horizon", "2",
+        "--output", str(tmp_path / "squad_selection_ft_rollover.csv"),
+    ])
+    results_df = optimize.run(args)
+    assert len(results_df) == 3
+
+    by_gw = results_df.set_index("gameweek")
+    # No incentive to transfer at any GW given identical, GW-invariant predicted points.
+    assert by_gw.loc[1, "transfers_in"] == []
+    assert by_gw.loc[2, "transfers_in"] == []
+    assert by_gw.loc[3, "transfers_in"] == []
+
+    assert [by_gw.loc[gw, "q_start"] for gw in (1, 2, 3)] == [1, 2, 2]
