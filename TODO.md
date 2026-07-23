@@ -2,7 +2,7 @@
 
 Open threads only. Completed items and their full rationale live in `RESEARCH_LOG.md`
 (and `AUDIT_2026-07-11.md` for the A/B/C/D/E finding IDs); this file was compacted
-2026-07-23 after every audit cluster item (1.1-1.7, 2.1-2.4, 3.1-3.6, 4.1, 4.2, 4.3, 4.5) closed. Residual from 4.3:
+2026-07-23 after every audit cluster item (1.1-1.7, 2.1-2.4, 3.1-3.6, 4.1, 4.2, 4.3, 4.5, 4.8) closed. Residual from 4.3:
 the 33 MB file remains in HISTORY (~159 MB .git); purging it needs a history rewrite +
 force-push - PO's call, only worth it if clone size ever becomes a real annoyance.
 
@@ -28,10 +28,6 @@ deployment claims quote the honesty ladder (~1500/31 GWs); GW191-221 is SPENT fo
 - **[4.7][LOW][E7] Docs currency** — README still says `legacy/` holds the R code (deleted);
   `report/main.typ` cites stale backtest numbers/windows; regenerate when convenient
   (`typst compile report/main.typ report/main.pdf`).
-- **[4.8][LOW][E8] Data-quality guards in fetch.py** — assert FDR merge coverage and
-  duplicate-row counts after joins, replace the `iterrows` in `fetch_fixture_difficulty`,
-  and move player identity from name-factorize to element-ID joins (subsumes the old
-  "name-based identity" review finding; also fixes silent player drops in live matching).
 
 ## Open — modeling ideas (revisit only with backtest capacity)
 

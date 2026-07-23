@@ -9,6 +9,7 @@ Unlike the old R script, nothing about which seasons exist or how many
 gameweeks have been played is hardcoded — both are discovered at run time,
 so this keeps working next season without edits.
 """
+import logging
 import re
 import sys
 import unicodedata
@@ -22,6 +23,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config
 
 SEASON_RE = re.compile(r"^(\d{4})-(\d{2})$")
+
+logger = logging.getLogger(__name__)
 
 
 def _strip_accents(text):
@@ -53,6 +56,20 @@ def fetch_teams_map(season):
     return dict(zip(teams["id"], teams["name"]))
 
 
+def fetch_player_codes(season):
+    """Per-season element id -> globally stable FPL player `code`, from players_raw.csv.
+
+    The `element`/`id` column resets every season (the same integer is a different player
+    next year), but FPL's `code` is a permanent per-person identifier carried across
+    seasons - the correct cross-season join key (TODO 4.8). Name-based identity, the old
+    approach, both MERGED distinct players who share a name (the two Ben Davies) and SPLIT
+    one player whose name is spelled differently across seasons' dumps.
+    """
+    url = f"{config.GITHUB_RAW_BASE}/{season}/players_raw.csv"
+    players = pd.read_csv(url, usecols=["id", "code"])
+    return dict(zip(players["id"], players["code"]))
+
+
 def fetch_fixture_difficulty(season, teams_map):
     """Build a per-(team, GW) fixture-difficulty table from data/{season}/fixtures.csv.
 
@@ -77,12 +94,14 @@ def fetch_fixture_difficulty(season, teams_map):
     fx = fx[fx["event"].notna()].copy()
     fx["event"] = fx["event"].astype(int)
 
-    records = []
-    for _, r in fx.iterrows():
-        home, away = teams_map.get(r["team_h"]), teams_map.get(r["team_a"])
-        records.append({"team": home, "GW": r["event"], "fixture_difficulty": r["team_h_difficulty"]})
-        records.append({"team": away, "GW": r["event"], "fixture_difficulty": r["team_a_difficulty"]})
-    fd = pd.DataFrame.from_records(records)
+    # One row per (team, fixture) from each side's perspective - vectorized (the repo's
+    # no-iterrows-in-ETL rule): stack the home view and the away view of the fixture list.
+    fd = pd.concat([
+        pd.DataFrame({"team": fx["team_h"].map(teams_map), "GW": fx["event"],
+                      "fixture_difficulty": fx["team_h_difficulty"]}),
+        pd.DataFrame({"team": fx["team_a"].map(teams_map), "GW": fx["event"],
+                      "fixture_difficulty": fx["team_a_difficulty"]}),
+    ], ignore_index=True)
     fd["team"] = fd["team"].replace(config.TEAM_NAME_CORRECTIONS)
     fd["fixture_difficulty"] = pd.to_numeric(fd["fixture_difficulty"], errors="coerce")
 
@@ -125,27 +144,37 @@ def fetch_season_gws(season):
 
 
 def clean_season(df, season):
-    """Apply the same cleaning the old R script did: opponent id -> name, team name
-    corrections, name corrections, latin-ascii, drop assistant managers/element col."""
+    """Apply the same cleaning the old R script did (opponent id -> name, team name
+    corrections, name corrections, latin-ascii), map the per-season `element` id to the
+    stable cross-season `player_code`, and merge fixture-difficulty ratings - with
+    coverage guards on every join so a silently failing merge fails loudly instead."""
     df = df.copy()
+    n_rows_in = len(df)
 
     teams_map = fetch_teams_map(season)
     df["opponent_team"] = pd.to_numeric(df["opponent_team"], errors="coerce").map(teams_map)
     df["team"] = df["team"].replace(config.TEAM_NAME_CORRECTIONS)
 
+    # Stable cross-season identity: per-season element id -> permanent FPL player code.
+    codes_map = fetch_player_codes(season)
+    df["player_code"] = pd.to_numeric(df["element"], errors="coerce").map(codes_map)
+
     # Merge official fixture-difficulty ratings onto each player row by (team, GW).
     # `GW` here is the raw per-season gameweek, which matches fixtures.csv's `event`.
+    # validate: fixture_diff is one row per (team, GW) by construction; a violation
+    # means the FDR aggregation broke and every player row would silently duplicate.
     fixture_diff = fetch_fixture_difficulty(season, teams_map)
     gw_col = "GW" if "GW" in df.columns else "round"
     df["_gw_key"] = pd.to_numeric(df[gw_col], errors="coerce")
     df = df.merge(
-        fixture_diff.rename(columns={"GW": "_gw_key"}), on=["team", "_gw_key"], how="left"
+        fixture_diff.rename(columns={"GW": "_gw_key"}), on=["team", "_gw_key"], how="left",
+        validate="many_to_one",
     ).drop(columns="_gw_key")
 
     df["name"] = df["name"].apply(_strip_accents)
     df["name"] = df["name"].replace(config.NAME_CORRECTIONS)
-    # Ben Davies disambiguation (there are two Ben Davies in the PL - Spurs/Fulham DEF and
-    # a Liverpool one who briefly appeared - see legacy R script for context).
+    # Ben Davies display disambiguation (two distinct players share the name; their
+    # player_code already separates them - this only keeps human-readable output clear).
     df.loc[(df["name"] == "Ben Davies") & (df["team"] == "Liverpool"), "name"] = "Ben Davies Liverpool"
 
     if "position" in df.columns:
@@ -154,7 +183,46 @@ def clean_season(df, season):
     df = df.drop(columns=["element"], errors="ignore")
     df["was_home"] = df["was_home"].astype(int)
     df["season"] = season
+
+    # Join guards (TODO 4.8): a left merge can't drop rows, but it CAN silently miss -
+    # log coverage and fail hard when a mapping goes badly wrong rather than training on
+    # rows whose difficulty/identity quietly became NaN.
+    fdr_cov = df["fixture_difficulty"].notna().mean()
+    code_cov = df["player_code"].notna().mean()
+    opp_cov = df["opponent_team"].notna().mean()
+    logger.info("%s: %d rows in -> %d after cleaning; coverage fdr=%.3f code=%.3f opponent=%.3f",
+                season, n_rows_in, len(df), fdr_cov, code_cov, opp_cov)
+    if code_cov < 0.99 or opp_cov < 0.99:
+        raise ValueError(
+            f"{season}: join coverage collapsed (player_code {code_cov:.3f}, "
+            f"opponent {opp_cov:.3f}) - upstream schema likely changed; refusing to build "
+            "a master dataset with broken identity/opponent mappings."
+        )
+    if fdr_cov < 0.95:
+        logger.warning("%s: fixture-difficulty coverage only %.3f - check fixtures.csv team names.",
+                       season, fdr_cov)
     return df
+
+
+def assign_player_ids(master):
+    """Set `player_id` from the stable FPL `player_code` (TODO 4.8).
+
+    player_id IS the FPL code: one integer per real person, identical across seasons and
+    identical to bootstrap-static's `code` field, so the live path (fpl.run_week) matches
+    API players by id instead of normalized-name lookups (which silently dropped players
+    whose spelling differed between the API and vaastav's dumps). The rare row whose
+    element id was missing from players_raw.csv falls back to a name-factorized id offset
+    far above the real code range, so it stays internally consistent but can never
+    collide with (or be mistaken for) a genuine FPL code.
+    """
+    missing = master["player_code"].isna()
+    if missing.any():
+        logger.warning("%d rows (%d names) lack a player_code - assigning name-based fallback ids.",
+                       int(missing.sum()), master.loc[missing, "name"].nunique())
+        fallback = pd.factorize(master.loc[missing, "name"])[0] + config.FALLBACK_PLAYER_ID_OFFSET
+        master.loc[missing, "player_code"] = fallback
+    master["player_id"] = master["player_code"].astype(int)
+    return master
 
 
 def build_master_dataset(seasons=None, save=True):
@@ -184,7 +252,7 @@ def build_master_dataset(seasons=None, save=True):
         cleaned.append(df)
 
     master = pd.concat(cleaned, ignore_index=True, sort=False)
-    master["player_id"] = pd.factorize(master["name"])[0] + 1
+    master = assign_player_ids(master)
     master = master.sort_values(["player_id", "GW_global"]).reset_index(drop=True)
 
     if save:

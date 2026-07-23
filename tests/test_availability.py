@@ -17,36 +17,37 @@ def _bootstrap(elements):
     return {"elements": elements}
 
 
-def _el(first, second, status="a", chance=None):
-    return {"first_name": first, "second_name": second,
+def _el(code, status="a", chance=None):
+    # Matching is by FPL `code` (== dataset player_id) since TODO 4.8; names are
+    # carried by the real API but unused for identity.
+    return {"code": code, "first_name": "First", "second_name": f"Player{code}",
             "status": status, "chance_of_playing_next_round": chance}
-
-
-NAME_MAP = {"alpha one": 1, "bravo two": 2, "charlie three": 3}
 
 
 def test_status_semantics():
     factors = availability_multipliers(_bootstrap([
-        _el("Alpha", "One", status="a"),
-        _el("Bravo", "Two", status="d", chance=50),
-        _el("Charlie", "Three", status="i"),
-    ]), NAME_MAP)
+        _el(1, status="a"),
+        _el(2, status="d", chance=50),
+        _el(3, status="i"),
+    ]))
     assert factors == {1: 1.0, 2: 0.5, 3: 0.0}
 
 
 def test_doubtful_without_quantified_chance_defaults_to_75():
-    factors = availability_multipliers(_bootstrap([_el("Alpha", "One", status="d")]), NAME_MAP)
+    factors = availability_multipliers(_bootstrap([_el(1, status="d")]))
     assert factors[1] == 0.75
 
 
 def test_injured_with_partial_chance_keeps_the_chance():
     # FPL sometimes marks a returning player 'i' with chance 25 - scale, don't zero.
-    factors = availability_multipliers(_bootstrap([_el("Alpha", "One", status="i", chance=25)]), NAME_MAP)
+    factors = availability_multipliers(_bootstrap([_el(1, status="i", chance=25)]))
     assert factors[1] == 0.25
 
 
-def test_unmatched_api_players_are_skipped():
-    factors = availability_multipliers(_bootstrap([_el("Nobody", "Known", status="i")]), NAME_MAP)
+def test_element_without_code_is_skipped():
+    # Defensive: an API element missing `code` (malformed row) must not crash or
+    # produce a None key.
+    factors = availability_multipliers(_bootstrap([{"status": "i"}]))
     assert factors == {}
 
 
@@ -69,11 +70,11 @@ from fpl.run_week import apply_live_prices, live_prices
 
 def test_live_prices_matches_and_converts():
     boot = _bootstrap([
-        dict(_el("Alpha", "One"), now_cost=55),
-        dict(_el("Nobody", "Known"), now_cost=100),   # unmatched -> skipped
-        dict(_el("Bravo", "Two"), now_cost=None),     # no price -> skipped
+        dict(_el(1), now_cost=55),
+        {"status": "a", "now_cost": 100},        # no code -> skipped
+        dict(_el(2), now_cost=None),             # no price -> skipped
     ])
-    assert live_prices(boot, NAME_MAP) == {1: 55.0}
+    assert live_prices(boot) == {1: 55.0}
 
 
 def test_apply_live_prices_overrides_only_known():

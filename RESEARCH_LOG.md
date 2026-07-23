@@ -1,3 +1,34 @@
+# 2026-07-23 - Element-code player identity + fetch join guards (TODO 4.8): tie, recommend adopt on correctness
+
+**Hypothesis:** name-based identity (`pd.factorize(name)`) both merges distinct players sharing a
+name and splits one player across spelling variants; joining vaastav's per-season `element` id to
+the permanent FPL `code` (players_raw.csv, same field as bootstrap-static's `code`) fixes identity,
+and letting the live path match API players by code removes the silent name-mismatch drops.
+
+**Change:** `fetch.fetch_player_codes` + `assign_player_ids` (player_id == FPL code; name-factorize
+fallback offset to 100M for rows without a code - zero such rows in practice); join guards in
+`clean_season` (FDR merge `validate="many_to_one"`, coverage logging, hard failure if player_code or
+opponent coverage < 0.99); `fetch_fixture_difficulty` vectorized (iterrows removed); `run_week`
+matches availability/prices/squad picks by `el["code"]` directly (name normalization deleted).
+
+**Identity impact (dataset rebuilt, 162,981 rows unchanged):** 2,083 name-identities -> 1,960 real
+players. 125 players were SPLIT across spellings before (form history fragmented mid-career - their
+rolling features restarted from NaN at every spelling change); 4 names wrongly MERGED two people
+(Alvaro Fernandez, Josh King, Kaine Kesler Hayden, Yegor Yarmolyuk - beyond the hand-patched Ben
+Davies). Code coverage 100%.
+
+**Backtest (standard protocol, GW153-183, single:catboost, capped-tuned params):** **2057** vs
+baseline **2086** - a statistical tie: diff -29, 95% block-bootstrap CI [-134, +55],
+P(new better)=0.22, sign test 11-18 (p=0.265). Well inside the window's ~±140 noise band.
+
+**Recommendation (pending PO):** adopt on data-correctness grounds, same precedent as the
+2026-07-16 xP zero-round mask (also a tie, kept because the data is objectively right). The live
+path additionally becomes strictly more robust (id-equality matching cannot silently drop players).
+On adoption the standard-protocol baseline becomes **2057**; the origin-based number should be
+refreshed at the next natural opportunity. Run: `element_code_identity_backtest` in
+experiments/results.csv; artifacts `experiments/preds_codeid_gw153_183.csv` +
+`squad_selection_codeid_gw153_183.csv` (worktree).
+
 # Research log
 
 A running log of major decisions, experiments, and their results for this project - what was
