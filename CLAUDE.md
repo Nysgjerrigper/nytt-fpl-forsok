@@ -232,7 +232,14 @@ these files close:
 - **`searcher`** (Haiku, low effort): read-only lookup, grep-and-summarize, git/RESEARCH_LOG archaeology.
 
 Keep modeling/design decisions, MILP formulation work, and anything needing the backtest-judgment loop in the
-main session. Subagents can't spawn subagents, so all fan-out flows through the main session. If the PO wants
+main session. Subagents can't spawn subagents, so all fan-out flows through the main session.
+
+**The main session is mission-giver AND quality gate.** Delegation is one-directional: the higher-tier main
+session writes the spec, and it must VERIFY the subagent's work product itself — for the implementer, review
+the actual diff (`git diff`) and re-run `pytest tests/` in the main session, never accept the subagent's
+summary as proof; for the searcher, spot-check any load-bearing claim (a file:line it cites, a log entry it
+quotes) before building a decision on it. Subagent output is input to the main session's judgment, not a
+finished result. If the PO wants
 a hard ceiling regardless of frontmatter, `export CLAUDE_CODE_SUBAGENT_MODEL=sonnet` overrides everything
 (env var > per-invocation param > frontmatter > main model) — not set by default, since it would also force
 the Haiku searcher up to Sonnet.
