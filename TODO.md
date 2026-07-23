@@ -162,11 +162,16 @@ Do before the season opens on the FPL site; none of it affects backtests.
 
 ### Cluster 4 — Engineering hygiene (anytime; 4.1 early, it reduces recurrence risk)
 
-- **[4.1][MEDIUM][E1] One shared walk-forward harness** — predict.py,
-  `probabilistic_buckets.evaluate_walk_forward`, and `walk_forward_predictions_csv` are
-  three near-copies of "retrain every N, predict GW"; `fit_holdout_weights` and
-  `fit_level_calibration` duplicate the member-training loop. A1 was exactly the class
-  of bug this duplication breeds. *Effort: ~1 day; do alongside/after 1.1.*
+- **[4.1][DONE 2026-07-20][E1] One shared walk-forward harness** — extracted the
+  retrain-and-step skeleton to `fpl/model/walk_forward.py::walk_forward_steps` (a
+  generator yielding (gw, cache, test_df), refit on strictly-earlier rows every
+  retrain_every GWs). Refactored all FOUR copies onto it: `predict.walk_forward_predictions`,
+  `predict.origin_based_predictions` (outer origin loop), and buckets'
+  `evaluate_walk_forward` + `walk_forward_predictions_csv`. Verified behavior-preserving:
+  the standard GW153-183 backtest predictions are byte-identical to the pre-refactor CSV.
+  Harness unit-tested (`tests/test_walk_forward.py`: cadence, strictly-earlier window,
+  GW-skipping). NOTE: `fit_holdout_weights`/`fit_level_calibration`'s member-training
+  duplication is a SEPARATE loop, left untouched here (not the walk-forward skeleton).
 - **[4.2][MEDIUM][E2] Reproducibility pinning** — lock dependency versions (pip-tools or
   a constraints file) and extend `experiment.py` to log library versions + data state
   (max GW, row count) per run. A CatBoost version bump can silently move 2107.

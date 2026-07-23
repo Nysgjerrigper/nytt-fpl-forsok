@@ -31,6 +31,7 @@ from fpl import config, features
 from fpl.model import models as point_models
 from fpl.model.metrics import bias, mae, rmse, spearman_by_group, top1_capture, total_calibration
 from fpl.model.train import POSITIONS
+from fpl.model.walk_forward import walk_forward_steps
 
 
 @dataclass(frozen=True)
@@ -685,35 +686,30 @@ def evaluate_walk_forward(
         print("Quick mode: GBM iterations reduced to 80 for fast exploration.")
 
     pred_frames = []
-    bucket_cache = {}
-    regression_cache = {}
-    last_trained_gw = None
-    available_gws = sorted(set(df["GW_global"].unique()) & set(range(start_gw, end_gw + 1)))
-    for gw in available_gws:
-        if last_trained_gw is None or gw - last_trained_gw >= retrain_every:
-            train_df = df[df["GW_global"] < gw]
-            if train_df.empty:
-                continue
-            for position in POSITIONS:
-                pos_train = train_df[train_df["position"] == position]
-                if pos_train.empty:
-                    continue
-                for scheme in schemes:
-                    fitted = []
-                    for model in candidate_models(
-                        quick=quick, scheme=scheme, model_names=names,
-                        position=position, use_tuned=use_tuned,
-                    ):
-                        fitted.append(model.fit(pos_train, feature_cols))
-                    bucket_cache[(scheme.name, position)] = fitted
-                if include_regression:
-                    regression_cache[position] = fit_regression_baseline(
-                        pos_train, feature_cols, position, quick=quick
-                    )
-            last_trained_gw = gw
-            print(f"Retrained models for GW {gw}")
 
-        test_df = df[df["GW_global"] == gw]
+    def fit_fn(train_df):
+        bucket_cache, regression_cache = {}, {}
+        for position in POSITIONS:
+            pos_train = train_df[train_df["position"] == position]
+            if pos_train.empty:
+                continue
+            for scheme in schemes:
+                fitted = []
+                for model in candidate_models(
+                    quick=quick, scheme=scheme, model_names=names,
+                    position=position, use_tuned=use_tuned,
+                ):
+                    fitted.append(model.fit(pos_train, feature_cols))
+                bucket_cache[(scheme.name, position)] = fitted
+            if include_regression:
+                regression_cache[position] = fit_regression_baseline(
+                    pos_train, feature_cols, position, quick=quick
+                )
+        return bucket_cache, regression_cache
+
+    for gw, (bucket_cache, regression_cache), test_df in walk_forward_steps(
+        df, start_gw, end_gw, retrain_every, fit_fn
+    ):
         for position in POSITIONS:
             pos_test = test_df[test_df["position"] == position]
             if pos_test.empty:
@@ -887,29 +883,25 @@ def walk_forward_predictions_csv(
     )
 
     rows = []
-    bucket_cache = {}
-    last_trained_gw = None
-    available_gws = sorted(set(df["GW_global"].unique()) & set(range(start_gw, end_gw + 1)))
 
-    for gw in available_gws:
-        if last_trained_gw is None or gw - last_trained_gw >= retrain_every:
-            train_df = df[df["GW_global"] < gw]
-            if train_df.empty:
+    def fit_fn(train_df):
+        bucket_cache = {}
+        for position in POSITIONS:
+            pos_train = train_df[train_df["position"] == position]
+            if pos_train.empty:
                 continue
-            for position in POSITIONS:
-                pos_train = train_df[train_df["position"] == position]
-                if pos_train.empty:
-                    continue
-                model = candidate_models(
-                    quick=quick, scheme=scheme, model_names=[model_name],
-                    position=position, use_tuned=use_tuned,
-                )[0]
-                model.fit(pos_train, feature_cols)
-                bucket_cache[position] = model
-            last_trained_gw = gw
-            print(f"Retrained models for GW {gw}")
+            model = candidate_models(
+                quick=quick, scheme=scheme, model_names=[model_name],
+                position=position, use_tuned=use_tuned,
+            )[0]
+            model.fit(pos_train, feature_cols)
+            bucket_cache[position] = model
+        return bucket_cache
 
-        test_df = df[df["GW_global"] == gw].copy()
+    for gw, bucket_cache, test_df in walk_forward_steps(
+        df, start_gw, end_gw, retrain_every, fit_fn
+    ):
+        test_df = test_df.copy()
         test_df["predicted_total_points"] = 0.0
 
         for position in POSITIONS:
