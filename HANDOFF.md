@@ -1,6 +1,6 @@
 # HANDOFF
 
-Last updated: 2026-07-11. Current branch: `main` (clean, synced with `origin/main`).
+Last updated: 2026-07-23. Current branch: `main` (clean, synced with `origin/main`).
 
 ## Repo state (start here)
 
@@ -15,26 +15,33 @@ Last updated: 2026-07-11. Current branch: `main` (clean, synced with `origin/mai
 - Worktrees pruned to just the main checkout; stale agent branches deleted (all preserved on
   `origin/experimental/*`). Junk (caches, `.DS_Store`, a stray R-output txt, old regeneratable
   prediction/squad CSVs) cleaned out. `git status` is clean.
+- **Subagent delegation infra (2026-07-23):** `.claude/agents/implementer.md` (Sonnet) and
+  `.claude/agents/searcher.md` (Haiku) pin delegated mechanical work to cheaper models; CLAUDE.md's
+  "Subagent delegation (cost control)" section defines the split and the quality-gate rule (main
+  session reviews the diff and re-runs pytest itself). Validated on real tasks; produced
+  `tests/test_config_strategy.py`, a PRODUCTION_WEIGHT_STRATEGY drift guard.
 - `fpl/models/` is gitignored but **do not delete it**: it holds the tuned-params JSONs (expensive
-  Optuna output) that produce the 2107 baseline. (The `.members.joblib`/`.weights.json` ensemble
+  Optuna output) that produce the standing baseline. (The `.members.joblib`/`.weights.json` ensemble
   artifacts that used to sit alongside them were deleted 2026-07-11 with their never-called
   save/load path - audit finding A1; nothing ever loaded them.)
 
-## The numbers that anchor everything: the honesty ladder (2026-07-18 update)
+## The numbers that anchor everything: the honesty ladder (2026-07-23 update)
 
-Re-baselined twice on 2026-07-11 - first after the DGW-leak fix, then again after the capped
-re-tuning - certified once on the frozen 2025-26 window, re-baselined 2026-07-16 after the xP
-zero-round mask (statistical tie with 2060, kept on data-correctness grounds), then the
-origin-based cell refreshed 2026-07-18 (same tie verdict; see RESEARCH_LOG for the reproduction
-note on a 13pt solver tie-break drift found along the way). Full lineage in RESEARCH_LOG; the
-standing numbers, identical config (capped-tuned single:catboost, horizon-3 MILP):
+Re-baselined twice on 2026-07-11 (DGW-leak fix, then capped re-tuning), certified once on the
+frozen 2025-26 window, re-baselined 2026-07-16 after the xP zero-round mask (statistical tie
+with 2060, kept on data-correctness grounds), then again 2026-07-23 after the element-code
+player-identity fix (TODO 4.8; another statistical tie, 2057 vs 2086, adopted on
+data-correctness grounds - name-based identity had split 125 players across spellings and
+merged 4 name-collisions). The origin-based cell was refreshed the same day post-identity-fix
+(1880, tie with retired 1906). Full lineage in RESEARCH_LOG; the standing numbers, identical
+config (capped-tuned single:catboost, horizon-3 MILP):
 
 | Window | standard protocol | origin-based (deploy) protocol |
 |---|---|---|
-| GW153-183 (selection window) | **2086** = the COMPARISON baseline | **1906** |
+| GW153-183 (selection window) | **2057** = the COMPARISON baseline | **1880** |
 | GW191-221 (one-shot, now SPENT) | 1705 | **1499** = the honest live expectation |
 
-- Judge every model/feature claim against **2086**, standard protocol, same window, with a
+- Judge every model/feature claim against **2057**, standard protocol, same window, with a
   `fpl.milp.compare_backtests` CI. (Ties within ~+/-140 points are not distinguishable on
   this window - the old-vs-retuned params comparison measured exactly that.)
 - Quote **~1500 per 31 GWs** for "what would this score live": selection-free window AND
@@ -42,8 +49,10 @@ standing numbers, identical config (capped-tuned single:catboost, horizon-3 MILP
   (1705 -> 1499, winner's-curse gap), not the GW153-183 window above.
 - **GW191-221 must never be used for selection again.** Next confirmation: GW222+ / 2026-27.
 
-Retired anchors: 2107 (DGW-leaking features), 2060 (pre-xP-mask; statistical tie with 2086),
-2041 (pre-cap params; statistical tie with 2060), 1966/1870/1900/1811/1526 (earlier eras). Relative conclusions from those eras stand;
+Retired anchors: 2086 (pre-identity-fix; statistical tie with 2057), 1906 (origin-based,
+pre-identity-fix; tie with 1880), 2107 (DGW-leaking features), 2060 (pre-xP-mask; statistical
+tie with 2086), 2041 (pre-cap params; statistical tie with 2060), 1966/1870/1900/1811/1526
+(earlier eras). Relative conclusions from those eras stand;
 their absolute levels do not. Reproduce:
 
 ```bash
@@ -102,15 +111,19 @@ it is not treated as noise.
   RESEARCH_LOG.md 2026-07-11. The sibling branch's 0.365→0.429 lift did not replicate.
 - **Risk-aware bench/starter use of P(blank)** — untested; would need its own backtest, and the
   MILP consumes E[pts] only, so any use is downstream of the optimizer.
-- **Fair registry tuning** — only CatBoost is Optuna-tuned; LightGBM/XGBoost run on defaults, so
-  the model bake-off is tuned-vs-defaults. Tuning them would make the comparison honest (noted as
-  a follow-up in the 2026-07-06 Optuna log entry).
+- **Fair registry tuning — RESOLVED (2026-07-18, TODO 2.4):** LightGBM/XGBoost were Optuna-tuned
+  and `single:catboost` survived the tuned-vs-tuned comparison; the bake-off is now honest. See
+  RESEARCH_LOG.md 2026-07-18.
 
 ## Standing rules for any modeling change (don't relearn these the hard way)
 
-- Judge on the realized-points MILP backtest vs 2107, or at minimum top1_capture / calibration
-  diagnostics — **never on MASE/MAE movement alone** (mean-vs-median trap, demonstrated 3×).
+- Judge on the realized-points MILP backtest vs the standing baseline (**2057** as of
+  2026-07-23), or at minimum top1_capture / calibration diagnostics — **never on MASE/MAE
+  movement alone** (mean-vs-median trap, demonstrated 3×).
 - Fit any combination weights / calibration on a window strictly BEFORE what you predict (the
   leakage bug, RESEARCH_LOG.md 2026-07-04).
 - Log every experiment to `experiments/results.csv` + a RESEARCH_LOG.md note, negatives included.
-- `pytest tests/` must be green before proposing a commit (currently 55 passing).
+- `pytest tests/` must be green before proposing a commit (currently 108 passing).
+- Delegate mechanical work to the pinned subagents in `.claude/agents/` (implementer=Sonnet,
+  searcher=Haiku) and verify their output in the main session — see CLAUDE.md "Subagent
+  delegation (cost control)".
