@@ -120,6 +120,25 @@ def get_user_squad(team_id, bootstrap, known_player_ids):
     return squad_ids, float(bank)
 
 
+def filter_to_registered(preds, bootstrap):
+    """Drop prediction rows for players not registered in the current season's API.
+
+    Found in the first real 2026-27 rehearsal (2026-07-23): the live snapshot keeps
+    every player active in the trailing season of the DATASET, but between seasons many
+    of those leave the league entirely (transfers abroad, retirements, relegated-club
+    departures) - 264 of 710 pool players, including that summer's biggest outbound
+    transfers, were not purchasable at all, and availability scaling can't catch them
+    because the API has no element (hence no status) for a player it doesn't list.
+    bootstrap-static's element list IS the purchasable universe, so membership in it
+    (by `code` == player_id) is the filter.
+    """
+    registered = {el["code"] for el in bootstrap["elements"] if el.get("code") is not None}
+    kept = preds[preds["player_id"].isin(registered)].copy()
+    print(f"Registered-player filter: {len(preds) - len(kept)} of {len(preds)} prediction rows "
+          f"dropped (players not in this season's FPL register).")
+    return kept
+
+
 def availability_multipliers(bootstrap):
     """Per-player availability scaling from the FPL API's own team-news fields (TODO 3.1).
 
@@ -332,6 +351,9 @@ def main():
     if preds.empty:
         sys.exit("Could not build any predictions - fixtures for the target gameweek aren't published yet.")
 
+    preds = filter_to_registered(preds, bootstrap)
+    if preds.empty:
+        sys.exit("No registered players left after filtering - API/dataset identity mismatch?")
     preds = apply_availability(preds, availability_multipliers(bootstrap))
     preds = apply_live_prices(preds, live_prices(bootstrap))
 

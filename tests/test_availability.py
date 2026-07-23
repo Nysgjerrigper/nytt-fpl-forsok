@@ -87,3 +87,20 @@ def test_apply_live_prices_overrides_only_known():
     out = apply_live_prices(preds, {1: 55.0})
     assert out["value"].tolist() == [55.0, 55.0, 45.0]  # both horizon rows re-priced; unknown kept
     assert preds["value"].tolist() == [50.0, 50.0, 45.0]  # input untouched
+
+
+# --- Registered-player filter (live-readiness rehearsal finding, 2026-07-23) ---
+
+from fpl.run_week import filter_to_registered
+
+
+def test_filter_to_registered_drops_unregistered_players():
+    preds = pd.DataFrame({
+        "player_id": [1, 2, 3],
+        "GW": [1, 1, 1],
+        "predicted_total_points": [7.0, 5.0, 3.0],
+    })
+    boot = _bootstrap([dict(_el(1)), dict(_el(3)), {"status": "a"}])  # 2 absent; codeless row ignored
+    out = filter_to_registered(preds, boot)
+    assert out["player_id"].tolist() == [1, 3]
+    assert preds["player_id"].tolist() == [1, 2, 3]  # input untouched
