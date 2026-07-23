@@ -220,6 +220,22 @@ You have execution autonomy, but the PO stays in the loop on anything landed or 
    reversible); push rarely and deliberately (visible, shared, triggers CI). Never `--force` to `main` without
    explicit PO approval (and prefer `--force-with-lease`).
 
+## Subagent delegation (cost control)
+
+Checked-in agent definitions live in `.claude/agents/`. Use them so mechanical work doesn't burn the main
+session's (Fable/Opus) quota — subagents default to `model: inherit` unless pinned, which is exactly the leak
+these files close:
+
+- **`implementer`** (Sonnet, medium effort): spec-driven code changes, refactors, test scaffolding — anything
+  already decided. The spec you hand it is the quality bottleneck; write it precisely.
+- **`searcher`** (Haiku, low effort): read-only lookup, grep-and-summarize, git/RESEARCH_LOG archaeology.
+
+Keep modeling/design decisions, MILP formulation work, and anything needing the backtest-judgment loop in the
+main session. Subagents can't spawn subagents, so all fan-out flows through the main session. If the PO wants
+a hard ceiling regardless of frontmatter, `export CLAUDE_CODE_SUBAGENT_MODEL=sonnet` overrides everything
+(env var > per-invocation param > frontmatter > main model) — not set by default, since it would also force
+the Haiku searcher up to Sonnet.
+
 ## Research & experimentation protocol
 
 When touching features (`fpl/features.py`), the model registry (`fpl/model/models.py`), or hyperparameters:
