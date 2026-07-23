@@ -16,6 +16,7 @@ placeholder/zero-filled columns implying a metric was measured when it wasn't).
 import json
 import subprocess
 from datetime import datetime
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 import pandas as pd
@@ -24,7 +25,40 @@ DEFAULT_RESULTS_PATH = "experiments/results.csv"
 
 # Columns that always come first, in this order, so the human-facing CSV stays
 # scannable no matter which metrics a given run happens to log.
-_FIXED_COLUMNS = ["timestamp", "git_hash", "name", "params"]
+_FIXED_COLUMNS = ["timestamp", "git_hash", "versions", "name", "params"]
+
+# The libraries whose version can silently move a backtest number (TODO 4.2): the three
+# GBMs above all, plus the numerics/solver stack they sit on. requirements.txt pins these,
+# but the log records what ACTUALLY ran - a pin edit or a stray environment shows up here.
+_VERSIONED_LIBS = ("catboost", "lightgbm", "xgboost", "scikit-learn", "numpy", "pandas",
+                   "scipy", "pulp", "highspy")
+
+
+def _library_versions():
+    """{library: installed version} for the result-moving libraries, best-effort.
+
+    A library that isn't installed (e.g. highspy on a CBC-only setup) is simply absent
+    from the dict rather than crashing the logged run - same degrade-gracefully policy
+    as _current_git_hash."""
+    versions = {}
+    for lib in _VERSIONED_LIBS:
+        try:
+            versions[lib] = version(lib)
+        except PackageNotFoundError:
+            continue
+    return versions
+
+
+def dataset_state(df, gw_col="GW_global"):
+    """Data-state provenance for a run: how much data existed when it ran.
+
+    Two experiments with identical code and params still aren't comparable if one saw
+    three more played gameweeks (fetch.py appends new rounds in place, so the dataset
+    mutates under the same path). Callers merge this into `params` so the row records
+    the data snapshot alongside the knobs:
+    log_result(name, {**params, **dataset_state(df)}, metrics).
+    """
+    return {"data_rows": int(len(df)), "data_max_gw": int(df[gw_col].max())}
 
 
 def _current_git_hash():
@@ -58,6 +92,7 @@ def log_result(name, params, metrics, results_path=DEFAULT_RESULTS_PATH):
     row = {
         "timestamp": datetime.now().isoformat(),
         "git_hash": _current_git_hash(),
+        "versions": json.dumps(_library_versions(), sort_keys=True),
         "name": name,
         "params": json.dumps(params, sort_keys=True, default=str),
     }

@@ -2,7 +2,7 @@
 
 Open threads only. Completed items and their full rationale live in `RESEARCH_LOG.md`
 (and `AUDIT_2026-07-11.md` for the A/B/C/D/E finding IDs); this file was compacted
-2026-07-23 after every audit cluster item (1.1-1.7, 2.1-2.4, 3.1-3.6, 4.1, 4.5) closed.
+2026-07-23 after every audit cluster item (1.1-1.7, 2.1-2.4, 3.1-3.6, 4.1, 4.2, 4.5) closed.
 
 **Standing decision rules** (details in RESEARCH_LOG 2026-07-11): judge modeling changes on
 the standard-protocol realized-points backtest vs **2086** (GW153-183, chips disabled) with a
@@ -19,9 +19,6 @@ deployment claims quote the honesty ladder (~1500/31 GWs); GW191-221 is SPENT fo
 
 ## Open — engineering hygiene
 
-- **[4.2][MEDIUM][E2] Reproducibility pinning** — lock dependency versions (pip-tools or a
-  constraints file) and extend `experiment.py` to log library versions + data state (max GW,
-  row count) per run. A CatBoost version bump can silently move the baseline.
 - **[4.3][LOW][E3] Stop tracking `master_dataset.csv`** (33 MB regenerable; .git is ~159 MB
   because of it). Gitignore it; history rewrite is optional and the PO's call.
 - **[4.4][LOW][E4] Proper packaging** — `pyproject.toml` + `pip install -e .`, drop the
