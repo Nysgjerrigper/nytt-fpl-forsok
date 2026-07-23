@@ -1,3 +1,16 @@
+# 2026-07-23 - Origin-based baseline refreshed post-identity-fix: 1880 (tie with retired 1906)
+
+Follow-up to the element-code identity adoption (same day, above): the origin-based deploy-honest
+number 1906 was computed under name-based identity, so it no longer described the shipped
+configuration. Re-ran `fpl.model.predict --origin-based --horizon 3` GW153-183 (retrain-every 4,
+single:catboost, capped-tuned params) through the MILP: **1880** vs the retired 1906 - a statistical
+tie (diff -26, 95% CI [-138, +140], sign test 11-19, p=0.200; retired CSV recovered from git
+history at b2de8f4 for the paired comparison). **1880 is now the standing origin-based baseline.**
+The standard-vs-origin gap under the current config is 2057-1880 = 177 points of lookahead optimism,
+consistent with the +105-to-144 range measured on earlier configs. Run:
+`origin_baseline_refresh_codeid` in experiments/results.csv; artifacts
+`experiments/preds_origin_codeid_gw153_183.csv` + `squad_selection_origin_codeid_gw153_183.csv`.
+
 # 2026-07-23 - Element-code player identity + fetch join guards (TODO 4.8): tie, recommend adopt on correctness
 
 **Hypothesis:** name-based identity (`pd.factorize(name)`) both merges distinct players sharing a
