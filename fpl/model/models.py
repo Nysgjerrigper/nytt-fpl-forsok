@@ -201,6 +201,83 @@ class TwoStageHurdle(BaseEstimator, RegressorMixin):
         return p_played * self.regressor_.predict(X)
 
 
+class ThreeClassHurdle(BaseEstimator, RegressorMixin):
+    """Minutes-model v2 (TODO 2.1 follow-on): a 3-class minutes stage instead of v1's binary.
+
+        E[points] = P(cameo) x E[pts | cameo] + P(full) x E[pts | full]
+
+    where cameo = 1-59 minutes and full = 60+ (the FPL appearance-points boundary: 1 pt
+    for a cameo, 2 pts for 60+, and the clean-sheet eligibility threshold). v1's binary
+    P(played) collapses those two regimes, but their conditional points distributions are
+    structurally different - a cameo is capped near the 1-point appearance floor while a
+    full game carries the whole upside tail - so one pooled E[pts | played] regressor is
+    fitting a mixture. Splitting the stage lets each regressor learn a homogeneous target.
+
+    Same plumbing contract as TwoStageHurdle: fit() needs the `minutes` training label
+    (threaded by models.fit_model), predict() takes only features, so a fitted instance
+    is a drop-in PositionEnsemble member. Classes absent from training (e.g. a slice where
+    nobody ever played) degrade to constant probabilities / a zero regressor.
+    """
+
+    CAMEO_MAX = 59  # minutes; 60+ is a "full" appearance (FPL's 2-point boundary)
+
+    def __init__(self, position=None):
+        self.position = position
+
+    def _minute_class(self, minutes):
+        m = np.asarray(minutes, dtype=float)
+        return np.where(m <= 0, 0, np.where(m <= self.CAMEO_MAX, 1, 2))
+
+    def fit(self, X, y, minutes):
+        y = np.asarray(y, dtype=float)
+        klass = self._minute_class(minutes)
+
+        reg_params = _tuned_params("catboost", self.position) or dict(CATBOOST_PARAMS)
+        clf_params = dict(reg_params)
+        clf_params["loss_function"] = "MultiClass"
+        # CatBoost only allows `subsample` (present in tuned params) with a sampling
+        # bootstrap; MultiClass defaults to bayesian, which rejects it.
+        if "subsample" in clf_params and "bootstrap_type" not in clf_params:
+            clf_params["bootstrap_type"] = "Bernoulli"
+
+        present = np.unique(klass)
+        if len(present) < 2:
+            self.class_probs_const_ = {int(present[0]): 1.0}
+            self.classifier_ = None
+        else:
+            self.class_probs_const_ = None
+            self.classifier_ = CatBoostClassifier(**clf_params)
+            self.classifier_.fit(X, klass)
+
+        self.regressors_ = {}
+        for c in (1, 2):  # class 0 (DNP) contributes exactly 0 points by construction
+            mask = klass == c
+            if mask.any():
+                X_c = X.loc[mask] if hasattr(X, "loc") else X[mask]
+                reg = CatBoostRegressor(**reg_params)
+                reg.fit(X_c, y[mask])
+                self.regressors_[c] = reg
+        return self
+
+    def _class_proba(self, X):
+        out = np.zeros((len(X), 3), dtype=float)
+        if self.classifier_ is None:
+            for c, p in self.class_probs_const_.items():
+                out[:, c] = p
+            return out
+        raw = self.classifier_.predict_proba(X)
+        for i, cls in enumerate(np.asarray(self.classifier_.classes_, dtype=int)):
+            out[:, cls] = raw[:, i]
+        return out
+
+    def predict(self, X):
+        proba = self._class_proba(X)
+        pred = np.zeros(len(X))
+        for c, reg in self.regressors_.items():
+            pred += proba[:, c] * reg.predict(X)
+        return pred
+
+
 class LambdaRankScorer(BaseEstimator, RegressorMixin):
     """Within-gameweek ranking model mapped back to the points scale (TODO 2.3, audit C3).
 
@@ -287,6 +364,11 @@ FACTORIES = {
     # training label, so fit_model special-cases it below - the factory entry exists so
     # the name participates in MODEL_NAMES (comparison tables, bake-off, blends).
     "catboost_hurdle": lambda: TwoStageHurdle(),
+    # Minutes-model v2 (TODO 2.1 follow-on): 3-class minutes stage (DNP / cameo / 60+),
+    # each playing class with its own conditional points regressor. Same minutes-label
+    # special-casing as catboost_hurdle. Backtested 2026-07-23: 2053 vs 2057, a dead tie
+    # (sign test 15-15) - kept as a documented negative result, like catboost_hurdle.
+    "catboost_hurdle3": lambda: ThreeClassHurdle(),
     # Within-GW LambdaRank mapped isotonically back to points (audit C3). Needs the GW_global
     # group label, so fit_model special-cases it below - the factory entry exists so the name
     # participates in MODEL_NAMES (comparison tables, bake-off, blends).
@@ -326,6 +408,10 @@ def fit_model(name, X, y, position=None, minutes=None, gw=None):
         if minutes is None:
             raise ValueError("catboost_hurdle needs the `minutes` training label")
         return TwoStageHurdle(position=position).fit(X, y, minutes=minutes)
+    if name == "catboost_hurdle3":
+        if minutes is None:
+            raise ValueError("catboost_hurdle3 needs the `minutes` training label")
+        return ThreeClassHurdle(position=position).fit(X, y, minutes=minutes)
     if name == "lgbm_rank":
         if gw is None:
             raise ValueError("lgbm_rank needs the `gw` (GW_global) group label")

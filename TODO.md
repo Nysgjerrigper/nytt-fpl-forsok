@@ -31,8 +31,10 @@ deployment claims quote the honesty ladder (~1500/31 GWs); GW191-221 is SPENT fo
 
 ## Open — modeling ideas (revisit only with backtest capacity)
 
-- **Minutes-model v2** (2.1 follow-on): 3-class minutes stage (0/cameo/60+), or cross-fitted
-  P(played)/E[min] as *features* into the production regressor. v1 hurdle was a tie (2085).
+- **Minutes cross-fitted features** (2.1 v2 remainder): P(played)/E[min] as *features* into the
+  production regressor. DEPRIORITIZED after the 3-class hurdle also tied (2053 vs 2057,
+  RESEARCH_LOG 2026-07-23) - two hurdle variants in a row suggest the minutes signal is
+  already carried by the nailedness features.
 - **Probabilistic interval calibration** — [p10,p90] coverage 0.88-0.93 vs ideal 0.80; a
   conformal adjustment on a held-out slice would tighten it. Forecasting-only view.
 - **History extension to 2016-17** — needs a `players_raw.csv` join for position/team and
