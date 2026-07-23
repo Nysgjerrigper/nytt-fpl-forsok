@@ -147,9 +147,13 @@ Do before the season opens on the FPL site; none of it affects backtests.
   Shipped: `--initial-ft` above the policy cap is now honored instead of infeasible
   (max(cap, initial_ft) bound + unit test), and the sell-price + chips-disabled
   conventions are documented in CLAUDE.md. RESEARCH_LOG 2026-07-20.
-- **[3.5][LOW][D2] FT/chip accounting test** — the solver's FT logic is duplicated in
-  the Python state-rollover (`optimize.py:373-386`); a 5-6 GW synthetic test asserting
-  the FT trajectory closes the silent-divergence class the constraint test doesn't cover.
+- **[3.5][DONE 2026-07-20][D2] FT/chip accounting test** — added
+  `test_free_transfer_rollover_banks_and_caps` to `tests/test_optimize_constraints.py`:
+  a 3-GW fresh build with a pool of EXACTLY 15 players (transfers structurally
+  impossible, so the FT trajectory is deterministic regardless of solver tie-breaking)
+  pins the plain-Python rollover's q_start sequence to [1, 2, 2] — exercising both the
+  bank-an-unused-FT and the never-exceed-Q_bar behaviours. Closes the silent-divergence
+  class the single-solve constraint test didn't cover.
 - **[3.6][DONE 2026-07-11] Live opp_* features are stale.** Fixed same day it was found:
   the helper moved to `features.team_form_asof` (shared by the origin-based export and
   run_week), and `build_future_predictions` now maps each future GW's actual upcoming
