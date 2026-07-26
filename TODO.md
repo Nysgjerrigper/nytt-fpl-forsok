@@ -9,7 +9,8 @@ force-push - PO's call, only worth it if clone size ever becomes a real annoyanc
 **Standing decision rules** (details in RESEARCH_LOG 2026-07-11): judge modeling changes on
 the standard-protocol realized-points backtest vs **2057** (GW153-183, chips disabled; re-baselined 2026-07-23 after the element-code identity fix) with a
 `fpl.milp.compare_backtests` CI (window CI width ~±140 - differences inside that are ties);
-deployment claims quote the honesty ladder (~1500/31 GWs); GW191-221 is SPENT for selection.
+deployment claims quote the honesty ladder (~1500/31 GWs; origin-based GW153-183 anchor is
+**1880** since the 2026-07-23 post-identity-fix refresh); GW191-221 is SPENT for selection.
 
 ## Open — evaluation & optimizer
 
@@ -45,7 +46,10 @@ deployment claims quote the honesty ladder (~1500/31 GWs); GW191-221 is SPENT fo
 
 ## Settled / parked elsewhere (do not reopen without new evidence)
 
-- Combination strategy: `single:catboost` (config constant; bake-off re-checks each train run).
+- Combination strategy: `single:catboost` (config constant; bake-off re-checks each train run;
+  guarded by `tests/test_config_strategy.py` since 2026-07-23).
+- Subagent delegation: pinned agents in `.claude/agents/` (implementer=Sonnet, searcher=Haiku)
+  with the main-session quality-gate rule in CLAUDE.md (2026-07-23). Working as designed.
 - FT banking policy: cap 2, not the site's 5 (RESEARCH_LOG 2026-07-20).
 - Buckets: forecasting-only; captaincy haul-tilt rejected; loss-branch archived as tag.
 - LambdaRank: clearly negative (branch `exp/lambdarank`). Current-GW xP: confirmed leak, unusable.
