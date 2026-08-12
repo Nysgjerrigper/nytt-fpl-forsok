@@ -111,7 +111,7 @@ zero", and the gradient-boosted models branch on missingness natively.
 
 == Forecasting models <sec-models>
 
-Four independent models, one per position (GK/DEF/MID/FWD) - the statistics that predict a
+Four independent production models, one per position (GK/DEF/MID/FWD) - the statistics that predict a
 goalkeeper's points are largely disjoint from a forward's, and pooling risks one position's scale
 dominating the loss. Per position, every regressor in a fixed registry is trained on the same
 features: LightGBM, XGBoost, CatBoost (MAE loss), OLS, Ridge, ElasticNet, PLS, Random Forest,
@@ -119,6 +119,13 @@ Extra Trees, $k$-NN, LinearSVR, and a sample-capped RBF SVR. Boosted models take
 including missing values; linear/kernel/distance models get a zero-imputer and standardizer.
 Registry members that tests find unhelpful are retained - the blend simply assigns them near-zero
 weight, preserving the comparison for later revisiting.
+
+An opt-in research registry also supports an explicitly complete position-specialist map and an
+optional MID-only gate. It is research-only: its methodology has passed synthetic audit validation for
+causal selection, provenance, and spent-window enforcement, but it has not produced a tournament result.
+`single:catboost` remains until a pre-registered realized-points promotion gate passes standard and
+origin-based MILP tests, seed-stability checks, and multiplicity-adjusted exact sign tests. The MID
+gate is restricted to deadline-known minutes-nailedness information and is fitted chronologically.
 
 How the registry members are _combined_ is itself an empirical question, answered per position by
 a combination bake-off scored on identical held-out rows: the best single member (no combination

@@ -13,6 +13,18 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl import run_week
+from fpl.model.mid_gate import MidGateConfig, RegimeSelection, TertileThresholds
+
+
+def _always_alt_mid_gate():
+    """Small frozen gate used to exercise the live routing integration."""
+    selection = RegimeSelection("lightgbm", 1, 1, 1.0, 1.0, 0.0)
+    return MidGateConfig(
+        champion="catboost", candidates=("catboost", "lightgbm"),
+        thresholds=TertileThresholds(0.3, 0.7),
+        selections={"low": selection, "medium": selection, "high": selection},
+        mase_scale=1.0, mase_scale_training_max_gw=3,
+    )
 
 
 def _raw_frame(rows):
@@ -155,3 +167,28 @@ def test_dgw_team_gets_one_prediction_row_per_fixture(monkeypatch):
     assert (preds[preds["player_id"] == 2]["opponent_team"] == "Arsenal").all()
     assert len(preds[preds["player_id"] == 3]) == 1         # single fixture -> single row
     assert len(preds[preds["player_id"] == 4]) == 0         # blank GW -> dropped
+
+
+def test_live_future_predictions_routes_mid_rows_through_frozen_gate(monkeypatch):
+    raw = _raw_frame([
+        (1, 1, "MID", "Arsenal", "A", 1, 2.0, 90, 60),
+        (1, 2, "MID", "Arsenal", "A", 1, 2.0, 90, 60),
+        (1, 3, "MID", "Arsenal", "A", 1, 2.0, 90, 60),
+    ])
+    snapshot = run_week.build_live_snapshot(raw)
+    monkeypatch.setattr(run_week, "fetch_fixtures", lambda gw: [
+        {"team_h": 1, "team_a": 2, "team_h_difficulty": 3, "team_a_difficulty": 3},
+    ])
+    bootstrap = {"teams": [{"id": 1, "name": "Arsenal"}, {"id": 2, "name": "Chelsea"}]}
+
+    class Stub:
+        def __init__(self, value): self.value = value
+        def predict(self, X): return [self.value] * len(X)
+
+    models = {pos: Stub(1.0) for pos in ("GK", "DEF", "MID", "FWD")}
+    preds = run_week.build_future_predictions(
+        snapshot, ["value"], models, bootstrap, start_gw=4, horizon=1,
+        mid_gate=_always_alt_mid_gate(),
+        mid_experts={"catboost": Stub(2.0), "lightgbm": Stub(9.0)},
+    )
+    assert preds["predicted_total_points"].tolist() == [9.0]

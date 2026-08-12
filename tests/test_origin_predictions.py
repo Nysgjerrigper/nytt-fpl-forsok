@@ -17,6 +17,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl import features
 from fpl.model import predict as predict_mod
+from fpl.model.mid_gate import MidGateConfig, RegimeSelection, TertileThresholds
 
 N_GWS = 12
 ORIGIN = 10
@@ -53,6 +54,19 @@ def _origin_preds(raw):
     return predict_mod.origin_based_predictions(
         df, raw, cols, start_gw=ORIGIN, end_gw=N_GWS, horizon=3,
         retrain_every=1, weight_window=4, weight_strategy="single:lightgbm",
+    )
+
+
+def _single_expert_gate():
+    """Frozen training-only-style gate used only to cover pipeline routing."""
+    selection = RegimeSelection("lightgbm", 100, 8, 1.0, 1.0, 0.0)
+    return MidGateConfig(
+        champion="lightgbm", candidates=("lightgbm",),
+        thresholds=TertileThresholds(0.3, 0.7),
+        selections={"low": selection, "medium": selection, "high": selection},
+        training_max_gw=8, validation_min_gw=9, validation_max_gw=9,
+        mase_scale=1.0, mase_scale_training_max_gw=8,
+        provenance={"scale_source": "training-only"},
     )
 
 
@@ -100,3 +114,19 @@ def test_later_origins_do_use_newer_information():
     b = base[base["origin_gw"] == ORIGIN + 1].sort_values(key).reset_index(drop=True)
     a = after[after["origin_gw"] == ORIGIN + 1].sort_values(key).reset_index(drop=True)
     assert not np.allclose(a["predicted_total_points"], b["predicted_total_points"])
+
+
+def test_standard_and_origin_paths_execute_frozen_mid_gate():
+    raw = _synthetic_raw()
+    df = features.build_feature_frame(raw)
+    cols = features.feature_columns(df)
+    gate = _single_expert_gate()
+    standard = predict_mod.walk_forward_predictions(
+        df, cols, start_gw=ORIGIN, end_gw=N_GWS, retrain_every=1,
+        weight_window=4, weight_strategy="single:lightgbm", mid_gate=gate,
+    )
+    origin = predict_mod.origin_based_predictions(
+        df, raw, cols, start_gw=ORIGIN, end_gw=N_GWS, horizon=3,
+        retrain_every=1, weight_window=4, weight_strategy="single:lightgbm", mid_gate=gate,
+    )
+    assert not standard.empty and not origin.empty

@@ -241,7 +241,18 @@ def build_master_dataset(seasons=None, save=True):
     gw_offset = 0
     for season in seasons:
         print(f"Fetching {season}...")
-        raw = fetch_season_gws(season)
+        try:
+            raw = fetch_season_gws(season)
+        except RuntimeError as exc:
+            # The discovery endpoint may expose the next season's directory
+            # before vaastav has published even GW1.  That is an expected
+            # live-state transition, not a reason to discard already fetched
+            # history; a genuinely missing historical season still remains
+            # visible in the warning and must be investigated.
+            if str(exc) != f"No gameweek data found yet for season {season}.":
+                raise
+            logger.warning("Skipping %s because it has no published gameweek data yet.", season)
+            continue
         df = clean_season(raw, season)
         df["GW"] = pd.to_numeric(df["GW"])
         n_gws_this_season = int(df["GW"].max())
@@ -251,6 +262,8 @@ def build_master_dataset(seasons=None, save=True):
               f"-> global GW {gw_offset - config.GWS_PER_SEASON + 1}-{gw_offset - config.GWS_PER_SEASON + n_gws_this_season}")
         cleaned.append(df)
 
+    if not cleaned:
+        raise RuntimeError("No seasons with published gameweek data were available.")
     master = pd.concat(cleaned, ignore_index=True, sort=False)
     master = assign_player_ids(master)
     master = master.sort_values(["player_id", "GW_global"]).reset_index(drop=True)

@@ -5,6 +5,94 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-08-11 - Optional PyTabKit dependency lane: RealMLP/TabM available; TabR incomplete
+
+### Integration execution note (fresh Python 3.11.15 shared environment)
+
+The Position-Specialist integration executor ran `pytest tests/ -q` (178 passed) and
+generated the complete 56-command tournament plan. It also verified the exact generated
+TabR selection command through its first trial: it fails closed with
+`OptionalModelDependencyError` because this environment lacks both `faiss` and `skorch`.
+An isolated `n_epochs=1`, seed-17 probe did not reproduce the earlier Python-3.14.6 neural
+smokes: RealMLP exited after PyTorch initialization without returning predictions, while
+TabM returned `ValueError: Training without validation set is currently not implemented`.
+These are operational availability outcomes, not negative model results; no expert was
+substituted, no tuned-artifact manifest was created, and no selection/backtest/promotion
+evidence was produced. The historical macOS arm64/Python-3.14.6 evidence below remains
+separate from this fresh-environment result.
+
+### Supervisor follow-up: available-set protocol remains incomplete
+
+The selection-stage CLI regression was added and the full test suite then passed with
+179 tests. A reusable isolated Python 3.14.6 environment was revalidated with
+PyTabKit 1.7.3, faiss-cpu 1.15.0, skorch 1.4.0, and declared Optuna 4.9.0. With an
+explicit validation fraction, bounded CPU RealMLP and TabM fit/predict probes both
+returned finite predictions. The single permitted bounded TabR attempt reached epoch-0
+validation but returned no prediction, so TabR is recorded unavailable/incomplete and
+is not substituted.
+
+The explicit available research family is `catboost_mae`, `catboost_rmse`,
+`lightgbm_l2`, `lightgbm_l1`, `lightgbm_huber`, `xgboost_squared_error`,
+`xgboost_absolute_error`, `hist_gradient_boosting_absolute`,
+`hist_gradient_boosting_squared`, `extra_trees_tuned`, `linear_svr_tuned`, `realmlp`,
+and `tabm`. Its generated plan has 52 selection tune commands and is expressly
+non-promotable because the registered TabR family member is unavailable. The first
+unmodified command, `python -m fpl.model.tuning --position GK --model catboost_mae
+--stage selection --seed 0 --train-max-gw 136`, completed two of 50 four-fold trials
+(14.39s and 6.43s) before the execution session ceiling terminated it; no artifact was
+written. At the observed pace it needs roughly 6--12 minutes. Do not reduce its trials
+or timeout; resume it in a runtime that permits one complete registered study. No real
+OOF selection, finalist/MILP artifact, CI, or promotion result exists.
+
+### Persistent-session update: first real selection artifact completed
+
+The exact unchanged `GK/catboost_mae` generated command subsequently completed all 50
+four-fold trials in a persistent session. Its winning selection-CV MASE was
+0.6775657717. The generated artifact is
+`fpl/models/tuned_params_GK_catboost_mae.json`, with file SHA-256
+`e7ffb57b6a9c85cf5c73f1b201d9b16a079fbd43e1af661228a23d881dc4f0ad` and embedded
+provenance hash `81a581b8e5f9054c9846f4e6a3b6c6ed8e5cb8c2f9d457a6a5d016b132842086`.
+Validation confirmed position GK, model catboost_mae, seed 0, stage selection, four
+folds, `time_budget_seconds=3600`, and discovery cutoff 136. This is one tuning
+artifact only; it is non-promotable and must not be used for selection until every
+member of the declared available set has a matching artifact and the full causal chain
+is completed.
+
+This was a bounded dependency smoke, not a model comparison or promotion test. On macOS arm64 with
+Python 3.14.6 and PyTabKit 1.7.3, RealMLP completed CPU fit/predict in 13.08s (`n_epochs=1`, seed 17)
+and TabM completed in 1.41s. TabM's same-seed repeat produced maximum absolute prediction difference
+0.0. These verify that RealMLP and TabM can be used as opt-in research candidates; they say nothing
+about forecast accuracy, realized points, or production suitability.
+
+`faiss-cpu==1.15.0` installs through pip, so the previous conda-only FAISS assumption is stale. TabR
+then exposed an undeclared `skorch` requirement. With `skorch==1.4.0`, its bounded run reached epoch-0
+validation but did not yield a prediction before it was stopped. **Verdict: TabR remains unavailable and
+incomplete; no substitute is authorized.** `requirements-research.txt` now declares `skorch==1.4.0`;
+repeat a bounded TabR fit/predict check before any study.
+
+## 2026-08-11 - Position-specialist MoE methodology audit PASS; no tournament result or promotion
+
+The remediated research-only interface passed its methodology audit. This is **not** an experimental
+result: beyond the separately logged dependency smoke and synthetic audit validation, no model training,
+real tuned artifacts, tournament, MILP backtest, confidence interval, or promotion decision is recorded.
+Production remains `single:catboost` unless the full registered promotion gate passes.
+
+The runtime season-aware workflow is selection-stage tuning capped at discovery -> fail-closed tuned-artifact
+manifest -> causal OOF/frozen selection -> hash-bound finalist/control artifacts -> promotion. The current
+chronology is GW<=136 discovery, GW137-152 selection, and GW153-183 chips-disabled horizon-3 standard/origin
+evaluation; code structurally rejects the SPENT GW191-221 window. The final family is only a complete
+four-position map and, optionally, a causal MID gate. The gate uses only deadline-known `mins60_rate_roll5`,
+a training-only naive-lag-1 MASE scale, and validated OOF provenance.
+
+Promotion requires positive standard and origin totals versus CatBoost, standard CI lower bound above
+zero, origin CI lower bound at least -40, positive realized-point differences at seeds 0/1/2, and a
+Holm-adjusted one-sided paired sign-test pass at alpha 0.05. If both permitted candidates pass, the
+simpler one wins. Holm uses exact paired sign-test p-values (ties dropped); moving block bootstrap is
+limited to realized-points CIs and is not a null p-value. RealMLP/TabM have passed optional-dependency
+smokes; TabR is unavailable/incomplete despite declared `skorch==1.4.0` and needs a completed prediction
+run. A rebuilt, ignored/untracked dataset has 162,981 rows through GW228. Integration must replace this
+status with actual commands, artifacts, verification output, and results if a study runs.
+
 ## 2026-07-23 - Live readiness: first real 2026-27 end-to-end rehearsal; registered-player filter added
 
 Modeling is PARKED (PO decision, same day - every candidate since the re-baselines tied). The 2026-27

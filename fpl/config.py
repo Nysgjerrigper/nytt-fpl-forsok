@@ -15,6 +15,23 @@ GITHUB_API_SEASONS_URL = "https://api.github.com/repos/vaastav/Fantasy-Premier-L
 
 GWS_PER_SEASON = 38
 
+
+def season_start_gw(season: str) -> int:
+    """Return the first global GW for ``season`` relative to DEFAULT_START_SEASON."""
+    start_year = int(DEFAULT_START_SEASON.split("-")[0])
+    year = int(season.split("-")[0])
+    if year < start_year:
+        raise ValueError(f"{season} predates DEFAULT_START_SEASON={DEFAULT_START_SEASON}")
+    return (year - start_year) * GWS_PER_SEASON + 1
+
+
+def season_window(season: str, last_gw: int = 31) -> tuple[int, int]:
+    """Return a validated global-GW selection/backtest window for one season."""
+    if not 1 <= last_gw <= GWS_PER_SEASON:
+        raise ValueError("last_gw must lie within one season")
+    start = season_start_gw(season)
+    return start, start + last_gw - 1
+
 # The ONE definition of the production forecaster's combination strategy, consumed as the
 # default by BOTH backtest predictions (fpl.model.predict) and the live weekly run
 # (fpl.run_week) - the two paths must never disagree about what "the production model" is

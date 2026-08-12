@@ -14,6 +14,14 @@ deployment claims quote the honesty ladder (~1500/31 GWs; origin-based GW153-183
 
 ## Open — evaluation & optimizer
 
+- **[NEW][RESEARCH] Position-specialist MoE tournament (methodology ready; no result)** — execute only
+  the registered workflow: selection-stage tuning at runtime discovery cutoff -> fail-closed tuned manifest
+  -> causal OOF/frozen selection -> hash-bound finalist/control artifacts -> promotion. The current windows
+  are GW<=136, GW137-152, and GW153-183; GW191-221 is structurally rejected. Keep `single:catboost`
+  unless the full gate passes: positive standard total and CI lower bound, origin CI floor -40, all seed
+  0/1/2 refits positive, and Holm-adjusted exact one-sided sign-test evidence. Audit PASS is synthetic
+  readiness only; no real tuned artifacts, backtest, or promotion exists.
+
 - **[1.8][LOW][B5] Auto-subs + vice-captain activation in backtest scoring** — currently
   ignored, understating absolute realized points equally for all configs. Implement a simple
   auto-sub simulation in optimize.py's scoring block, or document the omission in the report.
@@ -48,6 +56,9 @@ deployment claims quote the honesty ladder (~1500/31 GWs; origin-based GW153-183
 
 - Combination strategy: `single:catboost` (config constant; bake-off re-checks each train run;
   guarded by `tests/test_config_strategy.py` since 2026-07-23).
+- Research experts and the MID gate are opt-in only; MASE screening, registration, or a partial map is
+  not a production promotion. RealMLP/TabM dependency smokes passed; `requirements-research.txt` includes
+  TabR's `skorch==1.4.0`, but TabR remains unavailable/incomplete pending a completed prediction run.
 - Subagent delegation: pinned agents in `.claude/agents/` (implementer=Sonnet, searcher=Haiku)
   with the main-session quality-gate rule in CLAUDE.md (2026-07-23). Working as designed.
 - FT banking policy: cap 2, not the site's 5 (RESEARCH_LOG 2026-07-20).

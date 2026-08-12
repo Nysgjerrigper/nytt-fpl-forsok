@@ -31,7 +31,7 @@ _FIXED_COLUMNS = ["timestamp", "git_hash", "versions", "name", "params"]
 # GBMs above all, plus the numerics/solver stack they sit on. requirements.txt pins these,
 # but the log records what ACTUALLY ran - a pin edit or a stray environment shows up here.
 _VERSIONED_LIBS = ("catboost", "lightgbm", "xgboost", "scikit-learn", "numpy", "pandas",
-                   "scipy", "pulp", "highspy")
+                   "scipy", "pulp", "highspy", "torch", "pytabkit", "faiss-cpu")
 
 
 def _library_versions():
