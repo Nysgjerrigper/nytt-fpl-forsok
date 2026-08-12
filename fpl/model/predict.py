@@ -13,6 +13,7 @@ Two modes:
   this from the official FPL API, since vaastav's historical data obviously
   has no rows yet for a gameweek that hasn't been played).
 """
+import json
 import sys
 from pathlib import Path
 
@@ -21,12 +22,17 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
-from fpl.model.train import POSITIONS, fit_holdout_weights, fit_level_calibration, fit_position_ensembles
+from fpl.model.expert_policy import (POSITIONS, fit_mid_gate_experts, parse_expert_map,
+                                     predict_by_position, predict_with_mid_gate,
+                                     resolve_weight_strategy)
+from fpl.model.mid_gate import MidGateConfig
+from fpl.model.train import fit_holdout_weights, fit_level_calibration, fit_position_ensembles
 from fpl.model.walk_forward import walk_forward_steps
 
 
 def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16,
-                             weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY, calibrate_level=False):
+                             weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY, calibrate_level=False,
+                             expert_map=None, mid_gate=None):
     """Predict every GW in [start_gw, end_gw] using only data from earlier GWs.
 
     Combination weights are fit ONCE, on the `weight_window` gameweeks strictly before
@@ -47,6 +53,7 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
     comparable on MAE after scaling - the point of this flag is realized MILP points, not MAE.
     """
     rows = []
+    weight_strategy = resolve_weight_strategy(weight_strategy, expert_map)
     print(f"Fitting combination weights (strategy={weight_strategy}) "
           f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
     weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
@@ -63,19 +70,20 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
               + ", ".join(f"{pos}={s:.3f}" for pos, s in level_scalars.items()))
 
     def fit_fn(train_df):
-        return fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        return (fitted, fit_mid_gate_experts(train_df, feature_cols, mid_gate)) if mid_gate else fitted
 
     for gw, models_cache, test_df in walk_forward_steps(
         df, start_gw, end_gw, retrain_every, fit_fn
     ):
         test_df = test_df.copy()
-        test_df["predicted_total_points"] = 0.0
-        for pos in POSITIONS:
-            mask = test_df["position"] == pos
-            if mask.any() and pos in models_cache:
-                test_df.loc[mask, "predicted_total_points"] = (
-                    level_scalars[pos] * models_cache[pos].predict(test_df.loc[mask, feature_cols])
-                )
+        if mid_gate:
+            fitted, mid_experts = models_cache
+            test_df["predicted_total_points"] = predict_with_mid_gate(
+                test_df, feature_cols, fitted, mid_gate, mid_experts, level_scalars)
+        else:
+            test_df["predicted_total_points"] = predict_by_position(
+                test_df, feature_cols, models_cache, level_scalars=level_scalars)
         rows.append(test_df)
 
     result = pd.concat(rows, ignore_index=True)
@@ -87,7 +95,8 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
 
 def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon,
                              retrain_every=4, weight_window=16,
-                             weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY):
+                             weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY,
+                             expert_map=None, mid_gate=None):
     """Deploy-honest backtest export: for each origin GW t, predict ALL of t..t+horizon-1
     with player form frozen at t's deadline (information through GW t-1 only).
 
@@ -124,6 +133,7 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
     from fpl.run_week import build_live_snapshot
 
     frozen_cols = features._player_shifted_columns(df)
+    weight_strategy = resolve_weight_strategy(weight_strategy, expert_map)
     print(f"Fitting combination weights (strategy={weight_strategy}) "
           f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
     weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
@@ -133,7 +143,8 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
     rows = []
 
     def fit_fn(train_df):
-        return fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        return (fitted, fit_mid_gate_experts(train_df, feature_cols, mid_gate)) if mid_gate else fitted
 
     # The retrain-and-step skeleton drives the OUTER origin loop; the snapshot rebuild
     # below and the inner horizon loop are this backtest's own per-origin body (the
@@ -163,13 +174,13 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
                 mapped = target["opponent_team"].map(opp_form[col])
                 target[col] = mapped.to_numpy()
 
-            target["predicted_total_points"] = 0.0
-            for pos in POSITIONS:
-                mask = target["position"] == pos
-                if mask.any() and pos in models_cache:
-                    target.loc[mask, "predicted_total_points"] = (
-                        models_cache[pos].predict(target.loc[mask, feature_cols])
-                    )
+            if mid_gate:
+                fitted, mid_experts = models_cache
+                target["predicted_total_points"] = predict_with_mid_gate(
+                    target, feature_cols, fitted, mid_gate, mid_experts)
+            else:
+                target["predicted_total_points"] = predict_by_position(
+                    target, feature_cols, models_cache)
             target["origin_gw"] = origin
             rows.append(target)
             origin_rows += len(target)
@@ -194,6 +205,14 @@ if __name__ == "__main__":
                          help="Combination strategy: nnls | top_k | ridge | single:<model>. "
                               "Defaults to the production strategy (config.PRODUCTION_WEIGHT_STRATEGY) "
                               "so backtests measure the same configuration live runs use.")
+    parser.add_argument(
+        "--expert-map", type=parse_expert_map, default=None,
+        help="Experimental complete position override, e.g. "
+             "GK=catboost,DEF=lightgbm,MID=tabm,FWD=catboost. "
+             "Overrides --weight-strategy; production remains single:catboost.",
+    )
+    parser.add_argument("--mid-gate-config", default=None,
+                        help="Frozen MidGateConfig JSON for the optional experimental MID router.")
     parser.add_argument("--calibrate-level", action="store_true",
                          help="Rescale each position's predictions by sum(actual)/sum(predicted) "
                               "fit on the pre-window holdout - corrects MAE-loss median-flattening "
@@ -213,17 +232,21 @@ if __name__ == "__main__":
     df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(df)
 
+    mid_gate = (MidGateConfig.from_dict(json.loads(Path(args.mid_gate_config).read_text()))
+                if args.mid_gate_config else None)
     if args.origin_based:
         if args.calibrate_level:
             sys.exit("--calibrate-level is not supported with --origin-based (documented "
                      "negative result; keep the comparison surface minimal).")
         preds = origin_based_predictions(df, raw, feature_cols, args.start_gw, args.end_gw,
                                          horizon=args.horizon, retrain_every=args.retrain_every,
-                                         weight_strategy=args.weight_strategy)
+                                         weight_strategy=args.weight_strategy,
+                                         expert_map=args.expert_map, mid_gate=mid_gate)
     else:
         preds = walk_forward_predictions(df, feature_cols, args.start_gw, args.end_gw, args.retrain_every,
                                          weight_strategy=args.weight_strategy,
-                                         calibrate_level=args.calibrate_level)
+                                         calibrate_level=args.calibrate_level,
+                                         expert_map=args.expert_map, mid_gate=mid_gate)
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     preds.to_csv(args.output, index=False)
     print(f"Saved {len(preds)} rows to {args.output}")

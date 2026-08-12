@@ -1,8 +1,45 @@
 # HANDOFF
 
-Last updated: 2026-07-23. Current branch: `main` (clean, synced with `origin/main`).
+Last updated: 2026-08-11. Branch/status must be refreshed by the integration executor before landing.
 
 ## Repo state (start here)
+
+- **Position-specialist MoE research patch (2026-08-11, methodology-audited/unpromoted):** adds an explicit
+  research registry, complete-map overrides for `predict`/`run_week`, an optional frozen MID gate,
+  tournament-manifest writer, and promotion-gate CLI. Production remains `single:catboost`; no
+  specialist tournament, tuned artifacts, backtest, CI, or promotion result is claimed. The methodology
+  audit **PASSED**: runtime season-aware cutoffs, causal OOF/training-only MID MASE provenance,
+  fail-closed tuned-parameter and finalist/control lineage, and structural spent-window rejection now exist.
+  **Dependency check (verified):** PyTabKit 1.7.3
+  on macOS arm64/Python 3.14.6 completed CPU fit/predict for RealMLP (13.08s, `n_epochs=1`, seed 17)
+  and TabM (1.41s; same-seed max absolute prediction difference 0.0); `faiss-cpu==1.15.0` installs
+  through pip. TabR additionally requires `skorch==1.4.0`; after installation it reached epoch-0
+  validation but produced no bounded-run prediction. Keep TabR unavailable/incomplete, without a
+  substitute. `requirements-research.txt` records the optional dependency set. The current derived
+  chronology is GW<=136/GW137-152/GW153-183. Audit PASS is synthetic readiness validation only.
+  **Fresh integration execution:** `pytest tests/ -q` passed (178 tests); standard and origin CLI
+  smoke exports completed for GW153 using an explicit all-CatBoost map; frozen-artifact promotion
+  smoke correctly retained CatBoost. The full generated plan has 56 tuning commands, but cannot
+  complete in the current Python-3.11.15 environment: its exact TabR selection command fails at
+  trial 0 because `faiss` and `skorch` are absent. Fresh bounded RealMLP/TabM probes also produced
+  no usable predictions. No real selection, final backtest, CI, or promotion evidence exists.
+  **Supervisor follow-up:** the selection CLI regression is covered and `pytest tests/ -q`
+  now passes 179 tests. In the isolated Python-3.14.6 environment, RealMLP and TabM
+  have bounded validation-aware fit/predict evidence; TabR again reached epoch-0 only
+  and remains unavailable/incomplete. An explicit 13-expert available-set plan produces
+  52 tune commands but is non-promotable because it excludes TabR. Its first unchanged
+  `GK/catboost_mae` command completed two trials before the execution session ceiling;
+  no tuned artifact exists. Resume that exact command in a runtime allowing its estimated
+  6--12 minutes; do not reduce trials/timeouts or treat synthetic CLI smoke as evidence.
+  **Persistent-session update:** the exact first command has now completed all 50 trials.
+  Its validated GK/catboost_mae selection artifact is gitignored at
+  `fpl/models/tuned_params_GK_catboost_mae.json` (file SHA-256
+  `e7ffb57b6a9c85cf5c73f1b201d9b16a079fbd43e1af661228a23d881dc4f0ad`; embedded
+  provenance hash `81a581b8e5f9054c9846f4e6a3b6c6ed8e5cb8c2f9d457a6a5d016b132842086`).
+  It is one partial tuning result, not selection or promotion evidence.
+
+- **Dataset provenance (2026-08-11):** rebuilt `Datasett/master_dataset.csv` has 162,981 rows through
+  global GW228. It is ignored/untracked generated data; no dataset artifact was added to this patch.
 
 - **`main`** holds the full production pipeline. The probabilistic-buckets experiment was
   fast-forward-merged in and its branch (`probabilistic-buckets-2026-27`) has been **deleted**
@@ -95,6 +132,12 @@ Caveat as always: one window, one seed — but the direction agrees with two pri
 it is not treated as noise.
 
 ## Open threads / candidate next steps (direction is the PO's call)
+
+- **Position-specialist MoE tournament — methodology ready, no promotion decision.** Run only the
+  registered workflow: selection-stage tuning at discovery cutoff -> fail-closed tuned manifest -> causal
+  OOF/frozen selection -> hash-bound finalist/control artifacts -> promotion. Final assessment still needs
+  real standard/origin MILP artifacts, seeds 0/1/2, and Holm-adjusted exact sign-test evidence; production
+  stays `single:catboost`. TabR remains unavailable/incomplete and is not substituted.
 
 - **Full-repo audit (2026-07-11):** `AUDIT_2026-07-11.md` holds a complete methodological/
   engineering review; its follow-ups live as the dependency-ordered "Audit follow-ups" clusters

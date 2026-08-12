@@ -1,13 +1,13 @@
 """
-Hyperparameter tuning for the gradient-boosted members of the model registry.
+Hyperparameter tuning for explicit model-tournament experts.
 
 Nothing in fpl.model.models is actually tuned - LGB_PARAMS/XGB_PARAMS/CATBOOST_PARAMS
 are hand-picked defaults. That's a problem for the whole comparison table this project
 turns on: when the registry ranks lightgbm vs. xgboost vs. catboost (and against the OLS
 index), part of what's being measured is which algorithm's DEFAULTS happened to suit FPL's
 data, not which algorithm is best once each is given a fair shot. This module gives each
-GBM a fair shot by searching its own hyperparameters, so a later ranking reflects the models
-rather than default-luck.
+tunable expert a fair shot by searching its declared hyperparameters, so a later ranking
+reflects the models rather than default-luck.
 
 Two design choices worth stating up front:
 
@@ -31,6 +31,7 @@ per fold on that fold's TRAINING rows only, so the denominator can't leak inform
 validation block it is used to score.
 """
 import argparse
+import importlib.metadata
 import json
 import sys
 from pathlib import Path
@@ -40,18 +41,16 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config
 from fpl.model.metrics import mase, naive_lag1_scale
+from fpl.model import models
 
-# The GBMs this module knows how to tune. Kept deliberately narrow: the linear/distance
-# members of the registry either have almost nothing to tune or are cheap enough that
-# defaults are fine - the payoff from an Optuna search is concentrated in the tree
-# ensembles, whose many interacting knobs (depth, leaves, regularisation, sampling) are
-# exactly where hand-set defaults leave the most on the table.
-SUPPORTED_MODELS = ("lightgbm", "xgboost", "catboost")
+# All tunable experts are declared by the registry. Production training continues to use
+# models.MODEL_NAMES, which deliberately excludes research-only candidates.
+SUPPORTED_MODELS = models.REGISTERED_MODEL_NAMES
 
 TARGET_COL = "total_points"
 
 
-def _suggest_params(trial, model_name):
+def _suggest_params(trial, model_name, seed=0):
     """Map an Optuna trial to a hyperparameter dict for `model_name`.
 
     Search ranges are chosen around each library's sensible operating region for
@@ -61,64 +60,22 @@ def _suggest_params(trial, model_name):
     subsampling - rather than every exposed parameter, which would only make the
     search space too large to explore in a practical number of trials.
     """
-    if model_name == "lightgbm":
-        return dict(
-            objective="regression",
-            metric="mae",
-            n_estimators=trial.suggest_int("n_estimators", 100, 800),
-            num_leaves=trial.suggest_int("num_leaves", 15, 127),
-            learning_rate=trial.suggest_float("learning_rate", 0.01, 0.2, log=True),
-            min_data_in_leaf=trial.suggest_int("min_data_in_leaf", 10, 100),
-            feature_fraction=trial.suggest_float("feature_fraction", 0.5, 1.0),
-            bagging_fraction=trial.suggest_float("bagging_fraction", 0.5, 1.0),
-            reg_alpha=trial.suggest_float("reg_alpha", 1e-3, 10.0, log=True),
-            reg_lambda=trial.suggest_float("reg_lambda", 1e-3, 10.0, log=True),
-            verbosity=-1,
-        )
-    if model_name == "xgboost":
-        return dict(
-            n_estimators=trial.suggest_int("n_estimators", 100, 800),
-            max_depth=trial.suggest_int("max_depth", 3, 10),
-            learning_rate=trial.suggest_float("learning_rate", 0.01, 0.2, log=True),
-            subsample=trial.suggest_float("subsample", 0.5, 1.0),
-            colsample_bytree=trial.suggest_float("colsample_bytree", 0.5, 1.0),
-            reg_alpha=trial.suggest_float("reg_alpha", 1e-3, 10.0, log=True),
-            reg_lambda=trial.suggest_float("reg_lambda", 1e-3, 10.0, log=True),
-            min_child_weight=trial.suggest_int("min_child_weight", 1, 20),
-            random_state=0,
-            n_jobs=-1,
-        )
-    if model_name == "catboost":
-        return dict(
-            iterations=trial.suggest_int("iterations", 100, 800),
-            depth=trial.suggest_int("depth", 4, 10),
-            learning_rate=trial.suggest_float("learning_rate", 0.01, 0.2, log=True),
-            l2_leaf_reg=trial.suggest_float("l2_leaf_reg", 1e-1, 30.0, log=True),
-            subsample=trial.suggest_float("subsample", 0.5, 1.0),
-            loss_function="MAE",
-            random_seed=0,
-            verbose=0,
-            allow_writing_files=False,
-        )
-    raise ValueError(f"unsupported model {model_name!r}; choose from {SUPPORTED_MODELS}")
+    try:
+        spec = models.EXPERT_SPECS[model_name]
+    except KeyError as exc:
+        raise ValueError(f"unsupported model {model_name!r}; choose from {SUPPORTED_MODELS}") from exc
+    if spec.search_space is None:
+        raise ValueError(f"expert {model_name!r} has no tuning search space")
+    return spec.search_space(trial, seed)
 
 
-def _build_model(model_name, params):
+def _build_model(model_name, params, *, seed=0, position=None):
     """Instantiate a fresh regressor of `model_name` with `params`.
 
     Imported lazily and only for the requested library so tuning one model never
     forces every GBM to be installed - and so this module still imports when none is.
     """
-    if model_name == "lightgbm":
-        import lightgbm as lgb
-        return lgb.LGBMRegressor(**params)
-    if model_name == "xgboost":
-        import xgboost as xgb
-        return xgb.XGBRegressor(**params)
-    if model_name == "catboost":
-        from catboost import CatBoostRegressor
-        return CatBoostRegressor(**params)
-    raise ValueError(f"unsupported model {model_name!r}; choose from {SUPPORTED_MODELS}")
+    return models.build_registered_model(model_name, params=params, seed=seed, position=position)
 
 
 def _expanding_window_folds(gws, n_splits):
@@ -144,8 +101,9 @@ def _expanding_window_folds(gws, n_splits):
 
 
 def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=4,
-                  train_max_gw=config.TUNING_TRAIN_MAX_GW):
-    """Search hyperparameters for one GBM on one position, returning the best params dict.
+                  train_max_gw=config.TUNING_TRAIN_MAX_GW, seed=0,
+                  time_budget_seconds=None):
+    """Search hyperparameters for one registered expert and position.
 
     Runs an Optuna study whose objective refits `model_name` on each expanding-window fold
     and returns the mean validation MASE across folds (the study minimizes it). Only rows of
@@ -159,9 +117,9 @@ def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=
     into in-sample performance (audit finding A2). Pass None only for experiments that will
     never be judged on the standing backtest window.
 
-    Returned dict is ready to splat straight into the corresponding LGBMRegressor/XGBRegressor/
-    CatBoostRegressor constructor - it includes the fixed objective/seed/verbosity settings, not
-    only the searched knobs - so a caller can persist it and reconstruct the exact tuned model.
+    Returned dict includes fixed objective/seed/verbosity settings as well as searched
+    knobs. It can be passed to ``models.build_registered_model`` to reconstruct the exact
+    candidate.
     """
     import optuna
 
@@ -177,14 +135,14 @@ def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=
         )
 
     def objective(trial):
-        params = _suggest_params(trial, model_name)
+        params = _suggest_params(trial, model_name, seed=seed)
         fold_scores = []
         for train_gws, val_gws in folds:
             train = pos_df[pos_df["GW_global"].isin(train_gws)]
             val = pos_df[pos_df["GW_global"].isin(val_gws)]
             if train.empty or val.empty:
                 continue
-            model = _build_model(model_name, params)
+            model = _build_model(model_name, params, seed=seed, position=position)
             model.fit(train[feature_cols], train[TARGET_COL])
             preds = model.predict(val[feature_cols])
             # Scale from the fold's TRAINING rows only, so the MASE denominator never
@@ -199,12 +157,13 @@ def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=
 
     # Fixed sampler seed so a rerun with the same data reproduces the same search path -
     # tuning should be a repeatable experiment, not a different answer every invocation.
-    study = optuna.create_study(direction="minimize", sampler=optuna.samplers.TPESampler(seed=0))
-    study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
+    study = optuna.create_study(direction="minimize", sampler=optuna.samplers.TPESampler(seed=seed))
+    study.optimize(objective, n_trials=n_trials, timeout=time_budget_seconds,
+                   show_progress_bar=False)
 
     # Re-derive the full param dict (searched values + the fixed settings) from the winning
     # trial, rather than returning study.best_params, which holds only the suggested knobs.
-    best = _suggest_params(_FrozenTrial(study.best_trial.params), model_name)
+    best = _suggest_params(_FrozenTrial(study.best_trial.params), model_name, seed=seed)
     return best
 
 
@@ -226,7 +185,8 @@ class _FrozenTrial:
         return self._params[name]
 
 
-def save_best_params(position, model_name, params, train_max_gw=None):
+def save_best_params(position, model_name, params, train_max_gw=None, *, seed=0,
+                     n_splits=None, time_budget_seconds=None, stage=None):
     """Persist tuned params to fpl/models/tuned_params_<position>_<model>.json, returning
     the path. Lives in config.MODELS_DIR (gitignored) since it is a regenerable training
     artifact, not source - re-run the tuner to recreate it.
@@ -237,9 +197,55 @@ def save_best_params(position, model_name, params, train_max_gw=None):
     keys are stripped by models._tuned_params before the constructor splat."""
     config.MODELS_DIR.mkdir(parents=True, exist_ok=True)
     path = config.MODELS_DIR / f"tuned_params_{position}_{model_name}.json"
-    payload = {**params, "_meta": {"train_max_gw": train_max_gw}}
+    spec = models.EXPERT_SPECS[model_name]
+    packages = {}
+    for package in ("numpy", "scikit-learn", "lightgbm", "xgboost", "catboost", "optuna", "pytabkit"):
+        try:
+            packages[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            packages[package] = None
+    payload = {**params, "_meta": {
+        "train_max_gw": train_max_gw,
+        "position": position,
+        "model": model_name,
+        "stage": stage,
+        "n_splits": n_splits,
+        "time_budget_seconds": time_budget_seconds,
+        "seed": seed,
+        "preprocessing": spec.preprocessing,
+        "auxiliary_labels": list(spec.auxiliary_labels),
+        "provenance": spec.provenance,
+        "python_version": sys.version,
+        "packages": packages,
+    }}
+    payload["_meta"]["artifact_hash"] = __import__("hashlib").sha256(
+        json.dumps({k: v for k, v in payload.items() if k != "_meta"} | {"_meta": payload["_meta"]},
+                   sort_keys=True, default=str).encode()
+    ).hexdigest()
     path.write_text(json.dumps(payload, indent=2, sort_keys=True))
     return path
+
+
+def load_validated_params(path, *, position, model_name, seed, stage, max_train_gw):
+    """Load a tuned artifact only when its complete causal provenance matches."""
+    payload = json.loads(Path(path).read_text())
+    meta = payload.get("_meta", {})
+    required = {"position": position, "model": model_name, "seed": seed, "stage": stage}
+    if any(meta.get(key) != value for key, value in required.items()):
+        raise ValueError("tuned parameter provenance does not match requested model/position/seed/stage")
+    if meta.get("train_max_gw") is None or int(meta["train_max_gw"]) > int(max_train_gw):
+        raise ValueError("tuned parameter artifact exceeds the causal training cutoff")
+    digest = meta.get("artifact_hash")
+    if not digest:
+        raise ValueError("tuned parameter artifact has no provenance hash")
+    hashed_meta = {key: value for key, value in meta.items() if key != "artifact_hash"}
+    actual = __import__("hashlib").sha256(
+        json.dumps({k: v for k, v in payload.items() if k != "_meta"} | {"_meta": hashed_meta},
+                   sort_keys=True, default=str).encode()
+    ).hexdigest()
+    if actual != digest:
+        raise ValueError("tuned parameter artifact hash mismatch")
+    return {key: value for key, value in payload.items() if not key.startswith("_")}
 
 
 def _load_features():
@@ -258,6 +264,10 @@ def main(argv=None):
     parser.add_argument("--model", required=True, choices=SUPPORTED_MODELS)
     parser.add_argument("--n-trials", type=int, default=50)
     parser.add_argument("--n-splits", type=int, default=4)
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--time-budget-seconds", type=int, default=3600,
+                        help="Wall-clock ceiling for this model-position study.")
+    parser.add_argument("--stage", choices=("discovery", "selection", "finalist"), default="discovery")
     parser.add_argument("--train-max-gw", type=int, default=config.TUNING_TRAIN_MAX_GW,
                         help="Cap all CV folds at this global gameweek so the search never "
                              "validates on the standing backtest window (default: "
@@ -271,8 +281,11 @@ def main(argv=None):
     print(f"Tuning {args.model} for {args.position} over {args.n_trials} trials "
           f"({args.n_splits}-fold expanding-window CV, folds capped at GW{args.train_max_gw})...")
     best = tune_position(df, feature_cols, args.position, args.model, args.n_trials, args.n_splits,
-                         train_max_gw=args.train_max_gw)
-    path = save_best_params(args.position, args.model, best, train_max_gw=args.train_max_gw)
+                         train_max_gw=args.train_max_gw, seed=args.seed,
+                         time_budget_seconds=args.time_budget_seconds)
+    path = save_best_params(args.position, args.model, best, train_max_gw=args.train_max_gw,
+                            seed=args.seed, n_splits=args.n_splits,
+                            time_budget_seconds=args.time_budget_seconds, stage=args.stage)
     print(f"Best params: {json.dumps(best, indent=2, sort_keys=True)}")
     print(f"Saved to {path}")
 

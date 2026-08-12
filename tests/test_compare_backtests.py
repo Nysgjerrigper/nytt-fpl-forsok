@@ -93,3 +93,34 @@ def test_block_bootstrap_wider_than_iid_under_autocorrelation():
     blocked = cb.moving_block_bootstrap_total(d, n_boot=3000, block_len=5, seed=3)
     iid = cb.moving_block_bootstrap_total(d, n_boot=3000, block_len=1, seed=3)
     assert (blocked["ci_high"] - blocked["ci_low"]) > (iid["ci_high"] - iid["ci_low"])
+
+
+def test_holm_bonferroni_preserves_input_order_and_steps_down():
+    # Sorted p-values are .01 and .04.  At alpha=.05 the first clears .025,
+    # then the second clears .05; return order must match the unsorted input.
+    assert cb.holm_bonferroni([0.04, 0.01]) == [True, True]
+    # Once the smallest fails .025, Holm stops even though the larger value
+    # would clear its own .05 threshold if incorrectly considered alone.
+    assert cb.holm_bonferroni([0.04, 0.03]) == [False, False]
+
+
+def test_promotion_gate_requires_every_registered_condition():
+    standard = {"total_diff": 150.0, "ci_low": 5.0}
+    origin = {"total_diff": 20.0, "ci_low": -35.0}
+    passed = cb.promotion_gate(standard, origin, [4, 8, 2], holm_pass=True)
+    assert passed["promote"] is True
+
+    unstable = cb.promotion_gate(standard, origin, [4, -1, 2], holm_pass=True)
+    assert unstable["promote"] is False
+    assert unstable["checks"]["seed_direction_stable"] is False
+
+    weak_origin = cb.promotion_gate(standard, {"total_diff": 20, "ci_low": -41},
+                                    [4, 8, 2], holm_pass=True)
+    assert weak_origin["promote"] is False
+
+
+def test_sign_test_exposes_exact_one_sided_null_p_value():
+    result = cb.sign_test([1.0] * 8 + [-1.0] * 2 + [0.0])
+    assert result["wins_a"] == 8
+    assert result["ties"] == 1
+    assert result["p_a_better"] == pytest.approx(0.0546875)

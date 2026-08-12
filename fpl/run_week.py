@@ -25,6 +25,7 @@ that season is set up on the site (typically a few weeks before its GW1) -
 this cannot be exercised end-to-end for 2026-27 until then.
 """
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -34,7 +35,12 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl import config, features
 from fpl.data import fetch
-from fpl.model.train import POSITIONS, fit_holdout_weights, fit_position_ensembles
+from fpl.model.expert_policy import (
+    fit_mid_gate_experts, parse_expert_map, predict_by_position, predict_with_mid_gate,
+    resolve_weight_strategy,
+)
+from fpl.model.mid_gate import MidGateConfig
+from fpl.model.train import fit_holdout_weights, fit_position_ensembles
 from fpl.milp import optimize
 
 FPL_API = "https://fantasy.premierleague.com/api"
@@ -245,7 +251,7 @@ def build_live_snapshot(raw_df):
 
 
 def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw, horizon,
-                             opp_form=None):
+                             opp_form=None, mid_gate=None, mid_experts=None):
     """Predict every horizon gameweek from the live snapshot, with per-GW fixture info
     (opponent, home/away, official FDR) taken from the FPL API's fixture list - the
     fixture-difficulty features MUST be per-future-GW, not copied from the player's last
@@ -302,11 +308,10 @@ def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw
             for col in features.OPPONENT_FEATURES:
                 gw_rows[col] = gw_rows["opponent_team"].map(opp_form[col]).to_numpy()
 
-        gw_rows["predicted_total_points"] = 0.0
-        for pos in POSITIONS:
-            mask = gw_rows["position"] == pos
-            if mask.any() and pos in models:
-                gw_rows.loc[mask, "predicted_total_points"] = models[pos].predict(gw_rows.loc[mask, feature_cols])
+        gw_rows["predicted_total_points"] = (
+            predict_with_mid_gate(gw_rows, feature_cols, models, mid_gate, mid_experts)
+            if mid_gate else predict_by_position(gw_rows, feature_cols, models)
+        )
         rows.append(gw_rows)
     return pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
 
@@ -319,6 +324,14 @@ def main():
     parser.add_argument("--horizon", type=int, default=3, help="Gameweeks to look ahead")
     parser.add_argument("--time-limit", type=float, default=120, help="Solver time limit per GW, seconds")
     parser.add_argument("--free-transfers", type=int, default=1, help="Your free transfers, if --team-id is given")
+    parser.add_argument(
+        "--expert-map", type=parse_expert_map, default=None,
+        help="Experimental complete position override, e.g. "
+             "GK=catboost,DEF=lightgbm,MID=tabm,FWD=catboost. "
+             "Production remains single:catboost when omitted.",
+    )
+    parser.add_argument("--mid-gate-config", default=None,
+                        help="Frozen MidGateConfig JSON for optional experimental MID routing.")
     args = parser.parse_args()
 
     print("--- Refreshing historical dataset ---")
@@ -335,10 +348,17 @@ def main():
     # played GWs as a genuine holdout - fresh every run, no stale saved weights; under
     # single:<model> no weight fitting is needed at all.
     max_played_gw = int(feat_df["GW_global"].max())
-    print(f"--- Fitting production models (strategy={config.PRODUCTION_WEIGHT_STRATEGY}) ---")
+    effective_strategy = resolve_weight_strategy(
+        config.PRODUCTION_WEIGHT_STRATEGY, args.expert_map
+    )
+    label = "experimental expert map" if args.expert_map is not None else "production strategy"
+    print(f"--- Fitting models ({label}={effective_strategy}) ---")
     weights_by_pos = fit_holdout_weights(feat_df, feature_cols, first_holdout_gw=max_played_gw + 1,
-                                         strategy=config.PRODUCTION_WEIGHT_STRATEGY)
+                                         strategy=effective_strategy)
     models = fit_position_ensembles(feat_df, feature_cols, weights_by_pos)
+    mid_gate = (MidGateConfig.from_dict(json.loads(Path(args.mid_gate_config).read_text()))
+                if args.mid_gate_config else None)
+    mid_experts = fit_mid_gate_experts(feat_df, feature_cols, mid_gate) if mid_gate else None
 
     bootstrap = fetch_bootstrap()
     target_gw = determine_target_gw(bootstrap)
@@ -347,7 +367,7 @@ def main():
     snapshot = build_live_snapshot(raw)
     opp_form = features.team_form_asof(raw)
     preds = build_future_predictions(snapshot, feature_cols, models, bootstrap, target_gw, args.horizon,
-                                     opp_form=opp_form)
+                                     opp_form=opp_form, mid_gate=mid_gate, mid_experts=mid_experts)
     if preds.empty:
         sys.exit("Could not build any predictions - fixtures for the target gameweek aren't published yet.")
 

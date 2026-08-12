@@ -33,6 +33,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
 from fpl.model import models
+from fpl.model.expert_policy import POSITIONS
 from fpl.model.ensemble import PositionEnsemble, fit_weights
 from fpl.model.metrics import (
     mae, mase, naive_lag1_scale, rmse, bias, total_calibration, spearman_by_group, top1_capture,
@@ -41,9 +42,6 @@ from fpl.model.baselines import (
     add_croston_column, add_naive_drift_column, add_ses_column, add_holt_column, add_theta_column,
     add_eb_shrinkage_column, fit_ar1, predict_ar1, fit_predict_arima_per_player,
 )
-
-POSITIONS = ["GK", "DEF", "MID", "FWD"]
-
 
 def load_features():
     raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)

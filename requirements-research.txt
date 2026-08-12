@@ -1,0 +1,9 @@
+# Optional dependencies for the position-specialist model tournament.
+# These are deliberately excluded from requirements.txt so the production CatBoost
+# pipeline retains its standing, reproducible environment.
+pytabkit==1.7.3
+
+# TabR additionally needs both FAISS and skorch.  They are optional because TabR remains
+# an incomplete research lane; RealMLP and TabM do not require either package.
+faiss-cpu==1.15.0
+skorch==1.4.0

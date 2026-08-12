@@ -94,6 +94,31 @@ evaluation-window weights - that was a real leakage bug, see RESEARCH_LOG.md 202
 holds only tuned-hyperparameter JSONs (gitignored - regenerate with `python -m fpl.model.tuning`, which
 caps its CV folds at `config.TUNING_TRAIN_MAX_GW` so tuning never validates on the backtest window).
 
+**Position-specialist MoE research (not production):** `models.EXPERT_SPECS` is an explicit research
+registry. `fpl.model.expert_policy` accepts a complete `GK=...,DEF=...,MID=...,FWD=...` expert map
+only when requested; without it, `predict` and `run_week` retain `single:catboost`. RealMLP, TabM,
+and TabR use optional PyTabKit dependencies and must fail clearly when uninstalled, never affect
+production availability. Dependency smoke evidence on macOS arm64/Python 3.14.6: PyTabKit 1.7.3
+completed RealMLP CPU fit/predict in 13.08s (`n_epochs=1`, seed 17, finite predictions) and TabM in
+1.41s with same-seed max_abs_diff=0.0; `faiss-cpu==1.15.0` installs with pip. TabR requires
+`skorch==1.4.0`, reached epoch-0 validation but yielded no bounded-run prediction, so remains
+unavailable/incomplete and no substitution is permitted. `requirements-research.txt` records these
+optional dependencies. `fpl.model.moe_tournament` now executes the season-aware research workflow:
+selection-stage tuning capped at the derived discovery cutoff, fail-closed hashed tuned-artifact
+manifest validation, causal OOF selection/frozen champions, and hash-bound finalist/control artifacts.
+Seeds 0/1/2 are required for finalist stability evidence. The MID gate uses only deadline-known
+`mins60_rate_roll5`, a training-only MASE scale, and validated OOF provenance. Every stage
+structurally rejects use of spent GW191-221.
+
+The final promotion family permits at most a hard position map and optional MID gate. Each must
+improve standard realized points with a positive CI lower bound, improve origin points without an
+origin CI lower than -40, improve at all three seeds, and pass Holm-adjusted one-sided paired sign
+tests at alpha 0.05; the simpler passing architecture wins. This is a decision rule, not a claim
+that any candidate passed it. Promotion revalidates frozen finalist/control bytes and its registered
+seed family. The exact one-sided paired sign test (ties dropped) supplies Holm p-values; moving block
+bootstrap supplies realized-point CIs only and must not be used as a null p-value. Methodology/audit PASS
+establishes readiness only, never a real tournament or promotion result.
+
 Tree models (LightGBM, XGBoost, CatBoost) get raw features including NaNs (a player's first few gameweeks have
 no rolling history yet; pre-2022-23 rows have no xG family at all) since they handle missing values natively.
 Everything else in `fpl/model/models.py` gets wrapped in a `SimpleImputer` (+`StandardScaler` for

@@ -9,6 +9,7 @@ the plumbing: expanding-window folds build, the objective runs end to end, and t
 winning params come back as a dict. optuna is skipped gracefully when absent so a fresh
 clone without the heavy dep still passes the suite.
 """
+import json
 import sys
 from pathlib import Path
 
@@ -45,7 +46,9 @@ def test_module_imports_without_optuna():
     # The import at module top already ran; this just pins the contract that importing
     # tuning never requires optuna (only calling tune_position does).
     assert hasattr(tuning, "tune_position")
-    assert tuning.SUPPORTED_MODELS == ("lightgbm", "xgboost", "catboost")
+    assert {"lightgbm", "xgboost", "catboost", "tabm", "extra_trees_tuned"} <= set(
+        tuning.SUPPORTED_MODELS
+    )
 
 
 def test_tune_position_returns_params_dict():
@@ -74,11 +77,60 @@ def test_save_best_params_records_cap_and_fit_model_strips_it(tmp_path, monkeypa
 
     import json
     on_disk = json.loads(path.read_text())
-    assert on_disk["_meta"] == {"train_max_gw": 152}
+    assert on_disk["_meta"]["train_max_gw"] == 152
+    assert on_disk["_meta"]["model"] == "catboost"
+    assert on_disk["_meta"]["preprocessing"] == "raw_native_nan"
+    assert on_disk["_meta"]["seed"] == 0
 
     loaded = models._tuned_params("catboost", "MID")
     assert "_meta" not in loaded
-    assert loaded == params  # everything else survives the round-trip
+
+
+def test_validated_tuned_params_reject_wrong_seed_cutoff_and_tampering(tmp_path, monkeypatch):
+    from fpl import config
+    monkeypatch.setattr(config, "MODELS_DIR", tmp_path)
+    path = tuning.save_best_params("MID", "catboost", {"iterations": 10}, train_max_gw=136,
+                                   seed=7, stage="selection")
+    assert tuning.load_validated_params(path, position="MID", model_name="catboost", seed=7,
+                                        stage="selection", max_train_gw=136)["iterations"] == 10
+    with pytest.raises(ValueError, match="provenance"):
+        tuning.load_validated_params(path, position="MID", model_name="catboost", seed=8,
+                                     stage="selection", max_train_gw=136)
+    with pytest.raises(ValueError, match="cutoff"):
+        tuning.load_validated_params(path, position="MID", model_name="catboost", seed=7,
+                                     stage="selection", max_train_gw=135)
+    payload = json.loads(path.read_text())
+    payload["iterations"] = 11
+    path.write_text(json.dumps(payload))
+    with pytest.raises(ValueError, match="hash"):
+        tuning.load_validated_params(path, position="MID", model_name="catboost", seed=7,
+                                     stage="selection", max_train_gw=136)
+
+
+def test_tuning_cli_accepts_selection_stage_and_records_metadata(tmp_path, monkeypatch):
+    """The generated tournament command must persist selection-stage provenance."""
+    from fpl import config, features
+
+    monkeypatch.setattr(config, "MODELS_DIR", tmp_path)
+    monkeypatch.setattr(tuning, "_load_features", _tiny_frame)
+    monkeypatch.setattr(features, "feature_columns", lambda frame: ["feat_a", "feat_b"])
+    monkeypatch.setattr(
+        tuning,
+        "tune_position",
+        lambda *args, **kwargs: {"iterations": 2, "random_seed": 0},
+    )
+
+    tuning.main([
+        "--position", "MID", "--model", "catboost", "--stage", "selection",
+        "--seed", "17", "--train-max-gw", "136", "--n-trials", "1",
+        "--n-splits", "2", "--time-budget-seconds", "1",
+    ])
+
+    payload = json.loads((tmp_path / "tuned_params_MID_catboost.json").read_text())
+    assert payload["_meta"]["stage"] == "selection"
+    assert payload["_meta"]["seed"] == 17
+    assert payload["_meta"]["train_max_gw"] == 136
+    assert payload["_meta"]["artifact_hash"]
 
 
 def test_tune_position_caps_folds_at_train_max_gw():

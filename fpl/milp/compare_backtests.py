@@ -98,13 +98,78 @@ def moving_block_bootstrap_total(diffs, n_boot: int = 10000, block_len: int = 3,
 
 
 def sign_test(diffs) -> dict:
-    """Two-sided binomial sign test on the per-GW wins (ties dropped)."""
+    """Exact paired sign tests on per-GW wins, with ties dropped.
+
+    ``p_a_better`` is the valid one-sided p-value for the centered null that A
+    is no more likely to win a gameweek than B.  It is suitable for the Holm
+    family in the promotion protocol; a bootstrap probability is not a null
+    p-value and must never be used there.
+    """
     d = np.asarray(diffs, dtype=float)
     wins_a = int(np.sum(d > 0))
     wins_b = int(np.sum(d < 0))
     n_eff = wins_a + wins_b
-    p = binomtest(wins_a, n_eff, 0.5).pvalue if n_eff > 0 else float("nan")
-    return {"wins_a": wins_a, "wins_b": wins_b, "ties": int(np.sum(d == 0)), "p_value": float(p)}
+    if n_eff == 0:
+        two_sided = one_sided = 1.0
+    else:
+        result = binomtest(wins_a, n_eff, 0.5)
+        two_sided = float(result.pvalue)
+        one_sided = float(binomtest(wins_a, n_eff, 0.5, alternative="greater").pvalue)
+    return {"wins_a": wins_a, "wins_b": wins_b, "ties": int(np.sum(d == 0)),
+            "p_value": two_sided, "p_a_better": one_sided}
+
+
+def holm_bonferroni(p_values, alpha: float = 0.05) -> list[bool]:
+    """Family-wise Holm decisions, returned in the caller's original order.
+
+    The MoE promotion protocol admits at most two final candidates (the hard
+    position map and the optional MID gate).  Testing both against CatBoost
+    without a multiplicity correction would make an already reused evaluation
+    window easier to overfit.  Holm is uniformly at least as powerful as plain
+    Bonferroni while preserving the same family-wise error guarantee.
+    """
+    values = np.asarray(p_values, dtype=float)
+    if values.ndim != 1 or len(values) == 0:
+        raise ValueError("p_values must be a non-empty one-dimensional sequence")
+    if np.any(~np.isfinite(values)) or np.any((values < 0.0) | (values > 1.0)):
+        raise ValueError("p_values must all be finite and in [0, 1]")
+    if not 0.0 < alpha < 1.0:
+        raise ValueError("alpha must be between 0 and 1")
+
+    order = np.argsort(values)
+    rejected = np.zeros(len(values), dtype=bool)
+    # Holm is step-down: once one ordered hypothesis fails, every larger
+    # p-value must fail too even if it happens to clear its looser threshold.
+    for rank, idx in enumerate(order):
+        threshold = alpha / (len(values) - rank)
+        if values[idx] > threshold:
+            break
+        rejected[idx] = True
+    return rejected.tolist()
+
+
+def promotion_gate(standard_report: dict, origin_report: dict, seed_diffs,
+                   holm_pass: bool, origin_floor: float = -40.0) -> dict:
+    """Evaluate the pre-registered MoE production-promotion conditions.
+
+    ``standard_report`` and ``origin_report`` are outputs from :func:`compare`
+    with the candidate as run A and CatBoost as run B.  ``seed_diffs`` contains
+    the realized-point differences for the positional winner refits at seeds
+    0/1/2.  The function intentionally returns every condition as evidence
+    rather than only a boolean, so a failed experiment says exactly which gate
+    stopped it and can be logged without interpretation drift.
+    """
+    seed_diffs = [float(x) for x in seed_diffs]
+    checks = {
+        "standard_points_better": float(standard_report["total_diff"]) > 0.0,
+        "origin_points_better": float(origin_report["total_diff"]) > 0.0,
+        "standard_ci_excludes_zero": float(standard_report["ci_low"]) > 0.0,
+        "origin_ci_not_materially_negative": float(origin_report["ci_low"]) >= float(origin_floor),
+        "seed_direction_stable": len(seed_diffs) == 3 and all(x > 0.0 for x in seed_diffs),
+        "holm_pass": bool(holm_pass),
+    }
+    return {"promote": all(checks.values()), "checks": checks,
+            "seed_diffs": seed_diffs, "origin_floor": float(origin_floor)}
 
 
 def compare(path_a: str, path_b: str, n_boot: int = 10000, block_len: int = 3,
