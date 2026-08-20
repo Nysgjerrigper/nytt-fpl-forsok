@@ -91,8 +91,11 @@ models fresh per run through the one shared path `train.fit_position_ensembles` 
 disagrees with the constant). Blend weights, when a blend strategy is ever chosen, are always fit via
 `train.fit_holdout_weights` on a window strictly BEFORE whatever gets predicted (never reuse
 evaluation-window weights - that was a real leakage bug, see RESEARCH_LOG.md 2026-07-04). `fpl/models/`
-holds only tuned-hyperparameter JSONs (gitignored - regenerate with `python -m fpl.model.tuning`, which
-caps its CV folds at `config.TUNING_TRAIN_MAX_GW` so tuning never validates on the backtest window).
+holds tracked tuned-hyperparameter JSONs for reproducibility and off-machine redundancy; fitted model
+binaries remain untracked because every consumer retrains. Regenerate JSONs with
+`python -m fpl.model.tuning`, which caps its CV folds at `config.TUNING_TRAIN_MAX_GW` so tuning never
+validates on the backtest window. A tracked artifact records completed tuning, not tournament completion
+or production promotion; incomplete registered sets must remain explicitly incomplete.
 
 **Position-specialist MoE research (not production):** `models.EXPERT_SPECS` is an explicit research
 registry. `fpl.model.expert_policy` accepts a complete `GK=...,DEF=...,MID=...,FWD=...` expert map
@@ -232,8 +235,10 @@ You have execution autonomy, but the PO stays in the loop on anything landed or 
    `git branch -d <branch>`) and start the next task from a NEW worktree cut from the updated `main` -
    never keep working in a merged worktree, its base is stale. Trivial docs/markdown edits can still go
    straight to `main`. All worktrees share the repo root's `.venv` (activate it explicitly); everything under
-   `config.ROOT` - `Datasett/master_dataset.csv`, gitignored `fpl/models/` params, backtest artifacts -
-   resolves PER-WORKTREE, so regenerate what a task needs inside its own worktree.
+   `config.ROOT` - `Datasett/master_dataset.csv`, tracked `fpl/models/` tuned-parameter JSONs, and
+   gitignored backtest artifacts - resolves PER-WORKTREE. A new worktree receives the tracked tuning
+   artifacts from its base revision; regenerate only artifacts that the task is explicitly authorized to
+   replace.
 2. **Commit and push only when the PO asks.** Prepare atomic, semantically-messaged commits (`feat:`, `fix:`,
    `refactor:`, `exp:`, `docs:`), but do not commit or push on your own initiative - propose it and let the PO
    confirm. This respects the harness rule that commits/pushes happen on request, and keeps the PO from

@@ -1,0 +1,34 @@
+{
+  "_meta": {
+    "artifact_hash": "81a581b8e5f9054c9846f4e6a3b6c6ed8e5cb8c2f9d457a6a5d016b132842086",
+    "auxiliary_labels": [],
+    "model": "catboost_mae",
+    "n_splits": 4,
+    "packages": {
+      "catboost": "1.2.10",
+      "lightgbm": "4.6.0",
+      "numpy": "2.4.6",
+      "optuna": "4.9.0",
+      "pytabkit": "1.7.3",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0"
+    },
+    "position": "GK",
+    "preprocessing": "raw_native_nan",
+    "provenance": "CatBoost MAE control",
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "seed": 0,
+    "stage": "selection",
+    "time_budget_seconds": 3600,
+    "train_max_gw": 136
+  },
+  "allow_writing_files": false,
+  "depth": 5,
+  "iterations": 255,
+  "l2_leaf_reg": 9.680658561875074,
+  "learning_rate": 0.012148696338098964,
+  "loss_function": "MAE",
+  "random_seed": 0,
+  "subsample": 0.9192415056252703,
+  "verbose": 0
+}
