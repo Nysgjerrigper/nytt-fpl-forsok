@@ -69,6 +69,41 @@ def test_snapshot_rows_are_synthetic_future_rows():
     assert snapshot["position"].iloc[0] == "MID"
 
 
+def test_live_identity_uses_current_api_club_and_position():
+    snapshot = pd.DataFrame([
+        {"player_id": 101, "team": "Nottingham Forest", "position": "MID"},
+        {"player_id": 202, "team": "Fulham", "position": "MID"},
+    ])
+    bootstrap = {
+        "teams": [
+            {"id": 1, "name": "Man City"},
+            {"id": 2, "name": "Nott'm Forest"},
+        ],
+        "elements": [
+            {"code": 101, "team": 1, "element_type": 3},
+            {"code": 202, "team": 2, "element_type": 2},
+        ],
+    }
+
+    updated = run_week.apply_live_identity(snapshot, bootstrap)
+
+    assert updated.loc[updated["player_id"] == 101, "team"].iloc[0] == "Man City"
+    assert updated.loc[updated["player_id"] == 101, "position"].iloc[0] == "MID"
+    assert updated.loc[updated["player_id"] == 202, "team"].iloc[0] == "Nottingham Forest"
+    assert updated.loc[updated["player_id"] == 202, "position"].iloc[0] == "DEF"
+
+
+def test_live_identity_preserves_unregistered_snapshot_rows_until_filtering():
+    snapshot = pd.DataFrame([
+        {"player_id": 999, "team": "Historical FC", "position": "FWD"},
+    ])
+    bootstrap = {"teams": [], "elements": []}
+
+    updated = run_week.apply_live_identity(snapshot, bootstrap)
+
+    assert updated[["team", "position"]].iloc[0].tolist() == ["Historical FC", "FWD"]
+
+
 def test_future_predictions_use_upcoming_opponents_form(monkeypatch):
     """Live opp_* staleness guard (TODO 3.6): the opp_* features on a future-GW prediction
     row must describe the UPCOMING opponent's trailing form, not whatever opponent the

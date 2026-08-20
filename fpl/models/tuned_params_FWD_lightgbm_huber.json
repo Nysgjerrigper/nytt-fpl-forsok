@@ -1,0 +1,37 @@
+{
+  "_meta": {
+    "artifact_hash": "b3c544bfbe99d499c4877557fbfb7f12d3c1782899da1cb7b24ef0207b009810",
+    "auxiliary_labels": [],
+    "model": "lightgbm_huber",
+    "n_splits": 4,
+    "packages": {
+      "catboost": "1.2.10",
+      "lightgbm": "4.6.0",
+      "numpy": "2.4.6",
+      "optuna": "4.9.0",
+      "pytabkit": "1.7.3",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0"
+    },
+    "position": "FWD",
+    "preprocessing": "raw_native_nan",
+    "provenance": "LightGBM Huber challenger",
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "seed": 0,
+    "stage": "selection",
+    "time_budget_seconds": 3600,
+    "train_max_gw": 136
+  },
+  "bagging_fraction": 0.6585559747962003,
+  "feature_fraction": 0.5066986152001536,
+  "learning_rate": 0.01278199981686078,
+  "metric": "mae",
+  "min_data_in_leaf": 82,
+  "n_estimators": 635,
+  "num_leaves": 16,
+  "objective": "huber",
+  "random_state": 0,
+  "reg_alpha": 7.87024564985461,
+  "reg_lambda": 0.038481066615825205,
+  "verbosity": -1
+}

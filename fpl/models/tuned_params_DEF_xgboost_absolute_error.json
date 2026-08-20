@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "artifact_hash": "d17aa92913c96ed89dca4f6b758385f92ee0e9e013bc98d5bfcad6200112dc34",
+    "auxiliary_labels": [],
+    "model": "xgboost_absolute_error",
+    "n_splits": 4,
+    "packages": {
+      "catboost": "1.2.10",
+      "lightgbm": "4.6.0",
+      "numpy": "2.4.6",
+      "optuna": "4.9.0",
+      "pytabkit": "1.7.3",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0"
+    },
+    "position": "DEF",
+    "preprocessing": "raw_native_nan",
+    "provenance": "XGBoost absolute-error challenger",
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "seed": 0,
+    "stage": "selection",
+    "time_budget_seconds": 3600,
+    "train_max_gw": 136
+  },
+  "colsample_bytree": 0.6082037282078739,
+  "learning_rate": 0.011828691126515543,
+  "max_depth": 4,
+  "min_child_weight": 12,
+  "n_estimators": 324,
+  "n_jobs": -1,
+  "objective": "reg:absoluteerror",
+  "random_state": 0,
+  "reg_alpha": 4.2289937161884,
+  "reg_lambda": 1.7781632034666468,
+  "subsample": 0.9139119418936001
+}

@@ -6,7 +6,10 @@ Datasett/master_dataset.csv
 *.pyc
 .Rhistory
 *.lp
-fpl/models/
+# Tuned-parameter JSONs are tracked for reproducibility and off-machine redundancy.
+# Keep any future fitted-model binaries or other generated files in this directory ignored.
+fpl/models/*
+!fpl/models/*.json
 fpl/predictions_latest.csv
 fpl/squad_selections/
 .ipynb_checkpoints/

@@ -145,6 +145,49 @@ def filter_to_registered(preds, bootstrap):
     return kept
 
 
+def apply_live_identity(snapshot, bootstrap):
+    """Overlay current FPL club and position onto historical snapshot rows.
+
+    Player form is intentionally computed from historical rows, but club and position are
+    deadline-known identity fields.  A summer transfer or FPL position reclassification
+    therefore must come from ``bootstrap-static`` before fixture expansion and model
+    routing.  Players are joined by stable FPL ``code`` (the dataset ``player_id``);
+    unmatched rows retain their historical identity and are subsequently removed by the
+    registered-player filter.
+    """
+    teams_by_id = {
+        team["id"]: config.TEAM_NAME_CORRECTIONS.get(team["name"], team["name"])
+        for team in bootstrap["teams"]
+    }
+    identities = {
+        element["code"]: (
+            teams_by_id.get(element.get("team")),
+            ELEMENT_TYPE_TO_POSITION.get(element.get("element_type")),
+        )
+        for element in bootstrap["elements"]
+        if element.get("code") is not None
+    }
+
+    updated = snapshot.copy()
+    live_team = updated["player_id"].map(
+        {player_id: identity[0] for player_id, identity in identities.items()}
+    )
+    live_position = updated["player_id"].map(
+        {player_id: identity[1] for player_id, identity in identities.items()}
+    )
+    team_changes = int((live_team.notna() & (live_team != updated["team"])).sum())
+    position_changes = int(
+        (live_position.notna() & (live_position != updated["position"])).sum()
+    )
+    updated["team"] = live_team.fillna(updated["team"])
+    updated["position"] = live_position.fillna(updated["position"])
+    print(
+        f"Live identity: {team_changes} club and {position_changes} position "
+        f"assignments updated from the API."
+    )
+    return updated
+
+
 def availability_multipliers(bootstrap):
     """Per-player availability scaling from the FPL API's own team-news fields (TODO 3.1).
 
@@ -364,7 +407,7 @@ def main():
     target_gw = determine_target_gw(bootstrap)
     print(f"--- Target gameweek: {target_gw} ---")
 
-    snapshot = build_live_snapshot(raw)
+    snapshot = apply_live_identity(build_live_snapshot(raw), bootstrap)
     opp_form = features.team_form_asof(raw)
     preds = build_future_predictions(snapshot, feature_cols, models, bootstrap, target_gw, args.horizon,
                                      opp_form=opp_form, mid_gate=mid_gate, mid_experts=mid_experts)

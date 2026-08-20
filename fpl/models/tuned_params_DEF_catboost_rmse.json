@@ -1,0 +1,34 @@
+{
+  "_meta": {
+    "artifact_hash": "3d2f30b2e03048d68c5dd0fec12f7238732243d19add52d2e3fab33e2f93fbe3",
+    "auxiliary_labels": [],
+    "model": "catboost_rmse",
+    "n_splits": 4,
+    "packages": {
+      "catboost": "1.2.10",
+      "lightgbm": "4.6.0",
+      "numpy": "2.4.6",
+      "optuna": "4.9.0",
+      "pytabkit": "1.7.3",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0"
+    },
+    "position": "DEF",
+    "preprocessing": "raw_native_nan",
+    "provenance": "CatBoost squared-loss challenger",
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "seed": 0,
+    "stage": "selection",
+    "time_budget_seconds": 3600,
+    "train_max_gw": 136
+  },
+  "allow_writing_files": false,
+  "depth": 9,
+  "iterations": 284,
+  "l2_leaf_reg": 3.8114313867604324,
+  "learning_rate": 0.03487286814135709,
+  "loss_function": "RMSE",
+  "random_seed": 0,
+  "subsample": 0.5562502653625537,
+  "verbose": 0
+}

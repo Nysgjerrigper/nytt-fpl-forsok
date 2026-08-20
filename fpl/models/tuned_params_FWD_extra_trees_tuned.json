@@ -1,0 +1,31 @@
+{
+  "_meta": {
+    "artifact_hash": "c8cf999c7ac7da5394568c684b3563177aec0100de1f2adc7c0e38c2d42791f3",
+    "auxiliary_labels": [],
+    "model": "extra_trees_tuned",
+    "n_splits": 4,
+    "packages": {
+      "catboost": "1.2.10",
+      "lightgbm": "4.6.0",
+      "numpy": "2.4.6",
+      "optuna": "4.9.0",
+      "pytabkit": "1.7.3",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0"
+    },
+    "position": "FWD",
+    "preprocessing": "fold_local_constant_imputation",
+    "provenance": "sklearn ExtraTrees tuned challenger",
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "seed": 0,
+    "stage": "selection",
+    "time_budget_seconds": 3600,
+    "train_max_gw": 136
+  },
+  "max_depth": 19,
+  "max_features": 0.9383011739111572,
+  "min_samples_leaf": 45,
+  "n_estimators": 320,
+  "n_jobs": -1,
+  "random_state": 0
+}

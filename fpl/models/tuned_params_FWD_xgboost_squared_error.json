@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "artifact_hash": "6a55668a4ef62db77bce7493f38df88b018e888b499fea50fd930aa79043bc2b",
+    "auxiliary_labels": [],
+    "model": "xgboost_squared_error",
+    "n_splits": 4,
+    "packages": {
+      "catboost": "1.2.10",
+      "lightgbm": "4.6.0",
+      "numpy": "2.4.6",
+      "optuna": "4.9.0",
+      "pytabkit": "1.7.3",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0"
+    },
+    "position": "FWD",
+    "preprocessing": "raw_native_nan",
+    "provenance": "XGBoost squared-error control",
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "seed": 0,
+    "stage": "selection",
+    "time_budget_seconds": 3600,
+    "train_max_gw": 136
+  },
+  "colsample_bytree": 0.5022928872777109,
+  "learning_rate": 0.01718812250131621,
+  "max_depth": 3,
+  "min_child_weight": 15,
+  "n_estimators": 683,
+  "n_jobs": -1,
+  "objective": "reg:squarederror",
+  "random_state": 0,
+  "reg_alpha": 1.2603894213004343,
+  "reg_lambda": 1.5422242636482015,
+  "subsample": 0.9772798582984161
+}

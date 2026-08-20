@@ -1,0 +1,37 @@
+{
+  "_meta": {
+    "artifact_hash": "139b161a6b7309b1f592a96cae9cc60fbf2724ef46c21a962fa2ca9324d15385",
+    "auxiliary_labels": [],
+    "model": "lightgbm_l2",
+    "n_splits": 4,
+    "packages": {
+      "catboost": "1.2.10",
+      "lightgbm": "4.6.0",
+      "numpy": "2.4.6",
+      "optuna": "4.9.0",
+      "pytabkit": "1.7.3",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0"
+    },
+    "position": "FWD",
+    "preprocessing": "raw_native_nan",
+    "provenance": "LightGBM L2 control",
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "seed": 0,
+    "stage": "selection",
+    "time_budget_seconds": 3600,
+    "train_max_gw": 136
+  },
+  "bagging_fraction": 0.6805990408874657,
+  "feature_fraction": 0.5059161971845784,
+  "learning_rate": 0.010263718259918763,
+  "metric": "mae",
+  "min_data_in_leaf": 99,
+  "n_estimators": 658,
+  "num_leaves": 15,
+  "objective": "regression",
+  "random_state": 0,
+  "reg_alpha": 0.8125345808395447,
+  "reg_lambda": 0.06720632573972757,
+  "verbosity": -1
+}

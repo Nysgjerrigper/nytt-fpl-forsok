@@ -1,0 +1,30 @@
+{
+  "C": 0.005410960558958399,
+  "_meta": {
+    "artifact_hash": "1383293f18979bc9b2e6df8e4e8249413d1acd9523043e5178c67758e80f44b1",
+    "auxiliary_labels": [],
+    "model": "linear_svr_tuned",
+    "n_splits": 4,
+    "packages": {
+      "catboost": "1.2.10",
+      "lightgbm": "4.6.0",
+      "numpy": "2.4.6",
+      "optuna": "4.9.0",
+      "pytabkit": "1.7.3",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0"
+    },
+    "position": "FWD",
+    "preprocessing": "fold_local_imputation_and_scaling",
+    "provenance": "sklearn LinearSVR tuned challenger",
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "seed": 0,
+    "stage": "selection",
+    "time_budget_seconds": 3600,
+    "train_max_gw": 136
+  },
+  "epsilon": 0.0015726092058945765,
+  "loss": "epsilon_insensitive",
+  "max_iter": 20000,
+  "random_state": 0
+}

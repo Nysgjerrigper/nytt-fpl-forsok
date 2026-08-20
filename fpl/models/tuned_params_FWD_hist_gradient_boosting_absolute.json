@@ -1,0 +1,32 @@
+{
+  "_meta": {
+    "artifact_hash": "7d6f35283113ad0acf0cc08dbfe6b74c000720b8512ca4f44a67d3369a30b7a7",
+    "auxiliary_labels": [],
+    "model": "hist_gradient_boosting_absolute",
+    "n_splits": 4,
+    "packages": {
+      "catboost": "1.2.10",
+      "lightgbm": "4.6.0",
+      "numpy": "2.4.6",
+      "optuna": "4.9.0",
+      "pytabkit": "1.7.3",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.2.0"
+    },
+    "position": "FWD",
+    "preprocessing": "fold_local_constant_imputation",
+    "provenance": "sklearn HistGradientBoosting absolute loss",
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "seed": 0,
+    "stage": "selection",
+    "time_budget_seconds": 3600,
+    "train_max_gw": 136
+  },
+  "l2_regularization": 0.02196239124333417,
+  "learning_rate": 0.10585400614640231,
+  "loss": "absolute_error",
+  "max_iter": 135,
+  "max_leaf_nodes": 72,
+  "min_samples_leaf": 100,
+  "random_state": 0
+}
