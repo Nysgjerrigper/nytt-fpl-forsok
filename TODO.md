@@ -1,13 +1,16 @@
 # Open work
 
-Status: 2026-10-02. `fix/branch-recovery` is verified and authorized for PR/merge; preparation
-is not a merge. Current verification and scoring controls are in [HANDOFF.md](HANDOFF.md).
+Status: 2026-10-02. Recovery is submitted in
+[PR #3](https://github.com/Nysgjerrigper/nytt-fpl-forsok/pull/3), whose GitHub state records integration.
+Current verification and scoring controls are in [HANDOFF.md](HANDOFF.md).
 Rules live only in [CLAUDE.md](CLAUDE.md), and historical audit IDs remain in the archive.
 
 ## Integration queue
 
-1. Review the verified engineering/documentation draft before PO-authorized landing.
-   Tests, package imports, cache equivalence and same-input MILP comparisons are complete.
+1. Exercise the weekly path against deadline-current team state after integration,
+   keeping prospective research isolated. Tests, package imports, cache equivalence
+   and same-input MILP comparisons are complete; offline ingestion tests do not establish
+   a new live end-to-end run.
 2. Evaluate the alternative optimizer plan in [the source review](docs/OPTIMIZER_REVIEW.md):
    map our forecasts to current player IDs/local weeks, test five-transfer banking and
    per-half chip inventories, then compare identical inputs and realized-point CIs.

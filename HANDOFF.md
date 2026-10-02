@@ -1,8 +1,8 @@
 # Current handoff
 
-Verified-state checkpoint: 2026-10-02. This document describes the verified
-`fix/branch-recovery` recovery branch, prepared for the PO-authorized PR and merge.
-The verification below applies to the recovery branch.
+Verified-state checkpoint: 2026-10-02. This document records the tested recovery
+submitted in [PR #3](https://github.com/Nysgjerrigper/nytt-fpl-forsok/pull/3).
+GitHub records its current integration state; the verification below applies to that recovery.
 Canonical operating rules are in [CLAUDE.md](CLAUDE.md); open work is in [TODO.md](TODO.md).
 Older handoffs and reports are [historical snapshots](docs/archive/README.md).
 
