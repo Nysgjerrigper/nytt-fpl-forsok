@@ -1,0 +1,7 @@
+{
+  "source": "/Users/perandersmolberg/.codex/worktrees/c1d1/MSc-BusAdm-25-EBA-PAM/Datasett/master_dataset.csv",
+  "sha256": "62f8f1d31d47a5f859f6d73819c9e631a59de346fed7de2fd5877b994a2ccc98",
+  "snapshot_max_gw": 231,
+  "selection_input_max_gw": 152,
+  "note": "Preserved frozen snapshot, no refresh; screen filters to registered selection cutoff before feature construction."
+}

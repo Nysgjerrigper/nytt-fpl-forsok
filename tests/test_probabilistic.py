@@ -4,12 +4,9 @@ the two properties that make quantile output trustworthy: predictions must be
 monotonic across quantiles (a "90th percentile" that comes out below the "10th"
 is meaningless), and the scoring helpers must behave correctly on known inputs.
 """
-import sys
-from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.model import probabilistic as prob
 
 

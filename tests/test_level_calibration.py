@@ -1,12 +1,9 @@
 """Guards train.fit_level_calibration: the scalar that corrects MAE-loss median-flattening
 before forecasts hit the MILP's absolute-scale transfer/chip logic (RESEARCH_LOG.md 2026-07-06)."""
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.model.train import POSITIONS, fit_level_calibration
 
 

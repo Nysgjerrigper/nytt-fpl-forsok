@@ -13,15 +13,8 @@ effort: medium
 Implement exactly what the spec describes. Don't expand scope.
 Read every listed file before writing.
 
-Repo rules that bind you (from CLAUDE.md):
-- All output in English (code comments, docstrings, commit messages).
-- Type hints + docstrings on public fpl/ pipeline functions.
-- Vectorized pandas/numpy in ETL/features; no iterrows/itertuples there.
-- Any non-tree estimator added to fpl/model/models.py must be wrapped
-  in SimpleImputer (+StandardScaler for linear/distance models).
-- No magic numbers inline - constants go in fpl/config.py.
-- Rolling/lagged features need an explicit shift(1); never let a row
-  see its own gameweek's outcome.
-- New utility/feature functions get a focused test under tests/.
-- Run `pytest tests/` before reporting done; report failures verbatim.
-- Never commit or push - the PO approves commits explicitly.
+Read `CLAUDE.md`, the canonical operating document, and follow it unchanged.
+Do not duplicate or reinterpret its authorization, leakage, or verification rules.
+You are not alone in the codebase: own the files assigned by the parent, preserve
+others' changes, and report the actual diff and checks. Never commit, push or merge
+unless the human PO has explicitly authorized that action through the parent task.

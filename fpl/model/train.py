@@ -24,14 +24,12 @@ Both MAE and MASE (fpl.model.metrics) are reported per model/baseline/ensemble
 - see that module's docstring for why MASE matters for an intermittent series
 like FPL points.
 """
-import sys
-from pathlib import Path
-
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
+from fpl.data.feature_cache import load_frozen_feature_frame
+from fpl.data.provenance import load_frozen_research_dataset
 from fpl.model import models
 from fpl.model.expert_policy import POSITIONS
 from fpl.model.ensemble import PositionEnsemble, fit_weights
@@ -43,9 +41,10 @@ from fpl.model.baselines import (
     add_eb_shrinkage_column, fit_ar1, predict_ar1, fit_predict_arima_per_player,
 )
 
-def load_features():
-    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
-    return features.build_feature_frame(raw)
+def load_features() -> pd.DataFrame:
+    """Load cached historical features from the admitted frozen snapshot."""
+    raw = load_frozen_research_dataset()
+    return load_frozen_feature_frame(raw)
 
 
 def train_position_model(train_df, feature_cols, position, model_name="lightgbm"):
@@ -138,8 +137,10 @@ def fit_level_calibration(df, feature_cols, first_holdout_gw, weights_by_pos, wi
     return scalars
 
 
-def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, test_max_gw=183,
-                          include_baselines=False):
+def evaluate_static_split(
+    df: pd.DataFrame, feature_cols: list[str], train_max_gw: int = 152,
+    test_min_gw: int = 153, test_max_gw: int = 183, include_baselines: bool = False,
+) -> tuple[dict[str, PositionEnsemble], pd.DataFrame, dict[str, str]]:
     """Same split window the old LSTM was validated on: train on GW<=152
     (2020-21 through 2023-24), test on GW153-183 (2024-25 GW1-31).
 
@@ -149,22 +150,38 @@ def evaluate_static_split(df, feature_cols, train_max_gw=152, test_min_gw=153, t
     so the default run skips re-measuring them; pass --with-baselines to reproduce the
     full comparison table. The rolling-average baseline and the OLS index check always run.
     """
-    if include_baselines:
-        # These per-player forecasts need each player's FULL prior history, not just train_df's
-        # window, so compute over the whole df before splitting - still leakage-free, since each
-        # row's forecast only ever uses that player's strictly earlier gameweeks (see baselines.py).
-        df = add_croston_column(df)
-        df = add_naive_drift_column(df)
-        df = add_ses_column(df)
-        df = add_holt_column(df)
-        df = add_theta_column(df)
-        df = add_eb_shrinkage_column(df)
+    if train_max_gw >= test_min_gw:
+        raise ValueError("train_max_gw must be strictly before test_min_gw")
+    if test_min_gw >= test_max_gw:
+        raise ValueError("test window must contain distinct blend and evaluation gameweeks")
 
     train_df = df[df["GW_global"] <= train_max_gw]
     test_df = df[(df["GW_global"] >= test_min_gw) & (df["GW_global"] <= test_max_gw)].copy()
     blend_split_gw = test_min_gw + (test_max_gw - test_min_gw) // 2
     fit_mask = test_df["GW_global"] <= blend_split_gw
     eval_mask = ~fit_mask
+    for pos in POSITIONS:
+        if not (train_df["position"] == pos).any():
+            raise ValueError(f"No training rows for position {pos}")
+        pos_mask = test_df["position"] == pos
+        if not (pos_mask & fit_mask).any():
+            raise ValueError(f"No blend rows for position {pos}")
+        if not (pos_mask & eval_mask).any():
+            raise ValueError(f"No evaluation rows for position {pos}")
+
+    if include_baselines:
+        # These forecasts use each player's full strictly prior history.
+        df = add_croston_column(df)
+        df = add_naive_drift_column(df)
+        df = add_ses_column(df)
+        df = add_holt_column(df)
+        df = add_theta_column(df)
+        df = add_eb_shrinkage_column(df)
+        train_df = df[df["GW_global"] <= train_max_gw]
+        test_df = df[(df["GW_global"] >= test_min_gw) & (df["GW_global"] <= test_max_gw)].copy()
+        # Baseline enrichment can sort/reset rows; rebuild masks in prediction order.
+        fit_mask = test_df["GW_global"] <= blend_split_gw
+        eval_mask = ~fit_mask
 
     baseline_pred = test_df["total_points_roll3"].fillna(test_df["total_points_season_avg"]).fillna(0)
 
@@ -386,7 +403,9 @@ def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lig
     return errors
 
 
-def fit_position_ensembles(df, feature_cols, weights_by_pos):
+def fit_position_ensembles(
+    df: pd.DataFrame, feature_cols: list[str], weights_by_pos: dict[str, dict[str, float]],
+) -> dict[str, PositionEnsemble]:
     """Train, per position, the members carrying non-zero weight in `weights_by_pos`
     (position-aware, so tuned per-position hyperparameters load - see models.fit_model)
     and wrap them in a PositionEnsemble.
@@ -407,7 +426,7 @@ def fit_position_ensembles(df, feature_cols, weights_by_pos):
         X, y = pos_df[feature_cols], pos_df[features.TARGET_COL]
         members = {name: models.fit_model(name, X, y, position=pos, minutes=pos_df.get("minutes"),
                                           gw=pos_df.get("GW_global"))
-                   for name, w in weights.items() if w > 1e-6}
+                   for name, w in weights.items() if w > 0}
         ensembles[pos] = PositionEnsemble(members, weights)
     return ensembles
 

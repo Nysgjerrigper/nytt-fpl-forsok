@@ -6,14 +6,11 @@ Synthetic frames with an unambiguous within-round ordering - the contract under 
 is the plumbing (GW group labels threaded through fit_model, group-contiguous sorting,
 monotone score-to-points mapping), not NDCG accuracy.
 """
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.model import models
 
 

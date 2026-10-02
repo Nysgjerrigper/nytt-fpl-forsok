@@ -33,7 +33,6 @@ import numpy as np
 import pandas as pd
 from scipy.stats import binomtest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 POINTS_COL = "actual_total_points"
 GW_COL = "gameweek"

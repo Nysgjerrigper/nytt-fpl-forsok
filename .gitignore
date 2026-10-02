@@ -15,3 +15,18 @@ fpl/squad_selections/
 .ipynb_checkpoints/
 .DS_Store
 experiments/predictions/
+
+# Per-worktree execution state and local recovery payloads.
+/.claude/worktrees/
+/.codex/worktrees/
+.cache/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+Datasett/frozen/
+experiments/branch_recovery_*/archives/
+experiments/branch_recovery_*/screen_source.tar.gz
+experiments/branch_recovery_*/screen/member_oof.csv
+experiments/branch_recovery_*/screen/predictions.csv
+experiments/engineering_recovery_*/

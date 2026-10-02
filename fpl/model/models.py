@@ -26,9 +26,10 @@ revisiting the choice later.
 """
 import json
 import importlib
-import sys
+import platform
 from dataclasses import dataclass
-from pathlib import Path
+from numbers import Real
+from importlib.metadata import PackageNotFoundError, version
 from typing import Any, Callable, Mapping
 
 import lightgbm as lgb
@@ -46,7 +47,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR, LinearSVR
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config
 
 LGB_PARAMS = dict(
@@ -121,6 +121,19 @@ class _PyTabKitRegressor(BaseEstimator, RegressorMixin):
             raise OptionalModelDependencyError(
                 "tabr is a research-only expert; install pytabkit, FAISS (faiss-cpu), and skorch "
                 "before running its study"
+            )
+        try:
+            pytabkit_version = version("pytabkit")
+        except PackageNotFoundError:
+            pytabkit_version = "unknown"
+        if (pytabkit_version == "1.7.3"
+                and platform.system() == "Darwin"
+                and platform.machine() == "arm64"):
+            raise OptionalModelDependencyError(
+                f"{self.model_name} is disabled for pytabkit==1.7.3 on macOS arm64: "
+                "bounded pandas 2.3.3 and 3.0.3 probes both crash the interpreter with "
+                "SIGSEGV. Re-probe a newer PyTabKit release or use a validated non-Darwin "
+                "isolated research environment."
             )
         try:
             module = importlib.import_module("pytabkit")
@@ -676,29 +689,62 @@ for _expert_name in EXPERT_SPECS:
 _TUNABLE = {name for name, spec in EXPERT_SPECS.items() if spec.search_space is not None}
 
 
-def _tuned_params(name, position):
+def _tuned_params(
+    name: str, position: str | None, *, max_train_gw: int | None = None,
+) -> dict[str, Any] | None:
     """Per-(position, model) params saved by fpl.model.tuning, or None to use the
-    hand-set defaults above. Loaded from config.MODELS_DIR (gitignored artifacts):
-    the tuner writing a file is what activates it - delete the file to revert to
-    defaults. Position-aware because the pipeline trains one model per position and
-    there is no reason GK and MID should share a depth/learning-rate."""
+    hand-set defaults above. Tracked JSONs under config.MODELS_DIR preserve completed
+    tuning and its provenance; retain those artifacts. Supply explicit parameters for
+    a separate experiment instead of deleting them. Position-aware because the pipeline
+    trains one model per position and GK and MID need not share hyperparameters."""
     if position is None or name not in _TUNABLE:
         return None
     path = config.MODELS_DIR / f"tuned_params_{position}_{name}.json"
     if not path.exists():
         return None
     loaded = json.loads(path.read_text())
+    if max_train_gw is not None:
+        metadata = loaded.get("_meta") if isinstance(loaded, dict) else None
+        cutoff = metadata.get("train_max_gw") if isinstance(metadata, dict) else None
+        if (isinstance(cutoff, bool) or not isinstance(cutoff, Real)
+                or not np.isfinite(cutoff) or cutoff < 0 or int(cutoff) != cutoff
+                or cutoff > max_train_gw):
+            raise ValueError(
+                f"Tuned artifact {path} for model={name!r}, position={position!r} "
+                f"has invalid _meta.train_max_gw={cutoff!r}; expected a finite integer "
+                f"between 0 and training cutoff {max_train_gw}"
+            )
     # Underscore-prefixed keys are provenance metadata written by tuning.save_best_params
     # (e.g. "_meta": the GW cap the search ran under), not constructor arguments.
     return {k: v for k, v in loaded.items() if not k.startswith("_")}
 
 
-def fit_model(name, X, y, position=None, minutes=None, gw=None, *, params=None, seed=None):
+def fit_model(
+    name: str, X: Any, y: Any, position: str | None = None,
+    minutes: Any = None, gw: Any = None, *, params: Mapping[str, Any] | None = None,
+    seed: int | None = None,
+) -> BaseEstimator:
     """Fit one registry member. `minutes` is the per-row minutes TRAINING label (required by
     the hurdle: participation cannot be recovered from points alone) and `gw` the per-row
     GW_global group label (required by the ranker: query groups cannot be recovered from
-    features); both are ignored by every other member - callers with a training frame should
-    always pass both."""
+    features). When ambient tuned parameters are loaded, `gw` also bounds their tuning
+    cutoff to the latest training row. Explicit parameters bypass ambient artifacts.
+    Callers with a training frame should always pass both labels."""
+    special_base = {
+        "catboost_hurdle": "catboost", "catboost_hurdle3": "catboost", "lgbm_rank": "lightgbm",
+    }
+    if name in special_base and (params is not None or seed is not None):
+        raise ValueError(f"{name} does not support explicit params or seed")
+    max_train_gw = None
+    if params is None and gw is not None:
+        gameweeks = np.asarray(gw, dtype=float)
+        if (gameweeks.ndim != 1 or gameweeks.size == 0
+                or not np.isfinite(gameweeks).all()
+                or not (gameweeks == np.floor(gameweeks)).all()):
+            raise ValueError("gw training labels must be a nonempty finite integer vector")
+        max_train_gw = int(gameweeks.max())
+    if name in special_base:
+        _tuned_params(special_base[name], position, max_train_gw=max_train_gw)
     if name == "catboost_hurdle":
         if minutes is None:
             raise ValueError("catboost_hurdle needs the `minutes` training label")
@@ -711,7 +757,7 @@ def fit_model(name, X, y, position=None, minutes=None, gw=None, *, params=None, 
         if gw is None:
             raise ValueError("lgbm_rank needs the `gw` (GW_global) group label")
         return LambdaRankScorer(position=position).fit(X, y, gw=gw)
-    params = _tuned_params(name, position) if params is None else params
+    params = _tuned_params(name, position, max_train_gw=max_train_gw) if params is None else params
     if name in EXPERT_SPECS:
         model = build_registered_model(name, params=params, seed=seed, position=position)
     else:

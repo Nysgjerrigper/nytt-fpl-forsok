@@ -7,14 +7,11 @@ plumbing (pairing, resampling, CI behaviour), not the MILP itself: identical run
 must give a zero interval, a large constant gap must exclude zero, pure noise must
 straddle zero, and mismatched windows must refuse to compare.
 """
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.milp import compare_backtests as cb
 
 

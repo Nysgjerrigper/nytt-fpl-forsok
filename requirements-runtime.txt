@@ -1,0 +1,12 @@
+pandas==3.0.3
+numpy==2.4.6
+pulp==3.3.2
+highspy==1.15.1
+lightgbm==4.6.0
+xgboost==3.2.0
+catboost==1.2.10
+scikit-learn==1.9.0
+scipy==1.17.1
+requests==2.34.2
+statsmodels==0.14.6
+optuna==4.9.0

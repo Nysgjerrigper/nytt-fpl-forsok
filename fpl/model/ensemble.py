@@ -6,22 +6,48 @@ run_week.py's live run) refits fresh through train.fit_position_ensembles, so
 there is exactly one definition of the production model and no stale-artifact
 path to diverge from it (a saved-but-never-loaded copy was audit finding A1).
 """
+from typing import Any
+
 import numpy as np
+import pandas as pd
 from scipy.optimize import nnls
 
 
 class PositionEnsemble:
-    def __init__(self, members, weights):
-        """members: dict[name -> fitted estimator]. weights: dict[name -> float], summing to 1."""
-        self.members = members
-        self.weights = weights
+    def __init__(self, members: dict[str, Any], weights: dict[str, float]) -> None:
+        """Require fitted members for every positive weight in a convex combination."""
+        if not members:
+            raise ValueError("PositionEnsemble requires at least one member")
+        values = np.asarray(list(weights.values()), dtype=float)
+        if not np.isfinite(values).all() or (values < 0).any():
+            raise ValueError("PositionEnsemble weights must be finite and non-negative")
+        if not np.isclose(values.sum(), 1.0):
+            raise ValueError("PositionEnsemble weights must sum to 1")
+        missing = [name for name, weight in weights.items() if weight > 0 and name not in members]
+        if missing:
+            raise ValueError(f"PositionEnsemble missing positively weighted members: {missing}")
+        self.members = dict(members)
+        self.weights = dict(weights)
 
-    def member_predictions(self, X):
-        return {name: model.predict(X) for name, model in self.members.items()}
+    def member_predictions(self, X: pd.DataFrame | np.ndarray) -> dict[str, np.ndarray]:
+        """Predict active members, requiring one finite value per input row."""
+        predictions = {}
+        for name, model in self.members.items():
+            if self.weights.get(name, 0.0) <= 0:
+                continue
+            pred = np.asarray(model.predict(X), dtype=float)
+            if pred.ndim != 1 or len(pred) != len(X) or not np.isfinite(pred).all():
+                raise ValueError(
+                    f"Member {name!r} predictions must be a finite one-dimensional "
+                    f"vector of length {len(X)}; got shape {pred.shape}"
+                )
+            predictions[name] = pred
+        return predictions
 
-    def predict(self, X):
+    def predict(self, X: pd.DataFrame | np.ndarray) -> np.ndarray:
+        """Blend positive-weight predictions without silently changing their weights."""
         preds = self.member_predictions(X)
-        return sum(self.weights.get(name, 0.0) * p for name, p in preds.items())
+        return sum(self.weights[name] * p for name, p in preds.items())
 
 
 def fit_blend_weights(predictions_by_model, y_true):

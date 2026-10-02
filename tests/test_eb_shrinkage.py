@@ -5,13 +5,10 @@ that make it trustworthy: the shrinkage math itself, and leakage-freeness
 (a row's forecast must never see its own gameweek's outcomes - not even
 other players').
 """
-import sys
-from pathlib import Path
 
 import pandas as pd
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.model.baselines import add_eb_shrinkage_column
 
 

@@ -1,172 +1,137 @@
-# HANDOFF
+# Current handoff
 
-Last updated: 2026-08-11. Branch/status must be refreshed by the integration executor before landing.
+Verified-state checkpoint: 2026-10-02. This document describes the uncommitted
+`fix/branch-recovery` integration draft. `main` has not been changed or merged.
+Canonical operating rules are in [CLAUDE.md](CLAUDE.md); open work is in [TODO.md](TODO.md).
+Older handoffs and reports are [historical snapshots](docs/archive/README.md).
 
-## Repo state (start here)
+## Engineering state
 
-- **Position-specialist MoE research patch (2026-08-11, methodology-audited/unpromoted):** adds an explicit
-  research registry, complete-map overrides for `predict`/`run_week`, an optional frozen MID gate,
-  tournament-manifest writer, and promotion-gate CLI. Production remains `single:catboost`; no
-  specialist tournament, tuned artifacts, backtest, CI, or promotion result is claimed. The methodology
-  audit **PASSED**: runtime season-aware cutoffs, causal OOF/training-only MID MASE provenance,
-  fail-closed tuned-parameter and finalist/control lineage, and structural spent-window rejection now exist.
-  **Dependency check (verified):** PyTabKit 1.7.3
-  on macOS arm64/Python 3.14.6 completed CPU fit/predict for RealMLP (13.08s, `n_epochs=1`, seed 17)
-  and TabM (1.41s; same-seed max absolute prediction difference 0.0); `faiss-cpu==1.15.0` installs
-  through pip. TabR additionally requires `skorch==1.4.0`; after installation it reached epoch-0
-  validation but produced no bounded-run prediction. Keep TabR unavailable/incomplete, without a
-  substitute. `requirements-research.txt` records the optional dependency set. The current derived
-  chronology is GW<=136/GW137-152/GW153-183. Audit PASS is synthetic readiness validation only.
-  **Fresh integration execution:** `pytest tests/ -q` passed (178 tests); standard and origin CLI
-  smoke exports completed for GW153 using an explicit all-CatBoost map; frozen-artifact promotion
-  smoke correctly retained CatBoost. The full generated plan has 56 tuning commands, but cannot
-  complete in the current Python-3.11.15 environment: its exact TabR selection command fails at
-  trial 0 because `faiss` and `skorch` are absent. Fresh bounded RealMLP/TabM probes also produced
-  no usable predictions. No real selection, final backtest, CI, or promotion evidence exists.
-  **Supervisor follow-up:** the selection CLI regression is covered and `pytest tests/ -q`
-  now passes 179 tests. In the isolated Python-3.14.6 environment, RealMLP and TabM
-  have bounded validation-aware fit/predict evidence; TabR again reached epoch-0 only
-  and remains unavailable/incomplete. An explicit 13-expert available-set plan produces
-  52 tune commands but is non-promotable because it excludes TabR. Its first unchanged
-  `GK/catboost_mae` command completed two trials before the execution session ceiling;
-  no tuned artifact exists. Resume that exact command in a runtime allowing its estimated
-  6--12 minutes; do not reduce trials/timeouts or treat synthetic CLI smoke as evidence.
-  **Persistent-session update:** the exact first command has now completed all 50 trials.
-  Its validated GK/catboost_mae selection artifact is gitignored at
-  `fpl/models/tuned_params_GK_catboost_mae.json` (file SHA-256
-  `e7ffb57b6a9c85cf5c73f1b201d9b16a079fbd43e1af661228a23d881dc4f0ad`; embedded
-  provenance hash `81a581b8e5f9054c9846f4e6a3b6c6ed8e5cb8c2f9d457a6a5d016b132842086`).
-  It is one partial tuning result, not selection or promotion evidence.
+The recovery draft contains packaging/import cleanup, a separate immutable research
+input, mutation-checked feature caching, exact native-crash containment, realized-minute
+exports, corrected autosub/vice/chip scoring, and the fresh-build bank conservation fix.
+No production model strategy or tuned parameter artifact has changed. Rejected player
+selection, preseason and conformal candidates were not activated or ported.
 
-- **Dataset provenance (2026-08-11):** rebuilt `Datasett/master_dataset.csv` has 162,981 rows through
-  global GW228. It is ignored/untracked generated data; no dataset artifact was added to this patch.
+A read race and a mutable admission marker in the older provenance/cache patch were
+hardened. Scoring now handles an incomplete playing XI without incorrectly rejecting a
+legal defender replacement, and Free Hit outputs the temporary squad. Tests cover BB,
+TC vice activation, DGW minutes, legacy scoring and invalid-minute rejection.
 
-- **`main`** holds the full production pipeline. The probabilistic-buckets experiment was
-  fast-forward-merged in and its branch (`probabilistic-buckets-2026-27`) has been **deleted**
-  local + remote — it lives on in `main`'s history, nothing lost. Before this merge `main` was
-  27 commits stale (still the old R/LSTM code); it is now current.
-- **`probability-of-loss-2026-27`** has been closed and archived as tag
-  `archive/probability-of-loss-2026-27` (on origin): its captaincy idea was tested against the
-  bucket module and came up a wash — see RESEARCH_LOG.md 2026-07-11 and "Settled" below. The tag
-  still carries commit `8081f20` (the untuned backtest re-baseline note) which `main` does not have.
-- Worktrees pruned to just the main checkout; stale agent branches deleted (all preserved on
-  `origin/experimental/*`). Junk (caches, `.DS_Store`, a stray R-output txt, old regeneratable
-  prediction/squad CSVs) cleaned out. `git status` is clean.
-- **Subagent delegation infra (2026-07-23):** `.claude/agents/implementer.md` (Sonnet) and
-  `.claude/agents/searcher.md` (Haiku) pin delegated mechanical work to cheaper models; CLAUDE.md's
-  "Subagent delegation (cost control)" section defines the split and the quality-gate rule (main
-  session reviews the diff and re-runs pytest itself). Validated on real tasks; produced
-  `tests/test_config_strategy.py`, a PRODUCTION_WEIGHT_STRATEGY drift guard.
-- `fpl/models/` is gitignored but **do not delete it**: it holds the tuned-params JSONs (expensive
-  Optuna output) that produce the standing baseline. (The `.members.joblib`/`.weights.json` ensemble
-  artifacts that used to sit alongside them were deleted 2026-07-11 with their never-called
-  save/load path - audit finding A1; nothing ever loaded them.)
+The previous recovery screen completed with 51,004 member rows and 202 passing tests.
+Its source bundle and hashes are retained under `experiments/branch_recovery_2026-10-02/`;
+source files have since changed for this integration draft. Do not compare its original
+code hashes to the current files and conclude its archived source is missing.
 
-## The numbers that anchor everything: the honesty ladder (2026-07-23 update)
+Independent verification: **432 tests passed**, with two non-failing environment/import
+warnings. The full frozen dataset cached and uncached feature frames match exactly.
+The wheel builds offline, imports outside the checkout, and preserves all 44 tuned
+JSON artifacts plus the frozen-data manifest byte for byte. `git diff --check` is clean.
 
-Re-baselined twice on 2026-07-11 (DGW-leak fix, then capped re-tuning), certified once on the
-frozen 2025-26 window, re-baselined 2026-07-16 after the xP zero-round mask (statistical tie
-with 2060, kept on data-correctness grounds), then again 2026-07-23 after the element-code
-player-identity fix (TODO 4.8; another statistical tie, 2057 vs 2086, adopted on
-data-correctness grounds - name-based identity had split 125 players across spellings and
-merged 4 name-collisions). The origin-based cell was refreshed the same day post-identity-fix
-(1880, tie with retired 1906). Full lineage in RESEARCH_LOG; the standing numbers, identical
-config (capped-tuned single:catboost, horizon-3 MILP):
+## Scoring lineage and control identity
 
-| Window | standard protocol | origin-based (deploy) protocol |
-|---|---|---|
-| GW153-183 (selection window) | **2057** = the COMPARISON baseline | **1880** |
-| GW191-221 (one-shot, now SPENT) | 1705 | **1499** = the honest live expectation |
+| Evidence | Standard GW153-183 | Origin GW153-183 | Meaning |
+| --- | ---: | ---: | --- |
+| July preserved standing decisions | 2057 | 1880 | Legacy scoring without autosubs/vice activation. |
+| September replay of unchanged decisions | 2088 | 1900 | Earlier corrected-scoring implementation; historical evidence. |
+| Current same-input bank control | 2088 | 1901 | Corrected scoring including incomplete-XI replacements. |
+| Current exact-bank candidate | 2088 | 1901 | Same predictions and scoring as the bank control. |
 
-- Judge every model/feature claim against **2057**, standard protocol, same window, with a
-  `fpl.milp.compare_backtests` CI. (Ties within ~+/-140 points are not distinguishable on
-  this window - the old-vs-retuned params comparison measured exactly that.)
-- Quote **~1500 per 31 GWs** for "what would this score live": selection-free window AND
-  live information set. That comes from the separate frozen GW191-221 confirmation
-  (1705 -> 1499, winner's-curse gap), not the GW153-183 window above.
-- **GW191-221 must never be used for selection again.** Next confirmation: GW222+ / 2026-27.
+Both bank comparisons have difference **0, block-bootstrap 95% CI [0,0]**, with all
+31 round scores tied and all 124 solves optimal. Some degenerate bench/squad choices
+changed; lineup, captain and vice choices did not. The origin increase from historical
+1900 to 1901 comes solely from a legal GW181 replacement in an incomplete playing XI,
+with the historical selected decisions unchanged. It is a scoring correction, not a
+forecast gain. These controls are not interchangeable model results. The input SHA hashes, control/candidate source difference, commands,
+logs, squad CSVs and confidence intervals are preserved under
+`experiments/engineering_recovery_2026-10-02/`. Do not call research `catboost_mae` artifacts
+production `catboost` artifacts, or claim default parameters reproduce the tuned control.
 
-Retired anchors: 2086 (pre-identity-fix; statistical tie with 2057), 1906 (origin-based,
-pre-identity-fix; tie with 1880), 2107 (DGW-leaking features), 2060 (pre-xP-mask; statistical
-tie with 2086), 2041 (pre-cap params; statistical tie with 2060), 1966/1870/1900/1811/1526
-(earlier eras). Relative conclusions from those eras stand;
-their absolute levels do not. Reproduce:
+GW191-221 confirmation scored 1705 standard/1499 origin under its historical protocol;
+it is spent. Those results are not a current live forecast or rerun in this recovery.
 
-```bash
-python -m fpl.model.predict --start-gw 153 --end-gw 183 --retrain-every 4 --output <preds.csv>
-python -m fpl.milp.optimize --predictions-csv <preds.csv> \
-    --start-gw 153 --max-gw 183 --horizon 3     # prints "Total actual points over horizon"
-# deploy-honest variant: add --origin-based --horizon 3 to the predict call
-```
+## Research dispositions
 
-## Settled this cycle: probabilistic buckets — forecasting-only, NOT a point-forecast replacement
+- Registered neural studies remain 44/52 in preserved evidence. PyTabKit 1.7.3/macOS-arm64
+  is blocked after repeated native crashes; one-epoch historical smokes are superseded by
+  full-study crash evidence. TabR is incomplete. No neural launch is authorized by readiness tests.
+- Stable-subset MoE lost 1806 versus the valid 2050 control, difference -244, CI [-372,-118].
+  Against preserved 2057 legacy standing decisions it lost -251, CI [-402,-102]. These are
+  distinct controls. No origin/seeds 1-2 rerun can rescue that registered candidate.
+- MID per-player pilot failed its predeclared screening gate (MASE 0.61384 -> 0.62055).
+  It stopped before MILP. No model promotion followed.
+- The recovered four-model screen has better MASE for MAE-loss CatBoost but substantial
+  downward level bias. It is exploratory only; no realized MILP/promotion claim exists.
+- GW232+ remains prospective and is not admitted into this research recovery.
 
-`fpl/model/probabilistic_buckets.py` reframes the target from one `total_points` number into a
-distribution over ordered buckets (`<=0, 1-2, 3-5, 6-9, >=10`), one model per position, from which
-`E[points]`, `P(blank)=P(<=2)`, and `P(haul)=P(>=10)` all fall out of a single model.
+## Forecast guard recovery
 
-The decision-grade MILP backtest ran (full detail: RESEARCH_LOG.md 2026-07-08):
+Convex ensemble weights and finite, aligned member predictions are validated; every
+strictly positive member is fitted and inactive members are skipped. Ambient tuned
+artifacts cannot have a cutoff later than their training rows. Special model overrides
+that were silently ignored now fail clearly. Static split partitions are checked before
+fitting; baseline row reordering rebuilds blend/evaluation masks in prediction order.
+Focused and full regression tests cover these changes; no model or parameter promotion
+follows from these guards.
 
-| Configuration | Realized points |
-|---|---|
-| tuned CatBoost regression (production) | **2107** |
-| tuned CatBoost bucket E[points] | 2059 |
+## Tournament and checkpoint recovery
 
-Both tuned, both 1 transfer/GW, zero chips — a clean **−48 pts (−2.3%)** for the buckets. This
-held **despite** the bucket model winning the forecast eval outright (level calibration 1.02 vs
-0.54, Spearman 0.703 vs 0.676 at all four positions, better RMSE and captaincy). It is the third
-demonstration that better forecast metrics don't buy squad points (the other two: the
-level-calibration scalar lost 56; CatBoost's MASE edge bought zero — both 2026-07-06).
+Tournament fitting/prediction remains per fixture; comparison rows sum player-round
+points and forecasts, with training-round MASE and observed training maxima. The
+shared validator rejects incomplete/misaligned expert panels, mixed seeds and invalid
+provenance. Future rows are excluded before preflight; existing output is never overwritten.
+Missing minutes history retains the existing MID low-regime policy, including through
+round aggregation and pivoting. Frozen preflight passed on 13,652 selection fixture
+rows, including 901 extra DGW rows and 48 missing routing values, without model fits.
 
-**Decision:** keep the bucket model as a forecasting-only research result and for its *free*
-P(blank)/P(haul) distribution. **Do NOT route bucket E[points] into `fpl.milp.optimize` as a
-point-forecast replacement** — it costs realized points. Reproduce the export/backtest:
+Opt-in `serial_trial_seed_v1` checkpoints bind data/feature bytes, exact folds, source
+and runtime identity, hold exclusive POSIX ownership, and reproduce clean-resume
+trial sequences for identical objective outcomes. Orphan trials and incomplete timeouts
+fail closed. Exports are isolated and refused by legacy registered-study validators;
+existing tuning studies and artifacts remain untouched. Native numerical determinism
+is not proven by these engineering tests. Layer-two evidence is preserved locally under
+`experiments/engineering_recovery_2026-10-02/`.
 
-```bash
-python -m fpl.model.probabilistic_buckets --export-predictions \
-    --test-min-gw 153 --test-max-gw 183     # writes bucket E[pts] in predict.py CSV format
-# then the same fpl.milp.optimize horizon-3 command as above
-```
+## Documentation audit
 
-Caveat as always: one window, one seed — but the direction agrees with two prior instances, so
-it is not treated as noise.
+The repository had conflicting commit instructions, stale August handoff/TODO claims,
+and obsolete neural-readiness advice. Current rules now have one canonical source in
+CLAUDE.md; HANDOFF records verified status, and TODO contains only remaining work.
+July audits/reports and previous instructions were preserved verbatim in the archive,
+including paired report PDFs and sources. Mutable live data and frozen research data
+are explicitly documented separately. Agent navigation and generated-file ignores
+were updated. Historical datasets and research evidence were retained.
 
-## Open threads / candidate next steps (direction is the PO's call)
+## Branches and remaining work
 
-- **Position-specialist MoE tournament — methodology ready, no promotion decision.** Run only the
-  registered workflow: selection-stage tuning at discovery cutoff -> fail-closed tuned manifest -> causal
-  OOF/frozen selection -> hash-bound finalist/control artifacts -> promotion. Final assessment still needs
-  real standard/origin MILP artifacts, seeds 0/1/2, and Holm-adjusted exact sign-test evidence; production
-  stays `single:catboost`. TabR remains unavailable/incomplete and is not substituted.
+Five obsolete worktrees were fully archived with verified ignored files/checkpoints,
+then retired. The merged `codex/position-specialist-moe` and `exp/position-moe` local
+branches were deleted. Archive recovery instructions are in the dated recovery plan.
 
-- **Full-repo audit (2026-07-11):** `AUDIT_2026-07-11.md` holds a complete methodological/
-  engineering review; its follow-ups live as the dependency-ordered "Audit follow-ups" clusters
-  at the top of `TODO.md`. Headline findings: run_week does NOT run the validated production
-  config (untuned params + NNLS — fix first), the tuning CLI lacks the GW<153 cap the log
-  claims, DGW rows leak same-GW info into shifted features, and GW153-183 is overused as a
-  decision window (2025-26 proposed as a one-shot confirmation holdout). Blocked on three PO
-  answers listed in the audit's §9.
+Keep the integration draft, original forecast audit (superseded guards and historical evidence), live API audit
+(unique ingestion/audit edits), five-commit validation branch, and c1d1 engineering/evidence
+until their remaining differences are reconciled. Historical remote experiments retain
+unique code/design; they are preserved research history rather than current run priorities.
 
-- **Captaincy via P(haul) — RESOLVED NEGATIVE (2026-07-11), not wired in.** The E[pts]×(1+P(haul))
-  tilt was re-tested walk-forward tuned-vs-tuned: it helps one base model, hurts the other
-  (sign-flip = noise), and the best captaincy number comes from plain bucket E[pts] with no tilt.
-  Gate ("wire in only if it wins") failed; production captaincy stays on E[points]. See
-  RESEARCH_LOG.md 2026-07-11. The sibling branch's 0.365→0.429 lift did not replicate.
-- **Risk-aware bench/starter use of P(blank)** — untested; would need its own backtest, and the
-  MILP consumes E[pts] only, so any use is downstream of the optimizer.
-- **Fair registry tuning — RESOLVED (2026-07-18, TODO 2.4):** LightGBM/XGBoost were Optuna-tuned
-  and `single:catboost` survived the tuned-vs-tuned comparison; the bake-off is now honest. See
-  RESEARCH_LOG.md 2026-07-18.
+The PO has authorized committing, opening a PR and merging after verification. Review the integration draft as coherent
+layers: packaging/provenance, scoring/budget, forecast/tournament guards, opt-in checkpoints,
+and documentation currency. Live API ingestion and forced-chip recovery are now included;
+the validation branch must not be merged wholesale.
 
-## Standing rules for any modeling change (don't relearn these the hard way)
+## Active-season and forced-chip recovery
 
-- Judge on the realized-points MILP backtest vs the standing baseline (**2057** as of
-  2026-07-23), or at minimum top1_capture / calibration diagnostics — **never on MASE/MAE
-  movement alone** (mean-vs-median trap, demonstrated 3×).
-- Fit any combination weights / calibration on a window strictly BEFORE what you predict (the
-  leakage bug, RESEARCH_LOG.md 2026-07-04).
-- Log every experiment to `experiments/results.csv` + a RESEARCH_LOG.md note, negatives included.
-- `pytest tests/` must be green before proposing a commit (currently 108 passing).
-- Delegate mechanical work to the pinned subagents in `.claude/agents/` (implementer=Sonnet,
-  searcher=Haiku) and verify their output in the main session — see CLAUDE.md "Subagent
-  delegation (cost control)".
+Official histories admit exactly checked events, retain fixture-level DGWs and validate
+stable player/fixture/opponent identities. Fixture sides determine the club at match time;
+post-round `ep_this` never becomes historical xP. API failures abort, archive-only mode
+avoids official API calls, canonical season offsets preserve gaps, and output is atomic.
+
+Positive chip targets are forced, invalid targets rejected, and WC/FH exempt transfer
+hit bounds. First-period FH respects temporary-squad budget and permanent-state guards.
+The legacy FT cap/reset policy remains unchanged. Same-input chip-disabled controls
+retain standard 2088 and origin 1901, each difference 0 with 95% block-bootstrap CI [0,0].
+All 124 solves were optimal. No forecast fits, live refresh or model promotion followed.
+Evidence is under `experiments/engineering_recovery_2026-10-02/live_chip_recovery/`.
+
+The [optimizer review](docs/OPTIMIZER_REVIEW.md) recommends evaluating a pinned Solio
+adapter with explicit modern chip inventory checks. No replacement has been activated.
+The [stakeholder overview](docs/STAKEHOLDER_OVERVIEW.md) explains purpose, goals and tools.

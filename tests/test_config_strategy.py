@@ -10,10 +10,7 @@ weekly run identically and silently (no test currently catches it) - so this
 guards the string's shape at import time rather than only when a pipeline
 run happens to hit it.
 """
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl import config
 from fpl.model.ensemble import _WEIGHT_FITTERS
 from fpl.model.models import FACTORIES

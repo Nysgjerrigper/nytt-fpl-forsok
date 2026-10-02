@@ -9,6 +9,7 @@ tools: Read, Grep, Glob, Bash
 model: haiku
 effort: low
 ---
+Read `CLAUDE.md`, the canonical operating document.
 Answer the question asked, concisely, with file:line references.
 Read-only: do not create, edit, or delete anything. If asked to,
 report back that the task needs the implementer agent instead.

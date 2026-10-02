@@ -26,7 +26,6 @@ from sklearn.metrics import log_loss, roc_auc_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
 from fpl.model import models as point_models
 from fpl.model.metrics import bias, mae, rmse, spearman_by_group, top1_capture, total_calibration

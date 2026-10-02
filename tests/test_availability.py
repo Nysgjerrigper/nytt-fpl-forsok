@@ -3,13 +3,10 @@ Tests for API-availability scaling in fpl.run_week (TODO 3.1, audit A4b):
 status / chance_of_playing_next_round from bootstrap-static -> per-player factor
 -> scaled predictions. Mocked bootstrap dicts, no network.
 """
-import sys
-from pathlib import Path
 
 import pandas as pd
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.run_week import apply_availability, availability_multipliers
 
 

@@ -5,6 +5,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 DATASETT_DIR = ROOT / "Datasett"
 MASTER_DATASET_PATH = DATASETT_DIR / "master_dataset.csv"
+FROZEN_RESEARCH_DATASET_PATH = DATASETT_DIR / "frozen" / "master_dataset_gw231.csv"
 
 MODELS_DIR = ROOT / "fpl" / "models"
 PREDICTIONS_PATH = ROOT / "fpl" / "predictions_latest.csv"
@@ -12,6 +13,11 @@ SQUAD_OUTPUT_DIR = ROOT / "fpl" / "squad_selections"
 
 GITHUB_RAW_BASE = "https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data"
 GITHUB_API_SEASONS_URL = "https://api.github.com/repos/vaastav/Fantasy-Premier-League/contents/data"
+
+# Official active-season ingestion uses checked events and bounded request concurrency.
+FPL_API_BASE = "https://fantasy.premierleague.com/api"
+FPL_SUMMARY_WORKERS = 12
+FPL_API_TIMEOUT_SECONDS = 30
 
 GWS_PER_SEASON = 38
 
@@ -48,6 +54,10 @@ PRODUCTION_WEIGHT_STRATEGY = "single:catboost"
 # global-GW constant this is season-ORDINAL: re-derive it if DEFAULT_START_SEASON changes.
 TUNING_TRAIN_MAX_GW = 152
 
+# Exploratory screen scheduling; these never configure production forecasts.
+SCREEN_RETRAIN_EVERY = 4
+SCREEN_WARMUP_WEEKS = 4
+
 # MILP solver settings for fpl/milp/optimize.py, benchmarked 2026-07-16 on the
 # GW153-183 standard backtest (see RESEARCH_LOG.md). MILP_SOLVER: "highs" (via the
 # highspy package) or "cbc" (PuLP's bundled COIN-OR CBC) - both prove optimality,
@@ -60,6 +70,10 @@ TUNING_TRAIN_MAX_GW = 152
 MILP_SOLVER = "highs"
 MILP_THREADS = 0
 MILP_GAP_REL = 0.0
+
+# Valid full starting-XI formation bounds shared with realized scoring.
+LINEUP_MIN_COUNTS = {"GK": 1, "DEF": 3, "MID": 2, "FWD": 1}
+LINEUP_MAX_COUNTS = {"GK": 1, "DEF": 5, "MID": 5, "FWD": 3}
 
 # The solver's free-transfer BANKING POLICY (Q_bar in the Kristiansen formulation) and FTs
 # gained per gameweek (Q_under_bar). NOTE: 2 is deliberately BELOW the site's banking cap
