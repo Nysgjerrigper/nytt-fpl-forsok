@@ -1,13 +1,10 @@
 """
 Hyperparameter tuning for explicit model-tournament experts.
 
-Nothing in fpl.model.models is actually tuned - LGB_PARAMS/XGB_PARAMS/CATBOOST_PARAMS
-are hand-picked defaults. That's a problem for the whole comparison table this project
-turns on: when the registry ranks lightgbm vs. xgboost vs. catboost (and against the OLS
-index), part of what's being measured is which algorithm's DEFAULTS happened to suit FPL's
-data, not which algorithm is best once each is given a fair shot. This module gives each
-tunable expert a fair shot by searching its declared hyperparameters, so a later ranking
-reflects the models rather than default-luck.
+Registry constructors supply hand-picked defaults; tracked tuned JSON artifacts preserve
+completed position-specific studies. Tuning searches each expert's declared space under
+causal expanding-window validation. Accuracy screening is diagnostic, and promotion
+still requires realized MILP comparisons with confidence intervals.
 
 Two design choices worth stating up front:
 
@@ -18,7 +15,7 @@ Two design choices worth stating up front:
   skip themselves when it's absent.
 
 - The cross-validation is EXPANDING-WINDOW over GW_global, never a random KFold. FPL data is a
-  time series (one row per player-gameweek); shuffling rows would let a fold train on gameweek
+  time series (fixture rows grouped by gameweek); shuffling rows would let a fold train on gameweek
   t+5 and validate on gameweek t, which leaks the future into the past and would reward
   hyperparameters that overfit that leakage rather than ones that actually forecast. Each fold
   therefore trains only on gameweeks strictly earlier than the block it validates on - the same
@@ -35,11 +32,12 @@ import importlib.metadata
 import json
 import sys
 from pathlib import Path
+from numbers import Real
 
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config
+from fpl.data.provenance import load_frozen_research_dataset
 from fpl.model.metrics import mase, naive_lag1_scale
 from fpl.model import models
 
@@ -102,7 +100,7 @@ def _expanding_window_folds(gws, n_splits):
 
 def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=4,
                   train_max_gw=config.TUNING_TRAIN_MAX_GW, seed=0,
-                  time_budget_seconds=None):
+                  time_budget_seconds=None, storage_path=None, study_name=None, stage=None, checkpoint_report=None):
     """Search hyperparameters for one registered expert and position.
 
     Runs an Optuna study whose objective refits `model_name` on each expanding-window fold
@@ -117,12 +115,26 @@ def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=
     into in-sample performance (audit finding A2). Pass None only for experiments that will
     never be judged on the standing backtest window.
 
+    Persistent resumes are opt-in via storage_path. They bind data/code/folds/runtime
+    and use serial_trial_seed_v1, a separate sampler protocol from registered legacy
+    studies. n_trials is the total terminal-trial target; timeout resets per invocation.
+    RUNNING/WAITING trials and mismatched identities are preserved and refused.
+
     Returned dict includes fixed objective/seed/verbosity settings as well as searched
     knobs. It can be passed to ``models.build_registered_model`` to reconstruct the exact
     candidate.
     """
     import optuna
 
+    if isinstance(n_trials, bool) or not isinstance(n_trials, int) or n_trials < 1:
+        raise ValueError("n_trials must be a positive integer")
+    if isinstance(n_splits, bool) or not isinstance(n_splits, int) or n_splits < 1:
+        raise ValueError("n_splits must be a positive integer")
+    if time_budget_seconds is not None and (not np.isfinite(time_budget_seconds)
+                                           or time_budget_seconds <= 0):
+        raise ValueError("time_budget_seconds must be finite and positive")
+    if study_name is not None and storage_path is None:
+        raise ValueError("study_name requires storage_path")
     pos_df = df[df["position"] == position].sort_values("GW_global")
     if train_max_gw is not None:
         pos_df = pos_df[pos_df["GW_global"] <= train_max_gw]
@@ -157,9 +169,29 @@ def tune_position(df, feature_cols, position, model_name, n_trials=50, n_splits=
 
     # Fixed sampler seed so a rerun with the same data reproduces the same search path -
     # tuning should be a repeatable experiment, not a different answer every invocation.
-    study = optuna.create_study(direction="minimize", sampler=optuna.samplers.TPESampler(seed=seed))
-    study.optimize(objective, n_trials=n_trials, timeout=time_budget_seconds,
-                   show_progress_bar=False)
+    if storage_path is None:
+        study = optuna.create_study(direction="minimize", sampler=optuna.samplers.TPESampler(seed=seed))
+        study.optimize(objective, n_trials=n_trials, timeout=time_budget_seconds,
+                       show_progress_bar=False)
+    else:
+        from fpl.model.tuning_checkpoint import checkpoint_identity, run_checkpoint
+        identity = checkpoint_identity(pos_df, list(feature_cols), position=position,
+            model_name=model_name, seed=seed, stage=stage, train_max_gw=train_max_gw,
+            n_splits=n_splits, folds=folds)
+        study = run_checkpoint(objective, storage_path=storage_path,
+            study_name=study_name or "identity_bound_tuning", identity=identity,
+            seed=seed, n_trials=n_trials, timeout=time_budget_seconds)
+        if checkpoint_report is not None:
+            import hashlib
+            checkpoint_report.update({
+                "sampler_protocol": identity["protocol"],
+                "identity_sha256": hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest(),
+                "study_name": study.study_name, "trial_target": n_trials,
+                "terminal_trials": len(study.trials), "best_trial_number": study.best_trial.number,
+                "trial_states": {state.name: sum(trial.state == state for trial in study.trials)
+                                 for state in optuna.trial.TrialState},
+                "invocation_timeout_seconds": time_budget_seconds,
+            })
 
     # Re-derive the full param dict (searched values + the fixed settings) from the winning
     # trial, rather than returning study.best_params, which holds only the suggested knobs.
@@ -186,17 +218,20 @@ class _FrozenTrial:
 
 
 def save_best_params(position, model_name, params, train_max_gw=None, *, seed=0,
-                     n_splits=None, time_budget_seconds=None, stage=None):
+                     n_splits=None, time_budget_seconds=None, stage=None, checkpoint_metadata=None, output_dir=None):
     """Persist tuned params to fpl/models/tuned_params_<position>_<model>.json, returning
-    the path. Lives in config.MODELS_DIR (gitignored) since it is a regenerable training
-    artifact, not source - re-run the tuner to recreate it.
+    the path. Tracked JSONs in config.MODELS_DIR preserve completed studies; do not
+    overwrite or regenerate existing research artifacts merely to tidy the repository.
 
     `train_max_gw` (the data cap the search actually ran under) is recorded in a "_meta"
     key so the file documents its own provenance - a params file with no recorded cap
     cannot prove the search didn't validate on the backtest window. Underscore-prefixed
     keys are stripped by models._tuned_params before the constructor splat."""
-    config.MODELS_DIR.mkdir(parents=True, exist_ok=True)
-    path = config.MODELS_DIR / f"tuned_params_{position}_{model_name}.json"
+    directory = Path(config.MODELS_DIR if output_dir is None else output_dir)
+    if checkpoint_metadata is not None and directory.resolve() == config.MODELS_DIR.resolve():
+        raise ValueError("Checkpoint artifacts require a separate output directory")
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / f"tuned_params_{position}_{model_name}.json"
     spec = models.EXPERT_SPECS[model_name]
     packages = {}
     for package in ("numpy", "scikit-learn", "lightgbm", "xgboost", "catboost", "optuna", "pytabkit"):
@@ -218,22 +253,47 @@ def save_best_params(position, model_name, params, train_max_gw=None, *, seed=0,
         "python_version": sys.version,
         "packages": packages,
     }}
+    if checkpoint_metadata is not None:
+        payload["_meta"]["checkpoint"] = dict(checkpoint_metadata)
     payload["_meta"]["artifact_hash"] = __import__("hashlib").sha256(
         json.dumps({k: v for k, v in payload.items() if k != "_meta"} | {"_meta": payload["_meta"]},
                    sort_keys=True, default=str).encode()
     ).hexdigest()
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True))
+    content = json.dumps(payload, indent=2, sort_keys=True)
+    if checkpoint_metadata is None:
+        path.write_text(content)
+    elif path.exists():
+        if path.read_text() != content:
+            raise ValueError("Checkpoint export already exists with different content; preserve it")
+    else:
+        with path.open("x") as destination:
+            destination.write(content)
     return path
 
 
-def load_validated_params(path, *, position, model_name, seed, stage, max_train_gw):
-    """Load a tuned artifact only when its complete causal provenance matches."""
+def load_validated_params(path, *, position, model_name, seed, stage, max_train_gw,
+                          sampler_protocol=None):
+    """Load a tuned artifact only when causal and sampler provenance match.
+
+    None admits legacy studies only; new checkpoint sampler protocols require explicit
+    caller registration. Checkpoint exports never enter legacy tournament validation.
+    """
     payload = json.loads(Path(path).read_text())
     meta = payload.get("_meta", {})
+    checkpoint = meta.get("checkpoint")
+    if checkpoint is not None and not isinstance(checkpoint, dict):
+        raise ValueError("Invalid checkpoint sampler protocol metadata")
+    actual_protocol = None if checkpoint is None else checkpoint.get("sampler_protocol")
+    if (actual_protocol != sampler_protocol
+            or (checkpoint is not None and not actual_protocol)):
+        raise ValueError("Tuned artifact sampler protocol is not admitted by this study")
     required = {"position": position, "model": model_name, "seed": seed, "stage": stage}
     if any(meta.get(key) != value for key, value in required.items()):
         raise ValueError("tuned parameter provenance does not match requested model/position/seed/stage")
-    if meta.get("train_max_gw") is None or int(meta["train_max_gw"]) > int(max_train_gw):
+    cutoff = meta.get("train_max_gw")
+    if (isinstance(cutoff, bool) or not isinstance(cutoff, Real)
+            or not np.isfinite(cutoff) or cutoff < 0 or int(cutoff) != cutoff
+            or cutoff > max_train_gw):
         raise ValueError("tuned parameter artifact exceeds the causal training cutoff")
     digest = meta.get("artifact_hash")
     if not digest:
@@ -251,11 +311,10 @@ def load_validated_params(path, *, position, model_name, seed, stage, max_train_
 def _load_features():
     """Local loader so this module doesn't import fpl.model.train (which pulls in the whole
     baselines/statsmodels stack just to reach build_feature_frame)."""
-    import pandas as pd
-    from fpl import features
+    from fpl.data.feature_cache import load_frozen_feature_frame
 
-    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
-    return features.build_feature_frame(raw)
+    raw = load_frozen_research_dataset()
+    return load_frozen_feature_frame(raw)
 
 
 def main(argv=None):
@@ -267,6 +326,10 @@ def main(argv=None):
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--time-budget-seconds", type=int, default=3600,
                         help="Wall-clock ceiling for this model-position study.")
+    parser.add_argument("--checkpoint", type=Path, default=None,
+                        help="Opt-in identity-bound SQLite resume with serial_trial_seed_v1; "
+                             "exports separately and is not legacy registered evidence.")
+    parser.add_argument("--study-name", default=None)
     parser.add_argument("--stage", choices=("discovery", "selection", "finalist"), default="discovery")
     parser.add_argument("--train-max-gw", type=int, default=config.TUNING_TRAIN_MAX_GW,
                         help="Cap all CV folds at this global gameweek so the search never "
@@ -280,12 +343,23 @@ def main(argv=None):
     feature_cols = features.feature_columns(df)
     print(f"Tuning {args.model} for {args.position} over {args.n_trials} trials "
           f"({args.n_splits}-fold expanding-window CV, folds capped at GW{args.train_max_gw})...")
+    checkpoint_report = {}
     best = tune_position(df, feature_cols, args.position, args.model, args.n_trials, args.n_splits,
                          train_max_gw=args.train_max_gw, seed=args.seed,
-                         time_budget_seconds=args.time_budget_seconds)
+                         time_budget_seconds=args.time_budget_seconds,
+                         storage_path=args.checkpoint, study_name=args.study_name,
+                         stage=args.stage, checkpoint_report=checkpoint_report)
+    output_dir = None
+    if args.checkpoint is not None:
+        import hashlib
+        namespace = hashlib.sha256(
+            f"{args.checkpoint.resolve()}:{args.study_name or 'identity_bound_tuning'}".encode()
+        ).hexdigest()[:24]
+        output_dir = config.MODELS_DIR / ".optuna_exports" / namespace / f"trials-{args.n_trials}"
     path = save_best_params(args.position, args.model, best, train_max_gw=args.train_max_gw,
                             seed=args.seed, n_splits=args.n_splits,
-                            time_budget_seconds=args.time_budget_seconds, stage=args.stage)
+                            time_budget_seconds=args.time_budget_seconds, stage=args.stage,
+                            checkpoint_metadata=checkpoint_report or None, output_dir=output_dir)
     print(f"Best params: {json.dumps(best, indent=2, sort_keys=True)}")
     print(f"Saved to {path}")
 

@@ -5,13 +5,10 @@ fpl.model.ensemble. These check the *properties* the combiners promise
 graceful degenerate fallback) rather than exact float weights, so the tests
 stay stable if the underlying solver details change.
 """
-import sys
-from pathlib import Path
 
 import numpy as np
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.model.ensemble import (
     fit_equal_weights_top_k,
     fit_ridge_stack,
@@ -118,3 +115,85 @@ def test_dispatcher_rejects_unknown_method(rng):
     preds = {"m0": y}
     with pytest.raises(ValueError):
         fit_weights(preds, y, method="does_not_exist")
+
+
+class _FixedModel:
+    def __init__(self, predictions):
+        self.predictions = predictions
+
+    def predict(self, X):
+        return self.predictions
+
+
+class _BrokenModel:
+    def predict(self, X):
+        raise AssertionError("An inactive member must never be evaluated")
+
+
+@pytest.mark.parametrize("weights", [
+    {}, {"a": 0.0}, {"a": 0.5}, {"a": 1.5},
+    {"a": np.nan}, {"a": np.inf}, {"a": -np.inf},
+    {"a": -0.1, "b": 1.1},
+])
+def test_ensemble_rejects_invalid_weights(weights):
+    from fpl.model.ensemble import PositionEnsemble
+
+    with pytest.raises(ValueError, match="weights"):
+        PositionEnsemble({"a": _FixedModel([1.0]), "b": _FixedModel([2.0])}, weights)
+
+
+def test_ensemble_rejects_empty_members_and_missing_positive_members():
+    from fpl.model.ensemble import PositionEnsemble
+
+    with pytest.raises(ValueError, match="at least one member"):
+        PositionEnsemble({}, {"a": 1.0})
+    with pytest.raises(ValueError, match="missing positively weighted members"):
+        PositionEnsemble({"a": _FixedModel([1.0])}, {"a": 0.5, "missing": 0.5})
+
+
+def test_ensemble_ignores_zero_weight_members_and_preserves_weighted_prediction():
+    from fpl.model.ensemble import PositionEnsemble
+
+    ensemble = PositionEnsemble(
+        {"a": _FixedModel([2.0, 4.0]), "b": _FixedModel([6.0, 8.0]),
+         "broken": _BrokenModel(), "nan": _FixedModel([np.nan, np.nan])},
+        {"a": 0.25, "b": 0.75, "broken": 0.0, "nan": 0.0, "absent": 0.0},
+    )
+    np.testing.assert_array_equal(ensemble.predict(np.zeros((2, 1))), [5.0, 7.0])
+
+
+@pytest.mark.parametrize("predictions", [
+    np.array([[1.0], [2.0]]), [1.0], 1.0, [np.nan, 1.0], [np.inf, 1.0],
+])
+def test_ensemble_rejects_invalid_prediction_vectors(predictions):
+    from fpl.model.ensemble import PositionEnsemble
+
+    ensemble = PositionEnsemble({"a": _FixedModel(predictions)}, {"a": 1.0})
+    with pytest.raises(ValueError, match="Member 'a'.*finite one-dimensional"):
+        ensemble.predict(np.zeros((2, 1)))
+
+
+def test_ensemble_does_not_normalize_approximately_unit_weights():
+    from fpl.model.ensemble import PositionEnsemble
+
+    weight = 1.0 + 1e-7
+    ensemble = PositionEnsemble({"a": _FixedModel([2.0])}, {"a": weight})
+    assert ensemble.predict(np.zeros((1, 1)))[0] == 2.0 * weight
+
+
+def test_production_fit_preserves_every_positive_weight(monkeypatch):
+    import pandas as pd
+    from fpl.model import train
+
+    calls = []
+
+    def fit_model(name, X, y, **kwargs):
+        calls.append(name)
+        return _FixedModel([1.0])
+
+    monkeypatch.setattr(train.models, "fit_model", fit_model)
+    df = pd.DataFrame({"position": ["GK"], "total_points": [1.0], "x": [0.0]})
+    weights = {"a": 1.0 - 1e-7, "small": 1e-7, "zero": 0.0}
+    ensemble = train.fit_position_ensembles(df, ["x"], {"GK": weights})["GK"]
+    assert calls == ["a", "small"]
+    np.testing.assert_allclose(ensemble.predict(df[["x"]]), [1.0])

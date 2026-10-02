@@ -34,7 +34,6 @@ from pathlib import Path
 import numpy as np
 import lightgbm as lgb
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl.model.models import LGB_PARAMS
 
 DEFAULT_QUANTILES = [0.1, 0.5, 0.9]

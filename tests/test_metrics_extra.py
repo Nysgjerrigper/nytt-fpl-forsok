@@ -4,13 +4,10 @@ properties that make the metrics trustworthy as a complement to MAE/MASE: RMSE m
 outweigh MAE on a skewed error vector (the whole reason it exists), bias must carry the
 right SIGN, and the ranking/capture metrics must reflect ordering rather than raw error.
 """
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.model import metrics as m
 
 

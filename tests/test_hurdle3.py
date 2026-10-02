@@ -6,13 +6,10 @@ Synthetic frames with unambiguous minutes structure - the contract under test is
 class decomposition plumbing (three minute regimes learned from the label, per-class
 regressors fit on their own rows only, degenerate fallbacks), not forecast accuracy.
 """
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.model import models
 
 

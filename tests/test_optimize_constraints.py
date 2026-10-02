@@ -10,12 +10,9 @@ and self-contained: 5 clubs, more players per position than the squad needs
 (3 GK / 8 DEF / 8 MID / 5 FWD, max 3 per club) so the 2/5/5/3-with-max-3
 constraints are actually binding, not trivially satisfied.
 """
-import sys
-from pathlib import Path
-
 import pandas as pd
+import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.milp import optimize
 
 CLUBS = ["ARS", "MCI", "LIV", "CHE", "TOT"]
@@ -102,6 +99,10 @@ def test_optimizer_output_satisfies_all_constraints(tmp_path):
         # optimize.py - NOT a pounds-millions (<=100.0) scale.
         assert row["budget_end"] <= 1000.0
 
+    first = results_df.iloc[0]
+    value_by_id = {pid: value for pid, _, _, value in PLAYERS}
+    assert first.budget_end + sum(value_by_id[pid] for pid in first.squad) == 1000.0
+
 
 def _build_origin_predictions_csv(tmp_path):
     """Origin-based CSV (audit B2): one forecast set per origin gameweek.
@@ -149,7 +150,9 @@ def test_origin_based_solve_uses_each_gameweeks_own_forecast_set(tmp_path):
     # GW1 solve sees only origin 1, where mid0 is the star and mid7 is nothing.
     assert "mid0" in by_gw.loc[1, "squad"]
     assert by_gw.loc[1, "captain"] == ["mid0"]
-    assert "mid7" not in by_gw.loc[1, "squad"]
+    # Bench membership can tie under the exact-bank constraint; the starting
+    # lineup must still honor this origin's forecast rather than GW2's forecast.
+    assert "mid7" not in by_gw.loc[1, "lineup"]
 
     # GW2 solve must switch to origin 2's set: mid7 is now the star, mid0 worthless.
     # If the old single-matrix path were still in effect, GW2 would reuse origin 1's

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fpl-forecast-optimizer"
+version = "0.1.0"
+description = "Fantasy Premier League forecasting and squad optimization"
+readme = "README.md"
+requires-python = ">=3.11"
+dynamic = ["dependencies"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["fpl*"]
+namespaces = true
+
+[tool.setuptools.package-data]
+"fpl.data" = ["*.json"]
+"fpl.models" = ["*.json"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements-runtime.txt"] }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

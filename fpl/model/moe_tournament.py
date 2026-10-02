@@ -15,10 +15,12 @@ import numpy as np
 import pandas as pd
 
 from fpl import config
+from fpl.data.provenance import load_frozen_research_dataset
 from fpl.model.expert_policy import POSITIONS, parse_expert_map
 from fpl.model.metrics import mae, naive_lag1_scale, mase
 from fpl.model import models
-from fpl.model.mid_gate import select_mid_gate
+from fpl.model.mid_gate import MidGateConfig, select_mid_gate
+from fpl.model.oof_panel import validate_oof_panel
 
 SEEDS = (0, 1, 2)
 
@@ -102,64 +104,152 @@ def validate_lineage(frame: pd.DataFrame, cutoffs: dict[str, int]) -> None:
         raise ValueError("OOF lineage must record selection-stage parameter hashes")
 
 
+def _validate_fixture_frame(frame: pd.DataFrame, *, require_routing: bool = False) -> None:
+    required = {"player_id", "position", "GW_global", "total_points"}
+    if require_routing:
+        required.add("mins60_rate_roll5")
+    if missing := required - set(frame):
+        raise ValueError(f"tournament fixture frame missing columns: {sorted(missing)}")
+    identity = ["player_id", "position", "GW_global"]
+    if frame[identity].isna().any().any():
+        raise ValueError("tournament fixture identity cannot be missing")
+    for column in ("GW_global", "total_points"):
+        if not pd.api.types.is_numeric_dtype(frame[column]) or not np.isfinite(frame[column]).all():
+            raise ValueError(f"tournament fixture {column} must contain finite numeric values")
+    if pd.api.types.is_bool_dtype(frame.GW_global) or not (frame.GW_global % 1 == 0).all():
+        raise ValueError("tournament fixture GW_global must contain integer values")
+    multiple = frame.duplicated(identity, keep=False)
+    if multiple.any() and ("fixture" not in frame or frame.loc[multiple, "fixture"].isna().any()):
+        raise ValueError("multiple tournament fixture rows require nonmissing fixture identities")
+    if "fixture" in frame and frame.duplicated(identity + ["fixture"]).any():
+        raise ValueError("tournament contains duplicate fixture identities")
+    if require_routing:
+        route = frame["mins60_rate_roll5"]
+        if not pd.api.types.is_numeric_dtype(route) or not np.isfinite(route.dropna()).all():
+            raise ValueError("tournament routing values must have finite numeric observations")
+    if require_routing and not (frame.groupby(identity)["mins60_rate_roll5"].nunique(dropna=False) == 1).all():
+        raise ValueError("tournament fixture rows disagree on deadline-known routing value")
+
+
+def _validate_selection_panel(oof: pd.DataFrame, cutoffs: dict[str, int],
+                              experts: tuple[str, ...] | None = None) -> None:
+    validate_oof_panel(oof, positions=tuple(POSITIONS), experts=experts)
+    validate_lineage(oof, cutoffs)
+    expected = set(range(cutoffs["selection_min_gw"], cutoffs["selection_max_gw"] + 1))
+    for position in POSITIONS:
+        if set(oof.loc[oof.position == position, "GW_global"]) != expected:
+            raise ValueError(f"{position} lacks complete selection-week coverage")
+    if "mins60_rate_roll5" not in oof:
+        raise ValueError("OOF panel missing deadline-known routing feature mins60_rate_roll5")
+    route = oof["mins60_rate_roll5"]
+    if not pd.api.types.is_numeric_dtype(route) or not np.isfinite(route.dropna()).all():
+        raise ValueError("OOF routing values must have finite numeric observations")
+    if not (oof.groupby(["player_id", "position", "GW_global"])["mins60_rate_roll5"].nunique(dropna=False) == 1).all():
+        raise ValueError("OOF experts disagree on deadline-known routing value")
+
+
 def generate_selection_oof(df: pd.DataFrame, feature_cols: list[str], experts: tuple[str, ...],
                            artifact_dir: str | Path, *, seed: int = 0,
                            cutoffs: dict[str, int] | None = None,
                            tuned_artifacts: dict[tuple[str, str], str] | None = None) -> tuple[pd.DataFrame, Path]:
-    """Generate deterministic per-row causal OOF forecasts for every position/expert.
+    """Fit fixture rows causally and emit comparable summed player-round forecasts.
 
-    Each prediction refits on rows strictly before its target GW and records that
-    exact cutoff and a hash of the resolved expert defaults.  Outputs are namespaced
-    by ``selection/seed-<n>`` so stability evidence cannot be overwritten.
+    Training MASE scales use summed player rounds strictly before each target GW.
+    Each round keeps its agreed deadline-known routing value and actual training
+    maximum. Rows after selection_max_gw are excluded before preflight, so future
+    labels cannot alter admission. Missing-history routing values remain NaN under
+    the established low-regime policy. Existing seed OOF artifacts are never overwritten.
     """
+    from fpl.model import tuning
+
     cutoffs = protocol_cutoffs() if cutoffs is None else dict(cutoffs)
     root = Path(artifact_dir) / "selection" / f"seed-{seed}"
-    root.mkdir(parents=True, exist_ok=True)
-    records: list[pd.DataFrame] = []
+    path = root / "oof.csv"
+    metadata_path = root / "oof_metadata.json"
+    if path.exists() or metadata_path.exists():
+        raise ValueError("selection OOF artifacts already exist; choose a new artifact directory")
+    if "GW_global" not in df:
+        raise ValueError("tournament fixture frame missing columns: ['GW_global']")
+    df = df[df["GW_global"] <= cutoffs["selection_max_gw"]].copy()
+    _validate_fixture_frame(df)
+    if "total_points" in feature_cols or set(feature_cols) - set(df):
+        raise ValueError("tournament features must exist and exclude the target")
+    if not experts or len(set(experts)) != len(experts) or set(experts) - set(models.REGISTERED_MODEL_NAMES):
+        raise ValueError("tournament experts must be unique registered models")
+    weeks = range(cutoffs["selection_min_gw"], cutoffs["selection_max_gw"] + 1)
+    _validate_fixture_frame(df[df.GW_global.isin(weeks)], require_routing=True)
     for position in POSITIONS:
-        pos = df[df["position"] == position]
+        pos = df[df.position == position]
+        if set(pos.loc[pos.GW_global.isin(weeks), "GW_global"]) != set(weeks):
+            raise ValueError(f"{position} lacks complete selection-week coverage")
+        if pos[pos.GW_global < cutoffs["selection_min_gw"]].empty:
+            raise ValueError(f"{position} has no pre-selection training history")
+    parameters = {}
+    for position in POSITIONS:
         for expert in experts:
-            if expert not in models.REGISTERED_MODEL_NAMES:
-                raise ValueError(f"unregistered expert {expert!r}")
             if tuned_artifacts is None or (position, expert) not in tuned_artifacts:
                 raise ValueError("tournament OOF requires a validated tuned artifact per position/expert")
-            from fpl.model import tuning
-            params = tuning.load_validated_params(
-                tuned_artifacts[(position, expert)], position=position, model_name=expert,
+            parameters[position, expert] = tuning.load_validated_params(
+                tuned_artifacts[position, expert], position=position, model_name=expert,
                 seed=seed, stage="selection", max_train_gw=cutoffs["discovery_max_gw"]
             )
+    records: list[pd.DataFrame] = []
+    for position in POSITIONS:
+        pos = df[df.position == position]
+        for expert in experts:
+            params = parameters[position, expert]
             params_hash = artifact_hash({"expert": expert, "position": position, "seed": seed, "params": params})
-            for gw in range(cutoffs["selection_min_gw"], cutoffs["selection_max_gw"] + 1):
-                train = pos[pos["GW_global"] < gw]
-                test = pos[pos["GW_global"] == gw]
-                if train.empty or test.empty:
-                    continue
-                fitted = models.fit_model(expert, train[feature_cols], train["total_points"],
-                                          position=position, minutes=train.get("minutes"), gw=train.get("GW_global"),
+            for gw in weeks:
+                train = pos[pos.GW_global < gw]
+                test = pos[pos.GW_global == gw]
+                rounds = train.groupby(["player_id", "position", "GW_global"], as_index=False).total_points.sum()
+                scale = naive_lag1_scale(rounds)
+                if not np.isfinite(scale) or scale <= 0:
+                    raise ValueError("training-only player-round MASE scale must be finite and positive")
+                fitted = models.fit_model(expert, train[feature_cols], train.total_points,
+                                          position=position, minutes=train.get("minutes"), gw=train.GW_global,
                                           params=params, seed=seed)
+                prediction = np.asarray(fitted.predict(test[feature_cols]), dtype=float)
+                if prediction.shape != (len(test),) or not np.isfinite(prediction).all():
+                    raise ValueError(f"{position}/{expert}/GW{gw} returned invalid predictions")
                 part = test[["player_id", "position", "GW_global", "total_points", "mins60_rate_roll5"]].copy()
+                part["prediction"] = prediction
+                part = part.groupby(["player_id", "position", "GW_global"], as_index=False).agg(
+                    actual_total_points=("total_points", "sum"), prediction=("prediction", "sum"),
+                    fixture_count=("prediction", "size"), mins60_rate_roll5=("mins60_rate_roll5", "first"),
+                )
                 part["expert"] = expert
-                part["prediction"] = np.asarray(fitted.predict(test[feature_cols]), dtype=float)
-                part = part.rename(columns={"total_points": "actual_total_points"})
-                part["train_max_gw"] = gw - 1
-                part["mase_scale"] = naive_lag1_scale(train)
+                part["train_max_gw"] = int(train.GW_global.max())
+                part["mase_scale"] = scale
                 part["seed"] = seed
                 part["params_hash"] = params_hash
                 part["stage"] = "selection"
                 records.append(part)
     oof = pd.concat(records, ignore_index=True) if records else pd.DataFrame()
-    validate_lineage(oof, cutoffs)
-    path = root / "oof.csv"
-    oof.to_csv(path, index=False)
-    meta = {"cutoffs": cutoffs, "seed": seed, "experts": list(experts), "oof_sha256": artifact_hash(oof.to_dict("records"))}
-    (root / "oof_metadata.json").write_text(json.dumps(meta, indent=2, sort_keys=True))
+    _validate_selection_panel(oof, cutoffs, experts)
+    root.mkdir(parents=True, exist_ok=True)
+    oof.to_csv(path, index=False, mode="x")
+    meta = {"schema": "player_round_v1", "cutoffs": cutoffs, "seed": seed,
+            "experts": list(experts), "oof_sha256": artifact_hash(oof.to_dict("records")),
+            "oof_csv_sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+    with metadata_path.open("x") as destination:
+        destination.write(json.dumps(meta, indent=2, sort_keys=True))
     return oof, path
 
 
 def select_from_oof(oof: pd.DataFrame, artifact_dir: str | Path, *, cutoffs: dict[str, int] | None = None) -> Path:
-    """Rank causal OOF evidence and freeze a complete champion map with hashes."""
+    """Rank summed player-round OOF evidence and freeze its hash-bound champion map.
+
+    Existing ranking and frozen-selection artifacts are refused before scoring.
+    Exclusive writes preserve artifacts created by another writer after preflight.
+    """
     cutoffs = protocol_cutoffs() if cutoffs is None else dict(cutoffs)
-    validate_lineage(oof, cutoffs)
+    root = Path(artifact_dir) / "selection"
+    ranking_path = root / "expert_ranking.csv"
+    path = root / "frozen_selection.json"
+    if ranking_path.exists() or path.exists():
+        raise ValueError("selection ranking or frozen artifacts already exist; choose a new artifact directory")
+    _validate_selection_panel(oof, cutoffs)
     rows = []
     champions = {}
     for position in POSITIONS:
@@ -173,15 +263,14 @@ def select_from_oof(oof: pd.DataFrame, artifact_dir: str | Path, *, cutoffs: dic
         if eligible.empty:
             raise ValueError(f"no eligible OOF expert for {position}")
         champions[position] = str(eligible.iloc[0].expert)
-    root = Path(artifact_dir) / "selection"
     root.mkdir(parents=True, exist_ok=True)
-    ranking.to_csv(root / "expert_ranking.csv", index=False)
+    ranking.to_csv(ranking_path, index=False, mode="x")
     payload = {"cutoffs": cutoffs, "champion_map": champions,
                "oof_sha256": artifact_hash(oof.to_dict("records")),
                "ranking_sha256": artifact_hash(ranking.to_dict("records")), "spent_window": list(spent_window())}
     payload["artifact_sha256"] = artifact_hash(payload)
-    path = root / "frozen_selection.json"
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True))
+    with path.open("x") as destination:
+        destination.write(json.dumps(payload, indent=2, sort_keys=True))
     return path
 
 
@@ -253,10 +342,15 @@ def seed_differences_from_artifacts(finalists: str | Path) -> list[float]:
 
 
 def select_mid_gate_from_oof(training_frame: pd.DataFrame, oof: pd.DataFrame, *, champion: str,
-                             candidates: tuple[str, ...], cutoffs: dict[str, int] | None = None):
-    """Build a MID gate only from validated, causal selection OOF lineage."""
+                             candidates: tuple[str, ...], cutoffs: dict[str, int] | None = None) -> MidGateConfig:
+    """Build a MID gate from summed selection rounds and summed training targets.
+
+    Historical fixture routing must agree within each player round, treating NaN
+    as an explicit value. Uniformly missing rounds remain permissible: selection
+    NaNs route to the low regime and training thresholds ignore historical NaNs.
+    """
     cutoffs = protocol_cutoffs() if cutoffs is None else dict(cutoffs)
-    validate_lineage(oof, cutoffs)
+    _validate_selection_panel(oof, cutoffs)
     mid = oof[oof.position == "MID"].copy()
     if set(mid.expert) != set(candidates) or champion not in candidates:
         raise ValueError("MID gate candidates must exactly match registered OOF experts")
@@ -268,11 +362,20 @@ def select_mid_gate_from_oof(training_frame: pd.DataFrame, oof: pd.DataFrame, *,
     source = training_frame[training_frame.position == "MID"]
     if source.empty or int(source.GW_global.max()) > cutoffs["discovery_max_gw"]:
         raise ValueError("MID gate training frame exceeds registered discovery cutoff")
+    _validate_fixture_frame(source)
+    if "mins60_rate_roll5" not in source:
+        raise ValueError("MID gate training frame missing routing feature mins60_rate_roll5")
+    route = source["mins60_rate_roll5"]
+    if not pd.api.types.is_numeric_dtype(route) or not np.isfinite(route.dropna()).all():
+        raise ValueError("MID training routing values must have finite numeric observations")
+    if not (source.groupby(["player_id", "position", "GW_global"])["mins60_rate_roll5"].nunique(dropna=False) == 1).all():
+        raise ValueError("MID training fixtures disagree on deadline-known routing value")
+    source = source.groupby(["player_id", "position", "GW_global"], as_index=False).agg(
+        total_points=("total_points", "sum"), mins60_rate_roll5=("mins60_rate_roll5", "first"),
+    )
     for expert in candidates:
         wide[f"pred_{expert}"] = wide[expert]
     joined = wide
-    if joined["mins60_rate_roll5"].isna().all():
-        raise ValueError("MID OOF rows lack deadline-known routing features")
     joined = joined.rename(columns={"actual_total_points": "total_points"})
     return select_mid_gate(source, joined, {name: f"pred_{name}" for name in candidates}, champion=champion,
                            training_max_gw=cutoffs["discovery_max_gw"],
@@ -429,10 +532,11 @@ def main(argv=None):
         if args.select != "select":
             parser.error("subcommand must be select or build-tuned-manifest")
         from fpl import features
+        from fpl.data.feature_cache import load_frozen_feature_frame
         if not args.tuned_artifact_manifest:
             parser.error("select requires --tuned-artifact-manifest")
-        raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
-        frame = features.build_feature_frame(raw)
+        raw = load_frozen_research_dataset()
+        frame = load_frozen_feature_frame(raw)
         cutoffs = protocol_cutoffs()
         # Explicit user bounds can only restate the registered season-derived window.
         supplied = (args.selection_min_gw, args.selection_max_gw)

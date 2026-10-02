@@ -5,13 +5,10 @@ recent played match (the bug this replaced reused a played row's shifted
 features, silently dropping every player's freshest game), and long-inactive
 players must be excluded from the live pool.
 """
-import sys
-from pathlib import Path
 
 import pandas as pd
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl import run_week
 from fpl.model.mid_gate import MidGateConfig, RegimeSelection, TertileThresholds
 
@@ -227,3 +224,38 @@ def test_live_future_predictions_routes_mid_rows_through_frozen_gate(monkeypatch
         mid_experts={"catboost": Stub(2.0), "lightgbm": Stub(9.0)},
     )
     assert preds["predicted_total_points"].tolist() == [9.0]
+
+
+def test_live_training_builds_mutable_features_without_frozen_admission(monkeypatch, tmp_path):
+    import sys
+    from fpl import config
+    from fpl.data import provenance, feature_cache
+    from fpl.model import train
+
+    class ReachedLiveTraining(Exception):
+        pass
+
+    raw = _raw_frame([(1, 232, "MID", "Arsenal", "A", 1, 5.0, 90, 60)])
+    dataset = tmp_path / "live.csv"
+    raw.to_csv(dataset, index=False)
+    monkeypatch.setattr(config, "MASTER_DATASET_PATH", dataset)
+    monkeypatch.setattr(run_week.fetch, "build_master_dataset", lambda: None)
+    for module, name in ((provenance, "load_frozen_research_dataset"),
+                         (feature_cache, "load_frozen_feature_frame"),
+                         (train, "load_frozen_research_dataset"),
+                         (train, "load_frozen_feature_frame")):
+        monkeypatch.setattr(module, name, lambda *a, **k: pytest.fail("live path invoked frozen admission"))
+    seen = []
+    monkeypatch.setattr(run_week.features, "build_feature_frame", lambda frame: seen.append(frame.copy()) or frame)
+    monkeypatch.setattr(run_week.features, "feature_columns", lambda frame: ["value"])
+    monkeypatch.setattr(run_week, "fit_holdout_weights", lambda *a, **k: {})
+
+    def stop_before_model_fit(frame, *args):
+        assert frame.GW_global.max() == 232
+        raise ReachedLiveTraining
+
+    monkeypatch.setattr(run_week, "fit_position_ensembles", stop_before_model_fit)
+    monkeypatch.setattr(sys, "argv", ["fpl.run_week"])
+    with pytest.raises(ReachedLiveTraining):
+        run_week.main()
+    assert len(seen) == 1 and seen[0].GW_global.max() == 232

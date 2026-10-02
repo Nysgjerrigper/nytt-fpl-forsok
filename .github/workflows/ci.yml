@@ -21,7 +21,9 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libomp-dev
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install --no-deps --no-build-isolation -e .
 
       - name: Run tests
-        run: pytest tests/ -q
+        run: python -m pytest tests/ -q

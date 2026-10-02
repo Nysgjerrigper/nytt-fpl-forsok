@@ -1,0 +1,33 @@
+{
+  "catboost_mae": {
+    "allow_writing_files": false,
+    "depth": 6,
+    "iterations": 300,
+    "learning_rate": 0.05,
+    "loss_function": "MAE",
+    "random_seed": 0,
+    "verbose": 0
+  },
+  "catboost_rmse": {
+    "allow_writing_files": false,
+    "depth": 6,
+    "iterations": 300,
+    "learning_rate": 0.05,
+    "loss_function": "RMSE",
+    "random_seed": 0,
+    "verbose": 0
+  },
+  "hist_gradient_boosting_squared": {
+    "loss": "squared_error",
+    "random_state": 0
+  },
+  "lightgbm_l2": {
+    "learning_rate": 0.05,
+    "metric": "mae",
+    "min_data_in_leaf": 30,
+    "n_estimators": 300,
+    "num_leaves": 31,
+    "objective": "regression",
+    "verbosity": -1
+  }
+}

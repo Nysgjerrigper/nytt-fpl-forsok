@@ -1343,3 +1343,132 @@ as a one-off validation - see the "Replace LSTM+R pipeline with Python GBM ensem
 consolidated MILP" commit for that transition. Validated against the old system on the same
 GW77-107 backtest window: old LSTM+MILP scored 1526, new LightGBM+MILP scored 1811, the new
 6-model ensemble+MILP scored 1900 (see `CLAUDE.md`'s "Backtesting reference point").
+
+
+## 2026-10-02 - Recover causal exploratory screening across double gameweeks
+
+Hypothesis: the previous exploratory run stopped because fixture rows were wrongly
+required to be unique player-round rows, rather than because a model failed.
+Recovered the four-model screen in `fix/branch-recovery`: fixture-level fitting and
+prediction are preserved, while forecasts and actuals are summed per player round.
+MASE now uses summed training rounds strictly before each refit. Ambiguous fixture
+identities fail before fitting; combiner weights use only earlier OOF outcomes.
+
+The original explicit parameters and seed 0 were reused for catboost_mae,
+catboost_rmse, hist_gradient_boosting_squared and lightgbm_l2. The preserved GW231
+snapshot SHA is `62f8f1d31d47a5f859f6d73819c9e631a59de346fed7de2fd5877b994a2ccc98`.
+Rows above GW152 were removed before feature construction. OOF covers GW137-152;
+after four warmup weeks, identical shared rows are scored on GW141-152.
+The completed panel has 51,004 member rows, including 3,604 DGW member rows.
+
+| Position | CatBoost MAE-loss MAE | MASE | RMSE | Bias | Total calibration |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| GK | 0.522655 | 0.566999 | 1.552765 | -0.239078 | 0.675916 |
+| DEF | 0.830619 | 0.589740 | 2.129114 | -0.517243 | 0.463817 |
+| MID | 0.786539 | 0.605238 | 2.088439 | -0.455474 | 0.612536 |
+| FWD | 0.819309 | 0.572396 | 2.291841 | -0.532962 | 0.536173 |
+
+This member has the lowest MASE at every position among this screen's strategies,
+but substantially underpredicts total points. The diagnostics demonstrate the
+mean/median tradeoff; they do not establish squad quality. Full diagnostics, ranking
+and top1_capture, weights, correlations, member OOF, predictions, and byte hashes are
+under `experiments/branch_recovery_2026-10-02/screen/`. The result was logged through
+`fpl.experiment.log_result` in this worktree's `experiments/results.csv`, with dirty
+code explicitly identified and every source-file hash preserved.
+
+Verdict: exploratory screen complete; realized MILP points and CI NOT ASSESSED.
+No comparison to 2057/2088 is claimed. Production remains single:catboost.
+Independent verification: 202 tests passed; dataset, code and output hashes,
+shared rows, and causal cutoffs all checked. Existing imputer warnings reflect
+historically absent defensive-contribution features; no missing stats were fabricated.
+
+
+### 2026-10-02 — Engineering recovery and documentation reconciliation
+
+Uncommitted `fix/branch-recovery` draft; production remains `single:catboost`.
+Ported packaging, frozen provenance/cache and crash containment selectively, hardened
+read/mutation admission, and corrected autosubs/vice/chip/Free Hit output behavior.
+Fresh-build bank conservation uses equality. No model fitting or parameter promotion
+was part of these replays; GW232+ remains outside research.
+
+Independent validation: 243 passing tests; full frozen cached/uncached feature equality;
+offline wheel and isolated import; 44 tuned JSON files and the provenance manifest
+verified byte-identical inside the wheel. Same-input GW153-183 horizon-3 chip-disabled
+MILP comparison used corrected scoring and optimal solves throughout. Standard control
+and candidate both scored 2088; origin both scored 1901. Each candidate-minus-control
+difference is 0 with block-bootstrap 95% CI [0,0] (10,000 draws, block 3, seed 0).
+Some degenerate bench choices changed, while starting lineup/captain/vice did not.
+Historical origin 1900 becomes 1901 solely through legal GW181 autosub scoring of the
+same selected decisions; this is not predictive improvement. Inputs, hashes, source
+control, commands, logs, CSVs, CIs and package/cache verification are preserved locally
+in `experiments/engineering_recovery_2026-10-02/`.
+
+Reconciled stale handoff/TODO, duplicate/conflicting operating rules and obsolete
+neural-readiness advice. Preserved prior instructions, dated audits and paired report
+PDF/source documents under `docs/archive/`; no historical research data was discarded.
+Forecast-audit guards and provenance-bound Optuna resume remain separate open tasks.
+
+
+Follow-up guard recovery: convex ensemble/prediction invariants, tuned cutoff admission
+and chronological static partitions recovered from forecast-audit. Fixed an additional
+mask-ordering error when baseline enrichment reorders rows; shuffled-index regression
+verifies chronological blend membership. Final primary-session suite: 311 passed, two
+non-failing warnings; offline wheel rebuilt and package contents/import reverified.
+Tournament panel/DGW reconciliation remains open. These guards are not model results.
+
+
+### 2026-10-02 — Tournament round semantics and opt-in persistent tuning
+
+Recovered shared OOF panel validation and tournament player-round aggregation. Models
+fit/predict fixture rows; comparisons sum actuals/predictions by player-position-GW,
+with training-round MASE, observed training maxima and complete comparable expert
+coverage. Future rows are excluded before preflight. Existing OOF/ranking/frozen
+artifacts are preserved. Metadata records player_round_v1 and CSV byte identity.
+MID training is aggregated consistently; historical/selection missing minutes history
+retains the existing low-regime policy rather than removing player coverage.
+
+Frozen preflight passed on 13,652 selection fixture rows, including 901 extra DGW
+rows and 48 missing routing values. No research models were fitted in this preflight.
+Feature frames now explicitly carry their verified frozen byte SHA after merges.
+
+Persistent tuning is opt-in serial_trial_seed_v1, distinct from the unchanged default
+legacy sampler. Identity binds actual capped feature/target frame, upstream byte SHA,
+ordered features, folds/cutoff/model/seed/stage, source/search-space hashes and runtime
+(including TabR dependencies and thread/device environment). A POSIX lock covers the
+study operation; orphan trials, mismatched identity, reduced trial targets and incomplete
+timeouts fail closed. FAIL/PRUNED count as terminal attempts and are recorded separately.
+Tests verify identical parameter/value/state sequences for uninterrupted 15 trials versus
+3 plus clean resume, beyond TPE startup; numerical determinism of native estimators is
+not claimed. Time allowance resets per invocation. Exports go into an isolated namespace
+and cannot overwrite canonical studies; legacy validators reject the new sampler unless
+a caller explicitly registers that protocol. No registered studies or artifacts changed.
+
+Primary-session verification: 391 passed, two existing non-failing warnings. Offline
+wheel build, isolated import and byte-identical packaged sources/all 44 JSON artifacts
+plus frozen manifest passed. Local evidence: layer2_preflight.json,
+layer2_package_verification.json and layer2_sources.tar.gz under
+experiments/engineering_recovery_2026-10-02/. No MILP/model-promotion claim follows from
+these engineering tests; previous identical-predictions scoring controls remain unchanged.
+Live API checked-round/season admission and forced-chip recovery remain the next layer.
+
+
+### 2026-10-02 — Registered engineering check: live history and chip constraints
+
+Recover exact checked-round API ingestion and active-season source matching, keeping
+frozen research separate. Recover explicit positive chip forcing, WC/FH hit/carry
+exemptions and first-period FH budget/permanent-state guards. Standing half boundaries,
+FT cap/reset policy and corrected realized scoring remain fixed. Validate offline API
+fixtures and synthetic chip cases, then same preserved standard/origin GW153-183
+chip-disabled horizon-3 controls with proven optimal solves and paired bootstrap CI
+(10,000 draws, block 3, seed 0). Pre-change optimizer bytes and exact plan are preserved
+in experiments/engineering_recovery_2026-10-02/live_chip_recovery/. No live fetch,
+model fitting or predictive improvement claim is authorized by these engineering tests.
+
+Completed: 432 regression tests passed with two existing warnings. All 124 same-input
+chip-disabled solves were optimal. Standard/control and candidate both scored 2088;
+origin/control and candidate both scored 1901. Both paired differences were 0, 95% CI
+[0,0] (10,000 block-bootstrap draws, block 3, seed 0). API tests use offline payloads;
+no mutable live refresh or model fitting occurred. Current docs and stakeholder overview
+were updated. The optimizer source review identifies modern-rule migration work without
+claiming that an external solver is already replacement-ready. The PO subsequently
+authorized commit, PR and merge after verification.

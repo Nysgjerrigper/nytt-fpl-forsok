@@ -55,7 +55,13 @@ def test_missing_pytabkit_is_a_clear_optional_dependency_error(monkeypatch):
             raise ImportError("not installed")
         return real_import_module(name, *args, **kwargs)
 
+    def missing_version(package):
+        if package == "pytabkit":
+            raise models.PackageNotFoundError(package)
+        return "3.0.3"
+
     monkeypatch.setattr(models.importlib, "import_module", missing)
+    monkeypatch.setattr(models, "version", missing_version)
     X = pd.DataFrame({"a": [np.nan, 1.0]})
     with pytest.raises(models.OptionalModelDependencyError, match="research-only expert"):
         models.fit_model("realmlp", X, pd.Series([0.0, 1.0]), position="MID")
@@ -66,6 +72,47 @@ def test_tabr_fails_cleanly_when_faiss_is_unavailable(monkeypatch):
     X = pd.DataFrame({"a": [0.0, 1.0]})
     with pytest.raises(models.OptionalModelDependencyError, match="FAISS"):
         models.fit_model("tabr", X, pd.Series([0.0, 1.0]), position="MID")
+
+
+def test_pytabkit_173_on_macos_arm64_fails_before_native_fit(monkeypatch):
+    class MustNotConstruct:
+        def __init__(self, **kwargs):
+            raise AssertionError("native estimator must not be constructed")
+
+    monkeypatch.setattr(
+        models.importlib, "import_module",
+        lambda name: type("FakeModule", (), {"RealMLP_TD_Regressor": MustNotConstruct}),
+    )
+    monkeypatch.setattr(
+        models, "version",
+        lambda package: "1.7.3",
+    )
+    monkeypatch.setattr(models.platform, "system", lambda: "Darwin")
+    monkeypatch.setattr(models.platform, "machine", lambda: "arm64")
+    with pytest.raises(models.OptionalModelDependencyError, match="SIGSEGV"):
+        models._PyTabKitRegressor("realmlp").fit([[0.0], [1.0]], [0.0, 1.0])
+
+
+def test_newer_pytabkit_release_bypasses_version_specific_guard(monkeypatch):
+    class FakeRegressor:
+        def __init__(self, **kwargs):
+            pass
+
+        def fit(self, X, y):
+            return self
+
+        def predict(self, X):
+            return np.zeros(len(X))
+
+    monkeypatch.setattr(
+        models.importlib, "import_module",
+        lambda name: type("FakeModule", (), {"RealMLP_TD_Regressor": FakeRegressor}),
+    )
+    monkeypatch.setattr(models, "version", lambda package: "1.7.4")
+    monkeypatch.setattr(models.platform, "system", lambda: "Darwin")
+    monkeypatch.setattr(models.platform, "machine", lambda: "arm64")
+    adapter = models._PyTabKitRegressor("realmlp").fit([[0.0], [1.0]], [0.0, 1.0])
+    assert adapter.predict([[2.0]]).tolist() == [0.0]
 
 
 def test_generalized_tuning_builds_non_gbm_candidate():

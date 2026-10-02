@@ -10,14 +10,11 @@ winning params come back as a dict. optuna is skipped gracefully when absent so 
 clone without the heavy dep still passes the suite.
 """
 import json
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.model import tuning
 
 

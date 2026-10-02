@@ -6,12 +6,9 @@ and it must tolerate the schema growing - a later run that reports a brand-new
 metric has to union the columns in, not crash on a mismatched CSV shape.
 """
 import json
-import sys
-from pathlib import Path
 
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.experiment import dataset_state, log_result
 
 

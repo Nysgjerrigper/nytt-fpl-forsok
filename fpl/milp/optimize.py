@@ -13,20 +13,72 @@ results, and sweeps over sub-horizon lengths, instead of needing a different
 .py/.bat file per scenario.
 """
 import argparse
+import itertools
 import math
 import sys
 import time
 from pathlib import Path
+from collections import Counter
+from typing import Hashable, Mapping, Sequence
 
 import pandas as pd
 import pulp
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config
+
+
+def apply_auto_substitutions(
+    lineup: Sequence[Hashable], bench_order: Sequence[Hashable],
+    minutes: Mapping[Hashable, float], positions: Mapping[Hashable, str],
+) -> list[Hashable]:
+    """Return scoring players after priority-ordered, formation-legal substitutions.
+
+    Formation applies to all starting slots, including an absent player who cannot
+    be replaced. It does not require the players who actually appeared to form an
+    eleven. This allows a legal defender replacement even when another starting
+    defender remains absent. Bench eligibility uses whole-round realized minutes.
+    """
+    active = [p for p in lineup if minutes.get(p, 0) > 0]
+    if any(positions.get(p) == "GK" and minutes.get(p, 0) <= 0 for p in lineup):
+        reserve = next((p for p in bench_order
+                        if positions.get(p) == "GK" and minutes.get(p, 0) > 0), None)
+        if reserve is not None:
+            active.append(reserve)
+    absent = [p for p in lineup
+              if positions.get(p) != "GK" and minutes.get(p, 0) <= 0]
+    available = [p for p in bench_order
+                 if positions.get(p) != "GK" and minutes.get(p, 0) > 0]
+    original = Counter(positions[p] for p in lineup)
+    for size in range(min(len(absent), len(available)), 0, -1):
+        # Combinations retain bench priority; removal choices cannot alter scores.
+        for replacements in itertools.combinations(available, size):
+            added = Counter(positions[p] for p in replacements)
+            for removed in itertools.combinations(absent, size):
+                counts = original.copy()
+                counts.subtract(positions[p] for p in removed)
+                counts.update(added)
+                if all(config.LINEUP_MIN_COUNTS[pos] <= counts[pos] <= config.LINEUP_MAX_COUNTS[pos]
+                       for pos in config.LINEUP_MIN_COUNTS):
+                    return active + list(replacements)
+    return active
+
+
+def resolve_active_captain(
+    captain: Sequence[Hashable], vice_captain: Sequence[Hashable],
+    realized_lineup: Sequence[Hashable], minutes: Mapping[Hashable, float],
+) -> Hashable | None:
+    """Double/triple the vice only when the designated captain played no minutes."""
+    cap = captain[0] if captain else None
+    if cap in realized_lineup and minutes.get(cap, 0) > 0:
+        return cap
+    vice = vice_captain[0] if vice_captain else None
+    return vice if vice in realized_lineup and minutes.get(vice, 0) > 0 else None
 
 
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description="FPL squad selection via MILP (rolling horizon)")
+    parser.add_argument("--scoring-mode", choices=("auto", "legacy", "corrected"), default="auto",
+                        help="Corrected realized scoring requires finite round minutes; auto labels legacy inputs explicitly.")
     parser.add_argument("--predictions-csv", type=str, default=str(config.PREDICTIONS_PATH),
                          help="CSV with columns: player_id, GW, name, position, team, value, "
                               "and the points column to optimize against.")
@@ -81,7 +133,33 @@ def make_solver(name: str, time_limit: float | None, threads: int = 0,
                              gapRel=gap_rel or None)
 
 
+def validate_chip_targets(args) -> dict[str, int]:
+    """Validate explicit chip scheduling against this run and standing season halves."""
+    if args.start_gw < 1 or args.max_gw < args.start_gw or args.horizon < 1:
+        raise ValueError("positive chronological gameweeks and horizon are required")
+    targets = {name: getattr(args, f"{name}_gw", 0) for name in ("wc1", "wc2", "tc", "fh", "bb")}
+    positive = [target for target in targets.values() if target > 0]
+    if any(target < 0 for target in targets.values()):
+        raise ValueError("chip targets must be nonnegative; 0 disables a chip")
+    if len(positive) != len(set(positive)):
+        raise ValueError("only one chip may be requested per gameweek")
+    if any(not args.start_gw <= target <= args.max_gw for target in positive):
+        raise ValueError("chip targets must lie inside the requested run range")
+    season_start = ((args.start_gw - 1) // config.GWS_PER_SEASON) * config.GWS_PER_SEASON + 1
+    half_end = season_start + 18
+    season_end = season_start + config.GWS_PER_SEASON - 1
+    for name in ("wc1", "wc2"):
+        target = targets[name]
+        if target and not season_start <= target <= season_end:
+            raise ValueError("wildcard target must be in the starting season")
+        if target and ((name == "wc1" and target > half_end)
+                       or (name == "wc2" and target <= half_end)):
+            raise ValueError("wildcard target is in the wrong season half")
+    return targets
+
+
 def run(args):
+    chip_targets = validate_chip_targets(args)
     solver = make_solver(args.solver, args.time_limit, args.threads, args.gap_rel)
 
     print(f"--- Loading predictions from {args.predictions_csv} ---")
@@ -90,6 +168,16 @@ def run(args):
     missing_cols = [c for c in essential_input_cols if c not in allesesonger.columns]
     if missing_cols:
         sys.exit(f"ERROR: Missing essential columns in {args.predictions_csv}: {missing_cols}")
+
+    scoring_mode = getattr(args, "scoring_mode", "auto")
+    corrected_scoring = scoring_mode != "legacy" and "minutes" in allesesonger
+    if scoring_mode == "corrected" and "minutes" not in allesesonger:
+        raise ValueError("corrected scoring requires a minutes column")
+    if corrected_scoring:
+        minutes = pd.to_numeric(allesesonger["minutes"], errors="coerce")
+        if minutes.isna().any() or ((minutes < 0) | (minutes == float("inf"))).any():
+            raise ValueError("corrected scoring requires finite nonnegative minutes")
+        allesesonger["minutes"] = minutes
 
     allesesonger["GW"] = pd.to_numeric(allesesonger["GW"])
     allesesonger["value"] = pd.to_numeric(allesesonger["value"]).fillna(50.0)
@@ -105,11 +193,14 @@ def run(args):
 
     # --- Double gameweek aggregation ---
     group_keys = ["player_id", "GW"] + (["origin_gw"] if has_origin else [])
-    sum_cols = [c for c in [args.points_col, "actual_total_points"] if c in allesesonger.columns]
+    sum_cols = [c for c in [args.points_col, "actual_total_points", "minutes"] if c in allesesonger.columns]
     first_cols = ["name", "position", "team", "value"]
     agg = {c: "sum" for c in sum_cols}
     agg.update({c: "first" for c in first_cols if c in allesesonger.columns})
     allesesonger = allesesonger.groupby(group_keys, as_index=False).agg(agg)
+
+    if any(target and target not in set(allesesonger["GW"]) for target in chip_targets.values()):
+        raise ValueError("requested chip gameweek has no predictions")
 
     data_load_start_gw = args.start_gw - 1 if args.start_gw > 1 else args.start_gw
     data_full_range_raw = allesesonger[
@@ -201,10 +292,7 @@ def run(args):
     used_chips_tracker = {"wc1": False, "wc2": False, "bb": False, "tc": False, "fh": False}
     # 0 means "disabled" (never matches a real gameweek, so the chip is always forced off);
     # a positive value forces that chip at exactly that absolute gameweek.
-    chip_targets = {
-        "wc1": args.wc1_gw, "wc2": args.wc2_gw,
-        "tc": args.tc_gw, "fh": args.fh_gw, "bb": args.bb_gw,
-    }
+
 
     for current_gw in range(args.start_gw, args.max_gw + 1):
         if current_gw not in T_setofgameweeks_full:
@@ -222,25 +310,25 @@ def run(args):
 
         model = pulp.LpProblem(f"FPL_Opt_GW{current_gw}_Sub{args.horizon}", pulp.LpMaximize)
 
-        x = pulp.LpVariable.dicts("Squad", (p, t_sub), cat="Binary")
-        x_freehit = pulp.LpVariable.dicts("Squad_FH", (p, t_sub), cat="Binary")
-        y = pulp.LpVariable.dicts("Lineup", (p, t_sub), cat="Binary")
-        f = pulp.LpVariable.dicts("Captain", (p, t_sub), cat="Binary")
-        h = pulp.LpVariable.dicts("ViceCaptain", (p, t_sub), cat="Binary")
-        is_tc = pulp.LpVariable.dicts("TripleCaptainChipActive", (p, t_sub), cat="Binary")
-        u = pulp.LpVariable.dicts("TransferOut", (p, t_sub), cat="Binary")
-        e = pulp.LpVariable.dicts("TransferIn", (p, t_sub), cat="Binary")
-        lambda_var = pulp.LpVariable.dicts("Aux_LineupInSquad", (p, t_sub), cat="Binary")
+        x = model.add_variable_dicts("Squad", (p, t_sub), cat="Binary")
+        x_freehit = model.add_variable_dicts("Squad_FH", (p, t_sub), cat="Binary")
+        y = model.add_variable_dicts("Lineup", (p, t_sub), cat="Binary")
+        f = model.add_variable_dicts("Captain", (p, t_sub), cat="Binary")
+        h = model.add_variable_dicts("ViceCaptain", (p, t_sub), cat="Binary")
+        is_tc = model.add_variable_dicts("TripleCaptainChipActive", (p, t_sub), cat="Binary")
+        u = model.add_variable_dicts("TransferOut", (p, t_sub), cat="Binary")
+        e = model.add_variable_dicts("TransferIn", (p, t_sub), cat="Binary")
+        lambda_var = model.add_variable_dicts("Aux_LineupInSquad", (p, t_sub), cat="Binary")
         g = {}
         if P_not_gk and l:
-            g = pulp.LpVariable.dicts("Substitution", (P_not_gk, t_sub, l), cat="Binary")
-        w = pulp.LpVariable.dicts("WildcardChipActive", t_sub, cat="Binary")
-        b = pulp.LpVariable.dicts("BenchBoostChipActive", t_sub, cat="Binary")
-        r = pulp.LpVariable.dicts("FreeHitChipActive", t_sub, cat="Binary")
-        v = pulp.LpVariable.dicts("RemainingBudget", t_sub, lowBound=0, cat="Continuous")
-        q = pulp.LpVariable.dicts("FreeTransfersAvailable", t_sub, lowBound=0, upBound=Q_bar, cat="Integer")
-        alpha = pulp.LpVariable.dicts("PenalizedTransfers", t_sub, lowBound=0, upBound=M_alpha, cat="Integer")
-        ft_carry = pulp.LpVariable.dicts("FT_Carry", t_sub, lowBound=0)
+            g = model.add_variable_dicts("Substitution", (P_not_gk, t_sub, l), cat="Binary")
+        w = model.add_variable_dicts("WildcardChipActive", t_sub, cat="Binary")
+        b = model.add_variable_dicts("BenchBoostChipActive", t_sub, cat="Binary")
+        r = model.add_variable_dicts("FreeHitChipActive", t_sub, cat="Binary")
+        v = model.add_variable_dicts("RemainingBudget", t_sub, lowBound=0, cat="Continuous")
+        q = model.add_variable_dicts("FreeTransfersAvailable", t_sub, lowBound=0, upBound=Q_bar, cat="Integer")
+        alpha = model.add_variable_dicts("PenalizedTransfers", t_sub, lowBound=0, upBound=M_alpha, cat="Integer")
+        ft_carry = model.add_variable_dicts("FT_Carry", t_sub, lowBound=0)
 
         if has_origin:
             origin_matrix = points_matrix_by_origin.get(current_gw)
@@ -273,26 +361,12 @@ def run(args):
         bb_available = not used_chips_tracker["bb"]
         fh_available = not used_chips_tracker["fh"]
         for t_ in t_sub:
-            is_fh_half = t_ <= mid_season_split_gw
-            if is_fh_half:
-                if not wc1_available or t_ != chip_targets["wc1"]:
-                    model += w[t_] == 0
-            else:
-                model += w[t_] == 0
-            is_sh_half = t_ > mid_season_split_gw
-            if is_sh_half:
-                if not wc2_available or t_ != chip_targets["wc2"]:
-                    model += w[t_] == 0
-            else:
-                model += w[t_] == 0
-            if not tc_available or t_ != chip_targets["tc"]:
-                model += pulp.lpSum(is_tc[p_][t_] for p_ in p) == 0
-            else:
-                model += pulp.lpSum(is_tc[p_][t_] for p_ in p) <= 1
-            if not bb_available or t_ != chip_targets["bb"]:
-                model += b[t_] == 0
-            if not fh_available or t_ != chip_targets["fh"]:
-                model += r[t_] == 0
+            wildcard = "wc1" if t_ <= mid_season_split_gw else "wc2"
+            wildcard_available = wc1_available if wildcard == "wc1" else wc2_available
+            model += w[t_] == int(wildcard_available and t_ == chip_targets[wildcard])
+            model += pulp.lpSum(is_tc[p_][t_] for p_ in p) == int(tc_available and t_ == chip_targets["tc"])
+            model += b[t_] == int(bb_available and t_ == chip_targets["bb"])
+            model += r[t_] == int(fh_available and t_ == chip_targets["fh"])
             model += w[t_] + pulp.lpSum(is_tc[p_][t_] for p_ in p) + b[t_] + r[t_] <= 1
         t_sub_fh = [t for t in t_sub if t <= mid_season_split_gw]
         t_sub_sh = [t for t in t_sub if t > mid_season_split_gw]
@@ -348,7 +422,8 @@ def run(args):
         model += q[t1_sub] == previous_ft
         is_fresh_start = current_gw == args.start_gw and not continuing_squad
         if is_fresh_start:
-            model += v[t1_sub] + pulp.lpSum(value_sub.loc[p_, t1_sub] * x[p_][t1_sub] for p_ in p) <= BS
+            # Bank is exactly the unspent fresh-build budget.
+            model += v[t1_sub] + pulp.lpSum(value_sub.loc[p_, t1_sub] * x[p_][t1_sub] for p_ in p) == BS
             model += pulp.lpSum(e[p_][t1_sub] for p_ in p) == 0
             model += pulp.lpSum(u[p_][t1_sub] for p_ in p) == 0
         else:
@@ -358,7 +433,22 @@ def run(args):
             for p_ in p:
                 model += x[p_][t1_sub] == previous_squad_dict.get(p_, 0) - u[p_][t1_sub] + e[p_][t1_sub]
 
-        model += alpha[t1_sub] >= pulp.lpSum(e[p_][t1_sub] for p_ in p) - q[t1_sub]
+        # A first-period Free Hit has the same budget/state limits as later periods.
+        if is_fresh_start:
+            available_fh_budget = BS
+        else:
+            available_fh_budget = previous_budget + sum(
+                value_sub.loc[p_, t1_sub] * previous_squad_dict.get(p_, 0) for p_ in p
+            )
+        model += pulp.lpSum(value_sub.loc[p_, t1_sub] * x_freehit[p_][t1_sub] for p_ in p) <= (
+            available_fh_budget + M_budget * (1 - r[t1_sub])
+        )
+        model += pulp.lpSum(u[p_][t1_sub] for p_ in p) <= M_transfer * (1 - r[t1_sub])
+        model += pulp.lpSum(e[p_][t1_sub] for p_ in p) <= M_transfer * (1 - r[t1_sub])
+        model += alpha[t1_sub] >= (
+            pulp.lpSum(e[p_][t1_sub] for p_ in p) - q[t1_sub]
+            - M_alpha * (w[t1_sub] + r[t1_sub])
+        )
         model += alpha[t1_sub] <= M_alpha * (1 - w[t1_sub])
         model += alpha[t1_sub] <= M_alpha * (1 - r[t1_sub])
 
@@ -374,11 +464,16 @@ def run(args):
             model += cost_fh <= v[t_prev] + value_nonfh_prev + M_budget * (1 - r[t_curr])
             model += pulp.lpSum(u[p_][t_curr] for p_ in p) <= M_transfer * (1 - r[t_curr])
             model += pulp.lpSum(e[p_][t_curr] for p_ in p) <= M_transfer * (1 - r[t_curr])
-            model += alpha[t_curr] >= pulp.lpSum(e[p_][t_curr] for p_ in p) - q[t_curr]
+            model += alpha[t_curr] >= (
+                pulp.lpSum(e[p_][t_curr] for p_ in p) - q[t_curr]
+                - M_alpha * (w[t_curr] + r[t_curr])
+            )
             model += alpha[t_curr] <= M_alpha * (1 - w[t_curr])
             model += alpha[t_curr] <= M_alpha * (1 - r[t_curr])
             ft_used_eff_prev = pulp.lpSum(e[p_][t_prev] for p_ in p) - alpha[t_prev]
-            model += ft_carry[t_prev] >= q[t_prev] - ft_used_eff_prev
+            model += ft_carry[t_prev] >= (
+                q[t_prev] - ft_used_eff_prev - M_q * (w[t_prev] + r[t_prev])
+            )
             model += ft_carry[t_prev] <= Q_bar - Q_under_bar
             chip_active_prev = w[t_prev] + r[t_prev]
             q_normal = ft_carry[t_prev] + Q_under_bar
@@ -413,8 +508,16 @@ def run(args):
                 previous_squad_dict = {p_: 1 for p_ in p if val(x[p_][t1_sub]) > 0.9}
 
             gw_results = {"gameweek": current_gw}
-            gw_results["squad"] = sorted([p_ for p_ in p if val(x[p_][t1_sub]) > 0.9])
+            selected_squad = x_freehit if val(r[t1_sub]) > 0.9 else x
+            gw_results["squad"] = sorted([p_ for p_ in p if val(selected_squad[p_][t1_sub]) > 0.9])
             gw_results["lineup"] = sorted([p_ for p_ in p if val(y[p_][t1_sub]) > 0.9])
+            bench = [p_ for p_ in gw_results["squad"] if p_ not in gw_results["lineup"]]
+            bench_gk = [p_ for p_ in bench if pos_map.get(p_) == "GK"]
+            bench_outfield = sorted(
+                [p_ for p_ in bench if pos_map.get(p_) != "GK"],
+                key=lambda p_: (-points_sub.loc[p_, t1_sub], str(p_)),
+            )
+            gw_results["bench_order"] = bench_gk + bench_outfield
             potential_captains = [p_ for p_ in p if val(f[p_][t1_sub]) > 0.9]
             potential_tc = [p_ for p_ in p if val(is_tc[p_][t1_sub]) > 0.9]
             tc_active = bool(potential_tc)
@@ -474,7 +577,7 @@ def run(args):
             print(f"No acceptable solution for GW {current_gw}; falling back to no transfers.")
             master_results.append({
                 "gameweek": current_gw, "squad": sorted(previous_squad_dict.keys()),
-                "lineup": [], "captain": [], "vice_captain": [], "transfers_in": [], "transfers_out": [],
+                "lineup": [], "bench_order": [], "captain": [], "vice_captain": [], "transfers_in": [], "transfers_out": [],
                 "budget_end": previous_budget, "budget_start": previous_budget, "alpha": 0,
                 "q_start": previous_ft, "objective_value": None, "chip_played": "FALLBACK_NO_TRANSFERS",
             })
@@ -484,7 +587,7 @@ def run(args):
 
     results_df = pd.DataFrame(master_results)
     if not results_df.empty:
-        id_cols = ["squad", "lineup", "captain", "vice_captain", "transfers_in", "transfers_out"]
+        id_cols = ["squad", "lineup", "bench_order", "captain", "vice_captain", "transfers_in", "transfers_out"]
         results_named = results_df.copy()
         for col in id_cols:
             results_named[col] = results_named[col].apply(
@@ -492,6 +595,7 @@ def run(args):
             )
         if "actual_total_points" in data_full_range_raw.columns:
             actual_matrix = dedup_pg.pivot(index="player_id", columns="GW", values="actual_total_points")
+            minutes_matrix = dedup_pg.pivot(index="player_id", columns="GW", values="minutes") if corrected_scoring else None
 
             def pts(ids, gw):
                 return sum(actual_matrix.loc[i, gw] for i in ids
@@ -500,17 +604,33 @@ def run(args):
 
             for idx, row in results_df.iterrows():
                 gw = row["gameweek"]
-                lineup_pts = pts(row["lineup"], gw)
+                minute_map = ({p_: minutes_matrix.loc[p_, gw] for p_ in p
+                               if p_ in minutes_matrix.index and gw in minutes_matrix.columns
+                               and not pd.isna(minutes_matrix.loc[p_, gw])}
+                              if minutes_matrix is not None else {p_: 1 for p_ in p})
+                realized_lineup = ([p_ for p_ in row["squad"] if minute_map.get(p_, 0) > 0]
+                                   if row["chip_played"] == "BB" else
+                                   apply_auto_substitutions(row["lineup"], row["bench_order"], minute_map, pos_map))
+                lineup_pts = pts(realized_lineup, gw)
                 captain_bonus = 0
-                if row["captain"]:
-                    cap_id = row["captain"][0]
+                active_captain = resolve_active_captain(
+                    row["captain"], row["vice_captain"], realized_lineup, minute_map
+                )
+                if active_captain is not None:
+                    cap_id = active_captain
                     if cap_id in actual_matrix.index and gw in actual_matrix.columns and not pd.isna(actual_matrix.loc[cap_id, gw]):
                         base = actual_matrix.loc[cap_id, gw]
-                        captain_bonus = base * 2 if (row["chip_played"] or "").startswith("TC_") else base
-                if row["chip_played"] == "BB":
-                    bench = [i for i in row["squad"] if i not in row["lineup"]]
-                    lineup_pts += pts(bench, gw)
+                        chip = row["chip_played"]
+                        captain_bonus = base * 2 if isinstance(chip, str) and chip.startswith("TC_") else base
+                results_named.at[idx, "scoring_protocol"] = ("autosubs_v2" if corrected_scoring else "legacy_no_autosubs")
                 results_named.at[idx, "actual_squad_points"] = pts(row["squad"], gw)
+                results_named.at[idx, "actual_lineup"] = ", ".join(
+                    sorted(player_name_map.get(p_, f"ID:{p_}") for p_ in realized_lineup)
+                )
+                results_named.at[idx, "actual_captain"] = (
+                    player_name_map.get(active_captain, f"ID:{active_captain}")
+                    if active_captain is not None else ""
+                )
                 results_named.at[idx, "actual_lineup_points"] = lineup_pts
                 results_named.at[idx, "actual_captain_points"] = captain_bonus
                 results_named.at[idx, "actual_total_points"] = lineup_pts + captain_bonus

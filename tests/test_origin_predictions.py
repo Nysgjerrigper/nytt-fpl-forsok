@@ -8,13 +8,11 @@ predictions for t+1/t+2, which is exactly where the standard walk-forward leaks 
 form into the MILP's lookahead. Uses a tiny synthetic frame and the untuned LightGBM
 member so the test stays fast and deterministic.
 """
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl import features
 from fpl.model import predict as predict_mod
 from fpl.model.mid_gate import MidGateConfig, RegimeSelection, TertileThresholds
@@ -130,3 +128,42 @@ def test_standard_and_origin_paths_execute_frozen_mid_gate():
         retrain_every=1, weight_window=4, weight_strategy="single:lightgbm", mid_gate=gate,
     )
     assert not standard.empty and not origin.empty
+
+
+@pytest.mark.parametrize("with_minutes", [False, True])
+def test_prediction_exports_preserve_optional_minutes_without_model_fits(monkeypatch, with_minutes):
+    raw = _synthetic_raw()
+    df = features.build_feature_frame(raw)
+    if not with_minutes:
+        df = df.drop(columns="minutes")
+    monkeypatch.setattr(predict_mod, "fit_holdout_weights", lambda *a, **k: {pos: {"stub": 1} for pos in predict_mod.POSITIONS})
+    monkeypatch.setattr(predict_mod, "fit_position_ensembles", lambda *a: {})
+    monkeypatch.setattr(predict_mod, "predict_by_position", lambda frame, *a, **k: np.zeros(len(frame)))
+    standard = predict_mod.walk_forward_predictions(df, ["value"], ORIGIN, ORIGIN)
+    origin = predict_mod.origin_based_predictions(df, raw, ["value"], ORIGIN, ORIGIN, horizon=1)
+    for result in (standard, origin):
+        assert ("minutes" in result) is with_minutes
+        if with_minutes:
+            assert result.minutes.tolist() == [90] * len(result)
+        assert result.GW.unique().tolist() == [ORIGIN]
+
+
+def test_historical_cli_exports_minutes_from_admitted_raw(monkeypatch, tmp_path):
+    import runpy
+    import sys
+    from fpl.data import provenance, feature_cache
+    from fpl.model import train
+    raw = _synthetic_raw()
+    frame = features.build_feature_frame(raw)
+    seen = []
+    monkeypatch.setattr(provenance, "load_frozen_research_dataset", lambda: seen.append("admission") or raw)
+    monkeypatch.setattr(feature_cache, "load_frozen_feature_frame", lambda admitted: frame)
+    monkeypatch.setattr(train, "fit_holdout_weights", lambda *a, **k: {pos: {"stub": 1} for pos in predict_mod.POSITIONS})
+    monkeypatch.setattr(train, "fit_position_ensembles", lambda *a: {})
+    monkeypatch.setattr("fpl.model.expert_policy.predict_by_position", lambda frame, *a, **k: np.zeros(len(frame)))
+    output = tmp_path / "historical.csv"
+    monkeypatch.setattr(sys, "argv", ["fpl.model.predict", "--start-gw", str(ORIGIN), "--end-gw", str(ORIGIN), "--output", str(output)])
+    runpy.run_module("fpl.model.predict", run_name="__main__")
+    result = pd.read_csv(output)
+    assert seen == ["admission"]
+    assert result.minutes.tolist() == [90] * len(result)

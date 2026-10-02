@@ -20,8 +20,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from fpl import config, features
+from fpl.data.feature_cache import load_frozen_feature_frame
+from fpl.data.provenance import load_frozen_research_dataset
 from fpl.model.expert_policy import (POSITIONS, fit_mid_gate_experts, parse_expert_map,
                                      predict_by_position, predict_with_mid_gate,
                                      resolve_weight_strategy)
@@ -89,6 +90,8 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
     result = pd.concat(rows, ignore_index=True)
     out_cols = ["player_id", "GW_global", "name", "position", "team", "value",
                 "predicted_total_points", "total_points"]
+    if "minutes" in result:
+        out_cols.append("minutes")
     result = result[out_cols].rename(columns={"GW_global": "GW", "total_points": "actual_total_points"})
     return result
 
@@ -164,7 +167,7 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
                 continue
             target = df[df["GW_global"] == gw].copy()
             known = target["player_id"].isin(snapshot.index)
-            target = target[known]
+            target = target[known].copy()
             if target.empty:
                 continue
             # Freeze player form at the origin deadline; keep the target row's known-ahead
@@ -176,12 +179,15 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
 
             if mid_gate:
                 fitted, mid_experts = models_cache
-                target["predicted_total_points"] = predict_with_mid_gate(
+                prediction = predict_with_mid_gate(
                     target, feature_cols, fitted, mid_gate, mid_experts)
             else:
-                target["predicted_total_points"] = predict_by_position(
-                    target, feature_cols, models_cache)
-            target["origin_gw"] = origin
+                prediction = predict_by_position(target, feature_cols, models_cache)
+            target = pd.concat(
+                [target, pd.DataFrame({"predicted_total_points": prediction,
+                                       "origin_gw": origin}, index=target.index)],
+                axis=1,
+            )
             rows.append(target)
             origin_rows += len(target)
         print(f"Origin GW {origin}: predicted {origin_rows} rows "
@@ -190,6 +196,8 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
     result = pd.concat(rows, ignore_index=True)
     out_cols = ["player_id", "origin_gw", "GW_global", "name", "position", "team", "value",
                 "predicted_total_points", "total_points"]
+    if "minutes" in result:
+        out_cols.append("minutes")
     return result[out_cols].rename(columns={"GW_global": "GW", "total_points": "actual_total_points"})
 
 
@@ -228,8 +236,8 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=str, default=str(config.PREDICTIONS_PATH))
     args = parser.parse_args()
 
-    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
-    df = features.build_feature_frame(raw)
+    raw = load_frozen_research_dataset()
+    df = load_frozen_feature_frame(raw)
     feature_cols = features.feature_columns(df)
 
     mid_gate = (MidGateConfig.from_dict(json.loads(Path(args.mid_gate_config).read_text()))

@@ -6,14 +6,11 @@ Synthetic frames with unambiguous participation structure - the contract under t
 the decomposition plumbing (participation learned from the minutes label, regression
 learned from played rows only, degenerate one-class fallbacks), not forecast accuracy.
 """
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from fpl.model import models
 from fpl.model.train import fit_position_ensembles
 
