@@ -139,6 +139,16 @@ The free-transfer planning cap is an intentional policy of 2; live initial FT st
 The legacy chip interface and FT reset policy do not establish full modern-season rule
 support. Current rules allow five banked transfers and two chip sets. Evaluate migration
 separately from historical controls; see [optimizer review](docs/OPTIMIZER_REVIEW.md).
+The optional `fpl.milp.solio` backend vendors the pinned offline Open FPL solve function
+with reviewable compatibility patches. It enforces modern inventories, FT preservation,
+FH state/prices, legal BB lineups and exact optimal status; our independent output
+validator and corrected scorer remain authoritative. Forecast admission rejects mixed
+origins, duplicate/ambiguous fixtures and wholly missing requested rounds. Forecast
+exports retain fixture/opponent/home identity without changing fitted models.
+Initial static-price standard/origin comparisons did not establish faster execution or
+better points. Keep legacy as the default until a further registered comparison supports
+switching. Preserve upstream bytes, license wording, patch and hash provenance when
+refreshing the vendor; do not relabel changed upstream source as the pinned revision.
 
 Chip CLI `0` means disabled, not unspecified. All standing comparison backtests disable chips.
 Positive chip targets force execution and are validated before solving. WC/FH exempt

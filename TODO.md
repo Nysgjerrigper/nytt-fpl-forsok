@@ -11,11 +11,11 @@ Rules live only in [CLAUDE.md](CLAUDE.md), and historical audit IDs remain in th
    keeping prospective research isolated. Tests, package imports, cache equivalence
    and same-input MILP comparisons are complete; offline ingestion tests do not establish
    a new live end-to-end run.
-2. Evaluate the alternative optimizer plan in [the source review](docs/OPTIMIZER_REVIEW.md):
-   map our forecasts to current player IDs/local weeks, test five-transfer banking and
-   per-half chip inventories, then compare identical inputs and realized-point CIs.
-   The recovered legacy FT/chip policy is not complete modern-season support. Price
-   sensitivity and cross-position calibration remain research questions.
+2. Profile the optional [Open FPL adapter](docs/OPEN_FPL_ADAPTER.md) before default migration.
+   Mapping, modern-rule checks and the first matched standard/origin comparison are
+   complete. It was about 1.6x slower and both point CIs included zero. Preserve exact
+   optimality; investigate formulation cost and evaluate realistic owner price/chip state.
+   Price sensitivity and cross-position calibration remain research questions.
 3. Review historical product-guide/output-path changes selectively. The August squad advice
    is dated evidence; preseason features need deadline/duplicate checks and registered evaluation.
 4. After PO-authorized integration, preserve then retire the superseded source worktrees.

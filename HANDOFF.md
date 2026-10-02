@@ -24,7 +24,7 @@ Its source bundle and hashes are retained under `experiments/branch_recovery_202
 source files have since changed for this integration draft. Do not compare its original
 code hashes to the current files and conclude its archived source is missing.
 
-Independent verification: **432 tests passed**, with two non-failing environment/import
+Independent verification including the optional optimizer adapter: **556 tests passed**, with two non-failing environment/import
 warnings. The full frozen dataset cached and uncached feature frames match exactly.
 The wheel builds offline, imports outside the checkout, and preserves all 44 tuned
 JSON artifacts plus the frozen-data manifest byte for byte. `git diff --check` is clean.
@@ -109,7 +109,8 @@ Five obsolete worktrees were fully archived with verified ignored files/checkpoi
 then retired. The merged `codex/position-specialist-moe` and `exp/position-moe` local
 branches were deleted. Archive recovery instructions are in the dated recovery plan.
 
-Keep the integration draft, original forecast audit (superseded guards and historical evidence), live API audit
+The recovery integration was merged through PR #3 and its worktree/branch retired after
+all 388 files were archived and verified. Keep the original forecast audit (superseded guards and historical evidence), live API audit
 (unique ingestion/audit edits), five-commit validation branch, and c1d1 engineering/evidence
 until their remaining differences are reconciled. Historical remote experiments retain
 unique code/design; they are preserved research history rather than current run priorities.
@@ -136,3 +137,27 @@ Evidence is under `experiments/engineering_recovery_2026-10-02/live_chip_recover
 The [optimizer review](docs/OPTIMIZER_REVIEW.md) recommends evaluating a pinned Solio
 adapter with explicit modern chip inventory checks. No replacement has been activated.
 The [stakeholder overview](docs/STAKEHOLDER_OVERVIEW.md) explains purpose, goals and tools.
+
+## Optional Open FPL integration and first comparison
+
+The modern-rule adapter now uses a pinned offline solve function with preserved original
+source/license and reviewable patches. It checks FT5/WC/FH preservation, separate chip
+sets/expiry, legal BB XI/bench and exact solver optimality. Independent output validation
+checks squad, captains, transfers, bank and selling-price state. CLI and weekly opt-in
+interfaces are implemented; legacy remains the default and CatBoost is unchanged.
+
+The registered static-price diagnostic used identical completed forecast pools, fixed
+first-available prices, chips disabled and horizon three. All 124 solves were optimal:
+
+| Forecasts | Legacy points / seconds | Solio points / seconds | Difference / paired 95% CI |
+| --- | --- | --- | --- |
+| Standard | 2144 / 84.2 | 2126 / 133.7 | -18 / [-113,58] |
+| Origin | 1902 / 88.0 | 1921 / 141.4 | +19 / [-64,82] |
+
+No hits were taken, so gross and net scores agree in these runs. These fixed-price
+controls are distinct from standing variable-price scores. The adapter was approximately
+1.6x slower; neither point CI establishes superiority. No default migration followed.
+Input-admission hardening preserves identical prepared data for all 62 evaluated windows
+and byte-identical evaluated solver source. The pre-hardening source bundle is preserved.
+Evidence is in `experiments/optimizer_migration_2026-10-02/` and the implementation
+contract is in [the adapter guide](docs/OPEN_FPL_ADAPTER.md).

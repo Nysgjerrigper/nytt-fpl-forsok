@@ -11,6 +11,7 @@ benchmark. Production uses `single:catboost` for GK, DEF, MID and FWD.
 - [Open work](TODO.md): integration priorities and research gates.
 - [Stakeholder overview](docs/STAKEHOLDER_OVERVIEW.md): purpose, goals and tools in plain English.
 - [Alternative optimizer review](docs/OPTIMIZER_REVIEW.md): current-season requirements and candidate gaps.
+- [Open FPL adapter](docs/OPEN_FPL_ADAPTER.md): optional modern-rule backend, inputs and measured comparison.
 - [Research history](RESEARCH_LOG.md) and [run registry](experiments/results.csv): dated evidence,
   including negative results; historical numbers are not automatically current controls.
 - [Historical documents](docs/archive/README.md): superseded handoffs, the July audit,
@@ -54,6 +55,13 @@ Those GW numbers apply to the current 2020-21 start season. Derive them again if
 start changes. Tuned production files are named `tuned_params_<POSITION>_catboost.json`;
 research `catboost_mae` files are a different namespace. An absent production artifact
 means registry defaults, not a reproduced tuned baseline.
+
+An optional direct-HiGHS Open FPL Solver adapter is available as `python -m fpl.milp.solio`
+and through `run_week --optimizer solio`. It preserves our forecasts and corrected scorer,
+checks current FT/chip rules, and requires proven optimal, independently legal decisions.
+The initial matched static-price comparison was about 1.6 times slower, with inconclusive
+point differences. Legacy remains the default. See the adapter guide before supplying
+owner state or interpreting these results as live advice.
 
 ## Layout
 

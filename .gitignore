@@ -30,3 +30,7 @@ experiments/branch_recovery_*/screen_source.tar.gz
 experiments/branch_recovery_*/screen/member_oof.csv
 experiments/branch_recovery_*/screen/predictions.csv
 experiments/engineering_recovery_*/
+experiments/optimizer_migration_*/*.csv
+experiments/optimizer_migration_*/*.log
+experiments/optimizer_migration_*/wheel/
+experiments/optimizer_migration_*/*.tar.gz

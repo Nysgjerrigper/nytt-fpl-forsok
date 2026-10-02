@@ -20,6 +20,7 @@ namespaces = true
 [tool.setuptools.package-data]
 "fpl.data" = ["*.json"]
 "fpl.models" = ["*.json"]
+"fpl.milp._vendor.solio" = ["LICENSE", "MANIFEST.json", "PATCH.diff", "*.txt"]
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements-runtime.txt"] }

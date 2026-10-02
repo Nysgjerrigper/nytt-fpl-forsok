@@ -88,6 +88,11 @@ LINEUP_MAX_COUNTS = {"GK": 1, "DEF": 5, "MID": 5, "FWD": 3}
 MILP_MAX_FREE_TRANSFERS = 2
 MILP_FT_PER_GW = 1
 
+# Current-rule adapter; legacy policy remains a separate historical reference.
+MODERN_MAX_FREE_TRANSFERS = 5
+MODERN_CHIP_HALF_BOUNDARY = 19
+SOLIO_UPSTREAM_COMMIT = "ec65f5e2b2be34441cb4b2a9efafea1ec0fe3b79"
+
 # Extended back from the original 2022-23 thesis scope to get more history per player
 # (see RESEARCH_LOG.md). 2020-21 is the earliest season where `position`/`team` are still
 # present directly in vaastav's merged_gw.csv (older seasons need a players_raw.csv join

@@ -47,7 +47,7 @@ with certainty.
 | --- | --- |
 | Python, pandas and NumPy | Collect, clean and transform data. |
 | CatBoost and other model libraries | Estimate player points and test alternatives. |
-| PuLP and HiGHS | Express and solve the squad-planning problem. |
+| PuLP and HiGHS | Express and solve squad planning; an optional Open FPL integration uses HiGHS directly. |
 | Optuna | Explore model settings under a defined historical cutoff. |
 | pytest | Check budgets, identities, scoring, data safeguards and other behavior. |
 | Git and GitHub | Track changes, review pull requests and preserve project history. |
@@ -71,12 +71,13 @@ prices and fixtures can change close to a deadline. The existing optimizer also 
 a legacy transfer-banking policy and chip interface; the recovery does not establish
 complete support for the modern season rules.
 
-The next development priority is to evaluate an alternative optimizer using our own
-forecasts, with explicit checks for current transfer and chip rules. The leading
-candidate and its gaps are documented in [the optimizer review](OPTIMIZER_REVIEW.md).
-Any replacement should pass independent rule tests and a fair comparison before it
-becomes the weekly decision system. Model improvements likewise require realized-point
-evidence; successful software tests alone do not justify promotion.
+An optional Open FPL Solver integration now uses our forecasts and passes independent
+rule checks. Its first historical comparison was slower, and the point differences were
+too uncertain to establish an improvement. The existing optimizer remains the default.
+The next step is to understand that runtime cost and test realistic team/price/chip state
+before switching. [The adapter guide](OPEN_FPL_ADAPTER.md) documents these results.
+Model improvements likewise require realized-point evidence; successful software tests
+alone do not justify promotion.
 
 Current technical status is maintained in [HANDOFF](../HANDOFF.md); remaining work is
 in [TODO](../TODO.md). This document explains the project to stakeholders and does not
