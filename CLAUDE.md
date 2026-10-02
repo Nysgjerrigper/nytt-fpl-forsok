@@ -11,9 +11,10 @@ rolling-horizon MILP. Production remains `config.PRODUCTION_WEIGHT_STRATEGY =
 "single:catboost"`. Research members and probabilistic forecasts are separate opt-in
 interfaces, not evidence of production promotion.
 
-Use `README.md` for setup/navigation, `HANDOFF.md` for dated verified state, `TODO.md`
-for open work, and `RESEARCH_LOG.md`/`experiments/results.csv` for evidence. Documents
-under `docs/archive/` are historical snapshots, not current instructions. Keep historical
+Use `README.md` for setup/navigation and [GitHub issues](https://github.com/Nysgjerrigper/nytt-fpl-forsok/issues)
+for all open work, blockers, priorities and progress. Keep dated research evidence in
+`RESEARCH_LOG.md`/`experiments/results.csv`. Do not create or maintain a parallel progress,
+TODO or handoff Markdown tracker. Documents under `docs/archive/` are historical snapshots, not current instructions. Keep historical
 results and their provenance; do not erase negative findings as cleanup.
 
 ## Communication and autonomy
@@ -157,7 +158,19 @@ Fresh-build and continuing-squad modes have different budget/state inputs; prese
 Corrected realized scoring uses whole-round minutes, legal bench order, vice activation and chip
 multipliers; CSVs without minutes are explicitly labelled legacy. `--scoring-mode corrected`
 rejects unknown/invalid minutes. Never compare scores across different scoring protocols as a
-forecast improvement. Exact matching controls and historical scoring lineage are in `HANDOFF.md`.
+forecast improvement. Exact matching controls and historical scoring lineage are preserved in
+`RESEARCH_LOG.md`, the run registry and the [archived 2026-10-02 handoff](docs/archive/2026-10-02-issue-migration/HANDOFF.md).
+
+## Issue workflow
+
+- Before substantial work, find or create the relevant GitHub issue; avoid duplicates.
+- Describe the concrete problem, acceptance criteria, dependencies and evidence links.
+- Record meaningful progress, blockers and verification in that issue, not a status file.
+- Mark parked/blocked work explicitly; rejected experiments stay historical evidence.
+- Reference the issue in the PR. Close it only when its acceptance criteria are met;
+  use `Fixes #N` only for fully completed work. Partial PRs use `Refs #N`.
+- Keep setup, architecture, user guides and canonical rules in maintained docs. Issues
+  track work; research logs and artifact hashes retain reproducible results.
 
 ## Engineering quality
 

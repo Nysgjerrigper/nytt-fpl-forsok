@@ -79,6 +79,6 @@ before switching. [The adapter guide](OPEN_FPL_ADAPTER.md) documents these resul
 Model improvements likewise require realized-point evidence; successful software tests
 alone do not justify promotion.
 
-Current technical status is maintained in [HANDOFF](../HANDOFF.md); remaining work is
-in [TODO](../TODO.md). This document explains the project to stakeholders and does not
-replace its operating instructions.
+Progress and remaining work are tracked in [GitHub issues](https://github.com/Nysgjerrigper/nytt-fpl-forsok/issues).
+Verified research results remain in the research log and experiment registry.
+This document explains the project to stakeholders and does not replace its operating instructions.

@@ -7,8 +7,7 @@ benchmark. Production uses `single:catboost` for GK, DEF, MID and FWD.
 ## Start here
 
 - [Setup and operating rules](CLAUDE.md): canonical instructions for every agent.
-- [Current state](HANDOFF.md): verified results, unfinished work and branch disposition.
-- [Open work](TODO.md): integration priorities and research gates.
+- [GitHub issues](https://github.com/Nysgjerrigper/nytt-fpl-forsok/issues): priorities, progress, blockers and remaining work.
 - [Stakeholder overview](docs/STAKEHOLDER_OVERVIEW.md): purpose, goals and tools in plain English.
 - [Alternative optimizer review](docs/OPTIMIZER_REVIEW.md): current-season requirements and candidate gaps.
 - [Open FPL adapter](docs/OPEN_FPL_ADAPTER.md): optional modern-rule backend, inputs and measured comparison.
