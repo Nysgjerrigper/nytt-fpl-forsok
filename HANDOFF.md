@@ -1,7 +1,8 @@
 # Current handoff
 
-Verified-state checkpoint: 2026-10-02. This document describes the uncommitted
-`fix/branch-recovery` integration draft. `main` has not been changed or merged.
+Verified-state checkpoint: 2026-10-02. This document describes the verified
+`fix/branch-recovery` recovery branch, prepared for the PO-authorized PR and merge.
+The verification below applies to the recovery branch.
 Canonical operating rules are in [CLAUDE.md](CLAUDE.md); open work is in [TODO.md](TODO.md).
 Older handoffs and reports are [historical snapshots](docs/archive/README.md).
 

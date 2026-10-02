@@ -1,6 +1,6 @@
 # Open work
 
-Status: 2026-10-02. `fix/branch-recovery` is an uncommitted integration draft; preparation
+Status: 2026-10-02. `fix/branch-recovery` is verified and authorized for PR/merge; preparation
 is not a merge. Current verification and scoring controls are in [HANDOFF.md](HANDOFF.md).
 Rules live only in [CLAUDE.md](CLAUDE.md), and historical audit IDs remain in the archive.
 

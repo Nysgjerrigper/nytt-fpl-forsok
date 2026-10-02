@@ -69,4 +69,3 @@ def validate_oof_panel(oof: pd.DataFrame, *, positions: tuple[str, ...] | None =
     hashes = oof.groupby(["position", "expert", "seed"], dropna=False)["params_hash"].nunique(dropna=False)
     if not (hashes == 1).all():
         raise ValueError("OOF panel params_hash must be constant per position/expert/seed")
-
