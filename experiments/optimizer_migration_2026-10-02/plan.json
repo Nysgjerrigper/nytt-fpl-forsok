@@ -1,0 +1,31 @@
+{
+  "registered_hypothesis": "Pinned direct-HiGHS Solio modern-rule adapter yields legal optimal decisions and may reduce runtime versus PuLP legacy; no predictive improvement assumed.",
+  "window": [
+    153,
+    183
+  ],
+  "season": "2024-25",
+  "horizon": 3,
+  "seed": 0,
+  "chips": "disabled",
+  "objective": "matching expected lineup/captain/vice/outfieldbench minus hits; no cash/FT incentive",
+  "different_rule_policy": "legacy FT cap2/reset1 versus modern FT cap5/preserve; reported explicitly",
+  "controlled_price_assumption": "Both engines see identical per-player first-available fixed prices/metadata and a common zero-filled pool. This is a static-price diagnostic, not the old variable-price control or prospective promotion.",
+  "scoring": "autosubs_v2 gross points plus independently net-of-hit comparison",
+  "bootstrap": {
+    "draws": 10000,
+    "block": 3,
+    "seed": 0
+  },
+  "forecast_fits": 0,
+  "source_commit": "ec65f5e2b2be34441cb4b2a9efafea1ec0fe3b79",
+  "hashes": {
+    "experiments/optimizer_migration_2026-10-02/origin_matched_predictions.csv": "ca6367559198bbef892b339a40bc1db00c2da197f463d069c33b0963e134c9d1",
+    "experiments/optimizer_migration_2026-10-02/standard_matched_predictions.csv": "c7aaa10f0895916e13b77e8bae83511849fd3e151db7938c5c23372f683e644d",
+    "fpl/milp/solio.py": "cd7105002f0c9a0bc26c4667916ba26ab24e3d03fda88260592c64a4a2cb1b1e",
+    "fpl/milp/solio_output.py": "22724577e69f8e440f38d005e8837626e2e1232fa43bcb47e77a4a4fb83ca56e",
+    "fpl/milp/solio_inputs.py": "9f6af7127cecf47e22de5a3311e6690253e3fca32f5fd5f8d3d1d6b7a7387a3d",
+    "fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "fpl/milp/optimize.py": "941bc4dd83c4bd76454f9768cda9b131dd469979e659e5a98118d6f03e3bdda1"
+  }
+}

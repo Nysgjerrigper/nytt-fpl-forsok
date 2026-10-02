@@ -92,6 +92,7 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
                 "predicted_total_points", "total_points"]
     if "minutes" in result:
         out_cols.append("minutes")
+    out_cols.extend(col for col in ("fixture", "opponent_team", "was_home") if col in result)
     result = result[out_cols].rename(columns={"GW_global": "GW", "total_points": "actual_total_points"})
     return result
 
@@ -198,6 +199,7 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
                 "predicted_total_points", "total_points"]
     if "minutes" in result:
         out_cols.append("minutes")
+    out_cols.extend(col for col in ("fixture", "opponent_team", "was_home") if col in result)
     return result[out_cols].rename(columns={"GW_global": "GW", "total_points": "actual_total_points"})
 
 

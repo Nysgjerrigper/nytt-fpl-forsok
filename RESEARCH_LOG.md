@@ -1472,3 +1472,24 @@ no mutable live refresh or model fitting occurred. Current docs and stakeholder 
 were updated. The optimizer source review identifies modern-rule migration work without
 claiming that an external solver is already replacement-ready. The PO subsequently
 authorized commit, PR and merge after verification.
+
+### 2026-10-02 — Registered optional Solio optimizer evaluation
+
+Hypothesis: a pinned modern-rule solver can replace our optimization foundation while
+preserving forecast provenance and improving decision quality or runtime. Registration,
+source hashes, preserved predictions and evaluated sources are recorded under
+experiments/optimizer_migration_2026-10-02/. No fetch, refit or prospective holdout use.
+Both engines used identical static prices and predictions, GW153–183, horizon 3,
+chips disabled, exact optimal solves. Modern FT cap 5 differs from legacy cap 2.
+
+All 124 solves optimal. Standard legacy/Solio: 2144/2126, delta -18, paired 95% CI
+[-113,58]; origin: 1902/1921, delta +19, CI [-64,82]. Bootstrap: 10,000 draws,
+block 3, seed 0. Gross equals net in all four runs because no hits occurred. Legacy
+runtimes 84.166/88.006 s; Solio 133.666/141.410 s. Solio was approximately 1.6 times
+slower. Neither points comparison supports superiority; no default or model promotion.
+Historical variable-price controls remain separate. Candidate native solver time is the
+main bottleneck. Admission-only hardening subsequently yielded identical prepared inputs
+for all 62 candidate windows, with unchanged registered vendor solver bytes.
+
+Independent rule and regression suite: 556 passed, two existing warnings. Preserve the
+optional integration and negative results; retain legacy default and single:catboost.

@@ -1,0 +1,30 @@
+{
+  "standard_legacy": {
+    "elapsed_seconds": 84.16637383284979,
+    "gross_points": 2144.0,
+    "net_points": 2144.0,
+    "hits": 0,
+    "optimal_solves": 31
+  },
+  "standard_solio": {
+    "elapsed_seconds": 133.6662395419553,
+    "gross_points": 2126.0,
+    "net_points": 2126.0,
+    "hits": 0,
+    "optimal_solves": 31
+  },
+  "origin_legacy": {
+    "elapsed_seconds": 88.00612316699699,
+    "gross_points": 1902.0,
+    "net_points": 1902.0,
+    "hits": 0,
+    "optimal_solves": 31
+  },
+  "origin_solio": {
+    "elapsed_seconds": 141.40971549996175,
+    "gross_points": 1921.0,
+    "net_points": 1921.0,
+    "hits": 0,
+    "optimal_solves": 31
+  }
+}

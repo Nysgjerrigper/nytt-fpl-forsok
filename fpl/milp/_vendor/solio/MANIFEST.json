@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/solioanalytics/open-fpl-solver",
+  "commit": "ec65f5e2b2be34441cb4b2a9efafea1ec0fe3b79",
+  "upstream_sha256": "23d567bccc24ba8693b8cef23d8b41c375c6bc6a586b47eff8247faf175b2416",
+  "local_sha256": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+  "license": "LICENSE; includes upstream commercial-use wording",
+  "patch": "PATCH.diff"
+}

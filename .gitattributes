@@ -1,0 +1,2 @@
+# Unified patch context preserves a literal space on empty lines.
+fpl/milp/_vendor/solio/PATCH.diff whitespace=-blank-at-eol

@@ -366,6 +366,10 @@ def main():
     parser.add_argument("--horizon", type=int, default=3, help="Gameweeks to look ahead")
     parser.add_argument("--time-limit", type=float, default=120, help="Solver time limit per GW, seconds")
     parser.add_argument("--free-transfers", type=int, default=1, help="Your free transfers, if --team-id is given")
+    parser.add_argument("--optimizer", choices=("legacy", "solio"), default="legacy",
+                        help="Solio is the independently checked modern-rule candidate; legacy remains the verified reference.")
+    parser.add_argument("--optimizer-state-json", default=None,
+                        help="Solio sell_prices (tenths), chip_inventory, forced_chips and previous_free_hit_gw.")
     parser.add_argument(
         "--expert-map", type=parse_expert_map, default=None,
         help="Experimental complete position override, e.g. "
@@ -375,6 +379,8 @@ def main():
     parser.add_argument("--mid-gate-config", default=None,
                         help="Frozen MidGateConfig JSON for optional experimental MID routing.")
     args = parser.parse_args()
+    if args.optimizer_state_json and args.optimizer != "solio":
+        parser.error("optimizer-state-json requires --optimizer solio")
 
     print("--- Refreshing historical dataset ---")
     fetch.build_master_dataset()
@@ -420,6 +426,7 @@ def main():
     preds = apply_live_prices(preds, live_prices(bootstrap))
 
     out_cols = ["player_id", "GW", "name", "position", "team", "value", "predicted_total_points"]
+    out_cols.extend(col for col in ("opponent_team", "was_home") if col in preds)
     preds = preds[out_cols]
     config.PREDICTIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
     preds.to_csv(config.PREDICTIONS_PATH, index=False)
@@ -444,7 +451,23 @@ def main():
     else:
         print("--- No --team-id given: producing a fresh-build recommendation (full budget, no existing squad) ---")
 
-    optimize.run(optimize.parse_args(opt_args))
+    if args.optimizer == "solio":
+        from fpl.milp.solio import run_schedule
+        state = json.loads(Path(args.optimizer_state_json).read_text()) if args.optimizer_state_json else {}
+        if "sell_prices" in state:
+            state["sell_prices"] = {int(player): value for player, value in state["sell_prices"].items()}
+        result = run_schedule(preds, season=fetch.active_season_from_bootstrap(bootstrap),
+                              start_gw=target_gw, max_gw=int(preds.GW.max()), horizon=args.horizon,
+                              initial_squad=squad_ids if args.team_id else None,
+                              bank=bank if args.team_id else 1000, free_transfers=args.free_transfers,
+                              bootstrap=bootstrap, time_limit=args.time_limit, **state)
+        output = config.SQUAD_OUTPUT_DIR / "solio_weekly.csv"
+        output.parent.mkdir(parents=True, exist_ok=True)
+        result.to_csv(output, index=False)
+        print(result[["gameweek", "captain", "transfers_in", "transfers_out", "chip_played", "budget_end"]].to_string(index=False))
+        print(f"Saved independently checked Solio decisions to {output}")
+    else:
+        optimize.run(optimize.parse_args(opt_args))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,179 @@
+--- upstream/solve_multi_period_fpl
++++ local/solve_multi_period_fpl
+@@ -120,6 +120,7 @@
+ 
+     use_wc = bin_vars(gws, name="use_wc")
+     use_bb = bin_vars(gws, name="use_bb")
++    bb_bench = bin_vars(players, gws, name="bb_bench")
+     use_fh = bin_vars(gws, name="use_fh")
+     use_tc = bin_vars(players, gws, name="use_tc")
+ 
+@@ -155,15 +156,15 @@
+     m.addConstrs([squad[p, next_gw - 1] == 1 for p in initial_squad])
+     m.addConstrs([squad[p, next_gw - 1] == 0 for p in players if p not in initial_squad])
+     m.addConstr(in_the_bank[next_gw - 1] == itb)
+-    m.addConstr(fts[next_gw] == initial_ft * (1 - use_wc[next_gw]) + ft_base * use_wc[next_gw])
++    m.addConstr(fts[next_gw] == initial_ft)
+     m.addConstrs([fts[w] >= 1 for w in gws if w > next_gw])
+ 
+     # Constraints
+     m.addConstrs([squad_count[w] == SQUAD_SIZE for w in gws])
+     m.addConstrs([squad_fh_count[w] == SQUAD_SIZE * use_fh[w] for w in gws])
+-    m.addConstrs([sum_(lineup[p, w] for p in players) == LINEUP_SIZE + (SQUAD_SIZE - LINEUP_SIZE) * use_bb[w] for w in gws])
+-    m.addConstrs([sum_(bench[p, w, 0] for p in players if player_type[p] == 1) == 1 - use_bb[w] for w in gws])
+-    m.addConstrs([sum_(bench[p, w, o] for p in players) == 1 - use_bb[w] for w in gws for o in [1, 2, 3]])
++    m.addConstrs([sum_(lineup[p, w] for p in players) == LINEUP_SIZE for w in gws])
++    m.addConstrs([sum_(bench[p, w, 0] for p in players if player_type[p] == 1) == 1 for w in gws])
++    m.addConstrs([sum_(bench[p, w, o] for p in players) == 1 for w in gws for o in [1, 2, 3]])
+     m.addConstrs([sum_(captain[p, w] for p in players) == 1 for w in gws])
+     m.addConstrs([sum_(vicecap[p, w] for p in players) == 1 for w in gws])
+     m.addConstrs([lineup[p, w] <= squad[p, w] + use_fh[w] for p in players for w in gws])
+@@ -178,7 +179,7 @@
+     squad_max_play = type_data["squad_max_play"].astype(int).to_dict()
+     squad_select = type_data["squad_select"].astype(int).to_dict()
+     m.addConstrs([lineup_type_count[t, w] >= squad_min_play[t] for t in el_types for w in gws])
+-    m.addConstrs([lineup_type_count[t, w] <= squad_max_play[t] + use_bb[w] for t in el_types for w in gws])
++    m.addConstrs([lineup_type_count[t, w] <= squad_max_play[t] for t in el_types for w in gws])
+     m.addConstrs([squad_type_count[t, w] == squad_select[t] for t in el_types for w in gws])
+     m.addConstrs([squad_fh_type_count[t, w] == squad_select[t] * use_fh[w] for t in el_types for w in gws])
+ 
+@@ -201,12 +202,22 @@
+             for w in gws
+         ]
+     )
+-    m.addConstrs(
+-        [
+-            sum_(fh_sell_price[p] * squad[p, w - 1] for p in players) + in_the_bank[w - 1] >= sum_(fh_sell_price[p] * squad_fh[p, w] for p in players)
+-            for w in gws
+-        ]
+-    )
++    fh_original = bin_vars(price_modified_players, gws, name="fh_original")
++    for p in price_modified_players:
++        for w in gws:
++            sold_before = sum_(transfer_out_first[p, earlier] for earlier in gws if earlier < w)
++            m.addConstr(fh_original[p, w] <= squad_fh[p, w])
++            m.addConstr(fh_original[p, w] <= 1 - sold_before)
++            m.addConstr(fh_original[p, w] >= squad_fh[p, w] - sold_before)
++    for w in gws:
++        discount_owned = sum_((buy_price[p] - sell_price[p]) *
++                             (1 - sum_(transfer_out_first[p, earlier] for earlier in gws if earlier < w))
++                             for p in price_modified_players)
++        temporary_cost = sum_(buy_price[p] * squad_fh[p, w] for p in players) - sum_(
++            (buy_price[p] - sell_price[p]) * fh_original[p, w] for p in price_modified_players)
++        available = sum_(buy_price[p] * squad[p, w - 1] for p in players) - discount_owned + in_the_bank[w - 1]
++        m.addConstr(temporary_cost <= available)
++
+     m.addConstrs([transfer_in[p, w] <= 1 - use_fh[w] for p in players for w in gws])
+     m.addConstrs([transfer_out[p, w] <= 1 - use_fh[w] for p in players for w in gws])
+ 
+@@ -244,6 +255,14 @@
+ 
+     m.addConstrs([penalized_transfers[w] >= transfer_diff[w] for w in gws])
+ 
++    # Keep a legal XI and score boosted bench slots separately.
++    for p in players:
++        for w in gws:
++            benched = sum_(bench[p, w, o] for o in order)
++            m.addConstr(bb_bench[p, w] <= use_bb[w])
++            m.addConstr(bb_bench[p, w] <= benched)
++            m.addConstr(bb_bench[p, w] >= use_bb[w] + benched - 1)
++
+     ## Chip constraints
+     m.addConstrs([use_wc[w] + use_fh[w] + use_bb[w] + use_tc_gw[w] <= 1 for w in gws])
+     m.addConstrs([aux[w] <= 1 - use_wc[w - 1] for w in gws if w > next_gw])
+@@ -252,24 +271,25 @@
+ 
+     chip_vars = {"wc": use_wc, "bb": use_bb, "fh": use_fh, "tc": use_tc_gw}
+ 
++    # Inventory is per half; first-half chips expire rather than carrying over.
++    boundary = options["chip_half_boundary"]
+     for chip, var in chip_vars.items():
+-        forced_use = options.get(f"use_{chip}", [])
+-        if forced_use:
+-            m.addConstrs([var[w] == 1 for w in forced_use])
+-            chip_limits[chip] = len(forced_use)
+-
+-        if allowed_chip_gws.get(chip):
+-            m.addConstrs([var[w] == 0 for w in gws if w not in allowed_chip_gws[chip]])
+-            chip_limits[chip] = 1
+-
+-        if forced_chip_gws.get(chip):
+-            m.addConstr(sum_(var[w] for w in forced_chip_gws[chip]) == 1)
+-            chip_limits[chip] = 1
+-
+-    m.addConstr(sum_(use_wc[w] for w in gws) <= chip_limits.get("wc", 0))
+-    m.addConstr(sum_(use_bb[w] for w in gws) <= chip_limits.get("bb", 0))
+-    m.addConstr(sum_(use_fh[w] for w in gws) <= chip_limits.get("fh", 0))
+-    m.addConstr(sum_(use_tc_gw[w] for w in gws) <= chip_limits.get("tc", 0))
++        forced = options.get(f"use_{chip}", [])
++        for w in forced:
++            m.addConstr(var[w] == 1)
++        allowed = allowed_chip_gws.get(chip)
++        if allowed is not None:
++            m.addConstrs(var[w] == 0 for w in gws if w not in allowed)
++        for half in (1, 2):
++            half_weeks = [w for w in gws if (1 if w <= boundary else 2) == half]
++            m.addConstr(sum_(var[w] for w in half_weeks) <= options["chip_inventory"][chip][half])
++    if next_gw == 1:
++        m.addConstr(use_fh[next_gw] == 0)
++        m.addConstr(use_wc[next_gw] == 0)
++    previous_fh = options.get("previous_free_hit_gw")
++    if previous_fh == next_gw - 1:
++        m.addConstr(use_fh[next_gw] == 0)
++    m.addConstrs(use_fh[w] + use_fh[w - 1] <= 1 for w in gws if w > next_gw)
+     m.addConstrs([squad_fh[p, w] <= use_fh[w] for p in players for w in gws])
+ 
+     ## Multiple-sell fix
+@@ -536,7 +556,7 @@
+     gw_xp = {
+         w: sum_(
+             points_player_week[p, w]
+-            * (lineup[p, w] + captain[p, w] + vcap_weight * vicecap[p, w] + use_tc[p, w] + sum_(bench_weights[o] * bench[p, w, o] for o in order))
++            * (lineup[p, w] + bb_bench[p, w] + captain[p, w] + vcap_weight * vicecap[p, w] + use_tc[p, w] + sum_(bench_weights[o] * bench[p, w, o] for o in order))
+             for p in players
+         )
+         for w in gws
+@@ -592,6 +612,11 @@
+     def run_solve(iteration):
+         if solver != "gurobi":
+             m.run()
++            info = m.getInfo()
++            if m.getModelStatus() != highspy.HighsModelStatus.kOptimal or not m.getSolution().value_valid:
++                raise RuntimeError(f"Solio solve rejected: {m.modelStatusToString(m.getModelStatus())}")
++            if not np.isfinite(info.mip_gap) or info.mip_gap > 1e-9:
++                raise RuntimeError(f"Solio solve rejected: nonzero MIP gap {info.mip_gap}")
+             # read the solution vector once - m.val re-copies it out of HiGHS on every single call
+             return make_val(list(m.getSolution().col_value))
+ 
+@@ -668,7 +693,7 @@
+                         if not is_transfer_out
+                         else (sell_price[p] if p in price_modified_players and val(transfer_out_first[p, w]) > BINARY_THRESHOLD else buy_price[p])
+                     )
+-                    multiplier = 1 * (is_lineup == 1) + 1 * (is_captain == 1) + 1 * (is_tc == 1)
++                    multiplier = is_lineup + int(val(bb_bench[p, w]) > BINARY_THRESHOLD) + is_captain + is_tc
+                     xp_cont = points_player_week[p, w] * multiplier
+ 
+                     if val(use_wc[w]) > BINARY_THRESHOLD:
+@@ -770,9 +795,9 @@
+ 
+             statistics[int(w)] = {
+                 "itb": val(in_the_bank[w]),
+-                "ft": val(fts[w]),
+-                "pt": val(penalized_transfers[w]),
+-                "nt": val(num_transfers[w]),
++                "ft": round(val(fts[w])),
++                "pt": round(val(penalized_transfers[w])),
++                "nt": round(val(num_transfers[w])),
+                 "xP": lineup_players["xp_cont"].sum(),
+                 "obj": round(val(gw_total[w]), 2),
+                 "chip": chip_decision if chip_decision != "" else None,
+@@ -799,6 +824,9 @@
+                 "sell": sell_decisions,
+                 "chip": chip_decisions,
+                 "score": val(objective_expr),
++                "solver_status": "Optimal",
++                "mip_gap": m.getInfo().mip_gap,
++                "solver_seconds": m.getRunTime(),
+                 "decay_metrics": {key: val(value) for key, value in decay_metrics.items()},
+             }
+         )
