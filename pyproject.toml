@@ -8,6 +8,8 @@ version = "0.1.0"
 description = "Fantasy Premier League forecasting and squad optimization"
 readme = "README.md"
 requires-python = ">=3.11"
+license = "PolyForm-Noncommercial-1.0.0"
+license-files = ["LICENSE"]
 dynamic = ["dependencies"]
 
 [tool.setuptools]
