@@ -76,6 +76,14 @@ with `--expert-map GK=catboost,DEF=lightgbm,MID=xgboost,FWD=catboost`. Registrat
 exploratory screen does not establish promotion. The known PyTabKit 1.7.3/macOS-arm64 crash
 combination is blocked before native fitting; no neural rerun is proposed without a proven fix.
 
+## License
+
+Project-created software and other original materials in this repository are available free
+for noncommercial use under the [PolyForm Noncommercial License 1.0.0](LICENSE). Third-party
+software and code retain their own terms; see the relevant notices beside those components.
+In particular, the bundled Open FPL solver has separate upstream licensing terms in
+`fpl/milp/_vendor/solio/LICENSE`.
+
 ## Recovery research interfaces
 
 Tournament OOF fits fixture rows and compares summed player-gameweek predictions;
