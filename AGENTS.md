@@ -20,3 +20,9 @@ Two rules worth restating because agents violate them most often:
    points from the MILP backtest vs the standing baseline in `CLAUDE.md`, with a
    `python -m fpl.milp.compare_backtests` confidence interval — see "Research &
    experimentation protocol" in `CLAUDE.md`.
+
+3. **PR authorization follows the model-specific rule in `CLAUDE.md`.** GPT-6.x models
+   may run the full implementation-to-merge loop without prior PO confirmation. GPT-6
+   Luna running below xhigh reasoning must first receive consent from the PO or GPT-6.1
+   Sol at Light reasoning. Merge only after the PR's required CI checks pass, as detailed
+   in `CLAUDE.md`.
