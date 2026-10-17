@@ -27,13 +27,43 @@ from fpl.model.expert_policy import (POSITIONS, fit_mid_gate_experts, parse_expe
                                      predict_by_position, predict_with_mid_gate,
                                      resolve_weight_strategy)
 from fpl.model.mid_gate import MidGateConfig
+from fpl.model.recipes import resolve_fit_recipe
 from fpl.model.train import fit_holdout_weights, fit_level_calibration, fit_position_ensembles
 from fpl.model.walk_forward import walk_forward_steps
 
 
+def _prepare_explicit_recipe(df, feature_cols, weight_strategy, params_by_pos, seed,
+                             *, calibrate_level=False, mid_gate=None):
+    """Validate single-member recipes and ordered explicit features before any fit."""
+    if params_by_pos is None and seed is None:
+        return None, None
+    if calibrate_level or mid_gate is not None:
+        raise ValueError("explicit recipes do not support level calibration or MID gates")
+    if (not isinstance(feature_cols, (list, tuple)) or not feature_cols
+            or any(not isinstance(column, str) for column in feature_cols)
+            or len(set(feature_cols)) != len(feature_cols)
+            or not set(feature_cols) <= set(df.columns)
+            or set(feature_cols) & {"total_points", "actual_total_points", "minutes"}):
+        raise ValueError("explicit features must be a nonempty unique existing ordered subset without outcomes")
+    if isinstance(weight_strategy, str):
+        strategies = {position: weight_strategy for position in POSITIONS}
+    elif isinstance(weight_strategy, dict) and set(weight_strategy) == set(POSITIONS):
+        strategies = weight_strategy
+    else:
+        raise ValueError("explicit recipes require a complete single-member strategy")
+    weights = {}
+    for position in POSITIONS:
+        strategy = strategies[position]
+        if not isinstance(strategy, str) or not strategy.startswith("single:"):
+            raise ValueError("explicit recipes only support single-member strategies")
+        weights[position] = {strategy[len("single:"):]: 1.0}
+    recipe = resolve_fit_recipe(weights, params_by_pos, seed)
+    return weights, recipe
+
+
 def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16,
                              weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY, calibrate_level=False,
-                             expert_map=None, mid_gate=None):
+                             expert_map=None, mid_gate=None, *, params_by_pos=None, seed=None):
     """Predict every GW in [start_gw, end_gw] using only data from earlier GWs.
 
     Combination weights are fit ONCE, on the `weight_window` gameweeks strictly before
@@ -52,13 +82,19 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
     MAE-loss forecasts before they hit the MILP's absolute-scale transfer/chip logic. Rankings
     (and therefore MASE-style comparisons between calibrated and uncalibrated runs) are NOT
     comparable on MAE after scaling - the point of this flag is realized MILP points, not MAE.
+    Explicit params_by_pos/seed resolve complete defaults before fits, support only
+    single-member strategies, and preserve the ordered supplied feature subset.
     """
     rows = []
     weight_strategy = resolve_weight_strategy(weight_strategy, expert_map)
     print(f"Fitting combination weights (strategy={weight_strategy}) "
           f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
-    weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
-                                         window=weight_window, strategy=weight_strategy)
+    weights_by_pos, recipe = _prepare_explicit_recipe(
+        df, feature_cols, weight_strategy, params_by_pos, seed,
+        calibrate_level=calibrate_level, mid_gate=mid_gate)
+    if recipe is None:
+        weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
+                                             window=weight_window, strategy=weight_strategy)
     for pos in POSITIONS:
         picked = ", ".join(f"{n}={w:.2f}" for n, w in weights_by_pos[pos].items() if w > 0.01)
         print(f"    weights ({pos}): {picked}")
@@ -71,7 +107,11 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
               + ", ".join(f"{pos}={s:.3f}" for pos, s in level_scalars.items()))
 
     def fit_fn(train_df):
-        fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        if recipe is None:
+            fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        else:
+            fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos,
+                                             params_by_pos=recipe, seed=int(seed))
         return (fitted, fit_mid_gate_experts(train_df, feature_cols, mid_gate)) if mid_gate else fitted
 
     for gw, models_cache, test_df in walk_forward_steps(
@@ -100,7 +140,7 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
 def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon,
                              retrain_every=4, weight_window=16,
                              weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY,
-                             expert_map=None, mid_gate=None):
+                             expert_map=None, mid_gate=None, *, params_by_pos=None, seed=None):
     """Deploy-honest backtest export: for each origin GW t, predict ALL of t..t+horizon-1
     with player form frozen at t's deadline (information through GW t-1 only).
 
@@ -132,7 +172,8 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
     dropped from that origin's pool - live would have no prediction for them either.
 
     Output matches the standard CSV plus an `origin_gw` column; fpl.milp.optimize uses
-    the origin-t rows for the solve at GW t.
+    the origin-t rows for the solve at GW t. Explicit params_by_pos/seed resolve
+    complete defaults before fits and support only single-member strategies.
     """
     from fpl.run_week import build_live_snapshot
 
@@ -140,14 +181,22 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
     weight_strategy = resolve_weight_strategy(weight_strategy, expert_map)
     print(f"Fitting combination weights (strategy={weight_strategy}) "
           f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
-    weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
-                                         window=weight_window, strategy=weight_strategy)
+    weights_by_pos, recipe = _prepare_explicit_recipe(
+        df, feature_cols, weight_strategy, params_by_pos, seed,
+        mid_gate=mid_gate)
+    if recipe is None:
+        weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
+                                             window=weight_window, strategy=weight_strategy)
 
     played_gws = set(df["GW_global"].unique())
     rows = []
 
     def fit_fn(train_df):
-        fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        if recipe is None:
+            fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        else:
+            fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos,
+                                             params_by_pos=recipe, seed=int(seed))
         return (fitted, fit_mid_gate_experts(train_df, feature_cols, mid_gate)) if mid_gate else fitted
 
     # The retrain-and-step skeleton drives the OUTER origin loop; the snapshot rebuild

@@ -74,6 +74,35 @@ tuning cannot exceed `config.TUNING_TRAIN_MAX_GW`; evaluation and spent rounds a
 not admitted to its search. A missing or changed frozen snapshot stops the run.
 This input validation does not fit models, validate a new result or promote a candidate.
 
+## Explicit forecast recipes
+
+The standard and origin forecasting APIs accept optional keyword-only `params_by_pos`
+and `seed`. Supply both to bypass ambient tuned files. Each position needs exactly
+the positive-weight registered members in its strategy, with a parameter dictionary
+for each member. `resolve_fit_recipe` fills registered constructor defaults, preserves
+the member's named loss/objective and applies the declared seed. Conflicting loss or
+seed overrides fail before any member fits.
+
+```python
+from fpl.model.recipes import resolve_fit_recipe
+
+positions = ("GK", "DEF", "MID", "FWD")
+weights = {pos: {"catboost_mae": 1.0} for pos in positions}
+overrides = {pos: {"catboost_mae": {"depth": 6, "iterations": 300,
+                                  "learning_rate": 0.05}} for pos in positions}
+resolved = resolve_fit_recipe(weights, overrides, seed=0)
+# Pass params_by_pos=resolved, seed=0 and weight_strategy="single:catboost_mae"
+# to walk_forward_predictions or origin_based_predictions.
+```
+
+Record the returned complete recipe, ordered features and runtime/library/source
+identity in the experiment manifest. A recipe alone does not establish provenance.
+The explicit forecast path currently supports single-member strategies, without
+blend-weight fitting, level calibration or MID gates. Features must be unique,
+present and exclude raw outcome labels; the research runner must additionally
+admit the causal feature set and data window. Calling without either new option
+keeps the existing production/tuned-artifact fitting behavior.
+
 Each backtest needs one row per `gameweek` and finite `actual_total_points` (gross).
 Net comparisons also require nonnegative integer paid transfers in `alpha`; a supplied
 net column must agree with gross minus hits. Scoring labels must match if declared;

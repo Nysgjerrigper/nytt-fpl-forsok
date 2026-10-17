@@ -1583,3 +1583,27 @@ and trimmed to global GW152 without fitting, fetching live data or changing prod
 These are engineering checks, not new forecast or downstream performance results.
 The reproducible runner, matched downstream loss comparison, ablations and opt-in
 cold-start work in issue #13 remain outstanding.
+
+### 2026-10-17 — Explicit shared forecast recipes (#13)
+
+Standard and origin forecasting now have an opt-in per-position/member parameter
+recipe and explicit seed, passed through the existing fit_position_ensembles path.
+All active members must have a recipe before any fit. Registry defaults are resolved
+and deep-copied first; otherwise a partial CatBoost MAE dictionary can silently
+lose its named loss and use the estimator's RMSE default. Conflicting loss/objective
+or seed overrides are rejected. Explicit parameters bypass ambient tuned files.
+
+The explicit forecast mode permits single-member strategies only and excludes hidden
+blend/calibration/MID-gate fitting paths. Ordered feature subsets are preserved;
+missing/duplicate features and raw outcome labels fail admission. Existing standard
+and frozen-origin temporal loops, minutes and fixture identities remain shared.
+Omitting the new arguments retains the old production call path.
+
+Verification:82 focused recipe, registry, expert-policy, origin and combination tests
+passed (one existing runpy warning). Constructor checks establish that partial MAE
+recipes retain MAE and the requested seed without fitting. Small real-fit checks
+fail if any ambient tuned artifact is loaded. Integration spies verify
+strictly earlier training, exact parameter/seed propagation and scoring identities.
+These checks are not new real-data model results, downstream point evidence or
+promotion. The manifest runner, actual matched comparisons, ablations and cold-start
+scope remain open under #13.

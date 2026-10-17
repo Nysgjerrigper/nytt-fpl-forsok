@@ -31,6 +31,7 @@ from fpl import config, features
 from fpl.data.feature_cache import load_frozen_feature_frame
 from fpl.data.provenance import load_frozen_research_dataset
 from fpl.model import models
+from fpl.model.recipes import resolve_fit_recipe
 from fpl.model.expert_policy import POSITIONS
 from fpl.model.ensemble import PositionEnsemble, fit_weights
 from fpl.model.metrics import (
@@ -405,6 +406,7 @@ def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lig
 
 def fit_position_ensembles(
     df: pd.DataFrame, feature_cols: list[str], weights_by_pos: dict[str, dict[str, float]],
+    *, params_by_pos: dict | None = None, seed: int | None = None,
 ) -> dict[str, PositionEnsemble]:
     """Train, per position, the members carrying non-zero weight in `weights_by_pos`
     (position-aware, so tuned per-position hyperparameters load - see models.fit_model)
@@ -416,7 +418,11 @@ def fit_position_ensembles(
     `position=`, so the Optuna-tuned params never loaded live - audit finding A1). Only
     members with weight > 0 are trained; under a single:<model> strategy that's one model,
     so we don't waste time fitting eleven members the blend ignores. Positions with no rows
-    in `df` are skipped (absent from the returned dict)."""
+    in `df` are skipped (absent from the returned dict). Explicit params_by_pos and
+    seed resolve complete registered defaults before any fit, bypassing ambient tuned
+    artifacts; omitting both preserves the existing fitting call unchanged.
+    """
+    recipe = resolve_fit_recipe(weights_by_pos, params_by_pos, seed)
     ensembles = {}
     for pos in POSITIONS:
         pos_df = df[df["position"] == pos]
@@ -424,9 +430,14 @@ def fit_position_ensembles(
             continue
         weights = weights_by_pos[pos]
         X, y = pos_df[feature_cols], pos_df[features.TARGET_COL]
-        members = {name: models.fit_model(name, X, y, position=pos, minutes=pos_df.get("minutes"),
-                                          gw=pos_df.get("GW_global"))
-                   for name, w in weights.items() if w > 0}
+        if recipe is None:
+            members = {name: models.fit_model(name, X, y, position=pos, minutes=pos_df.get("minutes"),
+                                              gw=pos_df.get("GW_global"))
+                       for name, w in weights.items() if w > 0}
+        else:
+            members = {name: models.fit_model(name, X, y, position=pos, minutes=pos_df.get("minutes"),
+                                              gw=pos_df.get("GW_global"), params=recipe[pos][name], seed=int(seed))
+                       for name, w in weights.items() if w > 0}
         ensembles[pos] = PositionEnsemble(members, weights)
     return ensembles
 
