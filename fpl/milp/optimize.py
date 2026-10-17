@@ -14,6 +14,7 @@ results, and sweeps over sub-horizon lengths, instead of needing a different
 """
 import argparse
 import itertools
+import json
 import math
 import sys
 import time
@@ -25,6 +26,7 @@ import pandas as pd
 import pulp
 
 from fpl import config
+from fpl.artifacts import write_json_new
 
 
 def apply_auto_substitutions(
@@ -102,6 +104,8 @@ def parse_args(argv=None):
     parser.add_argument("--fh-gw", type=int, default=0, help="Force free hit at this absolute GW (0=disabled)")
     parser.add_argument("--bb-gw", type=int, default=0, help="Force bench boost at this absolute GW (0=disabled)")
     parser.add_argument("--output", type=str, default=None, help="Output CSV path (default: auto-named)")
+    parser.add_argument("--decisions-json", type=str, default=None,
+                        help="Optional new stable-ID decision snapshot, written before realized settlement.")
     parser.add_argument("--initial-squad", type=str, default=None,
                          help="Comma-separated player_ids of an existing squad to continue from "
                               "(for live weekly use). Omit to start fresh with a full budget, as in backtests.")
@@ -158,7 +162,29 @@ def validate_chip_targets(args) -> dict[str, int]:
     return targets
 
 
+def write_decision_snapshot(decisions: pd.DataFrame, path: str | Path) -> None:
+    """Preserve stable IDs and bench priority before realized scoring reads outcomes.
+
+    This records decisions, not proof of legality or native solver optimality.
+    Display-name conversion in the human CSV never changes this snapshot.
+    """
+    if any(column.startswith("actual_") for column in decisions.columns):
+        raise ValueError("decision snapshot must precede outcome settlement")
+    records = json.loads(decisions.to_json(orient="records"))
+    for record in records:
+        if isinstance(record.get("chip_played"), str) and record["chip_played"].startswith("TC_"):
+            record["chip_played"] = "TC"
+    write_json_new(path, {"schema_version": 1, "outcomes_read": False,
+                          "native_optimality_assessment": "NOT ASSESSED", "decisions": records})
+
+
 def run(args):
+    """Optimize the requested horizon and optionally settle against supplied outcomes."""
+    decision_path = getattr(args, "decisions_json", None)
+    if decision_path and Path(decision_path).exists():
+        raise FileExistsError(f"decision snapshot already exists: {decision_path}")
+    if decision_path and getattr(args, "output", None) and Path(decision_path).resolve() == Path(args.output).resolve():
+        raise ValueError("decision snapshot and human CSV require separate paths")
     chip_targets = validate_chip_targets(args)
     solver = make_solver(args.solver, args.time_limit, args.threads, args.gap_rel)
 
@@ -531,6 +557,8 @@ def run(args):
             gw_results["alpha"] = round(val(alpha[t1_sub]))
             gw_results["q_start"] = previous_ft
             gw_results["objective_value"] = objective_value
+            gw_results["solver_status"] = status_str
+            gw_results["native_optimality_assessment"] = "NOT ASSESSED"
 
             wc_active = val(w[t1_sub]) > 0.9
             bb_active = val(b[t1_sub]) > 0.9
@@ -557,6 +585,7 @@ def run(args):
                 previous_squad_dict = {p_: 1 for p_ in gw_results["squad"]}
                 previous_budget = gw_results["budget_end"]
             previous_ft = next_ft
+            gw_results["q_end"] = next_ft
 
             if chip_name == "WC":
                 if current_gw <= mid_season_split_gw:
@@ -587,6 +616,8 @@ def run(args):
 
     results_df = pd.DataFrame(master_results)
     if not results_df.empty:
+        if decision_path:
+            write_decision_snapshot(results_df, decision_path)
         id_cols = ["squad", "lineup", "bench_order", "captain", "vice_captain", "transfers_in", "transfers_out"]
         results_named = results_df.copy()
         for col in id_cols:
@@ -634,6 +665,10 @@ def run(args):
                 results_named.at[idx, "actual_lineup_points"] = lineup_pts
                 results_named.at[idx, "actual_captain_points"] = captain_bonus
                 results_named.at[idx, "actual_total_points"] = lineup_pts + captain_bonus
+                results_named.at[idx, "transfer_hit_points"] = config.TRANSFER_HIT_POINTS * row["alpha"]
+                results_named.at[idx, "actual_net_points"] = (
+                    lineup_pts + captain_bonus - config.TRANSFER_HIT_POINTS * row["alpha"]
+                )
 
         for col in id_cols:
             results_named[col] = results_named[col].apply(lambda x: ", ".join(map(str, x)) if isinstance(x, list) else x)
@@ -642,6 +677,8 @@ def run(args):
         output_path = args.output or str(
             config.SQUAD_OUTPUT_DIR / f"squad_selection_W{args.start_gw}-{args.max_gw}_SHL{args.horizon}{origin_tag}.csv"
         )
+        if decision_path and Path(output_path).resolve() == Path(decision_path).resolve():
+            raise ValueError("decision snapshot and human CSV require separate paths")
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         results_named.to_csv(output_path, index=False)
         print(f"\nSaved results to {output_path}")

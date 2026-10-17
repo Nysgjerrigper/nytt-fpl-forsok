@@ -32,10 +32,19 @@ results and their provenance; do not erase negative findings as cleanup.
 - Non-trivial features, bugfixes and experiments require an isolated worktree/branch
   off current `main`, using `feature/`, `fix/` or `exp/`. Reuse an unmerged worktree only
   for its continuing task. After merging, retire it and start anew from updated `main`.
-- **Commit, merge and push only when the PO authorizes them.** There is no exception for
-  frequent local commits. Never force-push `main` without explicit approval.
-- Run the appropriate focused checks and full `python -m pytest tests/ -q` before
-  proposing a commit. Fix failures first; inspect the actual diff in the primary session.
+- **Autonomous PR authority is model-specific.** ChatGPT GPT-6.x models may independently
+  implement, commit, push a branch, open a PR, address review/CI feedback, and merge it
+  without prior PO confirmation. Exception: a GPT-6 Luna model running at any reasoning
+  effort below xhigh must first receive consent from the PO or GPT-6.1 Sol running at Light
+  reasoning. Other models require PO authorization for this workflow. Merge only after all
+  required PR checks pass; if checks fail, diagnose and fix the issue, then rerun them. If a
+  required check is unavailable or cannot be made green, stop before merging and report the
+  blocker. Never force-push `main` without explicit approval.
+- Run appropriate focused checks during development. The repository CI runs the full
+  `python -m pytest tests/ -q` suite on pushes and pull requests; use its successful PR result
+  as the full-suite merge gate instead of redundantly running the full suite locally. If CI
+  is unavailable, run the full suite locally before merging. Inspect the actual diff in the
+  primary session before merge.
 - Share the primary checkout's `.venv` explicitly. Paths rooted at `config.ROOT` resolve
   per worktree, including ignored datasets and tracked tuned JSONs.
 - Before retiring a dirty worktree, preserve and verify unique files and ignored artifacts.
