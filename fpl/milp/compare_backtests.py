@@ -26,39 +26,100 @@ straddles zero says "do not conclude anything from this gap", which is exactly t
 guardrail the standing decision rule (realized points over MASE) was missing.
 """
 import argparse
+import hashlib
+import json
 import sys
+from io import BytesIO
+from numbers import Integral
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from scipy.stats import binomtest
 
+from fpl import config
+from fpl.artifacts import write_json_new
+
 
 POINTS_COL = "actual_total_points"
 GW_COL = "gameweek"
 
 
-def paired_gw_differences(df_a: pd.DataFrame, df_b: pd.DataFrame) -> pd.Series:
+def scored_points(df: pd.DataFrame, *, points_col: str = POINTS_COL) -> pd.Series:
+    """Validate one run and return gross or net points without mutating its rows.
+
+    Net points require integer paid-transfer counts (alpha), at four points each.
+    A supplied net column is checked against gross minus hits, never trusted alone.
+    """
+    if points_col not in (POINTS_COL, "actual_net_points"):
+        raise ValueError("points_col must be actual_total_points or actual_net_points")
+    if df.empty:
+        raise ValueError("empty backtest run")
+    for column in (GW_COL, POINTS_COL):
+        if column not in df:
+            raise ValueError(f"run has no '{column}' column")
+        values = df[column]
+        if (not pd.api.types.is_numeric_dtype(values)
+                or pd.api.types.is_bool_dtype(values) or not np.isfinite(values).all()):
+            raise ValueError(f"{column} must contain finite numeric values")
+    weeks = df[GW_COL]
+    if not ((weeks > 0) & (weeks % 1 == 0)).all():
+        raise ValueError("gameweek must contain positive integers")
+    if weeks.duplicated().any():
+        raise ValueError("run has duplicate gameweek rows")
+    if "scoring_protocol" in df:
+        protocols = df.scoring_protocol
+        if (protocols.isna().any() or protocols.nunique() != 1
+                or not protocols.isin(config.BACKTEST_SCORING_PROTOCOLS).all()):
+            raise ValueError("run must declare one known scoring_protocol")
+    net = None
+    if "alpha" in df:
+        paid = df.alpha
+        if (not pd.api.types.is_numeric_dtype(paid) or pd.api.types.is_bool_dtype(paid)
+                or not np.isfinite(paid).all() or not ((paid >= 0) & (paid % 1 == 0)).all()):
+            raise ValueError("alpha must contain nonnegative integer paid transfers")
+        net = df[POINTS_COL] - config.TRANSFER_HIT_POINTS * paid
+    if "actual_net_points" in df:
+        supplied = df.actual_net_points
+        if (net is None or not pd.api.types.is_numeric_dtype(supplied)
+                or pd.api.types.is_bool_dtype(supplied) or not np.isfinite(supplied).all()
+                or not np.allclose(supplied, net, rtol=0, atol=1e-9)):
+            raise ValueError("actual_net_points must equal gross minus validated transfer hits")
+    if points_col == "actual_net_points" and net is None:
+        raise ValueError("net comparison requires alpha; hit costs cannot be assumed zero")
+    values = df[POINTS_COL] if points_col == POINTS_COL else net
+    return pd.Series(values.to_numpy(dtype=float), index=weeks.to_numpy()).sort_index()
+
+
+def paired_gw_differences(df_a: pd.DataFrame, df_b: pd.DataFrame, *,
+                          points_col: str = POINTS_COL) -> pd.Series:
     """Per-gameweek realized-points difference (A - B), indexed by gameweek.
 
     Both frames must be squad_selection CSVs (one row per gameweek) covering the SAME
     gameweek set - a paired analysis over mismatched windows would be comparing
     different seasons' difficulty, so that raises instead of silently intersecting.
     """
-    for name, df in (("A", df_a), ("B", df_b)):
-        if POINTS_COL not in df.columns:
-            raise ValueError(f"run {name} has no '{POINTS_COL}' column - was the backtest "
-                             "run on predictions without actuals (a live run)?")
-        if df[GW_COL].duplicated().any():
-            raise ValueError(f"run {name} has duplicate gameweek rows")
-    a = df_a.set_index(GW_COL)[POINTS_COL].sort_index()
-    b = df_b.set_index(GW_COL)[POINTS_COL].sort_index()
+    a = scored_points(df_a, points_col=points_col)
+    b = scored_points(df_b, points_col=points_col)
+    if ("scoring_protocol" in df_a) != ("scoring_protocol" in df_b):
+        raise ValueError("scoring_protocol must be declared by both runs or neither")
+    if ("scoring_protocol" in df_a and "scoring_protocol" in df_b
+            and df_a.scoring_protocol.iloc[0] != df_b.scoring_protocol.iloc[0]):
+        raise ValueError("scoring_protocol differs between runs")
     if not a.index.equals(b.index):
         only_a = sorted(set(a.index) - set(b.index))
         only_b = sorted(set(b.index) - set(a.index))
         raise ValueError(f"gameweek windows differ (only in A: {only_a}, only in B: {only_b}); "
                          "a paired comparison needs identical windows")
     return a - b
+
+
+def _finite_differences(diffs) -> np.ndarray:
+    """Admit a nonempty finite one-dimensional paired-difference vector."""
+    d = np.asarray(diffs, dtype=float)
+    if d.ndim != 1 or not d.size or not np.isfinite(d).all():
+        raise ValueError("differences must be a nonempty finite one-dimensional series")
+    return d
 
 
 def moving_block_bootstrap_total(diffs, n_boot: int = 10000, block_len: int = 3,
@@ -72,11 +133,12 @@ def moving_block_bootstrap_total(diffs, n_boot: int = 10000, block_len: int = 3,
     bootstrap, which assumes away the squad-carryover autocorrelation - keep >= 2
     unless you know the runs share no state across gameweeks.
     """
-    d = np.asarray(diffs, dtype=float)
+    d = _finite_differences(diffs)
     n = len(d)
-    if n == 0:
-        raise ValueError("empty difference series")
-    block_len = max(1, min(block_len, n))
+    for name, value in (("n_boot", n_boot), ("block_len", block_len), ("seed", seed)):
+        if isinstance(value, bool) or not isinstance(value, Integral) or value < (0 if name == "seed" else 1):
+            raise ValueError(f"{name} must be a {'nonnegative' if name == 'seed' else 'positive'} integer")
+    block_len = min(block_len, n)
     rng = np.random.default_rng(seed)
     n_blocks = int(np.ceil(n / block_len))
     # Moving blocks: all n - block_len + 1 overlapping windows are candidates.
@@ -91,6 +153,7 @@ def moving_block_bootstrap_total(diffs, n_boot: int = 10000, block_len: int = 3,
         "ci_low": float(lo),
         "ci_high": float(hi),
         "p_a_better": float(np.mean(totals > 0)),
+        "bootstrap_positive_fraction": float(np.mean(totals > 0)),
         "n_gws": n,
         "block_len": block_len,
     }
@@ -104,7 +167,7 @@ def sign_test(diffs) -> dict:
     family in the promotion protocol; a bootstrap probability is not a null
     p-value and must never be used there.
     """
-    d = np.asarray(diffs, dtype=float)
+    d = _finite_differences(diffs)
     wins_a = int(np.sum(d > 0))
     wins_b = int(np.sum(d < 0))
     n_eff = wins_a + wins_b
@@ -172,14 +235,33 @@ def promotion_gate(standard_report: dict, origin_report: dict, seed_diffs,
 
 
 def compare(path_a: str, path_b: str, n_boot: int = 10000, block_len: int = 3,
-            seed: int = 0) -> dict:
+            seed: int = 0, *, points_col: str = POINTS_COL,
+            contract_a: str | None = None, contract_b: str | None = None) -> dict:
     """Full comparison of two squad_selection CSVs; returns the combined report dict."""
-    df_a, df_b = pd.read_csv(path_a), pd.read_csv(path_b)
-    diffs = paired_gw_differences(df_a, df_b)
+    contents = [Path(path).read_bytes() for path in (path_a, path_b)]
+    df_a, df_b = [pd.read_csv(BytesIO(content)) for content in contents]
+    diffs = paired_gw_differences(df_a, df_b, points_col=points_col)
+    hashes = [hashlib.sha256(content).hexdigest() for content in contents]
+    contract = None
+    if bool(contract_a) != bool(contract_b):
+        raise ValueError("both comparison contracts are required")
+    if contract_a and contract_b:
+        from fpl.backtest_contract import validate_pair
+        contract = validate_pair(contract_a, contract_b, hashes, [df_a, df_b], points_col)
     report = moving_block_bootstrap_total(diffs, n_boot=n_boot, block_len=block_len, seed=seed)
     report["sign_test"] = sign_test(diffs)
-    report["total_a"] = float(df_a[POINTS_COL].sum())
-    report["total_b"] = float(df_b[POINTS_COL].sum())
+    report["total_a"] = float(scored_points(df_a, points_col=points_col).sum())
+    report["total_b"] = float(scored_points(df_b, points_col=points_col).sum())
+    report.update(metric=points_col, gameweeks=[int(gw) for gw in diffs.index],
+                  input_sha256={"a": hashes[0], "b": hashes[1]},
+                  evidence_status="CONTRACT_VALIDATED" if contract else "UNVERIFIED",
+                  contract=contract, n_boot=int(n_boot), seed=int(seed),
+                  scoring_protocol={"a": df_a.scoring_protocol.iloc[0] if "scoring_protocol" in df_a else None,
+                                    "b": df_b.scoring_protocol.iloc[0] if "scoring_protocol" in df_b else None})
+    report["inference_limitations"] = (
+        "Historical paired window, not independent seasons. Block bootstrap depends on block choice; "
+        "the exact binomial sign-test null assumes independent signs. Neither is a probability of future gain."
+    )
     return report
 
 
@@ -194,15 +276,24 @@ def main(argv=None):
                         help="Bootstrap block length in gameweeks (default 3; >=2 to respect "
                              "squad-carryover autocorrelation).")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--points-col", choices=(POINTS_COL, "actual_net_points"), default=POINTS_COL)
+    parser.add_argument("--contract-a")
+    parser.add_argument("--contract-b")
+    parser.add_argument("--json-output", type=Path, help="Write a new comparison receipt; never overwrite")
     args = parser.parse_args(argv)
 
-    r = compare(args.run_a, args.run_b, n_boot=args.n_boot, block_len=args.block_len, seed=args.seed)
+    r = compare(args.run_a, args.run_b, n_boot=args.n_boot, block_len=args.block_len, seed=args.seed,
+                points_col=args.points_col, contract_a=args.contract_a, contract_b=args.contract_b)
+    if args.json_output:
+        write_json_new(args.json_output, r)
     s = r["sign_test"]
     print(f"A: {Path(args.run_a).name}  total {r['total_a']:.0f}")
     print(f"B: {Path(args.run_b).name}  total {r['total_b']:.0f}")
     print(f"\nTotal difference (A - B) over {r['n_gws']} GWs: {r['total_diff']:+.0f} points")
     print(f"95% block-bootstrap CI (block={r['block_len']}, n={args.n_boot}): "
-          f"[{r['ci_low']:+.0f}, {r['ci_high']:+.0f}]   P(A better) = {r['p_a_better']:.3f}")
+          f"[{r['ci_low']:+.0f}, {r['ci_high']:+.0f}]   "
+          f"positive bootstrap fraction = {r['bootstrap_positive_fraction']:.3f}")
+    print(f"Metric: {r['metric']}; evidence: {r['evidence_status']} (not a promotion decision)")
     print(f"Sign test: A won {s['wins_a']} GWs, B won {s['wins_b']} ({s['ties']} ties), "
           f"two-sided p = {s['p_value']:.3f}")
     if r["ci_low"] <= 0.0 <= r["ci_high"]:
