@@ -1583,3 +1583,61 @@ and trimmed to global GW152 without fitting, fetching live data or changing prod
 These are engineering checks, not new forecast or downstream performance results.
 The reproducible runner, matched downstream loss comparison, ablations and opt-in
 cold-start work in issue #13 remain outstanding.
+
+### 2026-10-17 — Explicit shared forecast recipes (#13)
+
+Standard and origin forecasting now have an opt-in per-position/member parameter
+recipe and explicit seed, passed through the existing fit_position_ensembles path.
+All active members must have a recipe before any fit. Registry defaults are resolved
+and deep-copied first; otherwise a partial CatBoost MAE dictionary can silently
+lose its named loss and use the estimator's RMSE default. Conflicting loss/objective
+or seed overrides are rejected. Explicit parameters bypass ambient tuned files.
+
+The explicit forecast mode permits single-member strategies only and excludes hidden
+blend/calibration/MID-gate fitting paths. Ordered feature subsets are preserved;
+missing/duplicate features and raw outcome labels fail admission. Existing standard
+and frozen-origin temporal loops, minutes and fixture identities remain shared.
+Omitting the new arguments retains the old production call path.
+
+Verification:82 focused recipe, registry, expert-policy, origin and combination tests
+passed (one existing runpy warning). Constructor checks establish that partial MAE
+recipes retain MAE and the requested seed without fitting. Small real-fit checks
+fail if any ambient tuned artifact is loaded. Integration spies verify
+strictly earlier training, exact parameter/seed propagation and scoring identities.
+These checks are not new real-data model results, downstream point evidence or
+promotion. The manifest runner, actual matched comparisons, ablations and cold-start
+scope remain open under #13.
+
+## 2026-10-17 — Bounded Training Ground runner pilot (issue #13)
+
+Added `fpl.research_runner`: immutable complete recipes and ordered features, frozen
+data/source/runtime checks, bounded subprocess execution, measured fit receipts,
+four captured forecast panels before any MILP, native-optimal corrected scoring,
+paired scorecards and exact captured-file verification. Existing loops and metrics
+are reused. Production remains `single:catboost`.
+
+Registered before fitting in issue #13, comment 6239826152: plan SHA
+`03d28b5ac9cfca9355ab7f11472831815577701fcc635e5b91a24f4f77343f45`,
+frozen dataset SHA `62f8f1d31d47a5f859f6d73819c9e631a59de346fed7de2fd5877b994a2ccc98`.
+One GW141–144 selection diagnostic, seed 0, horizon 3, retrain every 4, matched
+CatBoost MAE/RMSE with 300 iterations, depth 6, learning rate 0.05, two threads
+and full constructor defaults. Budget: 16 fits/16 solves, 120s per solve, 1200s
+worker cap, zero gaps.
+
+Completed 16 fits and 16 native-proven optimal encoded MILPs in 87.47s
+(43.78s fitting, 28.07s solving). RMSE candidate versus MAE control: standard net
+220 versus 218, delta +2, paired 95% block-bootstrap interval [-20, +15]; origin
+217 versus 203, delta +14, interval [0, +31]. Four observed rounds with block 3,
+10,000 draws and seed 0 are an execution diagnostic, not evidence of a reliable gain. Both
+exact sign tests have two-sided p=1.0. Standard accuracy shows the expected tradeoff:
+MAE .893 versus .738, RMSE 1.794 versus 1.903, bias +.059 versus -.418,
+aggregate calibration 1.060 versus .576. Origin metrics are retained separately
+by lead; its current-target population has 2843 player-rounds versus standard 2856.
+No cross-protocol coverage equivalence or cold-start fix is claimed.
+
+Evidence remains **UNVERIFIED**, unranked and promotion-ineligible. Independent
+FPL legality and outcome-blind execution are NOT ASSESSED; this window is not a
+fresh holdout. Preserved full bundle and receipt hash are referenced by tracked
+`experiments/training_ground_runner_pilot_2026-10-17/{plan,result}.json` and its
+`fpl.experiment` registry. Focused verification: 167 tests passed, including tiny
+real recipe fits and explicitly synthetic runner integration tests. No live refresh.

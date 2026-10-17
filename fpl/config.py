@@ -15,6 +15,11 @@ BACKTEST_SCORING_PROTOCOLS = ("autosubs_v2", "legacy_no_autosubs")
 PLAYGROUND_RUNS_DIR = ROOT / "experiments" / "runs"
 PLAYGROUND_MAX_BOOTSTRAPS = 100_000
 
+# Opt-in bounded research comparisons; production model settings are unchanged.
+RESEARCH_COMPARISON_PARAMS = {"iterations": 300, "depth": 6, "learning_rate": 0.05, "thread_count": 2}
+RESEARCH_RUN_MAX_SECONDS = 1200
+RESEARCH_SOLVE_SECONDS = 120
+
 GITHUB_RAW_BASE = "https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data"
 GITHUB_API_SEASONS_URL = "https://api.github.com/repos/vaastav/Fantasy-Premier-League/contents/data"
 
