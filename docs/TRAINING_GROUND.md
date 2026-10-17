@@ -307,6 +307,40 @@ round trip on real frozen history, without assessing forecast or MILP gains.
 
 ## Where the next connections belong
 
+### Strict settlement replay
+
+Saved schema-1 decision snapshots can be checked without refitting or solving:
+
+```sh
+python -m fpl.milp.replay run decisions.json predictions.csv \
+  --reference squads.csv --output /path/to/new-replay
+python -m fpl.milp.replay report /path/to/new-replay
+```
+
+Replay checks stable squad/XI/bench/captain identities, position counts, club limits,
+formation and the original bench order. It requires explicit current-round outcomes
+for every squad member, including the bench. DGW outcomes are summed, repeated origin
+copies must agree, and the shared corrected scorer handles autosubs, captain/vice,
+BB, TC and hits. Both normalized `TC` and preserved `TC_name` labels award the same
+triple bonus. An optional reference requires exact per-round corrected gross/net
+reconciliation. Reports verify captured bytes; failed attempts stay preserved.
+
+An absent player row is **unknown**, not proof of a blank. Strict replay rejects it.
+The shared scorer's compatibility mode retains zero filling but labels such rows
+`LEGACY_ZERO_FILL` and reports their missing-player count. This does not retrospectively
+qualify old CSVs. Whole-team blank fixtures and player-club identity need explicit
+evidence before the corresponding zero outcomes can be admitted.
+
+This is settlement evidence, not full financial/rule legality: bank, transfer prices,
+FT/chip inventories, native solver verification and outcome-blind execution remain
+separate assessments. A legacy BB snapshot with 15 starters cannot supply a unique
+legal XI and bench order; replay rejects it rather than inventing that structure.
+The registered four-case pilot in `experiments/decision_replay_pilot_2026-10-17/`
+preserves all four NOT QUALIFIED outcomes at GW143. Their earlier reported totals
+remain unverified and unchanged.
+
+### Recovered historical scorecards
+
 The preserved October 3 seed-0 study can be read through the current scorecards
 without rerunning its models. The recovery script under
 `experiments/recovered_ablations_2026-10-17/` checks archived evaluated sources,

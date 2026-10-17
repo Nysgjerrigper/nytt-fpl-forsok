@@ -1,0 +1,56 @@
+{
+  "cases": {
+    "origin-candidate": {
+      "reason": "missing selected-player outcomes in GW143: [69752, 154566, 223340, 477580]; blanks require explicit evidence",
+      "status": "NOT QUALIFIED"
+    },
+    "origin-control": {
+      "reason": "missing selected-player outcomes in GW143: [154566, 209244, 223094]; blanks require explicit evidence",
+      "status": "NOT QUALIFIED"
+    },
+    "standard-candidate": {
+      "reason": "missing selected-player outcomes in GW143: [54469, 69752, 97032, 154566]; blanks require explicit evidence",
+      "status": "NOT QUALIFIED"
+    },
+    "standard-control": {
+      "reason": "missing selected-player outcomes in GW143: [154566, 223094, 477580]; blanks require explicit evidence",
+      "status": "NOT QUALIFIED"
+    }
+  },
+  "fresh_holdout": false,
+  "independent_financial_rule_legality": "NOT ASSESSED",
+  "limitation": "Static structure/outcome coverage/settlement only. Failed qualification is preserved. Source native certificates are not independently re-solved or upgraded to full legality.",
+  "model_fits": 0,
+  "optimizer_solves": 0,
+  "original_receipt_sha256": "dba62fcae6245585a9c7e265acd80f6c8dcd8b821d4fd4d4d1c8e9d663c6dc4c",
+  "outcome_blind_execution": "NOT ASSESSED",
+  "output_sha256": {
+    "origin-candidate/decisions.json": "8a5736a1f7cc3aeff5bd10c750fcb94fb15686e2f4b1dcc2d1fe9a5a1b94734e",
+    "origin-candidate/failed.json": "8b802aba91e3f23371d55ffd5aeab42a83a64538c7e5f4793a0bc6f60f2891a6",
+    "origin-candidate/predictions.csv": "2749da9c75a983acda2a5e50c7dd27a7677237123d8470f6c0241126d31bb51c",
+    "origin-candidate/reference.csv": "4bd7adf989220b8a2031dab443cbf10614664bf0418747b827791b0f50556d87",
+    "origin-candidate/started.json": "5a72e4bcfd5968fc7397dd0a8353d1e9b4b6aa2862fe5db9e2037e46f488cf4d",
+    "origin-control/decisions.json": "7cfcf6459e7f2ebc6e30e870f0c2dbccbea5005ad0a50ae8a39e2da5b5741f90",
+    "origin-control/failed.json": "b3b5c1c197583854cebebff35dcc9a5a4a36adc4fb03894aea0d656a8c29b4f1",
+    "origin-control/predictions.csv": "3375a41886d9cb347b3ac6b2a7a05033f0634fce26296057de00821352c01d65",
+    "origin-control/reference.csv": "71507789fb793edeb0d800b62e155cb2552a177e4686c892966ef851b98b9b83",
+    "origin-control/started.json": "3583db2a3748cfd0b8c951cb4587e5f99cc8d287cce33453a5b65860d0045c9e",
+    "plan.json": "12181569b3c0c2c6340d8243bf1b0e573879576a1f86e14ab7604873a6f15e55",
+    "registry.csv": "16ea273a7bf3063aba70d2eba982e8627b258fdaf131abc1609b1d22ed389486",
+    "standard-candidate/decisions.json": "68cc029e6d85d19575ea94eac38900d454a9ccefd772649e471e75e992f5cc17",
+    "standard-candidate/failed.json": "ca4a3c0fa8693748e01fd2363170cb49c0020dc79e3f1692bddd268f03ea84ee",
+    "standard-candidate/predictions.csv": "75758029625505af7f41dea62ba18b809895005482efb576457e8920146ad4f4",
+    "standard-candidate/reference.csv": "6773de3bc68f62154cc7027fe836e945c1f4274bd1fbb7d9f8c884c38996ed2c",
+    "standard-candidate/started.json": "7d1043561946988cd00d222b7b307b9776f179886d342ab87a1c46604dfd7ee7",
+    "standard-control/decisions.json": "f08be344c561316a44ac9a08950f4b8785c0518647938946cd180b9d16b68466",
+    "standard-control/failed.json": "98d95d10d7ed518faf13fb6193fe33c98e0fd1fb91a21298b160135b2b550eb6",
+    "standard-control/predictions.csv": "b63dcb9a658c29a61fb7ad5ed04d69bbf43c743b691e9962020f6cbb04d70b1a",
+    "standard-control/reference.csv": "e9f803e4a9d6a90eedffb432f6077f756dd957a59ed184e0c77178be0b3b01b8",
+    "standard-control/started.json": "689def00f37487aebc477b9a545487083445f2fff2c53fcf1568db5e18630958",
+    "started.json": "686dd99daef904e02a03842e9c978495292f3243882e110bfd9337f4db3b7808"
+  },
+  "preserved_bundle": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundDecisionReplay_20261017",
+  "promotion_eligible": false,
+  "schema_version": 1,
+  "status": "QUALIFICATION_MATRIX_COMPLETED"
+}

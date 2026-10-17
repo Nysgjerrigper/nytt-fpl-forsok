@@ -1718,3 +1718,43 @@ round trip, DGW/blank routing, all-cold pools and early synthetic-training rejec
 Forecast accuracy, historical deadline registration, cold-start MILP benefit and
 promotion remain NOT ASSESSED. The earlier preserved coverage-only study remains
 separate evidence; it was not relabelled as a prediction or decision improvement.
+
+## 2026-10-17 — Strict saved-decision settlement qualification (issues #21/#23)
+
+Fixed shared corrected scoring to accept both normalized `TC` and preserved `TC_name`
+labels; both now award the triple bonus, including vice activation after captain DNP.
+The shared scorer offers strict selected-squad outcome coverage. Compatibility mode
+preserves prior zero filling but exposes `LEGACY_ZERO_FILL` and the missing-player
+count. Numeric outcomes, hits, gameweeks and within-round positions are checked.
+
+Added `fpl.milp.replay` run/report around the existing scorer. It checks stable IDs,
+15-player roster composition, club limit, XI formation, original bench partition/GK
+slot and captain/vice membership. Every selected player requires current-round
+outcomes. Corrected gross/net totals can be reconciled against a pinned reference.
+Captured input/output bytes and failed attempts are preserved; reports reject changed
+receipts. Financial/price/FT/chip-inventory legality, native solver proof and original
+outcome-blind execution remain separate NOT ASSESSED fields. No second scorer or
+optimizer was introduced. Legacy BB rows with 15 starters cannot supply a unique legal
+XI/bench and are rejected. Both adapters use captain/vice lists; the earlier issue
+lookup's scalar/list mismatch claim was corrected after checking the source.
+
+Registered exactly four saved-pilot replay attempts in issue #23 comment 6240521098,
+plan SHA `12181569b3c0c2c6340d8243bf1b0e573879576a1f86e14ab7604873a6f15e55`.
+The original PR32 bundle and its 12 snapshot/forecast/reference input hashes verify.
+All four attempts are **NOT QUALIFIED**: GW143 has selected-player IDs without
+outcome rows (standard control/candidate: 3/4; origin control/candidate: 3/4).
+These gaps may be blanks, but missing records alone do not establish that fact.
+No zero rows or retrospective club identities were invented to force admission.
+The earlier 218/220 and 203/217 pilot totals remain unchanged and UNVERIFIED.
+
+All four failed receipts and 23 captured/generated artifacts are preserved and
+independently hash-verified. Tracked plan, exact matrix script, result, registry and
+all-round identity coverage audit are under
+`experiments/decision_replay_pilot_2026-10-17/`. The original bundle still verifies
+unchanged. There were zero new model fits, optimizer solves or live refreshes in
+this qualification matrix. Next required evidence is explicit blank-fixture and
+player-club coverage, followed by independent financial/rule-state validation.
+Focused verification: 102 tests passed, including hand-calculated TC/vice, DGW,
+negative points, strict missing-bench outcomes, malformed rosters, incompatible
+references and corrupted receipts. Synthetic tests are distinct from this failed
+real-artifact qualification. No model or optimizer promotion.

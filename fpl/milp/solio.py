@@ -6,6 +6,7 @@ from contextlib import redirect_stdout
 from io import StringIO
 import json
 from pathlib import Path
+from numbers import Real
 import time
 from typing import Mapping, Sequence
 
@@ -110,29 +111,65 @@ def solve_window(predictions: pd.DataFrame, *, season: str, start_gw: int, horiz
     return result
 
 
-def score_decisions(decisions: pd.DataFrame, predictions: pd.DataFrame) -> pd.DataFrame:
-    """Reuse corrected autosub/vice scoring; expose hits separately from legacy gross points."""
-    out = decisions.copy()
+def score_decisions(decisions: pd.DataFrame, predictions: pd.DataFrame, *,
+                    require_complete_outcomes: bool = False) -> pd.DataFrame:
+    """Settle corrected fixture outcomes with explicit selected-squad coverage.
+
+    Strict mode requires an outcome row for every selected player in that round;
+    absent rows are never silently assumed to be blanks. Default mode preserves
+    legacy zero filling but labels that assumption. Complete coverage is not an
+    independent legality/state certificate or verification of manually added blanks.
+    Captain and vice identities retain the existing one-element-list interface.
+    """
+    if type(require_complete_outcomes) is not bool:
+        raise ValueError("require_complete_outcomes must be a boolean")
     required = {"player_id", "GW", "actual_total_points", "minutes", "position"}
-    if not required <= set(predictions):
-        raise ValueError("realized scoring requires actual fixture points, minutes and identities")
+    if predictions.empty or not predictions.columns.is_unique or not required <= set(predictions):
+        raise ValueError("realized scoring requires nonempty unambiguous fixture points, minutes and identities")
+    if decisions.empty or not decisions.columns.is_unique or not {"gameweek", "alpha"} <= set(decisions):
+        raise ValueError("scored decisions require nonempty unique columns, gameweeks and hit counts")
+
+    def numeric(column, name):
+        if not column.map(lambda value: isinstance(value, Real) and not isinstance(value, (bool, np.bool_))).all():
+            raise ValueError(f"{name} must contain non-boolean numeric values")
+        result = pd.to_numeric(column, errors="raise")
+        if not np.isfinite(result.to_numpy(dtype=float)).all():
+            raise ValueError(f"{name} must contain finite values")
+        return result
+
+    out = decisions.copy().reset_index(drop=True)
+    weeks = numeric(out.gameweek, "decision gameweek")
+    hits = numeric(out.alpha, "decision alpha")
+    if ((weeks <= 0) | (weeks % 1 != 0)).any() or weeks.duplicated().any():
+        raise ValueError("decision gameweeks must be positive unique integers")
+    if ((hits < 0) | (hits % 1 != 0)).any():
+        raise ValueError("decision alpha must contain nonnegative integer hit counts")
+    out["gameweek"] = weeks.map(int)
+    out["alpha"] = hits.map(int)
+    out["missing_outcome_players"] = 0
+    out["outcome_coverage_assessment"] = ""
     values = predictions.copy()
+    for column in ("actual_total_points", "minutes"):
+        values[column] = numeric(values[column], column)
+    if (values.minutes < 0).any():
+        raise ValueError("negative realized minutes")
+    if not values.position.isin(config.ONFIELD_POSITIONS).all():
+        raise ValueError("realized outcomes require known positions")
     if "GW_global" not in values:
         values["GW_global"] = values["GW"]
     if "origin_gw" in values:
-        for origin, rows in values.groupby("origin_gw"):
+        for origin, rows in values.groupby("origin_gw", dropna=False):
             _validate_forecast_admission(rows.copy(), int(origin))
     else:
         _validate_forecast_admission(values.copy(), int(values.GW.min()))
-    for column in ("actual_total_points", "minutes"):
-        if not np.isfinite(pd.to_numeric(values[column])).all():
-            raise ValueError("nonfinite realized scores/minutes")
-    if (values.minutes < 0).any():
-        raise ValueError("negative realized minutes")
     keys = (["origin_gw"] if "origin_gw" in values else []) + ["player_id", "GW"]
+    if (values.groupby(keys).position.nunique() != 1).any():
+        raise ValueError("positions disagree within a realized player round")
     grouped = values.groupby(keys).agg(
         actual_total_points=("actual_total_points", "sum"), minutes=("minutes", "sum"),
         position=("position", "first"))
+    if not np.isfinite(grouped[["actual_total_points", "minutes"]].to_numpy(dtype=float)).all():
+        raise ValueError("aggregated realized points/minutes must remain finite")
     if "origin_gw" in values:
         panel = grouped.reset_index()
         counts = panel.groupby(["player_id", "GW"])[["actual_total_points", "minutes", "position"]].nunique()
@@ -144,6 +181,12 @@ def score_decisions(decisions: pd.DataFrame, predictions: pd.DataFrame) -> pd.Da
     for index, row in out.iterrows():
         gw = row.gameweek
         current = rounds.xs(gw, level="GW") if gw in rounds.index.get_level_values("GW") else rounds.iloc[0:0]
+        present = set(current.index.get_level_values("player_id")) if isinstance(current.index, pd.MultiIndex) else set(current.index)
+        missing = [player for player in row.squad if player not in present]
+        if require_complete_outcomes and missing:
+            raise ValueError(f"Missing outcomes for GW{gw}, selected player IDs: {missing}")
+        out.at[index, "missing_outcome_players"] = len(missing)
+        out.at[index, "outcome_coverage_assessment"] = "LEGACY_ZERO_FILL" if missing else "COMPLETE_SELECTED_SQUAD"
         minutes = current.minutes.to_dict()
         positions = current.position.to_dict()
         for player in row.squad:
@@ -153,10 +196,12 @@ def score_decisions(decisions: pd.DataFrame, predictions: pd.DataFrame) -> pd.Da
         captain = optimize.resolve_active_captain(row.captain, row.vice_captain, active, minutes)
         points = current.actual_total_points.to_dict()
         gross = sum(points.get(player, 0) for player in active)
-        gross += points.get(captain, 0) * (2 if isinstance(row.chip_played, str) and row.chip_played.startswith("TC_") else 1)
+        triple = isinstance(row.chip_played, str) and (row.chip_played == "TC" or row.chip_played.startswith("TC_"))
+        gross += points.get(captain, 0) * (2 if triple else 1)
         out.at[index, "actual_total_points"] = gross
         out.at[index, "actual_net_points"] = gross - 4 * row.alpha
         out.at[index, "scoring_protocol"] = "autosubs_v2"
+    out.index = decisions.index
     return out
 
 
