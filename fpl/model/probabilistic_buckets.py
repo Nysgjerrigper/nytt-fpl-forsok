@@ -30,6 +30,7 @@ from fpl import config, features
 from fpl.model import models as point_models
 from fpl.model.metrics import bias, mae, rmse, spearman_by_group, top1_capture, total_calibration
 from fpl.model.train import POSITIONS
+from fpl.model.research_input import load_research_raw
 from fpl.model.walk_forward import walk_forward_steps
 
 
@@ -661,8 +662,10 @@ def evaluate_walk_forward(
 
     Accepts multiple schemes so a bucket-count sweep shares one retrain loop:
     the regression baseline is fitted once per retrain, not once per scheme.
+    Frozen-byte admission and the end cutoff precede feature construction; this
+    wiring alone establishes no new experimental results.
     """
-    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    raw = load_research_raw(end_gw, start_gw=start_gw)
     df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(df)
     schemes = [get_bucket_scheme(name) for name in bucket_scheme_names]
@@ -727,7 +730,12 @@ def evaluate_static_split(
     bucket_scheme_names=None,
     model_names=None,
 ):
-    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    """Evaluate a static split after frozen-byte and chronological admission.
+
+    The capped input preserves earlier feature/training history; admission does not
+    establish new experimental results or production-promotion evidence.
+    """
+    raw = load_research_raw(test_max_gw, start_gw=test_min_gw, train_max_gw=train_max_gw)
     df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(df)
     train_df = df[df["GW_global"] <= train_max_gw]
@@ -825,8 +833,12 @@ def tune_bucket_position(df, feature_cols, position, scheme, n_trials=30, n_spli
 
 
 def run_bucket_tuning(scheme_names, positions=None, n_trials=30, n_splits=3, train_max_gw=config.TUNING_TRAIN_MAX_GW):
-    """Tune and persist bucket-classifier params for every (scheme, position)."""
-    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    """Tune bucket parameters on admitted frozen history within the selection cap.
+
+    Validate the cap before features or trials; admission itself supplies no new
+    experimental results. Parameter defaults and persistence format are unchanged.
+    """
+    raw = load_research_raw(train_max_gw, tuning=True)
     df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(df)
     for scheme_name in scheme_names:
@@ -857,9 +869,11 @@ def walk_forward_predictions_csv(
     """Walk-forward predictions CSV from the bucket model for MILP backtesting.
 
     Returns a dataframe in fpl/milp/optimize.py format:
-    player_id, GW, name, position, team, value, predicted_total_points, actual_total_points
+    player_id, GW, name, position, team, value, predicted_total_points, actual_total_points.
+    Frozen-byte admission and the end cutoff precede feature construction; this
+    wiring alone establishes no new experimental results.
     """
-    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    raw = load_research_raw(end_gw, start_gw=start_gw)
     df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(df)
     scheme = get_bucket_scheme(bucket_scheme_name)

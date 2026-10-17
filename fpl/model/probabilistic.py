@@ -35,6 +35,7 @@ import numpy as np
 import lightgbm as lgb
 
 from fpl.model.models import LGB_PARAMS
+from fpl.model.research_input import load_research_raw
 
 DEFAULT_QUANTILES = [0.1, 0.5, 0.9]
 
@@ -86,12 +87,13 @@ def interval_coverage(y_true, lower, upper):
 def evaluate_static_split(train_max_gw=152, test_min_gw=153, test_max_gw=183, quantiles=DEFAULT_QUANTILES):
     """Fit per-position quantile models on GW<=train_max_gw and evaluate on the
     same held-out window train.py uses, reporting pinball loss per quantile and
-    10-90 interval coverage per position."""
-    import pandas as pd
-    from fpl import config, features
+    10-90 interval coverage per position. Inputs are admitted frozen bytes, capped
+    before feature construction; this wiring does not establish new results.
+    """
+    from fpl import features
     from fpl.model.train import POSITIONS
 
-    raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    raw = load_research_raw(test_max_gw, start_gw=test_min_gw, train_max_gw=train_max_gw)
     df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(df)
     train_df = df[df["GW_global"] <= train_max_gw]

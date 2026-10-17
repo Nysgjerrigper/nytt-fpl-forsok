@@ -1564,3 +1564,22 @@ proof and stable identities, and independent decision legality is not yet assess
 No forecasts were refit. Both failed and completed attempts remain preserved with
 source/input/output hashes and registry rows. Standard and origin historical reports
 now include descriptive diagnostics of their shared preserved forecast pools.
+
+### 2026-10-17 — Frozen admission for probabilistic research (#13)
+
+Quantile static evaluation and bucket static/walk-forward evaluation, tuning and
+prediction export previously loaded mutable weekly data and built features before
+restricting the requested window. All five now admit the complete SHA-bound frozen
+snapshot first, then retain raw history only through the requested evaluation end
+or tuning cutoff before constructing features. Earlier training/form history stays
+available. Static train/evaluation overlap, invalid windows, GW232+ requests and
+bucket tuning beyond the standing selection cap fail before feature construction.
+The subset retains the original byte hash but loses the complete-frame cache marker.
+
+Verification: 51 focused probabilistic/admission/provenance tests passed, including
+real hash-tamper rejection through all five consumers. A read-only smoke admission
+of the actual preserved snapshot verified SHA62f8f1d31d47a5f859f6d73819c9e631a59de346fed7de2fd5877b994a2ccc98
+and trimmed to global GW152 without fitting, fetching live data or changing production.
+These are engineering checks, not new forecast or downstream performance results.
+The reproducible runner, matched downstream loss comparison, ablations and opt-in
+cold-start work in issue #13 remain outstanding.
