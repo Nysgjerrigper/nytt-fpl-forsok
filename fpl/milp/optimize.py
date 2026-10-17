@@ -174,7 +174,8 @@ def write_decision_snapshot(decisions: pd.DataFrame, path: str | Path) -> None:
     for record in records:
         if isinstance(record.get("chip_played"), str) and record["chip_played"].startswith("TC_"):
             record["chip_played"] = "TC"
-    write_json_new(path, {"schema_version": 1, "outcomes_read": False,
+    write_json_new(path, {"schema_version": 1, "settlement_completed": False,
+                          "outcome_access_assessment": "NOT ASSESSED",
                           "native_optimality_assessment": "NOT ASSESSED", "decisions": records})
 
 

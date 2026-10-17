@@ -15,6 +15,7 @@ fpl/squad_selections/
 .ipynb_checkpoints/
 .DS_Store
 experiments/predictions/
+experiments/runs/
 
 # Per-worktree execution state and local recovery payloads.
 /.claude/worktrees/
