@@ -316,7 +316,8 @@ def main() -> None:
                              bank=args.initial_budget, free_transfers=args.initial_ft,
                              time_limit=args.time_limit, **state)
     exported = decisions.copy()
-    for col in ("squad", "lineup", "bench_order", "captain", "vice_captain", "transfers_in", "transfers_out"):
+    for col in ("squad", "lineup", "bench_order", "captain", "vice_captain", "transfers_in", "transfers_out",
+                "permanent_squad_start", "permanent_squad_end"):
         exported[col] = exported[col].map(json.dumps)
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x") as stream:

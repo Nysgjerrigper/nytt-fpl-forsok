@@ -87,6 +87,13 @@ def test_optimizer_writes_decisions_before_settlement_and_exports_consistent_cos
     assert payload["settlement_completed"] is False
     assert payload["outcome_access_assessment"] == "NOT ASSESSED"
     assert not any(key.startswith("actual_") for key in locked)
+    assert locked["state_mode"] == "fresh_build"
+    assert locked["permanent_squad_start"] == []
+    assert locked["permanent_squad_end"] == locked["squad"]
+    assert locked["permanent_bank_start"] == locked["budget_start"] == 1000
+    assert locked["permanent_bank_end"] == locked["budget_end"] == 250
+    assert locked["temporary_selection_bank_end"] is None
+    assert locked["q_start"] == 1 and locked["q_end"] == 2
     assert locked["squad"] == result.iloc[0].squad
     assert locked["lineup"] == result.iloc[0].lineup
     assert locked["captain"] == result.iloc[0].captain
@@ -98,3 +105,46 @@ def test_optimizer_writes_decisions_before_settlement_and_exports_consistent_cos
     assert saved.actual_net_points == saved.actual_total_points - saved.transfer_hit_points
     assert source.read_bytes() == original_bytes
     pd.testing.assert_frame_equal(frame, original_frame)
+
+
+def test_first_round_free_hit_without_permanent_squad_rejected_before_loading_input():
+    args = optimize.parse_args(["--predictions-csv", "/no/input/read.csv", "--start-gw", "153",
+                               "--max-gw", "153", "--fh-gw", "153"])
+    with pytest.raises(ValueError, match="existing permanent squad"):
+        optimize.run(args)
+
+
+def test_free_hit_snapshot_preserves_permanent_state_and_distinguishes_temporary_budget(tmp_path):
+    roles = ["GK"] * 2 + ["DEF"] * 5 + ["MID"] * 5 + ["FWD"] * 4
+    records = []
+    for gw in (153, 154):
+        for player, role in enumerate(roles, 1):
+            records.append({"player_id": player, "GW": gw, "name": f"player{player}", "position": role,
+                "team": f"club{(player-1) % 5}" if player != 16 else "club4",
+                "value": 50 if player != 16 else 60,
+                "predicted_total_points": float(player if player != 16 else 100),
+                "actual_total_points": 1., "minutes": 90.})
+    source = tmp_path / "input.csv"
+    pd.DataFrame(records).to_csv(source, index=False)
+    target, human = tmp_path / "snapshot.json", tmp_path / "human.csv"
+    result = optimize.run(optimize.parse_args([
+        "--predictions-csv", str(source), "--start-gw", "153", "--max-gw", "154",
+        "--horizon", "1", "--fh-gw", "153", "--initial-squad", ",".join(map(str, range(1, 16))),
+        "--initial-budget", "250", "--initial-ft", "0", "--decisions-json", str(target),
+        "--output", str(human), "--scoring-mode", "corrected"]))
+    first, second = json.loads(target.read_bytes())["decisions"]
+    original = list(range(1, 16))
+    assert first["chip_played"] == "FH" and 16 in first["squad"]
+    assert first["state_mode"] == second["state_mode"] == "continuing"
+    assert first["permanent_squad_start"] == first["permanent_squad_end"] == original
+    assert second["permanent_squad_start"] == original
+    assert first["permanent_bank_start"] == first["permanent_bank_end"] == 250
+    assert second["permanent_bank_start"] == 250
+    assert first["temporary_selection_bank_end"] == 240
+    assert second["temporary_selection_bank_end"] is None
+    assert second["permanent_squad_end"] == second["squad"]
+    assert second["permanent_bank_end"] == second["budget_end"]
+    assert first["q_start"] == 0 and first["q_end"] == second["q_start"] == 1
+    saved = pd.read_csv(human)
+    assert json.loads(saved.iloc[0].permanent_squad_start) == original
+    assert result.iloc[0].permanent_squad_start == original

@@ -209,3 +209,101 @@ def test_missing_price_or_metadata_fails_clearly(missing):
         prepared["merged_data"] = prepared["merged_data"].drop(columns=missing)
     with pytest.raises(ValueError):
         normalize_solution(solution(chip="BB"), prepared)
+
+
+def test_fresh_build_exports_empty_start_then_continuing_permanent_state():
+    prepared = inputs()
+    prepared.update(initial_squad=[], itb=100.0, ft=0)
+    rows = week_rows(1, ins=set(range(1, 16))) + week_rows(2)
+    data = solution(rows, ft=0, bank=25.0)
+    data["statistics"][2] = {"itb": 25.0, "ft": 1, "nt": 0, "pt": 0, "chip": None}
+    first, second = normalize_solution(data, prepared)
+    stable = list(range(1001, 1016))
+    assert first["state_mode"] == "fresh_build"
+    assert first["permanent_squad_start"] == []
+    assert first["permanent_squad_end"] == stable
+    assert first["permanent_bank_start"] == first["budget_start"] == 1000
+    assert first["permanent_bank_end"] == first["budget_end"] == 250
+    assert first["temporary_selection_bank_end"] is None
+    assert (first["q_start"], first["q_end"]) == (0, 1)
+    assert second["state_mode"] == "continuing"
+    assert second["permanent_squad_start"] == second["permanent_squad_end"] == stable
+    assert second["permanent_bank_start"] == second["permanent_bank_end"] == 250
+    assert second["temporary_selection_bank_end"] is None
+    assert (second["q_start"], second["q_end"]) == (1, 2)
+
+
+def test_continuing_transfer_exports_exact_permanent_squad_transition():
+    prepared = inputs()
+    changed = set(range(1, 16)) - {3} | {16}
+    rows = week_rows(1, changed, ins={16}, outs={3}) + week_rows(2, changed)
+    data = solution(rows, bank=1.8, nt=1)
+    data["statistics"][2] = {"itb": 1.8, "ft": 2, "nt": 0, "pt": 0, "chip": None}
+    first, second = normalize_solution(data, prepared)
+    expected = sorted(code + 1000 for code in changed)
+    assert first["state_mode"] == second["state_mode"] == "continuing"
+    assert first["permanent_squad_start"] == list(range(1001, 1016))
+    assert first["permanent_squad_end"] == first["squad"] == expected
+    assert first["transfers_in"] == [1016] and first["transfers_out"] == [1003]
+    assert first["permanent_bank_start"] == first["budget_start"] == 20
+    assert first["permanent_bank_end"] == first["budget_end"] == 18
+    assert second["permanent_squad_start"] == second["permanent_squad_end"] == expected
+    assert second["permanent_bank_start"] == second["budget_start"] == 18
+    assert (first["q_start"], first["q_end"], second["q_start"], second["q_end"]) == (2, 2, 2, 3)
+    assert first["temporary_selection_bank_end"] is second["temporary_selection_bank_end"] is None
+
+
+def test_free_hit_exports_temporary_residual_without_changing_permanent_next_week():
+    prepared = inputs()
+    prepared["buy_price"][16] = 6.0
+    changed = set(range(1, 16)) - {3} | {16}
+    rows = week_rows(1, changed, ins={16}, outs={3})
+    rows += week_rows(2, chip="FH")
+    rows += week_rows(3, changed)
+    data = solution(rows, bank=.8, nt=1)
+    data["statistics"][2] = {"itb": .8, "ft": 2, "nt": 0, "pt": 0, "chip": "FH"}
+    data["statistics"][3] = {"itb": .8, "ft": 2, "nt": 0, "pt": 0, "chip": None}
+    first, free_hit, next_week = normalize_solution(data, prepared)
+    permanent = sorted(code + 1000 for code in changed)
+    assert first["permanent_squad_end"] == permanent
+    assert free_hit["squad"] == list(range(1001, 1016))
+    assert free_hit["permanent_squad_start"] == free_hit["permanent_squad_end"] == permanent
+    assert free_hit["permanent_bank_start"] == free_hit["permanent_bank_end"] == 8
+    assert free_hit["budget_start"] == free_hit["budget_end"] == 8
+    # Wealth74m minus72.2m temporary squad; permanent bank remains0.8m.
+    assert free_hit["temporary_selection_bank_end"] == 18
+    assert free_hit["transfers_in"] == free_hit["transfers_out"] == []
+    assert free_hit["q_start"] == free_hit["q_end"] == 2
+    assert next_week["permanent_squad_start"] == next_week["permanent_squad_end"] == permanent
+    assert next_week["squad"] == permanent
+    assert next_week["permanent_bank_start"] == next_week["budget_start"] == 8
+    assert next_week["temporary_selection_bank_end"] is None
+    assert (next_week["q_start"], next_week["q_end"]) == (2, 3)
+
+
+def test_permanent_squad_exports_sort_stable_codes_instead_of_element_ids():
+    prepared = inputs()
+    prepared["element_to_stable"] = {element: 2000 - element for element in range(1, 17)}
+    output = normalize_solution(solution(), prepared)[0]
+    expected = list(range(1985, 2000))
+    assert output["permanent_squad_start"] == output["permanent_squad_end"] == expected
+
+
+def test_cli_serializes_permanent_state_lists_as_json(tmp_path, monkeypatch):
+    import json
+    import sys
+
+    from fpl.milp import solio
+
+    source, target = tmp_path / "predictions.csv", tmp_path / "decisions.csv"
+    pd.DataFrame({"player_id": [1]}).to_csv(source, index=False)
+    normalized = normalize_solution(solution(), inputs())
+    monkeypatch.setattr(solio, "run_schedule", lambda *args, **kwargs: pd.DataFrame(normalized))
+    monkeypatch.setattr(sys, "argv", ["fpl.milp.solio", "--predictions-csv", str(source),
+        "--season", "2026-27", "--start-gw", "229", "--max-gw", "229", "--output", str(target)])
+    solio.main()
+    row = pd.read_csv(target).iloc[0]
+    assert json.loads(row.permanent_squad_start) == normalized[0]["permanent_squad_start"]
+    assert json.loads(row.permanent_squad_end) == normalized[0]["permanent_squad_end"]
+    assert row.permanent_bank_start == row.budget_start == 20
+    assert row.permanent_bank_end == row.budget_end == 20

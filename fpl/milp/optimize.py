@@ -19,6 +19,7 @@ import math
 import sys
 import time
 from pathlib import Path
+from numbers import Integral
 from collections import Counter
 from typing import Hashable, Mapping, Sequence
 
@@ -199,6 +200,8 @@ def validate_chip_targets(args) -> dict[str, int]:
     positive = [target for target in targets.values() if target > 0]
     if any(target < 0 for target in targets.values()):
         raise ValueError("chip targets must be nonnegative; 0 disables a chip")
+    if targets["fh"] == args.start_gw and not getattr(args, "initial_squad", None):
+        raise ValueError("a first-round Free Hit requires an existing permanent squad")
     if len(positive) != len(set(positive)):
         raise ValueError("only one chip may be requested per gameweek")
     if any(not args.start_gw <= target <= args.max_gw for target in positive):
@@ -595,6 +598,10 @@ def run(args):
             v_ = var.varValue
             return v_ if v_ is not None else default
 
+        permanent_squad_start = sorted(
+            int(player) if isinstance(player, Integral) else player for player in previous_squad_dict
+        )
+        permanent_bank_start = previous_budget
         if is_fresh_start:
             previous_squad_dict = {p_: 1 for p_ in p if val(x[p_][t1_sub]) > 0.9}
 
@@ -651,6 +658,17 @@ def run(args):
             previous_budget = gw_results["budget_end"]
         previous_ft = next_ft
         gw_results["q_end"] = next_ft
+        gw_results["state_mode"] = "fresh_build" if is_fresh_start else "continuing"
+        gw_results["permanent_squad_start"] = permanent_squad_start
+        gw_results["permanent_squad_end"] = sorted(
+            int(player) if isinstance(player, Integral) else player for player in previous_squad_dict
+        )
+        gw_results["permanent_bank_start"] = permanent_bank_start
+        gw_results["permanent_bank_end"] = previous_budget
+        gw_results["temporary_selection_bank_end"] = (
+            available_fh_budget - sum(value_sub.loc[p_, t1_sub] for p_ in gw_results["squad"])
+            if fh_active else None
+        )
 
         if chip_name == "WC":
             if current_gw <= mid_season_split_gw:
@@ -729,6 +747,9 @@ def run(args):
         for col in id_cols:
             results_named[col] = results_named[col].apply(lambda x: ", ".join(map(str, x)) if isinstance(x, list) else x)
 
+        # Explicit permanent holdings remain stable-ID JSON even in the human CSV.
+        for col in ("permanent_squad_start", "permanent_squad_end"):
+            results_named[col] = results_named[col].map(json.dumps)
         origin_tag = "_origin" if has_origin else ""
         output_path = args.output or str(
             config.SQUAD_OUTPUT_DIR / f"squad_selection_W{args.start_gw}-{args.max_gw}_SHL{args.horizon}{origin_tag}.csv"

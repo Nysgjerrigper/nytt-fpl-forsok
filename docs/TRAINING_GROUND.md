@@ -363,6 +363,25 @@ financial/rule legality or outcome-blind execution. The four follow-up cases pas
 settlement/reference reconciliation with unchanged totals, but remain unranked
 and ineligible for promotion.
 
+### Explicit decision state
+
+New legacy snapshots and Solio rows retain `state_mode` (`fresh_build` or
+`continuing`), `permanent_squad_start/end` and `permanent_bank_start/end`.
+Banks use tenths of a million pounds; existing `q_start/end` retain the backend's
+free-transfer contract. Permanent holdings use original stable IDs, serialized as
+JSON lists even in the legacy human CSV.
+
+During a Free Hit, `squad` is the temporary selected squad, while permanent
+start/end holdings and bank remain unchanged. `temporary_selection_bank_end`
+records available wealth minus that temporary squad's cost, and is null otherwise.
+It is not money carried into the next round. Legacy `budget_end` still describes
+permanent bank in a continuing Free Hit. Modern and legacy price/FT/chip policies
+remain distinct; these extra fields do not harmonize their rules.
+
+A first-round Free Hit requires an existing permanent squad. Historical snapshots
+without these fields retain their evidence gaps; do not invent first-row holdings.
+Capturing state is distinct from independently validating its legality.
+
 ### Recovered historical scorecards
 
 The preserved October 3 seed-0 study can be read through the current scorecards

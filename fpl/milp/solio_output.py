@@ -33,6 +33,8 @@ def normalize_solution(solution: dict, prepared: dict) -> list[dict]:
     Patched Bench Boost decisions retain a legal XI and four bench players.
     Legacy upstream 15-player lineups can also be converted to a legal XI for
     our realized scorer, which separately awards all four bench players' points.
+    Explicit permanent start/end state is separate from a temporary Free Hit
+    selection; all exported bank values remain in tenths.
     """
     picks = solution.get("picks")
     required = {"id", "week", "squad", "lineup", "bench", "captain", "vicecaptain",
@@ -151,6 +153,7 @@ def normalize_solution(solution: dict, prepared: dict) -> list[dict]:
             raise ValueError("Invalid permanent transfers")
         sale_price = lambda p: sell[p] if p in unsold_originals else buy[p]
         next_bank = bank
+        temporary_selection_bank_end = None
         if chip == "FH":
             if ins or outs or fresh:
                 raise ValueError("Free Hit cannot make permanent transfers or build a fresh team")
@@ -158,6 +161,7 @@ def normalize_solution(solution: dict, prepared: dict) -> list[dict]:
             wealth = bank + sum(sale_price(p) for p in permanent)
             if temporary_cost > wealth + 1e-5:
                 raise ValueError("Free Hit temporary squad exceeds available wealth")
+            temporary_selection_bank_end = round((wealth - temporary_cost) * 10, 6)
         else:
             if squad != (permanent - outs) | ins:
                 raise ValueError("Squad does not match permanent transfer state")
@@ -170,6 +174,12 @@ def normalize_solution(solution: dict, prepared: dict) -> list[dict]:
         captain_name = (metadata.loc[captains[0], "web_name"]
                         if "web_name" in metadata else str(captains[0]))
         results.append({"gameweek": week + prepared["season_offset"],
+            "state_mode": "fresh_build" if fresh else "continuing",
+            "permanent_squad_start": sorted(to_stable(permanent)),
+            "permanent_squad_end": sorted(to_stable(permanent if chip == "FH" else squad)),
+            "permanent_bank_start": round(bank * 10, 6),
+            "permanent_bank_end": round(next_bank * 10, 6),
+            "temporary_selection_bank_end": temporary_selection_bank_end,
             "squad": to_stable(sorted(squad)), "lineup": to_stable(sorted(lineup)),
             "bench_order": to_stable(bench), "captain": to_stable(captains),
             "vice_captain": to_stable(vice), "transfers_in": to_stable(sorted(ins)),
