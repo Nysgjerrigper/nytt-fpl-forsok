@@ -10,6 +10,8 @@ FROZEN_RESEARCH_DATASET_PATH = DATASETT_DIR / "frozen" / "master_dataset_gw231.c
 MODELS_DIR = ROOT / "fpl" / "models"
 PREDICTIONS_PATH = ROOT / "fpl" / "predictions_latest.csv"
 SQUAD_OUTPUT_DIR = ROOT / "fpl" / "squad_selections"
+TRANSFER_HIT_POINTS = 4
+BACKTEST_SCORING_PROTOCOLS = ("autosubs_v2", "legacy_no_autosubs")
 
 GITHUB_RAW_BASE = "https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data"
 GITHUB_API_SEASONS_URL = "https://api.github.com/repos/vaastav/Fantasy-Premier-League/contents/data"
