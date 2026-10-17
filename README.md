@@ -10,6 +10,7 @@ benchmark. Production uses `single:catboost` for GK, DEF, MID and FWD.
 - [GitHub issues](https://github.com/Nysgjerrigper/nytt-fpl-forsok/issues): priorities, progress, blockers and remaining work.
 - [Stakeholder overview](docs/STAKEHOLDER_OVERVIEW.md): purpose, goals and tools in plain English.
 - [Alternative optimizer review](docs/OPTIMIZER_REVIEW.md): current-season requirements and candidate gaps.
+- [Backtest comparison contracts](docs/BACKTEST_COMPARISONS.md): explicit gross/net metrics, input validation and stable-ID decision snapshots.
 - [Open FPL adapter](docs/OPEN_FPL_ADAPTER.md): optional modern-rule backend, inputs and measured comparison.
 - [Research history](RESEARCH_LOG.md) and [run registry](experiments/results.csv): dated evidence,
   including negative results; historical numbers are not automatically current controls.
