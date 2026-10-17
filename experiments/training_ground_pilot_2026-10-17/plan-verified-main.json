@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "id": "cap-repair-standard-verified-main",
+  "purpose": "historical_reanalysis",
+  "hypothesis": "The capped-carry repair allows holding at the banking cap and every replayed solve must pass strict native admission. Contrast with preserved legacy outcomes is an unqualified engineering diagnostic, not predictive promotion.",
+  "scope": {
+    "mode": "standard",
+    "engine": "legacy",
+    "gameweeks": [
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      166,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      176,
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183
+    ],
+    "season": "2024-25",
+    "horizon": 3,
+    "seed": 0,
+    "chips": "disabled",
+    "price_policy": "registered static first-available prices",
+    "ft_policy": "existing legacy cap2/reset1",
+    "metric": "actual_net_points",
+    "fits": 0,
+    "live_fetches": 0
+  },
+  "budget": {
+    "max_attempts": 1,
+    "max_solves": 31,
+    "per_solve_seconds": 120,
+    "subprocess_wall_seconds": 600,
+    "gap_rel": 0,
+    "gap_abs": 0,
+    "failure_policy": "stop and preserve failure; no automatic retry or relaxed solve"
+  },
+  "bootstrap": {
+    "n_boot": 10000,
+    "block_len": 3,
+    "seed": 0
+  },
+  "inputs": {
+    "standard_matched_predictions.csv": "c7aaa10f0895916e13b77e8bae83511849fd3e151db7938c5c23372f683e644d",
+    "historical_legacy.csv": "921f4dfe076719262fd134621e2d375453dd6e8f1e08e60a927c1b263aa1155d"
+  },
+  "source_sha256": {
+    "fpl/milp/optimize.py": "53c71532b583d5808382ccf43ba75ccc322b589b41818b34fca2b0461c9a556c",
+    "fpl/config.py": "c5bdd1266271fdc187c281ed452ab20c6d33c7cc723b665f939ef3da2d8f8533",
+    "fpl/artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1"
+  },
+  "runtime": {
+    "python": "3.11.15",
+    "pulp": "3.3.2",
+    "highspy": "1.15.1",
+    "pandas": "3.0.3",
+    "numpy": "2.4.6"
+  },
+  "limitations": [
+    "Historical control lacks native proof and stable decision identities.",
+    "Original forecast training/model coverage and MASE scale lineage remain unassessed.",
+    "Standard forecasts are not origin-honest deployment evidence.",
+    "No production model/default change or winner declaration."
+  ],
+  "base_git_commit": "646610bae2a2ccb1583d3d73e65ec12a5100f54e",
+  "prior_attempt": {
+    "plan_sha256": "bff41349f77ee85ad4eb38be13c494d1b7e5176b9cdec09b2f573ebbcf225225",
+    "status": "FAILED_QUALIFICATION",
+    "reason": "Stale local main lacked expected native certificates; preserved without retry."
+  }
+}

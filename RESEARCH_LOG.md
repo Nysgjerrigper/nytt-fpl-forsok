@@ -1518,3 +1518,49 @@ of improved realized points. Prior CSVs and registered results remain preserved;
 this defect requires qualifying historical solve evidence and targeted matched
 replays under issue #23 before treating old totals as certified comparisons.
 No forecast/model promotion or claim of modern-rule equivalence is made.
+
+### 2026-10-17 — Training Ground paired forecast scorecards (#22/#23)
+
+The owner reprioritized the Training Ground and experiments over deadline-current
+live validation. The reporting interface now admits two separately pinned forecast
+panels and reuses the established metrics for player-round MAE, RMSE, bias,
+aggregate calibration, within-position/round Spearman and top-ranked capture.
+Fixture inputs are summed before scoring; already aggregated inputs retain unknown
+fixture counts. Full keys, positions and outcomes must match before aggregation,
+without intersecting populations. Origin forecasts are stratified by lead rather
+than pooling repeated target outcomes. Stable numeric player codes resolve ties.
+
+Preserved optimizer forecasts describe a common pool including zero-filled rows,
+not recovered original model coverage. Training-scaled MASE, refit chronology,
+probabilistic quality and promotion remain unmeasured/unassessed. Comparison
+contracts, when present, must bind these exact forecast bytes and protocol.
+Reports and JSON share the same measured values; immutable receipts capture both
+panels and implementation hashes. Focused scorecard/metric checks: 110 passed.
+
+Registered a one-attempt standard legacy-optimizer replay under
+experiments/training_ground_pilot_2026-10-17/plan.json and issue #23 before execution.
+It reuses the original matched static-price forecasts, GW153–183, horizon3,
+chips disabled, zero relative/absolute gaps, 31 solves maximum, 120s per solve and
+600s subprocess wall limit. No fitting, live fetching, model selection or production
+promotion. The preserved control lacks native proof and stable decision identities;
+any contrast remains an unqualified engineering diagnostic. Raw artifacts and
+failure/completion receipts are preserved separately from tracked summaries.
+
+Pilot outcome: **FAILED QUALIFICATION** after 91.26 seconds. The worktree used
+stale local origin/main cf3a43f, before the merged certificate/carry fix 646610b.
+The registered source hashes therefore bound the older implementation; its output
+proof was NOT ASSESSED and the completion check refused admission. All raw bytes
+and failure evidence are preserved. The single-attempt plan was not retried, and
+no corrected-carry result or qualified point comparison is claimed. The worktree
+was then synced to verified main; a new registration is required for another replay.
+
+A separate registration, plan-verified-main.json (SHA efc44b5060dc3ecb43dff670887a6822de3228a4036981dc687fb7d9beb8399d),
+verified base 646610b and the corrected optimizer bytes before execution. This run
+completed 31 native-proven optimal solves in 89.69 seconds: gross/net 2096, zero
+paid transfers. The saved historical control has 2144 points; contrast -48, paired
+95% interval [-128.0,21.0]. This is an **UNVERIFIED engineering contrast**,
+not evidence for selecting or promoting a model: the historical control lacks native
+proof and stable identities, and independent decision legality is not yet assessed.
+No forecasts were refit. Both failed and completed attempts remain preserved with
+source/input/output hashes and registry rows. Standard and origin historical reports
+now include descriptive diagnostics of their shared preserved forecast pools.

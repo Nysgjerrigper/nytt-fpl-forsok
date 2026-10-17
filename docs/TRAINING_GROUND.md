@@ -6,6 +6,17 @@ backtests, generates scorecards and maintains separate descriptive league tables
 It does not yet train models, orchestrate ablations, launch the optimizer or promote
 anything to production. Those connections belong to the existing research-runner work.
 
+```mermaid
+flowchart LR
+    A[Saved paired forecasts] --> B[Hash and exact coverage checks]
+    B --> C[Player-round diagnostics by protocol and lead]
+    D[Saved squad results] --> E[Gross and net points with paired intervals]
+    C --> F[Evidence scorecard]
+    E --> F
+    F --> G[Comparable points league or unranked entry]
+    G --> H[Research review before any promotion]
+```
+
 ## Try a synthetic exhibition
 
 Use the project's Python environment from the repository root:
@@ -75,6 +86,7 @@ experiments/runs/<experiment-id>/<attempt>/
   candidate.csv
   control.csv
   candidate-contract.json / control-contract.json   # when supplied
+  candidate-forecasts.csv / control-forecasts.csv   # when supplied
   comparison.json
   scorecard.json
   REPORT.md
@@ -83,8 +95,50 @@ experiments/runs/<experiment-id>/<attempt>/
 
 Generated runs are ignored by Git. The completion receipt hashes the required results,
 input snapshots and specification. Source and reporting-runtime identity are recorded.
-Original model-fit time, failure rate, forecast diagnostics, calibrated uncertainty,
-independent legality and native solver proof remain explicitly unmeasured/unassessed.
+Original model-fit time, failure rate, calibrated uncertainty, independent legality
+and native solver proof remain explicitly unmeasured/unassessed by the reporting adapter.
+Forecast diagnostics are measured only when both pinned panels are supplied.
+
+## Adding forecast diagnostics
+
+Add an optional `forecasts` object to the experiment specification:
+
+```json
+"forecasts": {
+  "information_protocol": "standard",
+  "grain": "player_round",
+  "population": "Preserved optimizer common pool, including zero-filled rows",
+  "candidate": {"path": "candidate-predictions.csv", "sha256": "<actual SHA-256>"},
+  "control": {"path": "control-predictions.csv", "sha256": "<actual SHA-256>"}
+}
+```
+
+Both panels need stable positive integer `player_id`, global `GW`, `position`,
+`predicted_total_points` and `actual_total_points`. Their entire coverage, positions
+and outcomes must match; the adapter never silently intersects different populations.
+The declared rounds must exactly match the decision comparison. If strict comparison
+contracts are present, their protocol and bound prediction hashes must also match.
+Otherwise the forecast-to-decision linkage remains **NOT ASSESSED**.
+
+Declare `grain: "fixture"` only for fixture rows, with a positive integer `fixture`
+identifier. Predictions and outcomes are summed into player-rounds before evaluation.
+Declare `player_round` for already aggregated exports; original fixture counts then
+remain unknown. A common optimizer pool can contain zero-filled rows; label this in
+`population` and do not present these diagnostics as recovered original model coverage.
+
+The adapter reuses `fpl.model.metrics` for MAE, RMSE, signed bias, aggregate calibration,
+within-position/gameweek Spearman and top-ranked player capture. It reports per-position
+support, undefined/skipped rank groups and tied top predictions. Ties use the lowest
+stable player code. Undefined ratios become JSON `null`; negative actual points can
+produce ratios outside [0, 1], which are preserved. Capture is a ranking diagnostic,
+not realized captaincy points. MASE stays **NOT MEASURED** without validated training-only
+scales and refit-cutoff lineage; evaluation outcomes are never used to estimate a scale.
+
+For `information_protocol: "origin"`, both panels also need `origin_gw`. Results are
+separated by lead (`GW - origin_gw`, with zero meaning the origin's current target).
+Repeated target outcomes are not pooled into one overall score. Standard forecasts
+remain separate from origin forecasts and do not establish deployment-honest evidence.
+These diagnostics do not change league ranking or promotion eligibility.
 
 The JSON and report show the same points, difference, interval and evidence status.
 The comparator supplies all point-accounting and statistical calculations. The positive

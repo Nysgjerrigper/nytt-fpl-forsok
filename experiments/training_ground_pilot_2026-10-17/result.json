@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "decisions.json": "5ea55531b5ddddfcd1ee4d425148130ba9360093efac5ea102588c181db29ebf",
+    "failed.json": "67d1569c161b0f49356a22c4daa3727c7526b2be88925a93a6d4361bf4e3f8be",
+    "historical_legacy.csv": "921f4dfe076719262fd134621e2d375453dd6e8f1e08e60a927c1b263aa1155d",
+    "plan.json": "bff41349f77ee85ad4eb38be13c494d1b7e5176b9cdec09b2f573ebbcf225225",
+    "replay.log": "282525e66a3b21960e82741e45b794a44906e64efb305790d2088803eb215d2b",
+    "replayed.csv": "448aa842a9a91954b787a5b1faee866a86db4784552271d4365a737cb7d145aa",
+    "standard_matched_predictions.csv": "c7aaa10f0895916e13b77e8bae83511849fd3e151db7938c5c23372f683e644d",
+    "started.json": "4ecfa6444c6143ccd1595ce0828a18cdb7065e41bfe6b24e9272de118be36e25"
+  },
+  "live_fetches": 0,
+  "native_optimality": "NOT ASSESSED",
+  "new_fits": 0,
+  "next_step": "A separate registration from verified main is required before a corrected-optimizer replay. No automatic retry of this one-attempt plan.",
+  "plan_sha256": "bff41349f77ee85ad4eb38be13c494d1b7e5176b9cdec09b2f573ebbcf225225",
+  "qualified_comparison": false,
+  "reason": "Worktree was created from stale origin/main cf3a43f, before solver certificate repair 646610b. Registered source hashes bound the older optimizer, whose outputs remain NOT ASSESSED. Do not admit this as a corrected-carry replay.",
+  "replay_seconds": 91.25561187499261,
+  "status": "FAILED_QUALIFICATION"
+}
