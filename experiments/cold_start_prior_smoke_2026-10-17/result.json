@@ -1,0 +1,27 @@
+{
+  "fresh_holdout": false,
+  "gbm_fits": 0,
+  "history_max_gw": 140,
+  "history_rows": 95543,
+  "limitations": "Engineering cutoff/serialization check only; synthetic probes are not eligible players. Empirical spreads/frequencies are uncalibrated. Forecast benefit and downstream FPL points NOT ASSESSED.",
+  "milp_solves": 0,
+  "origin_gw": 141,
+  "output_sha256": {
+    "plan.json": "e0e14f4274148d55bd350f2559d1ccb139ed4daff7f0655bc2505be00722d0ce",
+    "priors.json": "5c140b5387dd08159da4fd7c09e1d38708a2af2c9ac24961044a4caf5e416f4e",
+    "probe-predictions.json": "9391f9cdfe6c48a737d1cc521fb4f8d1258e459127f297ca1016f18bd1ec5454",
+    "registry.csv": "b9b3e6a02d9b034302a16396faa2e7471b0d0f20c02c6ad4b7bc190d0cdc3f85",
+    "started.json": "8898a87ebf4fd17c619c585aa675622d2d20116edc4d2870d06f899056aa483d"
+  },
+  "positions": [
+    "DEF",
+    "FWD",
+    "GK",
+    "MID"
+  ],
+  "prior_computations": 2,
+  "prior_rows": 108,
+  "promotion_eligible": false,
+  "seconds": 1.0542822080024052,
+  "status": "ENGINEERING_SMOKE_PASS"
+}

@@ -258,6 +258,53 @@ do not yet establish independent FPL legality, an outcome-blind interface or pro
 contracts. Observed historical windows are not fresh holdouts. A four-round pilot
 checks the execution path; it cannot establish which model should run in Matchday.
 
+## Opt-in history-only cold starts
+
+`fpl.model.cold_start` supplies a separate path for registered players missing from
+a forecast snapshot. It keeps their form and outcomes unknown, then uses a pooled
+fixture prior rather than passing invented history to a fitted model:
+
+```python
+from fpl.model.cold_start import (
+    add_registered_cold_starts, fit_pooled_priors, predict_cold_starts,
+)
+
+priors = fit_pooled_priors(history, origin_gw=global_origin)
+extended = add_registered_cold_starts(snapshot, register)
+new_rows = extended.loc[extended.is_cold_start]
+new_fixture_priors = predict_cold_starts(new_rows, priors, origin_gw=global_origin)
+```
+
+`history` contains real observations only. Research callers must first admit the
+canonical frozen dataset. The helper excludes rounds at or after the global origin,
+includes DNPs, and shrinks each team-position distribution toward its pooled position
+distribution with weight `n / (n + 20)`. Distinct DGW fixtures remain separate samples;
+ambiguous or duplicate observations fail. Predictions are points per fixture.
+
+The optional `build_future_predictions(..., cold_start_priors=priors)` connection
+expands the fixture schedule and routes only known players through the normal/MID-gate
+models. Its snapshot global origin must match the prior table. Without the option,
+default outputs stay unchanged. Marked synthetic rows are rejected by feature building
+and shared training entrypoints. This option is currently an API for controlled callers;
+the weekly CLI does not enable it. Historical experiments require archived registration
+and fixture evidence: today's register cannot establish past eligibility.
+
+`prior_std` is historical population dispersion; `p_played` and `p60` are historical
+fixture frequencies. They are **uncalibrated**, not live probabilities or confidence
+intervals. `prior_count` is the raw team-position count (or pooled count on fallback),
+not an effective posterior sample size. Their presence does not establish better FPL
+points. Availability scaling is a separate heuristic and does not calibrate this prior.
+
+Prior DataFrame attributes bind origin, latest admitted round, fixed strength and
+history/table fingerprints. Keep the table and metadata together, for example JSON
+with `{"metadata": priors.attrs, "rows": priors.to_dict("records")}`. Restore rows
+with the exported `PRIOR_COLUMNS`, restore `.attrs`, then call
+`validate_pooled_priors(table, global_origin)`. A standalone CSV loses this metadata.
+Pandas fingerprints depend on runtime; external dataset/source manifests are still
+required. The registered engineering smoke under
+`experiments/cold_start_prior_smoke_2026-10-17/` tests cutoff invariance and this
+round trip on real frozen history, without assessing forecast or MILP gains.
+
 ## Where the next connections belong
 
 The preserved October 3 seed-0 study can be read through the current scorecards

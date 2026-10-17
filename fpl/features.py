@@ -386,6 +386,10 @@ def build_feature_frame(raw_df):
     `raw_df` must contain at least: player_id, GW_global, position, was_home,
     total_points, and the columns in FORM_STATS (missing ones are skipped).
     """
+    from fpl.model.cold_start import cold_start_mask
+
+    if cold_start_mask(raw_df).any():
+        raise ValueError("Synthetic cold-start rows cannot enter feature building or model fitting")
     df = raw_df.copy()
     for col in FORM_STATS:
         if col not in df.columns:
