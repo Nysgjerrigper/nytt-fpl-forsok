@@ -12,6 +12,8 @@ PREDICTIONS_PATH = ROOT / "fpl" / "predictions_latest.csv"
 SQUAD_OUTPUT_DIR = ROOT / "fpl" / "squad_selections"
 TRANSFER_HIT_POINTS = 4
 BACKTEST_SCORING_PROTOCOLS = ("autosubs_v2", "legacy_no_autosubs")
+PLAYGROUND_RUNS_DIR = ROOT / "experiments" / "runs"
+PLAYGROUND_MAX_BOOTSTRAPS = 100_000
 
 GITHUB_RAW_BASE = "https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data"
 GITHUB_API_SEASONS_URL = "https://api.github.com/repos/vaastav/Fantasy-Premier-League/contents/data"

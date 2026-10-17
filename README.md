@@ -11,6 +11,7 @@ benchmark. Production uses `single:catboost` for GK, DEF, MID and FWD.
 - [Stakeholder overview](docs/STAKEHOLDER_OVERVIEW.md): purpose, goals and tools in plain English.
 - [Alternative optimizer review](docs/OPTIMIZER_REVIEW.md): current-season requirements and candidate gaps.
 - [Backtest comparison contracts](docs/BACKTEST_COMPARISONS.md): explicit gross/net metrics, input validation and stable-ID decision snapshots.
+- [The Training Ground](docs/TRAINING_GROUND.md): offline comparison playground, scorecards and an evidence league.
 - [Open FPL adapter](docs/OPEN_FPL_ADAPTER.md): optional modern-rule backend, inputs and measured comparison.
 - [Master thesis](docs/thesis/Master%20thesis%20Andersen%20%26%20Molberg.pdf).
 - [Research history](RESEARCH_LOG.md) and [run registry](experiments/results.csv): dated evidence,

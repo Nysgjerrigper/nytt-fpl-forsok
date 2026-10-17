@@ -24,7 +24,8 @@ def test_snapshot_preserves_ids_order_and_normalizes_chip_without_mutating_sourc
     optimize.write_decision_snapshot(decisions, target)
     payload = json.loads(target.read_text())
     assert payload["schema_version"] == 1
-    assert payload["outcomes_read"] is False
+    assert payload["settlement_completed"] is False
+    assert payload["outcome_access_assessment"] == "NOT ASSESSED"
     assert payload["native_optimality_assessment"] == "NOT ASSESSED"
     row = payload["decisions"][0]
     assert row["squad"] == [91, 12, 40, 8]
@@ -83,7 +84,8 @@ def test_optimizer_writes_decisions_before_settlement_and_exports_consistent_cos
     ]))
     payload = json.loads(snapshot.read_text())
     locked = payload["decisions"][0]
-    assert payload["outcomes_read"] is False
+    assert payload["settlement_completed"] is False
+    assert payload["outcome_access_assessment"] == "NOT ASSESSED"
     assert not any(key.startswith("actual_") for key in locked)
     assert locked["squad"] == result.iloc[0].squad
     assert locked["lineup"] == result.iloc[0].lineup
