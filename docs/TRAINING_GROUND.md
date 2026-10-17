@@ -382,6 +382,34 @@ A first-round Free Hit requires an existing permanent squad. Historical snapshot
 without these fields retain their evidence gaps; do not invent first-row holdings.
 Capturing state is distinct from independently validating its legality.
 
+### Independent financial arithmetic
+
+`fpl.milp.financial_audit.audit_legacy_finances` checks fixed legacy **no-chip**
+choices without calling the optimizer or scorer. Supply explicit initial state,
+FT cap/gain and unique current player-round prices in integer tenths. It checks
+15-player holdings, exact transfer deltas, affordability, bank conservation, paid
+hits and FT carry. Captured optional permanent-state fields must agree.
+Unsupported chips are rejected rather than certified.
+
+The default `current_price` policy checks reported accounting. A separate
+`half_profit` policy tracks explicit acquisition prices and resets basis on rebuy;
+continuing squads require every original purchase price. With
+`compare_reported=False`, it reports a fixed-decision selling-policy sensitivity,
+including bank differences, and still rejects unaffordable choices. It does not
+optimize a new strategy or change point totals.
+
+The registered pilot audit under `experiments/financial_replay_2026-10-17/`
+reconstructs initial state and price assumptions from byte-matched evaluated source.
+Those are source-derived facts, not retrospectively explicit plan registration.
+The price evidence labels forward/back fill, missing-value defaults and disagreeing
+copies. All four recorded arithmetic paths pass; the half-profit sensitivity leaves
+all choices affordable, with £0.1m less closing bank for standard control only.
+
+This component does not validate lineups/club limits, chip rules, official price
+publication times, full transfer-rule chronology or outcome-blind execution. Its
+PASS is **financial arithmetic under the declared evidence**, not full site legality.
+Settlement structure checks and price/information provenance remain separate gates.
+
 ### Recovered historical scorecards
 
 The preserved October 3 seed-0 study can be read through the current scorecards
