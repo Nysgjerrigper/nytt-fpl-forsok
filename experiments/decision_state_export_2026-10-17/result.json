@@ -1,0 +1,50 @@
+{
+  "added_columns": [
+    "state_mode",
+    "permanent_squad_start",
+    "permanent_squad_end",
+    "permanent_bank_start",
+    "permanent_bank_end",
+    "temporary_selection_bank_end"
+  ],
+  "compared_rounds": 2,
+  "limitation": "Synthetic state/export engineering check; not empirical FPL model performance or independent financial-rule validation.",
+  "model_fits": 0,
+  "native_optimality": "PROVEN_OPTIMAL",
+  "optimizer_solves": 4,
+  "original_columns_unchanged": [
+    "gameweek",
+    "squad",
+    "lineup",
+    "bench_order",
+    "captain",
+    "vice_captain",
+    "transfers_in",
+    "transfers_out",
+    "budget_end",
+    "budget_start",
+    "alpha",
+    "q_start",
+    "objective_value",
+    "solver_status",
+    "native_optimality_assessment",
+    "native_solver_status",
+    "mip_gap",
+    "native_objective",
+    "native_dual_bound",
+    "chip_played",
+    "q_end"
+  ],
+  "output_sha256": {
+    "baseline.csv": "1e435c046c0be42c045e6f3f6e7b48434ce76b0a9035eb06525c9f50c9dd6986",
+    "baseline.json": "425bfb52ef70a6bec479892c19805d32704ce47333cc1d3c3d861ffd0a4acfd4",
+    "baseline.log": "b45598ce91e7b88f44258df6e3faac07b2ec565378d69316a9862147294c77e2",
+    "candidate.csv": "3656de36a246b58ffcf280bc5136062d84137cf049632411e7334d520be1f146",
+    "candidate.json": "6d3f1f2b313a39a00f6c02896ddf0903d369c6ca98d6213717c4bed42d081abc",
+    "candidate.log": "aa87c31907cb1e0e586f1513ca5e7ae9ae828e91ce4732c6213ee46d147075cc",
+    "plan.json": "b3fa6c6966692c7fb4f4ff1dd09d32baf8bb85764aca0dae7b6783d831d83bec",
+    "registry.csv": "3ca14dcb1372a7762262203a7a00689c5f9a6525c8be52864e2056eed3ccd809"
+  },
+  "promotion_eligible": false,
+  "status": "SYNTHETIC_EXPORT_CONTROL_PASS"
+}

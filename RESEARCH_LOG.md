@@ -1797,3 +1797,34 @@ legality, outcome-blind execution and independent native proof remain unassessed
 Entries remain unranked; production stays `single:catboost`. Focused regression:
 154 tests passed, including complete-ledger admission failures, capture hash/timing
 rejection, original-byte preservation and a hand-calculated autosubstitution/hit case.
+
+
+### 2026-10-17 — Explicit permanent-state exports and synthetic invariance control
+
+New legacy snapshots and Solio rows capture fresh/continuing mode, permanent
+holdings and bank before/after, and a separate temporary Free Hit selection residual.
+Original budget/FT/selection fields remain unchanged. A first-round fresh Free Hit
+is now rejected before loading inputs because there is no permanent squad to restore.
+This does not alter the standing chips-disabled research controls.
+
+Registered the bounded synthetic export control in issue #21 comment6240952603,
+plan SHA `9fa64bb9f2a80d5905a0fd3b2824dc79cf5d5a6a581038acab131b8788909d23`.
+Exactly four native-optimal solves compared the pre-change47736fc optimizer with
+current source on identical synthetic two-round continuing/FH input. Every one of
+21 original returned columns matched (exact list identities, numeric tolerance1e-9).
+Six explicit state columns were added. No models were fitted. This is engineering
+invariance evidence, not empirical FPL performance or independent financial legality.
+
+Eight output and three input hashes independently verified; source copies, input,
+logs and both machine snapshots remain in `DecisionStateExportInputs_20261017`
+and `DecisionStateExportControl_20261017` under task artifacts. Tracked
+plan/script/result/registry are in `experiments/decision_state_export_2026-10-17/`.
+Focused regression:127 passed, including fresh/continuing state, transfers,
+Free Hit restoration across rounds, temporary/permanent bank distinction, stable
+ID JSON serialization, native certificates and existing corrected scoring.
+
+Correction to earlier audit wording: legacy v/budget_end is permanent bank in a
+continuing FH (e=u=0); temporary affordability is a separate constraint. The new
+field exposes that separate residual without reinterpreting historical columns.
+Old snapshots lacking explicit initial/permanent state are not upgraded by this
+export change. Financial/rule audit and outcome-blind execution remain issue #23.
