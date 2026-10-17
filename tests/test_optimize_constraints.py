@@ -181,11 +181,12 @@ def test_initial_ft_above_policy_cap_is_honored(tmp_path):
                          "predicted_total_points": (idx * 7 + gw * 3) % 11})
     predictions_csv = tmp_path / "predictions_int_ids.csv"
     pd.DataFrame(rows).to_csv(predictions_csv, index=False)
-    # A valid 15: 2 GK, 5 DEF, 5 MID, 3 FWD (PLAYERS is grouped by position).
+    # A valid 15 by position AND club: the last three forwards balance clubs
+    # 2/3/4 against the two keepers in clubs 0/1 (exactly three per club).
     by_pos = {}
     for pid, pos, _, _ in PLAYERS:
         by_pos.setdefault(pos, []).append(int_id[pid])
-    squad_ids = by_pos["GK"][:2] + by_pos["DEF"][:5] + by_pos["MID"][:5] + by_pos["FWD"][:3]
+    squad_ids = by_pos["GK"][:2] + by_pos["DEF"][:5] + by_pos["MID"][:5] + by_pos["FWD"][-3:]
 
     args = optimize.parse_args([
         "--predictions-csv", str(predictions_csv),
@@ -201,6 +202,8 @@ def test_initial_ft_above_policy_cap_is_honored(tmp_path):
     results_df = optimize.run(args)
     assert not results_df.empty
     assert results_df.iloc[0]["q_start"] == 5  # full banked stack available at GW1
+    assert results_df.solver_status.tolist() == ["Optimal", "Optimal"]
+    assert results_df.native_optimality_assessment.tolist() == ["PROVEN_OPTIMAL"] * 2
 
 
 def test_free_transfer_rollover_banks_and_caps(tmp_path):

@@ -96,8 +96,7 @@ def parse_args(argv=None):
     parser.add_argument("--threads", type=int, default=config.MILP_THREADS,
                          help="Solver threads (0 = solver default/single-threaded).")
     parser.add_argument("--gap-rel", type=float, default=config.MILP_GAP_REL,
-                         help="Relative MIP optimality gap (0 = prove full optimality). "
-                              "A small gap (e.g. 0.001) trades a bounded objective loss for speed.")
+                         help="Must be zero: approximate optimization is not admitted.")
     parser.add_argument("--wc1-gw", type=int, default=0, help="Force wildcard 1 at this absolute GW (0=disabled)")
     parser.add_argument("--wc2-gw", type=int, default=0, help="Force wildcard 2 at this absolute GW (0=disabled)")
     parser.add_argument("--tc-gw", type=int, default=0, help="Force triple captain at this absolute GW (0=disabled)")
@@ -119,22 +118,77 @@ def make_solver(name: str, time_limit: float | None, threads: int = 0,
                 gap_rel: float = 0.0) -> pulp.LpSolver:
     """Build the PuLP solver backend by name ('cbc' or 'highs').
 
-    With gap_rel=0 both backends return proven-optimal solutions, so squad
-    output is identical up to objective ties; they differ only in speed (see
-    config.MILP_SOLVER for the benchmark numbers behind the default).
+    Zero relative and absolute stopping gaps request optimality; the returned solve
+    still needs status, feasibility and certificate admission before export.
     """
+    if not math.isfinite(gap_rel) or gap_rel != 0:
+        raise ValueError("Only zero solver gap is admitted")
+    if time_limit is not None and (not math.isfinite(time_limit) or time_limit <= 0):
+        raise ValueError("Solver time limit must be finite and positive")
     if name == "highs":
-        kwargs = {"msg": False, "timeLimit": time_limit}
+        kwargs = {"msg": False, "timeLimit": time_limit, "gapRel": 0.0, "gapAbs": 0.0}
         if threads:
             kwargs["threads"] = threads
-        if gap_rel:
-            kwargs["gapRel"] = gap_rel
         solver = pulp.HiGHS(**kwargs)
         if not solver.available():
             sys.exit("ERROR: --solver highs requires the highspy package (pip install highspy).")
         return solver
+    if name != "cbc":
+        raise ValueError(f"Unknown solver: {name}")
     return pulp.PULP_CBC_CMD(msg=True, timeLimit=time_limit, threads=threads or None,
-                             gapRel=gap_rel or None)
+                           gapRel=0.0, gapAbs=0.0)
+
+
+def require_optimal_solution(model: pulp.LpProblem, status: int, solver_name: str) -> dict:
+    """Reject feasible incumbents and invalid solutions before extracting decisions.
+
+    PuLP may label a time-limited HiGHS incumbent `Optimal` while its solution status
+    is only integer-feasible. Check both statuses and the native HiGHS certificate.
+    CBC exposes only its parsed optimal status here, explicitly labelled as such.
+    This validates the encoded MILP, not independent FPL-rule legality.
+    """
+    tolerance = config.MILP_CERTIFICATE_ABS_TOL
+    if status != pulp.LpStatusOptimal or model.sol_status != pulp.LpSolutionOptimal:
+        raise RuntimeError("Solver did not prove optimality (model and solution status required)")
+    objective = model.objective.value() if model.objective is not None else None
+    if objective is None or not math.isfinite(objective):
+        raise RuntimeError("Solver returned a nonfinite or missing objective")
+    for variable in model.variables():
+        value = variable.varValue
+        if value is None or not math.isfinite(value):
+            raise RuntimeError("Solver returned a nonfinite or missing variable")
+        if variable.cat == pulp.LpInteger and abs(value - round(value)) > tolerance:
+            raise RuntimeError("Solver returned a fractional integer variable")
+    if not model.valid(tolerance):
+        raise RuntimeError("Solver solution violates the encoded MILP")
+    if solver_name == "cbc":
+        return {"native_optimality_assessment": "PULP_REPORTED_OPTIMAL"}
+    if solver_name != "highs":
+        raise RuntimeError(f"Unsupported solver certificate: {solver_name}")
+    import highspy
+
+    try:
+        native = model.solverModel
+        native_status = native.getModelStatus()
+        info = native.getInfo()
+        solution = native.getSolution()
+        gaps = [native.getOptionValue(name) for name in ("mip_rel_gap", "mip_abs_gap")]
+        if any(result != highspy.HighsStatus.kOk or gap != 0 for result, gap in gaps):
+            raise RuntimeError("Native HiGHS stopping gaps must both be zero")
+        if native_status != highspy.HighsModelStatus.kOptimal or not info.valid or not solution.value_valid:
+            raise RuntimeError("Native HiGHS has no valid optimal solution")
+        gap, primal, dual = info.mip_gap, info.objective_function_value, info.mip_dual_bound
+        if not all(math.isfinite(value) for value in (gap, primal, dual)):
+            raise RuntimeError("Native HiGHS certificate has nonfinite values")
+        if gap < 0 or gap > tolerance or abs(primal - dual) > tolerance:
+            raise RuntimeError("Native HiGHS primal-dual bound does not establish zero gap")
+        if abs(objective - (model.sense * primal + model.objective.constant)) > tolerance:
+            raise RuntimeError("PuLP objective disagrees with native HiGHS certificate")
+    except (AttributeError, TypeError, ValueError) as exc:
+        raise RuntimeError("Native HiGHS certificate is unavailable or invalid") from exc
+    return {"native_optimality_assessment": "PROVEN_OPTIMAL",
+            "native_solver_status": str(native_status), "mip_gap": float(gap),
+            "native_objective": float(primal), "native_dual_bound": float(dual)}
 
 
 def validate_chip_targets(args) -> dict[str, int]:
@@ -165,7 +219,8 @@ def validate_chip_targets(args) -> dict[str, int]:
 def write_decision_snapshot(decisions: pd.DataFrame, path: str | Path) -> None:
     """Preserve stable IDs and bench priority before realized scoring reads outcomes.
 
-    This records decisions, not proof of legality or native solver optimality.
+    Native optimality evidence, when available, describes the encoded MILP;
+    it does not establish independent FPL-rule legality.
     Display-name conversion in the human CSV never changes this snapshot.
     """
     if any(column.startswith("actual_") for column in decisions.columns):
@@ -174,9 +229,12 @@ def write_decision_snapshot(decisions: pd.DataFrame, path: str | Path) -> None:
     for record in records:
         if isinstance(record.get("chip_played"), str) and record["chip_played"].startswith("TC_"):
             record["chip_played"] = "TC"
+    assessments = {record.get("native_optimality_assessment") for record in records}
+    assessment = (next(iter(assessments)) if len(assessments) == 1 and
+                  assessments <= {"PROVEN_OPTIMAL", "PULP_REPORTED_OPTIMAL"} else "NOT ASSESSED")
     write_json_new(path, {"schema_version": 1, "settlement_completed": False,
                           "outcome_access_assessment": "NOT ASSESSED",
-                          "native_optimality_assessment": "NOT ASSESSED", "decisions": records})
+                          "native_optimality_assessment": assessment, "decisions": records})
 
 
 def run(args):
@@ -356,6 +414,7 @@ def run(args):
         q = model.add_variable_dicts("FreeTransfersAvailable", t_sub, lowBound=0, upBound=Q_bar, cat="Integer")
         alpha = model.add_variable_dicts("PenalizedTransfers", t_sub, lowBound=0, upBound=M_alpha, cat="Integer")
         ft_carry = model.add_variable_dicts("FT_Carry", t_sub, lowBound=0)
+        ft_saturated = model.add_variable_dicts("FT_CarryAtCap", t_sub[:-1], cat="Binary")
 
         if has_origin:
             origin_matrix = points_matrix_by_origin.get(current_gw)
@@ -498,11 +557,20 @@ def run(args):
             model += alpha[t_curr] <= M_alpha * (1 - w[t_curr])
             model += alpha[t_curr] <= M_alpha * (1 - r[t_curr])
             ft_used_eff_prev = pulp.lpSum(e[p_][t_prev] for p_ in p) - alpha[t_prev]
-            model += ft_carry[t_prev] >= (
-                q[t_prev] - ft_used_eff_prev - M_q * (w[t_prev] + r[t_prev])
-            )
-            model += ft_carry[t_prev] <= Q_bar - Q_under_bar
             chip_active_prev = w[t_prev] + r[t_prev]
+            residual_ft = q[t_prev] - ft_used_eff_prev
+            carry_cap = Q_bar - Q_under_bar
+            carry_big_m = M_transfer + M_alpha + Q_bar
+            # Carry is min(residual, cap). Merely bounding carry >= residual
+            # makes holding at the cap infeasible and forces needless transfers.
+            model += ft_carry[t_prev] >= (
+                residual_ft - carry_big_m * (chip_active_prev + ft_saturated[t_prev])
+            )
+            model += ft_carry[t_prev] <= residual_ft + carry_big_m * chip_active_prev
+            model += ft_carry[t_prev] >= (
+                carry_cap - carry_big_m * (1 - ft_saturated[t_prev] + chip_active_prev)
+            )
+            model += ft_carry[t_prev] <= carry_cap
             q_normal = ft_carry[t_prev] + Q_under_bar
             model += q[t_curr] <= q_normal + M_q * chip_active_prev
             model += q[t_curr] >= q_normal - M_q * chip_active_prev
@@ -515,103 +583,90 @@ def run(args):
         try:
             status = model.solve(solver)
         except Exception as exc:
-            print(f"Solver error: {exc}")
-            status = -1000
+            raise RuntimeError(f"Solver failed at GW {current_gw}; no decision export") from exc
         solve_time = time.time() - solve_start
         status_str = pulp.LpStatus.get(status, "Unknown Status")
         print(f"Status: {status_str} (solve: {solve_time:.2f}s, model build: {solve_start - loop_start:.2f}s)")
 
         objective_value = model.objective.value() if model.objective is not None else None
-        acceptable = status == pulp.LpStatusOptimal or (
-            status == pulp.LpStatusNotSolved and objective_value is not None
-        )
+        certificate = require_optimal_solution(model, status, args.solver)
 
         def val(var, default=0.0):
             v_ = var.varValue
             return v_ if v_ is not None else default
 
-        if acceptable:
-            if is_fresh_start:
-                previous_squad_dict = {p_: 1 for p_ in p if val(x[p_][t1_sub]) > 0.9}
+        if is_fresh_start:
+            previous_squad_dict = {p_: 1 for p_ in p if val(x[p_][t1_sub]) > 0.9}
 
-            gw_results = {"gameweek": current_gw}
-            selected_squad = x_freehit if val(r[t1_sub]) > 0.9 else x
-            gw_results["squad"] = sorted([p_ for p_ in p if val(selected_squad[p_][t1_sub]) > 0.9])
-            gw_results["lineup"] = sorted([p_ for p_ in p if val(y[p_][t1_sub]) > 0.9])
-            bench = [p_ for p_ in gw_results["squad"] if p_ not in gw_results["lineup"]]
-            bench_gk = [p_ for p_ in bench if pos_map.get(p_) == "GK"]
-            bench_outfield = sorted(
-                [p_ for p_ in bench if pos_map.get(p_) != "GK"],
-                key=lambda p_: (-points_sub.loc[p_, t1_sub], str(p_)),
-            )
-            gw_results["bench_order"] = bench_gk + bench_outfield
-            potential_captains = [p_ for p_ in p if val(f[p_][t1_sub]) > 0.9]
-            potential_tc = [p_ for p_ in p if val(is_tc[p_][t1_sub]) > 0.9]
-            tc_active = bool(potential_tc)
-            captain_id = potential_tc[0] if potential_tc else (potential_captains[0] if potential_captains else None)
-            gw_results["captain"] = [captain_id] if captain_id is not None else []
-            gw_results["vice_captain"] = sorted([p_ for p_ in p if val(h[p_][t1_sub]) > 0.9])
-            gw_results["transfers_in"] = sorted([p_ for p_ in p if val(e[p_][t1_sub]) > 0.9])
-            gw_results["transfers_out"] = sorted([p_ for p_ in p if val(u[p_][t1_sub]) > 0.9])
-            gw_results["budget_end"] = val(v[t1_sub], previous_budget)
-            gw_results["budget_start"] = previous_budget
-            gw_results["alpha"] = round(val(alpha[t1_sub]))
-            gw_results["q_start"] = previous_ft
-            gw_results["objective_value"] = objective_value
-            gw_results["solver_status"] = status_str
-            gw_results["native_optimality_assessment"] = "NOT ASSESSED"
+        gw_results = {"gameweek": current_gw}
+        selected_squad = x_freehit if val(r[t1_sub]) > 0.9 else x
+        gw_results["squad"] = sorted([p_ for p_ in p if val(selected_squad[p_][t1_sub]) > 0.9])
+        gw_results["lineup"] = sorted([p_ for p_ in p if val(y[p_][t1_sub]) > 0.9])
+        bench = [p_ for p_ in gw_results["squad"] if p_ not in gw_results["lineup"]]
+        bench_gk = [p_ for p_ in bench if pos_map.get(p_) == "GK"]
+        bench_outfield = sorted(
+            [p_ for p_ in bench if pos_map.get(p_) != "GK"],
+            key=lambda p_: (-points_sub.loc[p_, t1_sub], str(p_)),
+        )
+        gw_results["bench_order"] = bench_gk + bench_outfield
+        potential_captains = [p_ for p_ in p if val(f[p_][t1_sub]) > 0.9]
+        potential_tc = [p_ for p_ in p if val(is_tc[p_][t1_sub]) > 0.9]
+        tc_active = bool(potential_tc)
+        captain_id = potential_tc[0] if potential_tc else (potential_captains[0] if potential_captains else None)
+        gw_results["captain"] = [captain_id] if captain_id is not None else []
+        gw_results["vice_captain"] = sorted([p_ for p_ in p if val(h[p_][t1_sub]) > 0.9])
+        gw_results["transfers_in"] = sorted([p_ for p_ in p if val(e[p_][t1_sub]) > 0.9])
+        gw_results["transfers_out"] = sorted([p_ for p_ in p if val(u[p_][t1_sub]) > 0.9])
+        gw_results["budget_end"] = val(v[t1_sub], previous_budget)
+        gw_results["budget_start"] = previous_budget
+        gw_results["alpha"] = round(val(alpha[t1_sub]))
+        gw_results["q_start"] = previous_ft
+        gw_results["objective_value"] = objective_value
+        gw_results["solver_status"] = status_str
+        gw_results.update(certificate)
 
-            wc_active = val(w[t1_sub]) > 0.9
-            bb_active = val(b[t1_sub]) > 0.9
-            fh_active = val(r[t1_sub]) > 0.9
-            chip_name = None
-            if wc_active: chip_name = "WC"
-            if bb_active: chip_name = "BB"
-            if fh_active: chip_name = "FH"
-            if tc_active and captain_id is not None:
-                chip_name = f"TC_{player_name_map.get(captain_id, captain_id)}"
-            gw_results["chip_played"] = chip_name
+        wc_active = val(w[t1_sub]) > 0.9
+        bb_active = val(b[t1_sub]) > 0.9
+        fh_active = val(r[t1_sub]) > 0.9
+        chip_name = None
+        if wc_active: chip_name = "WC"
+        if bb_active: chip_name = "BB"
+        if fh_active: chip_name = "FH"
+        if tc_active and captain_id is not None:
+            chip_name = f"TC_{player_name_map.get(captain_id, captain_id)}"
+        gw_results["chip_played"] = chip_name
 
-            e_sum = len(gw_results["transfers_in"])
-            if chip_name in ("WC", "FH"):
-                next_ft = Q_under_bar
-            else:
-                ft_used_eff = max(0, e_sum - gw_results["alpha"])
-                ft_carry_val = max(0, previous_ft - ft_used_eff)
-                next_ft = min(Q_bar, math.floor(ft_carry_val + Q_under_bar))
-
-            if fh_active:
-                previous_budget = gw_results["budget_start"]
-            else:
-                previous_squad_dict = {p_: 1 for p_ in gw_results["squad"]}
-                previous_budget = gw_results["budget_end"]
-            previous_ft = next_ft
-            gw_results["q_end"] = next_ft
-
-            if chip_name == "WC":
-                if current_gw <= mid_season_split_gw:
-                    used_chips_tracker["wc1"] = True
-                else:
-                    used_chips_tracker["wc2"] = True
-            elif chip_name == "BB":
-                used_chips_tracker["bb"] = True
-            elif chip_name == "FH":
-                used_chips_tracker["fh"] = True
-            elif chip_name and chip_name.startswith("TC_"):
-                used_chips_tracker["tc"] = True
-
-            master_results.append(gw_results)
-            print(f"GW {current_gw}: chip={chip_name}, transfers in/out={len(gw_results['transfers_in'])}, "
-                  f"budget_end={previous_budget:.1f}, next FT={previous_ft}")
+        e_sum = len(gw_results["transfers_in"])
+        if chip_name in ("WC", "FH"):
+            next_ft = Q_under_bar
         else:
-            print(f"No acceptable solution for GW {current_gw}; falling back to no transfers.")
-            master_results.append({
-                "gameweek": current_gw, "squad": sorted(previous_squad_dict.keys()),
-                "lineup": [], "bench_order": [], "captain": [], "vice_captain": [], "transfers_in": [], "transfers_out": [],
-                "budget_end": previous_budget, "budget_start": previous_budget, "alpha": 0,
-                "q_start": previous_ft, "objective_value": None, "chip_played": "FALLBACK_NO_TRANSFERS",
-            })
-            previous_ft = min(Q_bar, math.floor(previous_ft + Q_under_bar))
+            ft_used_eff = max(0, e_sum - gw_results["alpha"])
+            ft_carry_val = max(0, previous_ft - ft_used_eff)
+            next_ft = min(Q_bar, math.floor(ft_carry_val + Q_under_bar))
+
+        if fh_active:
+            previous_budget = gw_results["budget_start"]
+        else:
+            previous_squad_dict = {p_: 1 for p_ in gw_results["squad"]}
+            previous_budget = gw_results["budget_end"]
+        previous_ft = next_ft
+        gw_results["q_end"] = next_ft
+
+        if chip_name == "WC":
+            if current_gw <= mid_season_split_gw:
+                used_chips_tracker["wc1"] = True
+            else:
+                used_chips_tracker["wc2"] = True
+        elif chip_name == "BB":
+            used_chips_tracker["bb"] = True
+        elif chip_name == "FH":
+            used_chips_tracker["fh"] = True
+        elif chip_name and chip_name.startswith("TC_"):
+            used_chips_tracker["tc"] = True
+
+        master_results.append(gw_results)
+        print(f"GW {current_gw}: chip={chip_name}, transfers in/out={len(gw_results['transfers_in'])}, "
+              f"budget_end={previous_budget:.1f}, next FT={previous_ft}")
 
         print(f"GW {current_gw} loop time: {time.time() - loop_start:.2f}s")
 

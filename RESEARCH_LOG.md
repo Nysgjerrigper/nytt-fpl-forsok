@@ -1493,3 +1493,28 @@ for all 62 candidate windows, with unchanged registered vendor solver bytes.
 
 Independent rule and regression suite: 556 passed, two existing warnings. Preserve the
 optional integration and negative results; retain legacy default and single:catboost.
+
+### 2026-10-17 — Solver admission and capped-carry correctness repair (#28)
+
+Registered the capped-carry hypothesis and repair in issue #28 before changing the
+formulation. Strict admission exposed a previously hidden infeasible no-transfer
+scenario: carry >= unused FTs conflicted with carry <= banking cap minus one.
+Fallback rows had allowed weak rollover assertions to pass despite failed solves.
+The repair encodes capped carry with a saturation binary while retaining the
+standing banking cap, chip-reset policy, objective and price assumptions. The
+five-FT fixture also needed a club-legal initial squad; its original first three
+forwards put four players in each of two clubs with no affordable repair.
+
+Admission now requests zero native relative and absolute gaps, requires PuLP model
+AND solution optimal status, finite feasible integer values, and a valid HiGHS
+optimal primal/dual certificate within a predeclared 1e-7 numerical tolerance.
+CBC evidence is explicitly only PuLP-reported optimality. Failed or partial runs
+abort without successful recommendation artifacts; no fallback decision is scored.
+Native certificates describe the encoded MILP, not independent FPL rule validation.
+
+Focused synthetic regressions validate solver admission, FT rollover, chip and
+corrected scoring behavior. These checks are not a historical backtest or evidence
+of improved realized points. Prior CSVs and registered results remain preserved;
+this defect requires qualifying historical solve evidence and targeted matched
+replays under issue #23 before treating old totals as certified comparisons.
+No forecast/model promotion or claim of modern-rule equivalence is made.
