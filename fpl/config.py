@@ -31,6 +31,9 @@ FPL_API_TIMEOUT_SECONDS = 30
 
 GWS_PER_SEASON = 38
 
+# Replay evidence may use a nearby archived register, explicitly capture-time only.
+REPLAY_REGISTER_MAX_AGE_HOURS = 24
+
 
 def season_start_gw(season: str) -> int:
     """Return the first global GW for ``season`` relative to DEFAULT_START_SEASON."""

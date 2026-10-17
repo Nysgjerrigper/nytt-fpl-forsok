@@ -177,3 +177,95 @@ def test_failure_preserves_inputs_without_completed_qualification(tmp_path, fail
         replay.run_replay(state, predictions, output, reference_path=reference)
     assert (output / "failed.json").exists() and not (output / "complete.json").exists()
     assert (output / "decisions.json").read_bytes() == state.read_bytes()
+
+
+def blank_row(player=12):
+    return pd.DataFrame({"player_id": [player], "GW": [141], "position": ["MID"],
+        "team": ["club1"], "actual_total_points": [0.], "minutes": [0.],
+        "outcome_basis": ["EXPLICIT_RETROSPECTIVE_BLANK"]})
+
+
+def test_separate_blank_outcomes_have_no_fake_fixture_or_forecast():
+    original = outcomes().loc[lambda frame: frame.player_id != 12]
+    before = original.copy(deep=True)
+    result = replay.replay_snapshot(snapshot(), original, blank_outcomes=blank_row())
+    assert result.actual_total_points.tolist() == [12]
+    assert result.explicit_blank_players.tolist() == [1]
+    pd.testing.assert_frame_equal(original, before)
+
+
+@pytest.mark.parametrize("failure", ["nonzero", "duplicate", "observed", "wrong_basis", "boolean"])
+def test_blank_arithmetic_rejects_invalid_or_overlapping_outcomes(failure):
+    original = outcomes().loc[lambda frame: frame.player_id != 12]
+    blanks = blank_row()
+    if failure == "nonzero": blanks["actual_total_points"] = 1.
+    elif failure == "duplicate": blanks = pd.concat([blanks, blanks])
+    elif failure == "observed": blanks = blank_row(8)
+    elif failure == "wrong_basis": blanks["outcome_basis"] = "guessed"
+    else: blanks["minutes"] = True
+    with pytest.raises(ValueError):
+        solio.score_decisions(pd.DataFrame(snapshot()["decisions"]), original,
+                              require_complete_outcomes=True, explicit_blank_outcomes=blanks)
+
+
+def capture_inputs():
+    import gzip
+    import hashlib
+    register = {"events": [{"id": 27, "deadline_time": "2024-03-02T13:30:00Z"}]}
+    payload = json.dumps(register).encode()
+    manifest = {"captured_at": "2024-03-02T04:00:00Z", "event": 27,
+        "event_deadline": "2024-03-02T13:30:00Z", "backfill": {"season": "2023-24"},
+        "files": [{"name": "bootstrap-static.json.gz", "endpoint": "/bootstrap-static/",
+                   "sha256": hashlib.sha256(payload).hexdigest()}]}
+    inputs = {"fixtures.csv": b"id\n1\n", "teams.csv": b"id\n1\n",
+              "bootstrap-static.json.gz": gzip.compress(payload), "manifest.json": json.dumps(manifest).encode()}
+    evidence = {"schema_version": 1, "season": "2023-24", "first_global_gw": 115, "event": 27,
+                "fixture_source_commit": "a" * 40,
+                "input_sha256": {name: hashlib.sha256(data).hexdigest() for name, data in inputs.items()}}
+    inputs["blank-evidence.json"] = json.dumps(evidence).encode()
+    return inputs
+
+
+@pytest.mark.parametrize("failure", ["changed_asset", "changed_payload_manifest", "late", "old", "naive", "wrong_event", "wrong_season", "unpinned"])
+def test_capture_evidence_rejects_changed_hashes_and_invalid_timing(failure):
+    import hashlib
+    inputs = capture_inputs()
+    evidence = json.loads(inputs["blank-evidence.json"])
+    if failure == "changed_asset": inputs["fixtures.csv"] += b"2\n"
+    elif failure == "unpinned": evidence["fixture_source_commit"] = "main"
+    else:
+        manifest = json.loads(inputs["manifest.json"])
+        if failure == "changed_payload_manifest": manifest["files"][0]["sha256"] = "0" * 64
+        elif failure == "late": manifest["captured_at"] = "2024-03-02T14:00:00Z"
+        elif failure == "old": manifest["captured_at"] = "2024-02-29T04:00:00Z"
+        elif failure == "naive": manifest["captured_at"] = "2024-03-02T04:00:00"
+        elif failure == "wrong_event": manifest["event"] = 28
+        else: manifest["backfill"]["season"] = "2024-25"
+        inputs["manifest.json"] = json.dumps(manifest).encode()
+        evidence["input_sha256"]["manifest.json"] = hashlib.sha256(inputs["manifest.json"]).hexdigest()
+    inputs["blank-evidence.json"] = json.dumps(evidence).encode()
+    with pytest.raises(ValueError):
+        replay._admit_blank_evidence(snapshot(), outcomes(), inputs)
+
+
+def test_saved_blank_capture_preserves_original_bytes_and_audit(tmp_path, monkeypatch):
+    from fpl.milp import blank_outcomes
+    state, predictions, reference = _inputs(tmp_path)
+    outcomes().loc[lambda frame: frame.player_id != 12].to_csv(predictions, index=False)
+    # Isolate capture/receipt integration; full fixture-ledger admission is tested
+    # independently with complete seasons in test_blank_outcomes.py.
+    monkeypatch.setattr(blank_outcomes, "explicit_blank_outcomes",
+                        lambda state, frame, **kwargs: (frame.copy(), blank_row()))
+    for name, content in capture_inputs().items():
+        (tmp_path / name).write_bytes(content)
+    target = replay.run_replay(state, predictions, tmp_path / "blank-replay", reference_path=reference,
+                               blank_evidence_path=tmp_path / "blank-evidence.json")
+    receipt = replay.read_replay(target)
+    assert receipt["explicit_blank_outcomes"] == 1
+    assert receipt["registration_identity"] == "CAPTURE_TIME_ONLY"
+    assert receipt["reference_reconciliation"] == "PASS"
+    assert (target / "predictions.csv").read_bytes() == predictions.read_bytes()
+    assert pd.read_csv(target / "explicit-blank-outcomes.csv").outcome_basis.tolist() == ["EXPLICIT_RETROSPECTIVE_BLANK"]
+    assert receipt["independent_financial_rule_legality"] == "NOT ASSESSED"
+    (target / "fixtures.csv").write_bytes(b"changed")
+    with pytest.raises(ValueError): replay.read_replay(target)

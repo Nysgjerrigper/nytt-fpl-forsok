@@ -8,6 +8,8 @@ from __future__ import annotations
 import argparse
 from collections import Counter
 import hashlib
+import gzip
+import re
 from io import BytesIO
 import json
 from numbers import Integral, Real
@@ -40,11 +42,14 @@ def _ids(value, count: int, name: str) -> list[int]:
     return result
 
 
-def replay_snapshot(snapshot: dict, predictions: pd.DataFrame) -> pd.DataFrame:
+def replay_snapshot(snapshot: dict, predictions: pd.DataFrame, *,
+                    blank_outcomes: pd.DataFrame | None = None) -> pd.DataFrame:
     """Check static rosters and resettle against complete selected-squad outcomes.
 
     Team/position identity must be explicit and consistent in the current round.
-    Missing player rows cannot establish blanks. No bank/transfer/chip-inventory
+    Missing player rows cannot establish blanks. Separately admitted blank rows
+    require caller-verified evidence; run_replay captures and checks that evidence.
+    No bank/transfer/chip-inventory
     legality or original native optimality is certified by this function.
     """
     required = {"schema_version", "settlement_completed", "decisions"}
@@ -86,6 +91,8 @@ def replay_snapshot(snapshot: dict, predictions: pd.DataFrame) -> pd.DataFrame:
         if chip not in (None, "WC", "FH", "BB", "TC") and not (isinstance(chip, str) and chip.startswith("TC_") and len(chip) > 3):
             raise ValueError("unknown chip label in replay snapshot")
         current = predictions.loc[predictions.GW == gw]
+        if blank_outcomes is not None:
+            current = pd.concat([current, blank_outcomes.loc[blank_outcomes.GW == gw]], ignore_index=True)
         missing = set(squad) - set(current.player_id)
         if missing:
             raise ValueError(f"missing selected-player outcomes in GW{gw}: {sorted(missing)}; blanks require explicit evidence")
@@ -111,11 +118,51 @@ def replay_snapshot(snapshot: dict, predictions: pd.DataFrame) -> pd.DataFrame:
     if weeks != sorted(weeks):
         raise ValueError("snapshot gameweeks must retain chronological order")
     # Shared scorer admits fixture identity, outcomes, hits and repeated origins.
-    return score_decisions(pd.DataFrame(records), predictions, require_complete_outcomes=True)
+    return score_decisions(pd.DataFrame(records), predictions, require_complete_outcomes=True,
+                           explicit_blank_outcomes=blank_outcomes)
+
+
+def _admit_blank_evidence(snapshot: dict, predictions: pd.DataFrame, inputs: dict[str, bytes]) -> pd.DataFrame:
+    """Validate captured hashes and predeadline register timing before blank admission.
+
+    Hashes bind declared sources; they do not authenticate an archive publisher.
+    Registration is capture-time identity, not exact-deadline identity proof.
+    """
+    from fpl.milp.blank_outcomes import explicit_blank_outcomes
+
+    evidence = json.loads(inputs["blank-evidence.json"])
+    names = {"fixtures.csv", "teams.csv", "bootstrap-static.json.gz", "manifest.json"}
+    if (not isinstance(evidence, dict) or type(evidence.get("schema_version")) is not int
+            or evidence["schema_version"] != 1 or set(evidence.get("input_sha256", {})) != names
+            or any(evidence["input_sha256"][name] != hashlib.sha256(inputs[name]).hexdigest() for name in names)
+            or not isinstance(evidence.get("fixture_source_commit"), str)
+            or re.fullmatch(r"[0-9a-f]{40}", evidence["fixture_source_commit"]) is None):
+        raise ValueError("invalid blank evidence hashes or pinned fixture source")
+    manifest = json.loads(inputs["manifest.json"])
+    payload = gzip.decompress(inputs["bootstrap-static.json.gz"])
+    entries = [entry for entry in manifest["files"] if entry["name"] == "bootstrap-static.json.gz"]
+    if (len(entries) != 1 or entries[0]["endpoint"] != "/bootstrap-static/"
+            or entries[0]["sha256"] != hashlib.sha256(payload).hexdigest()):
+        raise ValueError("historical register payload differs from capture manifest")
+    register = json.loads(payload)
+    event = evidence["event"]
+    deadlines = [row["deadline_time"] for row in register["events"] if row["id"] == event]
+    if len(deadlines) != 1 or manifest["event"] != event or manifest["backfill"]["season"] != evidence["season"]:
+        raise ValueError("register capture event/season differs from blank evidence")
+    capture, deadline = pd.Timestamp(manifest["captured_at"]), pd.Timestamp(deadlines[0])
+    if (capture.tzinfo is None or deadline.tzinfo is None or capture > deadline
+            or (deadline - capture).total_seconds() > config.REPLAY_REGISTER_MAX_AGE_HOURS * 3600
+            or pd.Timestamp(manifest["event_deadline"]) != deadline):
+        raise ValueError("blank register requires a matching recent predeadline capture")
+    _, blanks = explicit_blank_outcomes(snapshot, predictions,
+        fixtures=pd.read_csv(BytesIO(inputs["fixtures.csv"])), teams=pd.read_csv(BytesIO(inputs["teams.csv"])),
+        register=register, season=evidence["season"], first_global_gw=evidence["first_global_gw"], event=event)
+    return blanks
 
 
 def run_replay(snapshot_path: str | Path, predictions_path: str | Path,
-               output_dir: str | Path, *, reference_path: str | Path | None = None) -> Path:
+               output_dir: str | Path, *, reference_path: str | Path | None = None,
+               blank_evidence_path: str | Path | None = None) -> Path:
     """Capture immutable inputs and report settlement evidence, including failures."""
     output = Path(output_dir).resolve()
     if any(output.is_relative_to(folder.resolve()) for folder in (config.DATASETT_DIR, config.ROOT / "fpl")):
@@ -123,6 +170,11 @@ def run_replay(snapshot_path: str | Path, predictions_path: str | Path,
     inputs = {"decisions.json": Path(snapshot_path).read_bytes(), "predictions.csv": Path(predictions_path).read_bytes()}
     if reference_path is not None:
         inputs["reference.csv"] = Path(reference_path).read_bytes()
+    if blank_evidence_path is not None:
+        evidence_path = Path(blank_evidence_path)
+        inputs["blank-evidence.json"] = evidence_path.read_bytes()
+        for name in ("fixtures.csv", "teams.csv", "bootstrap-static.json.gz", "manifest.json"):
+            inputs[name] = (evidence_path.parent / name).read_bytes()
     sources, runtime = _source_hashes(), _runtime_versions()
     output.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()
@@ -134,7 +186,11 @@ def run_replay(snapshot_path: str | Path, predictions_path: str | Path,
         write_json_new(output / "started.json", {"status": "STARTED", "input_sha256": hashes,
                        "source_sha256": sources, "runtime": runtime, "promotion_eligible": False})
         snapshot = json.loads(inputs["decisions.json"])
-        replayed = replay_snapshot(snapshot, pd.read_csv(BytesIO(inputs["predictions.csv"])))
+        predictions = pd.read_csv(BytesIO(inputs["predictions.csv"]))
+        blanks = _admit_blank_evidence(snapshot, predictions, inputs) if "blank-evidence.json" in inputs else None
+        if blanks is not None:
+            blanks.to_csv(output / "explicit-blank-outcomes.csv", index=False)
+        replayed = replay_snapshot(snapshot, predictions, blank_outcomes=blanks)
         with (output / "replayed.csv").open("x", encoding="utf-8", newline="") as stream:
             replayed.to_csv(stream, index=False)
         reconciliation = "NOT ASSESSED"
@@ -159,6 +215,9 @@ def run_replay(snapshot_path: str | Path, predictions_path: str | Path,
                   "net_points": float(replayed.actual_net_points.sum()),
                   "replay_seconds": time.monotonic() - started, "input_sha256": hashes,
                   "source_sha256": sources, "runtime": runtime}
+        result["explicit_blank_outcomes"] = 0 if blanks is None else len(blanks)
+        result["registration_identity"] = "CAPTURE_TIME_ONLY" if blanks is not None else "NOT ASSESSED"
+        result["outcome_evidence_basis"] = "OBSERVED_AND_EXPLICIT_RETROSPECTIVE_BLANKS" if blanks is not None else "OBSERVED_ROWS"
         experiment.log_result("saved-decision-settlement-replay", {"scope": "settlement_replay", "input_sha256": hashes},
                               {key: result[key] for key in ("status", "gross_points", "net_points", "replay_seconds")},
                               results_path=output / "registry.csv")
@@ -185,8 +244,10 @@ def read_replay(output_dir: str | Path) -> dict:
         raise ValueError("invalid saved replay receipt")
     _verify_outputs(root, result.get("output_sha256"), {"complete.json"})
     inputs = result.get("input_sha256")
+    base = {"decisions.json", "predictions.csv"}
+    evidence_names = {"blank-evidence.json", "fixtures.csv", "teams.csv", "bootstrap-static.json.gz", "manifest.json"}
     if not isinstance(inputs, dict) or set(inputs) not in (
-            {"decisions.json", "predictions.csv"}, {"decisions.json", "predictions.csv", "reference.csv"}):
+            base, base | {"reference.csv"}, base | evidence_names, base | evidence_names | {"reference.csv"}):
         raise ValueError("invalid captured replay input manifest")
     for name, digest in result["input_sha256"].items():
         if not isinstance(digest, str) or len(digest) != 64 or result["output_sha256"].get(name) != digest:
@@ -202,6 +263,7 @@ def main(argv: list[str] | None = None) -> None:
     run.add_argument("predictions", type=Path)
     run.add_argument("--output", type=Path, required=True)
     run.add_argument("--reference", type=Path)
+    run.add_argument("--blank-evidence", type=Path)
     report = commands.add_parser("report")
     report.add_argument("directory", type=Path)
     args = parser.parse_args(argv)
@@ -209,7 +271,8 @@ def main(argv: list[str] | None = None) -> None:
         if args.command == "report":
             print(json.dumps(read_replay(args.directory), indent=2))
         else:
-            print(run_replay(args.decisions, args.predictions, args.output, reference_path=args.reference))
+            print(run_replay(args.decisions, args.predictions, args.output, reference_path=args.reference,
+                             blank_evidence_path=args.blank_evidence))
     except (ValueError, KeyError, TypeError, OSError) as exc:
         parser.exit(2, f"Settlement replay stopped: {exc}\n")
 

@@ -1758,3 +1758,42 @@ Focused verification: 102 tests passed, including hand-calculated TC/vice, DGW,
 negative points, strict missing-bench outcomes, malformed rosters, incompatible
 references and corrupted receipts. Synthetic tests are distinct from this failed
 real-artifact qualification. No model or optimizer promotion.
+
+
+### 2026-10-17 — Explicit blank evidence resolves pilot settlement coverage
+
+Registered four attempts in issue #23 comment 6240844501, plan SHA
+`dc39135f05aea6a6a99d22b80fcaab1b580605dd9ccf2f09a27543c8631db68b`.
+Pinned Vaastav 2023-24 fixtures/teams at commit
+`204c134d8e90e2b6e69ec252aa3ef6f10f21e73c`. Fixture bytes SHA
+`d8521bdbb80edb5141bc17df71bf6026275f2e56fd6a6dc6041b3ae23a39ce6a`;
+team bytes SHA `7795f091ccea17fda0752cb07b935e1515b09a9d3f924147997cbf28139edd49`.
+The complete 380-fixture ledger agrees with frozen data on all fixture IDs, events,
+normalized clubs and scores. GW143/local29 has four fixtures. A manifest-bound
+register captured at 2024-03-16T04:00:06Z (9.498 hours before deadline) maps all eight
+missing selected codes to clubs without an actual fixture in that round.
+
+The new replay admits only separate explicit zero outcomes with known club/position,
+retaining original forecast bytes and all prior failed attempts. All four strict
+settlements reconciled against their preserved gross/net references:
+
+| Case | Explicit blank rows | Gross points | Net points | Settlement |
+| --- | ---: | ---: | ---: | --- |
+| Standard control | 3 | 218 | 218 | Verified |
+| Standard candidate | 4 | 220 | 220 | Verified |
+| Origin control | 3 | 203 | 203 | Verified |
+| Origin candidate | 4 | 221 | 217 | Verified |
+
+There were zero fits, optimizer solves or live refreshes. All 55 captured/generated
+file hashes and all four original forecast byte identities were independently
+verified after execution, along with the unchanged original pilot and failed
+qualification result. Tracked plan/script/result/registry are under
+`experiments/blank_outcome_replay_2026-10-17/`; full immutable output is preserved
+in `TrainingGroundExplicitBlankReplay_20261017` in the task artifact folder.
+
+This is settlement-only evidence, **not full experiment qualification**. Registration
+is capture-time only, the fixture ledger is retrospective, and financial/rule
+legality, outcome-blind execution and independent native proof remain unassessed.
+Entries remain unranked; production stays `single:catboost`. Focused regression:
+154 tests passed, including complete-ledger admission failures, capture hash/timing
+rejection, original-byte preservation and a hand-calculated autosubstitution/hit case.
