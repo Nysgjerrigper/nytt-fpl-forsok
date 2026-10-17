@@ -248,7 +248,10 @@ any optimizer run. Each actual fit has start/completion receipts including train
 rounds and fitted parameters. Corrected net points and paired intervals accompany
 forecast accuracy, calibration and ranking diagnostics. HiGHS must prove optimality
 for every encoded MILP. A timeout or error preserves a failed attempt without retries.
-Completed reports verify every captured file before displaying results.
+The worker binds all non-log outputs before exiting. After it exits successfully,
+the parent verifies those bytes and seals the final receipt with the closed log,
+including native shutdown output. Completed reports verify every captured file
+before displaying results. Older verified receipts remain readable.
 
 These initial runner comparisons remain **UNVERIFIED** and unranked: their manifests
 do not yet establish independent FPL legality, an outcome-blind interface or promotion
@@ -256,6 +259,24 @@ contracts. Observed historical windows are not fresh holdouts. A four-round pilo
 checks the execution path; it cannot establish which model should run in Matchday.
 
 ## Where the next connections belong
+
+The preserved October 3 seed-0 study can be read through the current scorecards
+without rerunning its models. The recovery script under
+`experiments/recovered_ablations_2026-10-17/` checks archived evaluated sources,
+registered settings, prediction/result hashes and the earlier selection lock.
+It writes separate normalized accounting exports because that historical format
+stored net points in `actual_total_points`, with gross points in a separate column.
+Original bytes remain intact; this is accounting/report recovery, not a new scoring
+or decision replay. Supply the preserved original bundle and a new output directory:
+
+```sh
+PYTHONPATH=. python experiments/recovered_ablations_2026-10-17/recover_scorecards.py \
+  /path/to/original-bundle /path/to/new-reports
+```
+
+The nine recovered entries remain unranked. Their tuned MAE/RMSE contrast changes
+capacity as well as loss, and their historical optimizer exports lack native proof
+and stable-ID decisions. A prior `Optimal` log label does not fill those gaps.
 
 The shared scorecard is deliberately conservative: saved squad CSVs alone do not
 establish original execution telemetry. Optional forecast panels and runner receipts

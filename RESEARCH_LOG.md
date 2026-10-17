@@ -1641,3 +1641,45 @@ fresh holdout. Preserved full bundle and receipt hash are referenced by tracked
 `experiments/training_ground_runner_pilot_2026-10-17/{plan,result}.json` and its
 `fpl.experiment` registry. Focused verification: 167 tests passed, including tiny
 real recipe fits and explicitly synthetic runner integration tests. No live refresh.
+
+## 2026-10-17 — Recover the earlier ablation family; seal runner receipts in parent
+
+Recovered the existing October 3 seed-0 study rather than fitting its six variants
+again. Read-only preservation copied 106 unchanged files (43.2 MB) from worktree
+6048. Verified 37 archived evaluated Python sources against registration, all 12
+prediction/squad result pairs and their exact admissions, final summary and the
+pre-reference selection lock. Archived code was hashed, never imported or executed.
+The dirty worktree's execution ownership remains unclassified; no authority was
+transferred, files changed, locks cleared or worktree retired.
+
+The locked opponent-feature removal scored 973 selection-origin net points versus
+930 for the MAE full control. Current saved-artifact reports cover five selection
+contrasts and four locked reference contrasts. Reference results reproduce the
+original net totals: opponent removal standard 2040 versus 2082, delta -42,
+95% interval [-141, +74]; origin 1932 versus 1905, delta +27, interval [-87, +136].
+Separately tuned RMSE scored standard 1939 versus 2082, delta -143, interval
+[-255, -17]; origin 1852 versus 1905, delta -53, interval [-227.025, +149].
+These are loss-plus-capacity settings, not a matched loss-only experiment. Both
+protocols use 10,000 block-bootstrap draws, block 3, seed 0; the historical window
+is already examined and cannot establish a fresh gain.
+
+All nine scorecards remain **UNVERIFIED and unranked**. Original exports lack native
+certificates and stable-ID decisions; native optimality, independent legality and
+causal publication-time validity remain NOT ASSESSED. Historical `actual_total_points`
+stored net points: separate normalized exports restore gross from the preserved
+gross column and retain explicit net only after checking every row against hits.
+No outcome settlement, fitting, solving or decision replay was performed. All 106
+input and 113 generated output hashes were independently rechecked. The script,
+qualification receipt and `fpl.experiment` registry are retained under
+`experiments/recovered_ablations_2026-10-17/`; the receipt locates preserved raw artifacts
+and reports. Full qualification SHA:
+`7cdf7245fef52f2c5093f06b983227e68e509e4ff208e758be439cc985d2add6`.
+
+Runner completion now seals in the parent after successful child exit and log close.
+The worker binds all non-log outputs first; parent verification rejects changed
+artifacts, source/runtime or replacement plan bytes before writing final completion.
+This prevents late native shutdown logging from invalidating a freshly completed
+receipt. The earlier real pilot still verifies unchanged and was not rerun.
+Focused tests: 135 passed, including late-log, late-artifact, source drift and
+consistently rehashed replacement-plan regressions. These tests are synthetic
+execution checks, not additional model evidence. Production remains unchanged.
