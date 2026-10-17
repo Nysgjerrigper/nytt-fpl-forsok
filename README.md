@@ -36,11 +36,18 @@ and notebook tools. `requirements-research.txt` is optional and does not enable 
 that fails its runtime guard.
 
 ```bash
-python -m fpl.run_week --team-id <team-id> --horizon 3
+python -m fpl.run_week --team-id <team-id> --free-transfers <count> --horizon 3
 ```
 
 Without a team ID the driver builds a fresh squad. Live recommendations refresh historical
-data, use official team/fixture/availability inputs and refit models; they require a deadline-current team/fixture/availability check.
+data, use official team/fixture/availability inputs and refit models. The target must have
+an open UTC deadline. An unavailable fixture response or incomplete requested horizon
+aborts the run. Whole-round blanks currently require separate handling.
+For a continuing team, public picks and bank describe the latest passed deadline;
+they do not confirm subsequent transfers, private selling prices or chip inventory.
+Supply the current free-transfer count explicitly (0–5), verify owner state before
+entry, and treat output as an unverified scenario until that check is complete.
+An owned player without forecast history blocks continuation rather than being dropped.
 Historical backtests and research use the separate immutable input at
 `Datasett/frozen/master_dataset_gw231.csv`, validated against the tracked SHA manifest.
 A live refresh must never overwrite this frozen file. It is deliberately ignored and
