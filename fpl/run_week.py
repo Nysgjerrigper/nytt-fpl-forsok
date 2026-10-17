@@ -31,6 +31,7 @@ from datetime import datetime, timezone
 from numbers import Integral
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import requests
 
@@ -331,7 +332,7 @@ def build_live_snapshot(raw_df):
 
 
 def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw, horizon,
-                             opp_form=None, mid_gate=None, mid_experts=None):
+                             opp_form=None, mid_gate=None, mid_experts=None, *, cold_start_priors=None):
     """Predict every horizon gameweek from the live snapshot, with per-GW fixture info
     (opponent, home/away, official FDR) taken from the FPL API's fixture list - the
     fixture-difficulty features MUST be per-future-GW, not copied from the player's last
@@ -341,7 +342,27 @@ def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw
     opponent's trailing form for the opp_* features. Without it the snapshot's own opp_*
     values would be carried forward, and those describe the form of the player's PREVIOUS
     fixture's opponent - the same staleness class as the fixture-difficulty bug above
-    (found 2026-07-11 while building the origin-based backtest, TODO 3.6)."""
+    (found 2026-07-11 while building the origin-based backtest, TODO 3.6).
+
+    Optional pooled fixture priors require the snapshot global origin to match their
+    historical cutoff. Their spread/frequencies are empirical, uncalibrated descriptors.
+    Synthetic rows bypass the normal model path; the default path is unchanged.
+    """
+    from fpl.model.cold_start import cold_start_mask, predict_cold_starts, validate_pooled_priors
+
+    snapshot_cold = cold_start_mask(snapshot)
+    if snapshot_cold.any() and cold_start_priors is None:
+        raise ValueError("Cold-start snapshot rows require explicit pooled priors")
+    global_origin = None
+    if cold_start_priors is not None:
+        if "GW_global" not in snapshot or snapshot.empty:
+            raise ValueError("Cold-start priors require one complete snapshot global origin")
+        from fpl.model.cold_start import _numbers
+        origins = _numbers(snapshot.GW_global, "snapshot global origin", integer=True)
+        if origins.nunique() != 1:
+            raise ValueError("Cold-start priors require one snapshot global origin")
+        global_origin = int(origins.iloc[0])
+        validate_pooled_priors(cold_start_priors, global_origin)
     # Prefetch two GWs past the horizon so fixture_difficulty_next3 has a full window.
     if horizon < 1 or start_gw < 1 or start_gw + horizon - 1 > config.GWS_PER_SEASON:
         raise ValueError("Live prediction horizon must fit within the active season")
@@ -389,10 +410,26 @@ def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw
             for col in features.OPPONENT_FEATURES:
                 gw_rows[col] = gw_rows["opponent_team"].map(opp_form[col]).to_numpy()
 
-        gw_rows["predicted_total_points"] = (
-            predict_with_mid_gate(gw_rows, feature_cols, models, mid_gate, mid_experts)
-            if mid_gate else predict_by_position(gw_rows, feature_cols, models)
-        )
+        if cold_start_priors is None:
+            gw_rows["predicted_total_points"] = (
+                predict_with_mid_gate(gw_rows, feature_cols, models, mid_gate, mid_experts)
+                if mid_gate else predict_by_position(gw_rows, feature_cols, models)
+            )
+        else:
+            marked = cold_start_mask(gw_rows)
+            gw_rows["is_cold_start"] = marked
+            gw_rows["forecast_source"] = np.where(marked, "pooled_position_team_prior", "model")
+            gw_rows["predicted_total_points"] = np.nan
+            for column in ("prior_std", "p_played", "p60", "prior_count"):
+                gw_rows[column] = np.nan
+            regular = gw_rows.loc[~marked]
+            if not regular.empty:
+                values = (predict_with_mid_gate(regular, feature_cols, models, mid_gate, mid_experts)
+                          if mid_gate else predict_by_position(regular, feature_cols, models))
+                gw_rows.loc[~marked, "predicted_total_points"] = np.asarray(values)
+            if marked.any():
+                values = predict_cold_starts(gw_rows.loc[marked], cold_start_priors, origin_gw=global_origin)
+                gw_rows.loc[marked, values.columns] = values.to_numpy()
         rows.append(gw_rows)
     return pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
 

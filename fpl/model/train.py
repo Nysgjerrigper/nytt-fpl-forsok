@@ -76,6 +76,10 @@ def fit_holdout_weights(df, feature_cols, first_holdout_gw, window=16, strategy=
         are many and collinear. "single:catboost" needs no member-prediction fit, so it also
         skips training the other 11 members here.
     """
+    from fpl.model.cold_start import cold_start_mask
+
+    if cold_start_mask(df).any():
+        raise ValueError("Synthetic cold-start rows cannot enter feature building or model fitting")
     member_train = df[df["GW_global"] < first_holdout_gw - window]
     fit_df = df[(df["GW_global"] >= first_holdout_gw - window) & (df["GW_global"] < first_holdout_gw)]
     weights = {}
@@ -112,6 +116,10 @@ def fit_level_calibration(df, feature_cols, first_holdout_gw, weights_by_pos, wi
     Same leakage discipline as fit_holdout_weights: members trained before the window, scalar fit
     on the window, nothing at or after first_holdout_gw is ever seen.
     """
+    from fpl.model.cold_start import cold_start_mask
+
+    if cold_start_mask(df).any():
+        raise ValueError("Synthetic cold-start rows cannot enter feature building or model fitting")
     member_train = df[df["GW_global"] < first_holdout_gw - window]
     fit_df = df[(df["GW_global"] >= first_holdout_gw - window) & (df["GW_global"] < first_holdout_gw)]
     scalars = {}
@@ -422,6 +430,10 @@ def fit_position_ensembles(
     seed resolve complete registered defaults before any fit, bypassing ambient tuned
     artifacts; omitting both preserves the existing fitting call unchanged.
     """
+    from fpl.model.cold_start import cold_start_mask
+
+    if cold_start_mask(df).any():
+        raise ValueError("Synthetic cold-start rows cannot enter feature building or model fitting")
     recipe = resolve_fit_recipe(weights_by_pos, params_by_pos, seed)
     ensembles = {}
     for pos in POSITIONS:

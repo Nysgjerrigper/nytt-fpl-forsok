@@ -1683,3 +1683,38 @@ receipt. The earlier real pilot still verifies unchanged and was not rerun.
 Focused tests: 135 passed, including late-log, late-artifact, source drift and
 consistently rehashed replacement-plan regressions. These tests are synthetic
 execution checks, not additional model evidence. Production remains unchanged.
+
+## 2026-10-17 — Harden opt-in history-only cold-start priors (issue #13)
+
+Recovered the existing pooled position/team fixture-prior calculation with fixed
+strength 20, including DNP outcomes and mixed population second moments. Added
+strict identity, fixture-duplicate, numeric-range and complete-row fallback checks.
+Tables bind a global origin, latest admitted round, runtime-dependent history/table
+fingerprints and the prior strength. Saved JSON round trips retain that metadata;
+wrong-origin, changed or semantically invalid tables fail. Future labels/identities
+are excluded before admitted-history validation or moment estimation.
+
+Registered missing-player rows preserve unknown form/outcomes and bypass both normal
+and MID-gate models through the optional future-prediction API. Default output stays
+unchanged; the weekly CLI does not enable this option. Feature building and shared
+ensemble/weight/calibration fits reject marked synthetic rows before fitting. Empirical
+spread and participation frequencies are uncalibrated historical descriptors, not
+live probabilities, confidence intervals or effective posterior sample sizes.
+
+Pre-registered engineering smoke in issue #13 comment 6240323272, plan SHA
+`e0e14f4274148d55bd350f2559d1ccb139ed4daff7f0655bc2505be00722d0ce`.
+Canonical frozen bytes admitted; global origin 141 retained 95,543 real fixture rows
+through GW140 and produced 108 prior rows across all four positions. Two prior-table
+computations (original/future-perturbed) had identical values and metadata; JSON reload
+and four fictitious unseen-team fallback probes passed in 1.05s. No GBM training,
+optimizer solves, live fetches or player-eligibility/performance claims. All five output
+hashes independently verified. Plan, exact smoke script, result and `fpl.experiment`
+registry are tracked under `experiments/cold_start_prior_smoke_2026-10-17/`; raw prior
+tables and probes are preserved in the corresponding external visualization artifact.
+
+Focused verification: 131 passed with one existing runpy warning, including causal
+cutoff invariance, hand-calculated moments, bool/string/overflow identities, JSON
+round trip, DGW/blank routing, all-cold pools and early synthetic-training rejection.
+Forecast accuracy, historical deadline registration, cold-start MILP benefit and
+promotion remain NOT ASSESSED. The earlier preserved coverage-only study remains
+separate evidence; it was not relabelled as a prediction or decision improvement.
