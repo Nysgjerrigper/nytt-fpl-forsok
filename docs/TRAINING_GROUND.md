@@ -336,8 +336,32 @@ FT/chip inventories, native solver verification and outcome-blind execution rema
 separate assessments. A legacy BB snapshot with 15 starters cannot supply a unique
 legal XI and bench order; replay rejects it rather than inventing that structure.
 The registered four-case pilot in `experiments/decision_replay_pilot_2026-10-17/`
-preserves all four NOT QUALIFIED outcomes at GW143. Their earlier reported totals
-remain unverified and unchanged.
+preserves all four NOT QUALIFIED outcomes at GW143. A separate follow-up under
+`experiments/blank_outcome_replay_2026-10-17/` verifies settlement with documented
+blank evidence while retaining those failed attempts and original forecast bytes.
+
+For an absent selected player, optionally supply `--blank-evidence evidence.json`.
+The descriptor's folder must contain `fixtures.csv`, `teams.csv`,
+`bootstrap-static.json.gz` and the historical capture `manifest.json`. Schema 1
+records `season`, `first_global_gw`, `event`, a 40-character
+`fixture_source_commit`, and `input_sha256` for all four files. Supply source URLs
+and registration/calendar limitations alongside those required fields. Hashes bind
+caller-reviewed source claims; they do not authenticate an archive publisher.
+
+Admission requires a complete, finished 20-club/380-fixture ledger with every
+ordered home/away pair once, scores, consistent season/deadline dates and explicit
+registered stable player identities. A missing player at a club with a fixture is
+still rejected. The capture manifest must bind the decompressed official register
+payload and document a matching predeadline capture within the configured 24-hour
+limit. Added zeros go to a separate `explicit-blank-outcomes.csv`, without fixture
+IDs or forecasts; `predictions.csv` remains byte-identical to its original input.
+The scorer validates their zero arithmetic and records `explicit_blank_players`.
+
+This is a **retrospective actual-fixture** check with **capture-time registration**.
+It does not prove a deadline-known forecast calendar, exact-deadline identity,
+financial/rule legality or outcome-blind execution. The four follow-up cases passed
+settlement/reference reconciliation with unchanged totals, but remain unranked
+and ineligible for promotion.
 
 ### Recovered historical scorecards
 

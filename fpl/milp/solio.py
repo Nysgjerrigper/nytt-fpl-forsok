@@ -112,13 +112,15 @@ def solve_window(predictions: pd.DataFrame, *, season: str, start_gw: int, horiz
 
 
 def score_decisions(decisions: pd.DataFrame, predictions: pd.DataFrame, *,
-                    require_complete_outcomes: bool = False) -> pd.DataFrame:
+                    require_complete_outcomes: bool = False,
+                    explicit_blank_outcomes: pd.DataFrame | None = None) -> pd.DataFrame:
     """Settle corrected fixture outcomes with explicit selected-squad coverage.
 
     Strict mode requires an outcome row for every selected player in that round;
     absent rows are never silently assumed to be blanks. Default mode preserves
     legacy zero filling but labels that assumption. Complete coverage is not an
-    independent legality/state certificate or verification of manually added blanks.
+    independent legality/state certificate. Separate explicit_blank_outcomes must
+    carry caller-verified blank evidence; this scorer checks zero arithmetic only.
     Captain and vice identities retain the existing one-element-list interface.
     """
     if type(require_complete_outcomes) is not bool:
@@ -147,6 +149,7 @@ def score_decisions(decisions: pd.DataFrame, predictions: pd.DataFrame, *,
     out["gameweek"] = weeks.map(int)
     out["alpha"] = hits.map(int)
     out["missing_outcome_players"] = 0
+    out["explicit_blank_players"] = 0
     out["outcome_coverage_assessment"] = ""
     values = predictions.copy()
     for column in ("actual_total_points", "minutes"):
@@ -178,6 +181,26 @@ def score_decisions(decisions: pd.DataFrame, predictions: pd.DataFrame, *,
         rounds = panel.drop_duplicates(["player_id", "GW"]).set_index(["player_id", "GW"])
     else:
         rounds = grouped
+    # Blank outcomes are separate player-round evidence, never invented fixtures
+    # or zero forecasts. The caller must verify their external evidence receipts.
+    if explicit_blank_outcomes is not None:
+        blanks = explicit_blank_outcomes.copy()
+        required_blank = {"player_id", "GW", "position", "actual_total_points", "minutes", "outcome_basis"}
+        if (not blanks.columns.is_unique or not required_blank <= set(blanks)
+                or not blanks.outcome_basis.eq("EXPLICIT_RETROSPECTIVE_BLANK").all()
+                or not blanks.position.isin(config.ONFIELD_POSITIONS).all()):
+            raise ValueError("invalid explicit blank outcome schema")
+        for column in ("player_id", "GW", "actual_total_points", "minutes"):
+            blanks[column] = numeric(blanks[column], f"blank {column}")
+        identities = blanks[["player_id", "GW"]]
+        if (not blanks[["actual_total_points", "minutes"]].eq(0).all().all()
+                or not ((identities > 0) & (identities < 2**63) & (identities % 1 == 0)).all().all()
+                or blanks.duplicated(["player_id", "GW"]).any()):
+            raise ValueError("explicit blanks require unique integer identities and zero outcomes")
+        blanks = blanks.set_index(["player_id", "GW"])
+        if len(rounds.index.intersection(blanks.index)):
+            raise ValueError("explicit blanks cannot replace observed player outcomes")
+        rounds = pd.concat([rounds, blanks[["actual_total_points", "minutes", "position"]]])
     for index, row in out.iterrows():
         gw = row.gameweek
         current = rounds.xs(gw, level="GW") if gw in rounds.index.get_level_values("GW") else rounds.iloc[0:0]
@@ -186,6 +209,8 @@ def score_decisions(decisions: pd.DataFrame, predictions: pd.DataFrame, *,
         if require_complete_outcomes and missing:
             raise ValueError(f"Missing outcomes for GW{gw}, selected player IDs: {missing}")
         out.at[index, "missing_outcome_players"] = len(missing)
+        if explicit_blank_outcomes is not None:
+            out.at[index, "explicit_blank_players"] = sum((player, gw) in blanks.index for player in row.squad)
         out.at[index, "outcome_coverage_assessment"] = "LEGACY_ZERO_FILL" if missing else "COMPLETE_SELECTED_SQUAD"
         minutes = current.minutes.to_dict()
         positions = current.position.to_dict()

@@ -1,0 +1,147 @@
+{
+  "budget": {
+    "model_fits": 0,
+    "optimizer_solves": 0,
+    "replays": 4
+  },
+  "cases": [
+    {
+      "decisions": "standard-control-decisions.json",
+      "id": "standard-control",
+      "input_sha256": {
+        "standard-control-decisions.json": "f08be344c561316a44ac9a08950f4b8785c0518647938946cd180b9d16b68466",
+        "standard-control-predictions.csv": "b63dcb9a658c29a61fb7ad5ed04d69bbf43c743b691e9962020f6cbb04d70b1a",
+        "standard-control-squads.csv": "e9f803e4a9d6a90eedffb432f6077f756dd957a59ed184e0c77178be0b3b01b8"
+      },
+      "predictions": "standard-control-predictions.csv",
+      "reference": "standard-control-squads.csv"
+    },
+    {
+      "decisions": "standard-candidate-decisions.json",
+      "id": "standard-candidate",
+      "input_sha256": {
+        "standard-candidate-decisions.json": "68cc029e6d85d19575ea94eac38900d454a9ccefd772649e471e75e992f5cc17",
+        "standard-candidate-predictions.csv": "75758029625505af7f41dea62ba18b809895005482efb576457e8920146ad4f4",
+        "standard-candidate-squads.csv": "6773de3bc68f62154cc7027fe836e945c1f4274bd1fbb7d9f8c884c38996ed2c"
+      },
+      "predictions": "standard-candidate-predictions.csv",
+      "reference": "standard-candidate-squads.csv"
+    },
+    {
+      "decisions": "origin-control-decisions.json",
+      "id": "origin-control",
+      "input_sha256": {
+        "origin-control-decisions.json": "7cfcf6459e7f2ebc6e30e870f0c2dbccbea5005ad0a50ae8a39e2da5b5741f90",
+        "origin-control-predictions.csv": "3375a41886d9cb347b3ac6b2a7a05033f0634fce26296057de00821352c01d65",
+        "origin-control-squads.csv": "71507789fb793edeb0d800b62e155cb2552a177e4686c892966ef851b98b9b83"
+      },
+      "predictions": "origin-control-predictions.csv",
+      "reference": "origin-control-squads.csv"
+    },
+    {
+      "decisions": "origin-candidate-decisions.json",
+      "id": "origin-candidate",
+      "input_sha256": {
+        "origin-candidate-decisions.json": "8a5736a1f7cc3aeff5bd10c750fcb94fb15686e2f4b1dcc2d1fe9a5a1b94734e",
+        "origin-candidate-predictions.csv": "2749da9c75a983acda2a5e50c7dd27a7677237123d8470f6c0241126d31bb51c",
+        "origin-candidate-squads.csv": "4bd7adf989220b8a2031dab443cbf10614664bf0418747b827791b0f50556d87"
+      },
+      "predictions": "origin-candidate-predictions.csv",
+      "reference": "origin-candidate-squads.csv"
+    }
+  ],
+  "hypothesis": "Verify current shared settlement and strict outcome coverage against recorded pilot totals; no performance selection or blank imputation",
+  "original_bundle": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundRunnerPilot_20261017/first",
+  "original_receipt_sha256": "dba62fcae6245585a9c7e265acd80f6c8dcd8b821d4fd4d4d1c8e9d663c6dc4c",
+  "promotion_eligible": false,
+  "purpose": "saved_settlement_qualification",
+  "runtime": {
+    "python": "3.11.15",
+    "catboost": "1.2.10",
+    "lightgbm": "4.6.0",
+    "xgboost": "3.2.0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scipy": "1.17.1",
+    "pulp": "3.3.2",
+    "highspy": "1.15.1",
+    "sklearn": "1.9.0"
+  },
+  "schema_version": 1,
+  "script_sha256": "527a27b85d8b464a48d540fc38b6590fed08f150b9ac1a6790becb65868fc337",
+  "source_sha256": {
+    "fpl/artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1",
+    "fpl/backtest_contract.py": "6c15220fdc9c742f54d1f1726d005ca9d91bbf1911700ca3abc9880a8d58ab9d",
+    "fpl/config.py": "28e01d3614a91156be4a135fc1eb0229dc3f2919ff51226d2827d3d213b70f0b",
+    "fpl/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/data/feature_cache.py": "dd587e3355b0a4732a57614cd8e5d50ef1c01a7727c44ee9583145e257c7a8bb",
+    "fpl/data/fetch.py": "ece93d1be41d669e62b858da31f0219893553655ac73ae4f40173ed0b70b0764",
+    "fpl/data/provenance.py": "569d4fef2247c8dfd6a6dea7992ac09cfc444c11d0b1a5c17d719c5807a858aa",
+    "fpl/experiment.py": "2780bf8ead3e6c0c4f3a988fd176ccd98769acbb652d1cc3ca52fc30bf6b5404",
+    "fpl/features.py": "9abcefb85c5dd26db780f6d428c4ad8ddf0c12f849cbb3bb648ba2e09fe7f533",
+    "fpl/forecast_scorecard.py": "fded585115749b7aeda789f1ea6c261a8f975e9858e33a0ac92824fade1ec099",
+    "fpl/milp/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+    "fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "fpl/milp/blank_outcomes.py": "9f894e9820187d8284d6debe3e4c3c66c3c251fb335fa2884767b36ec8a2e366",
+    "fpl/milp/compare_backtests.py": "fffc5b056ff956e549609dbe2ca4b1414f0b34cdfcceb2fb3ec5d03da8237638",
+    "fpl/milp/optimize.py": "53c71532b583d5808382ccf43ba75ccc322b589b41818b34fca2b0461c9a556c",
+    "fpl/milp/replay.py": "f0056a8ba93855c3b0077388b30af3ca242afc6ca1c2e8a5992474290350b706",
+    "fpl/milp/solio.py": "076a6cc40a150706d07de220608500283403683932847ceef43bec1b49a557d5",
+    "fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+    "fpl/milp/solio_output.py": "22724577e69f8e440f38d005e8837626e2e1232fa43bcb47e77a4a4fb83ca56e",
+    "fpl/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/model/baselines.py": "7147a8801e27003c25bdf40a71898be49fd19711303447f6723e68e6d9b535de",
+    "fpl/model/cold_start.py": "7797177cc9b7d36a07329d43339a76b4b0420f54a0e090997ee72a5ee80106b5",
+    "fpl/model/ensemble.py": "d960e588b8c9ad75738128f96df77dd8648752ce52815d9f1888e83b818cc8e8",
+    "fpl/model/expert_policy.py": "d57d549c92fb132e27b654bee02a6a32e728be5d45b1be4f66d9ca9a1794e67b",
+    "fpl/model/metrics.py": "3592bebfe9922ca5b38e2c3c71be75d79592987d39db8341c46ec1b3a496bad7",
+    "fpl/model/mid_gate.py": "3798843118ef6f53ac832fb5c181d2d4b4b18855e7fbe3cdacb1511e6413a151",
+    "fpl/model/models.py": "abd07c2126d48aca8a57fab9263b9e368f6b439bea3c81fb52399579818b95a6",
+    "fpl/model/moe_promotion.py": "93982d906ca6805acb676d13933e49d99a6817ea3fc72b862b331d8812e31337",
+    "fpl/model/moe_tournament.py": "484a17fa26848696470af514457b586fd85e8d09a307c438f009665397e5f23e",
+    "fpl/model/oof_panel.py": "d899f24d4e35b6abc98e950aad63794ba2eaedbe39ed1979eb1f819ef8c5a4b1",
+    "fpl/model/predict.py": "35bca11aa55b5ac546d85405f21676c0ef261b31b987e7c6fbd3e4d6bac6db1f",
+    "fpl/model/probabilistic.py": "097caeb440eac539d952c39d007095bbca6b3f3d3315791126bde5aadf7d10bf",
+    "fpl/model/probabilistic_buckets.py": "a17e8b849c965699b95c099739519ade84cc7848671d035884c2cdd9407f4d55",
+    "fpl/model/recipes.py": "93d7037e149be56e03138c2a32d2c581a62aeb34a84d043ae2643b0b3584098e",
+    "fpl/model/research_input.py": "d923d0e82266bcd6b83362467264b61f347b25b6262edbcd8b8840790b16f783",
+    "fpl/model/screen.py": "b5827a438c0e3d5bb6c81d645e735ad49c7997c45697bb9407b59508fa8e28e7",
+    "fpl/model/train.py": "831e5f2ee07897800fbab710dc3001a202f511e275777d1b3da8a2f44e3220dd",
+    "fpl/model/tuning.py": "39f59413234997e9d66a9cd0e10e1e40fc426ff2636bc5e86a38b8e1aa40b2d7",
+    "fpl/model/tuning_checkpoint.py": "f04b5bb78f81eb2350a22fb53a797f6eb871463019e537cd71d1bdb882895cdc",
+    "fpl/model/walk_forward.py": "08aa034fe8abb947d898f1b3cd625140486d5c09ad32e53d4abbfc99496947d0",
+    "fpl/playground.py": "4acae5300d79028e87ca7983456f41615e552164c90f22b48f28e1a378e130af",
+    "fpl/research_runner.py": "b56ca00e2e93ea5b48ec854b80b333396bf348654be3957a543a50e3f1aeef21",
+    "fpl/run_week.py": "7614d7bb090eb3b750b389088aa1732ff460ca4077e26e38cde8b895440d6cea",
+    "fpl/scorecard.py": "63d161b075f5cce31e7c8430f4c8119d6e303b1564f76c3e2c50d1472225e98b"
+  },
+  "window": [
+    141,
+    142,
+    143,
+    144
+  ],
+  "scope": "explicit_retrospective_blank_settlement_only",
+  "intervention": "Admit only selected missing GW143 outcomes from a complete pinned retrospective fixture ledger plus captured predeadline register. Preserve original forecast bytes and prior failed attempts.",
+  "blank_evidence_path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/GW143BlankEvidence_20261017/blank-evidence.json",
+  "blank_evidence_sha256": {
+    "blank-evidence.json": "63310d24805a32bfc8aae57faa39322cd96e89b21c95d23bb41a5b70d3276bef",
+    "bootstrap-static.json.gz": "ac7b98078c798834a7666bed085953e27d98c05b1ab4073891e16c7839eab2fc",
+    "fixtures.csv": "d8521bdbb80edb5141bc17df71bf6026275f2e56fd6a6dc6041b3ae23a39ce6a",
+    "manifest.json": "d458d58f76319d3cec5b7277ba110b683bf4d8ee331d49be6e65c293c1bee298",
+    "teams.csv": "7795f091ccea17fda0752cb07b935e1515b09a9d3f924147997cbf28139edd49"
+  },
+  "previous_qualification_result_sha256": "890021c5a2188c48ff0ed9febcf6c28c7efa7acd079317a89d394d833479fc88",
+  "metric_basis": [
+    "gross actual_total_points",
+    "net actual_net_points = gross - 4*alpha"
+  ],
+  "stopping_rule": "Exactly four replay attempts. Preserve every failure. No fitting, solving, live fetch, score adjustment or promotion.",
+  "qualification_limitations": [
+    "capture-time registration only",
+    "retrospective calendar",
+    "financial/rule legality unassessed",
+    "outcome-blind execution unassessed"
+  ]
+}
