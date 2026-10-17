@@ -211,12 +211,56 @@ A first-place entry is not automatically the champion. Native optimality, legali
 causal validity, seed stability and the registered promotion gate remain separate.
 The configured Matchday strategy stays `single:catboost`.
 
+## Run a bounded forecast experiment
+
+`fpl.research_runner` connects the existing forecast, optimizer and scorecard APIs.
+Start with a matched CatBoost MAE/RMSE contrast, or keep the same model on both arms
+and remove a predeclared feature subset. Changing both factors together is rejected.
+Plans contain resolved parameters, ordered features, a seed, source/data/runtime
+identities and fit/solve/time budgets. Preparing a plan does not fit models.
+
+```mermaid
+flowchart LR
+  A[Register matched contrast] --> B[Verify frozen inputs and budget]
+  B --> C[Save standard and origin forecasts]
+  C --> D[Corrected MILP backtests]
+  D --> E[Forecast diagnostics and paired points intervals]
+  E --> F[Preserved evidence and league entry]
+  F --> G[Separate promotion review]
+```
+
+```sh
+python -m fpl.research_runner prepare --dataset /path/to/frozen/master_dataset_gw231.csv \
+  --start-gw 141 --end-gw 144 --output /path/to/plan.json
+# Register the plan and its hash in the research issue before execution.
+python -m fpl.research_runner run /path/to/plan.json \
+  --dataset /path/to/frozen/master_dataset_gw231.csv --output /path/to/new-attempt
+python -m fpl.research_runner report /path/to/new-attempt
+```
+
+Selection diagnostics and historical evaluation must each remain wholly within their
+registered windows. Earlier history is retained; rows after the target window are
+removed before features. Spent and prospective windows are rejected. The same frozen
+bytes, code and library versions must still match at execution.
+
+The worker saves all four standard/origin candidate/control forecast panels before
+any optimizer run. Each actual fit has start/completion receipts including training
+rounds and fitted parameters. Corrected net points and paired intervals accompany
+forecast accuracy, calibration and ranking diagnostics. HiGHS must prove optimality
+for every encoded MILP. A timeout or error preserves a failed attempt without retries.
+Completed reports verify every captured file before displaying results.
+
+These initial runner comparisons remain **UNVERIFIED** and unranked: their manifests
+do not yet establish independent FPL legality, an outcome-blind interface or promotion
+contracts. Observed historical windows are not fresh holdouts. A four-round pilot
+checks the execution path; it cannot establish which model should run in Matchday.
+
 ## Where the next connections belong
 
-The shared scorecard is deliberately conservative: this adapter has squad CSVs, not
-validated fixture-level prediction panels or original execution telemetry. Future
-adapters should populate those sections using existing model metrics and OOF validation,
-without interpreting missing evidence as a pass. Research definitions can live under
+The shared scorecard is deliberately conservative: saved squad CSVs alone do not
+establish original execution telemetry. Optional forecast panels and runner receipts
+fill the sections they measure, without interpreting missing evidence as a pass.
+Research definitions can live under
 `experiments/specs/`; the results registry and research log remain the evidence index.
 GitHub issues remain the work tracker, with no separate roadmap/status file here.
 
