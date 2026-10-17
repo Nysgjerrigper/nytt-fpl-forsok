@@ -60,6 +60,27 @@ def _historical(tmp_path, name="historical", *, purpose="registered_research", p
     return path
 
 
+@pytest.mark.parametrize("protocol", ["standard", "origin"])
+def test_forecast_panels_must_match_contract_protocol_and_prediction_bytes(tmp_path, protocol):
+    path = _historical(tmp_path)
+    spec = json.loads(path.read_text())
+    panels = {"information_protocol": protocol, "grain": "player_round", "population": "Synthetic pool"}
+    for side in ("candidate", "control"):
+        panel = pd.DataFrame({"player_id": [101, 101, 101], "GW": [153, 154, 155],
+                              "position": ["MID"] * 3, "actual_total_points": [1, 2, 3],
+                              "predicted_total_points": [1, 2, 3]})
+        if protocol == "origin":
+            panel["origin_gw"] = panel["GW"]
+        source = path.parent / f"{side}-forecasts.csv"
+        panel.to_csv(source, index=False)
+        panels[side] = {"path": source.name, "sha256": sha256_file(source)}
+    spec["forecasts"] = panels
+    path.write_text(json.dumps(spec))
+    message = "protocol" if protocol == "standard" else "forecast bytes"
+    with pytest.raises(ValueError, match=message):
+        playground.validate_spec(path)
+
+
 def test_demo_preflight_does_not_create_run_outputs(tmp_path):
     spec = playground.init_demo(tmp_path / "demo")
     before = {path.relative_to(tmp_path): path.read_bytes() for path in tmp_path.rglob("*") if path.is_file()}

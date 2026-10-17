@@ -1,0 +1,35 @@
+{
+  "artifacts": {
+    "decisions.json": "629599fb0f4fe8afa704e34a721ce81afc56418ae22a46575ba79c24b0806a1e",
+    "historical_legacy.csv": "921f4dfe076719262fd134621e2d375453dd6e8f1e08e60a927c1b263aa1155d",
+    "plan.json": "efc44b5060dc3ecb43dff670887a6822de3228a4036981dc687fb7d9beb8399d",
+    "replay.log": "2e72e964ac04a5b9bae85993adff3f6d7a72250050fed53a65abfdbe1633ac96",
+    "replayed.csv": "fb29afc26b75b8848b1f0c6f72c140d07ddaa588e4a39b4d630b20997946af0d",
+    "standard_matched_predictions.csv": "c7aaa10f0895916e13b77e8bae83511849fd3e151db7938c5c23372f683e644d"
+  },
+  "comparison": {
+    "ci_high": 21.0,
+    "ci_low": -128.0,
+    "total_a": 2096.0,
+    "total_b": 2144.0,
+    "total_diff": -48.0
+  },
+  "comparison_evidence_status": "UNVERIFIED",
+  "fits": 0,
+  "gross_points": 2096.0,
+  "independent_legality": "NOT ASSESSED",
+  "live_fetches": 0,
+  "net_points": 2096.0,
+  "paid_transfers": 0,
+  "plan_sha256": "efc44b5060dc3ecb43dff670887a6822de3228a4036981dc687fb7d9beb8399d",
+  "proven_optimal_solves": 31,
+  "replay_seconds": 89.68799325000145,
+  "report_sha256": "7000a891a57a97d4cea81a7b43f695e040329304a0d894f970c3bf07dd227a0b",
+  "scorecard_sha256": "8e07992e9190375007168521239943f989820bac2e73427bdd23f540b56624d3",
+  "source_sha256": {
+    "fpl/artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1",
+    "fpl/config.py": "c5bdd1266271fdc187c281ed452ab20c6d33c7cc723b665f939ef3da2d8f8533",
+    "fpl/milp/optimize.py": "53c71532b583d5808382ccf43ba75ccc322b589b41818b34fca2b0461c9a556c"
+  },
+  "status": "COMPLETED_ENGINEERING_REPLAY_NOT_QUALIFIED_COMPARISON"
+}
