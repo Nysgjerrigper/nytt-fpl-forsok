@@ -67,6 +67,8 @@ def scored_points(df: pd.DataFrame, *, points_col: str = POINTS_COL) -> pd.Serie
         raise ValueError("gameweek must contain positive integers")
     if weeks.duplicated().any():
         raise ValueError("run has duplicate gameweek rows")
+    if "chip_played" in df and df.chip_played.eq("FALLBACK_NO_TRANSFERS").any():
+        raise ValueError("fallback optimizer rows are not completed legal decisions")
     if "scoring_protocol" in df:
         protocols = df.scoring_protocol
         if (protocols.isna().any() or protocols.nunique() != 1

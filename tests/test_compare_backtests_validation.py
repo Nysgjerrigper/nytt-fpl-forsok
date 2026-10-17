@@ -79,6 +79,12 @@ def test_duplicate_gameweek_rejected():
         cb.paired_gw_differences(a, _run())
 
 
+def test_failed_optimizer_fallback_cannot_be_scored_as_a_completed_run():
+    a = _run(chip_played=["FALLBACK_NO_TRANSFERS", None])
+    with pytest.raises(ValueError, match="fallback"):
+        cb.paired_gw_differences(a, _run())
+
+
 def test_different_gameweek_windows_rejected():
     a = _run()
     a["gameweek"] = [153, 155]
