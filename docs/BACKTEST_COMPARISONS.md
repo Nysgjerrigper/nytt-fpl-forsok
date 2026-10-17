@@ -48,8 +48,14 @@ are unchanged; new net-primary families require their own approved protocol.
 The legacy optimizer supports an optional `--decisions-json new-decisions.json`.
 This immutable snapshot is written before realized settlement. It preserves stable player
 IDs, original bench priority, captain/vice, transfers and state transitions, independently
-of display-name sorting in the human CSV. It records native optimality as NOT ASSESSED;
-an objective value or a PuLP status alone is not a native solver certificate. An existing
+of display-name sorting in the human CSV. New HiGHS runs require both PuLP optimal
+statuses, finite feasible integer values, native optimal status, valid primal/dual
+evidence and zero relative/absolute stopping gaps. The certificate uses a predeclared
+1e-7 absolute numerical tolerance and checks the PuLP objective against the native
+objective. CBC is labelled PULP_REPORTED_OPTIMAL, without a native certificate.
+Older snapshots remain NOT ASSESSED; an objective value or PuLP status alone does not
+retroactively certify them. No certificate establishes independent FPL-rule legality.
+Failed solves abort the entire export rather than emitting fallback decisions. An existing
 snapshot is never overwritten. CSV and JSON destinations must be distinct.
 
 New settled legacy CSVs add `transfer_hit_points` and `actual_net_points`; historical

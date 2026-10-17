@@ -74,6 +74,9 @@ SCREEN_WARMUP_WEEKS = 4
 MILP_SOLVER = "highs"
 MILP_THREADS = 0
 MILP_GAP_REL = 0.0
+# Numerical verification tolerance, not an allowed optimization gap. Both native
+# stopping gaps are zero; reject certificates outside this absolute roundoff bound.
+MILP_CERTIFICATE_ABS_TOL = 1e-7
 
 # Valid full starting-XI formation bounds shared with realized scoring.
 LINEUP_MIN_COUNTS = {"GK": 1, "DEF": 3, "MID": 2, "FWD": 1}
