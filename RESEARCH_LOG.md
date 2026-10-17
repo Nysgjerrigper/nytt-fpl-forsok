@@ -1828,3 +1828,26 @@ continuing FH (e=u=0); temporary affordability is a separate constraint. The new
 field exposes that separate residual without reinterpreting historical columns.
 Old snapshots lacking explicit initial/permanent state are not upgraded by this
 export change. Financial/rule audit and outcome-blind execution remain issue #23.
+
+
+### 2026-10-17 — Strict initial-state and hit-cost comparison admission
+
+Primary issue #21 completion audit found that matching nonempty dictionaries could
+omit initial holdings and free transfers. Strict schema-1 contracts now require
+explicit mode, squad, bank (`budget`, tenths) and free transfers. Fresh states have
+empty holdings; continuing states have15 unique positive integer stable IDs.
+Scalar/type/finite checks reject malformed state, including boolean numeric values.
+Extra explicit state assumptions remain bound by pairwise equality. This validates
+declarations, not monetary grids, transfer caps or independent FPL legality.
+
+Contracts also declare the supported integer transfer-hit cost, with unsupported
+costs rejected. Saved transfer-hit totals must agree with paid transfers; requested
+and effective metric plus cost units are explicit in machine/human output. Invalid
+season labels are rejected before global-week mapping. Prior incomplete contracts
+and historical reports remain unchanged; no guessed defaults are inserted.
+
+Focused verification:309 existing/extended contract, comparator, Playground and
+saved-replay tests passed; one additional human/JSON receipt consistency test passed.
+Hand-calculated gross/net controls and registered promotion conditions remain intact.
+No empirical fits, optimizer replays, live fetch or production change. Full financial
+rule arithmetic and original outcome-blind execution remain separate work under #23.

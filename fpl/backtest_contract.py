@@ -8,6 +8,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
+from numbers import Real
+import re
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +21,7 @@ from fpl import config
 _CONTEXT = {
     "season", "start_season", "gameweeks", "information_protocol", "horizon",
     "scoring_protocol", "price_policy", "sell_price_policy", "initial_state",
-    "rule_set", "chip_inventory", "runtime",
+    "rule_set", "chip_inventory", "runtime", "transfer_hit_points",
 }
 _ARTIFACTS = {
     "dataset", "outcomes", "player_pool", "predictions", "parameters",
@@ -42,6 +45,26 @@ def _json_bytes(path: Path) -> tuple[dict, bytes]:
     return value, content
 
 
+def _validate_initial_state(state: Any) -> None:
+    """Require explicit squad, bank in tenths and FT state, without rule certification."""
+    required = {"mode", "squad", "budget", "free_transfers"}
+    if not isinstance(state, dict) or not required <= set(state):
+        raise ValueError("initial_state requires mode, squad, budget and free_transfers")
+    if state["mode"] not in ("fresh", "continuing"):
+        raise ValueError("initial_state mode must be fresh or continuing")
+    squad = state["squad"]
+    if (not isinstance(squad, list) or any(type(player) is not int or player <= 0 for player in squad)
+            or len(set(squad)) != len(squad)):
+        raise ValueError("initial_state squad requires unique positive integer stable IDs")
+    if len(squad) != (0 if state["mode"] == "fresh" else 15):
+        raise ValueError("fresh initial_state requires an empty squad; continuing requires 15 players")
+    budget = state["budget"]
+    if isinstance(budget, bool) or not isinstance(budget, Real) or not math.isfinite(budget) or budget < 0:
+        raise ValueError("initial_state budget requires finite nonnegative numeric tenths")
+    if type(state["free_transfers"]) is not int or state["free_transfers"] < 0:
+        raise ValueError("initial_state free_transfers requires a nonnegative integer")
+
+
 def _load(path: str, backtest_sha: str, frame: pd.DataFrame, metric: str) -> dict[str, Any]:
     location = Path(path).resolve()
     spec, content = _json_bytes(location)
@@ -60,6 +83,10 @@ def _load(path: str, backtest_sha: str, frame: pd.DataFrame, metric: str) -> dic
     context, artifacts = spec["context"], spec["artifacts"]
     if not isinstance(context, dict) or set(context) != _CONTEXT:
         raise ValueError("contract context fields are incomplete or unknown")
+    if (type(context["transfer_hit_points"]) is not int
+            or context["transfer_hit_points"] != config.TRANSFER_HIT_POINTS):
+        raise ValueError("contract requires the supported explicit transfer_hit_points")
+    _validate_initial_state(context["initial_state"])
     weeks = context["gameweeks"]
     if (not isinstance(weeks, list) or not weeks or any(type(gw) is not int or gw <= 0 for gw in weeks)
             or weeks != sorted(set(weeks)) or weeks != sorted(frame.gameweek.astype(int).tolist())):
@@ -74,12 +101,15 @@ def _load(path: str, backtest_sha: str, frame: pd.DataFrame, metric: str) -> dic
     for name in ("season", "start_season", "price_policy", "sell_price_policy", "rule_set"):
         if not isinstance(context[name], str) or not context[name].strip():
             raise ValueError(f"contract requires {name}")
+    season = re.fullmatch(r"(\d{4})-(\d{2})", context["season"])
+    if season is None or int(season[2]) != (int(season[1]) + 1) % 100:
+        raise ValueError("contract season must be consecutive YYYY-YY")
     if not set(weeks) <= set(range(config.season_start_gw(context["season"]),
                                    config.season_start_gw(context["season"]) + config.GWS_PER_SEASON)):
         raise ValueError("contract weeks do not belong to the declared season")
     if context["start_season"] != config.DEFAULT_START_SEASON:
         raise ValueError("contract global-week mapping differs from configuration")
-    for name in ("initial_state", "chip_inventory", "runtime"):
+    for name in ("chip_inventory", "runtime"):
         if not isinstance(context[name], dict) or not context[name]:
             raise ValueError(f"contract requires explicit {name}")
     if not isinstance(artifacts, dict) or set(artifacts) != _ARTIFACTS:

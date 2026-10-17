@@ -2,8 +2,9 @@
 
 Historical callers retain the gross `actual_total_points` default. New comparisons can
 explicitly request `--points-col actual_net_points`: net equals gross minus four points
-per `alpha` paid transfer. Missing hit counts are not assumed zero. If a saved net column
-exists, it must agree. Invalid values, unknown/mixed scoring protocols, duplicate weeks
+per `alpha` paid transfer. Missing hit counts are not assumed zero. Saved net and
+`transfer_hit_points` columns, when present, must agree with validated paid transfers.
+Invalid values, unknown/mixed scoring protocols, duplicate weeks
 and mismatched windows are rejected. A comparison with no protocol labels on either side
 remains usable as **UNVERIFIED** historical evidence, not a promotion verdict.
 
@@ -12,8 +13,9 @@ python -m fpl.milp.compare_backtests candidate.csv control.csv \
   --points-col actual_net_points --json-output new-comparison.json
 ```
 
-The receipt includes exact CSV hashes, metric, weeks, bootstrap configuration and paired
-results. Both CSVs are parsed from the same bytes that are hashed. The positive bootstrap
+The receipt includes exact CSV hashes, requested/effective metric, supported cost per
+paid transfer, weeks, bootstrap configuration and paired results. Both CSVs are parsed
+from the same bytes that are hashed. The positive bootstrap
 replicate fraction is labelled separately from the sign-test p-value. Serial dependence,
 block choice and repeated inspection limit inference; no automatic promotion follows.
 
@@ -24,10 +26,19 @@ Schema version 1 requires:
 
 - `schema_version`, `purpose` (`framework_validation` or `registered_research`), `run_id`,
   `intervention` (`forecast`, `features`, `optimizer`, `reporting`), `backtest_sha256`, `metric`.
-- `context`: `season`, `start_season`, exact sorted `gameweeks`, `information_protocol`
+- `context`: consecutive `season` (`YYYY-YY`), `start_season`, exact sorted `gameweeks`, `information_protocol`
   (`standard` or `origin`), positive `horizon`, `scoring_protocol`, `price_policy`,
-  `sell_price_policy`, `initial_state`, `rule_set`, `chip_inventory`, `runtime`.
-  State, chip inventory and runtime are explicit nonempty objects, including disabled chips.
+  `sell_price_policy`, `initial_state`, `rule_set`, `transfer_hit_points`,
+  `chip_inventory`, `runtime`. The declared hit cost must be an integer equal to
+  the supported configured four points; unknown costs are rejected, never substituted.
+  Chip inventory and runtime are explicit nonempty objects, including disabled chips.
+  `initial_state` explicitly contains `mode` (`fresh` or `continuing`), `squad`,
+  `budget` (finite nonnegative bank in tenths of a million pounds) and
+  `free_transfers` (nonnegative integer). Fresh mode requires an empty squad;
+  continuing mode requires 15 unique positive integer stable IDs. Booleans are
+  not numeric state values. Additional explicit state fields are retained and
+  must match between candidate and control. This checks declarations, not price
+  arithmetic, chip eligibility or a season's transfer rules.
 - `artifacts`: `dataset`, `outcomes`, `player_pool`, `predictions`, `parameters`, `features`,
   `model_source`, `optimizer_source`, `scorer_source`. Each has `path` and `sha256`;
   relative paths resolve from the manifest's directory. Every file is verified.
@@ -37,6 +48,11 @@ model source. Feature interventions may also change the feature artifact. Optimi
 interventions may change optimizer source only; reporting comparisons change none.
 Dataset, outcomes, pool and scorer bytes must always match. Different experiments may
 need a separately reviewed contract extension; arbitrary ignored fields are not allowed.
+
+Previously accepted contracts without explicit holdings/FT or a declared hit cost
+are incomplete under strict admission. Preserve their bytes and historical reports;
+do not add guessed defaults. Omitting contracts still produces an UNVERIFIED
+historical report, without promotion eligibility.
 
 **CONTRACT_VALIDATED means byte-bound declared comparability.** It does not prove causal
 validity, pre-registration, full player coverage, legality or native solver optimality.

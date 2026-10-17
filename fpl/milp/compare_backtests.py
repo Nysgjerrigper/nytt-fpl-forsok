@@ -81,6 +81,12 @@ def scored_points(df: pd.DataFrame, *, points_col: str = POINTS_COL) -> pd.Serie
                 or not np.isfinite(paid).all() or not ((paid >= 0) & (paid % 1 == 0)).all()):
             raise ValueError("alpha must contain nonnegative integer paid transfers")
         net = df[POINTS_COL] - config.TRANSFER_HIT_POINTS * paid
+    if "transfer_hit_points" in df:
+        supplied_cost = df.transfer_hit_points
+        if (net is None or not pd.api.types.is_numeric_dtype(supplied_cost)
+                or pd.api.types.is_bool_dtype(supplied_cost) or not np.isfinite(supplied_cost).all()
+                or not np.allclose(supplied_cost, config.TRANSFER_HIT_POINTS * df.alpha, rtol=0, atol=1e-9)):
+            raise ValueError("transfer_hit_points must equal the supported cost times validated alpha")
     if "actual_net_points" in df:
         supplied = df.actual_net_points
         if (net is None or not pd.api.types.is_numeric_dtype(supplied)
@@ -254,7 +260,9 @@ def compare(path_a: str, path_b: str, n_boot: int = 10000, block_len: int = 3,
     report["sign_test"] = sign_test(diffs)
     report["total_a"] = float(scored_points(df_a, points_col=points_col).sum())
     report["total_b"] = float(scored_points(df_b, points_col=points_col).sum())
-    report.update(metric=points_col, gameweeks=[int(gw) for gw in diffs.index],
+    report.update(metric=points_col, requested_metric=points_col, effective_metric=points_col,
+                  transfer_hit_points_per_paid_transfer=config.TRANSFER_HIT_POINTS,
+                  gameweeks=[int(gw) for gw in diffs.index],
                   input_sha256={"a": hashes[0], "b": hashes[1]},
                   evidence_status="CONTRACT_VALIDATED" if contract else "UNVERIFIED",
                   contract=contract, n_boot=int(n_boot), seed=int(seed),
@@ -296,6 +304,7 @@ def main(argv=None):
           f"[{r['ci_low']:+.0f}, {r['ci_high']:+.0f}]   "
           f"positive bootstrap fraction = {r['bootstrap_positive_fraction']:.3f}")
     print(f"Metric: {r['metric']}; evidence: {r['evidence_status']} (not a promotion decision)")
+    print(f"Transfer hit cost: {r['transfer_hit_points_per_paid_transfer']} points per paid transfer")
     print(f"Sign test: A won {s['wins_a']} GWs, B won {s['wins_b']} ({s['ties']} ties), "
           f"two-sided p = {s['p_value']:.3f}")
     if r["ci_low"] <= 0.0 <= r["ci_high"]:

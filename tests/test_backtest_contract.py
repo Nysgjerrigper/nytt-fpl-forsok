@@ -37,7 +37,8 @@ def _pair(tmp_path, intervention="forecast"):
                 "season": "2024-25", "start_season": "2020-21", "gameweeks": [153, 154, 155],
                 "information_protocol": "origin", "horizon": 3, "scoring_protocol": "autosubs_v2",
                 "price_policy": "static", "sell_price_policy": "buy_price",
-                "initial_state": {"mode": "fresh", "budget": 1000},
+                "initial_state": {"mode": "fresh", "squad": [], "budget": 1000, "free_transfers": 1},
+                "transfer_hit_points": 4,
                 "rule_set": "legacy", "chip_inventory": {"enabled": []},
                 "runtime": {"solver": "highs", "gap_rel": 0},
             },
@@ -87,7 +88,7 @@ def test_changed_referenced_artifact_bytes_invalidate_contract(tmp_path):
 
 @pytest.mark.parametrize("name,value", [
     ("horizon", 2), ("runtime", {"solver": "cbc", "gap_rel": 0}),
-    ("initial_state", {"mode": "fresh", "budget": 999}),
+    ("initial_state", {"mode": "fresh", "squad": [], "budget": 999, "free_transfers": 1}),
     ("scoring_protocol", "legacy_no_autosubs"),
 ])
 def test_mismatched_context_rejected(tmp_path, name, value):
@@ -134,7 +135,7 @@ def test_required_top_level_fields_cannot_be_omitted(tmp_path, field):
 
 @pytest.mark.parametrize("field", ["season", "start_season", "gameweeks", "information_protocol", "horizon",
                                     "scoring_protocol", "price_policy", "sell_price_policy", "initial_state",
-                                    "rule_set", "chip_inventory", "runtime"])
+                                    "rule_set", "chip_inventory", "runtime", "transfer_hit_points"])
 def test_required_context_fields_cannot_be_omitted(tmp_path, field):
     backtests, contracts = _pair(tmp_path)
     _edit(contracts[0], lambda spec: spec["context"].pop(field))
@@ -155,3 +156,115 @@ def test_one_contract_cannot_establish_pair_comparability(tmp_path):
     backtests, contracts = _pair(tmp_path)
     with pytest.raises(ValueError, match="both"):
         compare(*backtests, contract_a=contracts[0])
+
+
+@pytest.mark.parametrize("field", ["mode", "squad", "budget", "free_transfers"])
+def test_matching_initial_states_cannot_omit_required_fields(tmp_path, field):
+    backtests, contracts = _pair(tmp_path)
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"]["initial_state"].pop(field))
+    with pytest.raises(ValueError, match="initial_state"):
+        _compare(backtests, contracts)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("mode", "unknown"), ("mode", None), ("mode", []),
+    ("squad", None), ("squad", {}), ("squad", [True]), ("squad", [1.0]),
+    ("squad", ["1"]), ("squad", [0]), ("squad", [-1]), ("squad", [1, 1]),
+    ("squad", [1]), ("squad", list(range(1, 16))),
+    ("budget", True), ("budget", False), ("budget", -1), ("budget", float("nan")),
+    ("budget", float("inf")), ("budget", "1000"), ("budget", None),
+    ("free_transfers", True), ("free_transfers", 1.0), ("free_transfers", -1),
+    ("free_transfers", "1"), ("free_transfers", None),
+])
+def test_matching_malformed_initial_states_are_rejected(tmp_path, field, value):
+    backtests, contracts = _pair(tmp_path)
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"]["initial_state"].__setitem__(field, value))
+    with pytest.raises(ValueError):
+        _compare(backtests, contracts)
+
+
+@pytest.mark.parametrize("squad", [[], list(range(1, 15)), list(range(1, 17)), [1] * 15])
+def test_continuing_state_requires_fifteen_distinct_ids(tmp_path, squad):
+    backtests, contracts = _pair(tmp_path)
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"].__setitem__("initial_state", {
+            "mode": "continuing", "squad": squad, "budget": 25, "free_transfers": 2}))
+    with pytest.raises(ValueError, match="initial_state"):
+        _compare(backtests, contracts)
+
+
+def test_complete_continuing_state_preserves_explicit_extras_without_rule_claims(tmp_path):
+    backtests, contracts = _pair(tmp_path)
+    state = {"mode": "continuing", "squad": list(range(1, 16)), "budget": 123.45,
+             "free_transfers": 8, "sell_prices": {"1": 50}, "owner_verified": False}
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"].__setitem__("initial_state", state))
+    result = _compare(backtests, contracts)
+    assert result["evidence_status"] == "CONTRACT_VALIDATED"
+    assert result["contract"]["a"]["context"]["initial_state"] == state
+    assert result["contract"]["promotion_assessment"] == "NOT ASSESSED"
+
+
+def test_complete_fresh_state_allows_explicit_nonstandard_budget_and_ft(tmp_path):
+    backtests, contracts = _pair(tmp_path)
+    state = {"mode": "fresh", "squad": [], "budget": 999.5, "free_transfers": 0}
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"].__setitem__("initial_state", state))
+    assert _compare(backtests, contracts)["contract"]["b"]["context"]["initial_state"] == state
+
+
+def test_extra_initial_state_fields_remain_comparison_assumptions(tmp_path):
+    backtests, contracts = _pair(tmp_path)
+    for index, contract in enumerate(contracts):
+        _edit(contract, lambda spec: spec["context"]["initial_state"].__setitem__("owner_verified", index == 0))
+    with pytest.raises(ValueError, match="context differs"):
+        _compare(backtests, contracts)
+
+
+@pytest.mark.parametrize("cost", [0, -4, 8, 4.0, True, False, "4", None])
+def test_transfer_hit_cost_must_be_the_supported_literal_integer(tmp_path, cost):
+    backtests, contracts = _pair(tmp_path)
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"].__setitem__("transfer_hit_points", cost))
+    with pytest.raises(ValueError, match="transfer_hit_points"):
+        _compare(backtests, contracts)
+
+
+def test_missing_transfer_hit_cost_rejects_matching_old_contracts_without_rewriting(tmp_path):
+    backtests, contracts = _pair(tmp_path)
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"].pop("transfer_hit_points"))
+    original = [contract.read_bytes() for contract in contracts]
+    with pytest.raises(ValueError):
+        _compare(backtests, contracts)
+    assert [contract.read_bytes() for contract in contracts] == original
+
+
+@pytest.mark.parametrize("state", [None, [], {}, {"arbitrary": "state"}])
+def test_matching_nonstates_cannot_establish_comparability(tmp_path, state):
+    backtests, contracts = _pair(tmp_path)
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"].__setitem__("initial_state", state))
+    with pytest.raises(ValueError, match="initial_state"):
+        _compare(backtests, contracts)
+
+
+@pytest.mark.parametrize("invalid_id", [True, 1.0, "1", 0, -1])
+def test_complete_sized_continuing_squad_requires_strict_positive_integer_ids(tmp_path, invalid_id):
+    backtests, contracts = _pair(tmp_path)
+    state = {"mode": "continuing", "squad": [invalid_id, *range(2, 16)], "budget": 0, "free_transfers": 0}
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"].__setitem__("initial_state", state))
+    with pytest.raises(ValueError, match="initial_state"):
+        _compare(backtests, contracts)
+
+
+@pytest.mark.parametrize("season", ["2024-99", "2024"])
+def test_matching_malformed_season_labels_do_not_establish_comparability(tmp_path, season):
+    backtests, contracts = _pair(tmp_path)
+    for contract in contracts:
+        _edit(contract, lambda spec: spec["context"].__setitem__("season", season))
+    with pytest.raises(ValueError, match="consecutive YYYY-YY"):
+        _compare(backtests, contracts)
