@@ -203,9 +203,42 @@ def test_compare_selects_net_metric_and_preserves_unverified_input_evidence(tmp_
     assert report["total_a"] == 106
     assert report["total_b"] == 110
     assert report["total_diff"] == -4
-    assert report["metric"] == "actual_net_points"
+    assert report["metric"] == report["requested_metric"] == report["effective_metric"] == "actual_net_points"
+    assert report["transfer_hit_points_per_paid_transfer"] == 4
     assert report["gameweeks"] == [153, 154]
     assert report["evidence_status"] == "UNVERIFIED"
     expected_hashes = {hashlib.sha256(path.read_bytes()).hexdigest() for path in (path_a, path_b)}
     assert set(report["input_sha256"].values()) == expected_hashes
     assert {"boot_mean", "ci_low", "ci_high", "p_a_better", "n_gws", "block_len", "sign_test"} <= report.keys()
+
+
+@pytest.mark.parametrize("cost", [[0, 0], [4, 5], [True, False], [float("nan"), 0], [float("inf"), 0]])
+def test_supplied_hit_cost_cannot_contradict_paid_transfers(cost):
+    with pytest.raises(ValueError, match="transfer_hit_points"):
+        cb.scored_points(_run(alpha=[1, 0], transfer_hit_points=cost))
+
+
+def test_supplied_hit_cost_requires_alpha_even_for_gross_comparison():
+    with pytest.raises(ValueError, match="transfer_hit_points"):
+        cb.scored_points(_run(transfer_hit_points=[0, 0]))
+
+
+def test_explicit_hit_costs_agree_with_gross_and_net_accounting():
+    values = _run(alpha=[1, 0], transfer_hit_points=[4, 0], actual_net_points=[46, 60])
+    assert cb.scored_points(values).tolist() == [50, 60]
+    assert cb.scored_points(values, points_col="actual_net_points").tolist() == [46, 60]
+
+
+def test_human_comparison_matches_explicit_metric_and_cost_receipt(tmp_path, capsys):
+    import json
+    a, b, receipt = tmp_path / "a.csv", tmp_path / "b.csv", tmp_path / "receipt.json"
+    _run((52, 62), alpha=[1, 1], transfer_hit_points=[4, 4]).to_csv(a, index=False)
+    _run(alpha=[0, 0], transfer_hit_points=[0, 0]).to_csv(b, index=False)
+    cb.main([str(a), str(b), "--points-col", "actual_net_points", "--n-boot", "20",
+             "--json-output", str(receipt)])
+    report = json.loads(receipt.read_bytes())
+    output = capsys.readouterr().out
+    assert report["requested_metric"] == report["effective_metric"] == "actual_net_points"
+    assert f"Metric: {report['effective_metric']}" in output
+    assert f"Transfer hit cost: {report['transfer_hit_points_per_paid_transfer']} points per paid transfer" in output
+    assert "total 106" in output and "total 110" in output

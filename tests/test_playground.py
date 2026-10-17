@@ -43,7 +43,8 @@ def _historical(tmp_path, name="historical", *, purpose="registered_research", p
                 "season": "2024-25", "start_season": "2020-21", "gameweeks": list(weeks),
                 "information_protocol": origin, "horizon": 3, "scoring_protocol": "autosubs_v2",
                 "price_policy": "static", "sell_price_policy": "buy_price",
-                "initial_state": {"mode": "fresh", "budget": 1000}, "rule_set": "legacy",
+                "initial_state": {"mode": "fresh", "squad": [], "budget": 1000, "free_transfers": 1},
+                "transfer_hit_points": 4, "rule_set": "legacy",
                 "chip_inventory": {"enabled": []}, "runtime": {"solver": "highs", "gap_rel": 0},
             }, "artifacts": artifacts,
         }
