@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 from copy import deepcopy
+import hashlib
 import json
 import math
 from numbers import Integral, Real
@@ -211,6 +212,7 @@ def run_plan(plan_path: str | Path, dataset_path: str | Path, output_dir: str | 
     if not isinstance(plan, dict):
         raise ValueError("plan must be a JSON object")
     _validate_plan(plan, dataset_path)
+    plan_sha256 = hashlib.sha256(content).hexdigest()
     if any(root.is_relative_to(folder.resolve()) for folder in (config.DATASETT_DIR, config.ROOT / "fpl")):
         raise ValueError("research output cannot target production code or datasets")
     root.mkdir(parents=True, exist_ok=False)
@@ -220,7 +222,7 @@ def run_plan(plan_path: str | Path, dataset_path: str | Path, output_dir: str | 
         shutil.copyfile(dataset_path, root / "dataset.csv")
         if sha256_file(root / "dataset.csv") != plan["dataset_sha256"]:
             raise ValueError("dataset changed during capture")
-        write_json_new(root / "started.json", {"schema_version": 1, "plan_sha256": sha256_file(root / "plan.json"),
+        write_json_new(root / "started.json", {"schema_version": 1, "plan_sha256": plan_sha256,
                                                "status": "STARTED", "fresh_holdout": False, "promotion_eligible": False})
         environment = os.environ.copy()
         environment["PYTHONPATH"] = str(config.ROOT)
@@ -230,6 +232,23 @@ def run_plan(plan_path: str | Path, dataset_path: str | Path, output_dir: str | 
                                     timeout=plan["budget"]["max_seconds"], check=False)
         if result.returncode != 0:
             raise RuntimeError(f"research worker exited with status {result.returncode}")
+        if (root / "failed.json").exists():
+            raise RuntimeError("research worker preserved a failure")
+        receipt = _read_json(root / "worker-complete.json")
+        if (receipt.get("status") != "COMPLETED" or receipt.get("schema_version") != 1
+                or receipt.get("promotion_eligible") is not False or receipt.get("fresh_holdout") is not False
+                or receipt.get("plan_sha256") != plan_sha256
+                or receipt.get("plan_sha256") != sha256_file(root / "plan.json")):
+            raise ValueError("worker completion disagrees with captured plan")
+        _verify_outputs(root, receipt.get("outputs"), {"worker-complete.json", "worker.log"})
+        if plan["source_sha256"] != _source_hashes() or plan["runtime"] != _runtime_versions():
+            raise RuntimeError("source or runtime changed before completion")
+        # subprocess.run has reaped the child and the log stream is closed. Native
+        # shutdown output is now included, rather than invalidating a child-made hash.
+        receipt["outputs"] = {**receipt["outputs"],
+                              "worker-complete.json": sha256_file(root / "worker-complete.json"),
+                              "worker.log": sha256_file(root / "worker.log")}
+        write_json_new(root / "complete.json", receipt)
         read_result(root)
     except Exception as exc:
         _failure(root, str(exc), type(exc).__name__)
@@ -346,8 +365,8 @@ def _worker(output_dir: str | Path) -> None:
         sys.stdout.flush()
         sys.stderr.flush()
         files = {str(path.relative_to(root)): sha256_file(path) for path in sorted(root.rglob("*"))
-                 if path.is_file() and path not in (root / "complete.json", root / "failed.json")}
-        write_json_new(root / "complete.json", {"schema_version": 1, "status": "COMPLETED",
+                 if path.is_file() and path != root / "worker.log"}
+        write_json_new(root / "worker-complete.json", {"schema_version": 1, "status": "COMPLETED",
             "plan_sha256": sha256_file(root / "plan.json"), "promotion_eligible": False, "fresh_holdout": False,
             "timings": {"feature_seconds": feature_seconds, "fit_seconds": state["fit_seconds"],
                         "solver_seconds": state["solver_seconds"], "total_seconds": time.monotonic() - started},
@@ -360,6 +379,23 @@ def _worker(output_dir: str | Path) -> None:
         models.fit_model = original_fit
 
 
+def _verify_outputs(root: Path, outputs: dict, excluded: set[str]) -> None:
+    """Check exact file coverage and bytes, excluding only named lifecycle receipts."""
+    if not isinstance(outputs, dict):
+        raise ValueError("invalid research output manifest")
+    actual = {str(path.relative_to(root)) for path in root.rglob("*")
+              if path.is_file() and str(path.relative_to(root)) not in excluded}
+    if actual != set(outputs):
+        raise ValueError("research output file coverage changed")
+    for name, digest in outputs.items():
+        relative = Path(name)
+        target = root / relative
+        if relative.is_absolute() or ".." in relative.parts or not target.resolve().is_relative_to(root):
+            raise ValueError("unsafe output path in completion receipt")
+        if sha256_file(target) != digest:
+            raise ValueError(f"research output changed: {name}")
+
+
 def read_result(output_dir: str | Path) -> dict:
     """Verify exact captured file coverage and bytes before exposing a completion."""
     root = Path(output_dir).resolve()
@@ -367,19 +403,9 @@ def read_result(output_dir: str | Path) -> dict:
         raise ValueError("failed research runs cannot be reported as completed")
     receipt = _read_json(root / "complete.json")
     if (receipt.get("schema_version") != 1 or receipt.get("status") != "COMPLETED"
-            or receipt.get("promotion_eligible") is not False or receipt.get("fresh_holdout") is not False
-            or not isinstance(receipt.get("outputs"), dict)):
+            or receipt.get("promotion_eligible") is not False or receipt.get("fresh_holdout") is not False):
         raise ValueError("invalid research completion receipt")
-    actual = {str(path.relative_to(root)) for path in root.rglob("*") if path.is_file() and path != root / "complete.json"}
-    if actual != set(receipt["outputs"]):
-        raise ValueError("research output file coverage changed")
-    for name, digest in receipt["outputs"].items():
-        relative = Path(name)
-        target = root / relative
-        if relative.is_absolute() or ".." in relative.parts or not target.resolve().is_relative_to(root):
-            raise ValueError("unsafe output path in completion receipt")
-        if sha256_file(target) != digest:
-            raise ValueError(f"research output changed: {name}")
+    _verify_outputs(root, receipt.get("outputs"), {"complete.json"})
     if receipt.get("plan_sha256") != sha256_file(root / "plan.json"):
         raise ValueError("completed plan hash differs")
     return receipt

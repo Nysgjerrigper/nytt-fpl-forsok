@@ -230,7 +230,8 @@ def test_read_result_rejects_corruption_coverage_and_unsafe_paths(tmp_path, chan
         runner.read_result(root)
 
 
-def test_fake_worker_integrates_ledgers_forecasts_solves_and_real_scorecards(tmp_path, admitted, monkeypatch):
+@pytest.mark.parametrize("shutdown_write", ["log", "artifact", "source", "plan"])
+def test_fake_worker_integrates_ledgers_forecasts_solves_and_real_scorecards(tmp_path, admitted, monkeypatch, shutdown_write):
     plan = _plan(admitted, parameters={"iterations": 2})
     path = _save(tmp_path, plan)
     root = tmp_path / "output"
@@ -271,10 +272,42 @@ def test_fake_worker_integrates_ledgers_forecasts_solves_and_real_scorecards(tmp
     def process(command, **kwargs):
         with redirect_stdout(kwargs["stdout"]):
             runner._worker(Path(command[-1]))
+            assert not (root / "complete.json").exists()
+            print("late native shutdown output")
+        if shutdown_write == "artifact":
+            (root / "standard-control-predictions.csv").write_text("changed after worker receipt")
+        elif shutdown_write == "source":
+            monkeypatch.setattr(runner, "_source_hashes", lambda: {"fpl/example.py": "changed during shutdown"})
+        elif shutdown_write == "plan":
+            # Even a consistently rehashed replacement cannot change the plan
+            # captured by the parent before execution.
+            captured = json.loads((root / "plan.json").read_text())
+            captured["seed"] = 1
+            (root / "plan.json").write_text(json.dumps(captured))
+            receipt_path = root / "worker-complete.json"
+            receipt = json.loads(receipt_path.read_text())
+            receipt["plan_sha256"] = sha256_file(root / "plan.json")
+            receipt["outputs"]["plan.json"] = receipt["plan_sha256"]
+            started = json.loads((root / "started.json").read_text())
+            started["plan_sha256"] = receipt["plan_sha256"]
+            (root / "started.json").write_text(json.dumps(started))
+            receipt["outputs"]["started.json"] = sha256_file(root / "started.json")
+            receipt_path.write_text(json.dumps(receipt))
         return SimpleNamespace(returncode=0)
     monkeypatch.setattr(runner.subprocess, "run", process)
+    if shutdown_write != "log":
+        message = {"artifact": "research output changed", "source": "source or runtime changed",
+                   "plan": "worker completion disagrees"}[shutdown_write]
+        with pytest.raises((ValueError, RuntimeError), match=message):
+            runner.run_plan(path, admitted[0], root)
+        assert (root / "failed.json").exists()
+        assert not (root / "complete.json").exists()
+        return
     assert runner.run_plan(path, admitted[0], root) == root
     result = runner.read_result(root)
+    assert (root / "worker.log").read_text().endswith("late native shutdown output\n")
+    assert result["outputs"]["worker.log"] == sha256_file(root / "worker.log")
+    assert "worker-complete.json" in result["outputs"]
     assert result["fit_calls"] == result["solver_calls"] == 16
     assert len(calls) == 4
     assert runner.models.fit_model is original_fit
