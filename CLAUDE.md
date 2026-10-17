@@ -59,7 +59,7 @@ with `python -m pip install --no-deps --no-build-isolation -e .`. LightGBM requi
 
 ```bash
 python -m fpl.data.fetch                              # refresh mutable live input
-python -m fpl.run_week --team-id <id> --horizon 3       # live refresh/refit/decisions
+python -m fpl.run_week --team-id <id> --free-transfers <count> --horizon 3  # live scenario
 python -m fpl.model.train                             # historical model diagnostics
 python -m fpl.model.predict --start-gw N --end-gw M    # historical forecasts
 python -m fpl.milp.optimize --start-gw N --max-gw M --horizon H

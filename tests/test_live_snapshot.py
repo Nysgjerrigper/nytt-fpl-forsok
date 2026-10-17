@@ -8,9 +8,38 @@ players must be excluded from the live pool.
 
 import pandas as pd
 import pytest
+import requests
 
 from fpl import run_week
 from fpl.model.mid_gate import MidGateConfig, RegimeSelection, TertileThresholds
+
+
+def test_fixture_fetch_failure_does_not_shorten_live_horizon(monkeypatch):
+    def unavailable(bootstrap, gw):
+        if gw == 9:
+            raise requests.HTTPError("unavailable")
+        return {"Arsenal": [("Chelsea", True, 3)]}
+
+    monkeypatch.setattr(run_week, "build_team_fixture_map", unavailable)
+    with pytest.raises(requests.HTTPError):
+        run_week.build_future_predictions(pd.DataFrame(), [], {}, {}, 8, 3)
+
+
+def test_whole_round_blank_fails_explicitly_before_prediction(monkeypatch):
+    monkeypatch.setattr(run_week, "build_team_fixture_map", lambda *a: {})
+    with pytest.raises(ValueError, match="whole-round blanks"):
+        run_week.build_future_predictions(pd.DataFrame(), [], {}, {}, 8, 3)
+
+
+def test_fixture_prefetch_does_not_request_beyond_season(monkeypatch):
+    calls = []
+    def empty(bootstrap, gw):
+        calls.append(gw)
+        return {}
+    monkeypatch.setattr(run_week, "build_team_fixture_map", empty)
+    with pytest.raises(ValueError, match="whole-round blanks"):
+        run_week.build_future_predictions(pd.DataFrame(), [], {}, {}, 38, 1)
+    assert calls == [38]
 
 
 def _always_alt_mid_gate():
@@ -239,6 +268,10 @@ def test_live_training_builds_mutable_features_without_frozen_admission(monkeypa
     dataset = tmp_path / "live.csv"
     raw.to_csv(dataset, index=False)
     monkeypatch.setattr(config, "MASTER_DATASET_PATH", dataset)
+    monkeypatch.setattr(run_week, "fetch_bootstrap", lambda: {"events": [
+        {"id": gw, "finished": False, "deadline_time": "2099-08-01T10:00:00Z"}
+        for gw in range(1, 4)
+    ]})
     monkeypatch.setattr(run_week.fetch, "build_master_dataset", lambda: None)
     for module, name in ((provenance, "load_frozen_research_dataset"),
                          (feature_cache, "load_frozen_feature_frame"),

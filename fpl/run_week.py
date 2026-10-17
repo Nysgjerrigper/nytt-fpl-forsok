@@ -3,8 +3,8 @@ Weekly driver: run this once a week during the season to get a squad/transfer/
 captain recommendation for the next gameweek.
 
     python -m fpl.run_week                          # fresh squad-build advice (e.g. preseason/GW1)
-    python -m fpl.run_week --team-id 1234567         # continue YOUR existing FPL team
-    python -m fpl.run_week --team-id 1234567 --horizon 4
+    python -m fpl.run_week --team-id 1234567 --free-transfers 1
+    python -m fpl.run_week --team-id 1234567 --free-transfers 1 --horizon 4
 
 What it does, in order:
 1. Refreshes the historical dataset (fpl/data/fetch.py) so this season's
@@ -15,18 +15,20 @@ What it does, in order:
    gameweek that hasn't been played) and predicts points for every player
    over the next `--horizon` gameweeks, projecting each player's current form
    forward.
-4. If `--team-id` is given, pulls your actual current squad/bank from the
+4. If `--team-id` is given, pulls your last-deadline squad/bank from the
    public FPL API and asks the MILP optimizer for the best transfers/lineup/
    captain/chip continuing from that squad. Without it, prints fresh-build
    advice as if drafting a squad from scratch.
 
-Caveat: the official FPL API only exposes a season's players/fixtures once
-that season is set up on the site (typically a few weeks before its GW1) -
-this cannot be exercised end-to-end for 2026-27 until then.
+Caveat: public picks do not establish current private holdings, free transfers,
+selling prices or remaining chips. Continuing-team output is a scenario requiring
+owner verification before entry. The legacy backend uses simplified sell prices.
 """
 import argparse
 import json
 import sys
+from datetime import datetime, timezone
+from numbers import Integral
 from pathlib import Path
 
 import pandas as pd
@@ -57,12 +59,42 @@ def fetch_bootstrap():
     return resp.json()
 
 
-def determine_target_gw(bootstrap):
-    events = bootstrap["events"]
-    unfinished = [e for e in events if not e["finished"]]
-    if not unfinished:
-        sys.exit("No unfinished gameweek found - season may not be set up on the FPL site yet.")
-    return min(unfinished, key=lambda e: e["id"])["id"]
+def _event_deadlines(bootstrap: dict) -> dict[int, datetime]:
+    """Read unique local rounds and timezone-aware official deadlines, failing closed."""
+    deadlines = {}
+    for event in bootstrap["events"]:
+        gw = event["id"]
+        if isinstance(gw, bool) or not isinstance(gw, int) or not 1 <= gw <= config.GWS_PER_SEASON:
+            raise ValueError("Invalid gameweek identity in bootstrap")
+        if gw in deadlines:
+            raise ValueError("Duplicate gameweek identity in bootstrap")
+        try:
+            deadline = datetime.fromisoformat(event["deadline_time"].replace("Z", "+00:00"))
+        except (KeyError, AttributeError, TypeError, ValueError) as exc:
+            raise ValueError(f"Invalid deadline for GW{gw}") from exc
+        if deadline.utcoffset() is None:
+            raise ValueError(f"Timezone-aware deadline required for GW{gw}")
+        deadlines[gw] = deadline
+    return deadlines
+
+
+def _utc_now(now: datetime | None) -> datetime:
+    """Use an aware clock so machine locale cannot change deadline admission."""
+    now = datetime.now(timezone.utc) if now is None else now
+    if now.utcoffset() is None:
+        raise ValueError("Timezone-aware current time required")
+    return now
+
+
+def determine_target_gw(bootstrap: dict, *, now: datetime | None = None) -> int:
+    """Select an unfinished round whose official entry deadline is still strictly open."""
+    now = _utc_now(now)
+    deadlines = _event_deadlines(bootstrap)
+    available = [e["id"] for e in bootstrap["events"]
+                 if not e["finished"] and deadlines[e["id"]] > now]
+    if not available:
+        raise ValueError("No open gameweek deadline found in the official schedule")
+    return min(available)
 
 
 def fetch_fixtures(gw):
@@ -97,31 +129,37 @@ def build_team_fixture_map(bootstrap, gw):
     return per_team
 
 
-def get_user_squad(team_id, bootstrap, known_player_ids):
-    """Public FPL API: current squad, bank and free transfers for an existing team.
+def get_user_squad(team_id: int, bootstrap: dict, known_player_ids: set,
+                   *, now: datetime | None = None) -> tuple[list[int], float]:
+    """Read last-deadline picks/bank, not private current holdings or free transfers.
 
-    Squad players are matched to dataset player_ids by FPL `code` (== player_id).
-    A pick whose code is absent from `known_player_ids` (no appearance in the dataset,
-    e.g. a brand-new signing with zero PL history) is excluded with a warning - the
-    optimizer cannot reason about a player it has no rows for.
+    A complete fifteen-player identity mapping is mandatory. A player without forecast
+    history blocks continuation rather than silently disappearing from owned assets.
     """
-    last_finished_gw = max(e["id"] for e in bootstrap["events"] if e["finished"])
-    resp = requests.get(f"{FPL_API}/entry/{team_id}/event/{last_finished_gw}/picks/", timeout=30)
+    now = _utc_now(now)
+    published = [gw for gw, deadline in _event_deadlines(bootstrap).items() if deadline <= now]
+    if not published:
+        raise ValueError("No published deadline squad exists yet; provide owner state")
+    last_published_gw = max(published)
+    resp = requests.get(f"{FPL_API}/entry/{team_id}/event/{last_published_gw}/picks/", timeout=30)
     resp.raise_for_status()
     data = resp.json()
 
     elements_by_id = {el["id"]: el for el in bootstrap["elements"]}
     squad_ids = []
     for pick in data["picks"]:
-        el = elements_by_id[pick["element"]]
+        el = elements_by_id.get(pick["element"], {})
         player_id = el.get("code")
         if player_id not in known_player_ids:
-            print(f"WARNING: FPL player '{el['first_name']} {el['second_name']}' (code={player_id}) "
-                  f"has no rows in the dataset - excluded from optimization.")
-            continue
+            raise ValueError(f"Owned player {pick['element']} (code={player_id}) has no forecast history")
         squad_ids.append(player_id)
 
+    if len(squad_ids) != 15 or len(set(squad_ids)) != 15:
+        raise ValueError("Public squad must contain exactly 15 unique player codes")
+
     bank = data["entry_history"]["bank"]  # in 0.1m units, matches `value` column
+    if isinstance(bank, bool) or not isinstance(bank, Integral) or bank < 0:
+        raise ValueError("Public bank must be nonnegative integer tenths")
     return squad_ids, float(bank)
 
 
@@ -305,19 +343,20 @@ def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw
     fixture's opponent - the same staleness class as the fixture-difficulty bug above
     (found 2026-07-11 while building the origin-based backtest, TODO 3.6)."""
     # Prefetch two GWs past the horizon so fixture_difficulty_next3 has a full window.
+    if horizon < 1 or start_gw < 1 or start_gw + horizon - 1 > config.GWS_PER_SEASON:
+        raise ValueError("Live prediction horizon must fit within the active season")
     fixture_maps = {}
-    for gw in range(start_gw, start_gw + horizon + 2):
-        try:
-            fixture_maps[gw] = build_team_fixture_map(bootstrap, gw)
-        except requests.HTTPError:
-            break
+    for gw in range(start_gw, min(start_gw + horizon + 2, config.GWS_PER_SEASON + 1)):
+        # An HTTP failure is not evidence of an empty schedule. Propagate it rather
+        # than publishing a shorter horizon or silently changing next-three FDR.
+        fixture_maps[gw] = build_team_fixture_map(bootstrap, gw)
+    for gw in range(start_gw, start_gw + horizon):
+        if not fixture_maps[gw]:
+            raise ValueError(f"No fixtures in requested GW{gw}; whole-round blanks are not supported")
 
     rows = []
     for i in range(horizon):
         gw = start_gw + i
-        if gw not in fixture_maps:
-            print(f"No fixtures available yet for GW {gw}, stopping horizon there.")
-            break
         fixture_map = fixture_maps[gw]
         # One row PER FIXTURE (not per team): a DGW team appears twice in fixture_df, and
         # the inner merge duplicates its players' snapshot rows accordingly - the optimizer
@@ -365,7 +404,8 @@ def main():
                               "Omit for a fresh-build recommendation.")
     parser.add_argument("--horizon", type=int, default=3, help="Gameweeks to look ahead")
     parser.add_argument("--time-limit", type=float, default=120, help="Solver time limit per GW, seconds")
-    parser.add_argument("--free-transfers", type=int, default=1, help="Your free transfers, if --team-id is given")
+    parser.add_argument("--free-transfers", type=int, default=None,
+                        help="Explicit current free transfers (0-5), required with --team-id")
     parser.add_argument("--optimizer", choices=("legacy", "solio"), default="legacy",
                         help="Solio is the independently checked modern-rule candidate; legacy remains the verified reference.")
     parser.add_argument("--optimizer-state-json", default=None,
@@ -381,6 +421,20 @@ def main():
     args = parser.parse_args()
     if args.optimizer_state_json and args.optimizer != "solio":
         parser.error("optimizer-state-json requires --optimizer solio")
+    if args.horizon < 1:
+        parser.error("horizon must be positive")
+    if args.team_id is not None and (args.team_id <= 0 or args.free_transfers is None):
+        parser.error("a positive team-id requires explicit --free-transfers; public picks do not expose it")
+    if args.free_transfers is not None and not 0 <= args.free_transfers <= 5:
+        parser.error("free-transfers must be between 0 and 5")
+
+    # Admit the deadline before mutating data or fitting models. An in-progress round
+    # is already closed for entry even when its outcomes are not finished/checked.
+    bootstrap = fetch_bootstrap()
+    target_gw = determine_target_gw(bootstrap)
+    if target_gw + args.horizon - 1 > max(_event_deadlines(bootstrap)):
+        parser.error("requested horizon extends beyond the published season")
+    print(f"--- Target gameweek: {target_gw} ---")
 
     print("--- Refreshing historical dataset ---")
     fetch.build_master_dataset()
@@ -389,6 +443,11 @@ def main():
     raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
     feat_df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(feat_df)
+    squad_ids, bank = None, 1000.0
+    if args.team_id is not None:
+        squad_ids, bank = get_user_squad(args.team_id, bootstrap, set(feat_df["player_id"]))
+        print("OWNER VERIFICATION REQUIRED: public last-deadline picks/bank are a scenario; "
+              "check current holdings, bank, selling prices and remaining chips before entry.")
 
     # Same production configuration the backtests validate (config.PRODUCTION_WEIGHT_STRATEGY),
     # fit through the same code path (train.fit_position_ensembles, position-aware so tuned
@@ -408,10 +467,6 @@ def main():
                 if args.mid_gate_config else None)
     mid_experts = fit_mid_gate_experts(feat_df, feature_cols, mid_gate) if mid_gate else None
 
-    bootstrap = fetch_bootstrap()
-    target_gw = determine_target_gw(bootstrap)
-    print(f"--- Target gameweek: {target_gw} ---")
-
     snapshot = apply_live_identity(build_live_snapshot(raw), bootstrap)
     opp_form = features.team_form_asof(raw)
     preds = build_future_predictions(snapshot, feature_cols, models, bootstrap, target_gw, args.horizon,
@@ -424,6 +479,12 @@ def main():
         sys.exit("No registered players left after filtering - API/dataset identity mismatch?")
     preds = apply_availability(preds, availability_multipliers(bootstrap))
     preds = apply_live_prices(preds, live_prices(bootstrap))
+    if set(preds["GW"]) != set(range(target_gw, target_gw + args.horizon)):
+        raise ValueError("Live forecast does not cover every requested gameweek")
+    if squad_ids is not None and not set(squad_ids) <= set(preds["player_id"]):
+        raise ValueError("Owned players missing from the live forecast pool; cannot continue this squad")
+    if determine_target_gw(bootstrap) != target_gw:
+        raise ValueError("Target deadline passed during preparation; restart for the next open round")
 
     out_cols = ["player_id", "GW", "name", "position", "team", "value", "predicted_total_points"]
     out_cols.extend(col for col in ("opponent_team", "was_home") if col in preds)
@@ -440,8 +501,7 @@ def main():
         "--time-limit", str(args.time_limit),
     ]
 
-    if args.team_id:
-        squad_ids, bank = get_user_squad(args.team_id, bootstrap, set(feat_df["player_id"]))
+    if args.team_id is not None:
         print(f"--- Continuing team {args.team_id}: {len(squad_ids)} matched players, bank={bank} ---")
         opt_args += [
             "--initial-squad", ",".join(map(str, squad_ids)),
@@ -456,10 +516,13 @@ def main():
         state = json.loads(Path(args.optimizer_state_json).read_text()) if args.optimizer_state_json else {}
         if "sell_prices" in state:
             state["sell_prices"] = {int(player): value for player, value in state["sell_prices"].items()}
-        result = run_schedule(preds, season=fetch.active_season_from_bootstrap(bootstrap),
-                              start_gw=target_gw, max_gw=int(preds.GW.max()), horizon=args.horizon,
-                              initial_squad=squad_ids if args.team_id else None,
-                              bank=bank if args.team_id else 1000, free_transfers=args.free_transfers,
+        season = fetch.active_season_from_bootstrap(bootstrap)
+        offset = config.season_start_gw(season) - 1
+        global_preds = preds.assign(GW=preds["GW"] + offset)
+        result = run_schedule(global_preds, season=season,
+                              start_gw=target_gw + offset, max_gw=int(global_preds.GW.max()), horizon=args.horizon,
+                              initial_squad=squad_ids, bank=bank,
+                              free_transfers=args.free_transfers if squad_ids is not None else 0,
                               bootstrap=bootstrap, time_limit=args.time_limit, **state)
         output = config.SQUAD_OUTPUT_DIR / "solio_weekly.csv"
         output.parent.mkdir(parents=True, exist_ok=True)
