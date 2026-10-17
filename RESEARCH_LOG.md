@@ -1851,3 +1851,45 @@ saved-replay tests passed; one additional human/JSON receipt consistency test pa
 Hand-calculated gross/net controls and registered promotion conditions remain intact.
 No empirical fits, optimizer replays, live fetch or production change. Full financial
 rule arithmetic and original outcome-blind execution remain separate work under #23.
+
+
+### 2026-10-17 — Source-derived pilot financial audit and selling-price sensitivity
+
+Registered8attempts in issue #23 comment6241211559, plan SHA
+`97abcc8676272f15551c1f286cf16c52d33ff792f34764ff9db78b0e71072f52`.
+Original pilot source hashes match runner/optimizer/config bytes at e91852b
+(the revision is not unique; bytes are decisive). Omitted runner overrides plus
+bound defaults uniquely establish fresh empty holdings,1000tenths bank,1FT,
+chips disabled, FTcap2/gain1 and current-price sales. These facts are source-derived,
+not original explicit plan fields. Source copies/recovery evidence are preserved.
+
+Independent no-chip arithmetic uses neither optimizer nor scorer. All four original
+bank/hit/FT paths pass across GW141–144. A separate half-profit acquisition-basis
+sensitivity on the same choices also completes with all choices affordable:
+
+| Case | Reported/current-price closing bank (£m) | Half-profit closing bank (£m) | Difference (£m) |
+| --- | ---: | ---: | ---: |
+| Standard control | 1.2 | 1.1 | -0.1 |
+| Standard candidate | 5.6 | 5.6 | 0.0 |
+| Origin control | 0.7 | 0.7 | 0.0 |
+| Origin candidate | 9.3 | 9.3 | 0.0 |
+
+Used selected/sold price cells per case:64,64,64,65; forward-filled cells:5,6,5,5.
+No used price cells depend on backward fill, missing-value default50 or disagreeing
+copies. This does not prove historical publication times or forecast-horizon price
+knowledge. The evaluated optimizer uses target-row values throughout its planning
+window; this audit does not establish deployment-honest future-price inputs.
+
+Zero fits, optimizer solves or mutable data refreshes; original forecasts, decisions,
+settlement evidence and points remain unchanged.44 output hashes, eight case receipts
+and original pilot independently verified after execution. Tracked plan/script,
+result/registry and human report are under `experiments/financial_replay_2026-10-17/`;
+full output/source recovery is preserved in `TrainingGroundFinancialAudit_20261017`
+and `FinancialAuditSourceRecovery_20261017` under task artifacts.
+
+Focused verification:210 tests passed, including price-rise/loss and rebuy arithmetic,
+missing/contradictory prices, bank/FT/hit failures, original state and price-fill labels.
+Full site-rule legality, supported chip audit, deadline-known price evidence and
+outcome-blind execution remain NOT ASSESSED. No model ranking or promotion.
+Selling-policy diagnostic reference: Premier League,2025-10-03,
+https://www.premierleague.com/en/news/2858775/explanation-on-fpl-price-rises .

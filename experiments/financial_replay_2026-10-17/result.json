@@ -1,0 +1,179 @@
+{
+  "cases": {
+    "origin-candidate-current_price": {
+      "final_bank_difference": 0.0,
+      "final_derived_bank": 93.0,
+      "final_reported_bank": 93.0,
+      "promotion_eligible": false,
+      "rounds": 4,
+      "status": "FINANCIAL_ARITHMETIC_PASS",
+      "used_price_cells": 65,
+      "used_price_evidence": {
+        "FORWARD_FILL": 5,
+        "OBSERVED_FIRST_COPY": 60
+      },
+      "used_prices_sourced_from_default50": 0,
+      "used_prices_with_disagreeing_copies": 0
+    },
+    "origin-candidate-half_profit": {
+      "final_bank_difference": 0.0,
+      "final_derived_bank": 93.0,
+      "final_reported_bank": 93.0,
+      "promotion_eligible": false,
+      "rounds": 4,
+      "status": "FIXED_DECISION_SENSITIVITY_COMPLETED",
+      "used_price_cells": 65,
+      "used_price_evidence": {
+        "FORWARD_FILL": 5,
+        "OBSERVED_FIRST_COPY": 60
+      },
+      "used_prices_sourced_from_default50": 0,
+      "used_prices_with_disagreeing_copies": 0
+    },
+    "origin-control-current_price": {
+      "final_bank_difference": 0.0,
+      "final_derived_bank": 7.0,
+      "final_reported_bank": 7.0,
+      "promotion_eligible": false,
+      "rounds": 4,
+      "status": "FINANCIAL_ARITHMETIC_PASS",
+      "used_price_cells": 64,
+      "used_price_evidence": {
+        "FORWARD_FILL": 5,
+        "OBSERVED_FIRST_COPY": 59
+      },
+      "used_prices_sourced_from_default50": 0,
+      "used_prices_with_disagreeing_copies": 0
+    },
+    "origin-control-half_profit": {
+      "final_bank_difference": 0.0,
+      "final_derived_bank": 7.0,
+      "final_reported_bank": 7.0,
+      "promotion_eligible": false,
+      "rounds": 4,
+      "status": "FIXED_DECISION_SENSITIVITY_COMPLETED",
+      "used_price_cells": 64,
+      "used_price_evidence": {
+        "FORWARD_FILL": 5,
+        "OBSERVED_FIRST_COPY": 59
+      },
+      "used_prices_sourced_from_default50": 0,
+      "used_prices_with_disagreeing_copies": 0
+    },
+    "standard-candidate-current_price": {
+      "final_bank_difference": 0.0,
+      "final_derived_bank": 56.0,
+      "final_reported_bank": 56.0,
+      "promotion_eligible": false,
+      "rounds": 4,
+      "status": "FINANCIAL_ARITHMETIC_PASS",
+      "used_price_cells": 64,
+      "used_price_evidence": {
+        "FORWARD_FILL": 6,
+        "OBSERVED_FIRST_COPY": 58
+      },
+      "used_prices_sourced_from_default50": 0,
+      "used_prices_with_disagreeing_copies": 0
+    },
+    "standard-candidate-half_profit": {
+      "final_bank_difference": 0.0,
+      "final_derived_bank": 56.0,
+      "final_reported_bank": 56.0,
+      "promotion_eligible": false,
+      "rounds": 4,
+      "status": "FIXED_DECISION_SENSITIVITY_COMPLETED",
+      "used_price_cells": 64,
+      "used_price_evidence": {
+        "FORWARD_FILL": 6,
+        "OBSERVED_FIRST_COPY": 58
+      },
+      "used_prices_sourced_from_default50": 0,
+      "used_prices_with_disagreeing_copies": 0
+    },
+    "standard-control-current_price": {
+      "final_bank_difference": 0.0,
+      "final_derived_bank": 12.0,
+      "final_reported_bank": 12.0,
+      "promotion_eligible": false,
+      "rounds": 4,
+      "status": "FINANCIAL_ARITHMETIC_PASS",
+      "used_price_cells": 64,
+      "used_price_evidence": {
+        "FORWARD_FILL": 5,
+        "OBSERVED_FIRST_COPY": 59
+      },
+      "used_prices_sourced_from_default50": 0,
+      "used_prices_with_disagreeing_copies": 0
+    },
+    "standard-control-half_profit": {
+      "final_bank_difference": -1.0,
+      "final_derived_bank": 11.0,
+      "final_reported_bank": 12.0,
+      "promotion_eligible": false,
+      "rounds": 4,
+      "status": "FIXED_DECISION_SENSITIVITY_COMPLETED",
+      "used_price_cells": 64,
+      "used_price_evidence": {
+        "FORWARD_FILL": 5,
+        "OBSERVED_FIRST_COPY": 59
+      },
+      "used_prices_sourced_from_default50": 0,
+      "used_prices_with_disagreeing_copies": 0
+    }
+  },
+  "full_site_rule_legality": "NOT ASSESSED",
+  "initial_state_provenance": "SOURCE_DERIVED",
+  "limitation": "No-chip historical accounting under reconstructed price assumptions. Half-profit is a fixed-decision sensitivity, not reoptimization or deadline-known price proof. Imputation and original access limits remain explicit.",
+  "model_fits": 0,
+  "optimizer_solves": 0,
+  "outcome_blind_execution": "NOT ASSESSED",
+  "output_sha256": {
+    "REPORT.md": "d58eaf8e4c0135025452e35fc6c39cc05160f2b3f980922bf0d9cf9087a61662",
+    "origin-candidate-current_price/audit.csv": "a09f874a614b32223b0dbbfa51e62e8caa21dc2af7f46325afc7e4287a4035ed",
+    "origin-candidate-current_price/complete.json": "4c8a3bd098b35f9cfa2515c91ed68318e117cfa4b965cb6bc2d051c5e0ab51a4",
+    "origin-candidate-current_price/decisions.json": "8a5736a1f7cc3aeff5bd10c750fcb94fb15686e2f4b1dcc2d1fe9a5a1b94734e",
+    "origin-candidate-current_price/prices.csv": "b94a16c9197919e140e857107d038fbc509633bf88ae6e8b2acb7c526b4e14e1",
+    "origin-candidate-current_price/started.json": "c881e516b8d255328338d4d82750bb12ef41a3e7ef7b8c2a5d6a031fbf14ed94",
+    "origin-candidate-half_profit/audit.csv": "39d616fdf42017de8c5d3556f1eaeeeb498cf15a73b23191a9fde81fd2477555",
+    "origin-candidate-half_profit/complete.json": "17b9c2c6b85c3ce625f9a4f3cfb41ec08f017fc35f053aab29613bef7327021c",
+    "origin-candidate-half_profit/decisions.json": "8a5736a1f7cc3aeff5bd10c750fcb94fb15686e2f4b1dcc2d1fe9a5a1b94734e",
+    "origin-candidate-half_profit/prices.csv": "b94a16c9197919e140e857107d038fbc509633bf88ae6e8b2acb7c526b4e14e1",
+    "origin-candidate-half_profit/started.json": "c881e516b8d255328338d4d82750bb12ef41a3e7ef7b8c2a5d6a031fbf14ed94",
+    "origin-control-current_price/audit.csv": "c3667309f8c82c51d569817f127e6bae67a6f45bdd49b1d3ada1e9a99cf0f00a",
+    "origin-control-current_price/complete.json": "b1a2385c29631bd897a6b605f745fb7d651c8e10938e9734c4e65a90124bfb80",
+    "origin-control-current_price/decisions.json": "7cfcf6459e7f2ebc6e30e870f0c2dbccbea5005ad0a50ae8a39e2da5b5741f90",
+    "origin-control-current_price/prices.csv": "b94a16c9197919e140e857107d038fbc509633bf88ae6e8b2acb7c526b4e14e1",
+    "origin-control-current_price/started.json": "c881e516b8d255328338d4d82750bb12ef41a3e7ef7b8c2a5d6a031fbf14ed94",
+    "origin-control-half_profit/audit.csv": "78745ada0a686674f95ea0ce0c40bdf456bafefa158e4e2df865489b4e916e02",
+    "origin-control-half_profit/complete.json": "fcc2a7b9924dc6854fb022227cd1f56b5e3c38c2159579d98991c5145d1d0d88",
+    "origin-control-half_profit/decisions.json": "7cfcf6459e7f2ebc6e30e870f0c2dbccbea5005ad0a50ae8a39e2da5b5741f90",
+    "origin-control-half_profit/prices.csv": "b94a16c9197919e140e857107d038fbc509633bf88ae6e8b2acb7c526b4e14e1",
+    "origin-control-half_profit/started.json": "c881e516b8d255328338d4d82750bb12ef41a3e7ef7b8c2a5d6a031fbf14ed94",
+    "plan.json": "4e6b7608c16a026e97556aa8a356beba0c4c391fce5a377582012136422b511a",
+    "registry.csv": "3c896f4a7a385f88489b1c7a6bbb9ef4e6dd28d889407ee736158cbe308d81e8",
+    "standard-candidate-current_price/audit.csv": "246d604533988f14e15217ff4c7a84aa1d7b3a1c6048e043ef846c796d4405ed",
+    "standard-candidate-current_price/complete.json": "bf23123152a5407259db9c4d981fb00c381d159276d1b84f9df17504ae1f84dc",
+    "standard-candidate-current_price/decisions.json": "68cc029e6d85d19575ea94eac38900d454a9ccefd772649e471e75e992f5cc17",
+    "standard-candidate-current_price/prices.csv": "6015c6bd172a4fdc6c04b2c705e13efc224016aa1ce1115ec31d4cf4edd5de3a",
+    "standard-candidate-current_price/started.json": "c881e516b8d255328338d4d82750bb12ef41a3e7ef7b8c2a5d6a031fbf14ed94",
+    "standard-candidate-half_profit/audit.csv": "0e0e73613c6dab79d695863262785c499ca1b513dbe1fed0626c5621a8883521",
+    "standard-candidate-half_profit/complete.json": "db0c6cc43fbfd999fe27793672c127207ac521cf503009e65a1b4544388f0e9f",
+    "standard-candidate-half_profit/decisions.json": "68cc029e6d85d19575ea94eac38900d454a9ccefd772649e471e75e992f5cc17",
+    "standard-candidate-half_profit/prices.csv": "6015c6bd172a4fdc6c04b2c705e13efc224016aa1ce1115ec31d4cf4edd5de3a",
+    "standard-candidate-half_profit/started.json": "c881e516b8d255328338d4d82750bb12ef41a3e7ef7b8c2a5d6a031fbf14ed94",
+    "standard-control-current_price/audit.csv": "e5ae09f4b1242389498d542b6eaf39a0feb9130f84df885d8f65fde1eb8df226",
+    "standard-control-current_price/complete.json": "c43a6a42ed88c10fe85ca7b12d9b864a3320aa85c2b848d693e99adf7b6734f3",
+    "standard-control-current_price/decisions.json": "f08be344c561316a44ac9a08950f4b8785c0518647938946cd180b9d16b68466",
+    "standard-control-current_price/prices.csv": "6015c6bd172a4fdc6c04b2c705e13efc224016aa1ce1115ec31d4cf4edd5de3a",
+    "standard-control-current_price/started.json": "c881e516b8d255328338d4d82750bb12ef41a3e7ef7b8c2a5d6a031fbf14ed94",
+    "standard-control-half_profit/audit.csv": "4a19a3cd1f1a2b7cd9548bfdce536cde480d1766abdeab62d03e6bd9e750a3d6",
+    "standard-control-half_profit/complete.json": "98c018e05385d3c6ab305eac58af432aa1eb5097e8b512a4e859088467f5478d",
+    "standard-control-half_profit/decisions.json": "f08be344c561316a44ac9a08950f4b8785c0518647938946cd180b9d16b68466",
+    "standard-control-half_profit/prices.csv": "6015c6bd172a4fdc6c04b2c705e13efc224016aa1ce1115ec31d4cf4edd5de3a",
+    "standard-control-half_profit/started.json": "c881e516b8d255328338d4d82750bb12ef41a3e7ef7b8c2a5d6a031fbf14ed94",
+    "started.json": "c881e516b8d255328338d4d82750bb12ef41a3e7ef7b8c2a5d6a031fbf14ed94"
+  },
+  "plan_sha256": "97abcc8676272f15551c1f286cf16c52d33ff792f34764ff9db78b0e71072f52",
+  "promotion_eligible": false,
+  "status": "FINANCIAL_MATRIX_COMPLETED"
+}
