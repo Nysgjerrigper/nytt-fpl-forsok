@@ -65,6 +65,15 @@ and spent windows do not become fresh holdouts because we produce a new report.
 The frozen cutoff is read from the tracked manifest; real fitting still requires the
 separately restored, SHA-admitted dataset.
 
+Quantile and bucket research entrypoints now use that same frozen snapshot rather
+than the mutable weekly dataset. They verify the complete source bytes first, then
+retain raw history only through the requested evaluation end (or tuning cutoff)
+before constructing features. Earlier rows remain available for training and causal
+form features. Static training must finish before the evaluation window. Bucket
+tuning cannot exceed `config.TUNING_TRAIN_MAX_GW`; evaluation and spent rounds are
+not admitted to its search. A missing or changed frozen snapshot stops the run.
+This input validation does not fit models, validate a new result or promote a candidate.
+
 Each backtest needs one row per `gameweek` and finite `actual_total_points` (gross).
 Net comparisons also require nonnegative integer paid transfers in `alpha`; a supplied
 net column must agree with gross minus hits. Scoring labels must match if declared;
