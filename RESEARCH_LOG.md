@@ -1893,3 +1893,35 @@ Full site-rule legality, supported chip audit, deadline-known price evidence and
 outcome-blind execution remain NOT ASSESSED. No model ranking or promotion.
 Selling-policy diagnostic reference: Premier League,2025-10-03,
 https://www.premierleague.com/en/news/2858775/explanation-on-fpl-price-rises .
+
+### 2026-10-17 — Origin-capture planning prices, modern-rule engineering replay
+
+Issue #40 preregistration comment6241380947; plan SHA
+`927ab9e2d1de49eaccc4144f2536e937901b5ab6c5b6d6e15ed7e27db2f76f0c`.
+Preserved GW141–144 origin forecasts, horizon3, seed0; no refits; eight optimal
+native Solio solves with zero reported gaps. Capture-known metadata/prices replace
+raw target-round fields, acquisition basis supplies half-profit sales, FT5/no chips
+and registered forecast pools match between arms. Decisions precede strict replay.
+
+Control197 gross/net; candidate203 gross/net. Candidate-control+6, paired95%
+block-bootstrap CI[-8,+11], block3/10000/seed0; two round wins each. Four already
+examined selection rounds and mixed capacity/loss recipes do not establish model
+superiority. UNVERIFIED/unranked; no promotion or default change. Legacy-policy
+scores remain separate because backend/rules also differ.
+
+Recent predeadline capture prices pass pinned-byte/identity admission; origins142–144
+each exclude one unregistered forecast row. Both arms retain identical fixture
+coverage. Solver inputs have no outcome columns. Separate settlement covers every
+selected player, adding four evidence-backed retrospective blank rows per arm.
+Exact-deadline prices, fixture-information causality, complete outcome-blind execution,
+exported native primal/dual certificates and full independent site-rule legality
+remain NOT ASSESSED. No wholly absent players are added. Source review confirms
+the inherited Solio converter zero-fills missing player-round forecasts; their
+planning validity remains NOT ASSESSED and was not a separate preregistered field.
+Strict settlement blank evidence does not retroactively validate that assumption.
+
+Tracked plan/script/result/registry/report: `experiments/origin_price_replay_2026-10-17/`.
+Full output bundle `TrainingGroundOriginPriceReplay_20261017/first` and capture inputs
+`OriginPriceReplayInputs_20261017` are externally preserved. Input/source/runtime
+hashes were verified before/after, then all output hashes and both settlement
+receipts rechecked. Focused origin/Solio regression:199 tests passed.

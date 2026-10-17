@@ -1,0 +1,323 @@
+{
+  "cases": {
+    "candidate": {
+      "explicit_blank_outcomes": 4,
+      "gross_points": 203.0,
+      "mip_gap": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "net_points": 203.0,
+      "origin_receipts": [
+        {
+          "archive_authenticity": "NOT ASSESSED",
+          "bootstrap_canonical_sha256": "b7a4147e59c20c5dd685666744d7eddca3c8276a7926ad76e722922c4a42c666",
+          "captured_at": "2024-03-02T04:00:06+00:00",
+          "chip_rule_legality": "NOT ASSESSED",
+          "descriptor_sha256": "caf9bb4783f223393e8ef7b6d089072aec97b959cd1fe050d7440e0ae4c57d4a",
+          "event": 27,
+          "event_deadline": "2024-03-02T13:30:00+00:00",
+          "excluded_forecast_rows": 0,
+          "excluded_player_ids": [],
+          "fixture_causality": "NOT ASSESSED",
+          "input_forecast_rows": 2081,
+          "input_sha256": {
+            "bootstrap-static.json.gz": "d095c73cb7627c83ee397f2bce440a0af82569d0a97979e90ed50857c3d49721",
+            "manifest.json": "604883c5b587af5535bfd658f9a6fe903dcb0f0d56dd872b01e985afc9c0f325"
+          },
+          "metadata_sha256": "256ee1f73eb2098e77dd7b168070a5788b598eafc2f64a2b26d3f5aae746af72",
+          "origin_gw": 141,
+          "payload_sha256": "2464525a6da7b0b8b1b8403b16cf0b1a79b9d3c096981a0bc7fbaea1f78670c2",
+          "pool_policy": "registered_forecast_rows",
+          "prepared_frame_sha256": "86875e2c24d9aada7b8b7ab8a829efb908efa5e9f9f6ed1ec2527ca50f8404f1",
+          "price_policy": "origin_capture_half_profit_static_horizon_v1",
+          "registered_forecast_rows": 2081,
+          "registered_without_forecast_ids": [],
+          "registered_without_forecasts": 0
+        },
+        {
+          "archive_authenticity": "NOT ASSESSED",
+          "bootstrap_canonical_sha256": "2c2a18d20fe423044e9e1ff1743bb8f36be9d7336dae143ff7e61ff2a1890ec0",
+          "captured_at": "2024-03-09T10:23:20+00:00",
+          "chip_rule_legality": "NOT ASSESSED",
+          "descriptor_sha256": "caf9bb4783f223393e8ef7b6d089072aec97b959cd1fe050d7440e0ae4c57d4a",
+          "event": 28,
+          "event_deadline": "2024-03-09T11:00:00+00:00",
+          "excluded_forecast_rows": 1,
+          "excluded_player_ids": [
+            461453
+          ],
+          "fixture_causality": "NOT ASSESSED",
+          "input_forecast_rows": 2092,
+          "input_sha256": {
+            "bootstrap-static.json.gz": "b46849ee5856d290eb73b21b22bddf916cb45c6e6abed370fbd4e612b7ed28af",
+            "manifest.json": "824c3e58ea163c2fa4180967c7865b4153698cdb7186142d09570da0a8280251"
+          },
+          "metadata_sha256": "9043b21d6435948d27d833d6c04af8691f405b07693003cac0fcb0f02c5107db",
+          "origin_gw": 142,
+          "payload_sha256": "3a372bbed4ba9b6201d184f8fb7ec5e9b8cfaffcc31f15c7483377bce8da42ee",
+          "pool_policy": "registered_forecast_rows",
+          "prepared_frame_sha256": "9e6f20382e87910316564e62ac3ec1e2e516af4b435feccfc9c4a1d1fa5aab72",
+          "price_policy": "origin_capture_half_profit_static_horizon_v1",
+          "registered_forecast_rows": 2091,
+          "registered_without_forecast_ids": [],
+          "registered_without_forecasts": 0
+        },
+        {
+          "archive_authenticity": "NOT ASSESSED",
+          "bootstrap_canonical_sha256": "3ba9031df69f4ab7fcdffe5a1c5a76e4eb965c4698d3c66ecce1465db0b44854",
+          "captured_at": "2024-03-16T04:00:06+00:00",
+          "chip_rule_legality": "NOT ASSESSED",
+          "descriptor_sha256": "caf9bb4783f223393e8ef7b6d089072aec97b959cd1fe050d7440e0ae4c57d4a",
+          "event": 29,
+          "event_deadline": "2024-03-16T13:30:00+00:00",
+          "excluded_forecast_rows": 1,
+          "excluded_player_ids": [
+            461453
+          ],
+          "fixture_causality": "NOT ASSESSED",
+          "input_forecast_rows": 1183,
+          "input_sha256": {
+            "bootstrap-static.json.gz": "ac7b98078c798834a7666bed085953e27d98c05b1ab4073891e16c7839eab2fc",
+            "manifest.json": "d458d58f76319d3cec5b7277ba110b683bf4d8ee331d49be6e65c293c1bee298"
+          },
+          "metadata_sha256": "cc607b43171ec7434a50af0e322f1a7954d786682d33fc4774e6e289b06476e9",
+          "origin_gw": 143,
+          "payload_sha256": "12a36e822d2b2b6d3b543506c17fd395f1800769a40453ad4be6c440b7099428",
+          "pool_policy": "registered_forecast_rows",
+          "prepared_frame_sha256": "0ad25e7889d6d0b44392b1c19920580948a69764dcee5a8c4c53b19f0589c570",
+          "price_policy": "origin_capture_half_profit_static_horizon_v1",
+          "registered_forecast_rows": 1182,
+          "registered_without_forecast_ids": [],
+          "registered_without_forecasts": 0
+        },
+        {
+          "archive_authenticity": "NOT ASSESSED",
+          "bootstrap_canonical_sha256": "4dc3f0fc69da1e72c2db18abfd16075364a114a66e97d5780353415253e08a4c",
+          "captured_at": "2024-03-30T10:03:12+00:00",
+          "chip_rule_legality": "NOT ASSESSED",
+          "descriptor_sha256": "caf9bb4783f223393e8ef7b6d089072aec97b959cd1fe050d7440e0ae4c57d4a",
+          "event": 30,
+          "event_deadline": "2024-03-30T11:00:00+00:00",
+          "excluded_forecast_rows": 1,
+          "excluded_player_ids": [
+            461453
+          ],
+          "fixture_causality": "NOT ASSESSED",
+          "input_forecast_rows": 839,
+          "input_sha256": {
+            "bootstrap-static.json.gz": "0d4a715cec5d99db8f3b4304f50ac6b87ad052686965d676124b4050ae2baf4d",
+            "manifest.json": "9e43bddd65d95bf6562c0de0da2cc69e5ae36a37ff671ac87a896c21ba1e8c04"
+          },
+          "metadata_sha256": "7e58cda8e600859b0b83c15765c6eaa55f15b41afc9686e91a2813e089c49475",
+          "origin_gw": 144,
+          "payload_sha256": "ddeeb7fd1c1edf5ef26c891ff2521f77c8e106109efb1d215754d363f993a8dd",
+          "pool_policy": "registered_forecast_rows",
+          "prepared_frame_sha256": "26f82a7c0c74c3adbc42f08fa0bfce163cec283921864ec45c2d5618aca5e54a",
+          "price_policy": "origin_capture_half_profit_static_horizon_v1",
+          "registered_forecast_rows": 838,
+          "registered_without_forecast_ids": [],
+          "registered_without_forecasts": 0
+        }
+      ],
+      "promotion_eligible": false,
+      "solver_seconds": 7.1523197919887025,
+      "solver_status": [
+        "Optimal",
+        "Optimal",
+        "Optimal",
+        "Optimal"
+      ],
+      "status": "DECISIONS_AND_SETTLEMENT_COMPLETED"
+    },
+    "control": {
+      "explicit_blank_outcomes": 4,
+      "gross_points": 197.0,
+      "mip_gap": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "net_points": 197.0,
+      "origin_receipts": [
+        {
+          "archive_authenticity": "NOT ASSESSED",
+          "bootstrap_canonical_sha256": "b7a4147e59c20c5dd685666744d7eddca3c8276a7926ad76e722922c4a42c666",
+          "captured_at": "2024-03-02T04:00:06+00:00",
+          "chip_rule_legality": "NOT ASSESSED",
+          "descriptor_sha256": "caf9bb4783f223393e8ef7b6d089072aec97b959cd1fe050d7440e0ae4c57d4a",
+          "event": 27,
+          "event_deadline": "2024-03-02T13:30:00+00:00",
+          "excluded_forecast_rows": 0,
+          "excluded_player_ids": [],
+          "fixture_causality": "NOT ASSESSED",
+          "input_forecast_rows": 2081,
+          "input_sha256": {
+            "bootstrap-static.json.gz": "d095c73cb7627c83ee397f2bce440a0af82569d0a97979e90ed50857c3d49721",
+            "manifest.json": "604883c5b587af5535bfd658f9a6fe903dcb0f0d56dd872b01e985afc9c0f325"
+          },
+          "metadata_sha256": "256ee1f73eb2098e77dd7b168070a5788b598eafc2f64a2b26d3f5aae746af72",
+          "origin_gw": 141,
+          "payload_sha256": "2464525a6da7b0b8b1b8403b16cf0b1a79b9d3c096981a0bc7fbaea1f78670c2",
+          "pool_policy": "registered_forecast_rows",
+          "prepared_frame_sha256": "946632e9dbddea4f6374a533c3cb01b08e4aa0b9910e35440e0ea9d64e43f633",
+          "price_policy": "origin_capture_half_profit_static_horizon_v1",
+          "registered_forecast_rows": 2081,
+          "registered_without_forecast_ids": [],
+          "registered_without_forecasts": 0
+        },
+        {
+          "archive_authenticity": "NOT ASSESSED",
+          "bootstrap_canonical_sha256": "2c2a18d20fe423044e9e1ff1743bb8f36be9d7336dae143ff7e61ff2a1890ec0",
+          "captured_at": "2024-03-09T10:23:20+00:00",
+          "chip_rule_legality": "NOT ASSESSED",
+          "descriptor_sha256": "caf9bb4783f223393e8ef7b6d089072aec97b959cd1fe050d7440e0ae4c57d4a",
+          "event": 28,
+          "event_deadline": "2024-03-09T11:00:00+00:00",
+          "excluded_forecast_rows": 1,
+          "excluded_player_ids": [
+            461453
+          ],
+          "fixture_causality": "NOT ASSESSED",
+          "input_forecast_rows": 2092,
+          "input_sha256": {
+            "bootstrap-static.json.gz": "b46849ee5856d290eb73b21b22bddf916cb45c6e6abed370fbd4e612b7ed28af",
+            "manifest.json": "824c3e58ea163c2fa4180967c7865b4153698cdb7186142d09570da0a8280251"
+          },
+          "metadata_sha256": "9043b21d6435948d27d833d6c04af8691f405b07693003cac0fcb0f02c5107db",
+          "origin_gw": 142,
+          "payload_sha256": "3a372bbed4ba9b6201d184f8fb7ec5e9b8cfaffcc31f15c7483377bce8da42ee",
+          "pool_policy": "registered_forecast_rows",
+          "prepared_frame_sha256": "168b7caa9f33dd82499b3aae016af4923365be97fd587bfd967d9764878e13ad",
+          "price_policy": "origin_capture_half_profit_static_horizon_v1",
+          "registered_forecast_rows": 2091,
+          "registered_without_forecast_ids": [],
+          "registered_without_forecasts": 0
+        },
+        {
+          "archive_authenticity": "NOT ASSESSED",
+          "bootstrap_canonical_sha256": "3ba9031df69f4ab7fcdffe5a1c5a76e4eb965c4698d3c66ecce1465db0b44854",
+          "captured_at": "2024-03-16T04:00:06+00:00",
+          "chip_rule_legality": "NOT ASSESSED",
+          "descriptor_sha256": "caf9bb4783f223393e8ef7b6d089072aec97b959cd1fe050d7440e0ae4c57d4a",
+          "event": 29,
+          "event_deadline": "2024-03-16T13:30:00+00:00",
+          "excluded_forecast_rows": 1,
+          "excluded_player_ids": [
+            461453
+          ],
+          "fixture_causality": "NOT ASSESSED",
+          "input_forecast_rows": 1183,
+          "input_sha256": {
+            "bootstrap-static.json.gz": "ac7b98078c798834a7666bed085953e27d98c05b1ab4073891e16c7839eab2fc",
+            "manifest.json": "d458d58f76319d3cec5b7277ba110b683bf4d8ee331d49be6e65c293c1bee298"
+          },
+          "metadata_sha256": "cc607b43171ec7434a50af0e322f1a7954d786682d33fc4774e6e289b06476e9",
+          "origin_gw": 143,
+          "payload_sha256": "12a36e822d2b2b6d3b543506c17fd395f1800769a40453ad4be6c440b7099428",
+          "pool_policy": "registered_forecast_rows",
+          "prepared_frame_sha256": "46a5014cdf0ce8835f747079eb022a2f3291d344ae1e1a346bd0e54fca2dda07",
+          "price_policy": "origin_capture_half_profit_static_horizon_v1",
+          "registered_forecast_rows": 1182,
+          "registered_without_forecast_ids": [],
+          "registered_without_forecasts": 0
+        },
+        {
+          "archive_authenticity": "NOT ASSESSED",
+          "bootstrap_canonical_sha256": "4dc3f0fc69da1e72c2db18abfd16075364a114a66e97d5780353415253e08a4c",
+          "captured_at": "2024-03-30T10:03:12+00:00",
+          "chip_rule_legality": "NOT ASSESSED",
+          "descriptor_sha256": "caf9bb4783f223393e8ef7b6d089072aec97b959cd1fe050d7440e0ae4c57d4a",
+          "event": 30,
+          "event_deadline": "2024-03-30T11:00:00+00:00",
+          "excluded_forecast_rows": 1,
+          "excluded_player_ids": [
+            461453
+          ],
+          "fixture_causality": "NOT ASSESSED",
+          "input_forecast_rows": 839,
+          "input_sha256": {
+            "bootstrap-static.json.gz": "0d4a715cec5d99db8f3b4304f50ac6b87ad052686965d676124b4050ae2baf4d",
+            "manifest.json": "9e43bddd65d95bf6562c0de0da2cc69e5ae36a37ff671ac87a896c21ba1e8c04"
+          },
+          "metadata_sha256": "7e58cda8e600859b0b83c15765c6eaa55f15b41afc9686e91a2813e089c49475",
+          "origin_gw": 144,
+          "payload_sha256": "ddeeb7fd1c1edf5ef26c891ff2521f77c8e106109efb1d215754d363f993a8dd",
+          "pool_policy": "registered_forecast_rows",
+          "prepared_frame_sha256": "447b2c7e5d4faeaaaffe9837c929f75b559e46367a2f46ccf296e885ee1df36c",
+          "price_policy": "origin_capture_half_profit_static_horizon_v1",
+          "registered_forecast_rows": 838,
+          "registered_without_forecast_ids": [],
+          "registered_without_forecasts": 0
+        }
+      ],
+      "promotion_eligible": false,
+      "solver_seconds": 7.948917624002206,
+      "solver_status": [
+        "Optimal",
+        "Optimal",
+        "Optimal",
+        "Optimal"
+      ],
+      "status": "DECISIONS_AND_SETTLEMENT_COMPLETED"
+    }
+  },
+  "comparison": {
+    "block_len": 3,
+    "boot_mean": -1.4825,
+    "bootstrap_positive_fraction": 0.501,
+    "ci_high": 8.0,
+    "ci_low": -11.0,
+    "contract": null,
+    "effective_metric": "actual_net_points",
+    "evidence_status": "UNVERIFIED",
+    "gameweeks": [
+      141,
+      142,
+      143,
+      144
+    ],
+    "inference_limitations": "Historical paired window, not independent seasons. Block bootstrap depends on block choice; the exact binomial sign-test null assumes independent signs. Neither is a probability of future gain.",
+    "input_sha256": {
+      "a": "ab17c88c3c25e16fbd997736fedb56534290ec5a0b4a01a6b17b7d0a03d450b1",
+      "b": "ab5c98da107b68e8860bc44f4a23afc8f1925f8354a1fd0b26311ad16bb00e88"
+    },
+    "metric": "actual_net_points",
+    "n_boot": 10000,
+    "n_gws": 4,
+    "p_a_better": 0.501,
+    "requested_metric": "actual_net_points",
+    "scoring_protocol": {
+      "a": "autosubs_v2",
+      "b": "autosubs_v2"
+    },
+    "seed": 0,
+    "sign_test": {
+      "p_a_better": 0.6875,
+      "p_value": 1.0,
+      "ties": 0,
+      "wins_a": 2,
+      "wins_b": 2
+    },
+    "total_a": 197.0,
+    "total_b": 203.0,
+    "total_diff": -6.0,
+    "transfer_hit_points_per_paid_transfer": 4
+  },
+  "complete_outcome_blind_execution": "NOT ASSESSED",
+  "fixture_information_causality": "NOT ASSESSED",
+  "full_site_legality": "NOT ASSESSED",
+  "limitation": "Four already examined selection rounds, one seed, modern rules on historical forecasts; distinct recipes change capacity as well as loss. Not promotion, loss-only evidence or comparable with legacy controls.",
+  "maximum_optimizer_solves": 8,
+  "model_fits": 0,
+  "native_certificate_export": "NOT ASSESSED",
+  "plan_sha256": "927ab9e2d1de49eaccc4144f2536e937901b5ab6c5b6d6e15ed7e27db2f76f0c",
+  "price_policy": "origin_capture_half_profit_static_horizon_v1",
+  "promotion_eligible": false,
+  "rules": "solio_modern_v1; FT cap5; gain1; no chips; static horizon capture prices; explicit acquisition ledger",
+  "solver_outcome_columns": "ABSENT",
+  "status": "BOUNDED_ATTEMPTS_COMPLETED"
+}
