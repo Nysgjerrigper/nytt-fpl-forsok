@@ -8,7 +8,8 @@ benchmark. Production uses `single:catboost` for GK, DEF, MID and FWD.
 
 - [Setup and operating rules](CLAUDE.md): canonical instructions for every agent.
 - [GitHub issues](https://github.com/Nysgjerrigper/nytt-fpl-forsok/issues): priorities, progress, blockers and remaining work.
-- [Stakeholder overview](docs/STAKEHOLDER_OVERVIEW.md): purpose, goals and tools in plain English.
+- [Stakeholder overview](docs/STAKEHOLDER_OVERVIEW.md): weekly decisions, Training Ground and evidence limits, with explanatory diagrams.
+- [Frameworks and sources](docs/FRAMEWORKS_AND_SOURCES.md): business framing, academic foundations, FOSS reuse and partner-lab inspiration.
 - [Alternative optimizer review](docs/OPTIMIZER_REVIEW.md): current-season requirements and candidate gaps.
 - [Backtest comparison contracts](docs/BACKTEST_COMPARISONS.md): explicit gross/net metrics, input validation and stable-ID decision snapshots.
 - [The Training Ground](docs/TRAINING_GROUND.md): offline comparison playground, scorecards and an evidence league.
