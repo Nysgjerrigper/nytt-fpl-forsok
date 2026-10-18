@@ -87,7 +87,26 @@ after = '''    fh_original = bin_vars(price_modified_players, gws, name="fh_orig
         m.addConstr(temporary_cost <= available)
 '''
 change(before, after)
-change('            m.run()\n            # read', '''            m.run()
+change('    m = highspy.Highs()', '''    diagnostic_callback = options.get("_diagnostic_callback")
+    if diagnostic_callback is not None and (not callable(diagnostic_callback) or options.get("num_iterations", 1) != 1):
+        raise ValueError("native diagnostics require one iteration and an internal callable")
+    diagnostic_build_started = time.perf_counter() if diagnostic_callback is not None else None
+    m = highspy.Highs()''')
+change('            m.run()\n            # read', '''            if diagnostic_callback is not None:
+                diagnostic_callback("native-start", m, iteration, {
+                    "model_build_seconds": time.perf_counter() - diagnostic_build_started,
+                    "build_boundary": "Highs allocation through model construction and option configuration"})
+            diagnostic_native_started = time.perf_counter() if diagnostic_callback is not None else None
+            try:
+                m.run()
+            except Exception:
+                if diagnostic_callback is not None:
+                    diagnostic_callback("native-error", m, iteration, {
+                        "native_call_wall_seconds": time.perf_counter() - diagnostic_native_started})
+                raise
+            if diagnostic_callback is not None:
+                diagnostic_callback("native-finish", m, iteration, {
+                    "native_call_wall_seconds": time.perf_counter() - diagnostic_native_started})
             info = m.getInfo()
             if m.getModelStatus() != highspy.HighsModelStatus.kOptimal or not m.getSolution().value_valid:
                 raise RuntimeError(f"Solio solve rejected: {m.modelStatusToString(m.getModelStatus())}")

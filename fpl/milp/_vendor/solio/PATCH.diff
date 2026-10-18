@@ -1,6 +1,17 @@
 --- upstream/solve_multi_period_fpl
 +++ local/solve_multi_period_fpl
-@@ -120,6 +120,7 @@
+@@ -76,6 +76,10 @@
+     ft_states = [0, 1, 2, 3, 4, 5]
+ 
+     # Model
++    diagnostic_callback = options.get("_diagnostic_callback")
++    if diagnostic_callback is not None and (not callable(diagnostic_callback) or options.get("num_iterations", 1) != 1):
++        raise ValueError("native diagnostics require one iteration and an internal callable")
++    diagnostic_build_started = time.perf_counter() if diagnostic_callback is not None else None
+     m = highspy.Highs()
+     sum_ = m.qsum
+     verbose = options.get("verbose", False)
+@@ -120,6 +124,7 @@
  
      use_wc = bin_vars(gws, name="use_wc")
      use_bb = bin_vars(gws, name="use_bb")
@@ -8,7 +19,7 @@
      use_fh = bin_vars(gws, name="use_fh")
      use_tc = bin_vars(players, gws, name="use_tc")
  
-@@ -155,15 +156,15 @@
+@@ -155,15 +160,15 @@
      m.addConstrs([squad[p, next_gw - 1] == 1 for p in initial_squad])
      m.addConstrs([squad[p, next_gw - 1] == 0 for p in players if p not in initial_squad])
      m.addConstr(in_the_bank[next_gw - 1] == itb)
@@ -28,7 +39,7 @@
      m.addConstrs([sum_(captain[p, w] for p in players) == 1 for w in gws])
      m.addConstrs([sum_(vicecap[p, w] for p in players) == 1 for w in gws])
      m.addConstrs([lineup[p, w] <= squad[p, w] + use_fh[w] for p in players for w in gws])
-@@ -178,7 +179,7 @@
+@@ -178,7 +183,7 @@
      squad_max_play = type_data["squad_max_play"].astype(int).to_dict()
      squad_select = type_data["squad_select"].astype(int).to_dict()
      m.addConstrs([lineup_type_count[t, w] >= squad_min_play[t] for t in el_types for w in gws])
@@ -37,7 +48,7 @@
      m.addConstrs([squad_type_count[t, w] == squad_select[t] for t in el_types for w in gws])
      m.addConstrs([squad_fh_type_count[t, w] == squad_select[t] * use_fh[w] for t in el_types for w in gws])
  
-@@ -201,12 +202,22 @@
+@@ -201,12 +206,22 @@
              for w in gws
          ]
      )
@@ -66,7 +77,7 @@
      m.addConstrs([transfer_in[p, w] <= 1 - use_fh[w] for p in players for w in gws])
      m.addConstrs([transfer_out[p, w] <= 1 - use_fh[w] for p in players for w in gws])
  
-@@ -244,6 +255,14 @@
+@@ -244,6 +259,14 @@
  
      m.addConstrs([penalized_transfers[w] >= transfer_diff[w] for w in gws])
  
@@ -81,7 +92,7 @@
      ## Chip constraints
      m.addConstrs([use_wc[w] + use_fh[w] + use_bb[w] + use_tc_gw[w] <= 1 for w in gws])
      m.addConstrs([aux[w] <= 1 - use_wc[w - 1] for w in gws if w > next_gw])
-@@ -252,24 +271,25 @@
+@@ -252,24 +275,25 @@
  
      chip_vars = {"wc": use_wc, "bb": use_bb, "fh": use_fh, "tc": use_tc_gw}
  
@@ -124,7 +135,7 @@
      m.addConstrs([squad_fh[p, w] <= use_fh[w] for p in players for w in gws])
  
      ## Multiple-sell fix
-@@ -536,7 +556,7 @@
+@@ -536,7 +560,7 @@
      gw_xp = {
          w: sum_(
              points_player_week[p, w]
@@ -133,10 +144,26 @@
              for p in players
          )
          for w in gws
-@@ -592,6 +612,11 @@
+@@ -591,7 +615,26 @@
+ 
      def run_solve(iteration):
          if solver != "gurobi":
-             m.run()
+-            m.run()
++            if diagnostic_callback is not None:
++                diagnostic_callback("native-start", m, iteration, {
++                    "model_build_seconds": time.perf_counter() - diagnostic_build_started,
++                    "build_boundary": "Highs allocation through model construction and option configuration"})
++            diagnostic_native_started = time.perf_counter() if diagnostic_callback is not None else None
++            try:
++                m.run()
++            except Exception:
++                if diagnostic_callback is not None:
++                    diagnostic_callback("native-error", m, iteration, {
++                        "native_call_wall_seconds": time.perf_counter() - diagnostic_native_started})
++                raise
++            if diagnostic_callback is not None:
++                diagnostic_callback("native-finish", m, iteration, {
++                    "native_call_wall_seconds": time.perf_counter() - diagnostic_native_started})
 +            info = m.getInfo()
 +            if m.getModelStatus() != highspy.HighsModelStatus.kOptimal or not m.getSolution().value_valid:
 +                raise RuntimeError(f"Solio solve rejected: {m.modelStatusToString(m.getModelStatus())}")
@@ -145,7 +172,7 @@
              # read the solution vector once - m.val re-copies it out of HiGHS on every single call
              return make_val(list(m.getSolution().col_value))
  
-@@ -668,7 +693,7 @@
+@@ -668,7 +711,7 @@
                          if not is_transfer_out
                          else (sell_price[p] if p in price_modified_players and val(transfer_out_first[p, w]) > BINARY_THRESHOLD else buy_price[p])
                      )
@@ -154,7 +181,7 @@
                      xp_cont = points_player_week[p, w] * multiplier
  
                      if val(use_wc[w]) > BINARY_THRESHOLD:
-@@ -770,9 +795,9 @@
+@@ -770,9 +813,9 @@
  
              statistics[int(w)] = {
                  "itb": val(in_the_bank[w]),
@@ -167,7 +194,7 @@
                  "xP": lineup_players["xp_cont"].sum(),
                  "obj": round(val(gw_total[w]), 2),
                  "chip": chip_decision if chip_decision != "" else None,
-@@ -799,6 +824,9 @@
+@@ -799,6 +842,9 @@
                  "sell": sell_decisions,
                  "chip": chip_decisions,
                  "score": val(objective_expr),

@@ -71,10 +71,13 @@ def solve_window(predictions: pd.DataFrame, *, season: str, start_gw: int, horiz
                  forced_chips: Mapping[str, Sequence[int]] | None = None,
                  previous_free_hit_gw: int | None = None,
                  time_limit: float = 1200, seed: int = 0,
+                 native_diagnostics_dir: str | Path | None = None,
                  _event_callback: Callable[[str, dict], None] | None = None) -> pd.DataFrame:
     """Solve an entire window; reject nonoptimal or independently illegal decisions.
 
     Forecasts use global weeks/stable codes and prices/bank in tenths of a million.
+    Optional native_diagnostics_dir records the exact linear model and native
+    status even on rejection; it never authorizes an incomplete solution.
     No data fetching or model fitting occurs. Chip targets use season-local weeks.
     The objective matches the legacy point/captain/vice/bench terms, with no new FT
     or cash incentive. Current transfer-bank and chip rules are separately explicit.
@@ -102,42 +105,58 @@ def solve_window(predictions: pd.DataFrame, *, season: str, start_gw: int, horiz
         from fpl.milp.solio_receipts import input_identity
         _event_callback("prepared", {"preparation_seconds": time.perf_counter() - preparation_started,
                                     "prepared_inputs": input_identity(prepared), "options": options})
-        _event_callback("vendor-start", {"time_limit_seconds": time_limit, "relative_gap": 0})
-    started = time.perf_counter()
+    diagnostics = None
+    if native_diagnostics_dir is not None:
+        from fpl.milp.native_diagnostics import NativeDiagnostics
+        from fpl.milp.solio_receipts import input_identity
+        diagnostics = NativeDiagnostics(native_diagnostics_dir, context={
+            "season": season, "start_gw": start_gw, "horizon": horizon,
+            "prepared_inputs": input_identity(prepared), "options": dict(options)})
+        options["_diagnostic_callback"] = diagnostics.observe
     try:
-        with redirect_stdout(StringIO()):
-            solutions = solve_multi_period_fpl(prepared, options)
-    except Exception:
         if _event_callback is not None:
-            _event_callback("vendor-failed", {"vendor_wall_seconds": time.perf_counter() - started,
-                                             "native_seconds": "NOT MEASURED",
-                                             "build_seconds": "NOT MEASURED"})
+            _event_callback("vendor-start", {"time_limit_seconds": time_limit, "relative_gap": 0})
+        started = time.perf_counter()
+        try:
+            with redirect_stdout(StringIO()):
+                solutions = solve_multi_period_fpl(prepared, options)
+        except Exception:
+            if _event_callback is not None:
+                _event_callback("vendor-failed", {"vendor_wall_seconds": time.perf_counter() - started,
+                                                 "native_seconds": "NOT MEASURED",
+                                                 "build_seconds": "NOT MEASURED"})
+            raise
+        vendor_wall = time.perf_counter() - started
+        if _event_callback is not None:
+            qualified = (isinstance(solutions, list) and len(solutions) == 1
+                         and isinstance(solutions[0], dict) and solutions[0].get("solver_status") == "Optimal")
+            measured = solutions[0].get("solver_seconds") if qualified else None
+            native = (float(measured) if isinstance(measured, Real) and not isinstance(measured, bool)
+                      and np.isfinite(measured) and measured >= 0 else None)
+            _event_callback("vendor-complete", {"vendor_wall_seconds": vendor_wall,
+                "native_seconds": native if native is not None else "NOT MEASURED",
+                "non_native_overhead_seconds": vendor_wall - native if native is not None else "NOT MEASURED",
+                "overhead_basis": "NON_NATIVE_OVERHEAD_NOT_BUILD_TIME"})
+        if _event_callback is not None:
+            _event_callback("normalization-start", {})
+        normalization_started = time.perf_counter()
+        if len(solutions) != 1 or solutions[0]["solver_status"] != "Optimal":
+            raise RuntimeError("Solio failed to return exactly one optimal solution")
+        result = pd.DataFrame(normalize_solution(solutions[0], prepared))
+        result["optimizer"] = "solio_modern_v1"
+        result["solver_status"] = solutions[0]["solver_status"]
+        result["mip_gap"] = solutions[0]["mip_gap"]
+        result["solver_seconds"] = solutions[0]["solver_seconds"]
+        result["window_seconds"] = time.perf_counter() - started
+        result["upstream_commit"] = config.SOLIO_UPSTREAM_COMMIT
+        if _event_callback is not None:
+            _event_callback("normalization-complete", {"normalization_seconds": time.perf_counter() - normalization_started})
+    except Exception as exc:
+        if diagnostics is not None:
+            diagnostics.seal(accepted=False, error=exc)
         raise
-    vendor_wall = time.perf_counter() - started
-    if _event_callback is not None:
-        qualified = (isinstance(solutions, list) and len(solutions) == 1
-                     and isinstance(solutions[0], dict) and solutions[0].get("solver_status") == "Optimal")
-        measured = solutions[0].get("solver_seconds") if qualified else None
-        native = (float(measured) if isinstance(measured, Real) and not isinstance(measured, bool)
-                  and np.isfinite(measured) and measured >= 0 else None)
-        _event_callback("vendor-complete", {"vendor_wall_seconds": vendor_wall,
-            "native_seconds": native if native is not None else "NOT MEASURED",
-            "non_native_overhead_seconds": vendor_wall - native if native is not None else "NOT MEASURED",
-            "overhead_basis": "NON_NATIVE_OVERHEAD_NOT_BUILD_TIME"})
-    if _event_callback is not None:
-        _event_callback("normalization-start", {})
-    normalization_started = time.perf_counter()
-    if len(solutions) != 1 or solutions[0]["solver_status"] != "Optimal":
-        raise RuntimeError("Solio failed to return exactly one optimal solution")
-    result = pd.DataFrame(normalize_solution(solutions[0], prepared))
-    result["optimizer"] = "solio_modern_v1"
-    result["solver_status"] = solutions[0]["solver_status"]
-    result["mip_gap"] = solutions[0]["mip_gap"]
-    result["solver_seconds"] = solutions[0]["solver_seconds"]
-    result["window_seconds"] = time.perf_counter() - started
-    result["upstream_commit"] = config.SOLIO_UPSTREAM_COMMIT
-    if _event_callback is not None:
-        _event_callback("normalization-complete", {"normalization_seconds": time.perf_counter() - normalization_started})
+    if diagnostics is not None:
+        diagnostics.seal(accepted=True)
     return result
 
 
