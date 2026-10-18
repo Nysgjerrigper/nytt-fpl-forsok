@@ -49,7 +49,8 @@ def input_identity(value: Any) -> Any:
 def source_runtime() -> dict:
     """Capture relevant wrapper/vendor bytes and execution-library versions."""
     files = {config.ROOT / "fpl/config.py", config.ROOT / "fpl/artifacts.py",
-             config.ROOT / "fpl/milp/optimize.py", config.ROOT / "fpl/milp/origin_prices.py"}
+             config.ROOT / "fpl/milp/optimize.py", config.ROOT / "fpl/milp/origin_prices.py",
+             config.ROOT / "fpl/milp/native_diagnostics.py"}
     files.update((config.ROOT / "fpl/milp").glob("solio*.py"))
     files.update((config.ROOT / "fpl/milp/_vendor/solio").rglob("*.py"))
     versions = {"python": platform.python_version()}

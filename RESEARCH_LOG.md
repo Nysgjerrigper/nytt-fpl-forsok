@@ -2097,3 +2097,19 @@ Evidence: experiments/checkpointed_pool_replay_2026-10-18 and external raw/postc
 bundles named in its verification.json. Issue6 now has a concreteGW139 model/native
 failure-profile case; issue22 failed-attempt adapter and issue13 remain open.
 Production and broader deadline/fixture/legality/outcome-blind gates are unchanged.
+
+### 2026-10-18 — Opt-in native model and failure diagnostics
+
+Refs issue6. Added a single-window diagnostic hook preserving the exact linear model,
+effective options, construction/native-call timings and available native status,
+bounds/gap/counters before ordinary admission. Immutable artifacts distinguish
+recorded diagnostics from accepted results. JSON is authoritative; MPS is review-only
+and exported on a disposable copy after tests exposed live-name mutation in HiGHS.
+Default mathematical model, optimality requirements and production are unchanged.
+No research solve, point comparison or runtime-improvement claim in this change.
+Primary focused verification:129 passed across serialization, real tiny-FPL solves,
+timeout and normalization rejection, vendor regeneration, checkpoints and origin
+prices. Round-trip tests distinguish exact serialized storage from HiGHS' equivalent
+sparse-layout conversion. Existing-directory failure emits no vendor-start receipt.
+The next separately registered case is candidateGW139/H3 at the existing120s limit;
+issue6 remains open until measured diagnosis and a justified improvement are complete.

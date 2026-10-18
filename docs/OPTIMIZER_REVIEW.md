@@ -73,3 +73,26 @@ bottleneck, and validate real owner state before considering a default switch. T
 experiment establishes neither faster optimization nor better realized points. Forecast
 production remains single:catboost. Guard-only follow-up changes produced identical
 prepared inputs for all 62 candidate windows and preserved the evaluated solver bytes.
+
+## Opt-in native diagnostics
+
+`fpl.milp.solio.solve_window(..., native_diagnostics_dir=new_directory)` captures
+one solve for runtime diagnosis. The default remains unchanged. The directory must
+be new and outside production code/datasets. Immutable events bind prepared inputs,
+source/runtime hashes, effective native options, model construction time and native
+call wall time. Native status, primal validity, bounds, gap and counters are retained
+when available, including rejected/time-limited results.
+
+The JSON linear model preserves coefficients, bounds, integrality, objective, names
+and sparse ordering with explicit bound infinities. MPS is a readable review view;
+HiGHS may generate names and return a warning. MPS export uses a disposable model
+copy because exporting the live model can change its names. Neither export runs a
+second solve. Reloading JSON preserves its representation; passing it to HiGHS can
+rearrange sparse storage without changing coefficients.
+
+`diagnostics-complete.json` seals recorded artifacts and explicitly states whether
+normal solver admission accepted the result. It is not an experiment completion or
+optimality certificate. Unavailable fields remain null with availability labels;
+interrupted directories remain unsealed. Existing exact optimal-status/gap and
+independent normalization checks still control acceptance. This interface alone
+establishes no faster execution, improved points or production promotion.
