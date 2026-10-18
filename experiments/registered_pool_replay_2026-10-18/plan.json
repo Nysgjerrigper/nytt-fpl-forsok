@@ -1,0 +1,131 @@
+{
+  "code_sha256": {
+    "/Users/perandersmolberg/.codex/worktrees/ownership-ablation/MSc-BusAdm-25-EBA-PAM/fpl/config.py": "28e01d3614a91156be4a135fc1eb0229dc3f2919ff51226d2827d3d213b70f0b",
+    "/Users/perandersmolberg/.codex/worktrees/ownership-ablation/MSc-BusAdm-25-EBA-PAM/fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+    "/Users/perandersmolberg/.codex/worktrees/ownership-ablation/MSc-BusAdm-25-EBA-PAM/fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "/Users/perandersmolberg/.codex/worktrees/ownership-ablation/MSc-BusAdm-25-EBA-PAM/fpl/milp/optimize.py": "1c9822442bbf390d9a7b0379cfcfff925ea9ec92e749d4aeda71f38df88a34a5",
+    "/Users/perandersmolberg/.codex/worktrees/ownership-ablation/MSc-BusAdm-25-EBA-PAM/fpl/milp/origin_prices.py": "9b014344f323e6f7b8c04c38938135f9cdbe531757c9882ce70ee341d4f13b87",
+    "/Users/perandersmolberg/.codex/worktrees/ownership-ablation/MSc-BusAdm-25-EBA-PAM/fpl/milp/solio.py": "21de550edc6b6df3df113e3d0362cb76a24857a610f283efba34dff1a5ce9510",
+    "/Users/perandersmolberg/.codex/worktrees/ownership-ablation/MSc-BusAdm-25-EBA-PAM/fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+    "/Users/perandersmolberg/.codex/worktrees/ownership-ablation/MSc-BusAdm-25-EBA-PAM/fpl/milp/solio_output.py": "24d805fa9288695a9bdf79b2f3817cce534713bae06996033e0be0f49e6b69d9"
+  },
+  "comparison": {
+    "block_len": 3,
+    "metric": "actual_net_points",
+    "n_boot": 10000,
+    "promotion_eligible": false,
+    "seed": 0,
+    "status": "UNVERIFIED"
+  },
+  "compute_budget": {
+    "maximum_native_solve_seconds": 1920,
+    "maximum_optimizer_solves": 32,
+    "model_fits": 0,
+    "per_solve_seconds": 60,
+    "retries": 0,
+    "wall_seconds": 2100
+  },
+  "horizon": 3,
+  "hypothesis": "Compare saved ownership/full versus no-ownership origin forecasts under the same captured registered-player pools and origin prices; diagnose prior future-registration defect without refitting.",
+  "initial_state": {
+    "bank": 1000,
+    "free_transfers_argument": 1,
+    "fresh_solver_free_transfers": 0,
+    "mode": "fresh_build",
+    "squad": []
+  },
+  "inputs": {
+    "candidate-predictions.csv": "4108be654bed430e7c914d9407ed4eb79cf6c86d0b571025381eb4cd0522db5a",
+    "captures/GW23-2024-02-03T0000Z/bootstrap-static.json.gz": "53c9743beb3d635ccaa758d1a12d6817e2c5fc228e073cb1f7453a6655863334",
+    "captures/GW23-2024-02-03T0000Z/manifest.json": "3f7be80e04172bab97abd6e16f561238ca69ecfa127bb09586b900934de76171",
+    "captures/GW24-2024-02-10T0001Z/bootstrap-static.json.gz": "532c073e2463dcdede8883f40a9be34527b45d0b19731d054fc74edccfea342d",
+    "captures/GW24-2024-02-10T0001Z/manifest.json": "3193221aa7063357a3e38361f50a58e8d2dea8e677775e5751584a97b99cc7b6",
+    "captures/GW25-2024-02-17T0003Z/bootstrap-static.json.gz": "c9fad709d545ef310b85552314288988c3789fb7a27240062ecc88d9123c44c5",
+    "captures/GW25-2024-02-17T0003Z/manifest.json": "122b089cc564d13af706ee4907a27cebc13beeae7e0a92d816edd423cf535ca8",
+    "captures/GW26-2024-02-24T1228Z/bootstrap-static.json.gz": "6458c477282b1ad1f4dcab06fa855dfc08fc44682bce306fc863debec5097f14",
+    "captures/GW26-2024-02-24T1228Z/manifest.json": "8c8fac90c0836e9e753dfff1c7618541e96812a811c8a4e1d8df923a9e80cd2e",
+    "captures/GW27-2024-03-02T0400Z/bootstrap-static.json.gz": "d095c73cb7627c83ee397f2bce440a0af82569d0a97979e90ed50857c3d49721",
+    "captures/GW27-2024-03-02T0400Z/manifest.json": "604883c5b587af5535bfd658f9a6fe903dcb0f0d56dd872b01e985afc9c0f325",
+    "captures/GW28-2024-03-09T1023Z/bootstrap-static.json.gz": "b46849ee5856d290eb73b21b22bddf916cb45c6e6abed370fbd4e612b7ed28af",
+    "captures/GW28-2024-03-09T1023Z/manifest.json": "824c3e58ea163c2fa4180967c7865b4153698cdb7186142d09570da0a8280251",
+    "captures/GW29-2024-03-16T0400Z/bootstrap-static.json.gz": "ac7b98078c798834a7666bed085953e27d98c05b1ab4073891e16c7839eab2fc",
+    "captures/GW29-2024-03-16T0400Z/manifest.json": "d458d58f76319d3cec5b7277ba110b683bf4d8ee331d49be6e65c293c1bee298",
+    "captures/GW30-2024-03-30T1003Z/bootstrap-static.json.gz": "0d4a715cec5d99db8f3b4304f50ac6b87ad052686965d676124b4050ae2baf4d",
+    "captures/GW30-2024-03-30T1003Z/manifest.json": "9e43bddd65d95bf6562c0de0da2cc69e5ae36a37ff671ac87a896c21ba1e8c04",
+    "captures/GW31-2024-04-02T1013Z/bootstrap-static.json.gz": "c23c444a5f3b36e254cd5f8efcd8546c88930ed23f197bb5fb2670402c365532",
+    "captures/GW31-2024-04-02T1013Z/manifest.json": "e3d5ce2b1cc4d412662cdcf9d034b20a1ffcc30bdf1f6962292f4668e9fe5b15",
+    "captures/GW32-2024-04-06T0000Z/bootstrap-static.json.gz": "598fdfcd78ec99c08cfb1db400b7f689146f0a4a661cb933aa289264029c7ea9",
+    "captures/GW32-2024-04-06T0000Z/manifest.json": "5c441ac9893e925026b83b6a56e630d0817170e81b6642a5cdbc537c4dac9a22",
+    "captures/GW33-2024-04-13T0302Z/bootstrap-static.json.gz": "a20eabd0917509c1a89892e74975a9a371a149862df21573f7d25a19a5e8ce98",
+    "captures/GW33-2024-04-13T0302Z/manifest.json": "a4945170fced9e1ff550cefd5ee984dca694968da1f5fb2624f6358904a39654",
+    "captures/GW34-2024-04-20T0700Z/bootstrap-static.json.gz": "6dd843a88647961301b7a3246754be931576adfbc583582025e3fa12c112641e",
+    "captures/GW34-2024-04-20T0700Z/manifest.json": "17abd13e33733663a9275b22b2dbd6239421c81bb0d044588ff4d4208b0ee2ec",
+    "captures/GW35-2024-04-26T1912Z/bootstrap-static.json.gz": "cf3b8fc7d24d1652e6bd427aa15b9c0a1f1e6f6048d6202611165b1248d4d9c1",
+    "captures/GW35-2024-04-26T1912Z/manifest.json": "b972707fefb175dfebc05d7d54dec96286c1690ea5bd5d72f347bf7b45c284af",
+    "captures/GW36-2024-05-03T0700Z/bootstrap-static.json.gz": "a4950a185f59d75b3057ac2f3d1788fbc9e83d7910b7f94e0d4562803f9637ce",
+    "captures/GW36-2024-05-03T0700Z/manifest.json": "05d874c252d04045939ff3fad703a992958b37c16a0dd933bcfca48c2e24c730",
+    "captures/GW37-2024-05-11T0000Z/bootstrap-static.json.gz": "c0911a11f9eabb9d3a6d5acf575f3d8c8cad4db33849f0a2a026c0316309bcd1",
+    "captures/GW37-2024-05-11T0000Z/manifest.json": "5b1777c651439eafc244b55227936fdbe631a75d5d566867423bb68e59c0340c",
+    "captures/GW38-2024-05-19T1100Z/bootstrap-static.json.gz": "77f341571c869ff2a2280027b2f345fb48981f6ddfea69b79c9e9afd1f743070",
+    "captures/GW38-2024-05-19T1100Z/manifest.json": "c95ef53e5a58c7aeec54a370a9247085a438c9a8bdef5a52fb6767bf315dbeae",
+    "captures/captures.json": "b7eca5131e4b209fc6517ad4d4b7936bcdfc4ce24e5f37a0be409b0b4ddc37cf",
+    "captures/recovery.json": "beedec903bbbeb9eb41188c8ae1bfabc70e3af91a1a12badc30dfb9c3c1f9735",
+    "control-predictions.csv": "b1bc63c0d8acd8fb0bb941c76249320b8f90aec7d858d61103c0a55366e3b937",
+    "worker.py": "20efbd8ca2a74f121693da5860d0fc229d1f23c6cf44940223c5f0c4f7b4a9cb"
+  },
+  "issues": [
+    13,
+    23,
+    40
+  ],
+  "limitations": [
+    "Previously inspected selection window, one seed",
+    "Historical capture-time registers are not exact-deadline proof",
+    "Fixture publication causality and missing forecast-cell planning NOT ASSESSED",
+    "Complete outcome-blind execution NOT ASSESSED; parent and saved raw inputs contain outcomes",
+    "Modern FT5 rules are not a reproduction of historical 2023-24 policy",
+    "No production promotion or backend migration",
+    "Exported native certificate remains NOT ASSESSED unless separately fully recorded; core requires native optimal status"
+  ],
+  "origins": [
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152
+  ],
+  "policy": {
+    "backend": "solio",
+    "chips": "disabled",
+    "comparison_to_legacy": "Separate modern-policy comparison; not a price-only sensitivity",
+    "ft_cap": 5,
+    "pool": "registered_forecast_rows",
+    "prices": "origin_capture_half_profit_static_horizon_v1"
+  },
+  "runtime": {
+    "packages": {
+      "highspy": "1.15.1",
+      "numpy": "2.4.6",
+      "pandas": "3.0.3",
+      "pulp": "3.3.2"
+    },
+    "python": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]"
+  },
+  "schema_version": 1,
+  "season": "2023-24",
+  "seed": 0,
+  "settlement": "Separate strict replay after snapshots. No missing outcome inferred as zero; register-backed complete-ledger blank evidence required. Collection implementation to be reviewed separately before settlement.",
+  "source_complete_sha256": "e94ca8c4ad617edc8f22dac03e2e80f1fff3e08e1b28123edd982abb6b50147a",
+  "source_head": "a0d3ec645d880f5c41ad206cd7429af5a170ebf2"
+}
