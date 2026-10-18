@@ -2011,3 +2011,17 @@ TrainingGroundOwnershipAblation_20261018/first in task artifacts. Future target
 prices, fixture/registration knowledge, missing-outcome completeness, independent
 site legality and complete outcome-blind execution remain unqualified. No
 reference/final evaluation, prospective selection or production change.
+
+### 2026-10-18 — Ownership ablation qualification correction
+
+Supersedes the preceding retain-control inference: selected-row coverage audit
+found11/9 missing standard control/candidate player-round pairs and23/11 origin
+pairs. Origin control selected code568791 (Callan McKenna) in GW137, absent from
+all supplied capture-time registers GW137–148 and forecast rows before GW149.
+This fails the capture-time known-pool policy; exact-deadline eligibility remains
+NOT ASSESSED. Legacy scores cannot identify an ownership-feature effect.
+Raw plans, outputs and170-file manifests remain unchanged. Derived coverage_audit.json
+and updated report/verification preserve the counterexample and input hashes.
+All16 recovered captures passed the existing loader; register-aware saved-forecast
+replay requires a separate registration, zero refits and equal policies across arms.
+Issue13 remains open. Production remains single:catboost.

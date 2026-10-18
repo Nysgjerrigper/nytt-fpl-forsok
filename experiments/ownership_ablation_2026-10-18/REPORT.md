@@ -1,9 +1,15 @@
-# Ownership-feature ablation: retain the full-feature control
+# Ownership-feature ablation: legacy outputs are not decision-qualified
 
-Removing historical ownership features did not produce consistent decision gains.
-The standard backtest gained7 net points; the origin backtest lost48. Both paired
-intervals include zero. Retain the full-feature control; this does not establish
-a general causal benefit from ownership or justify production promotion.
+The completed run exposed a player-pool defect: the origin control selected Callan
+McKenna (stable code568791) in GW137, before he appears in the supplied capture-time
+register. He is absent from captures GW137–148 and present from GW149. His saved
+forecast rows exist only for GW149–152. This violates the recorded capture-time
+known-pool policy; exact-deadline eligibility remains NOT ASSESSED.
+
+The raw point differences below cannot support an ownership-effect conclusion.
+Production stays unchanged because no qualified alternative has been established.
+Issue #13 remains open pending a separately registered register-aware replay of
+the saved origin forecasts. No refits are needed for that replay.
 
 ## Registered comparison
 
@@ -24,7 +30,7 @@ policy. This research recipe does not reproduce the tuned production baseline.
 Ownership is data; the experiment tests its contribution, without classifying it
 as pundit opinion.
 
-## Realized decision outcomes
+## Raw legacy decision outputs (unqualified)
 
 | Protocol / arm | Gross points | Transfer hits | Net points |
 | --- | ---: | ---: | ---: |
@@ -48,7 +54,7 @@ unranked; correlated rounds and repeated selection-window inspection limit infer
 
 Standard MAE changed from0.78085 to0.77946, while RMSE changed from2.07355 to2.07601.
 Origin lead0 MAE changed from0.78323 to0.78188, while RMSE changed from2.07771 to2.08019.
-The small typical-error reduction did not translate into better origin net points.
+These forecast diagnostics do not repair the demonstrated decision-input defect.
 The complete standard/origin summaries retain bias, calibration, ranking, top-player
 capture and positional support; origin leads1/2 are separate. Top-player capture
 is a forecast diagnostic, not measured captaincy contribution. Training-scaled MASE
@@ -94,3 +100,19 @@ PYTHONPATH=. python -m fpl.research_runner run \
 A rerun must respect the registered source/runtime identities and use a new explicit
 attempt; it is not needed to reproduce the saved report. Use the runner's report
 command on the full bundle to recheck its preserved outputs.
+
+## Superseding selected-outcome and eligibility audit
+
+Unique selected player/round pairs missing from observed forecast/outcome rows:
+standard control11, standard candidate9, origin control23, origin candidate11.
+These counts deduplicate repeated origin copies. Missing rows are not proof of
+zero outcomes or legitimate blanks. `coverage_audit.json` records every pair and
+source hashes. The register counterexample above is a concrete failure, superseding
+the earlier unassessed registration caveat and the initial retain-control inference.
+
+All16 recovered captures passed the existing capture loader. Their descriptor SHA256
+is `b7eca5131e4b209fc6517ad4d4b7936bcdfc4ce24e5f37a0be409b0b4ddc37cf`.
+The complete raw run, original plans, manifests and automatic scores remain unchanged.
+A corrected replay must use identical registered-pool, price and transfer policies
+for both arms and settle selected outcomes separately; its totals must not be
+conflated with this legacy-policy comparison.

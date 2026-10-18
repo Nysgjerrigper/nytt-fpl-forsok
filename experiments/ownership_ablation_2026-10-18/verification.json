@@ -137,9 +137,11 @@
     }
   },
   "complete_outcome_blind_execution": "NOT ASSESSED",
-  "disposition": "Retain full-feature control; ownership removal is not supported by consistent net-point evidence. No general superiority/equivalence or production claim.",
+  "coverage_audit_sha256": "cfc3ffe1be3ae69dd8451f2f85326b50a6bcfe3e440b94c62e7ced183b607ebe",
+  "disposition": "Legacy outputs cannot support an ownership-effect conclusion. Issue 13 remains open pending separately registered register-aware replay.",
   "fit_start_completion_pairs": 64,
   "full_site_legality": "NOT ASSESSED",
+  "input_eligibility": "FAILED_CAPTURE_TIME_REGISTER_POLICY",
   "largest_primal_dual_difference": 4.263256414560601e-14,
   "largest_reported_mip_gap": 1.5300824001391343e-16,
   "matched_protocol_position_cutoff_pairs": 32,
@@ -153,7 +155,7 @@
   "source_bundle": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundOwnershipAblation_20261018/first",
   "source_receipt_sha256": "e94ca8c4ad617edc8f22dac03e2e80f1fff3e08e1b28123edd982abb6b50147a",
   "status": "REGISTERED_RUN_OUTPUTS_VERIFIED",
-  "strict_outcome_completeness": "NOT ASSESSED",
+  "strict_outcome_completeness": "FAILED_OBSERVED_ROW_COVERAGE",
   "timings": {
     "feature_seconds": 2.244776332983747,
     "fit_seconds": 194.254952629155,
