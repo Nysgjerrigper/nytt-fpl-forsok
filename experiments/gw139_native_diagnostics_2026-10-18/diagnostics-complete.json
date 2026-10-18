@@ -1,0 +1,16 @@
+{
+  "error": null,
+  "file_sha256": {
+    "0001-native-start-0-event.json": "d17aa835614146bed03053c7539685d074cde725fbdcc193b4a413107b20cb1c",
+    "0001-native-start-0-model.json": "4c910ea9ca814d0ab6cb1783687465e6afa82dffb21b2b0c88a3c63af042252b",
+    "0001-native-start-0-model.mps": "505650daaedd0b4d52c0b4fcb8bbec8cc663273e3a8e2fbc21c451d5b07df057",
+    "0002-native-finish-0-event.json": "99568ee5b564f3858678a5f2ab8f901b228819b7e999ceac2e7ad276b05e31ba",
+    "0002-native-finish-0-native-info.json": "e4487c6effd7f1af02b3f92aef9a284ae51925617329cec7d91120a03d5e95c7",
+    "started.json": "6ec4cb56c18dcf5f62323487756605e7ffc4e62021591397df4ef65d898cff8b"
+  },
+  "interpretation": "DIAGNOSTIC_ONLY",
+  "schema_version": 1,
+  "solver_result_accepted": true,
+  "started_sha256": "6ec4cb56c18dcf5f62323487756605e7ffc4e62021591397df4ef65d898cff8b",
+  "status": "DIAGNOSTICS_RECORDED"
+}

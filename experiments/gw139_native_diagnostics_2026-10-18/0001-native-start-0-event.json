@@ -1,0 +1,52 @@
+{
+  "artifact_sha256": {
+    "0001-native-start-0-model.json": "4c910ea9ca814d0ab6cb1783687465e6afa82dffb21b2b0c88a3c63af042252b",
+    "0001-native-start-0-model.mps": "505650daaedd0b4d52c0b4fcb8bbec8cc663273e3a8e2fbc21c451d5b07df057"
+  },
+  "caller_timings": {
+    "build_boundary": "Highs allocation through model construction and option configuration",
+    "model_build_seconds": 0.5901319590047933
+  },
+  "effective_options": {
+    "mip_abs_gap": {
+      "status": 0,
+      "value": 1e-06
+    },
+    "mip_rel_gap": {
+      "status": 0,
+      "value": 0.0
+    },
+    "parallel": {
+      "status": 0,
+      "value": "on"
+    },
+    "presolve": {
+      "status": 0,
+      "value": "on"
+    },
+    "random_seed": {
+      "status": 0,
+      "value": 0
+    },
+    "threads": {
+      "status": 0,
+      "value": 0
+    },
+    "time_limit": {
+      "status": 0,
+      "value": 120.0
+    }
+  },
+  "interpretation": "DIAGNOSTIC_ONLY",
+  "iteration": 0,
+  "model_authority": "LOSSLESS_JSON",
+  "mps_interpretation": "REVIEW_ONLY_GENERATED_NAMES_POSSIBLE",
+  "mps_write_status": 1,
+  "mps_write_status_name": "kWarning",
+  "native_runtime_availability": "NOT MEASURED BEFORE RUN",
+  "native_runtime_seconds": null,
+  "schema_version": 1,
+  "sequence": 1,
+  "stage": "native-start",
+  "started_sha256": "6ec4cb56c18dcf5f62323487756605e7ffc4e62021591397df4ef65d898cff8b"
+}
