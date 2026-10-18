@@ -1,0 +1,18 @@
+{
+  "attempt_seal_sha256": "feeb888b6f281ac1376ed0c42c3a1567cead6681ff22ab323670c491a7e898cf",
+  "attempted_solve_count": "NOT RECORDED",
+  "candidate_score": null,
+  "control_blank_rows": 12,
+  "control_captured_register_membership": "PASS_16_ORIGINS",
+  "control_selected_outcomes": "COMPLETE",
+  "limitation": "Control-only settlement is engineering evidence. No ownership-effect, exact-deadline, financial-legality or complete outcome-blindness claim.",
+  "paired_confidence_interval": null,
+  "plan_sha256": "b560336e14eaa122d628bccb702bb64f80d45b8720b97962dcdcbe6536ad9400",
+  "production_changed": false,
+  "promotion_eligible": false,
+  "registration": "https://github.com/Nysgjerrigper/nytt-fpl-forsok/issues/13#issuecomment-6247100879",
+  "sealed_files_verified": 214,
+  "settlement_registration": "https://github.com/Nysgjerrigper/nytt-fpl-forsok/issues/40#issuecomment-6247125272",
+  "source_bundle": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/OwnershipRegisteredPoolReplay_20261018",
+  "status": "FAILED_PAIRED_REPLAY"
+}

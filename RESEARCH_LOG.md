@@ -2037,3 +2037,18 @@ a synthetic complete-ledger two-event settlement and source-removal readback.
 These checks establish engineering behavior, not an experimental FPL point gain.
 Capture-time registration remains distinct from exact-deadline proof and advance
 fixture knowledge. Original single-event interface and scoring remain unchanged.
+
+### 2026-10-18 — Captured-register ownership replay failed closed
+
+Plan b560336e14eaa122d628bccb702bb64f80d45b8720b97962dcdcbe6536ad9400,
+registered issue13/comment6247100879. Saved origin forecasts, GW137–152, zero fits,
+maximum32 Solio solves/60s each, equal capture-pool/price/modernFT5/nochip policies.
+Candidate timed out; parent exit1 after180.97s. No retry, candidate score or pairedCI.
+Control16 exported decisions all matched corresponding capture registers; strict
+16-event settlement passed with12 explicit retrospective blanks:983 gross/24hits/959net.
+Single-arm engineering evidence only, not comparable with mixed-policy legacy totals.
+Actual attempted-solve count and candidate partial decisions were not recorded.
+All214 sealed external files reverified; tracked package under
+experiments/registered_pool_replay_2026-10-18. Issue13 stays open; issue6 owns
+per-origin checkpoints/timing follow-up. Broader causality/legality/outcome-blind
+gates remain unassessed; production single:catboost unchanged.
