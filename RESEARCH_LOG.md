@@ -2077,3 +2077,23 @@ reject timeout/nonoptimal output, preserve permanent Free Hit state, keep interr
 runs unsealed, reject directory reuse and changed source identity, and retain decisions
 before a later scoring failure. A Free Hit fixture initially used forbidden GW1;
 corrected the test to GW2/3 without changing the existing chip admission rules.
+
+### 2026-10-18 — Checkpointed captured-pool replay failed at candidate GW139
+
+Registered plan80abc0bc04662cebacb5e29faf7be6f94afbd208227bf35f18abd20167578a6d,
+issue13/comment6249794554; source027ec0e. Same saved ownership ablation forecasts,
+GW137–152/H3/seed0, equal captured pool/price/modernFT5/nochip policies; zero fits.
+Separate120s-per-solve attempt, max32 wrapper calls/4200s parent, no retries.
+Control16 calls/16 saved decisions; candidate3 calls/2 returns/2 saved decisions,
+then native timeout atGW139. Parent691.77s; failed vendor wall122.83s, native/build
+split unknown. No paired points/CI, shortened-window scoring or model verdict.
+All181 raw hashes and receipt bindings/order/counters verified. Capture-register
+membership passed18 saved origins; independent no-chip financial arithmetic passed
+16 control/2 candidate rounds after explicit fresh-acquisition normalization only
+in derived audit copies. No new settlement because the candidate did not complete.
+Initial derivative's unknown timing totals0/count0 are superseded by null/count0;
+both derivative sources/results are preserved, and no solves/fits were repeated.
+Evidence: experiments/checkpointed_pool_replay_2026-10-18 and external raw/postcheck
+bundles named in its verification.json. Issue6 now has a concreteGW139 model/native
+failure-profile case; issue22 failed-attempt adapter and issue13 remain open.
+Production and broader deadline/fixture/legality/outcome-blind gates are unchanged.
