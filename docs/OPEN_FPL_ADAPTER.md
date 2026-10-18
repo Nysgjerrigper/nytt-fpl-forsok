@@ -69,6 +69,39 @@ It supplies official bootstrap identities/prices and uses the same forecasts as 
 The weekly driver still refreshes/refits; never use it to construct a prospective holdout.
 The backend default remains legacy until decision evidence supports switching.
 
+## Preserve progress during research runs
+
+Add `--checkpoint-dir <new-directory>` to an offline schedule, or pass
+`checkpoint_dir=...` to `run_schedule`. The directory must be new; checkpoints
+never resume automatically. The normal forecast, decision and scoring outputs
+retain their existing meaning when this option is omitted.
+
+`started.json` binds the ordered input-frame hash, settings, relevant wrapper/vendor
+source hashes and runtime versions. Numbered immutable events record each origin's
+initial state, admitted input identity, preparation, vendor-call start/return or
+failure, normalization and completed first decision with its next permanent state.
+Decision checkpoints precede realized settlement, including when scoring later fails.
+A Free Hit checkpoint retains the permanent squad, bank and acquisition state.
+
+`complete.json` or `failed.json` seals every prior receipt file by SHA256. It records
+requested origins, attempted vendor-wrapper calls, completed vendor returns and
+completed decision origins separately. These are wrapper counts, not a claim about
+internal native solver invocations. A failed solve cannot create a completed decision.
+An interrupted process may leave only numbered events and `started.json`; without a
+terminal seal, classify the directory as **incomplete**, not successful or failed.
+Keep it and register a separate attempt rather than overwriting or resuming it.
+
+Timing fields distinguish origin admission, input preparation, vendor-call wall time,
+returned successful native runtime, normalization and state update. Vendor wall time
+minus native runtime is labelled non-native overhead; it is not an isolated model-build
+measurement. A native exception leaves native/build time **NOT MEASURED**. Checkpoint
+writing also has overhead, so instrumented wall time is not an unchanged-speed claim.
+
+These receipts preserve operational evidence. They do not prove exact-deadline player
+eligibility, complete outcome-blind execution, a complete exported native certificate,
+or a model's superiority. Incomplete/failed arms have no paired point verdict. The
+pinned vendor bytes, zero-gap requirement and optimal-status rejection remain unchanged.
+
 ## Limits and comparison protocol
 
 Prices, clubs and positions must be static across an input horizon. Unknown owned players

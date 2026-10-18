@@ -2052,3 +2052,28 @@ All214 sealed external files reverified; tracked package under
 experiments/registered_pool_replay_2026-10-18. Issue13 stays open; issue6 owns
 per-origin checkpoints/timing follow-up. Broader causality/legality/outcome-blind
 gates remain unassessed; production single:catboost unchanged.
+
+### 2026-10-18 — Opt-in Solio wrapper checkpoints and boundary timings
+
+Refs6/13/22. The registered-pool candidate timeout left no failing origin or
+partial candidate decisions. Add opt-in checkpoint_dir/--checkpoint-dir to preserve
+immutable origin starts, prepared identities, vendor call starts/returns/failures,
+normalization, pre-settlement first decisions and permanent next state. Terminal
+receipts bind all earlier event files and record attempted wrapper calls, returned
+vendor calls and completed decision origins separately. Interrupted/unsealed runs
+remain incomplete. No automatic retry/resume or changed optimality policy.
+
+Preparation/admission/vendor wall/native/normalization/state timings have explicit
+boundaries. Successful native runtime comes from the vendor return; vendor-minus-
+native is non-native overhead, not isolated build time. Failed native/build timing
+remains NOT MEASURED. Wrapper/config/vendor source hashes and execution versions
+are recorded; complete outcome-blindness remains NOT ASSESSED. Vendor source bytes
+and production strategy remain unchanged. This is instrumentation, not a speed or
+model-improvement result and not full issue6 acceptance.
+
+Focused checks:211 passed across checkpoint, origin-price, input/output and native
+solver interfaces. New cases retain the first decision after a second-origin failure,
+reject timeout/nonoptimal output, preserve permanent Free Hit state, keep interrupted
+runs unsealed, reject directory reuse and changed source identity, and retain decisions
+before a later scoring failure. A Free Hit fixture initially used forbidden GW1;
+corrected the test to GW2/3 without changing the existing chip admission rules.

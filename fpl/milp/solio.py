@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 from numbers import Real
 import time
-from typing import Mapping, Sequence
+from typing import Callable, Mapping, Sequence
 
 import numpy as np
 import pandas as pd
@@ -70,7 +70,8 @@ def solve_window(predictions: pd.DataFrame, *, season: str, start_gw: int, horiz
                  bootstrap: dict | None = None, chip_inventory: Mapping | None = None,
                  forced_chips: Mapping[str, Sequence[int]] | None = None,
                  previous_free_hit_gw: int | None = None,
-                 time_limit: float = 1200, seed: int = 0) -> pd.DataFrame:
+                 time_limit: float = 1200, seed: int = 0,
+                 _event_callback: Callable[[str, dict], None] | None = None) -> pd.DataFrame:
     """Solve an entire window; reject nonoptimal or independently illegal decisions.
 
     Forecasts use global weeks/stable codes and prices/bank in tenths of a million.
@@ -78,6 +79,7 @@ def solve_window(predictions: pd.DataFrame, *, season: str, start_gw: int, horiz
     The objective matches the legacy point/captain/vice/bench terms, with no new FT
     or cash incentive. Current transfer-bank and chip rules are separately explicit.
     """
+    preparation_started = time.perf_counter()
     if not np.isfinite(time_limit) or time_limit <= 0:
         raise ValueError("time_limit must be finite and positive")
     week_col = "GW_global" if "GW_global" in predictions else "GW"
@@ -96,9 +98,35 @@ def solve_window(predictions: pd.DataFrame, *, season: str, start_gw: int, horiz
                    ft_value=0, itb_value=0, vcap_weight=.1, hit_cost=4,
                    preseason=initial_squad is None, gap=0, secs=time_limit,
                    num_iterations=1, random_seed=seed, solver="highs", verbose=False)
+    if _event_callback is not None:
+        from fpl.milp.solio_receipts import input_identity
+        _event_callback("prepared", {"preparation_seconds": time.perf_counter() - preparation_started,
+                                    "prepared_inputs": input_identity(prepared), "options": options})
+        _event_callback("vendor-start", {"time_limit_seconds": time_limit, "relative_gap": 0})
     started = time.perf_counter()
-    with redirect_stdout(StringIO()):
-        solutions = solve_multi_period_fpl(prepared, options)
+    try:
+        with redirect_stdout(StringIO()):
+            solutions = solve_multi_period_fpl(prepared, options)
+    except Exception:
+        if _event_callback is not None:
+            _event_callback("vendor-failed", {"vendor_wall_seconds": time.perf_counter() - started,
+                                             "native_seconds": "NOT MEASURED",
+                                             "build_seconds": "NOT MEASURED"})
+        raise
+    vendor_wall = time.perf_counter() - started
+    if _event_callback is not None:
+        qualified = (isinstance(solutions, list) and len(solutions) == 1
+                     and isinstance(solutions[0], dict) and solutions[0].get("solver_status") == "Optimal")
+        measured = solutions[0].get("solver_seconds") if qualified else None
+        native = (float(measured) if isinstance(measured, Real) and not isinstance(measured, bool)
+                  and np.isfinite(measured) and measured >= 0 else None)
+        _event_callback("vendor-complete", {"vendor_wall_seconds": vendor_wall,
+            "native_seconds": native if native is not None else "NOT MEASURED",
+            "non_native_overhead_seconds": vendor_wall - native if native is not None else "NOT MEASURED",
+            "overhead_basis": "NON_NATIVE_OVERHEAD_NOT_BUILD_TIME"})
+    if _event_callback is not None:
+        _event_callback("normalization-start", {})
+    normalization_started = time.perf_counter()
     if len(solutions) != 1 or solutions[0]["solver_status"] != "Optimal":
         raise RuntimeError("Solio failed to return exactly one optimal solution")
     result = pd.DataFrame(normalize_solution(solutions[0], prepared))
@@ -108,6 +136,8 @@ def solve_window(predictions: pd.DataFrame, *, season: str, start_gw: int, horiz
     result["solver_seconds"] = solutions[0]["solver_seconds"]
     result["window_seconds"] = time.perf_counter() - started
     result["upstream_commit"] = config.SOLIO_UPSTREAM_COMMIT
+    if _event_callback is not None:
+        _event_callback("normalization-complete", {"normalization_seconds": time.perf_counter() - normalization_started})
     return result
 
 
@@ -238,7 +268,42 @@ def run_schedule(predictions: pd.DataFrame, *, season: str, start_gw: int, max_g
                  bootstrap: dict | None = None, time_limit: float = 1200,
                  previous_free_hit_gw: int | None = None,
                  origin_price_captures: Mapping[int, dict] | None = None,
-                 purchase_prices: Mapping[int, int] | None = None) -> pd.DataFrame:
+                 purchase_prices: Mapping[int, int] | None = None,
+                 checkpoint_dir: str | Path | None = None) -> pd.DataFrame:
+    """Roll decisions forward, optionally preserving immutable per-origin checkpoints.
+
+    Capture mode returns decisions before settlement. Checkpoints preserve wrapper
+    attempts and completed decisions, never authorize automatic resumption and do
+    not establish full outcome-blind execution or independent rule legality.
+    """
+    settings = dict(locals())
+    settings.pop("predictions")
+    settings.pop("checkpoint_dir")
+    receipts = None
+    if checkpoint_dir is not None:
+        from fpl.milp.solio_receipts import ScheduleReceipts
+        receipts = ScheduleReceipts(checkpoint_dir, predictions, settings)
+    try:
+        result = _run_schedule(predictions, **settings, _receipts=receipts)
+        if receipts is not None:
+            receipts.terminal()
+        return result
+    except Exception as exc:
+        if receipts is not None:
+            receipts.terminal(exc)
+        raise
+
+
+def _run_schedule(predictions: pd.DataFrame, *, season: str, start_gw: int, max_gw: int,
+                 horizon: int = 3, initial_squad: Sequence[int] | None = None,
+                 bank: float = 1000, free_transfers: int = 1,
+                 sell_prices: Mapping[int, float] | None = None, chip_inventory: Mapping | None = None,
+                 forced_chips: Mapping[str, Sequence[int]] | None = None,
+                 bootstrap: dict | None = None, time_limit: float = 1200,
+                 previous_free_hit_gw: int | None = None,
+                 origin_price_captures: Mapping[int, dict] | None = None,
+                 purchase_prices: Mapping[int, int] | None = None,
+                 _receipts=None) -> pd.DataFrame:
     """Roll decisions forward with permanent FH state and explicit price assumptions.
 
     Input metadata/prices must be explicitly static over the evaluated window. Origin
@@ -273,6 +338,12 @@ def run_schedule(predictions: pd.DataFrame, *, season: str, start_gw: int, max_g
     acquisition = {} if purchase_prices is None else dict(purchase_prices)
     rows = []
     for gw in range(start_gw, max_gw + 1):
+        preparation_started = time.perf_counter()
+        if _receipts is not None:
+            _receipts.emit("origin-start", {"origin_gw": gw, "horizon": min(horizon, max_gw-gw+1),
+                "state": {"squad": state, "bank": bank, "free_transfers": free_transfers,
+                          "purchase_prices": acquisition, "sell_prices": prices,
+                          "chip_inventory": inventory, "previous_free_hit_gw": previous_fh}})
         length = min(horizon, max_gw - gw + 1)
         frame = predictions
         if "origin_gw" in frame:
@@ -292,10 +363,20 @@ def run_schedule(predictions: pd.DataFrame, *, season: str, start_gw: int, max_g
             current_sells = selling_prices(capture, state or [], acquisition)
         forced = {chip: [week for week in weeks if gw-offset <= week < gw-offset+length]
                   for chip, weeks in (forced_chips or {}).items()}
+        callback_options = {}
+        if _receipts is not None:
+            from fpl.milp.solio_receipts import frame_identity
+            _receipts.emit("origin-admitted", {"admission_seconds": time.perf_counter()-preparation_started,
+                                             "admitted_frame": frame_identity(frame),
+                                             "price_receipt": price_receipt})
+            callback_options["_event_callback"] = _receipts.emit
         window = solve_window(frame, season=season, start_gw=gw, horizon=length, initial_squad=state,
                               bank=bank, free_transfers=free_transfers, sell_prices=current_sells,
                               bootstrap=current_bootstrap, chip_inventory=inventory, forced_chips=forced,
-                              previous_free_hit_gw=previous_fh, time_limit=time_limit)
+                              previous_free_hit_gw=previous_fh, time_limit=time_limit, **callback_options)
+        if _receipts is not None:
+            _receipts.emit("state-update-start", {})
+        state_started = time.perf_counter()
         row = window.iloc[0].to_dict()
         if price_receipt is not None:
             row["price_policy"] = "origin_capture_half_profit_static_horizon_v1"
@@ -323,8 +404,17 @@ def run_schedule(predictions: pd.DataFrame, *, season: str, start_gw: int, max_g
                 for player in row["transfers_in"]:
                     acquisition[player] = int(capture["metadata"].loc[player, "value"])
         free_transfers = row["q_end"]
+        if _receipts is not None:
+            _receipts.emit("decision", {"decision": json.loads(pd.DataFrame([row]).to_json(orient="records"))[0],
+                "settlement_completed": False,
+                "state_update_seconds": time.perf_counter()-state_started,
+                "next_state": {"squad": state, "bank": bank, "free_transfers": free_transfers,
+                    "purchase_prices": acquisition, "sell_prices": prices,
+                    "chip_inventory": inventory, "previous_free_hit_gw": previous_fh}})
     result = pd.DataFrame(rows)
     if origin_price_captures is None and "actual_total_points" in predictions:
+        if _receipts is not None:
+            _receipts.emit("schedule-scoring-start", {"completed_origins": len(rows)})
         result = score_decisions(result, predictions)
     return result
 
@@ -341,6 +431,7 @@ def main() -> None:
     parser.add_argument("--initial-ft", default=1, type=int)
     parser.add_argument("--state-json", help="Explicit sell_prices or origin-mode purchase_prices (tenths), chip inventory and optional bootstrap")
     parser.add_argument("--origin-price-captures", type=Path, help="Pinned predeadline register descriptor; decisions-only modern replay")
+    parser.add_argument("--checkpoint-dir", type=Path, help="New immutable per-origin wrapper receipts; no automatic resume")
     parser.add_argument("--time-limit", default=1200, type=float)
     parser.add_argument("--output", required=True)
     parser.add_argument("--decisions-json", type=Path, help="New pre-settlement stable-ID snapshot (origin-price mode)")
@@ -369,7 +460,7 @@ def main() -> None:
                              max_gw=args.max_gw, horizon=args.horizon,
                              initial_squad=[int(p) for p in args.initial_squad.split(",")] if args.initial_squad else None,
                              bank=args.initial_budget, free_transfers=args.initial_ft,
-                             time_limit=args.time_limit, **state)
+                             time_limit=args.time_limit, checkpoint_dir=args.checkpoint_dir, **state)
     if args.decisions_json is not None:
         from fpl.milp.optimize import write_decision_snapshot
         write_decision_snapshot(decisions, args.decisions_json)
