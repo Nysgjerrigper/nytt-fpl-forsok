@@ -1,0 +1,21 @@
+{
+  "note": "Initial derivative summed unmeasured timings to0 with measured count0; clarified derivative uses null and excludes configured time budgets from elapsed timings. No model fits/solves or source run repeated.",
+  "output_sha256": {
+    "audit-final.py": "5a28b4fa140b6bc1cf4aa0efa4b58dab1452502a6ab6d06fea50e130c8d93f44",
+    "audit-initial.py": "7063bbc4639a8d428143140ca0076fcb6237a4e3516221f2100394ca4319b753",
+    "clarified-timing/candidate-financial-audit.csv": "010d577c745e9a3b415ce61adcf36504306cec823029e8ae1f9cd58820548e77",
+    "clarified-timing/candidate-fresh-normalized-finance-input.json": "a63f7fed8c51fd5eb3713ef78c6e5f0952d5ed07415c239ba3876535bc49ded0",
+    "clarified-timing/capture-prices.csv": "c3088c1d719b2e7a15320678200bfd92f1f119378b58f4f92725d82faebd9259",
+    "clarified-timing/complete.json": "84b312e46abed371019384b7d1849fa456d288ce0c63fe290926a4566af2a9ca",
+    "clarified-timing/control-financial-audit.csv": "ad671e86b482e1e9a07784e741855c1945110dbffebe71ec950c9bb5da903eaa",
+    "clarified-timing/control-fresh-normalized-finance-input.json": "1d17070840561e7a2dc8390a9dcb69100292ade1f3db40fe686116160b83e2f0",
+    "first/candidate-financial-audit.csv": "010d577c745e9a3b415ce61adcf36504306cec823029e8ae1f9cd58820548e77",
+    "first/candidate-fresh-normalized-finance-input.json": "a63f7fed8c51fd5eb3713ef78c6e5f0952d5ed07415c239ba3876535bc49ded0",
+    "first/capture-prices.csv": "c3088c1d719b2e7a15320678200bfd92f1f119378b58f4f92725d82faebd9259",
+    "first/complete.json": "158dc0cc7da9deea3011f73407ba53e0f9f8147807243610cdc72dcb18a9d15e",
+    "first/control-financial-audit.csv": "ad671e86b482e1e9a07784e741855c1945110dbffebe71ec950c9bb5da903eaa",
+    "first/control-fresh-normalized-finance-input.json": "1d17070840561e7a2dc8390a9dcb69100292ade1f3db40fe686116160b83e2f0"
+  },
+  "schema_version": 1,
+  "status": "POSTCHECK_DERIVATIONS_PRESERVED"
+}
