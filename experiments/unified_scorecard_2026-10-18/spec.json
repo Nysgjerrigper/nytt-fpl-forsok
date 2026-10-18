@@ -1,0 +1,49 @@
+{
+  "bootstrap": {
+    "block_len": 3,
+    "n_boot": 10000,
+    "seed": 0
+  },
+  "candidate": {
+    "input": {
+      "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundOriginPriceReplay_20261017/first/candidate/settlement/replayed.csv",
+      "sha256": "ab5c98da107b68e8860bc44f4a23afc8f1925f8354a1fd0b26311ad16bb00e88"
+    },
+    "name": "Preserved candidate; modern capture-price policy"
+  },
+  "control": {
+    "input": {
+      "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundOriginPriceReplay_20261017/first/control/settlement/replayed.csv",
+      "sha256": "ab17c88c3c25e16fbd997736fedb56534290ec5a0b4a01a6b17b7d0a03d450b1"
+    },
+    "name": "Preserved control; modern capture-price policy"
+  },
+  "forecasts": {
+    "candidate": {
+      "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundOriginPriceReplay_20261017/first/candidate/settlement/predictions.csv",
+      "sha256": "2749da9c75a983acda2a5e50c7dd27a7677237123d8470f6c0241126d31bb51c"
+    },
+    "control": {
+      "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundOriginPriceReplay_20261017/first/control/settlement/predictions.csv",
+      "sha256": "3375a41886d9cb347b3ac6b2a7a05033f0634fce26296057de00821352c01d65"
+    },
+    "grain": "fixture",
+    "information_protocol": "origin",
+    "population": "Preserved original pilot forecast rows including any rows excluded later by origin registration; diagnostic coverage is not the admitted decision pool."
+  },
+  "hypothesis": "Consolidate preserved matched origin-price decisions, forecast diagnostics and settlement evidence; reporting only, no new model evaluation or promotion.",
+  "id": "origin-price-pilot-evidence",
+  "metric": "actual_net_points",
+  "purpose": "historical_reanalysis",
+  "schema_version": 1,
+  "settlement_replays": {
+    "candidate": {
+      "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundOriginPriceReplay_20261017/first/candidate/settlement/complete.json",
+      "sha256": "a06690b30281cf50edf0fc4e9891fddfe3b5f4c277fbf3cab278569faf5fc338"
+    },
+    "control": {
+      "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundOriginPriceReplay_20261017/first/control/settlement/complete.json",
+      "sha256": "1cd7c3c790885fbcd211d8b59981f3d67b52163eecda4676eb6bd20c5482f4eb"
+    }
+  }
+}

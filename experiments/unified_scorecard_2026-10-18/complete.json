@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "implementation": {
+      "artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1",
+      "backtest_contract.py": "b94a07764b876a7af83de4d8077facef95cf09e8d95b712734e16010363cdae5",
+      "config.py": "28e01d3614a91156be4a135fc1eb0229dc3f2919ff51226d2827d3d213b70f0b",
+      "data/frozen_research_dataset_gw231.json": "b5da31cd34c286751c88326b19705cf26668885201505db4a038b32fd144cfce",
+      "data/provenance.py": "569d4fef2247c8dfd6a6dea7992ac09cfc444c11d0b1a5c17d719c5807a858aa",
+      "forecast_scorecard.py": "fded585115749b7aeda789f1ea6c261a8f975e9858e33a0ac92824fade1ec099",
+      "milp/compare_backtests.py": "6d9e3d5f95286667d19ac1633ca1c1671ba31d9445495271c1970c339261477c",
+      "milp/replay.py": "f0056a8ba93855c3b0077388b30af3ca242afc6ca1c2e8a5992474290350b706",
+      "model/metrics.py": "3592bebfe9922ca5b38e2c3c71be75d79592987d39db8341c46ec1b3a496bad7",
+      "playground.py": "610cc82eff7f579a7618f76db67ee3923248e0bfa76fd323b6901e7481ec60a5",
+      "replay_scorecard.py": "fee0bdc2e7090796caa7c39de8aba4aa477ff09064cdd04c179d621691e28de0",
+      "research_runner.py": "b56ca00e2e93ea5b48ec854b80b333396bf348654be3957a543a50e3f1aeef21",
+      "scorecard.py": "ef1e9c82d0c07e095ccb65479f5ca3d036c6b8b727526d086a3055357c815930"
+    },
+    "reporting_runtime": {
+      "numpy": "2.4.6",
+      "pandas": "3.0.3",
+      "python": "3.11.15",
+      "scipy": "1.17.1"
+    },
+    "spec_sha256": "079b12d14442f680be3f831887d6cbd56f4a6a67ab1e738dec7767bffade9e8c"
+  },
+  "outputs": {
+    "REPORT.md": "2fd4322f4b9ee29b8b77bab7aa34db5de7fa9621f14d7cd49fb182ce088087f2",
+    "candidate-forecasts.csv": "2749da9c75a983acda2a5e50c7dd27a7677237123d8470f6c0241126d31bb51c",
+    "candidate-settlement-receipt.json": "a06690b30281cf50edf0fc4e9891fddfe3b5f4c277fbf3cab278569faf5fc338",
+    "candidate.csv": "ab5c98da107b68e8860bc44f4a23afc8f1925f8354a1fd0b26311ad16bb00e88",
+    "comparison.json": "37170e81847bd40c26ecefeb30c826fef36efc73386386994f16975882b54135",
+    "control-forecasts.csv": "3375a41886d9cb347b3ac6b2a7a05033f0634fce26296057de00821352c01d65",
+    "control-settlement-receipt.json": "1cd7c3c790885fbcd211d8b59981f3d67b52163eecda4676eb6bd20c5482f4eb",
+    "control.csv": "ab17c88c3c25e16fbd997736fedb56534290ec5a0b4a01a6b17b7d0a03d450b1",
+    "scorecard.json": "26f35f03e7b2c6252d9c00c91578c79b6433ffea7e58430aa68f8a9f94bf83c5",
+    "spec.json": "079b12d14442f680be3f831887d6cbd56f4a6a67ab1e738dec7767bffade9e8c"
+  },
+  "schema_version": 1
+}

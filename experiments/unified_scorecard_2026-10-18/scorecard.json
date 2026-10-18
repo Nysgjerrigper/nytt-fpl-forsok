@@ -1,0 +1,780 @@
+{
+  "checks": {
+    "causal_validity": "NOT ASSESSED",
+    "comparability": "NOT ASSESSED",
+    "promotion": "NOT ASSESSED"
+  },
+  "decision_outcomes": {
+    "block_len": 3,
+    "boot_mean": 1.4825,
+    "bootstrap_positive_fraction": 0.499,
+    "ci_high": 11.0,
+    "ci_low": -8.0,
+    "contract": null,
+    "effective_metric": "actual_net_points",
+    "evidence_status": "UNVERIFIED",
+    "gameweeks": [
+      141,
+      142,
+      143,
+      144
+    ],
+    "inference_limitations": "Historical paired window, not independent seasons. Block bootstrap depends on block choice; the exact binomial sign-test null assumes independent signs. Neither is a probability of future gain.",
+    "input_sha256": {
+      "a": "ab5c98da107b68e8860bc44f4a23afc8f1925f8354a1fd0b26311ad16bb00e88",
+      "b": "ab17c88c3c25e16fbd997736fedb56534290ec5a0b4a01a6b17b7d0a03d450b1"
+    },
+    "metric": "actual_net_points",
+    "n_boot": 10000,
+    "n_gws": 4,
+    "p_a_better": 0.499,
+    "requested_metric": "actual_net_points",
+    "scoring_protocol": {
+      "a": "autosubs_v2",
+      "b": "autosubs_v2"
+    },
+    "seed": 0,
+    "sign_test": {
+      "p_a_better": 0.6875,
+      "p_value": 1.0,
+      "ties": 0,
+      "wins_a": 2,
+      "wins_b": 2
+    },
+    "total_a": 203.0,
+    "total_b": 197.0,
+    "total_diff": 6.0,
+    "transfer_hit_points_per_paid_transfer": 4
+  },
+  "experiment": {
+    "candidate": "Preserved candidate; modern capture-price policy",
+    "control": "Preserved control; modern capture-price policy",
+    "hypothesis": "Consolidate preserved matched origin-price decisions, forecast diagnostics and settlement evidence; reporting only, no new model evaluation or promotion.",
+    "id": "origin-price-pilot-evidence",
+    "purpose": "historical_reanalysis"
+  },
+  "forecast_quality": {
+    "coverage_comparison": "EXACT_MATCH",
+    "decision_input_linkage": "NOT ASSESSED",
+    "gameweeks": [
+      141,
+      142,
+      143,
+      144
+    ],
+    "grain": "fixture",
+    "information_protocol": "origin",
+    "input_sha256": {
+      "candidate": "2749da9c75a983acda2a5e50c7dd27a7677237123d8470f6c0241126d31bb51c",
+      "control": "3375a41886d9cb347b3ac6b2a7a05033f0634fce26296057de00821352c01d65"
+    },
+    "metric_version": "forecast_player_round_v1",
+    "notes": [
+      "Ratios are undefined when their reported denominator is zero; negative outcomes can yield ratios outside [0, 1].",
+      "Top1 capture is a within-position ranking diagnostic, not realized captaincy.",
+      "These metrics do not establish causal validity or promotion eligibility."
+    ],
+    "original_model_coverage": "NOT ASSESSED",
+    "population": "Preserved original pilot forecast rows including any rows excluded later by origin registration; diagnostic coverage is not the admitted decision pool.",
+    "status": "MEASURED",
+    "summaries": [
+      {
+        "candidate": {
+          "by_position": {
+            "DEF": {
+              "aggregate_true_total": 806.0,
+              "bias": 0.05417607544799815,
+              "fixture_rows": 942,
+              "mae": 0.9405913994913268,
+              "player_rounds": 918,
+              "ranking_groups": 4,
+              "rmse": 1.7869975474144397,
+              "spearman": 0.6414510876677081,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 4,
+              "tied_top_groups": 0,
+              "top1_capture": 0.26,
+              "top1_true_max_sum": 50.0,
+              "total_calibration": 1.0617042645921366
+            },
+            "FWD": {
+              "aggregate_true_total": 428.0,
+              "bias": -0.023275127716869824,
+              "fixture_rows": 386,
+              "mae": 1.0038305917496446,
+              "player_rounds": 373,
+              "ranking_groups": 4,
+              "rmse": 1.9727356955242532,
+              "spearman": 0.7297839842300091,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 4,
+              "tied_top_groups": 0,
+              "top1_capture": 0.42857142857142855,
+              "top1_true_max_sum": 56.0,
+              "total_calibration": 0.979715834957027
+            },
+            "GK": {
+              "aggregate_true_total": 224.0,
+              "bias": -0.001048822104024399,
+              "fixture_rows": 333,
+              "mae": 0.6114763749035634,
+              "player_rounds": 324,
+              "ranking_groups": 4,
+              "rmse": 1.5145091676883895,
+              "spearman": 0.6198170833949392,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 4,
+              "tied_top_groups": 0,
+              "top1_capture": 0.2926829268292683,
+              "top1_true_max_sum": 41.0,
+              "total_calibration": 0.998482953742393
+            },
+            "MID": {
+              "aggregate_true_total": 1355.0,
+              "bias": 0.09613748189396165,
+              "fixture_rows": 1267,
+              "mae": 0.8998937460009067,
+              "player_rounds": 1228,
+              "ranking_groups": 4,
+              "rmse": 1.8165507301329473,
+              "spearman": 0.757990445707329,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 4,
+              "tied_top_groups": 0,
+              "top1_capture": 0.3442622950819672,
+              "top1_true_max_sum": 61.0,
+              "total_calibration": 1.0871268101592508
+            }
+          },
+          "overall": {
+            "aggregate_true_total": 2813.0,
+            "bias": 0.05584559410022892,
+            "fixture_rows": 2928,
+            "mae": 0.8938021741166106,
+            "player_rounds": 2843,
+            "ranking_groups": 16,
+            "rmse": 1.7967902937354177,
+            "spearman": 0.6872606502499963,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.33653846153846156,
+            "top1_true_max_sum": 208.0,
+            "total_calibration": 1.056441174556328
+          }
+        },
+        "control": {
+          "by_position": {
+            "DEF": {
+              "aggregate_true_total": 806.0,
+              "bias": -0.441553414958051,
+              "fixture_rows": 942,
+              "mae": 0.7697102440341624,
+              "player_rounds": 918,
+              "ranking_groups": 4,
+              "rmse": 1.876094920552836,
+              "spearman": 0.6194481119625906,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 4,
+              "tied_top_groups": 0,
+              "top1_capture": 0.26,
+              "top1_true_max_sum": 50.0,
+              "total_calibration": 0.4970892866854953
+            },
+            "FWD": {
+              "aggregate_true_total": 428.0,
+              "bias": -0.547002853720208,
+              "fixture_rows": 386,
+              "mae": 0.8523121126739414,
+              "player_rounds": 373,
+              "ranking_groups": 4,
+              "rmse": 2.186089774394724,
+              "spearman": 0.7040303183779836,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 4,
+              "tied_top_groups": 0,
+              "top1_capture": 0.32142857142857145,
+              "top1_true_max_sum": 56.0,
+              "total_calibration": 0.5232895690709403
+            },
+            "GK": {
+              "aggregate_true_total": 224.0,
+              "bias": -0.20140520887795674,
+              "fixture_rows": 333,
+              "mae": 0.5244352939376702,
+              "player_rounds": 324,
+              "ranking_groups": 4,
+              "rmse": 1.5531826957813608,
+              "spearman": 0.5790778879431696,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 4,
+              "tied_top_groups": 0,
+              "top1_capture": 0.24390243902439024,
+              "top1_true_max_sum": 41.0,
+              "total_calibration": 0.7086817514443842
+            },
+            "MID": {
+              "aggregate_true_total": 1355.0,
+              "bias": -0.42382157984754815,
+              "fixture_rows": 1267,
+              "mae": 0.742411106723659,
+              "player_rounds": 1228,
+              "ranking_groups": 4,
+              "rmse": 1.9233070298913182,
+              "spearman": 0.7242903599127405,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 4,
+              "tied_top_groups": 0,
+              "top1_capture": 0.45901639344262296,
+              "top1_true_max_sum": 61.0,
+              "total_calibration": 0.6159019187802295
+            }
+          },
+          "overall": {
+            "aggregate_true_total": 2813.0,
+            "bias": -0.42036098737192246,
+            "fixture_rows": 2928,
+            "mae": 0.7408034809508265,
+            "player_rounds": 2843,
+            "ranking_groups": 16,
+            "rmse": 1.9068893925496868,
+            "spearman": 0.6567116695491211,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.3317307692307692,
+            "top1_true_max_sum": 208.0,
+            "total_calibration": 0.5751559590834072
+          }
+        },
+        "lead": 0
+      },
+      {
+        "candidate": {
+          "by_position": {
+            "DEF": {
+              "aggregate_true_total": 538.0,
+              "bias": 0.09658621697403719,
+              "fixture_rows": 673,
+              "mae": 0.9383195387699513,
+              "player_rounds": 649,
+              "ranking_groups": 3,
+              "rmse": 1.7588485403032788,
+              "spearman": 0.5980753200063793,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 3,
+              "tied_top_groups": 0,
+              "top1_capture": 0.1891891891891892,
+              "top1_true_max_sum": 37.0,
+              "total_calibration": 1.116513856535595
+            },
+            "FWD": {
+              "aggregate_true_total": 311.0,
+              "bias": -0.04317436498262601,
+              "fixture_rows": 278,
+              "mae": 1.110245472026529,
+              "player_rounds": 265,
+              "ranking_groups": 3,
+              "rmse": 2.163232463435543,
+              "spearman": 0.7034224899543019,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 3,
+              "tied_top_groups": 0,
+              "top1_capture": 0.2558139534883721,
+              "top1_true_max_sum": 43.0,
+              "total_calibration": 0.9632115539537112
+            },
+            "GK": {
+              "aggregate_true_total": 154.0,
+              "bias": 0.02985000174598128,
+              "fixture_rows": 239,
+              "mae": 0.5873066991259159,
+              "player_rounds": 230,
+              "ranking_groups": 3,
+              "rmse": 1.381903631788205,
+              "spearman": 0.6016687471561156,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 3,
+              "tied_top_groups": 0,
+              "top1_capture": 0.5714285714285714,
+              "top1_true_max_sum": 28.0,
+              "total_calibration": 1.0445811714388034
+            },
+            "MID": {
+              "aggregate_true_total": 944.0,
+              "bias": 0.1183578314494893,
+              "fixture_rows": 903,
+              "mae": 0.9421669273246762,
+              "player_rounds": 865,
+              "ranking_groups": 3,
+              "rmse": 1.878752321561573,
+              "spearman": 0.7349203591608079,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 3,
+              "tied_top_groups": 0,
+              "top1_capture": 0.30434782608695654,
+              "top1_true_max_sum": 46.0,
+              "total_calibration": 1.1084528858091192
+            }
+          },
+          "overall": {
+            "aggregate_true_total": 1947.0,
+            "bias": 0.07988465540126342,
+            "fixture_rows": 2093,
+            "mae": 0.9224685732620876,
+            "player_rounds": 2009,
+            "ranking_groups": 12,
+            "rmse": 1.831669403550755,
+            "spearman": 0.6595217290694012,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 12,
+            "tied_top_groups": 0,
+            "top1_capture": 0.3116883116883117,
+            "top1_true_max_sum": 154.0,
+            "total_calibration": 1.082428491371925
+          }
+        },
+        "control": {
+          "by_position": {
+            "DEF": {
+              "aggregate_true_total": 538.0,
+              "bias": -0.39780725450916604,
+              "fixture_rows": 673,
+              "mae": 0.7422762217837766,
+              "player_rounds": 649,
+              "ranking_groups": 3,
+              "rmse": 1.7963957318574537,
+              "spearman": 0.5805368936475988,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 3,
+              "tied_top_groups": 0,
+              "top1_capture": 0.05405405405405406,
+              "top1_true_max_sum": 37.0,
+              "total_calibration": 0.5201172710474931
+            },
+            "FWD": {
+              "aggregate_true_total": 311.0,
+              "bias": -0.5744003133260308,
+              "fixture_rows": 278,
+              "mae": 0.9436919813398932,
+              "player_rounds": 265,
+              "ranking_groups": 3,
+              "rmse": 2.343420801640233,
+              "spearman": 0.6317611745581927,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 3,
+              "tied_top_groups": 0,
+              "top1_capture": 0.27906976744186046,
+              "top1_true_max_sum": 43.0,
+              "total_calibration": 0.5105592185485589
+            },
+            "GK": {
+              "aggregate_true_total": 154.0,
+              "bias": -0.1843831125570946,
+              "fixture_rows": 239,
+              "mae": 0.4913899148116328,
+              "player_rounds": 230,
+              "ranking_groups": 3,
+              "rmse": 1.3897734245094997,
+              "spearman": 0.5686926868198919,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 3,
+              "tied_top_groups": 0,
+              "top1_capture": 0.2857142857142857,
+              "top1_true_max_sum": 28.0,
+              "total_calibration": 0.7246226241030406
+            },
+            "MID": {
+              "aggregate_true_total": 944.0,
+              "bias": -0.40022833682434505,
+              "fixture_rows": 903,
+              "mae": 0.7625405981907037,
+              "player_rounds": 865,
+              "ranking_groups": 3,
+              "rmse": 1.9505482770469376,
+              "spearman": 0.715724090147563,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 3,
+              "tied_top_groups": 0,
+              "top1_capture": 0.45652173913043476,
+              "top1_true_max_sum": 46.0,
+              "total_calibration": 0.6332653481429464
+            }
+          },
+          "overall": {
+            "aggregate_true_total": 1947.0,
+            "bias": -0.3977096159527313,
+            "fixture_rows": 2093,
+            "mae": 0.7488466604451851,
+            "player_rounds": 2009,
+            "ranking_groups": 12,
+            "rmse": 1.9042376977804845,
+            "spearman": 0.6241787112933117,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 12,
+            "tied_top_groups": 0,
+            "top1_capture": 0.2792207792207792,
+            "top1_true_max_sum": 154.0,
+            "total_calibration": 0.5896257737806692
+          }
+        },
+        "lead": 1
+      },
+      {
+        "candidate": {
+          "by_position": {
+            "DEF": {
+              "aggregate_true_total": 309.0,
+              "bias": 0.0950953461400246,
+              "fixture_rows": 380,
+              "mae": 0.9824724789967676,
+              "player_rounds": 380,
+              "ranking_groups": 2,
+              "rmse": 1.848694221085594,
+              "spearman": 0.5525850489918598,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 2,
+              "tied_top_groups": 0,
+              "top1_capture": 0.07692307692307693,
+              "top1_true_max_sum": 26.0,
+              "total_calibration": 1.1169457331171824
+            },
+            "FWD": {
+              "aggregate_true_total": 167.0,
+              "bias": 0.00394220902464651,
+              "fixture_rows": 156,
+              "mae": 1.1298311735545299,
+              "player_rounds": 156,
+              "ranking_groups": 2,
+              "rmse": 2.3079055708019363,
+              "spearman": 0.6845233627062879,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 2,
+              "tied_top_groups": 0,
+              "top1_capture": 0.32142857142857145,
+              "top1_true_max_sum": 28.0,
+              "total_calibration": 1.0036825425619453
+            },
+            "GK": {
+              "aggregate_true_total": 89.0,
+              "bias": 0.019944443576730662,
+              "fixture_rows": 135,
+              "mae": 0.5640315535499374,
+              "player_rounds": 135,
+              "ranking_groups": 2,
+              "rmse": 1.346680527368467,
+              "spearman": 0.6138338669619459,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 2,
+              "tied_top_groups": 0,
+              "top1_capture": 0.29411764705882354,
+              "top1_true_max_sum": 17.0,
+              "total_calibration": 1.030252807672569
+            },
+            "MID": {
+              "aggregate_true_total": 531.0,
+              "bias": 0.11019811239343011,
+              "fixture_rows": 503,
+              "mae": 0.9509303119920304,
+              "player_rounds": 503,
+              "ranking_groups": 2,
+              "rmse": 1.9353206145355462,
+              "spearman": 0.7081903178391804,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 2,
+              "tied_top_groups": 0,
+              "top1_capture": 0.1724137931034483,
+              "top1_true_max_sum": 29.0,
+              "total_calibration": 1.104387289141046
+            }
+          },
+          "overall": {
+            "aggregate_true_total": 1096.0,
+            "bias": 0.08081206691465777,
+            "fixture_rows": 1174,
+            "mae": 0.9404219861622752,
+            "player_rounds": 1174,
+            "ranking_groups": 8,
+            "rmse": 1.9045439898338563,
+            "spearman": 0.6397831491248185,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 8,
+            "tied_top_groups": 0,
+            "top1_capture": 0.21,
+            "top1_true_max_sum": 100.0,
+            "total_calibration": 1.0865632906549347
+          }
+        },
+        "control": {
+          "by_position": {
+            "DEF": {
+              "aggregate_true_total": 309.0,
+              "bias": -0.3940021092646708,
+              "fixture_rows": 380,
+              "mae": 0.7907158569688096,
+              "player_rounds": 380,
+              "ranking_groups": 2,
+              "rmse": 1.8509144062143867,
+              "spearman": 0.5226922457788916,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 2,
+              "tied_top_groups": 0,
+              "top1_capture": 0.46153846153846156,
+              "top1_true_max_sum": 26.0,
+              "total_calibration": 0.5154666617457122
+            },
+            "FWD": {
+              "aggregate_true_total": 167.0,
+              "bias": -0.5018645831092756,
+              "fixture_rows": 156,
+              "mae": 0.9412541746582662,
+              "player_rounds": 156,
+              "ranking_groups": 2,
+              "rmse": 2.384641352460816,
+              "spearman": 0.5879953198334364,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 2,
+              "tied_top_groups": 0,
+              "top1_capture": 0.14285714285714285,
+              "top1_true_max_sum": 28.0,
+              "total_calibration": 0.5311923654787605
+            },
+            "GK": {
+              "aggregate_true_total": 89.0,
+              "bias": -0.17702777488736646,
+              "fixture_rows": 135,
+              "mae": 0.47955743165390646,
+              "player_rounds": 135,
+              "ranking_groups": 2,
+              "rmse": 1.3592270136596907,
+              "spearman": 0.5698265635483641,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 2,
+              "tied_top_groups": 0,
+              "top1_capture": 0.29411764705882354,
+              "top1_true_max_sum": 17.0,
+              "total_calibration": 0.7314747234854553
+            },
+            "MID": {
+              "aggregate_true_total": 531.0,
+              "bias": -0.39820700077337867,
+              "fixture_rows": 503,
+              "mae": 0.7635168819164798,
+              "player_rounds": 503,
+              "ranking_groups": 2,
+              "rmse": 1.991645549696062,
+              "spearman": 0.6852994448972429,
+              "spearman_skipped_groups": 0,
+              "spearman_used_groups": 2,
+              "tied_top_groups": 0,
+              "top1_capture": 0.3793103448275862,
+              "top1_true_max_sum": 29.0,
+              "total_calibration": 0.6227907318474398
+            }
+          },
+          "overall": {
+            "aggregate_true_total": 1096.0,
+            "bias": -0.38518615628997094,
+            "fixture_rows": 1174,
+            "mae": 0.7632852825997478,
+            "player_rounds": 1174,
+            "ranking_groups": 8,
+            "rmse": 1.943313002555392,
+            "spearman": 0.5914533935144838,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 8,
+            "tied_top_groups": 0,
+            "top1_capture": 0.32,
+            "top1_true_max_sum": 100.0,
+            "total_calibration": 0.5874009603244289
+          }
+        },
+        "lead": 2
+      }
+    ],
+    "training_scaled_mase": {
+      "reason": "Training-only scales and cutoffs were not supplied.",
+      "status": "NOT MEASURED"
+    }
+  },
+  "metric_version": "paired_weekly_v1",
+  "operations": {
+    "failure_rate": "NOT MEASURED",
+    "independent_legality": "NOT ASSESSED",
+    "native_optimality": "NOT ASSESSED",
+    "original_fit_runtime": "NOT MEASURED",
+    "reporting_seconds": 0.00689154100837186
+  },
+  "probabilistic_quality": {
+    "reason": "No calibrated distribution supplied.",
+    "status": "NOT MEASURED"
+  },
+  "schema_version": 1,
+  "settlement_evidence": {
+    "checks": {
+      "fixture_causality": "NOT ASSESSED",
+      "forecast_blank_planning": "NOT ASSESSED",
+      "full_outcome_blind_execution": "NOT ASSESSED",
+      "independent_legality": "NOT ASSESSED",
+      "native_certificate": "NOT ASSESSED",
+      "price_information_validity": "NOT ASSESSED"
+    },
+    "gameweeks": [
+      141,
+      142,
+      143,
+      144
+    ],
+    "limitations": "Saved-input settlement verification only. Recorded policies and solver fields are claims, not independent certificates. Settlement does not validate zero-fill blank planning, source timing, fixture causality or full outcome-blind execution; no promotion is inferred.",
+    "metric": "actual_net_points",
+    "promotion_eligible": false,
+    "schema_version": 1,
+    "sides": {
+      "candidate": {
+        "chip_usage": {},
+        "comparison_input_sha256": "ab5c98da107b68e8860bc44f4a23afc8f1925f8354a1fd0b26311ad16bb00e88",
+        "decision_rounds": 4,
+        "gross_points": 203.0,
+        "hit_points": 0.0,
+        "net_points": 203.0,
+        "prediction_sha256": "2749da9c75a983acda2a5e50c7dd27a7677237123d8470f6c0241126d31bb51c",
+        "receipt_sha256": "a06690b30281cf50edf0fc4e9891fddfe3b5f4c277fbf3cab278569faf5fc338",
+        "recorded": {
+          "mip_gap": {
+            "status": "RECORDED",
+            "values": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "pool_policy": {
+            "decisions": [
+              "registered_forecast_rows",
+              "registered_forecast_rows",
+              "registered_forecast_rows",
+              "registered_forecast_rows"
+            ],
+            "status": "RECORDED"
+          },
+          "price_policy": {
+            "decisions": [
+              "origin_capture_half_profit_static_horizon_v1",
+              "origin_capture_half_profit_static_horizon_v1",
+              "origin_capture_half_profit_static_horizon_v1",
+              "origin_capture_half_profit_static_horizon_v1"
+            ],
+            "status": "RECORDED"
+          },
+          "solver_outcome_columns": {
+            "decisions": [
+              "ABSENT",
+              "ABSENT",
+              "ABSENT",
+              "ABSENT"
+            ],
+            "status": "RECORDED"
+          },
+          "solver_seconds": {
+            "status": "RECORDED",
+            "values": [
+              1.88345375,
+              3.79748275,
+              1.248889792,
+              0.2224935
+            ]
+          },
+          "solver_status": {
+            "status": "RECORDED",
+            "values": [
+              "Optimal",
+              "Optimal",
+              "Optimal",
+              "Optimal"
+            ]
+          }
+        },
+        "snapshot_sha256": "27983afbb44dc40df876141ff997c826896edb85f3545c96256641e7fcb2a1cc",
+        "transfers_in": 18,
+        "transfers_out": 3
+      },
+      "control": {
+        "chip_usage": {},
+        "comparison_input_sha256": "ab17c88c3c25e16fbd997736fedb56534290ec5a0b4a01a6b17b7d0a03d450b1",
+        "decision_rounds": 4,
+        "gross_points": 197.0,
+        "hit_points": 0.0,
+        "net_points": 197.0,
+        "prediction_sha256": "3375a41886d9cb347b3ac6b2a7a05033f0634fce26296057de00821352c01d65",
+        "receipt_sha256": "1cd7c3c790885fbcd211d8b59981f3d67b52163eecda4676eb6bd20c5482f4eb",
+        "recorded": {
+          "mip_gap": {
+            "status": "RECORDED",
+            "values": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "pool_policy": {
+            "decisions": [
+              "registered_forecast_rows",
+              "registered_forecast_rows",
+              "registered_forecast_rows",
+              "registered_forecast_rows"
+            ],
+            "status": "RECORDED"
+          },
+          "price_policy": {
+            "decisions": [
+              "origin_capture_half_profit_static_horizon_v1",
+              "origin_capture_half_profit_static_horizon_v1",
+              "origin_capture_half_profit_static_horizon_v1",
+              "origin_capture_half_profit_static_horizon_v1"
+            ],
+            "status": "RECORDED"
+          },
+          "solver_outcome_columns": {
+            "decisions": [
+              "ABSENT",
+              "ABSENT",
+              "ABSENT",
+              "ABSENT"
+            ],
+            "status": "RECORDED"
+          },
+          "solver_seconds": {
+            "status": "RECORDED",
+            "values": [
+              2.066008166,
+              3.982602542,
+              1.610680333,
+              0.289626583
+            ]
+          },
+          "solver_status": {
+            "status": "RECORDED",
+            "values": [
+              "Optimal",
+              "Optimal",
+              "Optimal",
+              "Optimal"
+            ]
+          }
+        },
+        "snapshot_sha256": "60d593798d4d340a6d7dff9644edd37dbdb3ce7b4d86e75ad9ccd05eb0e8f745",
+        "transfers_in": 18,
+        "transfers_out": 3
+      }
+    },
+    "status": "VERIFIED_SETTLEMENT_INPUTS"
+  },
+  "status": "UNVERIFIED",
+  "verdict": {
+    "disposition": "historical_reanalysis",
+    "promotion_eligible": false,
+    "reason": "Saved-outcome reanalysis only; full registered promotion evidence has not been assessed."
+  }
+}

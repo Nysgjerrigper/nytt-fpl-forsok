@@ -25,11 +25,13 @@ from fpl.data.provenance import load_frozen_dataset_manifest
 from fpl.milp.compare_backtests import compare, paired_gw_differences
 from fpl.scorecard import build_scorecard, render_scorecard
 from fpl.forecast_scorecard import summarize_forecast_pair
+from fpl.replay_scorecard import summarize_replay_pair
 
 _OUTPUTS = {"spec.json", "candidate.csv", "control.csv", "comparison.json", "scorecard.json", "REPORT.md"}
 _CONTRACT_OUTPUTS = {"candidate-contract.json", "control-contract.json"}
 _FORECAST_OUTPUTS = {"candidate-forecasts.csv", "control-forecasts.csv"}
-_OPTIONAL_OUTPUTS = _CONTRACT_OUTPUTS | _FORECAST_OUTPUTS
+_REPLAY_OUTPUTS = {"candidate-settlement-receipt.json", "control-settlement-receipt.json"}
+_OPTIONAL_OUTPUTS = _CONTRACT_OUTPUTS | _FORECAST_OUTPUTS | _REPLAY_OUTPUTS
 
 
 def _read_json(path: Path) -> tuple[dict, bytes]:
@@ -60,7 +62,7 @@ def _load_spec(path: str | Path) -> tuple[dict, bytes, dict]:
     location = Path(path).resolve()
     spec, content = _read_json(location)
     required = {"schema_version", "id", "purpose", "hypothesis", "metric", "candidate", "control", "bootstrap"}
-    if (not required <= set(spec) or set(spec) - required - {"forecasts"}
+    if (not required <= set(spec) or set(spec) - required - {"forecasts", "settlement_replays"}
             or type(spec["schema_version"]) is not int or spec["schema_version"] != 1
             or not _slug(spec["id"])):
         raise ValueError("invalid experiment fields, schema or id")
@@ -110,6 +112,25 @@ def _load_spec(path: str | Path) -> tuple[dict, bytes, dict]:
         inputs["forecast_summary"]["input_sha256"] = {
             name: forecast[name]["sha256"] for name in ("candidate", "control")}
         inputs["forecast_summary"]["decision_input_linkage"] = "NOT ASSESSED"
+    if "settlement_replays" in spec:
+        replays = spec["settlement_replays"]
+        if not isinstance(replays, dict) or set(replays) != {"candidate", "control"}:
+            raise ValueError("settlement_replays requires both pinned completion receipts")
+        for side in ("candidate", "control"):
+            inputs[f"{side}_settlement"] = _pinned(replays[side], location.parent)
+            if inputs[f"{side}_settlement"][0].name != "complete.json":
+                raise ValueError("settlement input must name its complete.json receipt")
+        summary = summarize_replay_pair(
+            inputs["candidate_settlement"][0].parent, inputs["control_settlement"][0].parent,
+            candidate_sha256=spec["candidate"]["input"]["sha256"],
+            control_sha256=spec["control"]["input"]["sha256"],
+            gameweeks=sorted(frames[0].gameweek.tolist()), metric=spec["metric"])
+        for side in ("candidate", "control"):
+            if summary["sides"][side]["receipt_sha256"] != replays[side]["sha256"]:
+                raise ValueError("settlement receipt changed during admission")
+            if "forecasts" in spec and summary["sides"][side]["prediction_sha256"] != spec["forecasts"][side]["sha256"]:
+                raise ValueError("forecast bytes differ from settlement predictions")
+        inputs["settlement_summary"] = summary
     if ("candidate_contract" in inputs) != ("control_contract" in inputs):
         raise ValueError("both contracts are required")
     if "candidate_contract" in inputs:
@@ -137,7 +158,8 @@ def validate_spec(path: str | Path) -> dict:
 def _identity(content: bytes) -> dict:
     modules = ("playground.py", "scorecard.py", "artifacts.py", "backtest_contract.py",
                "milp/compare_backtests.py", "config.py", "data/provenance.py",
-               "data/frozen_research_dataset_gw231.json", "forecast_scorecard.py", "model/metrics.py")
+               "data/frozen_research_dataset_gw231.json", "forecast_scorecard.py", "model/metrics.py", "replay_scorecard.py",
+               "milp/replay.py", "research_runner.py")
     root = Path(__file__).parent
     return {"spec_sha256": hashlib.sha256(content).hexdigest(),
             "implementation": {name: sha256_file(root / name) for name in modules},
@@ -158,7 +180,8 @@ def read_run(directory: str | Path) -> dict:
             raise ValueError(f"completed output changed: {name}")
     spec, content = _read_json(root / "spec.json")
     expected_outputs = (_OUTPUTS | (_FORECAST_OUTPUTS if "forecasts" in spec else set()) |
-                        (_CONTRACT_OUTPUTS if "contract" in spec.get("candidate", {}) else set()))
+                        (_CONTRACT_OUTPUTS if "contract" in spec.get("candidate", {}) else set()) |
+                        (_REPLAY_OUTPUTS if "settlement_replays" in spec else set()))
     if set(outputs) != expected_outputs:
         raise ValueError("completion outputs do not match declared inputs")
     card, _ = _read_json(root / "scorecard.json")
@@ -209,6 +232,10 @@ def run_experiment(path: str | Path, *, attempt: str = "first",
             if "forecasts" in spec:
                 with (directory / f"{name}-forecasts.csv").open("xb") as stream:
                     stream.write(inputs[f"{name}_forecasts"][1])
+        if "settlement_replays" in spec:
+            for side in ("candidate", "control"):
+                with (directory / f"{side}-settlement-receipt.json").open("xb") as stream:
+                    stream.write(inputs[f"{side}_settlement"][1])
         contracts = {}
         if "candidate_contract" in inputs:
             for name, key in (("candidate", "contract_a"), ("control", "contract_b")):
@@ -225,12 +252,14 @@ def run_experiment(path: str | Path, *, attempt: str = "first",
                     raise ValueError("contract changed during comparison")
         write_json_new(directory / "comparison.json", comparison)
         card = build_scorecard(spec, comparison, reporting_seconds=time.monotonic() - started,
-                               forecast_quality=inputs.get("forecast_summary"))
+                               forecast_quality=inputs.get("forecast_summary"),
+                               settlement_evidence=inputs.get("settlement_summary"))
         write_json_new(directory / "scorecard.json", card)
         with (directory / "REPORT.md").open("x", encoding="utf-8") as stream:
             stream.write(render_scorecard(card))
         names = (_OUTPUTS | (_CONTRACT_OUTPUTS if contracts else set()) |
-                 (_FORECAST_OUTPUTS if "forecasts" in spec else set()))
+                 (_FORECAST_OUTPUTS if "forecasts" in spec else set()) |
+                 (_REPLAY_OUTPUTS if "settlement_replays" in spec else set()))
         write_json_new(directory / "complete.json", {"schema_version": 1, "identity": identity,
                        "outputs": {name: sha256_file(directory / name) for name in sorted(names)}})
     except Exception as exc:
