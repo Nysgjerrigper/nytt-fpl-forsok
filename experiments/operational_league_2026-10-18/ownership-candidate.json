@@ -1,0 +1,15 @@
+{
+  "hypothesis": "Display preserved operational evidence without paired scoring, ranking or promotion.",
+  "id": "ownership-candidate",
+  "name": "Ownership candidate \u2014 failed schedule",
+  "registration": {
+    "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/OwnershipCheckpointedPoolReplay_20261018/plan.json",
+    "sha256": "80abc0bc04662cebacb5e29faf7be6f94afbd208227bf35f18abd20167578a6d"
+  },
+  "schema_version": 1,
+  "source": {
+    "kind": "solio_schedule",
+    "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/OwnershipCheckpointedPoolReplay_20261018/first/candidate-checkpoints",
+    "terminal_sha256": "f9d13f4408bb62e5b186d05ac05b4a7eb490a830663c25d44a1a14e63c6d4bf1"
+  }
+}

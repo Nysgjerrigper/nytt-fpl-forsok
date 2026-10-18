@@ -280,6 +280,23 @@ def league(runs_dir: str | Path | None = None) -> list[dict]:
     for directory in sorted(root.glob("*/*")):
         if not directory.is_dir():
             continue
+        if (directory / "operational-complete.json").exists():
+            from fpl.operational_reports import read_operations
+            card = read_operations(directory)
+            key = f"operations:{directory.parent.name}/{directory.name}"
+            groups[key] = {"competition": key, "control": None, "entries": [{
+                "candidate": card["experiment"]["name"], "status": card["operations"]["status"],
+                "rank": None, "run": str(directory), "net_or_gross_points": None,
+                "delta": None, "ci": None, "report_kind": "OPERATIONAL_EVIDENCE",
+                "operations": card["operations"]}]}
+            continue
+        if (directory / "operational-started.json").exists():
+            key = f"operations-import:{directory.parent.name}/{directory.name}"
+            status = "IMPORT_FAILED" if (directory / "operational-failed.json").exists() else "IMPORT_INCOMPLETE"
+            groups[key] = {"competition": key, "control": None, "entries": [{
+                "candidate": directory.parent.name, "status": status, "rank": None,
+                "run": str(directory), "net_or_gross_points": None, "delta": None, "ci": None}]}
+            continue
         if not (directory / "complete.json").exists():
             status = "FAILED" if (directory / "failed.json").exists() else "INCOMPLETE"
             key = f"unfinished:{directory.parent.name}/{directory.name}"
@@ -370,6 +387,17 @@ def render_league(competitions: list[dict]) -> str:
             rank = "—" if row["rank"] is None else str(row["rank"])
             lines.append(f"| {rank} | {label(row['candidate'])} | {row['status']} | {points} | {delta} | {interval} |")
         lines.append("")
+        for row in group["entries"]:
+            operations = row.get("operations")
+            if operations is not None:
+                counts = "; ".join(f"{label(key)}={label(value)}" for key, value in operations["counts"].items())
+                lines += [f"Recorded operations ({label(operations['count_scope'])}): {counts}.", ""]
+                if operations.get("failed_stage") is not None:
+                    lines += [f"Failure recorded at origin {label(operations['failed_origin'])}, "
+                              f"stage `{label(operations['failed_stage'])}`.", ""]
+                if "solver_result_accepted" in operations:
+                    acceptance = operations["solver_result_accepted"]
+                    lines += [f"Solver result accepted: {label(acceptance) if acceptance is not None else 'not recorded'}.", ""]
     lines += ["Exhibitions and unverified/incomplete runs are unranked. "
               "Contract-validated ranks still do not establish causal validity, legality, native optimality "
               "or a fresh holdout. Repeated attempts are not independent evidence.", ""]
@@ -390,6 +418,12 @@ def main(argv: list[str] | None = None) -> None:
     run.add_argument("--runs-dir", type=Path, default=config.PLAYGROUND_RUNS_DIR)
     report = commands.add_parser("report", help="Display a verified completed scorecard")
     report.add_argument("directory", type=Path)
+    operations = commands.add_parser("import-operations", help="Verify and snapshot operational evidence; always unranked")
+    operations.add_argument("spec", type=Path)
+    operations.add_argument("--attempt", default="first")
+    operations.add_argument("--runs-dir", type=Path, default=config.PLAYGROUND_RUNS_DIR)
+    operational_report = commands.add_parser("operations-report", help="Show a verified operational report")
+    operational_report.add_argument("directory", type=Path)
     table = commands.add_parser("league", help="Show separate evidence competitions; no automatic promotion")
     table.add_argument("--runs-dir", type=Path, default=config.PLAYGROUND_RUNS_DIR)
     table.add_argument("--json", action="store_true", help="Emit structured competitions for a future dashboard")
@@ -402,6 +436,12 @@ def main(argv: list[str] | None = None) -> None:
             print(f"PASS: {spec['id']} ({spec['purpose']}); no model promotion assessed")
         elif args.command == "run":
             print(run_experiment(args.spec, attempt=args.attempt, runs_dir=args.runs_dir))
+        elif args.command == "import-operations":
+            from fpl.operational_reports import import_operations
+            print(import_operations(args.spec, attempt=args.attempt, runs_dir=args.runs_dir))
+        elif args.command == "operations-report":
+            from fpl.operational_reports import read_operations, render_operations
+            print(render_operations(read_operations(args.directory)))
         elif args.command == "report":
             print(render_scorecard(read_run(args.directory)))
         else:

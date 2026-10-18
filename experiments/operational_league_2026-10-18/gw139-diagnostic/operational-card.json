@@ -1,0 +1,231 @@
+{
+  "experiment": {
+    "hypothesis": "Display preserved operational evidence without paired scoring, ranking or promotion.",
+    "id": "gw139-diagnostic",
+    "name": "GW139 isolated native diagnostic"
+  },
+  "limitations": [
+    "Recorded telemetry and hashes do not independently prove legality or causal validity.",
+    "Operational entries are unranked; no paired FPL outcome is assessed.",
+    "An incomplete capture is an observation, not a claim that its process stopped.",
+    "A linked registration is not independently proven to have preceded execution."
+  ],
+  "operations": {
+    "assessment": "RECORDED_OPERATIONAL_EVIDENCE_ONLY",
+    "count_scope": "NATIVE_RUN_BOUNDARIES",
+    "counts": {
+      "native_error": 0,
+      "native_finished": 1,
+      "native_run_unknown": 0,
+      "native_started": 1
+    },
+    "effective_options": {
+      "mip_abs_gap": {
+        "status": 0,
+        "value": 1e-06
+      },
+      "mip_rel_gap": {
+        "status": 0,
+        "value": 0.0
+      },
+      "parallel": {
+        "status": 0,
+        "value": "on"
+      },
+      "presolve": {
+        "status": 0,
+        "value": "on"
+      },
+      "random_seed": {
+        "status": 0,
+        "value": 0
+      },
+      "threads": {
+        "status": 0,
+        "value": 0
+      },
+      "time_limit": {
+        "status": 0,
+        "value": 120.0
+      }
+    },
+    "execution_settings": {
+      "horizon": 3,
+      "season": "2023-24",
+      "start_gw": 139
+    },
+    "independent_legality": "NOT ASSESSED",
+    "kind": "native_diagnostics",
+    "native_info": {
+      "availability": {
+        "basis_validity": "RECORDED",
+        "crossover_iteration_count": "NOT AVAILABLE",
+        "dual_solution_status": "RECORDED",
+        "ipm_iteration_count": "NOT AVAILABLE",
+        "max_complementarity_violation": "NOT AVAILABLE",
+        "max_dual_infeasibility": "NOT AVAILABLE",
+        "max_dual_residual_error": "NOT AVAILABLE",
+        "max_integrality_violation": "RECORDED",
+        "max_primal_infeasibility": "RECORDED",
+        "max_primal_residual_error": "NOT AVAILABLE",
+        "max_relative_dual_infeasibility": "NOT AVAILABLE",
+        "max_relative_dual_residual_error": "NOT AVAILABLE",
+        "max_relative_primal_infeasibility": "RECORDED",
+        "max_relative_primal_residual_error": "NOT AVAILABLE",
+        "mip_dual_bound": "RECORDED",
+        "mip_gap": "RECORDED",
+        "mip_node_count": "RECORDED",
+        "num_complementarity_violations": "NOT AVAILABLE",
+        "num_dual_infeasibilities": "NOT AVAILABLE",
+        "num_dual_residual_errors": "NOT AVAILABLE",
+        "num_primal_infeasibilities": "RECORDED",
+        "num_primal_residual_errors": "NOT AVAILABLE",
+        "num_relative_dual_infeasibilities": "NOT AVAILABLE",
+        "num_relative_dual_residual_errors": "NOT AVAILABLE",
+        "num_relative_primal_infeasibilities": "RECORDED",
+        "num_relative_primal_residual_errors": "NOT AVAILABLE",
+        "objective_function_value": "RECORDED",
+        "pdlp_iteration_count": "NOT AVAILABLE",
+        "primal_dual_integral": "RECORDED",
+        "primal_dual_objective_error": "NOT AVAILABLE",
+        "primal_solution_status": "RECORDED",
+        "qp_iteration_count": "NOT AVAILABLE",
+        "simplex_iteration_count": "RECORDED",
+        "sum_dual_infeasibilities": "NOT AVAILABLE",
+        "sum_primal_infeasibilities": "RECORDED"
+      },
+      "caller_timings": {
+        "native_call_wall_seconds": 68.14066804101458
+      },
+      "dual_value_valid": false,
+      "info_valid": true,
+      "interpretation": "DIAGNOSTIC_ONLY",
+      "native_runtime_availability": "RECORDED",
+      "native_runtime_scope": "HIGHS_REPORTED_CUMULATIVE",
+      "native_runtime_seconds": 68.13980362500297,
+      "primal_value_valid": true,
+      "status_name": "Optimal",
+      "status_value": 7,
+      "values": {
+        "basis_validity": 0,
+        "crossover_iteration_count": null,
+        "dual_solution_status": 0,
+        "ipm_iteration_count": null,
+        "max_complementarity_violation": null,
+        "max_dual_infeasibility": null,
+        "max_dual_residual_error": null,
+        "max_integrality_violation": 1.2151323307996154e-13,
+        "max_primal_infeasibility": 1.2168044349891716e-13,
+        "max_primal_residual_error": null,
+        "max_relative_dual_infeasibility": null,
+        "max_relative_dual_residual_error": null,
+        "max_relative_primal_infeasibility": 5.53092924995078e-15,
+        "max_relative_primal_residual_error": null,
+        "mip_dual_bound": 125.39588942007455,
+        "mip_gap": 0.0,
+        "mip_node_count": 399,
+        "num_complementarity_violations": null,
+        "num_dual_infeasibilities": null,
+        "num_dual_residual_errors": null,
+        "num_primal_infeasibilities": 0,
+        "num_primal_residual_errors": null,
+        "num_relative_dual_infeasibilities": null,
+        "num_relative_dual_residual_errors": null,
+        "num_relative_primal_infeasibilities": 0,
+        "num_relative_primal_residual_errors": null,
+        "objective_function_value": 125.39588942007455,
+        "pdlp_iteration_count": null,
+        "primal_dual_integral": 12.192972706214238,
+        "primal_dual_objective_error": null,
+        "primal_solution_status": 2,
+        "qp_iteration_count": null,
+        "simplex_iteration_count": 338987,
+        "sum_dual_infeasibilities": null,
+        "sum_primal_infeasibilities": 4.923472828777272e-13
+      }
+    },
+    "performance_assessment": "NOT ASSESSED",
+    "promotion_eligible": false,
+    "provenance": {
+      "basis": "ORIGINAL_CAPTURE_NOT_CURRENT_EXECUTION",
+      "runtime": {
+        "highspy": "1.15.1",
+        "numpy": "2.4.6",
+        "pandas": "3.0.3",
+        "pulp": "3.3.2",
+        "python": "3.11.15",
+        "sasoptpy": null,
+        "scipy": "1.17.1"
+      },
+      "source_sha256": {
+        "fpl/artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1",
+        "fpl/config.py": "28e01d3614a91156be4a135fc1eb0229dc3f2919ff51226d2827d3d213b70f0b",
+        "fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+        "fpl/milp/_vendor/solio/solver.py": "395082cfa9248b3e3d8ec7baa4934d11363e0a9c652a83336eeee1c57bd456ed",
+        "fpl/milp/native_diagnostics.py": "4c87e7eeb64f35cadf41c0c518cc3a85791abe59c1404f418b7e018737474e20",
+        "fpl/milp/optimize.py": "1c9822442bbf390d9a7b0379cfcfff925ea9ec92e749d4aeda71f38df88a34a5",
+        "fpl/milp/origin_prices.py": "9b014344f323e6f7b8c04c38938135f9cdbe531757c9882ce70ee341d4f13b87",
+        "fpl/milp/solio.py": "6d092f548a8cdbe0dcd1fcc033c0aa3c4591bbe3dc5a1fbfe86911abec6bc234",
+        "fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+        "fpl/milp/solio_output.py": "24d805fa9288695a9bdf79b2f3817cce534713bae06996033e0be0f49e6b69d9",
+        "fpl/milp/solio_receipts.py": "8de5b885c331ec82676bed7a7165673964e87b132099b0459aed01e4eee461ad"
+      },
+      "started_sha256": "6ec4cb56c18dcf5f62323487756605e7ffc4e62021591397df4ef65d898cff8b",
+      "terminal_sha256": "49dc5e99c2f24768053ca316f0e0c6d2ababbe8ec2bc4772217852c2f99fd8ba"
+    },
+    "recorded_error": null,
+    "requested_origins": [
+      139
+    ],
+    "schema_version": 1,
+    "solver_result_accepted": true,
+    "status": "DIAGNOSTICS_RECORDED",
+    "timings": {
+      "model_build_seconds": {
+        "count": 1,
+        "not_measured": 0,
+        "observations": 1,
+        "total": 0.5901319590047933
+      },
+      "native_call_wall_seconds": {
+        "count": 1,
+        "not_measured": 0,
+        "observations": 1,
+        "total": 68.14066804101458
+      },
+      "native_runtime_seconds": {
+        "count": 1,
+        "not_measured": 0,
+        "observations": 1,
+        "total": 68.13980362500297
+      }
+    },
+    "uncommitted_artifacts": []
+  },
+  "performance": {
+    "ci": null,
+    "delta": null,
+    "points": null,
+    "rank": null
+  },
+  "promotion_eligible": false,
+  "registration": {
+    "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/GW139NativeDiagnostics_20261018/plan.json",
+    "sha256": "c7bf258693c568197114e4db473d47aca6fe90b393570eed791aa944d51d7bf6"
+  },
+  "report_identity": {
+    "attempt": "first",
+    "implementation": {
+      "artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1",
+      "config.py": "28e01d3614a91156be4a135fc1eb0229dc3f2919ff51226d2827d3d213b70f0b",
+      "operational_evidence.py": "4ec8b3aedf8d586684bcd4c9a223c04de7672e31633c7a354942bdaf6dab035e",
+      "operational_reports.py": "91569abc60a1ddef5431913c92a27b6c6c2d8e3c41127aa10341d2df8f8b52b4"
+    },
+    "reporting_runtime": {
+      "python": "3.11.15"
+    },
+    "spec_sha256": "880ba1ec0228d982218bf643c1046ccd7ed8c7d542322bae91511aab459d8e2d"
+  },
+  "report_kind": "OPERATIONAL_EVIDENCE",
+  "schema_version": 1
+}

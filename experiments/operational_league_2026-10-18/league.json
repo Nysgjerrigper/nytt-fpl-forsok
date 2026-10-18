@@ -1,0 +1,535 @@
+[
+  {
+    "competition": "operations:gw139-diagnostic/first",
+    "control": null,
+    "entries": [
+      {
+        "candidate": "GW139 isolated native diagnostic",
+        "ci": null,
+        "delta": null,
+        "net_or_gross_points": null,
+        "operations": {
+          "assessment": "RECORDED_OPERATIONAL_EVIDENCE_ONLY",
+          "count_scope": "NATIVE_RUN_BOUNDARIES",
+          "counts": {
+            "native_error": 0,
+            "native_finished": 1,
+            "native_run_unknown": 0,
+            "native_started": 1
+          },
+          "effective_options": {
+            "mip_abs_gap": {
+              "status": 0,
+              "value": 1e-06
+            },
+            "mip_rel_gap": {
+              "status": 0,
+              "value": 0.0
+            },
+            "parallel": {
+              "status": 0,
+              "value": "on"
+            },
+            "presolve": {
+              "status": 0,
+              "value": "on"
+            },
+            "random_seed": {
+              "status": 0,
+              "value": 0
+            },
+            "threads": {
+              "status": 0,
+              "value": 0
+            },
+            "time_limit": {
+              "status": 0,
+              "value": 120.0
+            }
+          },
+          "execution_settings": {
+            "horizon": 3,
+            "season": "2023-24",
+            "start_gw": 139
+          },
+          "independent_legality": "NOT ASSESSED",
+          "kind": "native_diagnostics",
+          "native_info": {
+            "availability": {
+              "basis_validity": "RECORDED",
+              "crossover_iteration_count": "NOT AVAILABLE",
+              "dual_solution_status": "RECORDED",
+              "ipm_iteration_count": "NOT AVAILABLE",
+              "max_complementarity_violation": "NOT AVAILABLE",
+              "max_dual_infeasibility": "NOT AVAILABLE",
+              "max_dual_residual_error": "NOT AVAILABLE",
+              "max_integrality_violation": "RECORDED",
+              "max_primal_infeasibility": "RECORDED",
+              "max_primal_residual_error": "NOT AVAILABLE",
+              "max_relative_dual_infeasibility": "NOT AVAILABLE",
+              "max_relative_dual_residual_error": "NOT AVAILABLE",
+              "max_relative_primal_infeasibility": "RECORDED",
+              "max_relative_primal_residual_error": "NOT AVAILABLE",
+              "mip_dual_bound": "RECORDED",
+              "mip_gap": "RECORDED",
+              "mip_node_count": "RECORDED",
+              "num_complementarity_violations": "NOT AVAILABLE",
+              "num_dual_infeasibilities": "NOT AVAILABLE",
+              "num_dual_residual_errors": "NOT AVAILABLE",
+              "num_primal_infeasibilities": "RECORDED",
+              "num_primal_residual_errors": "NOT AVAILABLE",
+              "num_relative_dual_infeasibilities": "NOT AVAILABLE",
+              "num_relative_dual_residual_errors": "NOT AVAILABLE",
+              "num_relative_primal_infeasibilities": "RECORDED",
+              "num_relative_primal_residual_errors": "NOT AVAILABLE",
+              "objective_function_value": "RECORDED",
+              "pdlp_iteration_count": "NOT AVAILABLE",
+              "primal_dual_integral": "RECORDED",
+              "primal_dual_objective_error": "NOT AVAILABLE",
+              "primal_solution_status": "RECORDED",
+              "qp_iteration_count": "NOT AVAILABLE",
+              "simplex_iteration_count": "RECORDED",
+              "sum_dual_infeasibilities": "NOT AVAILABLE",
+              "sum_primal_infeasibilities": "RECORDED"
+            },
+            "caller_timings": {
+              "native_call_wall_seconds": 68.14066804101458
+            },
+            "dual_value_valid": false,
+            "info_valid": true,
+            "interpretation": "DIAGNOSTIC_ONLY",
+            "native_runtime_availability": "RECORDED",
+            "native_runtime_scope": "HIGHS_REPORTED_CUMULATIVE",
+            "native_runtime_seconds": 68.13980362500297,
+            "primal_value_valid": true,
+            "status_name": "Optimal",
+            "status_value": 7,
+            "values": {
+              "basis_validity": 0,
+              "crossover_iteration_count": null,
+              "dual_solution_status": 0,
+              "ipm_iteration_count": null,
+              "max_complementarity_violation": null,
+              "max_dual_infeasibility": null,
+              "max_dual_residual_error": null,
+              "max_integrality_violation": 1.2151323307996154e-13,
+              "max_primal_infeasibility": 1.2168044349891716e-13,
+              "max_primal_residual_error": null,
+              "max_relative_dual_infeasibility": null,
+              "max_relative_dual_residual_error": null,
+              "max_relative_primal_infeasibility": 5.53092924995078e-15,
+              "max_relative_primal_residual_error": null,
+              "mip_dual_bound": 125.39588942007455,
+              "mip_gap": 0.0,
+              "mip_node_count": 399,
+              "num_complementarity_violations": null,
+              "num_dual_infeasibilities": null,
+              "num_dual_residual_errors": null,
+              "num_primal_infeasibilities": 0,
+              "num_primal_residual_errors": null,
+              "num_relative_dual_infeasibilities": null,
+              "num_relative_dual_residual_errors": null,
+              "num_relative_primal_infeasibilities": 0,
+              "num_relative_primal_residual_errors": null,
+              "objective_function_value": 125.39588942007455,
+              "pdlp_iteration_count": null,
+              "primal_dual_integral": 12.192972706214238,
+              "primal_dual_objective_error": null,
+              "primal_solution_status": 2,
+              "qp_iteration_count": null,
+              "simplex_iteration_count": 338987,
+              "sum_dual_infeasibilities": null,
+              "sum_primal_infeasibilities": 4.923472828777272e-13
+            }
+          },
+          "performance_assessment": "NOT ASSESSED",
+          "promotion_eligible": false,
+          "provenance": {
+            "basis": "ORIGINAL_CAPTURE_NOT_CURRENT_EXECUTION",
+            "runtime": {
+              "highspy": "1.15.1",
+              "numpy": "2.4.6",
+              "pandas": "3.0.3",
+              "pulp": "3.3.2",
+              "python": "3.11.15",
+              "sasoptpy": null,
+              "scipy": "1.17.1"
+            },
+            "source_sha256": {
+              "fpl/artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1",
+              "fpl/config.py": "28e01d3614a91156be4a135fc1eb0229dc3f2919ff51226d2827d3d213b70f0b",
+              "fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+              "fpl/milp/_vendor/solio/solver.py": "395082cfa9248b3e3d8ec7baa4934d11363e0a9c652a83336eeee1c57bd456ed",
+              "fpl/milp/native_diagnostics.py": "4c87e7eeb64f35cadf41c0c518cc3a85791abe59c1404f418b7e018737474e20",
+              "fpl/milp/optimize.py": "1c9822442bbf390d9a7b0379cfcfff925ea9ec92e749d4aeda71f38df88a34a5",
+              "fpl/milp/origin_prices.py": "9b014344f323e6f7b8c04c38938135f9cdbe531757c9882ce70ee341d4f13b87",
+              "fpl/milp/solio.py": "6d092f548a8cdbe0dcd1fcc033c0aa3c4591bbe3dc5a1fbfe86911abec6bc234",
+              "fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+              "fpl/milp/solio_output.py": "24d805fa9288695a9bdf79b2f3817cce534713bae06996033e0be0f49e6b69d9",
+              "fpl/milp/solio_receipts.py": "8de5b885c331ec82676bed7a7165673964e87b132099b0459aed01e4eee461ad"
+            },
+            "started_sha256": "6ec4cb56c18dcf5f62323487756605e7ffc4e62021591397df4ef65d898cff8b",
+            "terminal_sha256": "49dc5e99c2f24768053ca316f0e0c6d2ababbe8ec2bc4772217852c2f99fd8ba"
+          },
+          "recorded_error": null,
+          "requested_origins": [
+            139
+          ],
+          "schema_version": 1,
+          "solver_result_accepted": true,
+          "status": "DIAGNOSTICS_RECORDED",
+          "timings": {
+            "model_build_seconds": {
+              "count": 1,
+              "not_measured": 0,
+              "observations": 1,
+              "total": 0.5901319590047933
+            },
+            "native_call_wall_seconds": {
+              "count": 1,
+              "not_measured": 0,
+              "observations": 1,
+              "total": 68.14066804101458
+            },
+            "native_runtime_seconds": {
+              "count": 1,
+              "not_measured": 0,
+              "observations": 1,
+              "total": 68.13980362500297
+            }
+          },
+          "uncommitted_artifacts": []
+        },
+        "rank": null,
+        "report_kind": "OPERATIONAL_EVIDENCE",
+        "run": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/OperationalLeagueReporting_20261018/runs/gw139-diagnostic/first",
+        "status": "DIAGNOSTICS_RECORDED"
+      }
+    ]
+  },
+  {
+    "competition": "operations:ownership-candidate/first",
+    "control": null,
+    "entries": [
+      {
+        "candidate": "Ownership candidate \u2014 failed schedule",
+        "ci": null,
+        "delta": null,
+        "net_or_gross_points": null,
+        "operations": {
+          "assessment": "RECORDED_OPERATIONAL_EVIDENCE_ONLY",
+          "completed_origins": [
+            137,
+            138
+          ],
+          "count_scope": "VENDOR_WRAPPER_INVOCATIONS",
+          "counts": {
+            "attempted_vendor_calls": 3,
+            "failed_vendor_calls": 1,
+            "returned_vendor_calls": 2,
+            "saved_origins": 2,
+            "unknown_in_flight_calls": 0
+          },
+          "execution_settings": {
+            "horizon": 3,
+            "max_gw": 152,
+            "season": "2023-24",
+            "start_gw": 137,
+            "time_limit": 120
+          },
+          "failed_origin": 139,
+          "failed_stage": "vendor-failed",
+          "independent_legality": "NOT ASSESSED",
+          "kind": "solio_schedule",
+          "performance_assessment": "NOT ASSESSED",
+          "promotion_eligible": false,
+          "provenance": {
+            "basis": "ORIGINAL_CAPTURE_NOT_CURRENT_EXECUTION",
+            "runtime": {
+              "highspy": "1.15.1",
+              "numpy": "2.4.6",
+              "pandas": "3.0.3",
+              "pulp": "3.3.2",
+              "python": "3.11.15",
+              "sasoptpy": null,
+              "scipy": "1.17.1"
+            },
+            "source_sha256": {
+              "fpl/artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1",
+              "fpl/config.py": "28e01d3614a91156be4a135fc1eb0229dc3f2919ff51226d2827d3d213b70f0b",
+              "fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+              "fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+              "fpl/milp/optimize.py": "1c9822442bbf390d9a7b0379cfcfff925ea9ec92e749d4aeda71f38df88a34a5",
+              "fpl/milp/origin_prices.py": "9b014344f323e6f7b8c04c38938135f9cdbe531757c9882ce70ee341d4f13b87",
+              "fpl/milp/solio.py": "0dc8d125788ad90f45d40fbbb074e03d662a024820a02e988beb6a25b2e8cb21",
+              "fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+              "fpl/milp/solio_output.py": "24d805fa9288695a9bdf79b2f3817cce534713bae06996033e0be0f49e6b69d9",
+              "fpl/milp/solio_receipts.py": "b6a2baacc08661fe130cbeb00b607b450c9e64cb9f2868e5395f52acee58633f"
+            },
+            "started_sha256": "94f47dec2cf0e5a5df561095e45135a10db503d9806fcbeee5437fda4d4d2b2c",
+            "terminal_sha256": "f9d13f4408bb62e5b186d05ac05b4a7eb490a830663c25d44a1a14e63c6d4bf1"
+          },
+          "recorded_error": {
+            "message": "Solio solve rejected: Time limit reached",
+            "type": "RuntimeError"
+          },
+          "requested_origins": [
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152
+          ],
+          "saved_origins": 2,
+          "schema_version": 1,
+          "status": "FAILED",
+          "timings": {
+            "admission_seconds": {
+              "count": 3,
+              "not_measured": 0,
+              "observations": 3,
+              "total": 0.5170086669968441
+            },
+            "build_seconds": {
+              "count": 0,
+              "not_measured": 1,
+              "observations": 1,
+              "total": null
+            },
+            "failed_build_seconds": {
+              "count": 0,
+              "not_measured": 1,
+              "observations": 1,
+              "total": null
+            },
+            "failed_native_seconds": {
+              "count": 0,
+              "not_measured": 1,
+              "observations": 1,
+              "total": null
+            },
+            "native_seconds": {
+              "count": 2,
+              "not_measured": 1,
+              "observations": 3,
+              "total": 104.74515712400898
+            },
+            "non_native_overhead_seconds": {
+              "count": 2,
+              "not_measured": 0,
+              "observations": 2,
+              "total": 5.685825335007394
+            },
+            "normalization_seconds": {
+              "count": 2,
+              "not_measured": 0,
+              "observations": 2,
+              "total": 0.04399408397148363
+            },
+            "preparation_seconds": {
+              "count": 3,
+              "not_measured": 0,
+              "observations": 3,
+              "total": 0.21241616702172905
+            },
+            "state_update_seconds": {
+              "count": 2,
+              "not_measured": 0,
+              "observations": 2,
+              "total": 0.008857125008944422
+            },
+            "vendor_wall_seconds": {
+              "count": 3,
+              "not_measured": 0,
+              "observations": 3,
+              "total": 233.26158295903588
+            }
+          }
+        },
+        "rank": null,
+        "report_kind": "OPERATIONAL_EVIDENCE",
+        "run": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/OperationalLeagueReporting_20261018/runs/ownership-candidate/first",
+        "status": "FAILED"
+      }
+    ]
+  },
+  {
+    "competition": "operations:ownership-control/first",
+    "control": null,
+    "entries": [
+      {
+        "candidate": "Ownership control \u2014 completed schedule",
+        "ci": null,
+        "delta": null,
+        "net_or_gross_points": null,
+        "operations": {
+          "assessment": "RECORDED_OPERATIONAL_EVIDENCE_ONLY",
+          "completed_origins": [
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152
+          ],
+          "count_scope": "VENDOR_WRAPPER_INVOCATIONS",
+          "counts": {
+            "attempted_vendor_calls": 16,
+            "failed_vendor_calls": 0,
+            "returned_vendor_calls": 16,
+            "saved_origins": 16,
+            "unknown_in_flight_calls": 0
+          },
+          "execution_settings": {
+            "horizon": 3,
+            "max_gw": 152,
+            "season": "2023-24",
+            "start_gw": 137,
+            "time_limit": 120
+          },
+          "failed_origin": null,
+          "failed_stage": null,
+          "independent_legality": "NOT ASSESSED",
+          "kind": "solio_schedule",
+          "performance_assessment": "NOT ASSESSED",
+          "promotion_eligible": false,
+          "provenance": {
+            "basis": "ORIGINAL_CAPTURE_NOT_CURRENT_EXECUTION",
+            "runtime": {
+              "highspy": "1.15.1",
+              "numpy": "2.4.6",
+              "pandas": "3.0.3",
+              "pulp": "3.3.2",
+              "python": "3.11.15",
+              "sasoptpy": null,
+              "scipy": "1.17.1"
+            },
+            "source_sha256": {
+              "fpl/artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1",
+              "fpl/config.py": "28e01d3614a91156be4a135fc1eb0229dc3f2919ff51226d2827d3d213b70f0b",
+              "fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+              "fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+              "fpl/milp/optimize.py": "1c9822442bbf390d9a7b0379cfcfff925ea9ec92e749d4aeda71f38df88a34a5",
+              "fpl/milp/origin_prices.py": "9b014344f323e6f7b8c04c38938135f9cdbe531757c9882ce70ee341d4f13b87",
+              "fpl/milp/solio.py": "0dc8d125788ad90f45d40fbbb074e03d662a024820a02e988beb6a25b2e8cb21",
+              "fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+              "fpl/milp/solio_output.py": "24d805fa9288695a9bdf79b2f3817cce534713bae06996033e0be0f49e6b69d9",
+              "fpl/milp/solio_receipts.py": "b6a2baacc08661fe130cbeb00b607b450c9e64cb9f2868e5395f52acee58633f"
+            },
+            "started_sha256": "0ffa03d5e17cd29dfd91be78f1f6c3757348e9ed3550f20589ac16e0c3c035f1",
+            "terminal_sha256": "0a75626b35348a734ec68bf88b0459dd90b71e595c44eafe95cf4d8d379a2033"
+          },
+          "recorded_error": null,
+          "requested_origins": [
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152
+          ],
+          "saved_origins": 16,
+          "schema_version": 1,
+          "status": "COMPLETED",
+          "timings": {
+            "admission_seconds": {
+              "count": 16,
+              "not_measured": 0,
+              "observations": 16,
+              "total": 2.4300070848839823
+            },
+            "build_seconds": {
+              "count": 0,
+              "not_measured": 0,
+              "observations": 0,
+              "total": null
+            },
+            "failed_build_seconds": {
+              "count": 0,
+              "not_measured": 0,
+              "observations": 0,
+              "total": null
+            },
+            "failed_native_seconds": {
+              "count": 0,
+              "not_measured": 0,
+              "observations": 0,
+              "total": null
+            },
+            "native_seconds": {
+              "count": 16,
+              "not_measured": 0,
+              "observations": 16,
+              "total": 395.58467345900135
+            },
+            "non_native_overhead_seconds": {
+              "count": 16,
+              "not_measured": 0,
+              "observations": 16,
+              "total": 40.69614475200069
+            },
+            "normalization_seconds": {
+              "count": 16,
+              "not_measured": 0,
+              "observations": 16,
+              "total": 0.3006288750329986
+            },
+            "preparation_seconds": {
+              "count": 16,
+              "not_measured": 0,
+              "observations": 16,
+              "total": 1.2790559590503108
+            },
+            "state_update_seconds": {
+              "count": 16,
+              "not_measured": 0,
+              "observations": 16,
+              "total": 0.05978679095278494
+            },
+            "vendor_wall_seconds": {
+              "count": 16,
+              "not_measured": 0,
+              "observations": 16,
+              "total": 436.28081821100204
+            }
+          }
+        },
+        "rank": null,
+        "report_kind": "OPERATIONAL_EVIDENCE",
+        "run": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/OperationalLeagueReporting_20261018/runs/ownership-control/first",
+        "status": "COMPLETED"
+      }
+    ]
+  }
+]

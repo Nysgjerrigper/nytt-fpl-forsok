@@ -2128,3 +2128,23 @@ speed improvement: original replay still failed and parallel/process contexts di
 No points/settlement/CI/promotion. Raw external bundle GW139NativeDiagnostics_20261018;
 tracked experiments/gw139_native_diagnostics_2026-10-18. Issue6 remains open; next
 registered work should test exact-runtime repeatability/thread policy before change.
+
+### 2026-10-18 — Verified operational entries in the Training Ground league
+
+Refs issue22. Separate operational importer/reader verifies pinned schedule/native
+receipts, exhaustive file coverage, safe paths, original source/runtime identity,
+event ordering, boundary counters and recorded native acceptance consistency.
+Captured evidence, JSON card and readable report are immutable; offline reads
+revalidate the captured copy. Registration links bind bytes, not chronology.
+Failed/incomplete imports and uncommitted export artifacts remain distinguishable
+from completed operational reporting; no inferred process termination or outcomes.
+All operational entries have null rank/points/delta/CI and no promotion eligibility.
+Primary affected checks304 passed. Preserved real control:16 attempted/returned/
+saved origins; candidate:3 attempts/2 returns/1 failure/2 saved, failedGW139;
+separate native case:1 start/1 return/acceptedTrue. Generated human/JSON agreement,
+verified reuse and all-unranked league checks passed. Original raw bytes retained.
+No fits, solves or settlement during this reporting exercise. Evidence recipe and
+summary copies:experiments/operational_league_2026-10-18; full external bundle
+OperationalLeagueReporting_20261018 is sealed and named in verification-links.json.
+Historical registry values were checked unchanged. Broader scorecard, training-only
+MASE/probabilistic adapters and qualified promotion evidence remain open under22.

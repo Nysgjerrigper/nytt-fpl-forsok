@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "attempt": "first",
+    "implementation": {
+      "artifacts.py": "948f427ec7170f644e49cf7d74fc1ef45589079b102c33ffe90cbe0287a813e1",
+      "config.py": "28e01d3614a91156be4a135fc1eb0229dc3f2919ff51226d2827d3d213b70f0b",
+      "operational_evidence.py": "4ec8b3aedf8d586684bcd4c9a223c04de7672e31633c7a354942bdaf6dab035e",
+      "operational_reports.py": "91569abc60a1ddef5431913c92a27b6c6c2d8e3c41127aa10341d2df8f8b52b4"
+    },
+    "reporting_runtime": {
+      "python": "3.11.15"
+    },
+    "source_files": {
+      "0001-native-start-0-event.json": "d17aa835614146bed03053c7539685d074cde725fbdcc193b4a413107b20cb1c",
+      "0001-native-start-0-model.json": "4c910ea9ca814d0ab6cb1783687465e6afa82dffb21b2b0c88a3c63af042252b",
+      "0001-native-start-0-model.mps": "505650daaedd0b4d52c0b4fcb8bbec8cc663273e3a8e2fbc21c451d5b07df057",
+      "0002-native-finish-0-event.json": "99568ee5b564f3858678a5f2ab8f901b228819b7e999ceac2e7ad276b05e31ba",
+      "0002-native-finish-0-native-info.json": "e4487c6effd7f1af02b3f92aef9a284ae51925617329cec7d91120a03d5e95c7",
+      "diagnostics-complete.json": "49dc5e99c2f24768053ca316f0e0c6d2ababbe8ec2bc4772217852c2f99fd8ba",
+      "started.json": "6ec4cb56c18dcf5f62323487756605e7ffc4e62021591397df4ef65d898cff8b"
+    },
+    "spec_sha256": "880ba1ec0228d982218bf643c1046ccd7ed8c7d542322bae91511aab459d8e2d"
+  },
+  "outputs": {
+    "REPORT.md": "c571994ea6231eba4230aea4471e78ee528100b96df4662f5a95e90b773de805",
+    "evidence/0001-native-start-0-event.json": "d17aa835614146bed03053c7539685d074cde725fbdcc193b4a413107b20cb1c",
+    "evidence/0001-native-start-0-model.json": "4c910ea9ca814d0ab6cb1783687465e6afa82dffb21b2b0c88a3c63af042252b",
+    "evidence/0001-native-start-0-model.mps": "505650daaedd0b4d52c0b4fcb8bbec8cc663273e3a8e2fbc21c451d5b07df057",
+    "evidence/0002-native-finish-0-event.json": "99568ee5b564f3858678a5f2ab8f901b228819b7e999ceac2e7ad276b05e31ba",
+    "evidence/0002-native-finish-0-native-info.json": "e4487c6effd7f1af02b3f92aef9a284ae51925617329cec7d91120a03d5e95c7",
+    "evidence/diagnostics-complete.json": "49dc5e99c2f24768053ca316f0e0c6d2ababbe8ec2bc4772217852c2f99fd8ba",
+    "evidence/started.json": "6ec4cb56c18dcf5f62323487756605e7ffc4e62021591397df4ef65d898cff8b",
+    "operational-card.json": "ea97b70d09230d72ef43ba681696b54c1c3f6c5891e38831e3346cd455472947",
+    "operational-started.json": "ccab8a893d76ca74ed380e0959d288e829f652f8616732548cad676252d91f54",
+    "registration.json": "c7bf258693c568197114e4db473d47aca6fe90b393570eed791aa944d51d7bf6",
+    "spec.json": "880ba1ec0228d982218bf643c1046ccd7ed8c7d542322bae91511aab459d8e2d"
+  },
+  "schema_version": 1,
+  "status": "OPERATIONAL_REPORT_CAPTURED"
+}
