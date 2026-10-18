@@ -1,0 +1,209 @@
+{
+  "coverage_comparison": "EXACT_MATCH",
+  "gameweeks": [
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152
+  ],
+  "grain": "fixture",
+  "information_protocol": "standard",
+  "metric_version": "forecast_player_round_v1",
+  "notes": [
+    "Ratios are undefined when their reported denominator is zero; negative outcomes can yield ratios outside [0, 1].",
+    "Top1 capture is a within-position ranking diagnostic, not realized captaincy.",
+    "These metrics do not establish causal validity or promotion eligibility."
+  ],
+  "original_model_coverage": "NOT ASSESSED",
+  "population": "Common frozen forecast pool; original unavailable-player coverage is not assessed",
+  "status": "MEASURED",
+  "summaries": [
+    {
+      "candidate": {
+        "by_position": {
+          "DEF": {
+            "aggregate_true_total": 3898.0,
+            "bias": -0.49238198622204543,
+            "fixture_rows": 4395,
+            "mae": 0.8244490286582643,
+            "player_rounds": 4105,
+            "ranking_groups": 16,
+            "rmse": 2.0790974442043204,
+            "spearman": 0.5893725578076356,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.2905982905982906,
+            "top1_true_max_sum": 234.0,
+            "total_calibration": 0.48147048398114506
+          },
+          "FWD": {
+            "aggregate_true_total": 1950.0,
+            "bias": -0.5313190607709766,
+            "fixture_rows": 1782,
+            "mae": 0.8325862272798854,
+            "player_rounds": 1668,
+            "ranking_groups": 16,
+            "rmse": 2.2889039905127553,
+            "spearman": 0.7140527710224941,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.3861788617886179,
+            "top1_true_max_sum": 246.0,
+            "total_calibration": 0.5455178495559031
+          },
+          "GK": {
+            "aggregate_true_total": 1039.0,
+            "bias": -0.2197269063233605,
+            "fixture_rows": 1554,
+            "mae": 0.49867596737061537,
+            "player_rounds": 1449,
+            "ranking_groups": 16,
+            "rmse": 1.4731664275429768,
+            "spearman": 0.6211243312543004,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.2857142857142857,
+            "top1_true_max_sum": 168.0,
+            "total_calibration": 0.6935666147617426
+          },
+          "MID": {
+            "aggregate_true_total": 6571.0,
+            "bias": -0.4793623935709834,
+            "fixture_rows": 5921,
+            "mae": 0.8036103528360724,
+            "player_rounds": 5529,
+            "ranking_groups": 16,
+            "rmse": 2.1402441521366713,
+            "spearman": 0.7297551189923777,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.32269503546099293,
+            "top1_true_max_sum": 282.0,
+            "total_calibration": 0.5966527660852279
+          }
+        },
+        "overall": {
+          "aggregate_true_total": 13458.0,
+          "bias": -0.4608459891870444,
+          "fixture_rows": 13652,
+          "mae": 0.7794573137240758,
+          "player_rounds": 12751,
+          "ranking_groups": 64,
+          "rmse": 2.076006249878501,
+          "spearman": 0.6635761947692019,
+          "spearman_skipped_groups": 0,
+          "spearman_used_groups": 64,
+          "tied_top_groups": 0,
+          "top1_capture": 0.3247311827956989,
+          "top1_true_max_sum": 930.0,
+          "total_calibration": 0.5633640059352056
+        }
+      },
+      "control": {
+        "by_position": {
+          "DEF": {
+            "aggregate_true_total": 3898.0,
+            "bias": -0.497431359344003,
+            "fixture_rows": 4395,
+            "mae": 0.8263703082460866,
+            "player_rounds": 4105,
+            "ranking_groups": 16,
+            "rmse": 2.0808380733548972,
+            "spearman": 0.5819928663324809,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.2777777777777778,
+            "top1_true_max_sum": 234.0,
+            "total_calibration": 0.4761529681613308
+          },
+          "FWD": {
+            "aggregate_true_total": 1950.0,
+            "bias": -0.531031675715274,
+            "fixture_rows": 1782,
+            "mae": 0.8309754594860379,
+            "player_rounds": 1668,
+            "ranking_groups": 16,
+            "rmse": 2.285112758751738,
+            "spearman": 0.7051803757886732,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.5,
+            "top1_true_max_sum": 246.0,
+            "total_calibration": 0.5457636743112426
+          },
+          "GK": {
+            "aggregate_true_total": 1039.0,
+            "bias": -0.2166111518684655,
+            "fixture_rows": 1554,
+            "mae": 0.5086060928354297,
+            "player_rounds": 1449,
+            "ranking_groups": 16,
+            "rmse": 1.4835101712553977,
+            "spearman": 0.6060103016403853,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.35714285714285715,
+            "top1_true_max_sum": 168.0,
+            "total_calibration": 0.697911877711832
+          },
+          "MID": {
+            "aggregate_true_total": 6571.0,
+            "bias": -0.4728699228777543,
+            "fixture_rows": 5921,
+            "mae": 0.803272016138925,
+            "player_rounds": 5529,
+            "ranking_groups": 16,
+            "rmse": 2.1328383116640426,
+            "spearman": 0.73077781780079,
+            "spearman_skipped_groups": 0,
+            "spearman_used_groups": 16,
+            "tied_top_groups": 0,
+            "top1_capture": 0.3191489361702128,
+            "top1_true_max_sum": 282.0,
+            "total_calibration": 0.6021156896071979
+          }
+        },
+        "overall": {
+          "aggregate_true_total": 13458.0,
+          "bias": -0.4592646794642553,
+          "fixture_rows": 13652,
+          "mae": 0.7808468659339307,
+          "player_rounds": 12751,
+          "ranking_groups": 64,
+          "rmse": 2.073552022598774,
+          "spearman": 0.6559903403905823,
+          "spearman_skipped_groups": 0,
+          "spearman_used_groups": 64,
+          "tied_top_groups": 0,
+          "top1_capture": 0.3634408602150538,
+          "top1_true_max_sum": 930.0,
+          "total_calibration": 0.5648622434352267
+        }
+      },
+      "lead": null
+    }
+  ],
+  "training_scaled_mase": {
+    "reason": "Training-only scales and cutoffs were not supplied.",
+    "status": "NOT MEASURED"
+  }
+}

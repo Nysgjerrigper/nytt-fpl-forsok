@@ -1,0 +1,46 @@
+{
+  "attempts": 1,
+  "comparison": "Same CatBoost MAE recipe, seed0; standard and origin reported separately with corrected net points and paired block3/10000/seed0 intervals. Diagnostics do not replace realized decision evidence.",
+  "compute_budget": {
+    "max_fit_calls": 64,
+    "max_seconds": 1200.0,
+    "max_solver_calls": 64,
+    "solve_seconds": 60.0
+  },
+  "feature_counts": {
+    "candidate": 110,
+    "control": 115
+  },
+  "hypothesis": "Historical ownership features may add little decision value beyond performance, availability and price features. Remove only their five shifted summaries and measure the consequences under matched research settings.",
+  "initial_state": {
+    "bank_tenths": 1000,
+    "chips": "disabled",
+    "initial_ft_argument": 1,
+    "mode": "fresh_build",
+    "squad": []
+  },
+  "interpretation": "No automatic selection or production change. Inspect both protocols; negative or inconclusive net evidence retains current production. Any later change needs its own registered qualification. No adaptive feature changes or seed search after seeing results.",
+  "intervention": [
+    "selected_prev",
+    "selected_roll3",
+    "selected_roll5",
+    "selected_career_avg",
+    "selected_season_avg"
+  ],
+  "limitations": [
+    "One seed",
+    "Repeatedly examined selection rounds",
+    "Standard forecasts expose later-round form during multiweek planning",
+    "Origin form frozen but prices/fixtures/registration and complete outcome-blind execution not established",
+    "Legacy scorer zero-fills missing selected outcomes; strict settlement completeness requires separate evidence",
+    "Control uses explicit research capacity, not a reproduction of tuned production controls"
+  ],
+  "plan_sha256": "0daba4410faaa6d8e8ba761ed432b9f5d3a47a8578d1887977f6113828ba379d",
+  "preparation_model_fits": 0,
+  "preparation_optimizer_solves": 0,
+  "price_rules": "Legacy policy: target-row historical buy/sell prices with existing fill rules; FT planning cap2/gain1. Not origin-known-price deployment evidence.",
+  "promotion_eligible": false,
+  "retries": 0,
+  "schema_version": 1,
+  "window_status": "Already inspected selection period; no fresh holdout claim"
+}
