@@ -105,6 +105,8 @@ agents assist implementation and audits; their output still requires verificatio
 Reuse should isolate a useful component, preserve attribution and licensing, and test
 compatibility with our identity, scoring and information-time contracts. An academic
 idea should become a small falsifiable experiment before becoming a dependency.
+The dated [FOSS interface review](FOSS_INTERFACE_REVIEW.md) records a shortlist of
+dashboard and squad-planner candidates, their pinned revisions and licensing limits.
 
 ## Finance and decision-analysis concepts
 
