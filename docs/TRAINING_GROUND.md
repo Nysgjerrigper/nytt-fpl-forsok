@@ -410,6 +410,40 @@ publication times, full transfer-rule chronology or outcome-blind execution. Its
 PASS is **financial arithmetic under the declared evidence**, not full site legality.
 Settlement structure checks and price/information provenance remain separate gates.
 
+### Unified settlement evidence in scorecards
+
+An optional `settlement_replays` section in a comparison spec supplies pinned
+`complete.json` receipts for both candidate and control:
+
+```json
+"settlement_replays": {
+  "candidate": {"path": "candidate/settlement/complete.json", "sha256": "<receipt SHA256>"},
+  "control": {"path": "control/settlement/complete.json", "sha256": "<receipt SHA256>"}
+}
+```
+
+The adapter reuses strict replay verification and requires the replayed CSV hashes
+and gameweeks to equal the compared inputs. If forecast diagnostics are supplied,
+their bytes must also equal the forecasts captured by settlement. It checks the
+reported gross/net/hit arithmetic and produces one `settlement_evidence` section
+used by both the machine scorecard and human report. Original completion receipts
+are copied into the reporting attempt; source replay bundles remain necessary to
+audit those receipts again. Old scorecards remain readable.
+
+The report shows gross/net points, transfer-hit points, recorded transfer/chip
+counts and available recorded solver fields. Initial squad acquisitions count as
+incoming players when the snapshot records them. Recorded decision rounds are
+not an attempted-solve denominator, and recorded Optimal/zero-gap claims do not
+substitute for exported native certificates. Missing original runtimes and
+failure rates stay unknown.
+
+Price-information validity, missing-player-round forecast/blank planning,
+fixture-information causality, complete outcome-blind execution, native
+certificates and independent legality are separate gates. A settlement receipt
+cannot establish these checks. They stay NOT ASSESSED in this adapter; neither
+recorded capture claims nor retrospective blank outcomes can upgrade them.
+The integration does not change league ranking or promotion eligibility.
+
 ### Origin-known planning prices
 
 The opt-in Solio replay accepts a pinned predeadline register for every evaluated

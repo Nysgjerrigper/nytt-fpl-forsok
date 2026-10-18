@@ -1925,3 +1925,36 @@ Full output bundle `TrainingGroundOriginPriceReplay_20261017/first` and capture 
 `OriginPriceReplayInputs_20261017` are externally preserved. Input/source/runtime
 hashes were verified before/after, then all output hashes and both settlement
 receipts rechecked. Focused origin/Solio regression:199 tests passed.
+
+### 2026-10-18 — Unified preserved-pilot evidence scorecard
+
+Extended existing Training Ground reports with optional hash-pinned strict
+settlement receipts (issue #22, comment6246615073; related #40). No new scorer,
+model fits or optimizer solves. Reporting spec SHA
+`079b12d14442f680be3f831887d6cbd56f4a6a67ab1e738dec7767bffade9e8c`.
+Both source replay bundles and compared CSV identities are verified. The scorecard
+combines existing player-round/DGW forecast metrics, origin leads, paired net
+comparison, gross/hits/net, recorded transfers/chips and solver fields.
+
+The preserved modern-price pilot remains203 candidate versus197 control, +6,
+paired95% CI[-8,+11]. UNVERIFIED/unranked and not promotion-eligible. Forecast
+diagnostics cover the original forecast export, including rows later excluded
+from the registered decision pool; this limitation is explicit in the population.
+Recorded solver status/gap and price/pool claims do not upgrade price-information,
+forecast-blank planning, fixture causality, complete outcome-blind execution, native
+certificate or independent-legality gates. All six remain NOT ASSESSED.
+Attempted-solve denominators/failure rate and original fit runtime remain unknown.
+
+Full captured reporting attempt is in task artifacts under
+`TrainingGroundUnifiedScorecard_20261018/runs/origin-price-pilot-evidence/readable-report`.
+The spec, same-data JSON/Markdown, comparison and external-bundle completion
+manifest are tracked under `experiments/unified_scorecard_2026-10-18/`; copied
+completion hashes refer to the full external bundle, not just tracked summaries.
+Verified report re-render equality, receipt hashes, immutable attempt reuse and
+unranked league listing. Existing historical outputs remain unchanged. Focused
+verification:133 tests passed, including malformed/corrupt receipts, missing
+timings, zero/negative totals and prevention of solver-claim evidence upgrades.
+
+The first reporting attempt is preserved externally. A separate `readable-report`
+attempt replaces raw recorded-field JSON prose with a compact comparison table;
+underlying forecasts, decisions and settled point totals remain unchanged.

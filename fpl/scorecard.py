@@ -12,11 +12,14 @@ from typing import Any
 
 def build_scorecard(spec: dict[str, Any], comparison: dict[str, Any], *,
                     reporting_seconds: float,
-                    forecast_quality: dict[str, Any] | None = None) -> dict[str, Any]:
+                    forecast_quality: dict[str, Any] | None = None,
+                    settlement_evidence: dict[str, Any] | None = None) -> dict[str, Any]:
     """Describe an observed paired difference, without turning it into promotion.
 
     Requires the comparison receipt produced by compare_backtests.compare.
     Timing measures this reporting invocation, never the original model fit.
+    Optional settlement evidence must match both compared CSV and receipt hashes;
+    recorded solver/input claims do not certify planning validity or promotion.
     """
     if not math.isfinite(reporting_seconds) or reporting_seconds < 0:
         raise ValueError("reporting_seconds must be finite and nonnegative")
@@ -32,10 +35,26 @@ def build_scorecard(spec: dict[str, Any], comparison: dict[str, Any], *,
             raise ValueError("forecast scorecard identity differs from declared comparison")
     elif "forecasts" in spec:
         raise ValueError("declared forecasts require validated diagnostics")
+    if settlement_evidence is not None:
+        if ("settlement_replays" not in spec or settlement_evidence.get("schema_version") != 1 or
+                settlement_evidence.get("status") != "VERIFIED_SETTLEMENT_INPUTS" or
+                settlement_evidence.get("gameweeks") != comparison["gameweeks"] or
+                settlement_evidence.get("metric") != comparison["metric"] or
+                settlement_evidence.get("promotion_eligible") is not False or
+                not settlement_evidence.get("checks") or
+                any(value != "NOT ASSESSED" for value in settlement_evidence["checks"].values())):
+            raise ValueError("settlement scorecard identity differs from comparison")
+        for side, key in (("candidate", "a"), ("control", "b")):
+            evidence = settlement_evidence["sides"][side]
+            if (evidence["comparison_input_sha256"] != comparison["input_sha256"][key] or
+                    evidence["receipt_sha256"] != spec["settlement_replays"][side]["sha256"]):
+                raise ValueError("settlement scorecard bytes differ from declared inputs")
+    elif "settlement_replays" in spec:
+        raise ValueError("declared settlements require validated evidence")
     exhibition = spec["purpose"] == "framework_validation"
     contracted = comparison["evidence_status"] == "CONTRACT_VALIDATED"
     status = "EXHIBITION" if exhibition else ("CONTRACT_VALIDATED" if contracted else "UNVERIFIED")
-    return {
+    card = {
         "schema_version": 1, "metric_version": "paired_weekly_v1",
         "experiment": {"id": spec["id"], "purpose": spec["purpose"], "hypothesis": spec["hypothesis"],
                        "candidate": spec["candidate"]["name"], "control": spec["control"]["name"]},
@@ -54,6 +73,10 @@ def build_scorecard(spec: dict[str, Any], comparison: dict[str, Any], *,
                     "reason": "Exhibition results cannot support model selection." if exhibition else
                     "Saved-outcome reanalysis only; full registered promotion evidence has not been assessed."},
     }
+
+    if settlement_evidence is not None:
+        card["settlement_evidence"] = deepcopy(settlement_evidence)
+    return card
 
 
 def render_scorecard(card: dict[str, Any]) -> str:
@@ -119,6 +142,51 @@ def render_scorecard(card: dict[str, Any]) -> str:
                   "pooling repeated target outcomes.", ""]
     else:
         lines += ["Forecast diagnostics: **NOT MEASURED**.", ""]
+    if "settlement_evidence" in card:
+        evidence = card["settlement_evidence"]
+        lines += ["## Saved decision and settlement evidence", "",
+                  "Both strict replay bundles were hash-verified at report generation. "
+                  "This does not validate their planning inputs, native certificates or full site rules.", "",
+                  "| Measured settlement | Candidate | Control |", "| --- | ---: | ---: |"]
+        for key, title in (("gross_points", "Gross points"), ("hit_points", "Transfer hit points"),
+                           ("net_points", "Net points"), ("decision_rounds", "Recorded decision rounds"),
+                           ("transfers_in", "Recorded incoming players"), ("transfers_out", "Recorded outgoing players")):
+            values = [evidence["sides"][side][key] for side in ("candidate", "control")]
+            lines.append(f"| {title} | {values[0]:g} | {values[1]:g} |")
+        lines += ["", "Incoming players include initial squad construction when captured as transfers. "
+                  "Decision rounds are not an attempted-solve denominator.", "",
+                  "| Evidence gate | Assessment |", "| --- | --- |"]
+        for key, assessment in sorted(evidence["checks"].items()):
+            lines.append(f"| {label(key.replace('_', ' '))} | {label(assessment)} |")
+        def recorded_display(record: dict[str, Any]) -> str:
+            if record.get("status") != "RECORDED":
+                return "NOT MEASURED"
+            values = record.get("values", record.get("decisions"))
+            if values is None:
+                return label(record.get("snapshot", "NOT MEASURED"))
+            if values and all(value == values[0] for value in values):
+                return f"{label(values[0])} ({len(values)} rounds)"
+            return ", ".join(label(value) for value in values)
+
+        lines += ["", "| Recorded claim | Candidate | Control |", "| --- | --- | --- |"]
+        for field, title in (("solver_status", "Solver status"), ("mip_gap", "Relative solver gap"),
+                             ("solver_seconds", "Solver seconds per recorded window"),
+                             ("price_policy", "Planning price policy"), ("pool_policy", "Player pool policy"),
+                             ("solver_outcome_columns", "Solver outcome columns")):
+            displays = [recorded_display(evidence["sides"][side]["recorded"].get(field, {}))
+                        for side in ("candidate", "control")]
+            lines.append(f"| {title} | {displays[0]} | {displays[1]} |")
+        for side in ("candidate", "control"):
+            value = evidence["sides"][side]
+            lines += ["", f"**{side.capitalize()} recorded evidence**", "",
+                      "Chip usage: " + (", ".join(f"{label(chip)}: {count}" for chip, count in
+                          sorted(value["chip_usage"].items())) or "none recorded") + ".",
+                      f"Receipt SHA256: `{value['receipt_sha256']}`.",
+                      f"Snapshot SHA256: `{value['snapshot_sha256']}`."]
+        lines += ["", "Recorded Optimal status and zero gap do not substitute for exported native certificates. "
+                  "Settlement blank evidence does not validate zero-filled planning forecasts. "
+                  "Original fit runtime, attempted solves and failure rate remain NOT MEASURED. "
+                  "Source replay bundles are required to audit the captured receipts again.", ""]
     lines += ["Probabilistic diagnostics: **NOT MEASURED**. "
              "Native optimality, independent legality and causal validity: **NOT ASSESSED**.", "",
              f"Reporting invocation: {card['operations']['reporting_seconds']:.3f} seconds. "

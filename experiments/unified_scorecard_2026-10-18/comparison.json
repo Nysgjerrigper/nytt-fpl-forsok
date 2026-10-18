@@ -1,0 +1,42 @@
+{
+  "block_len": 3,
+  "boot_mean": 1.4825,
+  "bootstrap_positive_fraction": 0.499,
+  "ci_high": 11.0,
+  "ci_low": -8.0,
+  "contract": null,
+  "effective_metric": "actual_net_points",
+  "evidence_status": "UNVERIFIED",
+  "gameweeks": [
+    141,
+    142,
+    143,
+    144
+  ],
+  "inference_limitations": "Historical paired window, not independent seasons. Block bootstrap depends on block choice; the exact binomial sign-test null assumes independent signs. Neither is a probability of future gain.",
+  "input_sha256": {
+    "a": "ab5c98da107b68e8860bc44f4a23afc8f1925f8354a1fd0b26311ad16bb00e88",
+    "b": "ab17c88c3c25e16fbd997736fedb56534290ec5a0b4a01a6b17b7d0a03d450b1"
+  },
+  "metric": "actual_net_points",
+  "n_boot": 10000,
+  "n_gws": 4,
+  "p_a_better": 0.499,
+  "requested_metric": "actual_net_points",
+  "scoring_protocol": {
+    "a": "autosubs_v2",
+    "b": "autosubs_v2"
+  },
+  "seed": 0,
+  "sign_test": {
+    "p_a_better": 0.6875,
+    "p_value": 1.0,
+    "ties": 0,
+    "wins_a": 2,
+    "wins_b": 2
+  },
+  "total_a": 203.0,
+  "total_b": 197.0,
+  "total_diff": 6.0,
+  "transfer_hit_points_per_paid_transfer": 4
+}
