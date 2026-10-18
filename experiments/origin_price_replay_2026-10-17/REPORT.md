@@ -18,8 +18,12 @@ Candidate minus control is **+6 points**, paired block-bootstrap 95% CI
 **[-8, +11]**, 10,000 resamples, block3, seed0. The comparator's raw report uses
 control minus candidate: -6, CI [-11, +8]. Each arm wins two rounds. The interval
 includes zero; no reliable superiority is established. Four rounds and one seed
-provide very limited inference, and the original recipes change capacity as well
-as loss. The comparison remains **UNVERIFIED**, unranked and ineligible for
+provide very limited inference. The original recipes match explicit non-loss
+hyperparameters and features; CatBoost loss-dependent training defaults differ.
+See the [receipt-based recipe correction](../pilot_recipe_audit_2026-10-18/REPORT.md).
+The original registered plan/result/script retain their mistaken capacity caveat
+as preserved historical bytes; this correction supersedes that interpretation.
+The comparison remains **UNVERIFIED**, unranked and ineligible for
 promotion. Legacy-policy totals are separate and are not a clean price-only
 sensitivity because backend/rules also differ.
 

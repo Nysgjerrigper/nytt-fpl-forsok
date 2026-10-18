@@ -1905,8 +1905,11 @@ and registered forecast pools match between arms. Decisions precede strict repla
 
 Control197 gross/net; candidate203 gross/net. Candidate-control+6, paired95%
 block-bootstrap CI[-8,+11], block3/10000/seed0; two round wins each. Four already
-examined selection rounds and mixed capacity/loss recipes do not establish model
-superiority. UNVERIFIED/unranked; no promotion or default change. Legacy-policy
+examined selection rounds do not establish model superiority. **Recipe correction
+(2026-10-18):** the preserved pilot matches explicit non-loss hyperparameters and
+features; the previous mixed-capacity description was incorrect. CatBoost
+loss-dependent evaluation/leaf-estimation defaults differ, as verified by all fit
+receipts in `experiments/pilot_recipe_audit_2026-10-18/`. UNVERIFIED/unranked; no promotion or default change. Legacy-policy
 scores remain separate because backend/rules also differ.
 
 Recent predeadline capture prices pass pinned-byte/identity admission; origins142–144
@@ -1958,3 +1961,19 @@ timings, zero/negative totals and prevention of solver-claim evidence upgrades.
 The first reporting attempt is preserved externally. A separate `readable-report`
 attempt replaces raw recorded-field JSON prose with a compact comparison table;
 underlying forecasts, decisions and settled point totals remain unchanged.
+
+### 2026-10-18 — Correct matched-pilot recipe description
+
+The origin-price replay's plan/result/evaluated script incorrectly repeated a
+capacity-confounding caveat belonging to the older separately tuned October3 study.
+The original four-round runner plan and all16 start/completion receipt pairs prove
+identical ordered features, depth6/300 iterations/learning-rate0.05, seed0, threads2
+and all other explicit non-loss parameters. All eight protocol/position pairs match
+cutoffs and training-row counts. Fitted parameter differences are loss_function,
+eval_metric and loss-dependent leaf_estimation_method (Exact versus Newton).
+
+Preserved original bundles and registered plan/result/script bytes unchanged.
+Corrected the human interpretation and published a reproducible no-fit/no-solve
+audit under `experiments/pilot_recipe_audit_2026-10-18/`. Existing point totals,
+paired intervals, UNVERIFIED/unranked status and all information-time/promotion
+gaps remain unchanged. Older separately tuned study caveats remain valid.

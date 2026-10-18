@@ -1,0 +1,283 @@
+{
+  "fit_receipts": 16,
+  "fit_start_receipts": 16,
+  "input_sha256": {
+    "complete.json": "dba62fcae6245585a9c7e265acd80f6c8dcd8b821d4fd4d4d1c8e9d663c6dc4c",
+    "fit-complete-1.json": "d97eb771d3357cc9266aa9ca39803f8e184a879075f395b4c959035faa775316",
+    "fit-complete-10.json": "b170550bf3b34e8d0cdc3d1970d636556f488f50463b8d006e6d2ce54a249ae9",
+    "fit-complete-11.json": "224fcb85d010c9cc01a29566f56665d882d2c407f3c3994adb671c7656f7c939",
+    "fit-complete-12.json": "c1d0ab6fc8bc8e2ed689d67bd44473fa81f833e011a935c5f3bd05e163a663e9",
+    "fit-complete-13.json": "a8f51eb3db56249e0addb1ee9f0fe70394ea248ff91138cac1dba8d418f91ceb",
+    "fit-complete-14.json": "cf41efd3a308c89373ac2a6c44509891bfaf7f775ae6d7d251f0ec01204bfcfe",
+    "fit-complete-15.json": "1b2f5a4029004248874755e2b6e2f3266cea4144834ce7beeec56c521b4afc44",
+    "fit-complete-16.json": "3adb32d597eba57e7f5f4fb16c21436f83052d59fcf20d226e628809997fe6f4",
+    "fit-complete-2.json": "215f59b5d26b32739ada3d9a76d7d5e1b16c56dff84c428c26103e78ee09b230",
+    "fit-complete-3.json": "16029dabcc59de0d73331520347c46ff972d5aa7cd928be46666e267a5594536",
+    "fit-complete-4.json": "c8d95ef2cff8bd5b0d13961d6c6a9466d7cb5ad562aa81e8206041abbb1640d6",
+    "fit-complete-5.json": "4f6e4721d72324da66cff947a0354327804bf05c67ca48b215511872e9f61fae",
+    "fit-complete-6.json": "baead3a3d266842dbe66d59393a3fd0368f2422f137dbcd3f73efd85c65e26f4",
+    "fit-complete-7.json": "de9a6268489fa623c09d8f6af2a845368ea233c986ec55ce6f7e875519db9ade",
+    "fit-complete-8.json": "c4a39dea3dff95f7d0e31bf6799f17b8b700ffcaa5ded670bd0a4ddb436ec4bc",
+    "fit-complete-9.json": "5347ef39defe2fe38a7cceea0b3673e0657ba3e68f4b446354aee6ec5665f5bf",
+    "fit-start-1.json": "52929b76b86d8bfa19236c988cee4491d491beb55bbc5283547574f31afc61fb",
+    "fit-start-10.json": "947e3031633a75c8e1b9c4135c13eca89832977da154370e58509e88aa8e9709",
+    "fit-start-11.json": "bbbdacbea377f84ef91c6bfab7286d858a407005435898f596254d35da7853af",
+    "fit-start-12.json": "85392bd15488f7c89d836463d50b6b27d800103d7108bb25040a762531db6806",
+    "fit-start-13.json": "d771bf6418dbd4847eb5213e17744eee45ed547a01e2f6f91d486e8f897cac7d",
+    "fit-start-14.json": "7a0f8c73676703b1394e9015285a5cd6f403c2f5475b5fab9b9447e2abd92b78",
+    "fit-start-15.json": "01e3de72a7976cfc7005d669d6ff75c20ab988f5b9fca783e6794e9cf1674829",
+    "fit-start-16.json": "9ea6408514bc4009967f8db2638d5fdf5cd42233bb24aab1198dada98034b262",
+    "fit-start-2.json": "3d8a89af796525389ed7e57e0e409dd56915be3c938360cd18655ea0aa7cb83c",
+    "fit-start-3.json": "ca6fc955592a9eeefe895589045ae96391ea2f7fb0d6b538e614c11ff3527d61",
+    "fit-start-4.json": "cf17adaeb80eecc6450dbb4578d88337a7648be7f2632d129b3fecba6203630e",
+    "fit-start-5.json": "dd43b3f15b38ccc895dab744b9fef2fa5625452fb1f204f63334c96e71b49ed9",
+    "fit-start-6.json": "526172898cb971df82c74c6a27e86fe64c6943e9fbc91a5b1b8330f3b5bc2fd2",
+    "fit-start-7.json": "9f05920195e2ec257b8bee18a8593e2b219f3ed37d6871c40a1c2ff173ead778",
+    "fit-start-8.json": "fa4c5494d08fed04aa4fc7cb61ccabf3b888bb3a31eb524f21c42259105eec81",
+    "fit-start-9.json": "ec99c698d8d10f8214872af99703409bce869d66f30880cea583ff6479cc89a2",
+    "plan.json": "03d28b5ac9cfca9355ab7f11472831815577701fcc635e5b91a24f4f77343f45"
+  },
+  "interpretation": "Matched explicit non-loss hyperparameters and features. CatBoost loss-dependent effective leaf estimation and evaluation metric also differ. No separately tuned capacity contrast in this pilot.",
+  "limitations": "Existing four-round, one-seed selection diagnostic; no new score or causal/promotion evidence. Older separately tuned recovered studies remain capacity-confounded.",
+  "model_fits": 0,
+  "optimizer_solves": 0,
+  "original_bundle": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundRunnerPilot_20261017/first",
+  "paired_cells": [
+    {
+      "effective_differences": {
+        "eval_metric": [
+          "MAE",
+          "RMSE"
+        ],
+        "leaf_estimation_method": [
+          "Exact",
+          "Newton"
+        ],
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "feature_count": 115,
+      "position": "DEF",
+      "protocol": "origin",
+      "requested_differences": {
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "seed": 0,
+      "train_max_gw": 140,
+      "train_min_gw": 1,
+      "training_rows": 32687
+    },
+    {
+      "effective_differences": {
+        "eval_metric": [
+          "MAE",
+          "RMSE"
+        ],
+        "leaf_estimation_method": [
+          "Exact",
+          "Newton"
+        ],
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "feature_count": 115,
+      "position": "FWD",
+      "protocol": "origin",
+      "requested_differences": {
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "seed": 0,
+      "train_max_gw": 140,
+      "train_min_gw": 1,
+      "training_rows": 12115
+    },
+    {
+      "effective_differences": {
+        "eval_metric": [
+          "MAE",
+          "RMSE"
+        ],
+        "leaf_estimation_method": [
+          "Exact",
+          "Newton"
+        ],
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "feature_count": 115,
+      "position": "GK",
+      "protocol": "origin",
+      "requested_differences": {
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "seed": 0,
+      "train_max_gw": 140,
+      "train_min_gw": 1,
+      "training_rows": 10598
+    },
+    {
+      "effective_differences": {
+        "eval_metric": [
+          "MAE",
+          "RMSE"
+        ],
+        "leaf_estimation_method": [
+          "Exact",
+          "Newton"
+        ],
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "feature_count": 115,
+      "position": "MID",
+      "protocol": "origin",
+      "requested_differences": {
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "seed": 0,
+      "train_max_gw": 140,
+      "train_min_gw": 1,
+      "training_rows": 40143
+    },
+    {
+      "effective_differences": {
+        "eval_metric": [
+          "MAE",
+          "RMSE"
+        ],
+        "leaf_estimation_method": [
+          "Exact",
+          "Newton"
+        ],
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "feature_count": 115,
+      "position": "DEF",
+      "protocol": "standard",
+      "requested_differences": {
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "seed": 0,
+      "train_max_gw": 140,
+      "train_min_gw": 1,
+      "training_rows": 32687
+    },
+    {
+      "effective_differences": {
+        "eval_metric": [
+          "MAE",
+          "RMSE"
+        ],
+        "leaf_estimation_method": [
+          "Exact",
+          "Newton"
+        ],
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "feature_count": 115,
+      "position": "FWD",
+      "protocol": "standard",
+      "requested_differences": {
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "seed": 0,
+      "train_max_gw": 140,
+      "train_min_gw": 1,
+      "training_rows": 12115
+    },
+    {
+      "effective_differences": {
+        "eval_metric": [
+          "MAE",
+          "RMSE"
+        ],
+        "leaf_estimation_method": [
+          "Exact",
+          "Newton"
+        ],
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "feature_count": 115,
+      "position": "GK",
+      "protocol": "standard",
+      "requested_differences": {
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "seed": 0,
+      "train_max_gw": 140,
+      "train_min_gw": 1,
+      "training_rows": 10598
+    },
+    {
+      "effective_differences": {
+        "eval_metric": [
+          "MAE",
+          "RMSE"
+        ],
+        "leaf_estimation_method": [
+          "Exact",
+          "Newton"
+        ],
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "feature_count": 115,
+      "position": "MID",
+      "protocol": "standard",
+      "requested_differences": {
+        "loss_function": [
+          "MAE",
+          "RMSE"
+        ]
+      },
+      "seed": 0,
+      "train_max_gw": 140,
+      "train_min_gw": 1,
+      "training_rows": 40143
+    }
+  ],
+  "promotion_eligible": false,
+  "schema_version": 1,
+  "script_sha256": "5fb05d63bc284268a408d1bed72ef98c6a83fab53e4fd9fdc4d52eebc30838ea",
+  "status": "MATCHED_CAPACITY_RECIPE_VERIFIED"
+}
