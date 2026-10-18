@@ -160,10 +160,111 @@ def _admit_blank_evidence(snapshot: dict, predictions: pd.DataFrame, inputs: dic
     return blanks
 
 
+_BLANK_ASSETS = ("fixtures.csv", "teams.csv", "bootstrap-static.json.gz", "manifest.json")
+
+
+def _collection_entries(evidence: dict) -> list[dict] | None:
+    """Recognize the opt-in collection without changing single-event admission."""
+    if not isinstance(evidence, dict) or "events" not in evidence:
+        return None
+    if (set(evidence) != {"schema_version", "events"}
+            or type(evidence["schema_version"]) is not int or evidence["schema_version"] != 1
+            or not isinstance(evidence["events"], list) or not evidence["events"]):
+        raise ValueError("invalid blank evidence collection")
+    for entry in evidence["events"]:
+        if (not isinstance(entry, dict) or set(entry) != {"path", "sha256"}
+                or not isinstance(entry["path"], str) or not entry["path"]
+                or "\\" in entry["path"] or Path(entry["path"]).is_absolute()
+                or any(part in (".", "..") for part in entry["path"].split("/"))
+                or Path(entry["path"]).as_posix() != entry["path"]
+                or not isinstance(entry["sha256"], str)
+                or re.fullmatch(r"[0-9a-f]{64}", entry["sha256"]) is None):
+            raise ValueError("invalid pinned blank descriptor path or SHA256")
+    return evidence["events"]
+
+
+def _capture_blank_inputs(path: Path) -> dict[str, bytes]:
+    inputs = {"blank-evidence.json": path.read_bytes()}
+    entries = _collection_entries(json.loads(inputs["blank-evidence.json"]))
+    if entries is None:
+        inputs.update({name: (path.parent / name).read_bytes() for name in _BLANK_ASSETS})
+        return inputs
+    root = path.parent.resolve()
+    for index, entry in enumerate(entries, 1):
+        descriptor = (root / entry["path"]).resolve()
+        if not descriptor.is_relative_to(root):
+            raise ValueError("blank descriptor escapes collection directory")
+        prefix = f"blank-evidence-events/{index:04d}/"
+        for name in ("blank-evidence.json", *_BLANK_ASSETS):
+            source = descriptor if name == "blank-evidence.json" else descriptor.parent / name
+            if not source.resolve().is_relative_to(root):
+                raise ValueError("blank evidence asset escapes collection directory")
+            inputs[prefix + name] = source.read_bytes()
+    _blank_groups(inputs)  # Pin descriptors/assets and reject event collisions before output creation.
+    return inputs
+
+
+def _blank_groups(inputs: dict[str, bytes]) -> list[dict[str, bytes]]:
+    """Derive exact evidence coverage solely from immutable captured bytes."""
+    if "blank-evidence.json" not in inputs:
+        if inputs:
+            raise ValueError("unexpected captured blank evidence")
+        return []
+    entries = _collection_entries(json.loads(inputs["blank-evidence.json"]))
+    if entries is None:
+        if set(inputs) != {"blank-evidence.json", *_BLANK_ASSETS}:
+            raise ValueError("invalid captured single-event evidence coverage")
+        return [inputs]
+    groups, expected, events, weeks = [], {"blank-evidence.json"}, set(), set()
+    for index, entry in enumerate(entries, 1):
+        prefix = f"blank-evidence-events/{index:04d}/"
+        names = ("blank-evidence.json", *_BLANK_ASSETS)
+        expected.update(prefix + name for name in names)
+        if any(prefix + name not in inputs for name in names):
+            raise ValueError("incomplete captured blank evidence event")
+        group = {name: inputs[prefix + name] for name in names}
+        if hashlib.sha256(group["blank-evidence.json"]).hexdigest() != entry["sha256"]:
+            raise ValueError("blank descriptor SHA256 mismatch")
+        descriptor = json.loads(group["blank-evidence.json"])
+        if not isinstance(descriptor, dict) or "events" in descriptor:
+            raise ValueError("collection entries must be single-event descriptors")
+        season, event = descriptor.get("season"), _integer(descriptor.get("event"), "blank event")
+        first = _integer(descriptor.get("first_global_gw"), "blank first_global_gw")
+        if not isinstance(season, str) or event > config.GWS_PER_SEASON:
+            raise ValueError("invalid collection event identity")
+        identity, gw = (season, event), first + event - 1
+        if identity in events or gw in weeks:
+            raise ValueError("duplicate blank evidence event")
+        events.add(identity)
+        weeks.add(gw)
+        pins = descriptor.get("input_sha256")
+        if (not isinstance(pins, dict) or set(pins) != set(_BLANK_ASSETS)
+                or any(pins[name] != hashlib.sha256(group[name]).hexdigest() for name in _BLANK_ASSETS)):
+            raise ValueError("blank evidence asset SHA256 mismatch")
+        groups.append(group)
+    if set(inputs) != expected:
+        raise ValueError("extra captured blank evidence files")
+    return groups
+
+
+def _admit_blank_collection(snapshot: dict, predictions: pd.DataFrame,
+                            inputs: dict[str, bytes]) -> pd.DataFrame:
+    groups = _blank_groups(inputs)
+    blanks = pd.concat([_admit_blank_evidence(snapshot, predictions, group) for group in groups],
+                       ignore_index=True)
+    if blanks.duplicated(["player_id", "GW"]).any():
+        raise ValueError("duplicate blank player/gameweek across evidence events")
+    return blanks
+
+
 def run_replay(snapshot_path: str | Path, predictions_path: str | Path,
                output_dir: str | Path, *, reference_path: str | Path | None = None,
                blank_evidence_path: str | Path | None = None) -> Path:
-    """Capture immutable inputs and report settlement evidence, including failures."""
+    """Capture immutable inputs and settle, accepting single-event or pinned collection evidence.
+
+    Collection entries are relative descriptor paths with SHA256 pins; saved
+    reporting uses captured bytes and never needs their original source paths.
+    """
     output = Path(output_dir).resolve()
     if any(output.is_relative_to(folder.resolve()) for folder in (config.DATASETT_DIR, config.ROOT / "fpl")):
         raise ValueError("replay output cannot target production code or datasets")
@@ -171,15 +272,13 @@ def run_replay(snapshot_path: str | Path, predictions_path: str | Path,
     if reference_path is not None:
         inputs["reference.csv"] = Path(reference_path).read_bytes()
     if blank_evidence_path is not None:
-        evidence_path = Path(blank_evidence_path)
-        inputs["blank-evidence.json"] = evidence_path.read_bytes()
-        for name in ("fixtures.csv", "teams.csv", "bootstrap-static.json.gz", "manifest.json"):
-            inputs[name] = (evidence_path.parent / name).read_bytes()
+        inputs.update(_capture_blank_inputs(Path(blank_evidence_path)))
     sources, runtime = _source_hashes(), _runtime_versions()
     output.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()
     try:
         for name, content in inputs.items():
+            (output / name).parent.mkdir(parents=True, exist_ok=True)
             with (output / name).open("xb") as stream:
                 stream.write(content)
         hashes = {name: hashlib.sha256(content).hexdigest() for name, content in inputs.items()}
@@ -187,7 +286,9 @@ def run_replay(snapshot_path: str | Path, predictions_path: str | Path,
                        "source_sha256": sources, "runtime": runtime, "promotion_eligible": False})
         snapshot = json.loads(inputs["decisions.json"])
         predictions = pd.read_csv(BytesIO(inputs["predictions.csv"]))
-        blanks = _admit_blank_evidence(snapshot, predictions, inputs) if "blank-evidence.json" in inputs else None
+        evidence_inputs = {name: value for name, value in inputs.items()
+                           if name not in {"decisions.json", "predictions.csv", "reference.csv"}}
+        blanks = _admit_blank_collection(snapshot, predictions, evidence_inputs) if evidence_inputs else None
         if blanks is not None:
             blanks.to_csv(output / "explicit-blank-outcomes.csv", index=False)
         replayed = replay_snapshot(snapshot, predictions, blank_outcomes=blanks)
@@ -245,13 +346,19 @@ def read_replay(output_dir: str | Path) -> dict:
     _verify_outputs(root, result.get("output_sha256"), {"complete.json"})
     inputs = result.get("input_sha256")
     base = {"decisions.json", "predictions.csv"}
-    evidence_names = {"blank-evidence.json", "fixtures.csv", "teams.csv", "bootstrap-static.json.gz", "manifest.json"}
-    if not isinstance(inputs, dict) or set(inputs) not in (
-            base, base | {"reference.csv"}, base | evidence_names, base | evidence_names | {"reference.csv"}):
+    if not isinstance(inputs, dict) or not base <= set(inputs):
         raise ValueError("invalid captured replay input manifest")
+    evidence_names = set(inputs) - base - {"reference.csv"}
+    captured_evidence_names = {name for name in result["output_sha256"]
+                               if name == "blank-evidence.json" or name in _BLANK_ASSETS
+                               or name.startswith("blank-evidence-events/")}
+    if captured_evidence_names != evidence_names:
+        raise ValueError("captured evidence output/input coverage differs")
     for name, digest in result["input_sha256"].items():
         if not isinstance(digest, str) or len(digest) != 64 or result["output_sha256"].get(name) != digest:
             raise ValueError("captured replay input identity changed")
+    evidence_inputs = {name: (root / name).read_bytes() for name in evidence_names}
+    _blank_groups(evidence_inputs)
     return result
 
 

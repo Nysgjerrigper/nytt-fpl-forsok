@@ -357,6 +357,27 @@ limit. Added zeros go to a separate `explicit-blank-outcomes.csv`, without fixtu
 IDs or forecasts; `predictions.csv` remains byte-identical to its original input.
 The scorer validates their zero arithmetic and records `explicit_blank_players`.
 
+For several rounds, the same `--blank-evidence` argument accepts a pinned collection:
+
+```json
+{
+  "schema_version": 1,
+  "events": [
+    {"path": "event-27/blank-evidence.json", "sha256": "<descriptor SHA256>"},
+    {"path": "event-29/blank-evidence.json", "sha256": "<descriptor SHA256>"}
+  ]
+}
+```
+
+Each entry points to an unchanged single-event descriptor and its four adjacent
+assets. Paths must stay inside the collection folder. Admission rejects duplicate
+events, duplicate player/round blank rows, hash mismatches and escaping paths.
+Every event passes the same strict register and complete-ledger checks. Replay
+captures each event in a separate numbered folder, binds all inputs in the receipt,
+and can verify the saved bundle after the original evidence folder is removed.
+A collection does not repair a selected player who was absent from the register;
+that requires new decisions from an admitted player pool.
+
 This is a **retrospective actual-fixture** check with **capture-time registration**.
 It does not prove a deadline-known forecast calendar, exact-deadline identity,
 financial/rule legality or outcome-blind execution. The four follow-up cases passed
