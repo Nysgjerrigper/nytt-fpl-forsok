@@ -2113,3 +2113,18 @@ prices. Round-trip tests distinguish exact serialized storage from HiGHS' equiva
 sparse-layout conversion. Existing-directory failure emits no vendor-start receipt.
 The next separately registered case is candidateGW139/H3 at the existing120s limit;
 issue6 remains open until measured diagnosis and a justified improvement are complete.
+
+### 2026-10-18 — Registered GW139 native diagnostic reached optimality
+
+Plan c7bf258693c568197114e4db473d47aca6fe90b393570eed791aa944d51d7bf6,
+issue6/comment6250305359, source4ea4d62. One preserved candidateGW139/H3 solve,
+seed0/120s native/300s parent, zero fits/retries. Full prior181+214 file seals and
+admitted/prepared/options identities verified. Returned Optimal at68.140s native,
+0.590s construction/73.314s parent;32,646 columns/57,360 rows/224,825 nonzeros,
+objective=bound125.39588942007455,gap0,399 nodes. Normalization accepted; model JSON
+round-trip verified without another solve. Prior native matrix was not exported;
+input equality alone is not independent across-revision matrix equality. No claimed
+speed improvement: original replay still failed and parallel/process contexts differ.
+No points/settlement/CI/promotion. Raw external bundle GW139NativeDiagnostics_20261018;
+tracked experiments/gw139_native_diagnostics_2026-10-18. Issue6 remains open; next
+registered work should test exact-runtime repeatability/thread policy before change.

@@ -1,0 +1,23 @@
+{
+  "output_sha256": {
+    "callback-0001-prepared.json": "2f6c2dd2c7af90a9c832d99a70f596e854afc9ac8b36ef7b2ba4ff1dbd9efbe0",
+    "callback-0002-vendor-start.json": "ca0e51a9fef92160fe307d5d673c26266e43114f45ef0335f0828d02b1085a61",
+    "callback-0003-vendor-complete.json": "19f133b2ff81dabe505772087ae8e45134c7b634c1ebf9917a1dc32ceeced627",
+    "callback-0004-normalization-start.json": "4fad15656bc5aba5eb6a5252396f1759f2af645d8e5df64d954373cc99b3d87d",
+    "callback-0005-normalization-complete.json": "e08071f8d6c89085f5f1dab824784708c6255db82602565b3f6d504140c20f86",
+    "native/0001-native-start-0-event.json": "d17aa835614146bed03053c7539685d074cde725fbdcc193b4a413107b20cb1c",
+    "native/0001-native-start-0-model.json": "4c910ea9ca814d0ab6cb1783687465e6afa82dffb21b2b0c88a3c63af042252b",
+    "native/0001-native-start-0-model.mps": "505650daaedd0b4d52c0b4fcb8bbec8cc663273e3a8e2fbc21c451d5b07df057",
+    "native/0002-native-finish-0-event.json": "99568ee5b564f3858678a5f2ab8f901b228819b7e999ceac2e7ad276b05e31ba",
+    "native/0002-native-finish-0-native-info.json": "e4487c6effd7f1af02b3f92aef9a284ae51925617329cec7d91120a03d5e95c7",
+    "native/diagnostics-complete.json": "49dc5e99c2f24768053ca316f0e0c6d2ababbe8ec2bc4772217852c2f99fd8ba",
+    "native/started.json": "6ec4cb56c18dcf5f62323487756605e7ffc4e62021591397df4ef65d898cff8b",
+    "reconstruction.json": "4f04a6be47304a38887cfbf7aad24a6c94ce3a209b5c384fc1b39c4521b92f07",
+    "worker-result.json": "f721f59b8ce641fa7743aaa27328780eaa5082a0b258e4d4b73af9a923b9faa1",
+    "worker-started.json": "873601e99e9fa504e3c4b2cb9d214a611b864ffb179944de521eca6d0acb7e5f"
+  },
+  "promotion_eligible": false,
+  "schema_version": 1,
+  "scope": "DIAGNOSTIC_ONLY",
+  "status": "DIAGNOSTIC_EVIDENCE_SEALED"
+}

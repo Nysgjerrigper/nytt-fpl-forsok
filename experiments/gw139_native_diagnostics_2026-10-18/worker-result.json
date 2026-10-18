@@ -1,0 +1,33 @@
+{
+  "call_count_scope": "VENDOR_WRAPPER_INVOCATIONS",
+  "counters": {
+    "attempted_vendor_calls": 1,
+    "completed_vendor_calls": 1,
+    "failed_vendor_calls": 0,
+    "prepared_callbacks": 1
+  },
+  "error": null,
+  "model_fits": 0,
+  "origin_gw": 139,
+  "plan_sha256": "c7bf258693c568197114e4db473d47aca6fe90b393570eed791aa944d51d7bf6",
+  "post_verification": {
+    "native": {
+      "lossless_model_roundtrips": 1,
+      "receipt_sha256": "49dc5e99c2f24768053ca316f0e0c6d2ababbe8ec2bc4772217852c2f99fd8ba",
+      "sealed": true,
+      "solver_result_accepted": true
+    },
+    "plan_unchanged": true,
+    "runtime_unchanged": true,
+    "source_unchanged": true,
+    "worker_unchanged": true
+  },
+  "promotion_eligible": false,
+  "returned_decision_rows": 3,
+  "schema_version": 1,
+  "scope": "DIAGNOSTIC_ONLY",
+  "settlement_performed": false,
+  "solver_result_accepted": true,
+  "status": "DIAGNOSTIC_ATTEMPT_RECORDED",
+  "wall_seconds": 71.11744924998493
+}

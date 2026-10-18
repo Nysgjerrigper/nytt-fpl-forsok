@@ -1,0 +1,18 @@
+{
+  "all_raw_hashes_verified": true,
+  "attempt_seal_sha256": "e376e283bde2c147ab3c089f55be19db45c5c51b3a074a82239781a3f541d40f",
+  "build_seconds": 0.5901319590047933,
+  "columns": 32646,
+  "dual_bound": 125.39588942007455,
+  "gap": 0.0,
+  "model_json_sha256": "4c910ea9ca814d0ab6cb1783687465e6afa82dffb21b2b0c88a3c63af042252b",
+  "native_seconds": 68.13980362500297,
+  "native_status": "Optimal",
+  "nonzeros": 224825,
+  "objective": 125.39588942007455,
+  "prepared_inputs_options_equal_prior": true,
+  "promotion_eligible": false,
+  "raw_bundle": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/GW139NativeDiagnostics_20261018",
+  "raw_file_count": 20,
+  "rows": 57360
+}

@@ -1,0 +1,5 @@
+Registering a separate diagnostic-only attempt before execution. Plan SHA `c7bf258693c568197114e4db473d47aca6fe90b393570eed791aa944d51d7bf6`; worker SHA `8c7c1f44daf5cf7655da1e5ffa5bb5d2b69f501ad2a4e29297bf9319d32559c3`; source `4ea4d625002f66a6d67234fce6b787d7f8c9d5a9` (PR51 merged). External bundle `GW139NativeDiagnostics_20261018`.
+
+One candidateGW139/H3 window, same captured register/prices, squad/bank18/FT2/purchase basis/chips, seed0, 120-second native limit, 300-second parent cap, zero fits, one wrapper/native invocation maximum, no retries. All181+214 prior files verified. Full admitted-frame/capture/prepared-input identities were independently reconstructed successfully before registration and will be checked again, including options, before vendor invocation.
+
+Preserve exact JSON model, review-only MPS, build/native timings and available native status/incumbent/bound/gap. No settlement, paired points/CI, shortened-prefix comparison or production promotion. This does not resume or complete the old failed experiment. Runtime improvement remains unproven; issue6 stays open.
