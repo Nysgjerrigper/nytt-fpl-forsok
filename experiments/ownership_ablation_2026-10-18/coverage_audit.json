@@ -1,0 +1,301 @@
+{
+  "capture_descriptor_sha256": "b7eca5131e4b209fc6517ad4d4b7936bcdfc4ce24e5f37a0be409b0b4ddc37cf",
+  "capture_recovery_sha256": "beedec903bbbeb9eb41188c8ae1bfabc70e3af91a1a12badc30dfb9c3c1f9735",
+  "capture_time_pool_eligibility": "FAILED",
+  "counterexample": {
+    "forecast_gameweeks": [
+      149,
+      150,
+      151,
+      152
+    ],
+    "name": "Callan McKenna",
+    "player_id": 568791,
+    "registered_by_capture": {
+      "137": false,
+      "138": false,
+      "139": false,
+      "140": false,
+      "141": false,
+      "142": false,
+      "143": false,
+      "144": false,
+      "145": false,
+      "146": false,
+      "147": false,
+      "148": false,
+      "149": true,
+      "150": true,
+      "151": true,
+      "152": true
+    },
+    "selected_gameweeks": [
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152
+    ]
+  },
+  "disposition": "Legacy outputs cannot support an ownership-effect conclusion. Issue 13 remains open pending separately registered register-aware replay.",
+  "exact_deadline_eligibility": "NOT ASSESSED",
+  "missing_selected_player_rounds": {
+    "origin-candidate": {
+      "count": 11,
+      "decisions_sha256": "aacfa77e76410d0df51712f03c1fee2468d02b125d28fc42351bd0be76740040",
+      "pairs": [
+        {
+          "gameweek": 140,
+          "player_id": 244262
+        },
+        {
+          "gameweek": 140,
+          "player_id": 244731
+        },
+        {
+          "gameweek": 143,
+          "player_id": 77794
+        },
+        {
+          "gameweek": 143,
+          "player_id": 82691
+        },
+        {
+          "gameweek": 143,
+          "player_id": 83299
+        },
+        {
+          "gameweek": 143,
+          "player_id": 111234
+        },
+        {
+          "gameweek": 143,
+          "player_id": 119471
+        },
+        {
+          "gameweek": 143,
+          "player_id": 209244
+        },
+        {
+          "gameweek": 143,
+          "player_id": 223094
+        },
+        {
+          "gameweek": 143,
+          "player_id": 223340
+        },
+        {
+          "gameweek": 148,
+          "player_id": 85971
+        }
+      ],
+      "predictions_sha256": "4108be654bed430e7c914d9407ed4eb79cf6c86d0b571025381eb4cd0522db5a"
+    },
+    "origin-control": {
+      "count": 23,
+      "decisions_sha256": "a988434bb3935d0e353f4ff81809243012b653a956a34b46cf84cd3cdb131f02",
+      "pairs": [
+        {
+          "gameweek": 137,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 138,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 139,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 140,
+          "player_id": 165183
+        },
+        {
+          "gameweek": 140,
+          "player_id": 244262
+        },
+        {
+          "gameweek": 140,
+          "player_id": 487053
+        },
+        {
+          "gameweek": 140,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 141,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 142,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 143,
+          "player_id": 17761
+        },
+        {
+          "gameweek": 143,
+          "player_id": 77794
+        },
+        {
+          "gameweek": 143,
+          "player_id": 154566
+        },
+        {
+          "gameweek": 143,
+          "player_id": 184029
+        },
+        {
+          "gameweek": 143,
+          "player_id": 209244
+        },
+        {
+          "gameweek": 143,
+          "player_id": 223094
+        },
+        {
+          "gameweek": 143,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 144,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 145,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 146,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 147,
+          "player_id": 568791
+        },
+        {
+          "gameweek": 148,
+          "player_id": 85971
+        },
+        {
+          "gameweek": 148,
+          "player_id": 487053
+        },
+        {
+          "gameweek": 148,
+          "player_id": 568791
+        }
+      ],
+      "predictions_sha256": "b1bc63c0d8acd8fb0bb941c76249320b8f90aec7d858d61103c0a55366e3b937"
+    },
+    "standard-candidate": {
+      "count": 9,
+      "decisions_sha256": "b79d2def5d7bd6622a9c3dd54fd53b4f02678b355245f20fe319c1b770270d43",
+      "pairs": [
+        {
+          "gameweek": 140,
+          "player_id": 122798
+        },
+        {
+          "gameweek": 140,
+          "player_id": 244262
+        },
+        {
+          "gameweek": 140,
+          "player_id": 244731
+        },
+        {
+          "gameweek": 143,
+          "player_id": 77794
+        },
+        {
+          "gameweek": 143,
+          "player_id": 111234
+        },
+        {
+          "gameweek": 143,
+          "player_id": 119471
+        },
+        {
+          "gameweek": 143,
+          "player_id": 122798
+        },
+        {
+          "gameweek": 143,
+          "player_id": 223094
+        },
+        {
+          "gameweek": 143,
+          "player_id": 244731
+        }
+      ],
+      "predictions_sha256": "0ac531dfaa99a507d54e8977909d0a92f70b348922c0c24385b28a732694bb2d"
+    },
+    "standard-control": {
+      "count": 11,
+      "decisions_sha256": "448a7c210ffa5342e91787d33fb13a3b65b0d38f304ad284b183382f55963845",
+      "pairs": [
+        {
+          "gameweek": 140,
+          "player_id": 88894
+        },
+        {
+          "gameweek": 140,
+          "player_id": 244262
+        },
+        {
+          "gameweek": 140,
+          "player_id": 487053
+        },
+        {
+          "gameweek": 143,
+          "player_id": 17761
+        },
+        {
+          "gameweek": 143,
+          "player_id": 111234
+        },
+        {
+          "gameweek": 143,
+          "player_id": 154566
+        },
+        {
+          "gameweek": 143,
+          "player_id": 184029
+        },
+        {
+          "gameweek": 143,
+          "player_id": 223094
+        },
+        {
+          "gameweek": 143,
+          "player_id": 226597
+        },
+        {
+          "gameweek": 148,
+          "player_id": 85971
+        },
+        {
+          "gameweek": 148,
+          "player_id": 487053
+        }
+      ],
+      "predictions_sha256": "13f84cbcde4cbe5ba04031361505e6cf04716293955ea9759c94858293808776"
+    }
+  },
+  "schema_version": 1,
+  "source_complete_sha256": "e94ca8c4ad617edc8f22dac03e2e80f1fff3e08e1b28123edd982abb6b50147a"
+}

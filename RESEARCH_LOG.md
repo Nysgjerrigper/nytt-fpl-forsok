@@ -1977,3 +1977,51 @@ Corrected the human interpretation and published a reproducible no-fit/no-solve
 audit under `experiments/pilot_recipe_audit_2026-10-18/`. Existing point totals,
 paired intervals, UNVERIFIED/unranked status and all information-time/promotion
 gaps remain unchanged. Older separately tuned study caveats remain valid.
+
+### 2026-10-18 — Registered ownership-feature ablation, retain full control
+
+Issue13 comment6246841017 preregistered plan SHA
+`0daba4410faaa6d8e8ba761ed432b9f5d3a47a8578d1887977f6113828ba379d`
+and companion SHA e092cdd515d1e9497942f021f7563255201afc017b5292f0dfba71b3d0333d71.
+SelectionGW137–152, seed0, H3/retrain4; same CatBoost MAE depth6/300 iterations/
+learning rate0.05/two threads. Candidate drops only five shifted ownership
+features (115→110); all32 paired fitted recipes/support cells match otherwise.
+
+| Protocol | Full net | No-ownership net | Difference | Paired95% CI |
+| --- | ---: | ---: | ---: | --- |
+| Standard | 1030 | 1037 | +7 | [-55,+61] |
+| Origin | 987 | 939 | -48 | [-113,+4] |
+
+Block3/10000/seed0. Candidate incurs16 extra hit points in both protocols; origin
+also loses32 gross points. Small lead0/standard MAE reductions do not establish
+better decisions. Retain full-feature control; no general ownership-effect,
+equivalence or promotion claim. Both comparisons UNVERIFIED/unranked.
+
+One attempt,64 fits/64 native-optimal decisions,551.2s total (194.3 fit-call,295.1
+optimizer-stage wall time). All170 output hashes,64 fit-start/completion pairs,
+32 matched cells,64 stable-ID certificates, CSV identities and gross/net/hit
+arithmetic rechecked. The exact floating-zero post-check was stricter than the
+existing certificate tolerance: largest reported gap1.53e-16, primal/dual
+difference4.27e-14. Rechecked against unchanged native certificate policy; no
+solver reruns or relaxed stopping gaps.
+
+Tracked plan, registration, receipts, registry, summaries, verification and report
+under experiments/ownership_ablation_2026-10-18; full immutable raw bundle is
+TrainingGroundOwnershipAblation_20261018/first in task artifacts. Future target
+prices, fixture/registration knowledge, missing-outcome completeness, independent
+site legality and complete outcome-blind execution remain unqualified. No
+reference/final evaluation, prospective selection or production change.
+
+### 2026-10-18 — Ownership ablation qualification correction
+
+Supersedes the preceding retain-control inference: selected-row coverage audit
+found11/9 missing standard control/candidate player-round pairs and23/11 origin
+pairs. Origin control selected code568791 (Callan McKenna) in GW137, absent from
+all supplied capture-time registers GW137–148 and forecast rows before GW149.
+This fails the capture-time known-pool policy; exact-deadline eligibility remains
+NOT ASSESSED. Legacy scores cannot identify an ownership-feature effect.
+Raw plans, outputs and170-file manifests remain unchanged. Derived coverage_audit.json
+and updated report/verification preserve the counterexample and input hashes.
+All16 recovered captures passed the existing loader; register-aware saved-forecast
+replay requires a separate registration, zero refits and equal policies across arms.
+Issue13 remains open. Production remains single:catboost.

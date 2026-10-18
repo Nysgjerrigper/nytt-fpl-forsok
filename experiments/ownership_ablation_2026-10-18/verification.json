@@ -1,0 +1,165 @@
+{
+  "accounting": {
+    "origin": {
+      "candidate": {
+        "gross_points": 971.0,
+        "hit_points": 32.0,
+        "net_points": 939.0
+      },
+      "control": {
+        "gross_points": 1003.0,
+        "hit_points": 16.0,
+        "net_points": 987.0
+      }
+    },
+    "standard": {
+      "candidate": {
+        "gross_points": 1057.0,
+        "hit_points": 20.0,
+        "net_points": 1037.0
+      },
+      "control": {
+        "gross_points": 1034.0,
+        "hit_points": 4.0,
+        "net_points": 1030.0
+      }
+    }
+  },
+  "certificate_tolerance": 1e-07,
+  "comparisons": {
+    "origin": {
+      "block_len": 3,
+      "boot_mean": -53.3825,
+      "bootstrap_positive_fraction": 0.0319,
+      "ci_high": 4.0,
+      "ci_low": -113.0,
+      "contract": null,
+      "effective_metric": "actual_net_points",
+      "evidence_status": "UNVERIFIED",
+      "gameweeks": [
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152
+      ],
+      "inference_limitations": "Historical paired window, not independent seasons. Block bootstrap depends on block choice; the exact binomial sign-test null assumes independent signs. Neither is a probability of future gain.",
+      "input_sha256": {
+        "a": "a650ad18adf7e1e0bf496b939d4e4e35d050e0ffb9837f820dad1f2224a7c380",
+        "b": "7883b7e6a54d7f79b2aa9eef4d82bc5d1edd7ff303232099423aee33f311a9ad"
+      },
+      "metric": "actual_net_points",
+      "n_boot": 10000,
+      "n_gws": 16,
+      "p_a_better": 0.0319,
+      "requested_metric": "actual_net_points",
+      "scoring_protocol": {
+        "a": "autosubs_v2",
+        "b": "autosubs_v2"
+      },
+      "seed": 0,
+      "sign_test": {
+        "p_a_better": 0.7727508544921875,
+        "p_value": 0.803619384765625,
+        "ties": 0,
+        "wins_a": 7,
+        "wins_b": 9
+      },
+      "total_a": 939.0,
+      "total_b": 987.0,
+      "total_diff": -48.0,
+      "transfer_hit_points_per_paid_transfer": 4
+    },
+    "standard": {
+      "block_len": 3,
+      "boot_mean": -1.7432,
+      "bootstrap_positive_fraction": 0.4456,
+      "ci_high": 61.0,
+      "ci_low": -55.0,
+      "contract": null,
+      "effective_metric": "actual_net_points",
+      "evidence_status": "UNVERIFIED",
+      "gameweeks": [
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152
+      ],
+      "inference_limitations": "Historical paired window, not independent seasons. Block bootstrap depends on block choice; the exact binomial sign-test null assumes independent signs. Neither is a probability of future gain.",
+      "input_sha256": {
+        "a": "902572a7e72b122a1c142c04cbbe71b9bc6bf52c472e3d658821fc668224a5dc",
+        "b": "fc91b949a418931b75be4e2dd515ef22417cbd0adde2fde854b8ca22d98f91ca"
+      },
+      "metric": "actual_net_points",
+      "n_boot": 10000,
+      "n_gws": 16,
+      "p_a_better": 0.4456,
+      "requested_metric": "actual_net_points",
+      "scoring_protocol": {
+        "a": "autosubs_v2",
+        "b": "autosubs_v2"
+      },
+      "seed": 0,
+      "sign_test": {
+        "p_a_better": 0.30361938476562494,
+        "p_value": 0.6072387695312499,
+        "ties": 1,
+        "wins_a": 9,
+        "wins_b": 6
+      },
+      "total_a": 1037.0,
+      "total_b": 1030.0,
+      "total_diff": 7.0,
+      "transfer_hit_points_per_paid_transfer": 4
+    }
+  },
+  "complete_outcome_blind_execution": "NOT ASSESSED",
+  "coverage_audit_sha256": "cfc3ffe1be3ae69dd8451f2f85326b50a6bcfe3e440b94c62e7ced183b607ebe",
+  "disposition": "Legacy outputs cannot support an ownership-effect conclusion. Issue 13 remains open pending separately registered register-aware replay.",
+  "fit_start_completion_pairs": 64,
+  "full_site_legality": "NOT ASSESSED",
+  "input_eligibility": "FAILED_CAPTURE_TIME_REGISTER_POLICY",
+  "largest_primal_dual_difference": 4.263256414560601e-14,
+  "largest_reported_mip_gap": 1.5300824001391343e-16,
+  "matched_protocol_position_cutoff_pairs": 32,
+  "native_proven_optimal_decisions": 64,
+  "output_hashes_verified": 170,
+  "plan_sha256": "0daba4410faaa6d8e8ba761ed432b9f5d3a47a8578d1887977f6113828ba379d",
+  "postcheck_note": "An exact floating-zero post-check was too strict for one1.53e-16 reported gap. Rechecked against the existing native certificate tolerance without changing configured zero stopping gaps or rerunning any solve.",
+  "price_information_validity": "NOT ASSESSED",
+  "promotion_eligible": false,
+  "registration_sha256": "e092cdd515d1e9497942f021f7563255201afc017b5292f0dfba71b3d0333d71",
+  "source_bundle": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/TrainingGroundOwnershipAblation_20261018/first",
+  "source_receipt_sha256": "e94ca8c4ad617edc8f22dac03e2e80f1fff3e08e1b28123edd982abb6b50147a",
+  "status": "REGISTERED_RUN_OUTPUTS_VERIFIED",
+  "strict_outcome_completeness": "FAILED_OBSERVED_ROW_COVERAGE",
+  "timings": {
+    "feature_seconds": 2.244776332983747,
+    "fit_seconds": 194.254952629155,
+    "solver_seconds": 295.1221646659833,
+    "total_seconds": 551.2021498750255
+  }
+}
