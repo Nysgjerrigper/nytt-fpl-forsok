@@ -2025,3 +2025,15 @@ and updated report/verification preserve the counterexample and input hashes.
 All16 recovered captures passed the existing loader; register-aware saved-forecast
 replay requires a separate registration, zero refits and equal policies across arms.
 Issue13 remains open. Production remains single:catboost.
+
+### 2026-10-18 — Strict multi-event settlement evidence
+
+Refs13/23/40. Extend optional blank-evidence input with a pinned collection of
+unchanged single-event descriptors. Reuse the existing register/complete-ledger
+validator for every event, reject duplicate identities/unsafe paths/changed hashes,
+and capture collision-free nested assets for offline receipt verification.
+Independent focused replay, collection, blank-outcome and scorecard checks:141 passed, including
+a synthetic complete-ledger two-event settlement and source-removal readback.
+These checks establish engineering behavior, not an experimental FPL point gain.
+Capture-time registration remains distinct from exact-deadline proof and advance
+fixture knowledge. Original single-event interface and scoring remain unchanged.
