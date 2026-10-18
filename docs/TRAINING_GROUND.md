@@ -536,3 +536,55 @@ The legacy decision snapshot records **settlement_completed=false**, not a guara
 that outcomes were inaccessible. The historical optimizer loads a CSV containing actuals;
 a genuine outcome-blind interface and independent replay audit require further work.
 The UI and these reports must not manufacture that stronger claim.
+
+## Operational attempts in the league
+
+`import-operations` captures saved Solio schedule checkpoints or native diagnostics.
+It does not rerun the experiment. Operational entries show recorded counts, timings
+and failure/acceptance state; they always have empty rank, points, difference and
+confidence interval. A completed diagnostic capture is separate from an accepted
+solver result, and neither supplies a paired FPL performance comparison.
+
+Create a specification with an explicit receipt kind and terminal hash:
+
+```json
+{
+  "schema_version": 1,
+  "id": "captured-pool-candidate",
+  "name": "Candidate captured-pool attempt",
+  "hypothesis": "Inspect where the preserved experiment stopped.",
+  "source": {
+    "kind": "solio_schedule",
+    "path": "/absolute/path/to/candidate-checkpoints",
+    "terminal_sha256": "REPLACE_WITH_SHA256_OF_FAILED_OR_COMPLETE_RECEIPT"
+  }
+}
+```
+
+Use `native_diagnostics` for a native diagnostic directory and pin its
+`diagnostics-complete.json`. For an unsealed capture only, use JSON `null` for the
+terminal hash. This produces an INCOMPLETE observation, even when a native outcome
+was recorded: it does not infer that the original process stopped. Optional
+`registration: {"path": "plan.json", "sha256": "..."}` preserves linked plan bytes;
+it does not independently prove registration chronology.
+
+```bash
+python -m fpl.playground import-operations operations.json --runs-dir experiments/runs
+python -m fpl.playground operations-report experiments/runs/captured-pool-candidate/first
+python -m fpl.playground league --json
+```
+
+The importer verifies terminal hashes, exact file coverage, safe paths, started
+identity and event/counter consistency, then copies evidence into an immutable
+report directory. The reader revalidates that captured copy and checks the human
+report against the machine card, without requiring the original source directory.
+Changed source inputs require a distinct explicit attempt. Interrupted or failed
+imports are preserved; they do not masquerade as completed operational evidence.
+
+Counts state their scope: wrapper calls are different from native run boundaries.
+A return is different from a saved normalized decision. Missing native or model
+construction timings remain unavailable; configured time limits are not elapsed
+time. Overlapping timing boundaries must not be added. Hash verification confirms
+captured bytes and consistency, not independent legality, causal information timing
+or general reliability. Existing historical reporting failures that lack this
+operational schema remain visibly unfinished and do not gain verified telemetry.

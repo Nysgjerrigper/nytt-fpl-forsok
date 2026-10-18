@@ -1,0 +1,15 @@
+{
+  "hypothesis": "Display preserved operational evidence without paired scoring, ranking or promotion.",
+  "id": "ownership-control",
+  "name": "Ownership control \u2014 completed schedule",
+  "registration": {
+    "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/OwnershipCheckpointedPoolReplay_20261018/plan.json",
+    "sha256": "80abc0bc04662cebacb5e29faf7be6f94afbd208227bf35f18abd20167578a6d"
+  },
+  "schema_version": 1,
+  "source": {
+    "kind": "solio_schedule",
+    "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/OwnershipCheckpointedPoolReplay_20261018/first/control-checkpoints",
+    "terminal_sha256": "0a75626b35348a734ec68bf88b0459dd90b71e595c44eafe95cf4d8d379a2033"
+  }
+}

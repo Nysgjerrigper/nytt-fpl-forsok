@@ -1,0 +1,15 @@
+{
+  "hypothesis": "Display preserved operational evidence without paired scoring, ranking or promotion.",
+  "id": "gw139-diagnostic",
+  "name": "GW139 isolated native diagnostic",
+  "registration": {
+    "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/GW139NativeDiagnostics_20261018/plan.json",
+    "sha256": "c7bf258693c568197114e4db473d47aca6fe90b393570eed791aa944d51d7bf6"
+  },
+  "schema_version": 1,
+  "source": {
+    "kind": "native_diagnostics",
+    "path": "/Users/perandersmolberg/.codex/visualizations/2026/10/17/01a1493e-578c-7060-900d-b428843d8b30/GW139NativeDiagnostics_20261018/first/native",
+    "terminal_sha256": "49dc5e99c2f24768053ca316f0e0c6d2ababbe8ec2bc4772217852c2f99fd8ba"
+  }
+}
