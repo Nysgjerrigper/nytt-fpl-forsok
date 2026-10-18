@@ -410,6 +410,46 @@ publication times, full transfer-rule chronology or outcome-blind execution. Its
 PASS is **financial arithmetic under the declared evidence**, not full site legality.
 Settlement structure checks and price/information provenance remain separate gates.
 
+### Origin-known planning prices
+
+The opt-in Solio replay accepts a pinned predeadline register for every evaluated
+origin. `fpl.milp.origin_prices.load_origin_captures` checks descriptor/file/payload
+hashes, stable identities, season/event alignment and a capture no more than 24
+hours before its deadline. The descriptor contains `schema_version: 1`, `season`
+and a `captures` object keyed by global gameweek. Each entry supplies a relative
+`folder` and `input_sha256` for `manifest.json` and `bootstrap-static.json.gz`.
+
+```sh
+python -m fpl.milp.solio --predictions-csv origin-predictions.csv \
+  --season 2023-24 --start-gw 141 --max-gw 144 --horizon 3 \
+  --origin-price-captures captures.json \
+  --decisions-json new-decisions.json --output new-decisions.csv
+```
+
+Each window uses capture-time names, clubs, positions and buy prices throughout
+its horizon. Only registered players with explicit forecast rows enter the pool;
+no player absent from the whole horizon is added. The existing Solio converter
+assigns zero forecast points to missing player-round cells; this is an inherited
+planning assumption, not independently verified blank evidence. Raw target-round prices,
+metadata and outcome columns are discarded before solving. Receipts identify
+excluded players and admitted input fingerprints. Fresh runs acquire their first
+squad at those prices. Continuing runs require exact `purchase_prices` in the
+state JSON, in integer tenths keyed by stable code. Sale proceeds use losses in
+full and half of a gain rounded down; a rebuy resets acquisition basis. Free Hits
+retain the permanent acquisition ledger.
+
+This mode saves decisions without settling outcomes. Use the separate strict
+replay and explicit blank evidence to settle them. It is a **modern-rule
+engineering control** (five banked transfers), including when the forecast season
+is historical. Compare candidate and control under the same declared policy;
+older legacy-policy totals are separate evidence. Production defaults remain
+unchanged.
+
+Origin-frozen form, capture-time price validity and complete outcome-blind
+execution are separate checks. A recent capture does not prove exact-deadline
+prices, archive authenticity, advance fixture publication or full outcome-blind
+execution. Solver outcome columns being absent establishes only that boundary.
+
 ### Recovered historical scorecards
 
 The preserved October 3 seed-0 study can be read through the current scorecards

@@ -236,16 +236,32 @@ def run_schedule(predictions: pd.DataFrame, *, season: str, start_gw: int, max_g
                  sell_prices: Mapping[int, float] | None = None, chip_inventory: Mapping | None = None,
                  forced_chips: Mapping[str, Sequence[int]] | None = None,
                  bootstrap: dict | None = None, time_limit: float = 1200,
-                 previous_free_hit_gw: int | None = None) -> pd.DataFrame:
-    """Roll the first decision forward, preserving permanent FH state and original sell prices.
+                 previous_free_hit_gw: int | None = None,
+                 origin_price_captures: Mapping[int, dict] | None = None,
+                 purchase_prices: Mapping[int, int] | None = None) -> pd.DataFrame:
+    """Roll decisions forward with permanent FH state and explicit price assumptions.
 
     Input metadata/prices must be explicitly static over the evaluated window. Origin
     forecasts are selected by their exact origin before solving; no alternative origin
     is substituted. Future planned chips do not consume actual inventory.
+    Optional admitted origin captures replace future-row metadata/prices, and
+    acquisition costs determine half-profit owned selling prices. This mode returns
+    decisions only; realized outcomes must be settled in a separate replay.
     """
     if max_gw < start_gw or horizon < 1:
         raise ValueError("invalid evaluation range or horizon")
     offset = config.season_start_gw(season) - 1
+    if origin_price_captures is not None:
+        if set(origin_price_captures) != set(range(start_gw, max_gw + 1)):
+            raise ValueError("origin price captures must cover the exact evaluation range")
+        if "origin_gw" not in predictions:
+            raise ValueError("origin price mode requires explicitly origin-indexed forecasts")
+        if bootstrap is not None or sell_prices is not None:
+            raise ValueError("origin captures use acquisition basis, not separate bootstrap/sell prices")
+        if initial_squad is None and purchase_prices:
+            raise ValueError("fresh origin-price runs cannot have initial purchase prices")
+    elif purchase_prices is not None:
+        raise ValueError("purchase_prices requires admitted origin price captures")
     if previous_free_hit_gw is not None and (isinstance(previous_free_hit_gw, bool) or
         not isinstance(previous_free_hit_gw, int) or not 1 <= previous_free_hit_gw < start_gw-offset):
         raise ValueError("previous Free Hit must precede the requested local week")
@@ -254,6 +270,7 @@ def run_schedule(predictions: pd.DataFrame, *, season: str, start_gw: int, max_g
     state = None if initial_squad is None else list(initial_squad)
     prices = {} if sell_prices is None else dict(sell_prices)
     previous_fh = previous_free_hit_gw
+    acquisition = {} if purchase_prices is None else dict(purchase_prices)
     rows = []
     for gw in range(start_gw, max_gw + 1):
         length = min(horizon, max_gw - gw + 1)
@@ -265,13 +282,30 @@ def run_schedule(predictions: pd.DataFrame, *, season: str, start_gw: int, max_g
         frame = frame[frame.GW.between(gw, gw + length - 1)]
         if frame.empty or not (frame.GW == gw).any():
             raise ValueError(f"missing prediction round {gw}")
+        current_bootstrap, current_sells = bootstrap, prices or None
+        price_receipt = None
+        if origin_price_captures is not None:
+            from fpl.milp.origin_prices import prepare_origin_frame, selling_prices
+            capture = origin_price_captures[gw]
+            frame, price_receipt = prepare_origin_frame(frame, capture, origin_gw=gw, owned=state)
+            current_bootstrap = capture["bootstrap"]
+            current_sells = selling_prices(capture, state or [], acquisition)
         forced = {chip: [week for week in weeks if gw-offset <= week < gw-offset+length]
                   for chip, weeks in (forced_chips or {}).items()}
         window = solve_window(frame, season=season, start_gw=gw, horizon=length, initial_squad=state,
-                              bank=bank, free_transfers=free_transfers, sell_prices=prices or None,
-                              bootstrap=bootstrap, chip_inventory=inventory, forced_chips=forced,
+                              bank=bank, free_transfers=free_transfers, sell_prices=current_sells,
+                              bootstrap=current_bootstrap, chip_inventory=inventory, forced_chips=forced,
                               previous_free_hit_gw=previous_fh, time_limit=time_limit)
         row = window.iloc[0].to_dict()
+        if price_receipt is not None:
+            row["price_policy"] = "origin_capture_half_profit_static_horizon_v1"
+            row["pool_policy"] = "registered_forecast_rows"
+            row["price_capture_at"] = price_receipt["captured_at"]
+            row["price_event_deadline"] = price_receipt["event_deadline"]
+            row["price_payload_sha256"] = price_receipt["payload_sha256"]
+            row["price_descriptor_sha256"] = price_receipt["descriptor_sha256"]
+            row["price_input_receipt"] = price_receipt
+            row["solver_outcome_columns"] = "ABSENT"
         rows.append(row)
         played = row["chip_played"]
         if played:
@@ -283,9 +317,14 @@ def run_schedule(predictions: pd.DataFrame, *, season: str, start_gw: int, max_g
             state = row["squad"]
             prices = {p: price for p, price in prices.items() if p in state and p not in row["transfers_in"]}
             bank = row["budget_end"]
+            if origin_price_captures is not None:
+                for player in row["transfers_out"]:
+                    acquisition.pop(player, None)
+                for player in row["transfers_in"]:
+                    acquisition[player] = int(capture["metadata"].loc[player, "value"])
         free_transfers = row["q_end"]
     result = pd.DataFrame(rows)
-    if "actual_total_points" in predictions:
+    if origin_price_captures is None and "actual_total_points" in predictions:
         result = score_decisions(result, predictions)
     return result
 
@@ -300,29 +339,53 @@ def main() -> None:
     parser.add_argument("--initial-squad", default="")
     parser.add_argument("--initial-budget", default=1000, type=float)
     parser.add_argument("--initial-ft", default=1, type=int)
-    parser.add_argument("--state-json", help="Explicit sell_prices (tenths), chip_inventory and optional bootstrap")
+    parser.add_argument("--state-json", help="Explicit sell_prices or origin-mode purchase_prices (tenths), chip inventory and optional bootstrap")
+    parser.add_argument("--origin-price-captures", type=Path, help="Pinned predeadline register descriptor; decisions-only modern replay")
     parser.add_argument("--time-limit", default=1200, type=float)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--decisions-json", type=Path, help="New pre-settlement stable-ID snapshot (origin-price mode)")
     args = parser.parse_args()
     output = Path(args.output)
     if output.exists():
         raise FileExistsError(f"refusing to overwrite {output}")
+    if args.decisions_json is not None:
+        if not args.origin_price_captures:
+            raise ValueError("--decisions-json requires origin-price mode before settlement")
+        if args.decisions_json.exists() or args.decisions_json.resolve() == output.resolve():
+            raise ValueError("decision snapshot requires a new path distinct from output")
     state = json.loads(Path(args.state_json).read_text()) if args.state_json else {}
     if "sell_prices" in state:
         state["sell_prices"] = {int(p): price for p, price in state["sell_prices"].items()}
+    if "purchase_prices" in state:
+        basis = state["purchase_prices"]
+        if (not isinstance(basis, dict) or any(not p.isdecimal() or str(int(p)) != p or int(p) <= 0 for p in basis)):
+            raise ValueError("purchase_prices requires canonical positive stable-ID keys")
+        state["purchase_prices"] = {int(p): price for p, price in basis.items()}
+    if args.origin_price_captures:
+        from fpl.milp.origin_prices import load_origin_captures
+        state["origin_price_captures"] = load_origin_captures(args.origin_price_captures,
+            season=args.season, origins=list(range(args.start_gw, args.max_gw + 1)))
     decisions = run_schedule(pd.read_csv(args.predictions_csv), season=args.season, start_gw=args.start_gw,
                              max_gw=args.max_gw, horizon=args.horizon,
                              initial_squad=[int(p) for p in args.initial_squad.split(",")] if args.initial_squad else None,
                              bank=args.initial_budget, free_transfers=args.initial_ft,
                              time_limit=args.time_limit, **state)
+    if args.decisions_json is not None:
+        from fpl.milp.optimize import write_decision_snapshot
+        write_decision_snapshot(decisions, args.decisions_json)
     exported = decisions.copy()
     for col in ("squad", "lineup", "bench_order", "captain", "vice_captain", "transfers_in", "transfers_out",
                 "permanent_squad_start", "permanent_squad_end"):
         exported[col] = exported[col].map(json.dumps)
+    if "price_input_receipt" in exported:
+        exported["price_input_receipt"] = exported.price_input_receipt.map(
+            lambda value: json.dumps(value, sort_keys=True, allow_nan=False))
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x") as stream:
         exported.to_csv(stream, index=False)
     print(f"Saved {len(decisions)} optimal, independently checked decisions to {output}")
+    if args.origin_price_captures:
+        print("Origin capture prices; solver outcome columns absent. Settle saved decisions separately.")
     if "actual_total_points" in decisions:
         print(f"Gross={decisions.actual_total_points.sum():.0f}; net={decisions.actual_net_points.sum():.0f}")
 
