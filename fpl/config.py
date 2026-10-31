@@ -9,6 +9,7 @@ FROZEN_RESEARCH_DATASET_PATH = DATASETT_DIR / "frozen" / "master_dataset_gw231.c
 
 MODELS_DIR = ROOT / "fpl" / "models"
 PREDICTIONS_PATH = ROOT / "fpl" / "predictions_latest.csv"
+LIVE_FORECAST_DIR = ROOT / "fpl" / "live_forecasts"
 SQUAD_OUTPUT_DIR = ROOT / "fpl" / "squad_selections"
 TRANSFER_HIT_POINTS = 4
 BACKTEST_SCORING_PROTOCOLS = ("autosubs_v2", "legacy_no_autosubs")
