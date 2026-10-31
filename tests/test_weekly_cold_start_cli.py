@@ -9,7 +9,8 @@ from fpl import run_week
 from fpl.model import cold_start
 
 
-def test_cold_start_cli_uses_target_origin_and_complete_registered_pool(monkeypatch):
+def test_cold_start_cli_uses_target_origin_and_complete_registered_pool(monkeypatch, tmp_path):
+    monkeypatch.setattr(run_week.config, "LIVE_FORECAST_DIR", tmp_path / "captures")
     bootstrap = {
         "events": [{"id": 1, "deadline_time": "2026-08-15T10:00:00Z", "finished": True},
                    {"id": 2, "deadline_time": "2026-11-01T10:00:00Z", "finished": False}],

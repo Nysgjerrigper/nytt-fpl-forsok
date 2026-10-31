@@ -101,6 +101,33 @@ def evaluate(folder: Path, actuals: pd.DataFrame, bootstrap: dict) -> dict:
             'limitations': 'Forecast diagnostics only; not realized squad points or model-promotion evidence.'}
 
 
+
+def evaluate_saved(actuals: pd.DataFrame, bootstrap: dict, *, root: Path | None = None) -> list[dict]:
+    """Evaluate saved captures for the API season, retaining individual reports."""
+    from fpl.data.fetch import active_season_from_bootstrap
+
+    root = root or config.LIVE_FORECAST_DIR
+    season = active_season_from_bootstrap(bootstrap)
+    reports = []
+    for path in sorted(root.glob('*/capture.json')):
+        if json.loads(path.read_text())['season'] == season:
+            reports.append(evaluate(path.parent, actuals, bootstrap))
+    return reports
+
+
+def record_evaluation(actuals: pd.DataFrame, bootstrap: dict) -> Path | None:
+    """Save a new monitoring report after the weekly actuals refresh, without refits."""
+    reports = evaluate_saved(actuals, bootstrap)
+    if not reports:
+        return None
+    folder = config.LIVE_FORECAST_DIR / 'evaluations'
+    folder.mkdir(parents=True, exist_ok=True)
+    path = folder / f'{uuid4().hex}.json'
+    path.write_text(json.dumps({'evaluated_at': datetime.now(timezone.utc).isoformat(),
+                               'reports': reports}, indent=2, allow_nan=False) + '\n')
+    return path
+
+
 def main() -> None:
     """Evaluate all saved runs using current checked-event and local outcome bytes."""
     import requests
@@ -113,7 +140,7 @@ def main() -> None:
     response.raise_for_status()
     payload = response.json()
     actuals = pd.read_csv(args.actuals)
-    reports = [evaluate(path.parent, actuals, payload) for path in sorted(args.root.glob('*/capture.json'))]
+    reports = evaluate_saved(actuals, payload, root=args.root)
     print(json.dumps({'reports': reports}, indent=2, allow_nan=False))
 
 

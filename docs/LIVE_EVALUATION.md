@@ -7,7 +7,11 @@ time, target deadlines, strategy and SHA-256. These ignored files must be retain
 and backed up; Git does not preserve them. Captures are made before optimization,
 so a failed optimizer does not erase a valid forecast.
 
-After refreshing the mutable actuals dataset with `python -m fpl.data.fetch`, run:
+Each weekly run also evaluates prior captures after refreshing actuals, saving a
+new JSON report under `fpl/live_forecasts/evaluations/`. Reports preserve previous
+evaluations and keep unchecked rounds pending.
+
+To evaluate separately, after refreshing the mutable actuals dataset with `python -m fpl.data.fetch`, run:
 
 ```sh
 python -m fpl.live_evaluation > /path/to/new-report.json
@@ -37,4 +41,5 @@ On 2026-10-31, the primary checkout retained GW8/GW9 squad recommendations but
 only GW9 full forecasts; its mutable outcomes ended at GW8. Consequently no full
 GW8 forecast-error result can be claimed from those files. Recovery and any later
 numeric results belong in issue #152 with artifact hashes, not reconstructed
-forecast claims. Evaluation is an explicit command; it is not a scheduled job.
+forecast claims. Evaluation runs on each weekly pipeline invocation or by explicit command; no
+scheduled job is installed.

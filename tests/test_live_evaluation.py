@@ -57,3 +57,15 @@ def test_ambiguous_fixture_rows_rejected(tmp_path):
     folder = capture(frame, bootstrap(), strategy='single:catboost', root=tmp_path)
     with pytest.raises(ValueError, match='duplicate'):
         evaluate(folder, outcomes(), bootstrap())
+
+
+def test_weekly_monitor_preserves_reports(tmp_path, monkeypatch):
+    from fpl import config
+    from fpl.live_evaluation import record_evaluation
+
+    monkeypatch.setattr(config, 'LIVE_FORECAST_DIR', tmp_path)
+    assert record_evaluation(outcomes(), bootstrap()) is None
+    capture(forecasts(), bootstrap(), strategy='single:catboost', root=tmp_path)
+    a = record_evaluation(outcomes(), bootstrap())
+    b = record_evaluation(outcomes(), bootstrap())
+    assert a != b and a.exists() and b.exists()
