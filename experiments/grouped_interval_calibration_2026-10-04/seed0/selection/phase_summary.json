@@ -1,0 +1,707 @@
+{
+  "calibration": {
+    "alpha": 0.2,
+    "cells": [
+      {
+        "adjustment": 0.0,
+        "group": null,
+        "n": 1954,
+        "position": "DEF"
+      },
+      {
+        "adjustment": 0.0,
+        "group": "high",
+        "n": 479,
+        "position": "DEF"
+      },
+      {
+        "adjustment": 0.0,
+        "group": "low",
+        "n": 1002,
+        "position": "DEF"
+      },
+      {
+        "adjustment": 0.0,
+        "group": "mid",
+        "n": 467,
+        "position": "DEF"
+      },
+      {
+        "adjustment": 0.0,
+        "group": null,
+        "n": 774,
+        "position": "FWD"
+      },
+      {
+        "adjustment": 0.4151840839011083,
+        "group": "high",
+        "n": 116,
+        "position": "FWD"
+      },
+      {
+        "adjustment": 0.0,
+        "group": "low",
+        "n": 499,
+        "position": "FWD"
+      },
+      {
+        "adjustment": 0.0,
+        "group": "mid",
+        "n": 156,
+        "position": "FWD"
+      },
+      {
+        "adjustment": 0.0,
+        "group": null,
+        "n": 688,
+        "position": "GK"
+      },
+      {
+        "adjustment": 0.9999997924696652,
+        "group": "high",
+        "n": 125,
+        "position": "GK"
+      },
+      {
+        "adjustment": 0.0,
+        "group": "low",
+        "n": 476,
+        "position": "GK"
+      },
+      {
+        "adjustment": 0.0,
+        "group": null,
+        "n": 2615,
+        "position": "MID"
+      },
+      {
+        "adjustment": 0.0,
+        "group": "high",
+        "n": 525,
+        "position": "MID"
+      },
+      {
+        "adjustment": 0.0,
+        "group": "low",
+        "n": 1533,
+        "position": "MID"
+      },
+      {
+        "adjustment": 0.0,
+        "group": "mid",
+        "n": 541,
+        "position": "MID"
+      }
+    ],
+    "group_counts": [
+      [
+        "DEF",
+        "high",
+        479
+      ],
+      [
+        "DEF",
+        "low",
+        1002
+      ],
+      [
+        "DEF",
+        "mid",
+        467
+      ],
+      [
+        "DEF",
+        "missing",
+        6
+      ],
+      [
+        "FWD",
+        "high",
+        116
+      ],
+      [
+        "FWD",
+        "low",
+        499
+      ],
+      [
+        "FWD",
+        "mid",
+        156
+      ],
+      [
+        "FWD",
+        "missing",
+        3
+      ],
+      [
+        "GK",
+        "high",
+        125
+      ],
+      [
+        "GK",
+        "low",
+        476
+      ],
+      [
+        "GK",
+        "mid",
+        84
+      ],
+      [
+        "GK",
+        "missing",
+        3
+      ],
+      [
+        "MID",
+        "high",
+        525
+      ],
+      [
+        "MID",
+        "low",
+        1533
+      ],
+      [
+        "MID",
+        "mid",
+        541
+      ],
+      [
+        "MID",
+        "missing",
+        16
+      ]
+    ],
+    "min_group_size": 100
+  },
+  "calibration_sha256": "8dc4650d1a094fdee87a30712162229dcc23a69c9710734ee6edae2479ed6b94",
+  "metrics": {
+    "all": {
+      "control": {
+        "coverage": 0.9167908399341228,
+        "interval_score": 4.254322462969618,
+        "lower_miss_rate": 0.011763783232687633,
+        "mean_width": 2.284980578745324,
+        "upper_miss_rate": 0.07144537683318955
+      },
+      "grouped": {
+        "coverage": 0.9200062740177241,
+        "interval_score": 4.248076187463082,
+        "lower_miss_rate": 0.009881577915457612,
+        "mean_width": 2.3408755255602,
+        "upper_miss_rate": 0.07011214806681829
+      },
+      "player_rounds": 12751
+    },
+    "by_minutes_group": {
+      "high": {
+        "control": {
+          "coverage": 0.8157560355781448,
+          "interval_score": 11.026889475784515,
+          "lower_miss_rate": 0.043202033036848796,
+          "mean_width": 6.057626459075628,
+          "upper_miss_rate": 0.14104193138500634
+        },
+        "grouped": {
+          "coverage": 0.8331215586615841,
+          "interval_score": 10.993155355079795,
+          "lower_miss_rate": 0.03303684879288437,
+          "mean_width": 6.359497050704802,
+          "upper_miss_rate": 0.13384159254553155
+        },
+        "player_rounds": 2361
+      },
+      "low": {
+        "control": {
+          "coverage": 0.960806697108067,
+          "interval_score": 1.193250178727162,
+          "lower_miss_rate": 0.0012683916793505834,
+          "mean_width": 0.5114374492348074,
+          "upper_miss_rate": 0.03792491121258244
+        },
+        "grouped": {
+          "coverage": 0.960806697108067,
+          "interval_score": 1.193250178727162,
+          "lower_miss_rate": 0.0012683916793505834,
+          "mean_width": 0.5114374492348074,
+          "upper_miss_rate": 0.03792491121258244
+        },
+        "player_rounds": 7884
+      },
+      "mid": {
+        "control": {
+          "coverage": 0.871033360455655,
+          "interval_score": 7.583947576848146,
+          "lower_miss_rate": 0.015459723352318959,
+          "mean_width": 4.327952123643687,
+          "upper_miss_rate": 0.11350691619202603
+        },
+        "grouped": {
+          "coverage": 0.871033360455655,
+          "interval_score": 7.583947576848146,
+          "lower_miss_rate": 0.015459723352318959,
+          "mean_width": 4.327952123643687,
+          "upper_miss_rate": 0.11350691619202603
+        },
+        "player_rounds": 2458
+      },
+      "missing": {
+        "control": {
+          "coverage": 1.0,
+          "interval_score": 3.405252500430573,
+          "lower_miss_rate": 0.0,
+          "mean_width": 3.405252500430573,
+          "upper_miss_rate": 0.0
+        },
+        "grouped": {
+          "coverage": 1.0,
+          "interval_score": 3.405252500430573,
+          "lower_miss_rate": 0.0,
+          "mean_width": 3.405252500430573,
+          "upper_miss_rate": 0.0
+        },
+        "player_rounds": 48
+      }
+    },
+    "by_position": {
+      "DEF": {
+        "control": {
+          "coverage": 0.9093788063337394,
+          "interval_score": 4.47428497946352,
+          "lower_miss_rate": 0.01559074299634592,
+          "mean_width": 2.5693351229967814,
+          "upper_miss_rate": 0.07503045066991473
+        },
+        "grouped": {
+          "coverage": 0.9093788063337394,
+          "interval_score": 4.47428497946352,
+          "lower_miss_rate": 0.01559074299634592,
+          "mean_width": 2.5693351229967814,
+          "upper_miss_rate": 0.07503045066991473
+        },
+        "player_rounds": 4105
+      },
+      "FWD": {
+        "control": {
+          "coverage": 0.9046762589928058,
+          "interval_score": 4.64566481421586,
+          "lower_miss_rate": 0.015587529976019185,
+          "mean_width": 2.1373819681455775,
+          "upper_miss_rate": 0.07973621103117506
+        },
+        "grouped": {
+          "coverage": 0.907673860911271,
+          "interval_score": 4.620496624739536,
+          "lower_miss_rate": 0.015587529976019185,
+          "mean_width": 2.2409290777995707,
+          "upper_miss_rate": 0.07673860911270983
+        },
+        "player_rounds": 1668
+      },
+      "GK": {
+        "control": {
+          "coverage": 0.935127674258109,
+          "interval_score": 2.717583562018603,
+          "lower_miss_rate": 0.018633540372670808,
+          "mean_width": 1.3035934876688389,
+          "upper_miss_rate": 0.04623878536922015
+        },
+        "grouped": {
+          "coverage": 0.9599723947550034,
+          "interval_score": 2.691589277037694,
+          "lower_miss_rate": 0.002070393374741201,
+          "mean_width": 1.6762642177817573,
+          "upper_miss_rate": 0.03795721187025535
+        },
+        "player_rounds": 1449
+      },
+      "MID": {
+        "control": {
+          "coverage": 0.92114306384518,
+          "interval_score": 4.375687898924007,
+          "lower_miss_rate": 0.005968529571351058,
+          "mean_width": 2.3755844805897763,
+          "upper_miss_rate": 0.07288840658346898
+        },
+        "grouped": {
+          "coverage": 0.92114306384518,
+          "interval_score": 4.375687898924007,
+          "lower_miss_rate": 0.005968529571351058,
+          "mean_width": 2.3755844805897763,
+          "upper_miss_rate": 0.07288840658346898
+        },
+        "player_rounds": 5529
+      }
+    },
+    "by_position_and_group": [
+      {
+        "group": "high",
+        "metrics": {
+          "control": {
+            "coverage": 0.828039430449069,
+            "interval_score": 10.206411669154233,
+            "lower_miss_rate": 0.040525739320920046,
+            "mean_width": 6.0034417384294425,
+            "upper_miss_rate": 0.13143483023001096
+          },
+          "grouped": {
+            "coverage": 0.828039430449069,
+            "interval_score": 10.206411669154233,
+            "lower_miss_rate": 0.040525739320920046,
+            "mean_width": 6.0034417384294425,
+            "upper_miss_rate": 0.13143483023001096
+          },
+          "player_rounds": 913
+        },
+        "position": "DEF"
+      },
+      {
+        "group": "low",
+        "metrics": {
+          "control": {
+            "coverage": 0.9552899513058876,
+            "interval_score": 1.1886538655141323,
+            "lower_miss_rate": 0.0035413899955732625,
+            "mean_width": 0.48929577972172617,
+            "upper_miss_rate": 0.041168658698539175
+          },
+          "grouped": {
+            "coverage": 0.9552899513058876,
+            "interval_score": 1.1886538655141323,
+            "lower_miss_rate": 0.0035413899955732625,
+            "mean_width": 0.48929577972172617,
+            "upper_miss_rate": 0.041168658698539175
+          },
+          "player_rounds": 2259
+        },
+        "position": "DEF"
+      },
+      {
+        "group": "mid",
+        "metrics": {
+          "control": {
+            "coverage": 0.8756815703380589,
+            "interval_score": 6.86903080243248,
+            "lower_miss_rate": 0.020719738276990186,
+            "mean_width": 4.248902451026611,
+            "upper_miss_rate": 0.10359869138495092
+          },
+          "grouped": {
+            "coverage": 0.8756815703380589,
+            "interval_score": 6.86903080243248,
+            "lower_miss_rate": 0.020719738276990186,
+            "mean_width": 4.248902451026611,
+            "upper_miss_rate": 0.10359869138495092
+          },
+          "player_rounds": 917
+        },
+        "position": "DEF"
+      },
+      {
+        "group": "missing",
+        "metrics": {
+          "control": {
+            "coverage": 1.0,
+            "interval_score": 4.0259786708077545,
+            "lower_miss_rate": 0.0,
+            "mean_width": 4.0259786708077545,
+            "upper_miss_rate": 0.0
+          },
+          "grouped": {
+            "coverage": 1.0,
+            "interval_score": 4.0259786708077545,
+            "lower_miss_rate": 0.0,
+            "mean_width": 4.0259786708077545,
+            "upper_miss_rate": 0.0
+          },
+          "player_rounds": 16
+        },
+        "position": "DEF"
+      },
+      {
+        "group": "high",
+        "metrics": {
+          "control": {
+            "coverage": 0.7403846153846154,
+            "interval_score": 14.522477314171622,
+            "lower_miss_rate": 0.07692307692307693,
+            "mean_width": 6.335577964942853,
+            "upper_miss_rate": 0.18269230769230768
+          },
+          "grouped": {
+            "coverage": 0.7644230769230769,
+            "interval_score": 14.320647794717255,
+            "lower_miss_rate": 0.07692307692307693,
+            "mean_width": 7.165946132745071,
+            "upper_miss_rate": 0.15865384615384615
+          },
+          "player_rounds": 208
+        },
+        "position": "FWD"
+      },
+      {
+        "group": "low",
+        "metrics": {
+          "control": {
+            "coverage": 0.9547872340425532,
+            "interval_score": 1.6348902797845486,
+            "lower_miss_rate": 0.0,
+            "mean_width": 0.610761159490563,
+            "upper_miss_rate": 0.04521276595744681
+          },
+          "grouped": {
+            "coverage": 0.9547872340425532,
+            "interval_score": 1.6348902797845486,
+            "lower_miss_rate": 0.0,
+            "mean_width": 0.610761159490563,
+            "upper_miss_rate": 0.04521276595744681
+          },
+          "player_rounds": 1128
+        },
+        "position": "FWD"
+      },
+      {
+        "group": "mid",
+        "metrics": {
+          "control": {
+            "coverage": 0.8322981366459627,
+            "interval_score": 8.811962879917647,
+            "lower_miss_rate": 0.031055900621118012,
+            "mean_width": 4.694810473352328,
+            "upper_miss_rate": 0.13664596273291926
+          },
+          "grouped": {
+            "coverage": 0.8322981366459627,
+            "interval_score": 8.811962879917647,
+            "lower_miss_rate": 0.031055900621118012,
+            "mean_width": 4.694810473352328,
+            "upper_miss_rate": 0.13664596273291926
+          },
+          "player_rounds": 322
+        },
+        "position": "FWD"
+      },
+      {
+        "group": "missing",
+        "metrics": {
+          "control": {
+            "coverage": 1.0,
+            "interval_score": 4.668534583390483,
+            "lower_miss_rate": 0.0,
+            "mean_width": 4.668534583390483,
+            "upper_miss_rate": 0.0
+          },
+          "grouped": {
+            "coverage": 1.0,
+            "interval_score": 4.668534583390483,
+            "lower_miss_rate": 0.0,
+            "mean_width": 4.668534583390483,
+            "upper_miss_rate": 0.0
+          },
+          "player_rounds": 10
+        },
+        "position": "FWD"
+      },
+      {
+        "group": "high",
+        "metrics": {
+          "control": {
+            "coverage": 0.7592592592592593,
+            "interval_score": 9.67548495374348,
+            "lower_miss_rate": 0.08888888888888889,
+            "mean_width": 4.9334188307762075,
+            "upper_miss_rate": 0.15185185185185185
+          },
+          "grouped": {
+            "coverage": 0.8925925925925926,
+            "interval_score": 9.535982291012601,
+            "lower_miss_rate": 0.0,
+            "mean_width": 6.933418415715537,
+            "upper_miss_rate": 0.10740740740740741
+          },
+          "player_rounds": 270
+        },
+        "position": "GK"
+      },
+      {
+        "group": "low",
+        "metrics": {
+          "control": {
+            "coverage": 0.9858088930936613,
+            "interval_score": 0.4996853416568994,
+            "lower_miss_rate": 0.000946073793755913,
+            "mean_width": 0.15267658855666208,
+            "upper_miss_rate": 0.013245033112582781
+          },
+          "grouped": {
+            "coverage": 0.9858088930936613,
+            "interval_score": 0.4996853416568994,
+            "lower_miss_rate": 0.000946073793755913,
+            "mean_width": 0.15267658855666208,
+            "upper_miss_rate": 0.013245033112582781
+          },
+          "player_rounds": 1057
+        },
+        "position": "GK"
+      },
+      {
+        "group": "mid",
+        "metrics": {
+          "control": {
+            "coverage": 0.8782608695652174,
+            "interval_score": 6.812597785120152,
+            "lower_miss_rate": 0.017391304347826087,
+            "mean_width": 3.3193324589923727,
+            "upper_miss_rate": 0.10434782608695652
+          },
+          "grouped": {
+            "coverage": 0.8782608695652174,
+            "interval_score": 6.812597785120152,
+            "lower_miss_rate": 0.017391304347826087,
+            "mean_width": 3.3193324589923727,
+            "upper_miss_rate": 0.10434782608695652
+          },
+          "player_rounds": 115
+        },
+        "position": "GK"
+      },
+      {
+        "group": "missing",
+        "metrics": {
+          "control": {
+            "coverage": 1.0,
+            "interval_score": 1.9687846334367367,
+            "lower_miss_rate": 0.0,
+            "mean_width": 1.9687846334367367,
+            "upper_miss_rate": 0.0
+          },
+          "grouped": {
+            "coverage": 1.0,
+            "interval_score": 1.9687846334367367,
+            "lower_miss_rate": 0.0,
+            "mean_width": 1.9687846334367367,
+            "upper_miss_rate": 0.0
+          },
+          "player_rounds": 7
+        },
+        "position": "GK"
+      },
+      {
+        "group": "high",
+        "metrics": {
+          "control": {
+            "coverage": 0.8360824742268042,
+            "interval_score": 11.425748432506174,
+            "lower_miss_rate": 0.02577319587628866,
+            "mean_width": 6.361948929560606,
+            "upper_miss_rate": 0.13814432989690723
+          },
+          "grouped": {
+            "coverage": 0.8360824742268042,
+            "interval_score": 11.425748432506174,
+            "lower_miss_rate": 0.02577319587628866,
+            "mean_width": 6.361948929560606,
+            "upper_miss_rate": 0.13814432989690723
+          },
+          "player_rounds": 970
+        },
+        "position": "MID"
+      },
+      {
+        "group": "low",
+        "metrics": {
+          "control": {
+            "coverage": 0.9587209302325581,
+            "interval_score": 1.2645615363837817,
+            "lower_miss_rate": 0.00029069767441860465,
+            "mean_width": 0.6036441690017718,
+            "upper_miss_rate": 0.04098837209302326
+          },
+          "grouped": {
+            "coverage": 0.9587209302325581,
+            "interval_score": 1.2645615363837817,
+            "lower_miss_rate": 0.00029069767441860465,
+            "mean_width": 0.6036441690017718,
+            "upper_miss_rate": 0.04098837209302326
+          },
+          "player_rounds": 3440
+        },
+        "position": "MID"
+      },
+      {
+        "group": "mid",
+        "metrics": {
+          "control": {
+            "coverage": 0.8777173913043478,
+            "interval_score": 7.899946653478132,
+            "lower_miss_rate": 0.006340579710144928,
+            "mean_width": 4.391676238334429,
+            "upper_miss_rate": 0.11594202898550725
+          },
+          "grouped": {
+            "coverage": 0.8777173913043478,
+            "interval_score": 7.899946653478132,
+            "lower_miss_rate": 0.006340579710144928,
+            "mean_width": 4.391676238334429,
+            "upper_miss_rate": 0.11594202898550725
+          },
+          "player_rounds": 1104
+        },
+        "position": "MID"
+      },
+      {
+        "group": "missing",
+        "metrics": {
+          "control": {
+            "coverage": 1.0,
+            "interval_score": 2.5713082013187627,
+            "lower_miss_rate": 0.0,
+            "mean_width": 2.5713082013187627,
+            "upper_miss_rate": 0.0
+          },
+          "grouped": {
+            "coverage": 1.0,
+            "interval_score": 2.5713082013187627,
+            "lower_miss_rate": 0.0,
+            "mean_width": 2.5713082013187627,
+            "upper_miss_rate": 0.0
+          },
+          "player_rounds": 15
+        },
+        "position": "MID"
+      }
+    ],
+    "post_outcome_played_diagnostic_only": {
+      "control": {
+        "coverage": 0.7821180555555556,
+        "interval_score": 10.364217790641513,
+        "lower_miss_rate": 0.020182291666666668,
+        "mean_width": 5.033037575847591,
+        "upper_miss_rate": 0.1976996527777778
+      },
+      "grouped": {
+        "coverage": 0.7884114583333334,
+        "interval_score": 10.369324750990918,
+        "lower_miss_rate": 0.017578125,
+        "mean_width": 5.171442491704332,
+        "upper_miss_rate": 0.19401041666666666
+      },
+      "player_rounds": 4608
+    }
+  },
+  "paired_interval_score": {
+    "block_len": 3,
+    "ci_high": 0.003477601789872968,
+    "ci_low": -0.018995929174261447,
+    "direction": "candidate minus control; lower is better",
+    "mean_interval_score_delta": -0.006246275506536387,
+    "n_boot": 10000,
+    "player_rounds": 12751,
+    "rounds": 16,
+    "seed": 0
+  },
+  "predictions_sha256": "d2db5e7b80f99548376063870c474cb5b0ef11ccf860b2b4e3ad2f3bffe7baee"
+}

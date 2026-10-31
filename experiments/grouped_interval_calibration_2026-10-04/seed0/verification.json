@@ -1,0 +1,54 @@
+{
+  "checks": [
+    "Input, output, archived/current feature-source and base proof hashes.",
+    "Capped frozen feature grouping, DGW consistency, exact original CSV fields and round order.",
+    "Independent signed finite-order calibration cells/counts and conservative median brackets.",
+    "Independent inclusive coverage, width, interval scores and all descriptive subgroups.",
+    "Independent noncircular moving-block weighted score differences and 95% confidence intervals."
+  ],
+  "limitations": [
+    "No training or optimizer execution; descriptive historical diagnostics only.",
+    "No exchangeability guarantee, fresh holdout, null bootstrap p-value or production promotion."
+  ],
+  "promotion_eligible": false,
+  "rechecked_artifacts": 169,
+  "registration_sha256": "2ba399fadc2a188e3f97b3924f432dcbf767fa74b4ee40ee1b0e630dc2f36c8c",
+  "reports": {
+    "reference": {
+      "cells": 15,
+      "observed_groups": 16,
+      "paired_interval_score": {
+        "block_len": 3,
+        "ci_high": 0.0048671529726623305,
+        "ci_low": -0.0108671575575225,
+        "direction": "candidate minus control; lower is better",
+        "mean_interval_score_delta": -0.002982336555942561,
+        "n_boot": 10000,
+        "player_rounds": 21606,
+        "rounds": 31,
+        "seed": 0
+      },
+      "player_rounds": 21606
+    },
+    "selection": {
+      "cells": 15,
+      "observed_groups": 16,
+      "paired_interval_score": {
+        "block_len": 3,
+        "ci_high": 0.0034776017898729646,
+        "ci_low": -0.018995929174261454,
+        "direction": "candidate minus control; lower is better",
+        "mean_interval_score_delta": -0.006246275506536388,
+        "n_boot": 10000,
+        "player_rounds": 12751,
+        "rounds": 16,
+        "seed": 0
+      },
+      "player_rounds": 12751
+    }
+  },
+  "status": "verified",
+  "summary_sha256": "702d6c9e2b380f37fcc995daae69acbc4dd483337508edcb3def5e623342fbb7",
+  "verified_at_utc": "2026-10-04T07:47:43.588489+00:00",
+  "verifier_sha256": "bc44f3a8dec20369c1b89718181b8a91656e52529deda724bbb84ff7d52d3833"
+}

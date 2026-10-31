@@ -1,0 +1,176 @@
+{
+  "elapsed_seconds": 7502.959859999828,
+  "promotion_eligible": false,
+  "protocol_sha256": "1a00af8f14da7a1add769693aa83bcd25ea0f603c185341a169cb0b6594d965c",
+  "seeds": {
+    "1": {
+      "comparisons": {
+        "mae_without_fixture": {
+          "origin": {
+            "block_len": 3,
+            "boot_mean": -64.064,
+            "ci_high": 22.0,
+            "ci_low": -149.0,
+            "n_gws": 31,
+            "p_a_better": 0.0712,
+            "sign_test": {
+              "p_a_better": 0.9319770261645317,
+              "p_value": 0.26493089646101,
+              "ties": 2,
+              "wins_a": 11,
+              "wins_b": 18
+            },
+            "total_a": 1917.0,
+            "total_b": 1965.0,
+            "total_diff": -48.0
+          },
+          "standard": {
+            "block_len": 3,
+            "boot_mean": 11.267,
+            "ci_high": 139.0,
+            "ci_low": -119.0,
+            "n_gws": 31,
+            "p_a_better": 0.5666,
+            "sign_test": {
+              "p_a_better": 0.707667644135654,
+              "p_value": 0.8555355519056321,
+              "ties": 1,
+              "wins_a": 14,
+              "wins_b": 16
+            },
+            "total_a": 1958.0,
+            "total_b": 1937.0,
+            "total_diff": 21.0
+          }
+        },
+        "rmse_full": {
+          "origin": {
+            "block_len": 3,
+            "boot_mean": -68.4593,
+            "ci_high": 86.0,
+            "ci_low": -221.0,
+            "n_gws": 31,
+            "p_a_better": 0.197,
+            "sign_test": {
+              "p_a_better": 0.572232224047184,
+              "p_value": 1.0,
+              "ties": 1,
+              "wins_a": 15,
+              "wins_b": 15
+            },
+            "total_a": 1913.0,
+            "total_b": 1965.0,
+            "total_diff": -52.0
+          },
+          "standard": {
+            "block_len": 3,
+            "boot_mean": 32.1689,
+            "ci_high": 204.0,
+            "ci_low": -144.0,
+            "n_gws": 31,
+            "p_a_better": 0.638,
+            "sign_test": {
+              "p_a_better": 0.639949934091419,
+              "p_value": 1.0,
+              "ties": 0,
+              "wins_a": 15,
+              "wins_b": 16
+            },
+            "total_a": 1979.0,
+            "total_b": 1937.0,
+            "total_diff": 42.0
+          }
+        }
+      },
+      "output_dir": "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/research_priorities_2026-10-03/selection_seed1",
+      "selected_ablation": "mae_without_fixture",
+      "status": "complete",
+      "summary_sha256": "cd5198d055cf1a740cd1c4c2b9cb824882c00bb1f499abb098e9297946042b5c"
+    },
+    "2": {
+      "comparisons": {
+        "mae_without_minutes": {
+          "origin": {
+            "block_len": 3,
+            "boot_mean": -87.1117,
+            "ci_high": 100.02499999999964,
+            "ci_low": -277.0,
+            "n_gws": 31,
+            "p_a_better": 0.1825,
+            "sign_test": {
+              "p_a_better": 0.7634351700544357,
+              "p_value": 0.720100131817162,
+              "ties": 0,
+              "wins_a": 14,
+              "wins_b": 17
+            },
+            "total_a": 1893.0,
+            "total_b": 1987.0,
+            "total_diff": -94.0
+          },
+          "standard": {
+            "block_len": 3,
+            "boot_mean": 145.6503,
+            "ci_high": 340.0,
+            "ci_low": -58.0,
+            "n_gws": 31,
+            "p_a_better": 0.9187,
+            "sign_test": {
+              "p_a_better": 0.23656482994556427,
+              "p_value": 0.47312965989112854,
+              "ties": 0,
+              "wins_a": 18,
+              "wins_b": 13
+            },
+            "total_a": 2101.0,
+            "total_b": 1979.0,
+            "total_diff": 122.0
+          }
+        },
+        "rmse_full": {
+          "origin": {
+            "block_len": 3,
+            "boot_mean": -87.9483,
+            "ci_high": 138.0,
+            "ci_low": -296.0,
+            "n_gws": 31,
+            "p_a_better": 0.2118,
+            "sign_test": {
+              "p_a_better": 0.707667644135654,
+              "p_value": 0.8555355519056321,
+              "ties": 1,
+              "wins_a": 14,
+              "wins_b": 16
+            },
+            "total_a": 1881.0,
+            "total_b": 1987.0,
+            "total_diff": -106.0
+          },
+          "standard": {
+            "block_len": 3,
+            "boot_mean": -75.2278,
+            "ci_high": 168.02499999999964,
+            "ci_low": -321.025,
+            "n_gws": 31,
+            "p_a_better": 0.2746,
+            "sign_test": {
+              "p_a_better": 0.8997557889670134,
+              "p_value": 0.36159460805356514,
+              "ties": 1,
+              "wins_a": 12,
+              "wins_b": 18
+            },
+            "total_a": 1882.0,
+            "total_b": 1979.0,
+            "total_diff": -97.0
+          }
+        }
+      },
+      "output_dir": "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/research_priorities_2026-10-03/selection_seed2",
+      "selected_ablation": "mae_without_minutes",
+      "status": "complete",
+      "summary_sha256": "7bf58bb439d88190c94ff70f5b5545de5778c8d0647f45392d31a03be18f00ae"
+    }
+  },
+  "status": "complete"
+}

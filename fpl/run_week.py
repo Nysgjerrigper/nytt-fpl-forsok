@@ -37,6 +37,7 @@ import requests
 
 from fpl import config, features
 from fpl.data import fetch
+from fpl.live_evaluation import capture, record_evaluation
 from fpl.model.expert_policy import (
     fit_mid_gate_experts, parse_expert_map, predict_by_position, predict_with_mid_gate,
     resolve_weight_strategy,
@@ -137,28 +138,57 @@ def get_user_squad(team_id: int, bootstrap: dict, known_player_ids: set,
     A complete fifteen-player identity mapping is mandatory. A player without forecast
     history blocks continuation rather than silently disappearing from owned assets.
     """
+    if (not isinstance(bootstrap, dict) or not isinstance(bootstrap.get("events"), list)
+            or any(not isinstance(event, dict) for event in bootstrap["events"])):
+        raise ValueError("Invalid bootstrap events for owned-squad retrieval")
     now = _utc_now(now)
     published = [gw for gw, deadline in _event_deadlines(bootstrap).items() if deadline <= now]
     if not published:
         raise ValueError("No published deadline squad exists yet; provide owner state")
     last_published_gw = max(published)
+
+    def positive_id(value: object) -> bool:
+        return isinstance(value, Integral) and not isinstance(value, (bool, np.bool_)) and value > 0
+
+    elements = bootstrap.get("elements")
+    if not isinstance(elements, list):
+        raise ValueError("Missing bootstrap elements for owned-squad identity mapping")
+    elements_by_id = {}
+    stable_codes = set()
+    for element in elements:
+        if not isinstance(element, dict):
+            raise ValueError("Invalid bootstrap element for owned-squad identity mapping")
+        identifier, code = element.get("id"), element.get("code")
+        if not positive_id(identifier) or not positive_id(code):
+            raise ValueError(f"Invalid bootstrap element/code for owned-squad mapping: element={identifier!r}, code={code!r}; "
+                             "refresh and verify the official bootstrap identity mapping")
+        if identifier in elements_by_id or code in stable_codes:
+            raise ValueError(f"Ambiguous bootstrap element/code for owned-squad mapping: element={identifier}, code={code}; "
+                             "refresh and verify the official bootstrap identity mapping")
+        elements_by_id[identifier] = element
+        stable_codes.add(code)
     resp = requests.get(f"{FPL_API}/entry/{team_id}/event/{last_published_gw}/picks/", timeout=30)
     resp.raise_for_status()
     data = resp.json()
 
-    elements_by_id = {el["id"]: el for el in bootstrap["elements"]}
+    picks = data.get("picks") if isinstance(data, dict) else None
+    if not isinstance(picks, list) or len(picks) != 15:
+        raise ValueError("Public squad must contain exactly 15 picks")
     squad_ids = []
-    for pick in data["picks"]:
-        el = elements_by_id.get(pick["element"], {})
-        player_id = el.get("code")
+    for pick in picks:
+        identifier = pick.get("element") if isinstance(pick, dict) else None
+        if not positive_id(identifier) or identifier not in elements_by_id:
+            raise ValueError(f"Owned pick element ID {identifier!r} is missing or invalid in bootstrap")
+        player_id = elements_by_id[identifier]["code"]
         if player_id not in known_player_ids:
-            raise ValueError(f"Owned player {pick['element']} (code={player_id}) has no forecast history")
+            raise ValueError(f"Owned player {identifier} (code={player_id}) has no forecast history; cannot optimize the complete owned squad")
         squad_ids.append(player_id)
 
-    if len(squad_ids) != 15 or len(set(squad_ids)) != 15:
+    if len(set(squad_ids)) != 15:
         raise ValueError("Public squad must contain exactly 15 unique player codes")
 
-    bank = data["entry_history"]["bank"]  # in 0.1m units, matches `value` column
+    entry_history = data.get("entry_history")
+    bank = entry_history.get("bank") if isinstance(entry_history, dict) else None
     if isinstance(bank, bool) or not isinstance(bank, Integral) or bank < 0:
         raise ValueError("Public bank must be nonnegative integer tenths")
     return squad_ids, float(bank)
@@ -265,10 +295,28 @@ def availability_multipliers(bootstrap):
 def apply_availability(preds, factors):
     """Scale predicted_total_points by each player's availability factor (1.0 when unknown).
 
-    Separated from main() so the scaling arithmetic is unit-testable without the API."""
+    For cold priors, availability is heuristically an independent Bernoulli gate:
+    mean becomes q*mean, variance q*variance + q*(1-q)*mean**2, and participation
+    probabilities become q*p. This is not a calibrated availability distribution.
+    Separated from main() so the arithmetic is unit-testable without the API."""
     scale = preds["player_id"].map(factors).fillna(1.0)
     preds = preds.copy()
-    preds["predicted_total_points"] = preds["predicted_total_points"] * scale
+    original_mean = preds["predicted_total_points"].copy()
+    if "prior_std" in preds:
+        marked = preds.get("is_cold_start", pd.Series(False, index=preds.index)).fillna(False).astype(bool)
+        if "forecast_source" in preds:
+            marked = marked | preds["forecast_source"].eq("pooled_prior")
+        prior_rows = marked & np.isfinite(preds["prior_std"])
+        q = scale.loc[prior_rows]
+        if not np.isfinite(q).all() or ((q < 0) | (q > 1)).any():
+            raise ValueError("Cold-prior availability factors must be finite probabilities in [0, 1]")
+        variance = preds.loc[prior_rows, "prior_std"] ** 2
+        mean = original_mean.loc[prior_rows]
+        preds.loc[prior_rows, "prior_std"] = np.sqrt(q * variance + q * (1 - q) * mean ** 2)
+        for column in ("p_played", "p60"):
+            if column in preds:
+                preds.loc[prior_rows, column] = preds.loc[prior_rows, column] * q
+    preds["predicted_total_points"] = original_mean * scale
     flagged, zeroed = int((scale < 1.0).sum()), int((scale == 0.0).sum())
     print(f"Availability scaling: {flagged} of {len(preds)} prediction rows scaled down ({zeroed} zeroed).")
     return preds
@@ -455,6 +503,8 @@ def main():
     )
     parser.add_argument("--mid-gate-config", default=None,
                         help="Frozen MidGateConfig JSON for optional experimental MID routing.")
+    parser.add_argument("--cold-start-priors", action="store_true",
+                        help="Opt-in empirical pooled priors for registered players without history; not calibrated intervals.")
     args = parser.parse_args()
     if args.optimizer_state_json and args.optimizer != "solio":
         parser.error("optimizer-state-json requires --optimizer solio")
@@ -478,11 +528,23 @@ def main():
 
     print("--- Building features & training models on all data so far ---")
     raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    evaluation = record_evaluation(raw, bootstrap)
+    if evaluation is not None:
+        print(f"Saved prior live forecast evaluation: {evaluation}")
     feat_df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(feat_df)
+    cold_start_priors = None
+    cold_snapshot = None
+    if args.cold_start_priors:
+        from fpl.model.cold_start import add_registered_cold_starts, fit_pooled_priors
+        cold_snapshot = apply_live_identity(build_live_snapshot(raw), bootstrap)
+        origin = config.season_start_gw(fetch.active_season_from_bootstrap(bootstrap)) + target_gw - 1
+        cold_snapshot["GW_global"] = origin
+        cold_snapshot = add_registered_cold_starts(cold_snapshot, bootstrap)
+        cold_start_priors = fit_pooled_priors(raw, origin_gw=origin)
     squad_ids, bank = None, 1000.0
     if args.team_id is not None:
-        squad_ids, bank = get_user_squad(args.team_id, bootstrap, set(feat_df["player_id"]))
+        squad_ids, bank = get_user_squad(args.team_id, bootstrap, set(cold_snapshot["player_id"] if args.cold_start_priors else feat_df["player_id"]))
         print("OWNER VERIFICATION REQUIRED: public last-deadline picks/bank are a scenario; "
               "check current holdings, bank, selling prices and remaining chips before entry.")
 
@@ -504,10 +566,11 @@ def main():
                 if args.mid_gate_config else None)
     mid_experts = fit_mid_gate_experts(feat_df, feature_cols, mid_gate) if mid_gate else None
 
-    snapshot = apply_live_identity(build_live_snapshot(raw), bootstrap)
+    snapshot = cold_snapshot if args.cold_start_priors else apply_live_identity(build_live_snapshot(raw), bootstrap)
     opp_form = features.team_form_asof(raw)
+    cold_kwargs = {"cold_start_priors": cold_start_priors} if args.cold_start_priors else {}
     preds = build_future_predictions(snapshot, feature_cols, models, bootstrap, target_gw, args.horizon,
-                                     opp_form=opp_form, mid_gate=mid_gate, mid_experts=mid_experts)
+                                     opp_form=opp_form, mid_gate=mid_gate, mid_experts=mid_experts, **cold_kwargs)
     if preds.empty:
         sys.exit("Could not build any predictions - fixtures for the target gameweek aren't published yet.")
 
@@ -518,15 +581,19 @@ def main():
     preds = apply_live_prices(preds, live_prices(bootstrap))
     if set(preds["GW"]) != set(range(target_gw, target_gw + args.horizon)):
         raise ValueError("Live forecast does not cover every requested gameweek")
-    if squad_ids is not None and not set(squad_ids) <= set(preds["player_id"]):
-        raise ValueError("Owned players missing from the live forecast pool; cannot continue this squad")
+    if squad_ids is not None:
+        optimize.validate_owned_forecast_pool(squad_ids, list(preds["player_id"]))
     if determine_target_gw(bootstrap) != target_gw:
         raise ValueError("Target deadline passed during preparation; restart for the next open round")
 
     out_cols = ["player_id", "GW", "name", "position", "team", "value", "predicted_total_points"]
     out_cols.extend(col for col in ("opponent_team", "was_home") if col in preds)
+    if args.cold_start_priors:
+        out_cols.extend(["is_cold_start", "forecast_source", "prior_std", "p_played", "p60", "prior_count"])
     preds = preds[out_cols]
     config.PREDICTIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    captured = capture(preds, bootstrap, strategy=effective_strategy)
+    print(f"Archived live forecast for later evaluation: {captured}")
     preds.to_csv(config.PREDICTIONS_PATH, index=False)
     print(f"Saved {len(preds)} predicted rows to {config.PREDICTIONS_PATH}")
 

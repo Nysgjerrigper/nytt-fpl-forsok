@@ -27,7 +27,7 @@ from fpl.model.expert_policy import (POSITIONS, fit_mid_gate_experts, parse_expe
                                      predict_by_position, predict_with_mid_gate,
                                      resolve_weight_strategy)
 from fpl.model.mid_gate import MidGateConfig
-from fpl.model.recipes import resolve_fit_recipe
+from fpl.model.recipes import resolve_pipeline_recipe
 from fpl.model.train import fit_holdout_weights, fit_level_calibration, fit_position_ensembles
 from fpl.model.walk_forward import walk_forward_steps
 
@@ -57,7 +57,7 @@ def _prepare_explicit_recipe(df, feature_cols, weight_strategy, params_by_pos, s
         if not isinstance(strategy, str) or not strategy.startswith("single:"):
             raise ValueError("explicit recipes only support single-member strategies")
         weights[position] = {strategy[len("single:"):]: 1.0}
-    recipe = resolve_fit_recipe(weights, params_by_pos, seed)
+    recipe = resolve_pipeline_recipe(weights, params_by_pos, seed)
     return weights, recipe
 
 
@@ -140,7 +140,8 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
 def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon,
                              retrain_every=4, weight_window=16,
                              weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY,
-                             expert_map=None, mid_gate=None, *, params_by_pos=None, seed=None):
+                             expert_map=None, mid_gate=None, *, params_by_pos=None, seed=None,
+                             snapshot_builder=None, extra_player_features=(), origin_snapshot_builder=None):
     """Deploy-honest backtest export: for each origin GW t, predict ALL of t..t+horizon-1
     with player form frozen at t's deadline (information through GW t-1 only).
 
@@ -177,7 +178,20 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
     """
     from fpl.run_week import build_live_snapshot
 
-    frozen_cols = features._player_shifted_columns(df)
+    extra_player_features = list(extra_player_features)
+    if (len(extra_player_features) != len(set(extra_player_features))
+            or not set(extra_player_features).issubset(feature_cols)
+            or not set(extra_player_features).issubset(df.columns)):
+        raise ValueError("extra player features must be unique fitted frame columns")
+    if snapshot_builder is not None and origin_snapshot_builder is not None:
+        raise ValueError("origin snapshot builders are mutually exclusive")
+    if extra_player_features and snapshot_builder is None and origin_snapshot_builder is None:
+        raise ValueError("extra player features require an origin snapshot builder")
+    if snapshot_builder is not None and not callable(snapshot_builder):
+        raise ValueError("origin snapshot builder must be callable")
+    if origin_snapshot_builder is not None and not callable(origin_snapshot_builder):
+        raise ValueError("dated origin snapshot builder must be callable")
+    frozen_cols = list(dict.fromkeys(features._player_shifted_columns(df) + extra_player_features))
     weight_strategy = resolve_weight_strategy(weight_strategy, expert_map)
     print(f"Fitting combination weights (strategy={weight_strategy}) "
           f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
@@ -207,7 +221,13 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
         df, start_gw, end_gw, retrain_every, fit_fn, gw_word="origin GW"
     ):
         hist_raw = raw_df[raw_df["GW_global"] < origin]
-        snapshot = build_live_snapshot(hist_raw)
+        snapshot = (origin_snapshot_builder(hist_raw, origin) if origin_snapshot_builder is not None
+                    else build_live_snapshot(hist_raw) if snapshot_builder is None
+                    else snapshot_builder(hist_raw))
+        if ("player_id" not in snapshot or snapshot.player_id.isna().any()
+                or snapshot.player_id.duplicated().any()
+                or not set(frozen_cols).issubset(snapshot.columns)):
+            raise ValueError("origin snapshot lacks unambiguous player identities or frozen features")
         snapshot = snapshot.set_index("player_id")
         opp_form = features.team_form_asof(hist_raw)
 

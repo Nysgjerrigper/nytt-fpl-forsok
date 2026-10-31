@@ -1,0 +1,205 @@
+Fitting combination weights (strategy=single:catboost_mae) on holdout GW137-152...
+    weights (GK): catboost_mae=1.00
+    weights (DEF): catboost_mae=1.00
+    weights (MID): catboost_mae=1.00
+    weights (FWD): catboost_mae=1.00
+Retrained models for GW 153
+Retrained models for GW 157
+Retrained models for GW 161
+Retrained models for GW 165
+Retrained models for GW 169
+Retrained models for GW 173
+Retrained models for GW 177
+Retrained models for GW 181
+--- Loading predictions from experiments/league_workload_2026-10-04/seed0/reference/mae_league_workload_standard.predictions.csv ---
+Sets: 31 GWs, 772 players, 20 teams (82 GK, 262 DEF, 342 MID, 86 FWD)
+Season 5 halves: FH <= 171, SH > 171
+
+=============== Solving for Gameweek 153 ===============
+Solving GW 153...
+Status: Optimal (solve: 9.24s, model build: 0.44s)
+GW 153: chip=None, transfers in/out=0, budget_end=5.0, next FT=2
+GW 153 loop time: 9.69s
+
+=============== Solving for Gameweek 154 ===============
+Solving GW 154...
+Status: Optimal (solve: 7.37s, model build: 0.45s)
+GW 154: chip=None, transfers in/out=2, budget_end=0.0, next FT=1
+GW 154 loop time: 7.82s
+
+=============== Solving for Gameweek 155 ===============
+Solving GW 155...
+Status: Optimal (solve: 2.72s, model build: 0.41s)
+GW 155: chip=None, transfers in/out=1, budget_end=4.0, next FT=1
+GW 155 loop time: 3.13s
+
+=============== Solving for Gameweek 156 ===============
+Solving GW 156...
+Status: Optimal (solve: 3.24s, model build: 0.45s)
+GW 156: chip=None, transfers in/out=1, budget_end=3.0, next FT=1
+GW 156 loop time: 3.69s
+
+=============== Solving for Gameweek 157 ===============
+Solving GW 157...
+Status: Optimal (solve: 3.03s, model build: 0.42s)
+GW 157: chip=None, transfers in/out=1, budget_end=3.0, next FT=1
+GW 157 loop time: 3.45s
+
+=============== Solving for Gameweek 158 ===============
+Solving GW 158...
+Status: Optimal (solve: 1.88s, model build: 0.42s)
+GW 158: chip=None, transfers in/out=1, budget_end=25.0, next FT=1
+GW 158 loop time: 2.31s
+
+=============== Solving for Gameweek 159 ===============
+Solving GW 159...
+Status: Optimal (solve: 2.36s, model build: 0.42s)
+GW 159: chip=None, transfers in/out=1, budget_end=17.0, next FT=1
+GW 159 loop time: 2.78s
+
+=============== Solving for Gameweek 160 ===============
+Solving GW 160...
+Status: Optimal (solve: 1.44s, model build: 0.49s)
+GW 160: chip=None, transfers in/out=1, budget_end=6.0, next FT=1
+GW 160 loop time: 1.94s
+
+=============== Solving for Gameweek 161 ===============
+Solving GW 161...
+Status: Optimal (solve: 2.06s, model build: 0.42s)
+GW 161: chip=None, transfers in/out=1, budget_end=32.0, next FT=1
+GW 161 loop time: 2.48s
+
+=============== Solving for Gameweek 162 ===============
+Solving GW 162...
+Status: Optimal (solve: 3.66s, model build: 0.46s)
+GW 162: chip=None, transfers in/out=1, budget_end=10.0, next FT=1
+GW 162 loop time: 4.11s
+
+=============== Solving for Gameweek 163 ===============
+Solving GW 163...
+Status: Optimal (solve: 6.02s, model build: 0.42s)
+GW 163: chip=None, transfers in/out=1, budget_end=22.0, next FT=1
+GW 163 loop time: 6.44s
+
+=============== Solving for Gameweek 164 ===============
+Solving GW 164...
+Status: Optimal (solve: 2.12s, model build: 0.46s)
+GW 164: chip=None, transfers in/out=1, budget_end=45.0, next FT=1
+GW 164 loop time: 2.58s
+
+=============== Solving for Gameweek 165 ===============
+Solving GW 165...
+Status: Optimal (solve: 2.83s, model build: 0.43s)
+GW 165: chip=None, transfers in/out=1, budget_end=26.0, next FT=1
+GW 165 loop time: 3.26s
+
+=============== Solving for Gameweek 166 ===============
+Solving GW 166...
+Status: Optimal (solve: 2.52s, model build: 0.45s)
+GW 166: chip=None, transfers in/out=1, budget_end=28.0, next FT=1
+GW 166 loop time: 2.98s
+
+=============== Solving for Gameweek 167 ===============
+Solving GW 167...
+Status: Optimal (solve: 1.49s, model build: 0.42s)
+GW 167: chip=None, transfers in/out=1, budget_end=55.0, next FT=1
+GW 167 loop time: 1.91s
+
+=============== Solving for Gameweek 168 ===============
+Solving GW 168...
+Status: Optimal (solve: 2.59s, model build: 0.45s)
+GW 168: chip=None, transfers in/out=1, budget_end=5.0, next FT=1
+GW 168 loop time: 3.05s
+
+=============== Solving for Gameweek 169 ===============
+Solving GW 169...
+Status: Optimal (solve: 2.93s, model build: 0.42s)
+GW 169: chip=None, transfers in/out=1, budget_end=3.0, next FT=1
+GW 169 loop time: 3.36s
+
+=============== Solving for Gameweek 170 ===============
+Solving GW 170...
+Status: Optimal (solve: 3.32s, model build: 0.46s)
+GW 170: chip=None, transfers in/out=1, budget_end=43.0, next FT=1
+GW 170 loop time: 3.77s
+
+=============== Solving for Gameweek 171 ===============
+Solving GW 171...
+Status: Optimal (solve: 6.76s, model build: 0.42s)
+GW 171: chip=None, transfers in/out=1, budget_end=32.0, next FT=1
+GW 171 loop time: 7.18s
+
+=============== Solving for Gameweek 172 ===============
+Solving GW 172...
+Status: Optimal (solve: 6.75s, model build: 0.46s)
+GW 172: chip=None, transfers in/out=1, budget_end=32.0, next FT=1
+GW 172 loop time: 7.21s
+
+=============== Solving for Gameweek 173 ===============
+Solving GW 173...
+Status: Optimal (solve: 5.16s, model build: 0.45s)
+GW 173: chip=None, transfers in/out=1, budget_end=7.0, next FT=1
+GW 173 loop time: 5.61s
+
+=============== Solving for Gameweek 174 ===============
+Solving GW 174...
+Status: Optimal (solve: 2.85s, model build: 0.46s)
+GW 174: chip=None, transfers in/out=1, budget_end=2.0, next FT=1
+GW 174 loop time: 3.30s
+
+=============== Solving for Gameweek 175 ===============
+Solving GW 175...
+Status: Optimal (solve: 2.52s, model build: 0.42s)
+GW 175: chip=None, transfers in/out=1, budget_end=16.0, next FT=1
+GW 175 loop time: 2.94s
+
+=============== Solving for Gameweek 176 ===============
+Solving GW 176...
+Status: Optimal (solve: 6.54s, model build: 0.68s)
+GW 176: chip=None, transfers in/out=1, budget_end=0.0, next FT=1
+GW 176 loop time: 7.23s
+
+=============== Solving for Gameweek 177 ===============
+Solving GW 177...
+Status: Optimal (solve: 2.16s, model build: 0.42s)
+GW 177: chip=None, transfers in/out=1, budget_end=20.0, next FT=1
+GW 177 loop time: 2.58s
+
+=============== Solving for Gameweek 178 ===============
+Solving GW 178...
+Status: Optimal (solve: 3.65s, model build: 0.47s)
+GW 178: chip=None, transfers in/out=1, budget_end=3.0, next FT=1
+GW 178 loop time: 4.12s
+
+=============== Solving for Gameweek 179 ===============
+Solving GW 179...
+Status: Optimal (solve: 4.51s, model build: 0.43s)
+GW 179: chip=None, transfers in/out=1, budget_end=6.0, next FT=1
+GW 179 loop time: 4.94s
+
+=============== Solving for Gameweek 180 ===============
+Solving GW 180...
+Status: Optimal (solve: 2.43s, model build: 0.45s)
+GW 180: chip=None, transfers in/out=1, budget_end=28.0, next FT=1
+GW 180 loop time: 2.88s
+
+=============== Solving for Gameweek 181 ===============
+Solving GW 181...
+Status: Optimal (solve: 2.45s, model build: 0.42s)
+GW 181: chip=None, transfers in/out=1, budget_end=9.0, next FT=1
+GW 181 loop time: 2.87s
+
+=============== Solving for Gameweek 182 ===============
+Solving GW 182...
+Status: Optimal (solve: 1.07s, model build: 0.29s)
+GW 182: chip=None, transfers in/out=1, budget_end=31.0, next FT=1
+GW 182 loop time: 1.36s
+
+=============== Solving for Gameweek 183 ===============
+Solving GW 183...
+Status: Optimal (solve: 0.48s, model build: 0.13s)
+GW 183: chip=None, transfers in/out=1, budget_end=11.0, next FT=1
+GW 183 loop time: 0.61s
+
+Saved results to experiments/league_workload_2026-10-04/seed0/reference/mae_league_workload_standard.squads.csv
+Total actual points over horizon: 2019.0

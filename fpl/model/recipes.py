@@ -85,3 +85,59 @@ def resolve_fit_recipe(weights_by_pos: Mapping, params_by_pos: Mapping | None,
             _validate_json(resolved)
             result[position][name] = resolved
     return result
+
+
+def resolve_pipeline_recipe(weights_by_pos: Mapping, params_by_pos: Mapping | None,
+                            seed: int | None) -> dict | None:
+    """Route opt-in exploratory members without extending the registered universe.
+
+    Registered recipes retain their existing validator unchanged. Exploratory
+    recipes require explicit complete parameters and a seed, and cannot be mixed
+    with registered members inside the same positional ensemble.
+    """
+    from fpl.model.models import EXPLORATORY_SPECS
+
+    if not isinstance(weights_by_pos, Mapping):
+        return resolve_fit_recipe(weights_by_pos, params_by_pos, seed)
+    exploratory = any(
+        name in EXPLORATORY_SPECS and isinstance(weight, Real)
+        and not isinstance(weight, bool) and math.isfinite(weight) and weight > 0
+        for weights in weights_by_pos.values() if isinstance(weights, Mapping)
+        for name, weight in weights.items()
+    )
+    if not exploratory:
+        return resolve_fit_recipe(weights_by_pos, params_by_pos, seed)
+    if (isinstance(seed, bool) or not isinstance(seed, Integral) or seed < 0
+            or not isinstance(params_by_pos, Mapping)
+            or set(params_by_pos) != set(weights_by_pos)
+            or not set(weights_by_pos) <= set(config.ONFIELD_POSITIONS)):
+        raise ValueError("exploratory recipes require explicit matching positions and a seed")
+    result = {}
+    for position, weights in weights_by_pos.items():
+        if (not isinstance(weights, Mapping) or not weights
+                or any(isinstance(value, bool) or not isinstance(value, Real)
+                       or not math.isfinite(value) or value < 0 for value in weights.values())):
+            raise ValueError("exploratory weights must be finite nonnegative values")
+        active = {name: value for name, value in weights.items() if value > 0}
+        if not any(name in EXPLORATORY_SPECS for name in active):
+            result.update(resolve_fit_recipe({position: weights}, {position: params_by_pos[position]}, seed))
+            continue
+        if len(active) != 1 or not set(active) <= set(EXPLORATORY_SPECS):
+            raise ValueError("exploratory recipes require a single exploratory member per position")
+        name = next(iter(active))
+        overrides = params_by_pos[position]
+        if not isinstance(overrides, Mapping) or set(overrides) != {name} or not isinstance(overrides[name], dict):
+            raise ValueError("exploratory recipe must exactly cover its active member")
+        params = deepcopy(overrides[name])
+        _validate_json(params)
+        if "seed" in params and (isinstance(params["seed"], bool) or params["seed"] != seed):
+            raise ValueError("exploratory member seed must match recipe seed")
+        if name == "sequence_cnn":
+            defaults = EXPLORATORY_SPECS[name].default_params(int(seed))
+            if set(params) - (set(defaults) | {"seed"}):
+                raise ValueError("unknown exploratory CNN parameter")
+            params = {**defaults, **params}
+        elif set(params) != {"cnn_weight", "cnn_params", "tree_params"}:
+            raise ValueError("temporal blend requires explicit weight and both member parameters")
+        result[position] = {name: params}
+    return result

@@ -1,0 +1,18 @@
+{
+  "block_len": 3,
+  "boot_mean": 85.3832,
+  "ci_high": 186.0,
+  "ci_low": -6.0,
+  "n_gws": 16,
+  "p_a_better": 0.9659,
+  "sign_test": {
+    "p_a_better": 0.30361938476562494,
+    "p_value": 0.6072387695312499,
+    "ties": 1,
+    "wins_a": 9,
+    "wins_b": 6
+  },
+  "total_a": 1008.0,
+  "total_b": 930.0,
+  "total_diff": 78.0
+}

@@ -1,0 +1,11 @@
+{
+  "status": "verified",
+  "wheel_sha256": "dee6d0c866e6326f3d7e27bee2d7fbe1d7ecc90884da01b8ebbd954d2dc8a199",
+  "pipeline_sources": 50,
+  "json_artifacts": 45,
+  "checks": [
+    "offline build",
+    "all shipped Python sources exact",
+    "all model/data JSON bytes exact"
+  ]
+}

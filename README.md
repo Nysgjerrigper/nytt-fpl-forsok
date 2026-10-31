@@ -23,6 +23,8 @@ This is a source-available project, not FOSS. See [licensing](docs/LICENSING.md)
 - [The Training Ground](docs/TRAINING_GROUND.md): offline comparison playground, scorecards and an evidence league.
 - [Open FPL adapter](docs/OPEN_FPL_ADAPTER.md): optional modern-rule backend, inputs and measured comparison.
 - [Master thesis](docs/thesis/Master%20thesis%20Andersen%20%26%20Molberg.pdf).
+- [Forecast research](docs/FORECAST_RESEARCH.md): frozen comparisons, archived evidence and optional research interfaces.
+- [External data admission](docs/EXTERNAL_DATA.md): identity and publication-time admission.
 - [Research history](RESEARCH_LOG.md) and [run registry](experiments/results.csv): dated evidence,
   including negative results; historical numbers are not automatically current controls.
 - [Historical documents](docs/archive/README.md): superseded handoffs, the July audit,
@@ -39,6 +41,12 @@ python -m pip install -r requirements.txt
 python -m pip install --no-deps --no-build-isolation -e .
 python -m pytest tests/ -q
 ```
+
+Use the editable checkout for pipeline execution: dataset and output paths are relative
+to the repository. A built wheel alone does not restore the frozen data or configure
+a writable research workspace.
+
+The optional isolated CPU CNN also requires `python -m pip install -r requirements-cnn.txt`.
 
 `requirements-runtime.txt` pins pipeline dependencies; `requirements.txt` adds development
 and notebook tools. `requirements-research.txt` is optional and does not enable a model

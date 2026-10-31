@@ -1,0 +1,27 @@
+{
+  "checks": [
+    "source and input/output byte locks",
+    "unchanged phase outcome fixture coverage",
+    "strict selection gate and immutable finalist lock",
+    "identical paired forecast metadata",
+    "prior-price catalogs rebuilt",
+    "selected eligibility and reconstructed current-price budgets",
+    "optimal status, chips disabled, net gross hit accounting",
+    "all bootstrap and sign-test reports"
+  ],
+  "immutable_outputs": 91,
+  "independently_reconstructed_current_budgets": 94,
+  "optimal_solves": 156,
+  "promotion_eligible": false,
+  "registration_sha256": "b0547eb433c212fe0adf06b5621bec6eb50a38c2f9907f76bc8c85bed26f01fe",
+  "results": {
+    "reference/mae_availability/origin": 1922.0,
+    "reference/mae_availability/standard": 1917.0,
+    "reference/mae_full/origin": 1938.0,
+    "reference/mae_full/standard": 2082.0,
+    "selection/mae_availability/origin": 952.0,
+    "selection/mae_full/origin": 930.0
+  },
+  "status": "verified",
+  "summary_sha256": "e8db77bd7152eeb05d90b96cfcf3d4fad9ea2db1f8286645958f34f9fdff2174"
+}

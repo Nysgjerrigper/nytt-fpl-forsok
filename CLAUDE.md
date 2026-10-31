@@ -29,6 +29,22 @@ results and their provenance; do not erase negative findings as cleanup.
 
 ## Git and worktrees
 
+- Keep PRs small: one independently reviewable behavior or decision per PR. Before
+  implementation, record its exact deliverable, owned files and prerequisites in
+  the issue. If parts can be merged independently, split them before coding.
+- Aim for at most roughly 400 handwritten changed lines and eight files, including
+  tests and documentation. These are review guides, not permission to omit required
+  validation. If a coherent change exceeds them, first describe the proposed split
+  or the concrete reason it must stay together in the issue.
+- Keep a behavior change with its regression tests and necessary usage documentation.
+  Deliver separate components and their integrations in successive working PRs.
+  Separate experiment registration, execution/results, historical artifact imports
+  and licensing from runtime implementation. Large immutable imports need their own
+  preservation PR and byte/hash manifest; they must not hide runtime changes.
+- Parallel tasks need distinct write ownership and explicit dependency edges. Use
+  one worktree per PR, integrate PRs sequentially, and validate each against current
+  main. Update shared registries/logs at integration rather than letting independent
+  workers rewrite them concurrently. Do not roll finished tasks into an umbrella PR.
 - Non-trivial features, bugfixes and experiments require an isolated worktree/branch
   off current `main`, using `feature/`, `fix/` or `exp/`. Reuse an unmerged worktree only
   for its continuing task. After merging, retire it and start anew from updated `main`.

@@ -1,0 +1,13 @@
+{
+  "classification": "complete; owned exec session 1453 returned exit code 0; no active jobs",
+  "classified_at_utc": "2026-10-03T18:59:43.812548+00:00",
+  "exec_session_id": 1453,
+  "exit_code": 0,
+  "expected_optimal_solves": 248,
+  "production_changed": false,
+  "seeds": [
+    1,
+    2
+  ],
+  "training_jobs": 0
+}

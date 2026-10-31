@@ -1,16 +1,9 @@
-"""
-Consolidated MILP squad-selection optimizer.
+"""Rolling-horizon squad optimization with explicit budget and transfer state.
 
-Originally replaced 8 near-identical scripts this project used to have
-(MILP.py, MILP-GC.py, AUTO-MILP-GC*.py, t-auto*.py - since deleted, see git
-history) with one parameterized version. The optimization model itself
-(budget, formation, captaincy, transfers, chip logic) is unchanged from that
-original t-auto.py - that formulation, based on Kristiansen et al., was
-already correct (see the `actual_total_points` fix in git history). What
-changed is that every hardcoded path/gameweek-range/chip-target is now a CLI
-argument, so one script covers live weekly runs, backtests against actual
-results, and sweeps over sub-horizon lengths, instead of needing a different
-.py/.bat file per scenario.
+Uses a Kristiansen-style budget, formation, captaincy and transfer model. Paths,
+windows and chip targets are CLI arguments. Corrected free-transfer rollover and
+strict solver status checks are covered by regressions; the retained legacy chip
+reset policy is documented separately from modern rules.
 """
 import argparse
 import itertools
@@ -24,6 +17,7 @@ from collections import Counter
 from typing import Hashable, Mapping, Sequence
 
 import pandas as pd
+import numpy as np
 import pulp
 
 from fpl import config
@@ -112,7 +106,60 @@ def parse_args(argv=None):
     parser.add_argument("--initial-budget", type=float, default=None,
                          help="Bank balance (in the 0.1m units FPL uses) when continuing an existing squad.")
     parser.add_argument("--initial-ft", type=int, default=1, help="Free transfers available when continuing an existing squad.")
+    parser.add_argument("--origin-price-catalog", type=str, default=None,
+                        help="Opt-in research CSV of strictly prior observed prices; restricts eligibility identically for both price policies.")
+    parser.add_argument("--origin-price-policy", choices=("target-replay", "origin-asof", "origin-current-proxy"), default="target-replay",
+                        help="With a catalog, replay target prices, freeze prior observations, or freeze the replay's current price proxy. None proves deadline publication. Default preserves historical replay.")
     return parser.parse_args(argv)
+
+
+def origin_price_state(catalog: pd.DataFrame, origin: int, players: list,
+                       horizon: list[int], replay: pd.DataFrame, policy: str) -> tuple[pd.DataFrame, set]:
+    """Return origin-specific budget prices and players with known prior prices.
+
+    Catalog admission belongs to the caller. Unknown players receive zero matrix
+    placeholders and must be barred from holdings/transfers; zero is not a fallback
+    purchasable price. Both freeze policies stay fixed over the full horizon.
+    ``origin-current-proxy`` uses the replay's reconstructed current price vector
+    (including its historical filling rules), isolating horizon changes conditional
+    on that vector; it does not establish actual deadline prices.
+    """
+    if policy not in ("target-replay", "origin-asof", "origin-current-proxy"):
+        raise ValueError("unknown origin price policy")
+    observed = catalog.loc[catalog.origin_gw == origin].set_index("player_id").value
+    eligible = set(observed.index)
+    if policy in ("origin-asof", "origin-current-proxy"):
+        values = (observed.reindex(players).fillna(0.) if policy == "origin-asof"
+                  else replay.loc[players, origin].copy())
+        if policy == "origin-current-proxy":
+            values.loc[[p for p in players if p not in eligible]] = 0.
+        matrix = pd.DataFrame({gw: values for gw in horizon})
+    else:
+        matrix = replay.loc[players, horizon].copy()
+        matrix.loc[[p for p in players if p not in eligible]] = 0.
+    known = matrix.loc[[p for p in players if p in eligible]].to_numpy(dtype=float)
+    if not np.isfinite(known).all() or (known <= 0).any():
+        raise ValueError("eligible origin prices must be finite and positive")
+    return matrix, eligible
+
+
+def validate_owned_forecast_pool(
+    initial_ids: Sequence[Hashable], forecast_ids: Sequence[Hashable],
+) -> None:
+    """Fail closed when forecasts cannot represent the complete owned squad.
+
+    A player with no fixtures in the requested horizon may have no forecast rows.
+    Without that player's holding/price state, optimization cannot account for the
+    complete owned squad; this guard does not invent zero-point forecast rows.
+    """
+    missing = set(initial_ids).difference(forecast_ids)
+    if missing:
+        listed = sorted(missing, key=str)
+        raise ValueError(
+            f"Owned player IDs missing from the forecast pool: {listed}. "
+            "They may have no fixtures in the requested horizon; cannot optimize "
+            "the complete owned squad without their forecast/holding state."
+        )
 
 
 def make_solver(name: str, time_limit: float | None, threads: int = 0,
@@ -248,7 +295,6 @@ def run(args):
     if decision_path and getattr(args, "output", None) and Path(decision_path).resolve() == Path(args.output).resolve():
         raise ValueError("decision snapshot and human CSV require separate paths")
     chip_targets = validate_chip_targets(args)
-    solver = make_solver(args.solver, args.time_limit, args.threads, args.gap_rel)
 
     print(f"--- Loading predictions from {args.predictions_csv} ---")
     allesesonger = pd.read_csv(args.predictions_csv)
@@ -275,6 +321,12 @@ def run(args):
     # information available at t's deadline. The solve at GW t then uses exclusively the
     # origin-t forecast set for its whole lookahead, mirroring what a live run knows.
     has_origin = "origin_gw" in allesesonger.columns
+    price_catalog_path = getattr(args, "origin_price_catalog", None)
+    price_policy = getattr(args, "origin_price_policy", "target-replay")
+    if (price_catalog_path or price_policy != "target-replay") and not has_origin:
+        raise ValueError("origin price research requires origin forecasts")
+    if price_policy != "target-replay" and not price_catalog_path:
+        raise ValueError(f"{price_policy} requires an admitted origin price catalog")
     if has_origin:
         allesesonger["origin_gw"] = pd.to_numeric(allesesonger["origin_gw"])
         print("origin_gw column found: solving each gameweek from its own origin forecast set.")
@@ -301,6 +353,11 @@ def run(args):
 
     T_setofgameweeks_full = sorted(data_full_range_raw["GW"].unique())
     p = sorted(data_full_range_raw["player_id"].unique())
+    price_catalog = None
+    if price_catalog_path:
+        from fpl.data.origin_prices import validate_origin_price_catalog
+        price_catalog = validate_origin_price_catalog(
+            pd.read_csv(price_catalog_path), p, list(range(args.start_gw, args.max_gw + 1)))
     final_player_info = data_full_range_raw.drop_duplicates(subset=["player_id"], keep="first")
     player_name_map = final_player_info.set_index("player_id")["name"].to_dict()
     pos_map = pd.Series(final_player_info["position"].values, index=final_player_info["player_id"])
@@ -367,6 +424,7 @@ def run(args):
     master_results = []
     if continuing_squad:
         initial_ids = [int(pid) for pid in args.initial_squad.split(",")]
+        validate_owned_forecast_pool(initial_ids, p)
         previous_squad_dict = {pid: 1 for pid in initial_ids}
         if args.initial_budget is None:
             sys.exit("ERROR: --initial-budget is required when --initial-squad is given.")
@@ -377,6 +435,7 @@ def run(args):
         previous_squad_dict = {}
         previous_budget = BS
         previous_ft = 1
+    solver = make_solver(args.solver, args.time_limit, args.threads, args.gap_rel)
     used_chips_tracker = {"wc1": False, "wc2": False, "bb": False, "tc": False, "fh": False}
     # 0 means "disabled" (never matches a real gameweek, so the chip is always forced off);
     # a positive value forces that chip at exactly that absolute gameweek.
@@ -427,7 +486,20 @@ def run(args):
             points_sub = origin_matrix.reindex(columns=t_sub, fill_value=0.0).fillna(0.0).loc[p]
         else:
             points_sub = points_matrix_df.loc[p, t_sub]
-        value_sub = value_matrix_df.loc[p, t_sub]
+        if price_catalog is None:
+            value_sub = value_matrix_df.loc[p, t_sub]
+        else:
+            value_sub, price_known = origin_price_state(price_catalog, current_gw, p, t_sub,
+                                                       value_matrix_df, price_policy)
+            if any(held and pid not in price_known for pid, held in previous_squad_dict.items()):
+                raise ValueError("owned player lacks an origin-known price; no stale/future fallback")
+            for pid in p:
+                if pid not in price_known:
+                    for gw in t_sub:
+                        model += x[pid][gw] == 0
+                        model += x_freehit[pid][gw] == 0
+                        model += e[pid][gw] == 0
+                        model += u[pid][gw] == 0
 
         points_from_lineup = pulp.lpSum(points_sub.loc[p_, t_] * y[p_][t_] for p_ in p for t_ in t_sub)
         points_from_captain = pulp.lpSum(points_sub.loc[p_, t_] * f[p_][t_] for p_ in p for t_ in t_sub)
@@ -588,7 +660,12 @@ def run(args):
         except Exception as exc:
             raise RuntimeError(f"Solver failed at GW {current_gw}; no decision export") from exc
         solve_time = time.time() - solve_start
-        status_str = pulp.LpStatus.get(status, "Unknown Status")
+        solution_status = getattr(model, "sol_status", pulp.LpSolutionNoSolutionFound)
+        solution_status_str = pulp.LpSolution.get(solution_status, "Unknown Solution Status")
+        acceptable = status == pulp.LpStatusOptimal and solution_status == pulp.LpSolutionOptimal
+        # PuLP maps some HiGHS time/iteration limits to LpStatusOptimal while
+        # sol_status remains IntegerFeasible. Never log those as proven optimal.
+        status_str = "Optimal" if acceptable else f"Unproven ({pulp.LpStatus.get(status, 'Unknown Status')}; {solution_status_str})"
         print(f"Status: {status_str} (solve: {solve_time:.2f}s, model build: {solve_start - loop_start:.2f}s)")
 
         objective_value = model.objective.value() if model.objective is not None else None
@@ -631,6 +708,18 @@ def run(args):
         gw_results["objective_value"] = objective_value
         gw_results["solver_status"] = status_str
         gw_results.update(certificate)
+        gw_results["solver_solution_status"] = pulp.LpSolution[model.sol_status]
+        gw_results["solver_gap_rel"] = args.gap_rel
+        gw_results["solver_gap_abs"] = 0.0
+        if args.solver == "highs":
+            native = model.solverModel
+            info = native.getInfo()
+            gw_results.update(solver_native_status=native.modelStatusToString(native.getModelStatus()),
+                              solver_mip_gap=float(info.mip_gap),
+                              solver_primal_bound=float(info.objective_function_value),
+                              solver_dual_bound=float(info.mip_dual_bound))
+        else:
+            gw_results["solver_native_status"] = "PULP_REPORTED_OPTIMAL"
 
         wc_active = val(w[t1_sub]) > 0.9
         bb_active = val(b[t1_sub]) > 0.9
@@ -689,6 +778,9 @@ def run(args):
         print(f"GW {current_gw} loop time: {time.time() - loop_start:.2f}s")
 
     results_df = pd.DataFrame(master_results)
+    if price_catalog is not None:
+        results_df["origin_price_policy"] = price_policy
+        results_df["price_eligibility"] = "strictly_prior_observed_price"
     if not results_df.empty:
         if decision_path:
             write_decision_snapshot(results_df, decision_path)

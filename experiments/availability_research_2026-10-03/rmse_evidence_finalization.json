@@ -1,0 +1,71 @@
+{
+  "aggregate_optimal_solves": 2018,
+  "comparisons": {
+    "reference_origin": {
+      "block_len": 3,
+      "boot_mean": 67.7343,
+      "ci_high": 207.0,
+      "ci_low": -65.0,
+      "n_gws": 31,
+      "p_a_better": 0.8299,
+      "sign_test": {
+        "p_a_better": 0.22912915982306004,
+        "p_value": 0.45825831964612007,
+        "ties": 2,
+        "wins_a": 17,
+        "wins_b": 12
+      },
+      "total_a": 1943.0,
+      "total_b": 1856.0,
+      "total_diff": 87.0
+    },
+    "reference_standard": {
+      "block_len": 3,
+      "boot_mean": 111.9893,
+      "ci_high": 237.0,
+      "ci_low": -16.0,
+      "n_gws": 31,
+      "p_a_better": 0.9545,
+      "sign_test": {
+        "p_a_better": 0.23656482994556427,
+        "p_value": 0.47312965989112854,
+        "ties": 0,
+        "wins_a": 18,
+        "wins_b": 13
+      },
+      "total_a": 2055.0,
+      "total_b": 1939.0,
+      "total_diff": 116.0
+    },
+    "selection_origin": {
+      "block_len": 3,
+      "boot_mean": 12.9505,
+      "ci_high": 119.0,
+      "ci_low": -96.0,
+      "n_gws": 16,
+      "p_a_better": 0.5931,
+      "sign_test": {
+        "p_a_better": 0.84912109375,
+        "p_value": 0.6072387695312499,
+        "ties": 1,
+        "wins_a": 6,
+        "wins_b": 9
+      },
+      "total_a": 996.0,
+      "total_b": 993.0,
+      "total_diff": 3.0
+    }
+  },
+  "compute_ledger_sha256": "2293470f7a0cb0f29370fbdfa6873a9087ff148c8403751e3de33aeb1b6b129d",
+  "finalizer_sha256": "84a0889af1a24912c71b59cce0e013f9158a4faabe959ab7f81f068a9dac635a",
+  "limitations": [
+    "Repeatedly examined historical reference, not a fresh holdout.",
+    "Selected crawl-time information and reconstructed price/roster limitations remain.",
+    "No production change, promotion, commit, push or merge."
+  ],
+  "package_verification_sha256": "9306092ad23a34dddb880e8d21261aa425fdeb4e08f61e49099bf3eddee4b6ab",
+  "pilot_elapsed_seconds": 5473.192347833188,
+  "pilot_verification_sha256": "cdd398278c5db5e7c7a13ac2c63191d69f839528ff4e769fe6e68b95b944188b",
+  "promotion_eligible": false,
+  "status": "verified"
+}

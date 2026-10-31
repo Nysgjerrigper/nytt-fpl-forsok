@@ -1,0 +1,689 @@
+{
+  "catalog_diagnostics": {
+    "reference": [
+      {
+        "age_max": 115,
+        "age_mean": 6.955706984667803,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 587,
+        "origin_gw": 153,
+        "unknown": 184
+      },
+      {
+        "age_max": 78,
+        "age_mean": 1.8729198184568836,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 661,
+        "origin_gw": 154,
+        "unknown": 110
+      },
+      {
+        "age_max": 79,
+        "age_mean": 1.6876876876876876,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 666,
+        "origin_gw": 155,
+        "unknown": 105
+      },
+      {
+        "age_max": 80,
+        "age_mean": 1.5250737463126844,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 678,
+        "origin_gw": 156,
+        "unknown": 93
+      },
+      {
+        "age_max": 81,
+        "age_mean": 1.5502183406113537,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 687,
+        "origin_gw": 157,
+        "unknown": 84
+      },
+      {
+        "age_max": 82,
+        "age_mean": 1.5892597968069666,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 689,
+        "origin_gw": 158,
+        "unknown": 82
+      },
+      {
+        "age_max": 83,
+        "age_mean": 1.5643994211287988,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 691,
+        "origin_gw": 159,
+        "unknown": 80
+      },
+      {
+        "age_max": 84,
+        "age_mean": 1.5375722543352601,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 692,
+        "origin_gw": 160,
+        "unknown": 79
+      },
+      {
+        "age_max": 85,
+        "age_mean": 1.5743145743145743,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 693,
+        "origin_gw": 161,
+        "unknown": 78
+      },
+      {
+        "age_max": 86,
+        "age_mean": 1.5302593659942363,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 694,
+        "origin_gw": 162,
+        "unknown": 77
+      },
+      {
+        "age_max": 49,
+        "age_mean": 1.4252873563218391,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 696,
+        "origin_gw": 163,
+        "unknown": 75
+      },
+      {
+        "age_max": 50,
+        "age_mean": 1.3696275071633237,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 698,
+        "origin_gw": 164,
+        "unknown": 73
+      },
+      {
+        "age_max": 51,
+        "age_mean": 1.3783783783783783,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 703,
+        "origin_gw": 165,
+        "unknown": 68
+      },
+      {
+        "age_max": 52,
+        "age_mean": 1.384180790960452,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 708,
+        "origin_gw": 166,
+        "unknown": 63
+      },
+      {
+        "age_max": 53,
+        "age_mean": 1.388732394366197,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 710,
+        "origin_gw": 167,
+        "unknown": 61
+      },
+      {
+        "age_max": 54,
+        "age_mean": 1.5014084507042254,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 710,
+        "origin_gw": 168,
+        "unknown": 61
+      },
+      {
+        "age_max": 55,
+        "age_mean": 1.3225806451612903,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 713,
+        "origin_gw": 169,
+        "unknown": 58
+      },
+      {
+        "age_max": 56,
+        "age_mean": 1.3394109396914446,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 713,
+        "origin_gw": 170,
+        "unknown": 58
+      },
+      {
+        "age_max": 57,
+        "age_mean": 1.329608938547486,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 716,
+        "origin_gw": 171,
+        "unknown": 55
+      },
+      {
+        "age_max": 58,
+        "age_mean": 1.317107093184979,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 719,
+        "origin_gw": 172,
+        "unknown": 52
+      },
+      {
+        "age_max": 59,
+        "age_mean": 1.3027777777777778,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 720,
+        "origin_gw": 173,
+        "unknown": 51
+      },
+      {
+        "age_max": 22,
+        "age_mean": 1.1440329218106995,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 729,
+        "origin_gw": 174,
+        "unknown": 42
+      },
+      {
+        "age_max": 23,
+        "age_mean": 1.1200545702592086,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 733,
+        "origin_gw": 175,
+        "unknown": 38
+      },
+      {
+        "age_max": 24,
+        "age_mean": 1.1243243243243244,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 740,
+        "origin_gw": 176,
+        "unknown": 31
+      },
+      {
+        "age_max": 25,
+        "age_mean": 1.128686327077748,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 746,
+        "origin_gw": 177,
+        "unknown": 25
+      },
+      {
+        "age_max": 26,
+        "age_mean": 1.0984251968503937,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 762,
+        "origin_gw": 178,
+        "unknown": 9
+      },
+      {
+        "age_max": 27,
+        "age_mean": 1.0679738562091503,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 765,
+        "origin_gw": 179,
+        "unknown": 6
+      },
+      {
+        "age_max": 28,
+        "age_mean": 1.0704960835509139,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 766,
+        "origin_gw": 180,
+        "unknown": 5
+      },
+      {
+        "age_max": 1,
+        "age_mean": 1.0,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 769,
+        "origin_gw": 181,
+        "unknown": 2
+      },
+      {
+        "age_max": 2,
+        "age_mean": 1.1898569570871262,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 769,
+        "origin_gw": 182,
+        "unknown": 2
+      },
+      {
+        "age_max": 1,
+        "age_mean": 1.0,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 771,
+        "origin_gw": 183,
+        "unknown": 0
+      }
+    ]
+  },
+  "comparisons": {
+    "reference": {
+      "mae_current_vs_replay": {
+        "block_len": 3,
+        "boot_mean": -9.8622,
+        "ci_high": 61.0,
+        "ci_low": -79.0,
+        "n_gws": 31,
+        "p_a_better": 0.3845,
+        "sign_test": {
+          "p_a_better": 0.7727508544921875,
+          "p_value": 0.803619384765625,
+          "ties": 15,
+          "wins_a": 7,
+          "wins_b": 9
+        },
+        "total_a": 1958.0,
+        "total_b": 1965.0,
+        "total_diff": -7.0
+      },
+      "rmse_current_vs_replay": {
+        "block_len": 3,
+        "boot_mean": -25.0972,
+        "ci_high": 144.0,
+        "ci_low": -213.02499999999998,
+        "n_gws": 31,
+        "p_a_better": 0.403,
+        "sign_test": {
+          "p_a_better": 0.2923323558643461,
+          "p_value": 0.5846647117286922,
+          "ties": 1,
+          "wins_a": 17,
+          "wins_b": 13
+        },
+        "total_a": 1872.0,
+        "total_b": 1891.0,
+        "total_diff": -19.0
+      },
+      "rmse_vs_mae_current": {
+        "block_len": 3,
+        "boot_mean": -98.8096,
+        "ci_high": 27.024999999999636,
+        "ci_low": -209.0,
+        "n_gws": 31,
+        "p_a_better": 0.0613,
+        "sign_test": {
+          "p_a_better": 0.867534551769495,
+          "p_value": 0.45825831964612007,
+          "ties": 2,
+          "wins_a": 12,
+          "wins_b": 17
+        },
+        "total_a": 1872.0,
+        "total_b": 1958.0,
+        "total_diff": -86.0
+      },
+      "rmse_vs_mae_replay": {
+        "block_len": 3,
+        "boot_mean": -83.5746,
+        "ci_high": 150.0,
+        "ci_low": -319.0,
+        "n_gws": 31,
+        "p_a_better": 0.2485,
+        "sign_test": {
+          "p_a_better": 0.639949934091419,
+          "p_value": 1.0,
+          "ties": 0,
+          "wins_a": 15,
+          "wins_b": 16
+        },
+        "total_a": 1891.0,
+        "total_b": 1965.0,
+        "total_diff": -74.0
+      }
+    }
+  },
+  "elapsed_seconds": 605.9047850831412,
+  "immutable_output_sha256": {
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/catalog_lock.json": "0d1217a081d30049b9196999ad1d9c798411f723911bb4eb80d78c2a131eccdc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_current_origin.admission.json": "f39f7239dcd436e7a8bf65962df10b585c8a4c753357541de91ca08b46a22f3d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_current_origin.log": "63ca63d1a44938fb469e6608f80cb7e8309d4776807fff391e2c5ff2fcb9a6a8",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_current_origin.predictions.csv": "6be5aa2a3a7ddece6c504da4702f022559a65c9cdf7627c22b08388532f9cee2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_current_origin.result.json": "076ae24a0d2af70c9e1e6e83aff738e7c09a6ecf8811958f676e5bc2a38a670e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_current_origin.squads.csv": "36180804034a007b77dca58b463359be6b7b4a00ab0fe5f7e6bb96c3a90aee6d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_replay_origin.admission.json": "9434809742b8e3e52b827734e3cd4abc9242fa4f04dc8f7621359fac7487f098",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_replay_origin.log": "563b5695d17e9f1d7dce53e9eeac150dab6771c70301c9a54da0006b6b5357a2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_replay_origin.predictions.csv": "6be5aa2a3a7ddece6c504da4702f022559a65c9cdf7627c22b08388532f9cee2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_replay_origin.result.json": "8867cb7f95132c0b631d4584af7645d04909d05c73c9fa4d3cfff7a6838c04c7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/mae_replay_origin.squads.csv": "05c0e39318a41cb248f26066a8198b7c498c77f79811f70192d8656e4365cfd6",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_current_origin.admission.json": "9651459cfbfd657848d8464db6c73c7f6f81b1dc97f54f6d8fcd5f4268784e2e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_current_origin.log": "3bdc54823ba10ace782647def0a515e064d1e4d8009bbc7a94a1c07531500ad7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_current_origin.predictions.csv": "6b13e96d843c5f2754e48a8dd1d666a68caa2e1aea5f9544e4213872855b8692",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_current_origin.result.json": "2eb8939843f0515eadd0eb94484fcbc000ee073e6dad9eac832939c0638df42f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_current_origin.squads.csv": "8e82e6c251e53496cdec45e2b4f0cd09bc559457eaba398ef60e0b8c96db2918",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_replay_origin.admission.json": "c36bc2dbbb9197bdd0a250cc8212f6239c88b05e9d108de5f061023f10f0c336",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_replay_origin.log": "42d223cce6a94f0509c7954a91daf0c04e187c5c1eff9e7113786ebbace0cdc4",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_replay_origin.predictions.csv": "6b13e96d843c5f2754e48a8dd1d666a68caa2e1aea5f9544e4213872855b8692",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_replay_origin.result.json": "3ea99fe4e5d1d27ca41e15a265792b25e5b39772e4e846bfb79b8d4fc8086307",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference/rmse_replay_origin.squads.csv": "81f76f0810c8993add4d8ee695fe47d1527b7a778a686591c08729f22c947b91",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference_origin_prices.csv": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/reference_summary.json": "7e4e3301b542f14bbc07db0758678c5097822b9d4b92425bb2bf73cb7b0cf6d2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/registration.json": "71492075895387e4894352ac05bfbec2313ebce6bf2a357652d974dccd3ce228",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/config.py": "229f7404b91873cfea47b5b9192977542ca7179760b6559ac7d69c704b78426f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/data/external.py": "db38873a567aa51ad85fc264e97626b05bb6c84ad7c5b32802afc49eda754d11",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/data/feature_cache.py": "dd587e3355b0a4732a57614cd8e5d50ef1c01a7727c44ee9583145e257c7a8bb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/data/fetch.py": "ece93d1be41d669e62b858da31f0219893553655ac73ae4f40173ed0b70b0764",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/data/origin_prices.py": "d9c7c149d4fe3a66fa04b517138d4ce7d8ae90da69d23e24b6427af5ff421f6c",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/data/provenance.py": "569d4fef2247c8dfd6a6dea7992ac09cfc444c11d0b1a5c17d719c5807a858aa",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/data/research.py": "a3f92b92088915c541956b68c300b7ab8f7ff5ddd4595ec8e366821383710434",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/experiment.py": "2780bf8ead3e6c0c4f3a988fd176ccd98769acbb652d1cc3ca52fc30bf6b5404",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/features.py": "df09943d91ced157ee36091526a527dd26013516055383c9976bf2df94afae7d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/milp/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/milp/compare_backtests.py": "0be8917170884f3d5fa31ace4d796d457d8d312c43023cd8c6f8fd6c14e9e739",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/milp/optimize.py": "b9bf1c2ac32aa401e48b3b1c1e050ca182393ac88497c5c94f035ede49820481",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/milp/solio.py": "44e89d100e888e6341d6342196b57240ab1a113921d55cf7645155fc5d21863e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/milp/solio_output.py": "22724577e69f8e440f38d005e8837626e2e1232fa43bcb47e77a4a4fb83ca56e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/baselines.py": "7147a8801e27003c25bdf40a71898be49fd19711303447f6723e68e6d9b535de",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/blend_research.py": "115a7708b2d995826dd3ec01897c244d09519aa3fe8744f1fa8cca45228d8a18",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/cnn_process.py": "74c6827496972cd93d9b41fe2972ad236d21d83b65bd96b6aaf92c2109914c2f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/cnn_research.py": "1d4ab1eaa18fef8d5045c18053022367ccfe484c99a62225e2216f2fc4e14b7e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/cnn_worker.py": "0ee5be8ea265d7036331ede3dc79120f099a39d1b14f17b9d8f5f9164ab35982",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/cold_start.py": "039a645266e2f3e1326336298dbbb904ecff4e8dc913b95ea61a14c587bbc4c5",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/ensemble.py": "d960e588b8c9ad75738128f96df77dd8648752ce52815d9f1888e83b818cc8e8",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/expert_policy.py": "d57d549c92fb132e27b654bee02a6a32e728be5d45b1be4f66d9ca9a1794e67b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/horizon_price_research.py": "55d8027af118427aadd1d4a70e8a8b9c19359d14d8507d6440379a4b66667f05",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/interval_calibration.py": "6b1b70f7afcbd4beac28c0d15c29959ffcaf3bee4f2dbf983000262d911f8a0a",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/interval_research.py": "02bd3e5c5c32b81c9daeb9cbfca2232ad52fb8470c44be24c92371f442c7110b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/metrics.py": "3592bebfe9922ca5b38e2c3c71be75d79592987d39db8341c46ec1b3a496bad7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/mid_gate.py": "3798843118ef6f53ac832fb5c181d2d4b4b18855e7fbe3cdacb1511e6413a151",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/models.py": "16dc89c77cd736ca63aab611d20377592d44e2ace681f40384656006f737f28b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/moe_promotion.py": "93982d906ca6805acb676d13933e49d99a6817ea3fc72b862b331d8812e31337",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/moe_tournament.py": "484a17fa26848696470af514457b586fd85e8d09a307c438f009665397e5f23e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/oof_panel.py": "d899f24d4e35b6abc98e950aad63794ba2eaedbe39ed1979eb1f819ef8c5a4b1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/predict.py": "0ea21d211a6d262a1f5ff67e38c3c34dc03a4b1cab4d7a0a2ed59eab78db15d6",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/price_research.py": "244ea0684072ace4895b61c784a423336c89d302fe45cebf903454dca2a5b9dd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/probabilistic.py": "6844a48b428042f89f833b45f6293ccb64e89fe06a4e4bbf9955e0047516eedd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/probabilistic_buckets.py": "25a62219fe5237a6520f29464f8f92d1cf219351993e895abcde345d5fe74e7c",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/research_package.py": "1b803b6e85082ab66df91c45fd1c018e39b4a8b97c9b90e9cf485dcaf6403bc0",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/screen.py": "b5827a438c0e3d5bb6c81d645e735ad49c7997c45697bb9407b59508fa8e28e7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/sequence_cnn.py": "257aedd0bd26e9100de21368ff94b4f68e2eb2594a591c3fd957318f203b9128",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/sequence_features.py": "0fba4921fe05c50a55d66002923490fc360b6116e468bb65eed5f18fee760341",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/temporal_blend.py": "a857a865f8ed93e0b139194f3ffd2d67bcf63694615a8b51db56c955f4a4098d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/train.py": "9b834aeffea049bed398a6fe7187846dc2759c9386ea1af68450a065bdca8a85",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/tuning.py": "39f59413234997e9d66a9cd0e10e1e40fc426ff2636bc5e86a38b8e1aa40b2d7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/tuning_checkpoint.py": "f04b5bb78f81eb2350a22fb53a797f6eb871463019e537cd71d1bdb882895cdc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/model/walk_forward.py": "08aa034fe8abb947d898f1b3cd625140486d5c09ad32e53d4abbfc99496947d0",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/reference_seed1/source_archive/fpl/run_week.py": "9be24eb1d2125cad7c95aa8dfb725793fccf1ea933b4da49faddc918c63def6e"
+  },
+  "phases": {
+    "reference": {
+      "mae_current": {
+        "diagnostics": [
+          {
+            "bias": -0.5923724731513731,
+            "mae": 0.8658422780394229,
+            "mase": 0.6273065239907062,
+            "position": "DEF",
+            "rmse": 1.994462145534838,
+            "rounds": 7123,
+            "spearman": 0.6065537524548806,
+            "top1_capture": 0.3142857142857143,
+            "total_calibration": 0.42841111809032373
+          },
+          {
+            "bias": -0.7581869016092212,
+            "mae": 1.034158134392433,
+            "mase": 0.7319749302424903,
+            "position": "FWD",
+            "rmse": 2.551411711189872,
+            "rounds": 2359,
+            "spearman": 0.7494486146577841,
+            "top1_capture": 0.37971698113207547,
+            "total_calibration": 0.4733324791236299
+          },
+          {
+            "bias": -0.395300613202603,
+            "mae": 0.6242480052638156,
+            "mase": 0.689456149513744,
+            "position": "GK",
+            "rmse": 1.7066461805965685,
+            "rounds": 2243,
+            "spearman": 0.6511121270277056,
+            "top1_capture": 0.36363636363636365,
+            "total_calibration": 0.5655760532026268
+          },
+          {
+            "bias": -0.500409374666566,
+            "mae": 0.8954822424112366,
+            "mase": 0.69705306189759,
+            "position": "MID",
+            "rmse": 2.142558764243365,
+            "rounds": 9622,
+            "spearman": 0.7136265717809852,
+            "top1_capture": 0.585635359116022,
+            "total_calibration": 0.6111653877863444
+          }
+        ],
+        "fit_seconds": 0.0009944159537553787,
+        "gross_points": 1958.0,
+        "milp_seconds": 123.63019291707315,
+        "origin": true,
+        "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+        "origin_price_policy": "origin-current-proxy",
+        "prediction_sha256": "6be5aa2a3a7ddece6c504da4702f022559a65c9cdf7627c22b08388532f9cee2",
+        "predictions": "mae_current_origin.predictions.csv",
+        "squad_sha256": "36180804034a007b77dca58b463359be6b7b4a00ab0fe5f7e6bb96c3a90aee6d",
+        "squads": "mae_current_origin.squads.csv",
+        "total_points": 1958.0,
+        "transfer_hit_points": 0.0,
+        "variant": "mae_current"
+      },
+      "mae_replay": {
+        "diagnostics": [
+          {
+            "bias": -0.5923724731513731,
+            "mae": 0.8658422780394229,
+            "mase": 0.6273065239907062,
+            "position": "DEF",
+            "rmse": 1.994462145534838,
+            "rounds": 7123,
+            "spearman": 0.6065537524548806,
+            "top1_capture": 0.3142857142857143,
+            "total_calibration": 0.42841111809032373
+          },
+          {
+            "bias": -0.7581869016092212,
+            "mae": 1.034158134392433,
+            "mase": 0.7319749302424903,
+            "position": "FWD",
+            "rmse": 2.551411711189872,
+            "rounds": 2359,
+            "spearman": 0.7494486146577841,
+            "top1_capture": 0.37971698113207547,
+            "total_calibration": 0.4733324791236299
+          },
+          {
+            "bias": -0.395300613202603,
+            "mae": 0.6242480052638156,
+            "mase": 0.689456149513744,
+            "position": "GK",
+            "rmse": 1.7066461805965685,
+            "rounds": 2243,
+            "spearman": 0.6511121270277056,
+            "top1_capture": 0.36363636363636365,
+            "total_calibration": 0.5655760532026268
+          },
+          {
+            "bias": -0.500409374666566,
+            "mae": 0.8954822424112366,
+            "mase": 0.69705306189759,
+            "position": "MID",
+            "rmse": 2.142558764243365,
+            "rounds": 9622,
+            "spearman": 0.7136265717809852,
+            "top1_capture": 0.585635359116022,
+            "total_calibration": 0.6111653877863444
+          }
+        ],
+        "fit_seconds": 0.0008107919711619616,
+        "gross_points": 1965.0,
+        "milp_seconds": 129.03162949997932,
+        "origin": true,
+        "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+        "origin_price_policy": "target-replay",
+        "prediction_sha256": "6be5aa2a3a7ddece6c504da4702f022559a65c9cdf7627c22b08388532f9cee2",
+        "predictions": "mae_replay_origin.predictions.csv",
+        "squad_sha256": "05c0e39318a41cb248f26066a8198b7c498c77f79811f70192d8656e4365cfd6",
+        "squads": "mae_replay_origin.squads.csv",
+        "total_points": 1965.0,
+        "transfer_hit_points": 0.0,
+        "variant": "mae_replay"
+      },
+      "rmse_current": {
+        "diagnostics": [
+          {
+            "bias": -0.04106467458589252,
+            "mae": 0.9890139917297043,
+            "mase": 0.7164781349758405,
+            "position": "DEF",
+            "rmse": 1.8174404692385655,
+            "rounds": 7123,
+            "spearman": 0.6362490988823672,
+            "top1_capture": 0.42077922077922075,
+            "total_calibration": 0.9603760935958666
+          },
+          {
+            "bias": -0.05035323395742428,
+            "mae": 1.2346611223942272,
+            "mase": 0.8738798101407373,
+            "position": "FWD",
+            "rmse": 2.2941484934817233,
+            "rounds": 2359,
+            "spearman": 0.7532324230429742,
+            "top1_capture": 0.419811320754717,
+            "total_calibration": 0.9650225916061356
+          },
+          {
+            "bias": -0.009210447516790773,
+            "mae": 0.7316140943778082,
+            "mase": 0.8079529447023321,
+            "position": "GK",
+            "rmse": 1.580430492098045,
+            "rounds": 2243,
+            "spearman": 0.6836278916097441,
+            "top1_capture": 0.32323232323232326,
+            "total_calibration": 0.9898779844291221
+          },
+          {
+            "bias": 0.016222182858694086,
+            "mae": 1.0261934141033577,
+            "mase": 0.7988029725857241,
+            "position": "MID",
+            "rmse": 1.9927015655670348,
+            "rounds": 9622,
+            "spearman": 0.7284421961924347,
+            "top1_capture": 0.6095764272559853,
+            "total_calibration": 1.0126051718861628
+          }
+        ],
+        "fit_seconds": 0.0016215830110013485,
+        "gross_points": 1892.0,
+        "milp_seconds": 165.03585983300582,
+        "origin": true,
+        "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+        "origin_price_policy": "origin-current-proxy",
+        "prediction_sha256": "6b13e96d843c5f2754e48a8dd1d666a68caa2e1aea5f9544e4213872855b8692",
+        "predictions": "rmse_current_origin.predictions.csv",
+        "squad_sha256": "8e82e6c251e53496cdec45e2b4f0cd09bc559457eaba398ef60e0b8c96db2918",
+        "squads": "rmse_current_origin.squads.csv",
+        "total_points": 1872.0,
+        "transfer_hit_points": 20.0,
+        "variant": "rmse_current"
+      },
+      "rmse_replay": {
+        "diagnostics": [
+          {
+            "bias": -0.04106467458589252,
+            "mae": 0.9890139917297043,
+            "mase": 0.7164781349758405,
+            "position": "DEF",
+            "rmse": 1.8174404692385655,
+            "rounds": 7123,
+            "spearman": 0.6362490988823672,
+            "top1_capture": 0.42077922077922075,
+            "total_calibration": 0.9603760935958666
+          },
+          {
+            "bias": -0.05035323395742428,
+            "mae": 1.2346611223942272,
+            "mase": 0.8738798101407373,
+            "position": "FWD",
+            "rmse": 2.2941484934817233,
+            "rounds": 2359,
+            "spearman": 0.7532324230429742,
+            "top1_capture": 0.419811320754717,
+            "total_calibration": 0.9650225916061356
+          },
+          {
+            "bias": -0.009210447516790773,
+            "mae": 0.7316140943778082,
+            "mase": 0.8079529447023321,
+            "position": "GK",
+            "rmse": 1.580430492098045,
+            "rounds": 2243,
+            "spearman": 0.6836278916097441,
+            "top1_capture": 0.32323232323232326,
+            "total_calibration": 0.9898779844291221
+          },
+          {
+            "bias": 0.016222182858694086,
+            "mae": 1.0261934141033577,
+            "mase": 0.7988029725857241,
+            "position": "MID",
+            "rmse": 1.9927015655670348,
+            "rounds": 9622,
+            "spearman": 0.7284421961924347,
+            "top1_capture": 0.6095764272559853,
+            "total_calibration": 1.0126051718861628
+          }
+        ],
+        "fit_seconds": 0.001183625077828765,
+        "gross_points": 1907.0,
+        "milp_seconds": 179.36362166702747,
+        "origin": true,
+        "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+        "origin_price_policy": "target-replay",
+        "prediction_sha256": "6b13e96d843c5f2754e48a8dd1d666a68caa2e1aea5f9544e4213872855b8692",
+        "predictions": "rmse_replay_origin.predictions.csv",
+        "squad_sha256": "81f76f0810c8993add4d8ee695fe47d1527b7a778a686591c08729f22c947b91",
+        "squads": "rmse_replay_origin.squads.csv",
+        "total_points": 1891.0,
+        "transfer_hit_points": 16.0,
+        "variant": "rmse_replay"
+      }
+    }
+  },
+  "promotion_eligible": false,
+  "registration_sha256": "71492075895387e4894352ac05bfbec2313ebce6bf2a357652d974dccd3ce228",
+  "status": "complete"
+}

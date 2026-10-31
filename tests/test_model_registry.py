@@ -126,3 +126,42 @@ def test_generalized_tuning_builds_non_gbm_candidate():
 def test_registered_default_uses_the_requested_seed():
     model = models.build_registered_model("extra_trees_tuned", seed=19)
     assert model.named_steps["model"].random_state == 19
+
+
+def test_bounded_cnn_does_not_expand_production_or_registered_moe():
+    assert "sequence_cnn" in models.EXPLORATORY_SPECS
+    assert "sequence_cnn" not in models.MODEL_NAMES
+    assert "sequence_cnn" not in models.REGISTERED_MODEL_NAMES
+    assert "sequence_cnn" not in tuning.SUPPORTED_MODELS
+    with pytest.raises(ValueError, match="unknown expert"):
+        models.build_registered_model("sequence_cnn")
+
+
+def test_temporal_blend_requires_explicit_weights_and_remains_exploratory():
+    assert "temporal_cnn_blend" in models.EXPLORATORY_SPECS
+    assert "temporal_cnn_blend" not in models.MODEL_NAMES
+    assert "temporal_cnn_blend" not in models.REGISTERED_MODEL_NAMES
+    assert "temporal_cnn_blend" not in tuning.SUPPORTED_MODELS
+    with pytest.raises(ValueError, match="unknown expert"):
+        models.build_registered_model("temporal_cnn_blend")
+    with pytest.raises(ValueError, match="earlier-only weights"):
+        models.fit_model("temporal_cnn_blend", pd.DataFrame({"a": [1.]}), np.array([1.]))
+
+
+def test_explicit_cnn_fit_receives_params_and_seed_without_tuning(monkeypatch):
+    from dataclasses import replace
+    captured = {}
+    class Fake:
+        def fit(self, X, y):
+            captured["X"] = X
+            return self
+    def factory(params, seed, position):
+        captured.update(params=params, seed=seed, position=position)
+        return Fake()
+    monkeypatch.setitem(models.EXPLORATORY_SPECS, "sequence_cnn",
+                        replace(models.EXPLORATORY_SPECS["sequence_cnn"], factory=factory))
+    X = pd.DataFrame({"a": [1., 2.]})
+    models.fit_model("sequence_cnn", X, np.array([1., 2.]), params={"epochs": 2}, seed=19, position="MID")
+    assert captured["params"] == {"epochs": 2}
+    assert captured["seed"] == 19 and captured["position"] == "MID"
+    assert captured["X"] is X

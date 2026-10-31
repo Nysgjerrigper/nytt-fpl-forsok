@@ -2,12 +2,10 @@
 Probabilistic forecasting: predict a DISTRIBUTION of points per player-gameweek,
 not just a single expected value.
 
-Why this matters for FPL specifically: two players with the same expected points
-are not equivalent decisions. A steady 4-points-every-week midfielder and a
-boom-or-bust forward who mostly blanks but occasionally hauls 15 can share an
-expected value, yet the forward is the better captaincy pick (you want upside on
-the 2x multiplier) and the worse must-not-blank pick. A single-number forecast
-throws that distinction away; a distribution keeps it.
+Players with equal expected points have equal expected captain points after the
+2x multiplier. Their distributions can still matter for an explicitly defined
+risk or rank objective, such as avoiding a blank or targeting a high-scoring
+tail. Variance alone does not establish a better expected-points captain.
 
 Approach: LightGBM quantile regression. For each position we fit one model per
 target quantile (e.g. 0.1 / 0.5 / 0.9) using LightGBM's native `quantile`
@@ -23,19 +21,34 @@ not a replacement.
 Evaluated with two honest, distribution-appropriate metrics rather than MAE/MASE:
 - pinball (quantile) loss per quantile - the proper scoring rule these models are
   actually trained to minimize;
-- interval coverage - the fraction of realized points that fall within the
-  [p10, p90] band. A well-calibrated 10-90 interval should cover ~80% of
-  outcomes; much less means the model is overconfident, much more means it is
-  too timid.
+- interval coverage - the fraction of realized points within [p10, p90]. The
+  nominal central mass is 80%, but discrete point masses can make inclusive
+  coverage higher even for correct quantiles. Assess tail misses, width and
+  interval score together; coverage above 80% alone does not prove excess width.
 """
-import sys
+import argparse
 from pathlib import Path
 
+import pandas as pd
 import numpy as np
 import lightgbm as lgb
 
 from fpl.model.models import LGB_PARAMS
 from fpl.model.research_input import load_research_raw
+from fpl.data.research import load_research_features as _load_research_features, validate_static_window
+
+
+def load_research_features(
+    max_gw: int, dataset_path: str | Path | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
+    """Keep default source admission; explicit paths use hash-verified research bytes."""
+    if dataset_path is not None:
+        return _load_research_features(max_gw, dataset_path)
+    raw = load_research_raw(max_gw)
+    from fpl import features
+    frame = features.build_feature_frame(raw)
+    return raw, frame, features.feature_columns(frame)
+
 
 DEFAULT_QUANTILES = [0.1, 0.5, 0.9]
 
@@ -79,23 +92,23 @@ def pinball_loss(y_true, y_pred, quantile):
 
 def interval_coverage(y_true, lower, upper):
     """Fraction of realized outcomes falling within [lower, upper]. For a 10-90
-    interval this should sit near 0.80 if the model is well-calibrated."""
+    interval the nominal central mass is 0.80; inclusive coverage can be higher
+    for discrete outcomes even when both quantiles are correct."""
     y_true = np.asarray(y_true)
     return float(np.mean((y_true >= np.asarray(lower)) & (y_true <= np.asarray(upper))))
 
 
-def evaluate_static_split(train_max_gw=152, test_min_gw=153, test_max_gw=183, quantiles=DEFAULT_QUANTILES):
+def evaluate_static_split(train_max_gw=152, test_min_gw=153, test_max_gw=183, quantiles=DEFAULT_QUANTILES,
+                          dataset_path: str | Path | None = None):
     """Fit per-position quantile models on GW<=train_max_gw and evaluate on the
-    same held-out window train.py uses, reporting pinball loss per quantile and
-    10-90 interval coverage per position. Inputs are admitted frozen bytes, capped
-    before feature construction; this wiring does not establish new results.
-    """
+    same evaluation window train.py uses, reporting pinball loss per quantile and
+    10-90 interval coverage per position. Frozen input is verified in full and
+    trimmed at the evaluation end before feature construction."""
     from fpl import features
     from fpl.model.train import POSITIONS
 
-    raw = load_research_raw(test_max_gw, start_gw=test_min_gw, train_max_gw=train_max_gw)
-    df = features.build_feature_frame(raw)
-    feature_cols = features.feature_columns(df)
+    validate_static_window(train_max_gw, test_min_gw, test_max_gw)
+    _, df, feature_cols = load_research_features(test_max_gw, dataset_path)
     train_df = df[df["GW_global"] <= train_max_gw]
     test_df = df[(df["GW_global"] >= test_min_gw) & (df["GW_global"] <= test_max_gw)]
 
@@ -113,8 +126,25 @@ def evaluate_static_split(train_max_gw=152, test_min_gw=153, test_max_gw=183, qu
         lo, hi = preds[min(quantiles)], preds[max(quantiles)]
         cov = interval_coverage(y_true, lo, hi)
         print(f"{pos:<8}" + "".join(f"{v:<14.4f}" for v in row) + f"{cov:<14.3f}")
-    print(f"(coverage should sit near {max(quantiles) - min(quantiles):.2f} if the interval is well-calibrated)")
+    print(f"(nominal central mass {max(quantiles) - min(quantiles):.2f}; discrete ties can raise inclusive coverage)")
+
+
+def parse_args(argv=None):
+    """Parse the frozen-input quantile evaluation window."""
+    parser = argparse.ArgumentParser(description="Evaluate probabilistic quantile forecasts.")
+    parser.add_argument("--dataset", type=Path, help="Verified frozen research CSV path.")
+    parser.add_argument("--train-max-gw", type=int, default=152)
+    parser.add_argument("--test-min-gw", type=int, default=153)
+    parser.add_argument("--test-max-gw", type=int, default=183)
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
+    """Evaluate quantile models using the admitted frozen research snapshot."""
+    args = parse_args(argv)
+    evaluate_static_split(train_max_gw=args.train_max_gw, test_min_gw=args.test_min_gw,
+                          test_max_gw=args.test_max_gw, dataset_path=args.dataset)
 
 
 if __name__ == "__main__":
-    evaluate_static_split()
+    main()

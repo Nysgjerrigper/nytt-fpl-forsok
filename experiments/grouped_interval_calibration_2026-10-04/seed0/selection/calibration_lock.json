@@ -1,0 +1,178 @@
+{
+  "alpha": 0.2,
+  "cells": [
+    {
+      "adjustment": 0.0,
+      "group": null,
+      "n": 1954,
+      "position": "DEF"
+    },
+    {
+      "adjustment": 0.0,
+      "group": "high",
+      "n": 479,
+      "position": "DEF"
+    },
+    {
+      "adjustment": 0.0,
+      "group": "low",
+      "n": 1002,
+      "position": "DEF"
+    },
+    {
+      "adjustment": 0.0,
+      "group": "mid",
+      "n": 467,
+      "position": "DEF"
+    },
+    {
+      "adjustment": 0.0,
+      "group": null,
+      "n": 774,
+      "position": "FWD"
+    },
+    {
+      "adjustment": 0.4151840839011083,
+      "group": "high",
+      "n": 116,
+      "position": "FWD"
+    },
+    {
+      "adjustment": 0.0,
+      "group": "low",
+      "n": 499,
+      "position": "FWD"
+    },
+    {
+      "adjustment": 0.0,
+      "group": "mid",
+      "n": 156,
+      "position": "FWD"
+    },
+    {
+      "adjustment": 0.0,
+      "group": null,
+      "n": 688,
+      "position": "GK"
+    },
+    {
+      "adjustment": 0.9999997924696652,
+      "group": "high",
+      "n": 125,
+      "position": "GK"
+    },
+    {
+      "adjustment": 0.0,
+      "group": "low",
+      "n": 476,
+      "position": "GK"
+    },
+    {
+      "adjustment": 0.0,
+      "group": null,
+      "n": 2615,
+      "position": "MID"
+    },
+    {
+      "adjustment": 0.0,
+      "group": "high",
+      "n": 525,
+      "position": "MID"
+    },
+    {
+      "adjustment": 0.0,
+      "group": "low",
+      "n": 1533,
+      "position": "MID"
+    },
+    {
+      "adjustment": 0.0,
+      "group": "mid",
+      "n": 541,
+      "position": "MID"
+    }
+  ],
+  "group_counts": [
+    [
+      "DEF",
+      "high",
+      479
+    ],
+    [
+      "DEF",
+      "low",
+      1002
+    ],
+    [
+      "DEF",
+      "mid",
+      467
+    ],
+    [
+      "DEF",
+      "missing",
+      6
+    ],
+    [
+      "FWD",
+      "high",
+      116
+    ],
+    [
+      "FWD",
+      "low",
+      499
+    ],
+    [
+      "FWD",
+      "mid",
+      156
+    ],
+    [
+      "FWD",
+      "missing",
+      3
+    ],
+    [
+      "GK",
+      "high",
+      125
+    ],
+    [
+      "GK",
+      "low",
+      476
+    ],
+    [
+      "GK",
+      "mid",
+      84
+    ],
+    [
+      "GK",
+      "missing",
+      3
+    ],
+    [
+      "MID",
+      "high",
+      525
+    ],
+    [
+      "MID",
+      "low",
+      1533
+    ],
+    [
+      "MID",
+      "mid",
+      541
+    ],
+    [
+      "MID",
+      "missing",
+      16
+    ]
+  ],
+  "min_group_size": 100
+}

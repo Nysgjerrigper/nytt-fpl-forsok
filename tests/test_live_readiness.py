@@ -233,6 +233,7 @@ def test_main_converts_only_solio_boundary_to_global_gameweeks(monkeypatch, tmp_
     output = tmp_path / "squads"
     monkeypatch.setattr(sys, "argv", ["fpl.run_week", "--optimizer", "solio", "--horizon", "3"])
     monkeypatch.setattr(run_week.config, "MASTER_DATASET_PATH", dataset)
+    monkeypatch.setattr(run_week.config, "LIVE_FORECAST_DIR", tmp_path / "captures")
     monkeypatch.setattr(run_week.config, "PREDICTIONS_PATH", forecasts)
     monkeypatch.setattr(run_week.config, "SQUAD_OUTPUT_DIR", output)
     monkeypatch.setattr(run_week, "fetch_bootstrap", lambda: bootstrap)

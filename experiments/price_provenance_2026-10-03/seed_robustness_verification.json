@@ -1,0 +1,42 @@
+{
+  "elapsed_seconds": 1344.6022550840862,
+  "independently_reconstructed_current_budgets": 248,
+  "limitations": [
+    "Reference outcomes were repeatedly examined; no fresh holdout or promotion.",
+    "Seeds reuse fixed seed-zero tuning studies and share outcomes; not independent replications.",
+    "Known-price eligibility differs from unrestricted historical source controls.",
+    "Current prices retain historical reconstruction/filling; no deadline-publication proof.",
+    "Lagged-price budget policy excluded because season repricing changed first-origin budget feasibility, not because of model performance.",
+    "Legacy roster, selling-price and transfer approximations remain."
+  ],
+  "optimal_solves": 248,
+  "promotion_eligible": false,
+  "protocol_sha256": "0c00593b3530c959ffb6d0f936fdf60c1e85c06566262cb9f18e6a9ff6e4149d",
+  "sealed_files": 432,
+  "seeds": {
+    "1": {
+      "points": {
+        "mae_current": 1958.0,
+        "mae_replay": 1965.0,
+        "rmse_current": 1872.0,
+        "rmse_replay": 1891.0
+      },
+      "summary_sha256": "c8702353d90779634e04d31d5476f2b83b7050e65ddb374e200adb0241fde383",
+      "verification_sha256": "81b2129d8c0362939b22884aa040df85f38e6f663c2d1f71d56f5196c9de2dc9"
+    },
+    "2": {
+      "points": {
+        "mae_current": 1999.0,
+        "mae_replay": 1995.0,
+        "rmse_current": 2016.0,
+        "rmse_replay": 1881.0
+      },
+      "summary_sha256": "3889b180c8dd4a4ad4d58df5c12e9c73ec68499bc1cea100e3e40dcf04e30e54",
+      "verification_sha256": "373acf300e6fdbaa25477246f2ff818a75419b00527c9eead93e374e7482e23b"
+    }
+  },
+  "source_files": 50,
+  "status": "verified",
+  "summary_sha256": "c2040ffba0eedbf15b0b4df1691e5924caffe566910d27bdb1dbf181da894a31",
+  "verified_at_utc": "2026-10-03T18:59:43.811909+00:00"
+}

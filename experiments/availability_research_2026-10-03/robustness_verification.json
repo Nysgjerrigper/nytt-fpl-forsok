@@ -1,0 +1,131 @@
+{
+  "immutable_parent_artifacts": 449,
+  "limitations": [
+    "Historical outcomes are repeatedly examined and shared across seeds; no independent pooling.",
+    "Per-seed strict selection gate remains; reference is not run after a loss or tie.",
+    "Same selected crawl-time status and current-price horizon proxies; incomplete true deadline/roster/FT/selling evidence.",
+    "This exploratory family is not a registered production promotion protocol."
+  ],
+  "optimal_solves": 220,
+  "parent_registration_sha256": "f008c311e1a18621434a391570ff13c08a92dac057f6094d0b55560aa0d4516b",
+  "parent_summary_sha256": "343673007b88fb0ad7736eebe9bd20acf7017120f162a9f2be2bfcec6b77eab1",
+  "primary_recomputed_each_study": true,
+  "promotion_eligible": false,
+  "seeds": {
+    "0": {
+      "comparisons": {
+        "reference_origin": {
+          "block_len": 3,
+          "boot_mean": -38.7515,
+          "ci_high": 51.024999999999636,
+          "ci_low": -122.02499999999998,
+          "n_gws": 31,
+          "p_a_better": 0.184,
+          "sign_test": {
+            "p_a_better": 0.7789658308029175,
+            "p_value": 0.7011080384254456,
+            "ties": 4,
+            "wins_a": 12,
+            "wins_b": 15
+          },
+          "total_a": 1922.0,
+          "total_b": 1938.0,
+          "total_diff": -16.0
+        },
+        "reference_standard": {
+          "block_len": 3,
+          "boot_mean": -161.2441,
+          "ci_high": 0.024999999999636202,
+          "ci_low": -357.0,
+          "n_gws": 31,
+          "p_a_better": 0.025,
+          "sign_test": {
+            "p_a_better": 0.9786130273714662,
+            "p_value": 0.09873714670538905,
+            "ties": 1,
+            "wins_a": 10,
+            "wins_b": 20
+          },
+          "total_a": 1917.0,
+          "total_b": 2082.0,
+          "total_diff": -165.0
+        },
+        "selection_origin": {
+          "block_len": 3,
+          "boot_mean": 35.8812,
+          "ci_high": 110.0,
+          "ci_low": -25.0,
+          "n_gws": 16,
+          "p_a_better": 0.8436,
+          "sign_test": {
+            "p_a_better": 0.696380615234375,
+            "p_value": 1.0,
+            "ties": 1,
+            "wins_a": 7,
+            "wins_b": 8
+          },
+          "total_a": 952.0,
+          "total_b": 930.0,
+          "total_diff": 22.0
+        }
+      },
+      "optimal_solves": 156,
+      "status": "complete",
+      "summary_sha256": "e8db77bd7152eeb05d90b96cfcf3d4fad9ea2db1f8286645958f34f9fdff2174",
+      "verification_sha256": "e816383b846764a4fa0ec88f3662466b3e9b794d2fe6d3e6c6db324ae61640bb"
+    },
+    "1": {
+      "comparisons": {
+        "selection_origin": {
+          "block_len": 3,
+          "boot_mean": -49.4555,
+          "ci_high": 69.0,
+          "ci_low": -181.0,
+          "n_gws": 16,
+          "p_a_better": 0.2271,
+          "sign_test": {
+            "p_a_better": 0.7727508544921875,
+            "p_value": 0.803619384765625,
+            "ties": 0,
+            "wins_a": 7,
+            "wins_b": 9
+          },
+          "total_a": 881.0,
+          "total_b": 921.0,
+          "total_diff": -40.0
+        }
+      },
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "e70b0098e3a0025864cb634fc3010d81d4bb0fa2fb7ac5013b9222c903c0714b",
+      "verification_sha256": "5e2f91bf41d5272dd2e4baff9bbc2b530cf71e7b2b4c790c3e5da19a7fb62a00"
+    },
+    "2": {
+      "comparisons": {
+        "selection_origin": {
+          "block_len": 3,
+          "boot_mean": -42.9196,
+          "ci_high": 95.0,
+          "ci_low": -162.0,
+          "n_gws": 16,
+          "p_a_better": 0.256,
+          "sign_test": {
+            "p_a_better": 0.84912109375,
+            "p_value": 0.6072387695312499,
+            "ties": 1,
+            "wins_a": 6,
+            "wins_b": 9
+          },
+          "total_a": 925.0,
+          "total_b": 969.0,
+          "total_diff": -44.0
+        }
+      },
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "d06ec81d77ec50cf5c01643b789f811fe01943be175419ef8f6c8753b9eb1099",
+      "verification_sha256": "08d677e5bb8de71b7d6f249d2fad265586604e2115fa35b867a256ed1ea31f4d"
+    }
+  },
+  "status": "verified"
+}

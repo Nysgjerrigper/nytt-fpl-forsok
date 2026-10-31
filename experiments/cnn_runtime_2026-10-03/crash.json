@@ -1,0 +1,19 @@
+{
+  "decision": "No historical CNN fit or retry of the mixed in-process path. Validate a fresh process-isolated CPU worker before research evaluation. Existing PyTabKit guards retained.",
+  "failure": {
+    "command": "python -B -m pytest tests/test_origin_research_adapter.py tests/test_model_registry.py tests/test_sequence_cnn.py -q",
+    "exit_code": 139,
+    "output_fragment": "..............Fatal Python error: Fatal Python error: Segmentation faultSegmentation fault; torch/nn/modules/conv.py",
+    "root_cause": "Not established. Native convolution crashed in combined test process with tree libraries loaded.",
+    "source_sha256": "a49c39f4c339361b30634b2b04ab7025d6d3ab5c567310947e90b4458e639f9a"
+  },
+  "prior_microprobe": {
+    "device": "cpu",
+    "elapsed_seconds": 0.6281173329334706,
+    "scope": "Standalone synthetic Conv1d only, no performance evidence.",
+    "threads": 5,
+    "three_synthetic_steps": "PASS",
+    "torch": "2.13.0"
+  },
+  "status": "IN_PROCESS_BLOCKED"
+}

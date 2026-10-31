@@ -1,0 +1,945 @@
+{
+  "scope": "Descriptive source consistency only; no fitting or MILP evaluation.",
+  "captures": [
+    {
+      "season": "2023-24",
+      "event": 23,
+      "age_hours": 10.999444444444444,
+      "events_behind": 0,
+      "arm_roster": 808,
+      "cache_roster": 808,
+      "price_differences": 16,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 16,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 24,
+      "age_hours": 10.971111111111112,
+      "events_behind": 0,
+      "arm_roster": 809,
+      "cache_roster": 809,
+      "price_differences": 10,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 10,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 25,
+      "age_hours": 10.94111111111111,
+      "events_behind": 0,
+      "arm_roster": 815,
+      "cache_roster": 815,
+      "price_differences": 9,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 9,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 26,
+      "age_hours": 1.0238888888888888,
+      "events_behind": 0,
+      "arm_roster": 823,
+      "cache_roster": 823,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 27,
+      "age_hours": 9.498333333333333,
+      "events_behind": 0,
+      "arm_roster": 828,
+      "cache_roster": 828,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 28,
+      "age_hours": 0.6111111111111112,
+      "events_behind": 0,
+      "arm_roster": 832,
+      "cache_roster": 832,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 29,
+      "age_hours": 9.498333333333333,
+      "events_behind": 0,
+      "arm_roster": 838,
+      "cache_roster": 838,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 30,
+      "age_hours": 0.9466666666666667,
+      "events_behind": 0,
+      "arm_roster": 838,
+      "cache_roster": 838,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 31,
+      "age_hours": 6.772222222222222,
+      "events_behind": 0,
+      "arm_roster": 842,
+      "cache_roster": 842,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 32,
+      "age_hours": 9.995555555555555,
+      "events_behind": 0,
+      "arm_roster": 844,
+      "cache_roster": 844,
+      "price_differences": 14,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 14,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 33,
+      "age_hours": 6.956388888888889,
+      "events_behind": 0,
+      "arm_roster": 846,
+      "cache_roster": 846,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 34,
+      "age_hours": 5.498333333333333,
+      "events_behind": 0,
+      "arm_roster": 851,
+      "cache_roster": 851,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 35,
+      "age_hours": 14.797222222222222,
+      "events_behind": 0,
+      "arm_roster": 856,
+      "cache_roster": 856,
+      "price_differences": 11,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 11,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 36,
+      "age_hours": 10.491111111111111,
+      "events_behind": 0,
+      "arm_roster": 859,
+      "cache_roster": 859,
+      "price_differences": 0,
+      "availability_differences": 7,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 7,
+        "chance_of_playing_next_round": 11,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 37,
+      "age_hours": 9.994444444444444,
+      "events_behind": 0,
+      "arm_roster": 859,
+      "cache_roster": 859,
+      "price_differences": 16,
+      "availability_differences": 1,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 16,
+        "status": 1,
+        "chance_of_playing_next_round": 1,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 38,
+      "age_hours": 2.4975,
+      "events_behind": 0,
+      "arm_roster": 861,
+      "cache_roster": 861,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 1,
+      "age_hours": 4.945277777777778,
+      "events_behind": 0,
+      "arm_roster": 610,
+      "cache_roster": 610,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 2,
+      "age_hours": 9.995277777777778,
+      "events_behind": 0,
+      "arm_roster": 625,
+      "cache_roster": 625,
+      "price_differences": 22,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 22,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 3,
+      "age_hours": 9.998888888888889,
+      "events_behind": 0,
+      "arm_roster": 637,
+      "cache_roster": 637,
+      "price_differences": 25,
+      "availability_differences": 13,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 25,
+        "status": 13,
+        "chance_of_playing_next_round": 13,
+        "team": 4,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 4,
+      "age_hours": 12.781944444444445,
+      "events_behind": 0,
+      "arm_roster": 655,
+      "cache_roster": 655,
+      "price_differences": 23,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 23,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 5,
+      "age_hours": 6.99,
+      "events_behind": 0,
+      "arm_roster": 659,
+      "cache_roster": 659,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 6,
+      "age_hours": 10.0,
+      "events_behind": 0,
+      "arm_roster": 661,
+      "cache_roster": 661,
+      "price_differences": 17,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 17,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 7,
+      "age_hours": 9.996944444444445,
+      "events_behind": 0,
+      "arm_roster": 664,
+      "cache_roster": 664,
+      "price_differences": 30,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 30,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 8,
+      "age_hours": 225.8488888888889,
+      "events_behind": 0,
+      "arm_roster": 666,
+      "cache_roster": 666,
+      "price_differences": 41,
+      "availability_differences": 57,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 41,
+        "status": 57,
+        "chance_of_playing_next_round": 72,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 9,
+      "age_hours": 377.3488888888889,
+      "events_behind": 1,
+      "arm_roster": 666,
+      "cache_roster": 667,
+      "price_differences": 93,
+      "availability_differences": 83,
+      "only_arm": 0,
+      "only_cache": 1,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 93,
+        "status": 83,
+        "chance_of_playing_next_round": 103,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 10,
+      "age_hours": 562.8488888888888,
+      "events_behind": 2,
+      "arm_roster": 666,
+      "cache_roster": 670,
+      "price_differences": 143,
+      "availability_differences": 110,
+      "only_arm": 0,
+      "only_cache": 4,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 143,
+        "status": 110,
+        "chance_of_playing_next_round": 144,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 11,
+      "age_hours": 3.276666666666667,
+      "events_behind": 0,
+      "arm_roster": 674,
+      "cache_roster": 674,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 12,
+      "age_hours": 11.705,
+      "events_behind": 0,
+      "arm_roster": 678,
+      "cache_roster": 678,
+      "price_differences": 16,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 16,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 13,
+      "age_hours": 6.495,
+      "events_behind": 0,
+      "arm_roster": 684,
+      "cache_roster": 684,
+      "price_differences": 0,
+      "availability_differences": 9,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 9,
+        "chance_of_playing_next_round": 15,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 14,
+      "age_hours": 5.994722222222222,
+      "events_behind": 0,
+      "arm_roster": 690,
+      "cache_roster": 690,
+      "price_differences": 0,
+      "availability_differences": 2,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 2,
+        "chance_of_playing_next_round": 3,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 15,
+      "age_hours": 10.995555555555555,
+      "events_behind": 0,
+      "arm_roster": 693,
+      "cache_roster": 693,
+      "price_differences": 19,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 19,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 16,
+      "age_hours": 1.4958333333333333,
+      "events_behind": 0,
+      "arm_roster": 693,
+      "cache_roster": 693,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 17,
+      "age_hours": 0.20222222222222222,
+      "events_behind": 0,
+      "arm_roster": 701,
+      "cache_roster": 701,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 18,
+      "age_hours": 0.3308333333333333,
+      "events_behind": 0,
+      "arm_roster": 701,
+      "cache_roster": 701,
+      "price_differences": 0,
+      "availability_differences": 2,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 2,
+        "chance_of_playing_next_round": 2,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 19,
+      "age_hours": 0.9969444444444444,
+      "events_behind": 0,
+      "arm_roster": 705,
+      "cache_roster": 705,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 20,
+      "age_hours": 1.08,
+      "events_behind": 0,
+      "arm_roster": 709,
+      "cache_roster": 709,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 21,
+      "age_hours": 5.996666666666667,
+      "events_behind": 0,
+      "arm_roster": 718,
+      "cache_roster": 718,
+      "price_differences": 0,
+      "availability_differences": 1,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 1,
+        "chance_of_playing_next_round": 1,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 22,
+      "age_hours": 2.9983333333333335,
+      "events_behind": 0,
+      "arm_roster": 726,
+      "cache_roster": 726,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 23,
+      "age_hours": 5.497222222222222,
+      "events_behind": 0,
+      "arm_roster": 755,
+      "cache_roster": 755,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 24,
+      "age_hours": 0.014166666666666666,
+      "events_behind": 0,
+      "arm_roster": 757,
+      "cache_roster": 757,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 25,
+      "age_hours": 0.4172222222222222,
+      "events_behind": 0,
+      "arm_roster": 773,
+      "cache_roster": 773,
+      "price_differences": 0,
+      "availability_differences": 17,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 17,
+        "chance_of_playing_next_round": 23,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 26,
+      "age_hours": 1.4369444444444444,
+      "events_behind": 0,
+      "arm_roster": 779,
+      "cache_roster": 779,
+      "price_differences": 0,
+      "availability_differences": 27,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 27,
+        "chance_of_playing_next_round": 28,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 27,
+      "age_hours": 0.050555555555555555,
+      "events_behind": 0,
+      "arm_roster": 783,
+      "cache_roster": 783,
+      "price_differences": 0,
+      "availability_differences": 4,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 4,
+        "chance_of_playing_next_round": 5,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 28,
+      "age_hours": 0.9808333333333333,
+      "events_behind": 0,
+      "arm_roster": 785,
+      "cache_roster": 785,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 29,
+      "age_hours": 5.488888888888889,
+      "events_behind": 0,
+      "arm_roster": 789,
+      "cache_roster": 789,
+      "price_differences": 0,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 30,
+      "age_hours": 6.866944444444444,
+      "events_behind": 0,
+      "arm_roster": 789,
+      "cache_roster": 789,
+      "price_differences": 0,
+      "availability_differences": 1,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 0,
+        "status": 1,
+        "chance_of_playing_next_round": 1,
+        "team": 0,
+        "element_type": 0
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 31,
+      "age_hours": 9.995,
+      "events_behind": 0,
+      "arm_roster": 791,
+      "cache_roster": 791,
+      "price_differences": 15,
+      "availability_differences": 0,
+      "only_arm": 0,
+      "only_cache": 0,
+      "capture_equals_deadline": false,
+      "differences": {
+        "now_cost": 15,
+        "status": 0,
+        "chance_of_playing_next_round": 0,
+        "team": 0,
+        "element_type": 0
+      }
+    }
+  ]
+}

@@ -27,10 +27,26 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 from fpl import config, features
+from fpl.model.research_input import load_research_raw
+from fpl.data.research import (
+    load_research_features as _load_research_features, validate_static_window,
+    validate_tuning_cutoff, validate_walk_forward_window,
+)
 from fpl.model import models as point_models
 from fpl.model.metrics import bias, mae, rmse, spearman_by_group, top1_capture, total_calibration
 from fpl.model.train import POSITIONS
-from fpl.model.research_input import load_research_raw
+
+def load_research_features(
+    max_gw: int, dataset_path: str | Path | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
+    """Keep default source admission; explicit paths use hash-verified research bytes."""
+    if dataset_path is not None:
+        return _load_research_features(max_gw, dataset_path)
+    raw = load_research_raw(max_gw)
+    from fpl import features
+    frame = features.build_feature_frame(raw)
+    return raw, frame, features.feature_columns(frame)
+
 from fpl.model.walk_forward import walk_forward_steps
 
 
@@ -648,12 +664,13 @@ def evaluate_walk_forward(
     model_names=None,
     include_regression=True,
     use_tuned=True,
+    dataset_path: str | Path | None = None,
 ):
     """Walk-forward head-to-head: bucket models vs the tuned production
     CatBoost regression, each GW predicted using only strictly-earlier data.
 
-    This is the decision-grade version of evaluate_static_split: a static
-    split fits once and can flatter a model; walk-forward retrains every
+    These are causal forecast diagnostics, not realized MILP points or paired
+    confidence-interval evidence. A static split fits once; walk-forward retrains every
     `retrain_every` GWs, matching how fpl.model.predict backtests the
     production forecaster. `use_tuned=True` lets the bucket CatBoost reuse the
     tuned per-position regression hyperparameters so the comparison is not
@@ -665,9 +682,8 @@ def evaluate_walk_forward(
     Frozen-byte admission and the end cutoff precede feature construction; this
     wiring alone establishes no new experimental results.
     """
-    raw = load_research_raw(end_gw, start_gw=start_gw)
-    df = features.build_feature_frame(raw)
-    feature_cols = features.feature_columns(df)
+    validate_walk_forward_window(start_gw, end_gw, retrain_every)
+    _, df, feature_cols = load_research_features(end_gw, dataset_path)
     schemes = [get_bucket_scheme(name) for name in bucket_scheme_names]
     names = model_names or ["catboost_bucket", "catboost_hurdle_bucket"]
 
@@ -729,15 +745,11 @@ def evaluate_static_split(
     quick=False,
     bucket_scheme_names=None,
     model_names=None,
+    dataset_path: str | Path | None = None,
 ):
-    """Evaluate a static split after frozen-byte and chronological admission.
-
-    The capped input preserves earlier feature/training history; admission does not
-    establish new experimental results or production-promotion evidence.
-    """
-    raw = load_research_raw(test_max_gw, start_gw=test_min_gw, train_max_gw=train_max_gw)
-    df = features.build_feature_frame(raw)
-    feature_cols = features.feature_columns(df)
+    """Evaluate a capped static fit on a later window of verified frozen input."""
+    validate_static_window(train_max_gw, test_min_gw, test_max_gw)
+    _, df, feature_cols = load_research_features(test_max_gw, dataset_path)
     train_df = df[df["GW_global"] <= train_max_gw]
     test_df = df[(df["GW_global"] >= test_min_gw) & (df["GW_global"] <= test_max_gw)]
     schemes = [get_bucket_scheme(name) for name in (bucket_scheme_names or ["coarse5"])]
@@ -785,6 +797,7 @@ def tune_bucket_position(df, feature_cols, position, scheme, n_trials=30, n_spli
     Returns (best_params_dict, best_cv_logloss). Optuna is imported lazily -
     it is an optional dependency, same policy as fpl.model.tuning.
     """
+    validate_tuning_cutoff(train_max_gw)
     import optuna
 
     from fpl.model.tuning import _expanding_window_folds
@@ -832,15 +845,12 @@ def tune_bucket_position(df, feature_cols, position, scheme, n_trials=30, n_spli
     return best, float(study.best_value)
 
 
-def run_bucket_tuning(scheme_names, positions=None, n_trials=30, n_splits=3, train_max_gw=config.TUNING_TRAIN_MAX_GW):
-    """Tune bucket parameters on admitted frozen history within the selection cap.
-
-    Validate the cap before features or trials; admission itself supplies no new
-    experimental results. Parameter defaults and persistence format are unchanged.
-    """
-    raw = load_research_raw(train_max_gw, tuning=True)
-    df = features.build_feature_frame(raw)
-    feature_cols = features.feature_columns(df)
+def run_bucket_tuning(scheme_names, positions=None, n_trials=30, n_splits=3,
+                      train_max_gw=config.TUNING_TRAIN_MAX_GW,
+                      dataset_path: str | Path | None = None):
+    """Tune and persist bucket-classifier params for every (scheme, position)."""
+    validate_tuning_cutoff(train_max_gw)
+    _, df, feature_cols = load_research_features(train_max_gw, dataset_path)
     for scheme_name in scheme_names:
         scheme = get_bucket_scheme(scheme_name)
         for position in positions or POSITIONS:
@@ -865,17 +875,16 @@ def walk_forward_predictions_csv(
     bucket_scheme_name="coarse5",
     model_name="catboost_bucket",
     use_tuned=True,
+    dataset_path: str | Path | None = None,
 ):
     """Walk-forward predictions CSV from the bucket model for MILP backtesting.
 
     Returns a dataframe in fpl/milp/optimize.py format:
     player_id, GW, name, position, team, value, predicted_total_points, actual_total_points.
-    Frozen-byte admission and the end cutoff precede feature construction; this
-    wiring alone establishes no new experimental results.
+    Retains minutes and fixture/opponent/home identity when present in the input.
     """
-    raw = load_research_raw(end_gw, start_gw=start_gw)
-    df = features.build_feature_frame(raw)
-    feature_cols = features.feature_columns(df)
+    validate_walk_forward_window(start_gw, end_gw, retrain_every)
+    _, df, feature_cols = load_research_features(end_gw, dataset_path)
     scheme = get_bucket_scheme(bucket_scheme_name)
 
     print(
@@ -918,12 +927,15 @@ def walk_forward_predictions_csv(
     result = pd.concat(rows, ignore_index=True)
     out_cols = ["player_id", "GW_global", "name", "position", "team", "value",
                 "predicted_total_points", "total_points"]
+    out_cols.extend(column for column in ("minutes", "fixture", "opponent_team", "was_home")
+                    if column in result.columns)
     result = result[out_cols].rename(columns={"GW_global": "GW", "total_points": "actual_total_points"})
     return result
 
 
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description="Compare probabilistic bucket models for FPL points.")
+    parser.add_argument("--dataset", type=Path, help="Verified frozen research CSV path.")
     parser.add_argument("--train-max-gw", type=int, default=config.TUNING_TRAIN_MAX_GW)
     parser.add_argument("--test-min-gw", type=int, default=153)
     parser.add_argument("--test-max-gw", type=int, default=183)
@@ -1005,6 +1017,7 @@ def main(argv=None):
             n_trials=args.tune_trials,
             n_splits=args.tune_splits,
             train_max_gw=args.tune_max_gw,
+            dataset_path=args.dataset,
         )
         return
     if args.export_predictions:
@@ -1016,6 +1029,7 @@ def main(argv=None):
             bucket_scheme_name=args.schemes[0],
             model_name=args.export_model,
             use_tuned=_resolve_use_tuned(args),
+            dataset_path=args.dataset,
         )
         output_path = args.output or str(config.PREDICTIONS_PATH)
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
@@ -1032,6 +1046,7 @@ def main(argv=None):
             model_names=args.models,
             include_regression=not args.no_regression_baseline,
             use_tuned=_resolve_use_tuned(args),
+            dataset_path=args.dataset,
         )
         return
     evaluate_static_split(
@@ -1041,6 +1056,7 @@ def main(argv=None):
         quick=args.quick,
         bucket_scheme_names=args.schemes,
         model_names=args.models,
+        dataset_path=args.dataset,
     )
 
 

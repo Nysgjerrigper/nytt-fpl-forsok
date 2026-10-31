@@ -1,0 +1,8 @@
+{
+  "script_sha256": {
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/availability_research_2026-10-03/finalize_rmse_evidence.py": "ed717e50b4cc5cff79a7b068493df970cdb42c8e0a80a1ca8e7974993517b5d4",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/research_priorities_2026-10-03/summarize_compute.py": "cc3710c5e2b0a037cd60aa31b7f02750263666a91d8022e2e693c75c7b8d96bc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/research_priorities_2026-10-03/verify_package.py": "a23724c0f0800a85aab7dfef23a04e64ca9f9c8ede47a7ac0171d596eeb22870"
+  },
+  "timeout_seconds": 10800
+}

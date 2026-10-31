@@ -1,0 +1,312 @@
+{
+  "comparisons": {
+    "origin": {
+      "block_len": 2,
+      "boot_mean": -20.0,
+      "bootstrap_positive_fraction": 0.0,
+      "ci_high": -20.0,
+      "ci_low": -20.0,
+      "contract": null,
+      "effective_metric": "actual_net_points",
+      "evidence_status": "UNVERIFIED",
+      "gameweeks": [
+        141,
+        142
+      ],
+      "inference_limitations": "Historical paired window, not independent seasons. Block bootstrap depends on block choice; the exact binomial sign-test null assumes independent signs. Neither is a probability of future gain.",
+      "input_sha256": {
+        "a": "01d0c99bc7726bae19bf85219e86b2e96a28a346abca5fdf777704de979a5964",
+        "b": "483a8562b24248605f639ae0585e88032736f32cba5b8a2b51bf006332648935"
+      },
+      "metric": "actual_net_points",
+      "n_boot": 10000,
+      "n_gws": 2,
+      "p_a_better": 0.0,
+      "requested_metric": "actual_net_points",
+      "scoring_protocol": {
+        "a": "autosubs_v2",
+        "b": "autosubs_v2"
+      },
+      "seed": 0,
+      "sign_test": {
+        "p_a_better": 1.0,
+        "p_value": 0.5,
+        "ties": 0,
+        "wins_a": 0,
+        "wins_b": 2
+      },
+      "total_a": 120.0,
+      "total_b": 140.0,
+      "total_diff": -20.0,
+      "transfer_hit_points_per_paid_transfer": 4
+    },
+    "standard": {
+      "block_len": 2,
+      "boot_mean": -29.0,
+      "bootstrap_positive_fraction": 0.0,
+      "ci_high": -29.0,
+      "ci_low": -29.0,
+      "contract": null,
+      "effective_metric": "actual_net_points",
+      "evidence_status": "UNVERIFIED",
+      "gameweeks": [
+        141,
+        142
+      ],
+      "inference_limitations": "Historical paired window, not independent seasons. Block bootstrap depends on block choice; the exact binomial sign-test null assumes independent signs. Neither is a probability of future gain.",
+      "input_sha256": {
+        "a": "16a86fdea7932317f8d4ea2727a3b05d926eaff0dffda3d125600a44dc8be31c",
+        "b": "aad8d7f6a6505412d6ccdf42015187d86a6867ed682edef77c9347a24898ce1e"
+      },
+      "metric": "actual_net_points",
+      "n_boot": 10000,
+      "n_gws": 2,
+      "p_a_better": 0.0,
+      "requested_metric": "actual_net_points",
+      "scoring_protocol": {
+        "a": "autosubs_v2",
+        "b": "autosubs_v2"
+      },
+      "seed": 0,
+      "sign_test": {
+        "p_a_better": 1.0,
+        "p_value": 0.5,
+        "ties": 0,
+        "wins_a": 0,
+        "wins_b": 2
+      },
+      "total_a": 125.0,
+      "total_b": 154.0,
+      "total_diff": -29.0,
+      "transfer_hit_points_per_paid_transfer": 4
+    }
+  },
+  "complete_sha256": "47e8f13ffddea1ae6286a4c802ae2e84ac33aaefe279f349a26e539da58c5750",
+  "engineering_success": true,
+  "fit_calls": 16,
+  "forecast_metrics": {
+    "origin": [
+      {
+        "candidate": {
+          "aggregate_true_total": 1715.0,
+          "bias": 0.06049185064531373,
+          "fixture_rows": 1745,
+          "mae": 0.9714391368186551,
+          "player_rounds": 1660,
+          "ranking_groups": 8,
+          "rmse": 1.8168757257619237,
+          "spearman": 0.6816967592147685,
+          "spearman_skipped_groups": 0,
+          "spearman_used_groups": 8,
+          "tied_top_groups": 0,
+          "top1_capture": 0.37037037037037035,
+          "top1_true_max_sum": 108.0,
+          "total_calibration": 1.0585518787587291
+        },
+        "control": {
+          "aggregate_true_total": 1715.0,
+          "bias": -0.5278290037756874,
+          "fixture_rows": 1745,
+          "mae": 0.7828270991588814,
+          "player_rounds": 1660,
+          "ranking_groups": 8,
+          "rmse": 2.005821735493297,
+          "spearman": 0.6878588295890453,
+          "spearman_skipped_groups": 0,
+          "spearman_used_groups": 8,
+          "tied_top_groups": 0,
+          "top1_capture": 0.5092592592592593,
+          "top1_true_max_sum": 108.0,
+          "total_calibration": 0.4890984569867982
+        },
+        "lead": 0
+      },
+      {
+        "candidate": {
+          "aggregate_true_total": 849.0,
+          "bias": 0.10712875311262571,
+          "fixture_rows": 912,
+          "mae": 1.014004391702628,
+          "player_rounds": 828,
+          "ranking_groups": 4,
+          "rmse": 1.8408631501458983,
+          "spearman": 0.6553844195700993,
+          "spearman_skipped_groups": 0,
+          "spearman_used_groups": 4,
+          "tied_top_groups": 0,
+          "top1_capture": 0.48148148148148145,
+          "top1_true_max_sum": 54.0,
+          "total_calibration": 1.104478925297119
+        },
+        "control": {
+          "aggregate_true_total": 849.0,
+          "bias": -0.4967056834450838,
+          "fixture_rows": 912,
+          "mae": 0.794076128592181,
+          "player_rounds": 828,
+          "ranking_groups": 4,
+          "rmse": 1.9784600840560624,
+          "spearman": 0.6387012091898219,
+          "spearman_skipped_groups": 0,
+          "spearman_used_groups": 4,
+          "tied_top_groups": 0,
+          "top1_capture": 0.3888888888888889,
+          "top1_true_max_sum": 54.0,
+          "total_calibration": 0.5155803228592116
+        },
+        "lead": 1
+      }
+    ],
+    "standard": [
+      {
+        "candidate": {
+          "aggregate_true_total": 1715.0,
+          "bias": 0.06388589071940734,
+          "fixture_rows": 1756,
+          "mae": 0.9693784027240461,
+          "player_rounds": 1670,
+          "ranking_groups": 8,
+          "rmse": 1.8120919962778164,
+          "spearman": 0.6803466074217295,
+          "spearman_skipped_groups": 0,
+          "spearman_used_groups": 8,
+          "tied_top_groups": 0,
+          "top1_capture": 0.37037037037037035,
+          "top1_true_max_sum": 108.0,
+          "total_calibration": 1.0622095845489274
+        },
+        "control": {
+          "aggregate_true_total": 1715.0,
+          "bias": -0.5246683452361356,
+          "fixture_rows": 1756,
+          "mae": 0.7781395175611006,
+          "player_rounds": 1670,
+          "ranking_groups": 8,
+          "rmse": 1.9998072639764393,
+          "spearman": 0.6877498435260023,
+          "spearman_skipped_groups": 0,
+          "spearman_used_groups": 8,
+          "tied_top_groups": 0,
+          "top1_capture": 0.5092592592592593,
+          "top1_true_max_sum": 108.0,
+          "total_calibration": 0.4890984626563578
+        },
+        "lead": null
+      }
+    ]
+  },
+  "fresh_holdout": false,
+  "kind": "engineering_validation_on_observed_selection_rounds",
+  "plan_sha256": "a006f3ae20c4eaf26797ff54253480ec0af285289568bc3facd62aa62d7409fd",
+  "promotion_eligible": false,
+  "raw_artifact_directory": "experiments/runs/fpl-workflow-pilot-2026-10-31",
+  "raw_sha256": {
+    "launch-1.json": "3351e736dd3b1c7ac8340d2901e91efc2aa7f537fa4bc95f2142fea53e71421b",
+    "plan-1.json": "a006f3ae20c4eaf26797ff54253480ec0af285289568bc3facd62aa62d7409fd",
+    "registered.json": "e0cc8f5e1f1989bfeaf5ca46d580c57ee431a2a92eb2103ffea87bb5457681ed",
+    "registration.json": "d301e0cf53989a9edf80419382ad8fed6a811cd91e7fb4f946b63f3f451a46a2",
+    "trial-1/complete.json": "47e8f13ffddea1ae6286a4c802ae2e84ac33aaefe279f349a26e539da58c5750",
+    "trial-1/dataset.csv": "62f8f1d31d47a5f859f6d73819c9e631a59de346fed7de2fd5877b994a2ccc98",
+    "trial-1/fit-complete-1.json": "bf33f007020caa620441488cae7e02a597c4ee207c6e7832442dd3359d24fbdc",
+    "trial-1/fit-complete-10.json": "3131dbd7245d8933f95f51e0cfc5c84d11ba27fdea1f197480e893b103db868d",
+    "trial-1/fit-complete-11.json": "c4fedd1a63e618c24adc63c8bd4aca96e5a6a16deb6d8d7b3d733ad95f30a4ac",
+    "trial-1/fit-complete-12.json": "abe35ae4f891a335c3a8f9ecede08db948d2a7ec6ff88f2fcdfff336747a960f",
+    "trial-1/fit-complete-13.json": "b785f7e717ed3fe4711136044645afa55db3a1337839dd84c3cd230e84d40bf0",
+    "trial-1/fit-complete-14.json": "a2fad35fd1f7346c7c00cafd956f82ad8791b1b985c305ef26448a00c2518adf",
+    "trial-1/fit-complete-15.json": "59482c12e3c18005ddbf9f6f0cc6bdcbac3af50e9fa59aee8c655bfd5d8cd6fd",
+    "trial-1/fit-complete-16.json": "ee50c0d1d63a93ad2e8979392e7aae6cc329460ae24c45375d3d4cf360e03b18",
+    "trial-1/fit-complete-2.json": "f863182bf719ddef9d794d5d650483452d366daa2d9bf7449e59db6be659eda5",
+    "trial-1/fit-complete-3.json": "f8a7df404c378b5347fab9d3f6e6477f6307ad714a526b1e92bdc25725a55777",
+    "trial-1/fit-complete-4.json": "074c2a32f5e5ba72b8166a9f7ff63ac8cf85bf10987c99b75271024b8773e6c1",
+    "trial-1/fit-complete-5.json": "eaf3f33fc442bd1d5f09eed2340069411bd12b842652c5a21539aa197501ae1c",
+    "trial-1/fit-complete-6.json": "1562e3f941e185074aea6a54a98122e081ddecbbc0798f7ff6f62c530efc4912",
+    "trial-1/fit-complete-7.json": "bdd7550e4f849cdb0832b353e43ef4c3f0755d6138e05d27b7fbe96350ef25f0",
+    "trial-1/fit-complete-8.json": "8d999051e244fbe5ea6c1aa63ad0928bb8786414814d13af61b716ed39bdd506",
+    "trial-1/fit-complete-9.json": "db6b7b947c0bca65b2a7de6cf7f6cc2a31391961615ca905a432cdc5a338d5bc",
+    "trial-1/fit-start-1.json": "0a0527cba1137048e01aebf44fd1e1d97b363bc2a007a4ee6209bdc946cc23d7",
+    "trial-1/fit-start-10.json": "cab72c54e9c03cbe4a748f0c05481f2537b097ec54d178ea809d7591e6ecece7",
+    "trial-1/fit-start-11.json": "996b14e0b2db990f3743c8c265f02e1ad9aac4a112d145098e49ec71455ea806",
+    "trial-1/fit-start-12.json": "cf28faf878ffd5475af79ea6a48ce946ec1380092c8b4c00f1f8ddce41023692",
+    "trial-1/fit-start-13.json": "f5dd9ff225865c197195ed53749f6c1d5b91302d13ccf3bcf0bfeb3e5f85ac21",
+    "trial-1/fit-start-14.json": "0009fb1f5818a64f6e67c4675732058f3bf77c3009c19d2233e5aa612216adb7",
+    "trial-1/fit-start-15.json": "1a6e2a9da293d05410d53d11fb7ef384d39fcfdc13c994f4ddd47b53d38b3be8",
+    "trial-1/fit-start-16.json": "c49205be2a65dd9a8e692525faacb4a307cf2586c14b052a2d19784ec9407bea",
+    "trial-1/fit-start-2.json": "da296002752bae7325855266e65f40deeb54d0f4c169972a8ef50e537cf33333",
+    "trial-1/fit-start-3.json": "8da180cd76a0c82f467e1a006b16848f7a6d1c8ab3c0a6f85a59801ce1809697",
+    "trial-1/fit-start-4.json": "2416a118938d882260bbfc83f88693227278a746f3b0fb05512f37ea6e583e5b",
+    "trial-1/fit-start-5.json": "7248b1fbd040d53068e86e44ea567a2e441d595e26539e998eec0aeaa5cf9300",
+    "trial-1/fit-start-6.json": "abdd3298b39676861e7fc5fc60ab4d50b0beabb11e402000fbf9c8bba99e6b13",
+    "trial-1/fit-start-7.json": "576bd3794a5d423655f3c632507829dc136a66d68abb63662146321a52be22a1",
+    "trial-1/fit-start-8.json": "d2c0c5546399bc005dea9610b11e1a3b16d6439808f38a2f37c6191543bfd67d",
+    "trial-1/fit-start-9.json": "12e81664b605b129c19b42dcf6a17374840337dd9faf8455af4ca6da63a7ce64",
+    "trial-1/origin-candidate-decisions.json": "041fc39cdd2d50fd7e044d1eeed55cf4a46b4923f44878f6bbc01792f8c04848",
+    "trial-1/origin-candidate-predictions.csv": "fd552a3d7f9dbcc51479d2ca24f879711be4e1c88af3dfd37669a74855fdde23",
+    "trial-1/origin-candidate-squads.csv": "01d0c99bc7726bae19bf85219e86b2e96a28a346abca5fdf777704de979a5964",
+    "trial-1/origin-comparison-spec.json": "a34ff77599751e85165d7538a8d1d0787737e3156c44a8f4507f76a9fa275ba7",
+    "trial-1/origin-control-decisions.json": "1ab37b71a0806263c83361ea0d98ad2c9592a43d8dfc3c68008073dcd0671fd8",
+    "trial-1/origin-control-predictions.csv": "1ef7ae0586ad6b423c1c4de17da589a6944e07dd002849cc7fe456f6d54645c5",
+    "trial-1/origin-control-squads.csv": "483a8562b24248605f639ae0585e88032736f32cba5b8a2b51bf006332648935",
+    "trial-1/origin-forecast-summary.json": "70482c55d80576ee91ca4d8714eeb983b0eafdfb4b00ac85fd74954ea18b21a1",
+    "trial-1/plan.json": "a006f3ae20c4eaf26797ff54253480ec0af285289568bc3facd62aa62d7409fd",
+    "trial-1/registry.csv": "b6eec633f04df41db82fc69196dd5bb8edd0f3948908051d2096130202ade9a1",
+    "trial-1/reports/training-origin/first/REPORT.md": "bd1fa28111918acc76df85c01abb7ae0ff1c900b875bbfe68512ff4afc8db5ca",
+    "trial-1/reports/training-origin/first/candidate-forecasts.csv": "fd552a3d7f9dbcc51479d2ca24f879711be4e1c88af3dfd37669a74855fdde23",
+    "trial-1/reports/training-origin/first/candidate.csv": "01d0c99bc7726bae19bf85219e86b2e96a28a346abca5fdf777704de979a5964",
+    "trial-1/reports/training-origin/first/comparison.json": "c1085bcdcd89f6defe9038be1144dbd1e4333b6f3a0039b7862d5d89adc6f44b",
+    "trial-1/reports/training-origin/first/complete.json": "29a5aa0e92f81107b8989524801949a36917b8d1f94d70da282ff786158e89a8",
+    "trial-1/reports/training-origin/first/control-forecasts.csv": "1ef7ae0586ad6b423c1c4de17da589a6944e07dd002849cc7fe456f6d54645c5",
+    "trial-1/reports/training-origin/first/control.csv": "483a8562b24248605f639ae0585e88032736f32cba5b8a2b51bf006332648935",
+    "trial-1/reports/training-origin/first/scorecard.json": "43948a820b8e74a0c1ce96114d7d5d473ed70f135cc5afe34415f21faff70e36",
+    "trial-1/reports/training-origin/first/spec.json": "a34ff77599751e85165d7538a8d1d0787737e3156c44a8f4507f76a9fa275ba7",
+    "trial-1/reports/training-origin/first/started.json": "b522135d20e07a5f478582f757291471f526f0a43f969ca2173710cde6dd76cc",
+    "trial-1/reports/training-standard/first/REPORT.md": "18f42449ec6c9d7e37b884ed6cee04b104a9c38bbf4d5235465ed22dac2e8bb8",
+    "trial-1/reports/training-standard/first/candidate-forecasts.csv": "a2e04bf663767c431e58d3791c5a4b0a6c137fc9cb85613cafcf52ab7049425c",
+    "trial-1/reports/training-standard/first/candidate.csv": "16a86fdea7932317f8d4ea2727a3b05d926eaff0dffda3d125600a44dc8be31c",
+    "trial-1/reports/training-standard/first/comparison.json": "effab6baf3b2f80f9389773b219b79176104c236e9dafb662788e77a97217a55",
+    "trial-1/reports/training-standard/first/complete.json": "2a0f59bf53dadf9a1e1e924b505d98d1b241a892a1027adfb39e380f02344fb2",
+    "trial-1/reports/training-standard/first/control-forecasts.csv": "e55904289a539825ed11ca4595118bd76b0534a10509c86f76d243da7b8cccb7",
+    "trial-1/reports/training-standard/first/control.csv": "aad8d7f6a6505412d6ccdf42015187d86a6867ed682edef77c9347a24898ce1e",
+    "trial-1/reports/training-standard/first/scorecard.json": "93fedb67eb95e3c55b28f41e8c2eee94f66758e875d430b8042413f388553a4c",
+    "trial-1/reports/training-standard/first/spec.json": "d47b9b5eb7e8855d925f42f240afe8d35f780ffb8852c68084270a8484d425e6",
+    "trial-1/reports/training-standard/first/started.json": "2dd08d2b36b023841b1cf02a4ae73f974d948f2334d20ecd16487d538319296b",
+    "trial-1/standard-candidate-decisions.json": "6991bc76689f2cbfe19fdf8b43ea540e721f6bde448ee28844d44362f2cf479a",
+    "trial-1/standard-candidate-predictions.csv": "a2e04bf663767c431e58d3791c5a4b0a6c137fc9cb85613cafcf52ab7049425c",
+    "trial-1/standard-candidate-squads.csv": "16a86fdea7932317f8d4ea2727a3b05d926eaff0dffda3d125600a44dc8be31c",
+    "trial-1/standard-comparison-spec.json": "d47b9b5eb7e8855d925f42f240afe8d35f780ffb8852c68084270a8484d425e6",
+    "trial-1/standard-control-decisions.json": "b643288f709e780e1b0944b01763233967f71af0aada152dcd75d8fa85693d02",
+    "trial-1/standard-control-predictions.csv": "e55904289a539825ed11ca4595118bd76b0534a10509c86f76d243da7b8cccb7",
+    "trial-1/standard-control-squads.csv": "aad8d7f6a6505412d6ccdf42015187d86a6867ed682edef77c9347a24898ce1e",
+    "trial-1/standard-forecast-summary.json": "b1450d7fbd3c4229e7ce6e7c1ddee79e1c7084f74692c41b4866498c1cc01310",
+    "trial-1/started.json": "de595ab1f660e8a99a28bc5abecdd746128e6084ba61f5a31b8c8b86aaac5225",
+    "trial-1/worker-complete.json": "195c45b5ec5fe86e647407c5059278c954eaba449a345a02324ed0356243430e",
+    "trial-1/worker.log": "62e6039650c8f627d0b7017593d1bfda7db81d4a5884bc68241600b0ff510f7b"
+  },
+  "registration": {
+    "hypothesis": "At fixed 50-tree recipes, RMSE loss improves origin mean calibration and net points relative to MAE; this is a wiring pilot, not a promotion test.",
+    "limitations": "Global GW141-142 previously observed selection diagnostics; seed 0; 50 trees; two rounds; fixed research control differs from production; standard lookahead and origin fixture/price assumptions remain. No independent legality or fresh holdout claim.",
+    "max_worker_seconds": 180,
+    "plans": [
+      {
+        "path": "plan-1.json",
+        "sha256": "a006f3ae20c4eaf26797ff54253480ec0af285289568bc3facd62aa62d7409fd"
+      }
+    ],
+    "question": "Can the registered workflow compare matched MAE/RMSE CatBoost losses through forecasts, MILP and verified reporting?",
+    "stopping_rule": "Exactly one attempt, 180 worker seconds total, 30 seconds per solve. Stop on failure, timeout or completion regardless of outcome. No retry or selection of another candidate.",
+    "success_criteria": "Engineering: both protocols complete 16 measured fits and 8 native-optimal solves, emit forecast diagnostics and paired intervals, and verify their artifacts. Scientific screening only: all origin leads have no worse absolute calibration deviation from 1, origin net delta > 0, and origin CI lower bound > 0. Even a pass cannot establish robust improvement on two observed rounds."
+  },
+  "registration_sha256": "d301e0cf53989a9edf80419382ad8fed6a811cd91e7fb4f946b63f3f451a46a2",
+  "review": {
+    "code": "Separate agent reviewed workflow and skill; two usability findings addressed before merge.",
+    "pilot": "Primary-session skeptical critique; separate result reviewer unavailable. Not independently research-reviewed."
+  },
+  "scientific_screening_passed": false,
+  "solver_calls": 8,
+  "source_commit": "13023739c18994c920a2aa40376582dd7a9ae38b",
+  "timings": {
+    "feature_seconds": 2.564411832998303,
+    "fit_seconds": 8.395065500997589,
+    "solver_seconds": 10.12967166600356,
+    "total_seconds": 28.627247958000225
+  }
+}

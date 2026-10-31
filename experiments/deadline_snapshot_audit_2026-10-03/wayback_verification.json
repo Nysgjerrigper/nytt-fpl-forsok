@@ -1,0 +1,1530 @@
+{
+  "attempt_errors": [
+    {
+      "error": "URLError: <urlopen error [Errno 61] Connection refused>",
+      "event": 23,
+      "season": "2024-25",
+      "url": "https://web.archive.org/web/20250125080010id_/https://fantasy.premierleague.com/api/bootstrap-static/"
+    },
+    {
+      "error": "URLError: <urlopen error [Errno 61] Connection refused>",
+      "event": 24,
+      "season": "2024-25",
+      "url": "https://web.archive.org/web/20250201105909id_/https://fantasy.premierleague.com/api/bootstrap-static/"
+    },
+    {
+      "error": "URLError: <urlopen error [Errno 61] Connection refused>",
+      "event": 25,
+      "season": "2024-25",
+      "url": "https://web.archive.org/web/20250214180458id_/https://fantasy.premierleague.com/api/bootstrap-static/"
+    },
+    {
+      "error": "URLError: <urlopen error [Errno 61] Connection refused>",
+      "event": 26,
+      "season": "2024-25",
+      "url": "https://web.archive.org/web/20250221170347id_/https://fantasy.premierleague.com/api/bootstrap-static/"
+    },
+    {
+      "error": "URLError: <urlopen error [Errno 61] Connection refused>",
+      "event": 27,
+      "season": "2024-25",
+      "url": "https://web.archive.org/web/20250225175658id_/https://fantasy.premierleague.com/api/bootstrap-static/"
+    },
+    {
+      "error": "URLError: <urlopen error [Errno 61] Connection refused>",
+      "event": 28,
+      "season": "2024-25",
+      "url": "https://web.archive.org/web/20250308100109id_/https://fantasy.premierleague.com/api/bootstrap-static/"
+    },
+    {
+      "error": "URLError: <urlopen error [Errno 61] Connection refused>",
+      "event": 29,
+      "season": "2024-25",
+      "url": "https://web.archive.org/web/20250315080040id_/https://fantasy.premierleague.com/api/bootstrap-static/"
+    },
+    {
+      "error": "URLError: <urlopen error [Errno 61] Connection refused>",
+      "event": 30,
+      "season": "2024-25",
+      "url": "https://web.archive.org/web/20250401102259id_/https://fantasy.premierleague.com/api/bootstrap-static/"
+    },
+    {
+      "error": "URLError: <urlopen error [Errno 61] Connection refused>",
+      "event": 31,
+      "season": "2024-25",
+      "url": "https://web.archive.org/web/20250405000018id_/https://fantasy.premierleague.com/api/bootstrap-static/"
+    }
+  ],
+  "captures": [
+    {
+      "body_sha256": "a819fd505eb88a6ffb2dcc2633945ad0eb7b3f504ff38c926792ef266d534e2e",
+      "captured_at": "2024-02-03T00:00:02Z",
+      "cdx_digest": "S4HEIFHH7NCNOXIDNJH4WZZPZ7SH663P",
+      "deadline": "2024-02-03T11:00:00Z",
+      "event": 23,
+      "final_url": "https://web.archive.org/web/20240203000002id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 03 Feb 2024 00:00:02 GMT",
+        "x-archive-orig-date": "Sat, 03 Feb 2024 00:00:02 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "S4HEIFHH7NCNOXIDNJH4WZZPZ7SH663P",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240203000002"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW23-2024-02-03T0000Z/manifest.json",
+      "manifest_sha256": "3f7be80e04172bab97abd6e16f561238ca69ecfa127bb09586b900934de76171",
+      "original_payload": "captures/wayback/20240203000002.payload",
+      "original_payload_sha256": "1e17de9c7a97f879369e6802f45b70560c44494beb5bbb7353d92843df1675e9",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240203000002id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240203000002"
+    },
+    {
+      "body_sha256": "7638d1b16f141e86b5ad514fcb2b84c91f94a941d8a282483d995479d9b01d22",
+      "captured_at": "2024-02-10T00:01:44Z",
+      "cdx_digest": "NDI3T6ZETTNKTYEDXLEP2TGELZ6UJXXD",
+      "deadline": "2024-02-10T11:00:00Z",
+      "event": 24,
+      "final_url": "https://web.archive.org/web/20240210000144id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 10 Feb 2024 00:01:44 GMT",
+        "x-archive-orig-date": "Sat, 10 Feb 2024 00:01:44 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "NDI3T6ZETTNKTYEDXLEP2TGELZ6UJXXD",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240210000144"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW24-2024-02-10T0001Z/manifest.json",
+      "manifest_sha256": "3193221aa7063357a3e38361f50a58e8d2dea8e677775e5751584a97b99cc7b6",
+      "original_payload": "captures/wayback/20240210000144.payload",
+      "original_payload_sha256": "d20387c1524f844a7dd564730cb97984e26e90ddc0a81ffbea223f0de6cfa6e7",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240210000144id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240210000144"
+    },
+    {
+      "body_sha256": "7e7ae71e5f6f805938f1239e573b9ef589bd04fb92517259189abc517fcb386c",
+      "captured_at": "2024-02-17T00:03:32Z",
+      "cdx_digest": "7ONENMHPK5LBKEEORYJUNI2P7FYBTF62",
+      "deadline": "2024-02-17T11:00:00Z",
+      "event": 25,
+      "final_url": "https://web.archive.org/web/20240217000332id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 17 Feb 2024 00:03:32 GMT",
+        "x-archive-orig-date": "Sat, 17 Feb 2024 00:03:32 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "7ONENMHPK5LBKEEORYJUNI2P7FYBTF62",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240217000332"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW25-2024-02-17T0003Z/manifest.json",
+      "manifest_sha256": "122b089cc564d13af706ee4907a27cebc13beeae7e0a92d816edd423cf535ca8",
+      "original_payload": "captures/wayback/20240217000332.payload",
+      "original_payload_sha256": "2cb003e71fc842690d67166ae2bc3189ac67b2ba2494b91633a8b8fb6fbcdeb3",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240217000332id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240217000332"
+    },
+    {
+      "body_sha256": "7edf076f248ef12fb63ef5a901e34c43974a0ef33a170fd5b69017609c83243a",
+      "captured_at": "2024-02-24T12:28:34Z",
+      "cdx_digest": "CB4NXUARZ5U55Y6T5NHDS5374QZSGXV7",
+      "deadline": "2024-02-24T13:30:00Z",
+      "event": 26,
+      "final_url": "https://web.archive.org/web/20240224122834id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 24 Feb 2024 12:28:34 GMT",
+        "x-archive-orig-date": "Sat, 24 Feb 2024 12:28:34 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "CB4NXUARZ5U55Y6T5NHDS5374QZSGXV7",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240224122834"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW26-2024-02-24T1228Z/manifest.json",
+      "manifest_sha256": "8c8fac90c0836e9e753dfff1c7618541e96812a811c8a4e1d8df923a9e80cd2e",
+      "original_payload": "captures/wayback/20240224122834.payload",
+      "original_payload_sha256": "a57c4b69f32d151333ed9de898702138c6a7c6915ddef99484c9db095302295a",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240224122834id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240224122834"
+    },
+    {
+      "body_sha256": "2464525a6da7b0b8b1b8403b16cf0b1a79b9d3c096981a0bc7fbaea1f78670c2",
+      "captured_at": "2024-03-02T04:00:06Z",
+      "cdx_digest": "H5FD7UAOUMQL2DXQUUKLWQX5ELNU23TF",
+      "deadline": "2024-03-02T13:30:00Z",
+      "event": 27,
+      "final_url": "https://web.archive.org/web/20240302040006id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 02 Mar 2024 04:00:06 GMT",
+        "x-archive-orig-date": "Sat, 02 Mar 2024 04:00:06 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "H5FD7UAOUMQL2DXQUUKLWQX5ELNU23TF",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240302040006"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW27-2024-03-02T0400Z/manifest.json",
+      "manifest_sha256": "604883c5b587af5535bfd658f9a6fe903dcb0f0d56dd872b01e985afc9c0f325",
+      "original_payload": "captures/wayback/20240302040006.payload",
+      "original_payload_sha256": "931937b6cec606ed71e38815383fcdbaf169b1139e9e507304e9b33ab0dd0aa1",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240302040006id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240302040006"
+    },
+    {
+      "body_sha256": "3a372bbed4ba9b6201d184f8fb7ec5e9b8cfaffcc31f15c7483377bce8da42ee",
+      "captured_at": "2024-03-09T10:23:20Z",
+      "cdx_digest": "OJO4ADAO6G53M433XWM3PM4KP65JS2VX",
+      "deadline": "2024-03-09T11:00:00Z",
+      "event": 28,
+      "final_url": "https://web.archive.org/web/20240309102320id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 09 Mar 2024 10:23:20 GMT",
+        "x-archive-orig-date": "Sat, 09 Mar 2024 10:23:20 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "OJO4ADAO6G53M433XWM3PM4KP65JS2VX",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240309102320"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW28-2024-03-09T1023Z/manifest.json",
+      "manifest_sha256": "824c3e58ea163c2fa4180967c7865b4153698cdb7186142d09570da0a8280251",
+      "original_payload": "captures/wayback/20240309102320.payload",
+      "original_payload_sha256": "a462663f293f527a1bd2ceb81bbf286aba2636636b15bb21dc9ade412d272f12",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240309102320id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240309102320"
+    },
+    {
+      "body_sha256": "12a36e822d2b2b6d3b543506c17fd395f1800769a40453ad4be6c440b7099428",
+      "captured_at": "2024-03-16T04:00:06Z",
+      "cdx_digest": "ZUKVE6NH2OKHMNHPMXYIT3VYNC25YCIP",
+      "deadline": "2024-03-16T13:30:00Z",
+      "event": 29,
+      "final_url": "https://web.archive.org/web/20240316040006id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 16 Mar 2024 04:00:06 GMT",
+        "x-archive-orig-date": "Sat, 16 Mar 2024 04:00:06 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "ZUKVE6NH2OKHMNHPMXYIT3VYNC25YCIP",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240316040006"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW29-2024-03-16T0400Z/manifest.json",
+      "manifest_sha256": "d458d58f76319d3cec5b7277ba110b683bf4d8ee331d49be6e65c293c1bee298",
+      "original_payload": "captures/wayback/20240316040006.payload",
+      "original_payload_sha256": "6020554dfa792c16ee19754491d596820f823586d6d8377d049ecf5181e67f39",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240316040006id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240316040006"
+    },
+    {
+      "body_sha256": "ddeeb7fd1c1edf5ef26c891ff2521f77c8e106109efb1d215754d363f993a8dd",
+      "captured_at": "2024-03-30T10:03:12Z",
+      "cdx_digest": "Q2KV2O5Q7O5QNPWS75XJYEYO2MQ2TS7E",
+      "deadline": "2024-03-30T11:00:00Z",
+      "event": 30,
+      "final_url": "https://web.archive.org/web/20240330100312id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 30 Mar 2024 10:03:12 GMT",
+        "x-archive-orig-date": "Sat, 30 Mar 2024 10:03:12 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "Q2KV2O5Q7O5QNPWS75XJYEYO2MQ2TS7E",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240330100312"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW30-2024-03-30T1003Z/manifest.json",
+      "manifest_sha256": "9e43bddd65d95bf6562c0de0da2cc69e5ae36a37ff671ac87a896c21ba1e8c04",
+      "original_payload": "captures/wayback/20240330100312.payload",
+      "original_payload_sha256": "0e37e5b9c560657d5e7daa011f867c6a2b511cc4a107cdd0a51b11d8c740133c",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240330100312id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240330100312"
+    },
+    {
+      "body_sha256": "4f6123123761ffb0c20f74f9b8cba32c11a7a26230d8311b07c92ba1def5b481",
+      "captured_at": "2024-04-02T10:13:40Z",
+      "cdx_digest": "LDDO3SIGPJ4ZTIMSGS7MQUJ5XV75XPNB",
+      "deadline": "2024-04-02T17:00:00Z",
+      "event": 31,
+      "final_url": "https://web.archive.org/web/20240402101340id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Tue, 02 Apr 2024 10:13:40 GMT",
+        "x-archive-orig-date": "Tue, 02 Apr 2024 10:13:40 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "LDDO3SIGPJ4ZTIMSGS7MQUJ5XV75XPNB",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240402101340"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW31-2024-04-02T1013Z/manifest.json",
+      "manifest_sha256": "e3d5ce2b1cc4d412662cdcf9d034b20a1ffcc30bdf1f6962292f4668e9fe5b15",
+      "original_payload": "captures/wayback/20240402101340.payload",
+      "original_payload_sha256": "f275d95a0109db4bfb6a7eb2dcef260f783ce11714afb09802301abe69530804",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240402101340id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240402101340"
+    },
+    {
+      "body_sha256": "024d91df3f908d17604b35d8ebef0743e838f1110e7944575d089533457e22eb",
+      "captured_at": "2024-04-06T00:00:16Z",
+      "cdx_digest": "UWFOYDEKXZQ6K5OE7CEIHW4RKAXDEL2U",
+      "deadline": "2024-04-06T10:00:00Z",
+      "event": 32,
+      "final_url": "https://web.archive.org/web/20240406000016id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 06 Apr 2024 00:00:16 GMT",
+        "x-archive-orig-date": "Sat, 06 Apr 2024 00:00:16 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "UWFOYDEKXZQ6K5OE7CEIHW4RKAXDEL2U",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240406000016"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW32-2024-04-06T0000Z/manifest.json",
+      "manifest_sha256": "5c441ac9893e925026b83b6a56e630d0817170e81b6642a5cdbc537c4dac9a22",
+      "original_payload": "captures/wayback/20240406000016.payload",
+      "original_payload_sha256": "8df240b16dc4c2aee1b4e0b6e7271d4948e8512f7c6eab3ee7a32a01ad3c7fcf",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240406000016id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240406000016"
+    },
+    {
+      "body_sha256": "9ca8fb66ca9aac8933c4cfc3491ff8eedd87412aefecb5cbbfce91f246d3475b",
+      "captured_at": "2024-04-13T03:02:37Z",
+      "cdx_digest": "VNDZRIFYXUFCAWEZZNC6EDFKOIBCSC5L",
+      "deadline": "2024-04-13T10:00:00Z",
+      "event": 33,
+      "final_url": "https://web.archive.org/web/20240413030237id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 13 Apr 2024 03:02:37 GMT",
+        "x-archive-orig-date": "Sat, 13 Apr 2024 03:02:37 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "VNDZRIFYXUFCAWEZZNC6EDFKOIBCSC5L",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240413030237"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW33-2024-04-13T0302Z/manifest.json",
+      "manifest_sha256": "a4945170fced9e1ff550cefd5ee984dca694968da1f5fb2624f6358904a39654",
+      "original_payload": "captures/wayback/20240413030237.payload",
+      "original_payload_sha256": "21e94d9739d63e8c488792aeefc78448b9b52a441bbf69f21efd3206b070c1f5",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240413030237id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240413030237"
+    },
+    {
+      "body_sha256": "9fa1ac1bae5b2fe6181af43990494a571f90028c189378bbf652a9034674698a",
+      "captured_at": "2024-04-20T07:00:06Z",
+      "cdx_digest": "LSZJYHKZH3KNFYSEQGV76BH2FLMSEEM5",
+      "deadline": "2024-04-20T12:30:00Z",
+      "event": 34,
+      "final_url": "https://web.archive.org/web/20240420070006id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 20 Apr 2024 07:00:06 GMT",
+        "x-archive-orig-date": "Sat, 20 Apr 2024 07:00:06 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "LSZJYHKZH3KNFYSEQGV76BH2FLMSEEM5",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240420070006"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW34-2024-04-20T0700Z/manifest.json",
+      "manifest_sha256": "17abd13e33733663a9275b22b2dbd6239421c81bb0d044588ff4d4208b0ee2ec",
+      "original_payload": "captures/wayback/20240420070006.payload",
+      "original_payload_sha256": "e79d241470f31a7672e7c9a185f26375c991223963805bc2935a093d02a02667",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240420070006id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240420070006"
+    },
+    {
+      "body_sha256": "f5ef889a1917478e76864960c939ec198ec99eccc6d8d2d08e0679f01d0a5cbe",
+      "captured_at": "2024-04-26T19:12:10Z",
+      "cdx_digest": "ENS4QJ6H76Q2G4OIPGW7WUICTRZIUBM4",
+      "deadline": "2024-04-27T10:00:00Z",
+      "event": 35,
+      "final_url": "https://web.archive.org/web/20240426191210id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Fri, 26 Apr 2024 19:12:10 GMT",
+        "x-archive-orig-date": "Fri, 26 Apr 2024 19:12:10 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "ENS4QJ6H76Q2G4OIPGW7WUICTRZIUBM4",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240426191210"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW35-2024-04-26T1912Z/manifest.json",
+      "manifest_sha256": "b972707fefb175dfebc05d7d54dec96286c1690ea5bd5d72f347bf7b45c284af",
+      "original_payload": "captures/wayback/20240426191210.payload",
+      "original_payload_sha256": "e3aafacf037167864effc6f74c5907e1233d94ecd3c7f6d36d464865a31d3e6f",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240426191210id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240426191210"
+    },
+    {
+      "body_sha256": "dd882719bb3eee6a12d2878945d5cb3947548a3d7d5ca46f12ab5c967f232839",
+      "captured_at": "2024-05-03T07:00:32Z",
+      "cdx_digest": "4HGP5REIXG4SWOIGW3QTUIR5TSN7WGVW",
+      "deadline": "2024-05-03T17:30:00Z",
+      "event": 36,
+      "final_url": "https://web.archive.org/web/20240503070032id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Fri, 03 May 2024 07:00:32 GMT",
+        "x-archive-orig-date": "Fri, 03 May 2024 07:00:32 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "4HGP5REIXG4SWOIGW3QTUIR5TSN7WGVW",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240503070032"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW36-2024-05-03T0700Z/manifest.json",
+      "manifest_sha256": "05d874c252d04045939ff3fad703a992958b37c16a0dd933bcfca48c2e24c730",
+      "original_payload": "captures/wayback/20240503070032.payload",
+      "original_payload_sha256": "7b2cc4327ed463dbddb542114bdee69e997954f675b177a46be71aa5f197edcc",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240503070032id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240503070032"
+    },
+    {
+      "body_sha256": "92cda3bc96a7e185bc28d24639efc013f26ccdd2ecde79182199a72e977f468f",
+      "captured_at": "2024-05-11T00:00:20Z",
+      "cdx_digest": "5QC7VMWEILS2BQHZWHK7QXSYRS6AQIQD",
+      "deadline": "2024-05-11T10:00:00Z",
+      "event": 37,
+      "final_url": "https://web.archive.org/web/20240511000020id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 11 May 2024 00:00:20 GMT",
+        "x-archive-orig-date": "Sat, 11 May 2024 00:00:20 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "5QC7VMWEILS2BQHZWHK7QXSYRS6AQIQD",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240511000020"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW37-2024-05-11T0000Z/manifest.json",
+      "manifest_sha256": "5b1777c651439eafc244b55227936fdbe631a75d5d566867423bb68e59c0340c",
+      "original_payload": "captures/wayback/20240511000020.payload",
+      "original_payload_sha256": "52c74ca52ab923a013ce8211b6ede7ae273e60e704aeb4524cf376e8c70893e0",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240511000020id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240511000020"
+    },
+    {
+      "body_sha256": "9e893e220b08302e0fea3bed72a0e00efb53cd982b374c8c0bff59105ff8d136",
+      "captured_at": "2024-05-19T11:00:09Z",
+      "cdx_digest": "PBX3LV6VYE6NMEL6XTAACAIF7XHB5QYK",
+      "deadline": "2024-05-19T13:30:00Z",
+      "event": 38,
+      "final_url": "https://web.archive.org/web/20240519110009id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sun, 19 May 2024 11:00:09 GMT",
+        "x-archive-orig-date": "Sun, 19 May 2024 11:00:09 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "PBX3LV6VYE6NMEL6XTAACAIF7XHB5QYK",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240519110009"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2023-24/GW38-2024-05-19T1100Z/manifest.json",
+      "manifest_sha256": "c95ef53e5a58c7aeec54a370a9247085a438c9a8bdef5a52fb6767bf315dbeae",
+      "original_payload": "captures/wayback/20240519110009.payload",
+      "original_payload_sha256": "a04cdd1fc30c19a4ecd9431c72750655c6eef9d1382015474fd0f8b97c78ac02",
+      "season": "2023-24",
+      "source_url": "https://web.archive.org/web/20240519110009id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240519110009"
+    },
+    {
+      "body_sha256": "4eefff56ab5510e179538e02f7f11359641bae7a474e0b04e88074cc1ef5499f",
+      "captured_at": "2024-08-16T12:33:17Z",
+      "cdx_digest": "TBRFCBVX7TCU5JECBS2IIKFBQSJHES7R",
+      "deadline": "2024-08-16T17:30:00Z",
+      "event": 1,
+      "final_url": "https://web.archive.org/web/20240816123317id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Fri, 16 Aug 2024 12:33:17 GMT",
+        "x-archive-orig-date": "Fri, 16 Aug 2024 12:33:17 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "TBRFCBVX7TCU5JECBS2IIKFBQSJHES7R",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240816123317"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW01-2024-08-16T1233Z/manifest.json",
+      "manifest_sha256": "91a302873e558b1598da3c1a250c64d7d8dbeb617b12dbf8bf33887107ea4ee1",
+      "original_payload": "captures/wayback/20240816123317.payload",
+      "original_payload_sha256": "f57885541a75c39cfeff0c8a643f5c6c08ee326bc7e0bd34a9e2b7ca929cd5b5",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20240816123317id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240816123317"
+    },
+    {
+      "body_sha256": "7a5e61c254aff6f8fc17af8ba713a2cac7531bd5067da995448aa0eac1becd0c",
+      "captured_at": "2024-08-24T00:00:17Z",
+      "cdx_digest": "IR4OMHFQBB7UP4GK46GB5XFFPT3XRR5G",
+      "deadline": "2024-08-24T10:00:00Z",
+      "event": 2,
+      "final_url": "https://web.archive.org/web/20240824000017id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 24 Aug 2024 00:00:17 GMT",
+        "x-archive-orig-date": "Sat, 24 Aug 2024 00:00:17 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "IR4OMHFQBB7UP4GK46GB5XFFPT3XRR5G",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240824000017"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW02-2024-08-24T0000Z/manifest.json",
+      "manifest_sha256": "76274d2b59c36ae1155e62e34fb7d827ab366645f92972bc9d908a9db9219fe4",
+      "original_payload": "captures/wayback/20240824000017.payload",
+      "original_payload_sha256": "9bab3ad7d07724532347325dd6e46b798cd723636a3c968df738bc36c56865d5",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20240824000017id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240824000017"
+    },
+    {
+      "body_sha256": "6c75e508aaf18284f7eef2613a6d680016600afff511cf665c3b620e499e3a2e",
+      "captured_at": "2024-08-31T00:00:04Z",
+      "cdx_digest": "IX37MJ6IMTAG3WW2E6D5OZOS64QTKSV3",
+      "deadline": "2024-08-31T10:00:00Z",
+      "event": 3,
+      "final_url": "https://web.archive.org/web/20240831000004id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 31 Aug 2024 00:00:04 GMT",
+        "x-archive-orig-date": "Sat, 31 Aug 2024 00:00:04 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "IX37MJ6IMTAG3WW2E6D5OZOS64QTKSV3",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240831000004"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW03-2024-08-31T0000Z/manifest.json",
+      "manifest_sha256": "50a0d72b2b4fc24b032821cb538719b1e91a8a02aaf8143c1dcfdaaae5c8389e",
+      "original_payload": "captures/wayback/20240831000004.payload",
+      "original_payload_sha256": "94553aaa305b5d0d1f3ec0affcfa59e466f41a80a4e753ff3445f8d32b55222a",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20240831000004id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240831000004"
+    },
+    {
+      "body_sha256": "72511ea31e977bea2bb27c63e42d6da99de0418c1d39730e06914375922575ab",
+      "captured_at": "2024-09-13T21:13:05Z",
+      "cdx_digest": "TDGRSBYBVZMSBVN6OWUXWXFCEPLMK3TI",
+      "deadline": "2024-09-14T10:00:00Z",
+      "event": 4,
+      "final_url": "https://web.archive.org/web/20240913211305id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Fri, 13 Sep 2024 21:13:05 GMT",
+        "x-archive-orig-date": "Fri, 13 Sep 2024 21:13:05 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "TDGRSBYBVZMSBVN6OWUXWXFCEPLMK3TI",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240913211305"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW04-2024-09-13T2113Z/manifest.json",
+      "manifest_sha256": "e1ec418aab8bdb1b6c71dca2b638a3a6eddc39b4473fa7a8cf619481fd4a21bb",
+      "original_payload": "captures/wayback/20240913211305.payload",
+      "original_payload_sha256": "0f634618c3aa1ee0954c451665c8e068a31603789d6c416bdb5286878243054f",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20240913211305id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240913211305"
+    },
+    {
+      "body_sha256": "7933510050ca4cab4318cedf2940ab0f918091a46164194180f2bf5374f9467d",
+      "captured_at": "2024-09-21T03:00:36Z",
+      "cdx_digest": "JFGFQNGY7V52M4CYLT7TRIDLVW34DW67",
+      "deadline": "2024-09-21T10:00:00Z",
+      "event": 5,
+      "final_url": "https://web.archive.org/web/20240921030036id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 21 Sep 2024 03:00:36 GMT",
+        "x-archive-orig-date": "Sat, 21 Sep 2024 03:00:36 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "JFGFQNGY7V52M4CYLT7TRIDLVW34DW67",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240921030036"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW05-2024-09-21T0300Z/manifest.json",
+      "manifest_sha256": "ae37689d9ad388955c0cdace19a0638510d7b74d0f6663f5b1b1133122b9b059",
+      "original_payload": "captures/wayback/20240921030036.payload",
+      "original_payload_sha256": "b891fae4a0e3b1d4db4dda989740f93de7d63835794b4668109ac147c0ce0914",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20240921030036id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240921030036"
+    },
+    {
+      "body_sha256": "e6db76932a521bcdef3cf35e7152011e2cd6069f5f2d9764af6936e5a7781398",
+      "captured_at": "2024-09-28T00:00:00Z",
+      "cdx_digest": "BCQ76TTMGPTTAIW2AEJZEAEVEQRIS6YY",
+      "deadline": "2024-09-28T10:00:00Z",
+      "event": 6,
+      "final_url": "https://web.archive.org/web/20240928000000id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 28 Sep 2024 00:00:00 GMT",
+        "x-archive-orig-date": "Sat, 28 Sep 2024 00:00:00 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "BCQ76TTMGPTTAIW2AEJZEAEVEQRIS6YY",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20240928000000"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW06-2024-09-28T0000Z/manifest.json",
+      "manifest_sha256": "4370b2bb90d6674b771ca2bf89139ff064e0fe633991c606485659617eda3fc5",
+      "original_payload": "captures/wayback/20240928000000.payload",
+      "original_payload_sha256": "38cb80e32e644d77daa44f7761141c398b51b8b429f08ca3f03a61795384de2b",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20240928000000id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20240928000000"
+    },
+    {
+      "body_sha256": "8faf774f50d1d045c8d9c6ebfa406d30b2e7d840a6d47e034d3694394ef0219e",
+      "captured_at": "2024-10-05T00:00:11Z",
+      "cdx_digest": "4HNUBG5IVLXQBMXZJCO546CHGMULPTXK",
+      "deadline": "2024-10-05T10:00:00Z",
+      "event": 7,
+      "final_url": "https://web.archive.org/web/20241005000011id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 05 Oct 2024 00:00:11 GMT",
+        "x-archive-orig-date": "Sat, 05 Oct 2024 00:00:11 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "4HNUBG5IVLXQBMXZJCO546CHGMULPTXK",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241005000011"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW07-2024-10-05T0000Z/manifest.json",
+      "manifest_sha256": "ef3bb64945504b930f5b0edac66b584bd63da94d0609a448b51925ac139924c5",
+      "original_payload": "captures/wayback/20241005000011.payload",
+      "original_payload_sha256": "939b1da5072584ff2ff83f1e5cca6bf74eb721e8c2ad69ac2a56a0562748978f",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241005000011id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241005000011"
+    },
+    {
+      "body_sha256": "8ae6314ce946c04ed906034934334fe6e6775d1d6dd90bc1392f425cf23ecd27",
+      "captured_at": "2024-10-10T00:09:04Z",
+      "cdx_digest": "N2UUHY7I6RKH5BFG5I3ZQ2D3A6OURB3B",
+      "deadline": "2024-10-19T10:00:00Z",
+      "event": 8,
+      "final_url": "https://web.archive.org/web/20241010000904id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Thu, 10 Oct 2024 00:09:04 GMT",
+        "x-archive-orig-date": "Thu, 10 Oct 2024 00:09:04 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "N2UUHY7I6RKH5BFG5I3ZQ2D3A6OURB3B",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241010000904"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW08-2024-10-10T0009Z/manifest.json",
+      "manifest_sha256": "66afa2a99b7512720a97f70fcfd7e3ca04cd60c5d0145a8db2ffb43ae712a560",
+      "original_payload": "captures/wayback/20241010000904.payload",
+      "original_payload_sha256": "3fa6c8f928581d24c4c4c787f6a5d0822fcdeb8ce0c1f372e04b16d3424f810f",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241010000904id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241010000904"
+    },
+    {
+      "body_sha256": "8ae6314ce946c04ed906034934334fe6e6775d1d6dd90bc1392f425cf23ecd27",
+      "captured_at": "2024-10-10T00:09:04Z",
+      "cdx_digest": "N2UUHY7I6RKH5BFG5I3ZQ2D3A6OURB3B",
+      "deadline": "2024-10-25T17:30:00Z",
+      "event": 9,
+      "final_url": "https://web.archive.org/web/20241010000904id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Thu, 10 Oct 2024 00:09:04 GMT",
+        "x-archive-orig-date": "Thu, 10 Oct 2024 00:09:04 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "N2UUHY7I6RKH5BFG5I3ZQ2D3A6OURB3B",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241010000904"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW09-2024-10-10T0009Z/manifest.json",
+      "manifest_sha256": "b260fe068d8b14f89bf591d28a8b4af94eaf9328815b9bd86ea0319c74a20a41",
+      "original_payload": "captures/wayback/20241010000904.payload",
+      "original_payload_sha256": "3fa6c8f928581d24c4c4c787f6a5d0822fcdeb8ce0c1f372e04b16d3424f810f",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241010000904id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241010000904"
+    },
+    {
+      "body_sha256": "8ae6314ce946c04ed906034934334fe6e6775d1d6dd90bc1392f425cf23ecd27",
+      "captured_at": "2024-10-10T00:09:04Z",
+      "cdx_digest": "N2UUHY7I6RKH5BFG5I3ZQ2D3A6OURB3B",
+      "deadline": "2024-11-02T11:00:00Z",
+      "event": 10,
+      "final_url": "https://web.archive.org/web/20241010000904id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Thu, 10 Oct 2024 00:09:04 GMT",
+        "x-archive-orig-date": "Thu, 10 Oct 2024 00:09:04 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "N2UUHY7I6RKH5BFG5I3ZQ2D3A6OURB3B",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241010000904"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW10-2024-10-10T0009Z/manifest.json",
+      "manifest_sha256": "47833aef34fdc2b6bb4011ce1d332b6337e062879d76872f2451c6ea84787618",
+      "original_payload": "captures/wayback/20241010000904.payload",
+      "original_payload_sha256": "3fa6c8f928581d24c4c4c787f6a5d0822fcdeb8ce0c1f372e04b16d3424f810f",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241010000904id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241010000904"
+    },
+    {
+      "body_sha256": "49e322d0880874c26300bfc311cc9744c7fa5790de4f5c46701cbd4a58f6876b",
+      "captured_at": "2024-11-09T10:13:24Z",
+      "cdx_digest": "BZW5XSEXJFBVGRO6W5YNSNAF62EXEJ7G",
+      "deadline": "2024-11-09T13:30:00Z",
+      "event": 11,
+      "final_url": "https://web.archive.org/web/20241109101324id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 09 Nov 2024 10:13:24 GMT",
+        "x-archive-orig-date": "Sat, 09 Nov 2024 10:13:24 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "BZW5XSEXJFBVGRO6W5YNSNAF62EXEJ7G",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241109101324"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW11-2024-11-09T1013Z/manifest.json",
+      "manifest_sha256": "9df2291eb1fab625c01ec8ae0ec420e0f9e4fbfb929632d5160b97910ca13c89",
+      "original_payload": "captures/wayback/20241109101324.payload",
+      "original_payload_sha256": "94fb9eb937a64f0ff5d3fc6b2c02a1bda3285ed6cb4d6d473f231edd1eff137d",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241109101324id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241109101324"
+    },
+    {
+      "body_sha256": "75a39ac121039145e219819972d4374c46a2e21ed45f9b2c1e6d8b0cecaa6405",
+      "captured_at": "2024-11-22T23:17:42Z",
+      "cdx_digest": "TSHXF6YPVFOAJF5G2CROA2NJ6PQQRYUE",
+      "deadline": "2024-11-23T11:00:00Z",
+      "event": 12,
+      "final_url": "https://web.archive.org/web/20241122231742id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Fri, 22 Nov 2024 23:17:42 GMT",
+        "x-archive-orig-date": "Fri, 22 Nov 2024 23:17:42 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "TSHXF6YPVFOAJF5G2CROA2NJ6PQQRYUE",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241122231742"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW12-2024-11-22T2317Z/manifest.json",
+      "manifest_sha256": "3f5f3198825b9f75b76bea8fc6556f4b74b3ed67c023df126886b25063a8ab67",
+      "original_payload": "captures/wayback/20241122231742.payload",
+      "original_payload_sha256": "42cb679e59da374abf6267d140a4ad22adebe9a95ee7100193b4a5cc96b719d0",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241122231742id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241122231742"
+    },
+    {
+      "body_sha256": "5d30e43594c1a1ba4f1aaf210ef032f8881b11ab5f08f0a3954c6e0dab8eff77",
+      "captured_at": "2024-11-29T12:00:18Z",
+      "cdx_digest": "ABZDD2LEWNMVYPU73YBVCX3Y3LYQ3VXX",
+      "deadline": "2024-11-29T18:30:00Z",
+      "event": 13,
+      "final_url": "https://web.archive.org/web/20241129120018id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Fri, 29 Nov 2024 12:00:18 GMT",
+        "x-archive-orig-date": "Fri, 29 Nov 2024 12:00:18 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "ABZDD2LEWNMVYPU73YBVCX3Y3LYQ3VXX",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241129120018"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW13-2024-11-29T1200Z/manifest.json",
+      "manifest_sha256": "442d0cbd4b8119bb05c9fda74f75c0b73004c3111e697cd2cd6d30ec108112d9",
+      "original_payload": "captures/wayback/20241129120018.payload",
+      "original_payload_sha256": "034aa2015d3251360650983032fc9e15b881a73e20961fb6898eb260b61b6072",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241129120018id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241129120018"
+    },
+    {
+      "body_sha256": "1c42e51e8f3ac3c5a3730a6e1e9108262f017d06e435f66b0f10768b05e1afab",
+      "captured_at": "2024-12-03T12:00:19Z",
+      "cdx_digest": "ALM3Y6Q5W5RERPS4DZIDONZQ57KD4UWO",
+      "deadline": "2024-12-03T18:00:00Z",
+      "event": 14,
+      "final_url": "https://web.archive.org/web/20241203120019id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Tue, 03 Dec 2024 12:00:19 GMT",
+        "x-archive-orig-date": "Tue, 03 Dec 2024 12:00:19 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "ALM3Y6Q5W5RERPS4DZIDONZQ57KD4UWO",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241203120019"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW14-2024-12-03T1200Z/manifest.json",
+      "manifest_sha256": "85fa340f2a65d336b3d9c3e918ee14e63aaa39cfbcab5473a66ad9dcef41defd",
+      "original_payload": "captures/wayback/20241203120019.payload",
+      "original_payload_sha256": "67449a2af017bb1af162b8bca711007ee6dd9fa42fd952eddc6adfa3cc81099c",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241203120019id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241203120019"
+    },
+    {
+      "body_sha256": "3fd10b85b6d1c16d4d58ddae0d998786c4b42ed61007c9b683ec0b92eb2b51e2",
+      "captured_at": "2024-12-07T00:00:16Z",
+      "cdx_digest": "ZRZZ5QQKOD7I7656XGHXDSFQILLPIHBJ",
+      "deadline": "2024-12-07T11:00:00Z",
+      "event": 15,
+      "final_url": "https://web.archive.org/web/20241207000016id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 07 Dec 2024 00:00:16 GMT",
+        "x-archive-orig-date": "Sat, 07 Dec 2024 00:00:16 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "ZRZZ5QQKOD7I7656XGHXDSFQILLPIHBJ",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241207000016"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW15-2024-12-07T0000Z/manifest.json",
+      "manifest_sha256": "11815c6f1f2983fef494da6678788e4dad0e705e54c4a4d0e3ddb063208a67cd",
+      "original_payload": "captures/wayback/20241207000016.payload",
+      "original_payload_sha256": "659fcf6951cb4b38e21f27017e455be335cb96b7559ce0d0afa263fc4720cb1b",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241207000016id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241207000016"
+    },
+    {
+      "body_sha256": "d62d4da91c8b98e295f8ff4cc0b7e0b400d43fcb020e9a2922021b11b2f6b243",
+      "captured_at": "2024-12-14T12:00:15Z",
+      "cdx_digest": "QYMYDQZAIJJTRHLPGFRITL4QMOVQKPSU",
+      "deadline": "2024-12-14T13:30:00Z",
+      "event": 16,
+      "final_url": "https://web.archive.org/web/20241214120015id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 14 Dec 2024 12:00:15 GMT",
+        "x-archive-orig-date": "Sat, 14 Dec 2024 12:00:15 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "QYMYDQZAIJJTRHLPGFRITL4QMOVQKPSU",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241214120015"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW16-2024-12-14T1200Z/manifest.json",
+      "manifest_sha256": "9cbe5c86abab273ba947175bc486a9a9e5adcee600a11512160dfeb4dec5438e",
+      "original_payload": "captures/wayback/20241214120015.payload",
+      "original_payload_sha256": "1e80d583bb9809ba626efb149ea4a7277a70c444aca376659e4646542c4b7c05",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241214120015id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241214120015"
+    },
+    {
+      "body_sha256": "dc0c74894688a6695d625c6a2378fbdbd79640cdc6c48b60cd84acc7bb5406b4",
+      "captured_at": "2024-12-21T10:47:52Z",
+      "cdx_digest": "L4C6UAGI4RCHWK6IMHQQ6U7M7NVFFN7G",
+      "deadline": "2024-12-21T11:00:00Z",
+      "event": 17,
+      "final_url": "https://web.archive.org/web/20241221104752id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 21 Dec 2024 10:47:52 GMT",
+        "x-archive-orig-date": "Sat, 21 Dec 2024 10:47:52 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "L4C6UAGI4RCHWK6IMHQQ6U7M7NVFFN7G",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241221104752"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW17-2024-12-21T1047Z/manifest.json",
+      "manifest_sha256": "467f6d47dabd2d4cd311cdf86f7875fcb326e2f3ca137800b9fc5e1184ede7b0",
+      "original_payload": "captures/wayback/20241221104752.payload",
+      "original_payload_sha256": "8668927225244452a423351467253cdb9837d9cc80ac2de947c75eba09e88545",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241221104752id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241221104752"
+    },
+    {
+      "body_sha256": "f7451f8273c6fc943fc0d5db265ff5c6b5e8df70fa6579f6396b4be11a249c89",
+      "captured_at": "2024-12-26T10:40:09Z",
+      "cdx_digest": "YE7YZPRCYKKX2S5YPFQJZV6OD75V4NHV",
+      "deadline": "2024-12-26T11:00:00Z",
+      "event": 18,
+      "final_url": "https://web.archive.org/web/20241226104009id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Thu, 26 Dec 2024 10:40:09 GMT",
+        "x-archive-orig-date": "Thu, 26 Dec 2024 10:40:09 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "YE7YZPRCYKKX2S5YPFQJZV6OD75V4NHV",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241226104009"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW18-2024-12-26T1040Z/manifest.json",
+      "manifest_sha256": "e1f96c3528abce383591cbe59324912a619fcd3c02dd899d0ef2a19ca399ebb7",
+      "original_payload": "captures/wayback/20241226104009.payload",
+      "original_payload_sha256": "2684e766725e4255b9ddeeedd64f9af891dff6e0740b2272d9df07230d5811eb",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241226104009id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241226104009"
+    },
+    {
+      "body_sha256": "10f0bc60238c6190c349fd240615ab98cb4948043db0ba942711c7bd585524ff",
+      "captured_at": "2024-12-29T12:00:11Z",
+      "cdx_digest": "JJSEEKOL4IUIXY2ISVTHEX43JXVM37SQ",
+      "deadline": "2024-12-29T13:00:00Z",
+      "event": 19,
+      "final_url": "https://web.archive.org/web/20241229120011id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sun, 29 Dec 2024 12:00:11 GMT",
+        "x-archive-orig-date": "Sun, 29 Dec 2024 12:00:11 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "JJSEEKOL4IUIXY2ISVTHEX43JXVM37SQ",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20241229120011"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW19-2024-12-29T1200Z/manifest.json",
+      "manifest_sha256": "9ed71b3efce5fa650f0f615210d518e288010a4bbe4397803784cdc4d8f882a1",
+      "original_payload": "captures/wayback/20241229120011.payload",
+      "original_payload_sha256": "f9d2f40384e5d8f38799f3afba47531d1199a3783ee2f524c6c47a8170647106",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20241229120011id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20241229120011"
+    },
+    {
+      "body_sha256": "d44d8ba75e1399da60a121dd523d855a31717db015023dd5ffc00729134a591c",
+      "captured_at": "2025-01-04T09:55:12Z",
+      "cdx_digest": "ANEFBJG2EJ6DZXLAEJREBQALJA2OKBU5",
+      "deadline": "2025-01-04T11:00:00Z",
+      "event": 20,
+      "final_url": "https://web.archive.org/web/20250104095512id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 04 Jan 2025 09:55:12 GMT",
+        "x-archive-orig-date": "Sat, 04 Jan 2025 09:55:12 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "ANEFBJG2EJ6DZXLAEJREBQALJA2OKBU5",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250104095512"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW20-2025-01-04T0955Z/manifest.json",
+      "manifest_sha256": "07f56115725f4ac20a8e38130e41609e3b9e710cc419a7f8be3b5cfea171b138",
+      "original_payload": "captures/wayback/20250104095512.payload",
+      "original_payload_sha256": "7dc0da2624d19070029ad6c0a903e817503fbffc270381dd3f9ea384972eafc4",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250104095512id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250104095512"
+    },
+    {
+      "body_sha256": "1506a98784b87bf137f2bab879f9244ebd1ccd1a2813c918634c65ea73627282",
+      "captured_at": "2025-01-14T12:00:12Z",
+      "cdx_digest": "AOCKWATFH7IOTGQFQTY2FJMJCFW3C7BB",
+      "deadline": "2025-01-14T18:00:00Z",
+      "event": 21,
+      "final_url": "https://web.archive.org/web/20250114120012id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Tue, 14 Jan 2025 12:00:12 GMT",
+        "x-archive-orig-date": "Tue, 14 Jan 2025 12:00:12 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "AOCKWATFH7IOTGQFQTY2FJMJCFW3C7BB",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250114120012"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW21-2025-01-14T1200Z/manifest.json",
+      "manifest_sha256": "6b5217ced4040480008731cdaef8e648e106234a3e6592041a144516fa02b32b",
+      "original_payload": "captures/wayback/20250114120012.payload",
+      "original_payload_sha256": "d923ead592ef3d2e3f73ed3f8d92ac2640f46a2a81b15df3891e8f41b81863e9",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250114120012id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250114120012"
+    },
+    {
+      "body_sha256": "5b35bf73025659aad4feedc9c4e5ae5dc03682ab94e77462e075dbdf15848696",
+      "captured_at": "2025-01-18T08:00:06Z",
+      "cdx_digest": "3SHEUKTW2HUWMI7BFW2O56VVAOOILPOD",
+      "deadline": "2025-01-18T11:00:00Z",
+      "event": 22,
+      "final_url": "https://web.archive.org/web/20250118080006id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 18 Jan 2025 08:00:06 GMT",
+        "x-archive-orig-date": "Sat, 18 Jan 2025 08:00:06 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "3SHEUKTW2HUWMI7BFW2O56VVAOOILPOD",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250118080006"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW22-2025-01-18T0800Z/manifest.json",
+      "manifest_sha256": "9afee380e4d611570ab4c418f8caedd34468ad4543c2d9e424570709c7ce01ec",
+      "original_payload": "captures/wayback/20250118080006.payload",
+      "original_payload_sha256": "7448c18395505b77c290296051d22b8a8241b65558d583977ab73785864904ac",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250118080006id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250118080006"
+    },
+    {
+      "body_sha256": "9c839f07343b29a68d4e628c64723e09d20da92af4cfd614c52541434e408549",
+      "captured_at": "2025-01-25T08:00:10Z",
+      "cdx_digest": "CSKGKY7VABRTQ234EE37A7LAPUPYYGTX",
+      "deadline": "2025-01-25T13:30:00Z",
+      "event": 23,
+      "final_url": "https://web.archive.org/web/20250125080010id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 25 Jan 2025 08:00:10 GMT",
+        "x-archive-orig-date": "Sat, 25 Jan 2025 08:00:10 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "CSKGKY7VABRTQ234EE37A7LAPUPYYGTX",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250125080010"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW23-2025-01-25T0800Z/manifest.json",
+      "manifest_sha256": "fa02121b531d28d62bf85d986efe98a5fdec59797405d523f7899d684b742335",
+      "original_payload": "captures/wayback/20250125080010.payload",
+      "original_payload_sha256": "60217f3d95df538f898337d3c0507886bf4258bbe94a9fa385cf77592fdb8fa0",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250125080010id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250125080010"
+    },
+    {
+      "body_sha256": "44900985aa8e84dc190cbe5f1256d3c3d4b97f6a17f41a11dfb24f3e3022dc24",
+      "captured_at": "2025-02-01T10:59:09Z",
+      "cdx_digest": "Z24PM477B7U3P655DZPL6SRMH66OIMND",
+      "deadline": "2025-02-01T11:00:00Z",
+      "event": 24,
+      "final_url": "https://web.archive.org/web/20250201105909id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 01 Feb 2025 10:59:09 GMT",
+        "x-archive-orig-date": "Sat, 01 Feb 2025 10:59:09 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "Z24PM477B7U3P655DZPL6SRMH66OIMND",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250201105909"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW24-2025-02-01T1059Z/manifest.json",
+      "manifest_sha256": "b34f370390e6115b8cdd4e3fd59ab7d69c3b35901de8f884760179e223407c3f",
+      "original_payload": "captures/wayback/20250201105909.payload",
+      "original_payload_sha256": "68e5c4cacaf5d95570866fc3a73ae945c7ae6a4dbcb37830c3b152ae24149125",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250201105909id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250201105909"
+    },
+    {
+      "body_sha256": "46eabcfd65303a03fb431754b4c22c5a29e936157a168dd7d5eb36a7115204ed",
+      "captured_at": "2025-02-14T18:04:58Z",
+      "cdx_digest": "MBTZIHQSVN3J27MU6S5GEI3SQLQ7DI4L",
+      "deadline": "2025-02-14T18:30:00Z",
+      "event": 25,
+      "final_url": "https://web.archive.org/web/20250214180458id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Fri, 14 Feb 2025 18:04:58 GMT",
+        "x-archive-orig-date": "Fri, 14 Feb 2025 18:04:58 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "MBTZIHQSVN3J27MU6S5GEI3SQLQ7DI4L",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250214180458"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW25-2025-02-14T1804Z/manifest.json",
+      "manifest_sha256": "26a5713abecd398fe2281cc7eb7b2ab371c8d54f9a44fb2463f3457cf8397c18",
+      "original_payload": "captures/wayback/20250214180458.payload",
+      "original_payload_sha256": "54062bdf9590b570f0a8f9a8c29dd2a62981d2cf6a8a88d6e0e5fda3a083d23d",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250214180458id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250214180458"
+    },
+    {
+      "body_sha256": "d2115cf4b01a642537b8fe0db0a25507bb794b31193b3a33b6be4f50e6a565f1",
+      "captured_at": "2025-02-21T17:03:47Z",
+      "cdx_digest": "SUPLXISMTXA3Q6BFAEZGQ5ZWRO5AVTGA",
+      "deadline": "2025-02-21T18:30:00Z",
+      "event": 26,
+      "final_url": "https://web.archive.org/web/20250221170347id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Fri, 21 Feb 2025 17:03:47 GMT",
+        "x-archive-orig-date": "Fri, 21 Feb 2025 17:03:47 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "SUPLXISMTXA3Q6BFAEZGQ5ZWRO5AVTGA",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250221170347"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW26-2025-02-21T1703Z/manifest.json",
+      "manifest_sha256": "f7b9437acbc4bcecfed40aeadd18e8c0259b6bea9cca600456d4cb932d1b846e",
+      "original_payload": "captures/wayback/20250221170347.payload",
+      "original_payload_sha256": "d3856a7dab553ee594af37251f8da8e747b4bc43f2761e901eaac9c1ee252141",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250221170347id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250221170347"
+    },
+    {
+      "body_sha256": "f0c86e13790999cfdb9d9e8861dbaf15505a0028ab59c649ce6f388444795ebf",
+      "captured_at": "2025-02-25T17:56:58Z",
+      "cdx_digest": "LY6GJAI7ANAGF7W6TDFIB33MDZMFXS5F",
+      "deadline": "2025-02-25T18:00:00Z",
+      "event": 27,
+      "final_url": "https://web.archive.org/web/20250225175658id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Tue, 25 Feb 2025 17:56:58 GMT",
+        "x-archive-orig-date": "Tue, 25 Feb 2025 17:56:58 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "LY6GJAI7ANAGF7W6TDFIB33MDZMFXS5F",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250225175658"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW27-2025-02-25T1756Z/manifest.json",
+      "manifest_sha256": "94cec7b8ccb0ae5f71b00efb32186473296ce55c072210c5a0c18f6512a02513",
+      "original_payload": "captures/wayback/20250225175658.payload",
+      "original_payload_sha256": "5409fb72b85aeabc24c1944fce13b008d316661936b113a539b4e34f94dbbdb7",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250225175658id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250225175658"
+    },
+    {
+      "body_sha256": "17fc9efb6470bfdb0f7c81f667e70f8df66be16550677757ce0579cd5061929a",
+      "captured_at": "2025-03-08T10:01:09Z",
+      "cdx_digest": "GDXLGCBFOLAWC742N4CUWN7O7B35P7HB",
+      "deadline": "2025-03-08T11:00:00Z",
+      "event": 28,
+      "final_url": "https://web.archive.org/web/20250308100109id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 08 Mar 2025 10:01:09 GMT",
+        "x-archive-orig-date": "Sat, 08 Mar 2025 10:01:09 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "GDXLGCBFOLAWC742N4CUWN7O7B35P7HB",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250308100109"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW28-2025-03-08T1001Z/manifest.json",
+      "manifest_sha256": "b86892ca24aeacb8d4c76bc25bedd7c345dfbafd521b241ecb38632a141d5fcf",
+      "original_payload": "captures/wayback/20250308100109.payload",
+      "original_payload_sha256": "f5f6ac5b2c5dcefc4407245770d2272cd17b0aa1dd4bcd49f25efd00725481eb",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250308100109id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250308100109"
+    },
+    {
+      "body_sha256": "7568492cc9bed87e0f47e2a3af5128675687046ed14319b932c36e34db5ec8c6",
+      "captured_at": "2025-03-15T08:00:40Z",
+      "cdx_digest": "WGKH3WFGNTYJYSRMESZ6CYKGAH5BBN3J",
+      "deadline": "2025-03-15T13:30:00Z",
+      "event": 29,
+      "final_url": "https://web.archive.org/web/20250315080040id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 15 Mar 2025 08:00:40 GMT",
+        "x-archive-orig-date": "Sat, 15 Mar 2025 08:00:40 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "WGKH3WFGNTYJYSRMESZ6CYKGAH5BBN3J",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250315080040"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW29-2025-03-15T0800Z/manifest.json",
+      "manifest_sha256": "42bb415cb3aefca240fd2b41ab17e79a79d067ac8cbbc091348fe95a78ff2906",
+      "original_payload": "captures/wayback/20250315080040.payload",
+      "original_payload_sha256": "024f004a62ca9525ed996f5e33a3afbf50d7681025b0e3b87bb7c0367322b039",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250315080040id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250315080040"
+    },
+    {
+      "body_sha256": "c6f8cde2510cf32d15d28f2336708bb058a5f61a1794f5388958832e9e577300",
+      "captured_at": "2025-04-01T10:22:59Z",
+      "cdx_digest": "MYVH2Z36SNR3EFH4BV4FEDDD76FYD4V7",
+      "deadline": "2025-04-01T17:15:00Z",
+      "event": 30,
+      "final_url": "https://web.archive.org/web/20250401102259id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Tue, 01 Apr 2025 10:22:59 GMT",
+        "x-archive-orig-date": "Tue, 01 Apr 2025 10:22:59 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "MYVH2Z36SNR3EFH4BV4FEDDD76FYD4V7",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250401102259"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW30-2025-04-01T1022Z/manifest.json",
+      "manifest_sha256": "3ce58b334a558f0fe53a63dfca1c230752bc9897c809dde6ffb07adc4a9e3887",
+      "original_payload": "captures/wayback/20250401102259.payload",
+      "original_payload_sha256": "d4b0b8a1d698442108f2593574cda36397e2e875811797e84b62070728c1706a",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250401102259id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250401102259"
+    },
+    {
+      "body_sha256": "94072ae3a9945545767005d7228be0e259689610a527c03dce8a77a6fa2ea8cd",
+      "captured_at": "2025-04-05T00:00:18Z",
+      "cdx_digest": "X2QO2QARQR6X773FLIN74BCRMXFVNSZR",
+      "deadline": "2025-04-05T10:00:00Z",
+      "event": 31,
+      "final_url": "https://web.archive.org/web/20250405000018id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "headers": {
+        "Content-Type": "application/json",
+        "content-encoding": "gzip",
+        "memento-datetime": "Sat, 05 Apr 2025 00:00:18 GMT",
+        "x-archive-orig-date": "Sat, 05 Apr 2025 00:00:18 GMT"
+      },
+      "http_status": 200,
+      "index_records": [
+        {
+          "digest": "X2QO2QARQR6X773FLIN74BCRMXFVNSZR",
+          "mimetype": "application/json",
+          "original": "https://fantasy.premierleague.com/api/bootstrap-static/",
+          "statuscode": "200",
+          "timestamp": "20250405000018"
+        }
+      ],
+      "manifest": "captures/armband/data/captures/2024-25/GW31-2025-04-05T0000Z/manifest.json",
+      "manifest_sha256": "cd0732c4f8aec05b400417815bd09323bdedee15ff650af1c587cd30b7a1268b",
+      "original_payload": "captures/wayback/20250405000018.payload",
+      "original_payload_sha256": "7b1f414f0c32f88a0be9a40adfd7175a7ac83bb552ae83bae850e89ebf9a30f7",
+      "season": "2024-25",
+      "source_url": "https://web.archive.org/web/20250405000018id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+      "wayback_timestamp": "20250405000018"
+    }
+  ],
+  "index": {
+    "final_url": "https://web.archive.org/cdx/search/cdx?url=https%3A%2F%2Ffantasy.premierleague.com%2Fapi%2Fbootstrap-static%2F&from=20240201&to=20250405&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cmimetype%2Cdigest&filter=statuscode%3A200",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "http_status": 200,
+    "rows": 737,
+    "sha256": "47b716ea0638df7e77a306726d4a1f87529b3d55f7a4efcc4931af2b75e77f35",
+    "url": "https://web.archive.org/cdx/search/cdx?url=https%3A%2F%2Ffantasy.premierleague.com%2Fapi%2Fbootstrap-static%2F&from=20240201&to=20250405&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cmimetype%2Cdigest&filter=statuscode%3A200"
+  },
+  "request_count": 10,
+  "status": "verified",
+  "verified_at_utc": "2026-10-03T20:29:51.293720+00:00"
+}
