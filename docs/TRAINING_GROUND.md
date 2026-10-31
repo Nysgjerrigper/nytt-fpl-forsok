@@ -589,6 +589,7 @@ time. Overlapping timing boundaries must not be added. Hash verification confirm
 captured bytes and consistency, not independent legality, causal information timing
 or general reliability. Existing historical reporting failures that lack this
 operational schema remain visibly unfinished and do not gain verified telemetry.
+
 ## Autonomous research from Codex Desktop
 
 Use the project-local [fpl-research skill](../.agents/skills/fpl-research/SKILL.md):
@@ -629,6 +630,38 @@ Concurrent launches are refused. An interrupted lock needs process inspection,
 not automatic deletion. Reports verify registered bytes and existing run receipts.
 Success/stopping text guides agent judgment; it is not a new automatic promotion
 score. The agent can stop early after evidence review.
+
+### Attribution and project-specific adaptation
+
+The `fpl-research` skill and `fpl.research_workflow` helper were written with Codex
+specifically for this project, following the Product Owner's requested combination
+of engineering skills and autonomous research. They are our adaptation of the
+ideas credited in the source table below. No upstream skill text or framework code
+was copied or vendored for this workflow, and no external skills were installed.
+The named upstream engineering skills remain optional integrations when available;
+this project skill does not provide their full implementations or inherit updates.
+
+Credit goes to Matt Pocock's Skills for concrete specifications, behavioral testing,
+focused debugging and review; Andrej Karpathy's AutoResearch for bounded experimental
+iteration; and Superpowers and pstack for the engineering and orchestration practices
+we evaluated. Their overlap with our existing instructions helped us keep the change
+small. The linked repositories are the sources of those approaches, rather than
+claims that our implementation is an official version of any of them.
+
+Our project-specific contribution is the connection to the existing FPL machinery:
+registered hypotheses and plans, selection-only iterations, aggregate worker budgets,
+verified prior-run evidence and compact research reports. Training Ground, frozen-data
+admission, forecasting, MILP, statistics and experiment logging already existed and
+remain the numerical source of truth. FPL decision quality, temporal integrity and
+separate promotion review shape our adaptation of the experimental loop.
+
+Here, **AI-native automation** means the Codex agent turns a natural-language question
+into design, implementation, bounded tool execution and interpretation during an
+active task. Python performs training, optimization and statistical calculations;
+the helper enforces concrete budget, chronology and integrity checks. Scientific
+criteria and reasons for another experiment still require agent judgment. Background
+scheduling, automatic model promotion and filesystem isolation of holdout data are
+outside this implementation.
 
 ### Architecture audit and smallest combination (2026-10-31)
 

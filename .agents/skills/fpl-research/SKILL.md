@@ -8,6 +8,12 @@ description: Design, register, run and skeptically review bounded FPL forecastin
 Read `CLAUDE.md` first. Use [Training Ground](../../../docs/TRAINING_GROUND.md)
 for the workflow CLI, architecture and external-skill comparison.
 
+This is a project-authored adaptation of ideas from Matt Pocock's Skills,
+Karpathy's AutoResearch, Superpowers and pstack. No upstream skill text or framework
+code was copied for this workflow, and no external skills were installed. Read
+[attribution and adaptation](../../../docs/TRAINING_GROUND.md#attribution-and-project-specific-adaptation)
+when explaining its origins, integrations or automation boundaries.
+
 ## Design before results
 
 Inspect the relevant GitHub issue, `RESEARCH_LOG.md`, `experiments/results.csv` and
