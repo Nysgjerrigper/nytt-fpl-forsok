@@ -4,6 +4,13 @@ A Python pipeline for player-point forecasts and rolling-horizon FPL squad decis
 It replaces the thesis-era R/LSTM system; the old validation predictions remain a fixed
 benchmark. Production uses `single:catboost` for GK, DEF, MID and FWD.
 
+**Licensing:** original code and documentation are free for noncommercial use;
+commercial use, resale or paid services require a written agreement with Per
+Anders Molberg. Released learned weights/parameters are separately available
+under MIT, including commercial use. Third-party material retains its own terms.
+This is a source-available project, not FOSS. See [licensing](docs/LICENSING.md),
+[LICENSE](LICENSE), [LICENSE-WEIGHTS](LICENSE-WEIGHTS) and [NOTICE](NOTICE).
+
 ## Start here
 
 - [Setup and operating rules](CLAUDE.md): canonical instructions for every agent.
@@ -98,8 +105,13 @@ combination is blocked before native fitting; no neural rerun is proposed withou
 
 ## License
 
-Project-created software and other original materials in this repository are available free
-for noncommercial use under the [PolyForm Noncommercial License 1.0.0](LICENSE). Third-party
+Original code, documentation and project configuration are available free for noncommercial
+use under the [Per Anders Molberg Noncommercial Source License 1.0](LICENSE).
+Commercial use, resale and paid services require a separate written agreement with
+Per Anders Molberg. Released learned model artifacts and necessary non-executable loading
+metadata are separately available under [MIT](LICENSE-WEIGHTS), including for commercial
+use; this exception does not cover bundled executable code or tuning configuration.
+See [Project licensing](docs/LICENSING.md) for the component boundaries. Third-party
 software and code retain their own terms; see the relevant notices beside those components.
 In particular, the bundled Open FPL solver has separate upstream licensing terms in
 `fpl/milp/_vendor/solio/LICENSE`.
