@@ -99,8 +99,12 @@ def resolve_pipeline_recipe(weights_by_pos: Mapping, params_by_pos: Mapping | No
 
     if not isinstance(weights_by_pos, Mapping):
         return resolve_fit_recipe(weights_by_pos, params_by_pos, seed)
-    exploratory = any(name in EXPLORATORY_SPECS for weights in weights_by_pos.values()
-                      if isinstance(weights, Mapping) for name, weight in weights.items() if weight > 0)
+    exploratory = any(
+        name in EXPLORATORY_SPECS and isinstance(weight, Real)
+        and not isinstance(weight, bool) and math.isfinite(weight) and weight > 0
+        for weights in weights_by_pos.values() if isinstance(weights, Mapping)
+        for name, weight in weights.items()
+    )
     if not exploratory:
         return resolve_fit_recipe(weights_by_pos, params_by_pos, seed)
     if (isinstance(seed, bool) or not isinstance(seed, Integral) or seed < 0

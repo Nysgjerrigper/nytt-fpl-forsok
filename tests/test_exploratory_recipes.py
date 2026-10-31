@@ -7,6 +7,13 @@ from fpl.model import models
 from fpl.model.recipes import resolve_fit_recipe, resolve_pipeline_recipe
 
 
+@pytest.mark.parametrize("weight", ["bad", None, float("nan")])
+def test_dispatch_preserves_registered_invalid_weight_admission(weight):
+    with pytest.raises(ValueError, match="weights"):
+        resolve_pipeline_recipe({"GK": {"catboost_mae": weight}},
+                                {"GK": {"catboost_mae": {}}}, 0)
+
+
 def _cnn(overrides=None):
     return {"MID": {"sequence_cnn": {} if overrides is None else overrides}}
 
