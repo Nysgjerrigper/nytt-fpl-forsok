@@ -1,10 +1,11 @@
 # The Training Ground
 
 The Training Ground is our offline playground for checking ideas before they reach
-**Matchday**, the configured weekly system. Its first version compares saved squad
-backtests, generates scorecards and maintains separate descriptive league tables.
-It does not yet train models, orchestrate ablations, launch the optimizer or promote
-anything to production. Those connections belong to the existing research-runner work.
+**Matchday**, the configured weekly system. It compares saved squad backtests,
+generates scorecards and maintains separate
+descriptive league tables. The bounded `fpl.research_runner` also fits matched
+forecasts and launches corrected MILP comparisons. The project-local `fpl-research`
+skill adds natural-language design and review; nothing promotes models automatically.
 
 ```mermaid
 flowchart LR
@@ -588,3 +589,67 @@ time. Overlapping timing boundaries must not be added. Hash verification confirm
 captured bytes and consistency, not independent legality, causal information timing
 or general reliability. Existing historical reporting failures that lack this
 operational schema remain visibly unfinished and do not gain verified telemetry.
+## Autonomous research from Codex Desktop
+
+Use the project-local [fpl-research skill](../.agents/skills/fpl-research/SKILL.md):
+
+> Use $fpl-research to investigate whether removing expected-minutes features changes
+> forecast calibration and downstream net points. Inspect prior evidence first;
+> register at most two selection-window contrasts within a total 360-second worker
+> budget, with 30 seconds per solve. Review each result before continuing. Preserve
+> negatives, protect final evaluation, and do not change production.
+
+The agent prepares plans through `fpl.research_runner prepare`, then writes a
+specification (paths relative to that specification):
+
+```json
+{
+  "question": "Does RMSE loss change decision quality relative to MAE?",
+  "hypothesis": "Matched RMSE loss improves mean calibration and origin net points.",
+  "success_criteria": "Investigate further only if origin net delta is positive without worse calibration; no promotion claim.",
+  "stopping_rule": "One pilot; stop on failure or completion, regardless of score.",
+  "limitations": "Observed selection rounds, seed 0, short diagnostic; not an independent holdout or production comparison.",
+  "max_worker_seconds": 180,
+  "plans": ["plan.json"]
+}
+```
+
+```sh
+python -m fpl.research_workflow register question.json --output /tmp/new-research
+python -m fpl.research_workflow next /tmp/new-research --dataset /path/to/frozen.csv --reason "Registered first contrast"
+python -m fpl.research_workflow report /tmp/new-research
+```
+
+Registration captures plans/criteria before fitting. Only selection plans are
+admitted; plans share control, seed, window and provenance. Plan count bounds
+iterations; summed worker caps bound allocated compute conservatively, excluding
+planning and agent tokens. Failed/incomplete launches stop the sequence without
+implicit retry. Each next step records its reason and preceding completion hash.
+Concurrent launches are refused. An interrupted lock needs process inspection,
+not automatic deletion. Reports verify registered bytes and existing run receipts.
+Success/stopping text guides agent judgment; it is not a new automatic promotion
+score. The agent can stop early after evidence review.
+
+### Architecture audit and smallest combination (2026-10-31)
+
+Existing capabilities: frozen admission, shifted causal features, explicit recipes,
+chronological standard/origin forecasts, bounded fitting, HiGHS optimality checks,
+corrected settlement, paired block-bootstrap comparisons, forecast scorecards,
+immutable receipts and CSV logging. Existing `searcher`/`implementer` roles support
+narrow delegation. Bottlenecks are design, evidence qualification, origin information
+limits and compute; extra agent conversations do not resolve these constraints.
+
+| Source inspected | Useful practice | Integration decision |
+| --- | --- | --- |
+| [Matt Pocock Skills](https://github.com/mattpocock/skills) | Specs, behavioral TDD, focused diagnosis, spec/code review | Use when already available; repository practices suffice otherwise. No suite dependency. |
+| [Superpowers](https://github.com/obra/superpowers) | Design, isolated work, tests, review | Overlaps canonical instructions; skip another mandatory planning lifecycle. |
+| [pstack upstream](https://github.com/cursor/plugins/tree/main/pstack) | Roles, monitored execution and evidence | Reuse existing roles/receipts; skip Cursor routing, watchers and model configuration. |
+| [AutoResearch](https://github.com/karpathy/autoresearch) | Hypothesis-driven iterations within fixed compute | Adapt to paired FPL metrics/protected windows; skip GPU/LLM training stack and scalar auto-keep. |
+| Local research tools | Domain-specific provenance, scoring and skeptical review | Reuse runner, scorecards, replay and logs; no parallel tracker/platform. |
+
+The [official skill documentation](https://learn.chatgpt.com/docs/build-skills)
+documents `.agents/skills` repository discovery with instructions loaded on use.
+No API key or external service is needed. If a skill does not appear in an existing
+session, restart/reopen it. Protocol-level selection isolation does not restrict
+arbitrary filesystem reads; a truly inaccessible holdout needs a separately
+controlled evaluation boundary. Observed windows cannot regain fresh-holdout status.
