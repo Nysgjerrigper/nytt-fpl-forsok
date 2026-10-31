@@ -137,28 +137,57 @@ def get_user_squad(team_id: int, bootstrap: dict, known_player_ids: set,
     A complete fifteen-player identity mapping is mandatory. A player without forecast
     history blocks continuation rather than silently disappearing from owned assets.
     """
+    if (not isinstance(bootstrap, dict) or not isinstance(bootstrap.get("events"), list)
+            or any(not isinstance(event, dict) for event in bootstrap["events"])):
+        raise ValueError("Invalid bootstrap events for owned-squad retrieval")
     now = _utc_now(now)
     published = [gw for gw, deadline in _event_deadlines(bootstrap).items() if deadline <= now]
     if not published:
         raise ValueError("No published deadline squad exists yet; provide owner state")
     last_published_gw = max(published)
+
+    def positive_id(value: object) -> bool:
+        return isinstance(value, Integral) and not isinstance(value, (bool, np.bool_)) and value > 0
+
+    elements = bootstrap.get("elements")
+    if not isinstance(elements, list):
+        raise ValueError("Missing bootstrap elements for owned-squad identity mapping")
+    elements_by_id = {}
+    stable_codes = set()
+    for element in elements:
+        if not isinstance(element, dict):
+            raise ValueError("Invalid bootstrap element for owned-squad identity mapping")
+        identifier, code = element.get("id"), element.get("code")
+        if not positive_id(identifier) or not positive_id(code):
+            raise ValueError(f"Invalid bootstrap element/code for owned-squad mapping: element={identifier!r}, code={code!r}; "
+                             "refresh and verify the official bootstrap identity mapping")
+        if identifier in elements_by_id or code in stable_codes:
+            raise ValueError(f"Ambiguous bootstrap element/code for owned-squad mapping: element={identifier}, code={code}; "
+                             "refresh and verify the official bootstrap identity mapping")
+        elements_by_id[identifier] = element
+        stable_codes.add(code)
     resp = requests.get(f"{FPL_API}/entry/{team_id}/event/{last_published_gw}/picks/", timeout=30)
     resp.raise_for_status()
     data = resp.json()
 
-    elements_by_id = {el["id"]: el for el in bootstrap["elements"]}
+    picks = data.get("picks") if isinstance(data, dict) else None
+    if not isinstance(picks, list) or len(picks) != 15:
+        raise ValueError("Public squad must contain exactly 15 picks")
     squad_ids = []
-    for pick in data["picks"]:
-        el = elements_by_id.get(pick["element"], {})
-        player_id = el.get("code")
+    for pick in picks:
+        identifier = pick.get("element") if isinstance(pick, dict) else None
+        if not positive_id(identifier) or identifier not in elements_by_id:
+            raise ValueError(f"Owned pick element ID {identifier!r} is missing or invalid in bootstrap")
+        player_id = elements_by_id[identifier]["code"]
         if player_id not in known_player_ids:
-            raise ValueError(f"Owned player {pick['element']} (code={player_id}) has no forecast history")
+            raise ValueError(f"Owned player {identifier} (code={player_id}) has no forecast history; cannot optimize the complete owned squad")
         squad_ids.append(player_id)
 
-    if len(squad_ids) != 15 or len(set(squad_ids)) != 15:
+    if len(set(squad_ids)) != 15:
         raise ValueError("Public squad must contain exactly 15 unique player codes")
 
-    bank = data["entry_history"]["bank"]  # in 0.1m units, matches `value` column
+    entry_history = data.get("entry_history")
+    bank = entry_history.get("bank") if isinstance(entry_history, dict) else None
     if isinstance(bank, bool) or not isinstance(bank, Integral) or bank < 0:
         raise ValueError("Public bank must be nonnegative integer tenths")
     return squad_ids, float(bank)
@@ -518,8 +547,8 @@ def main():
     preds = apply_live_prices(preds, live_prices(bootstrap))
     if set(preds["GW"]) != set(range(target_gw, target_gw + args.horizon)):
         raise ValueError("Live forecast does not cover every requested gameweek")
-    if squad_ids is not None and not set(squad_ids) <= set(preds["player_id"]):
-        raise ValueError("Owned players missing from the live forecast pool; cannot continue this squad")
+    if squad_ids is not None:
+        optimize.validate_owned_forecast_pool(squad_ids, list(preds["player_id"]))
     if determine_target_gw(bootstrap) != target_gw:
         raise ValueError("Target deadline passed during preparation; restart for the next open round")
 
