@@ -115,6 +115,25 @@ def parse_args(argv=None):
     return parser.parse_args(argv)
 
 
+def validate_owned_forecast_pool(
+    initial_ids: Sequence[Hashable], forecast_ids: Sequence[Hashable],
+) -> None:
+    """Fail closed when forecasts cannot represent the complete owned squad.
+
+    A player with no fixtures in the requested horizon may have no forecast rows.
+    Without that player's holding/price state, optimization cannot account for the
+    complete owned squad; this guard does not invent zero-point forecast rows.
+    """
+    missing = set(initial_ids).difference(forecast_ids)
+    if missing:
+        listed = sorted(missing, key=str)
+        raise ValueError(
+            f"Owned player IDs missing from the forecast pool: {listed}. "
+            "They may have no fixtures in the requested horizon; cannot optimize "
+            "the complete owned squad without their forecast/holding state."
+        )
+
+
 def make_solver(name: str, time_limit: float | None, threads: int = 0,
                 gap_rel: float = 0.0) -> pulp.LpSolver:
     """Build the PuLP solver backend by name ('cbc' or 'highs').
@@ -248,7 +267,6 @@ def run(args):
     if decision_path and getattr(args, "output", None) and Path(decision_path).resolve() == Path(args.output).resolve():
         raise ValueError("decision snapshot and human CSV require separate paths")
     chip_targets = validate_chip_targets(args)
-    solver = make_solver(args.solver, args.time_limit, args.threads, args.gap_rel)
 
     print(f"--- Loading predictions from {args.predictions_csv} ---")
     allesesonger = pd.read_csv(args.predictions_csv)
@@ -367,6 +385,7 @@ def run(args):
     master_results = []
     if continuing_squad:
         initial_ids = [int(pid) for pid in args.initial_squad.split(",")]
+        validate_owned_forecast_pool(initial_ids, p)
         previous_squad_dict = {pid: 1 for pid in initial_ids}
         if args.initial_budget is None:
             sys.exit("ERROR: --initial-budget is required when --initial-squad is given.")
@@ -377,6 +396,7 @@ def run(args):
         previous_squad_dict = {}
         previous_budget = BS
         previous_ft = 1
+    solver = make_solver(args.solver, args.time_limit, args.threads, args.gap_rel)
     used_chips_tracker = {"wc1": False, "wc2": False, "bb": False, "tc": False, "fh": False}
     # 0 means "disabled" (never matches a real gameweek, so the chip is always forced off);
     # a positive value forces that chip at exactly that absolute gameweek.
