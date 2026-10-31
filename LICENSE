@@ -1,120 +1,115 @@
-Required Notice: Copyright 2026 Per Anders Molberg
+Per Anders Molberg Noncommercial Source License 1.0
+SPDX-License-Identifier: LicenseRef-Per-Anders-Molberg-Noncommercial
 
-# PolyForm Noncommercial License 1.0.0
+Copyright (c) 2026 Per Anders Molberg, to the extent applicable rights exist
+and are owned by, or available for licensing by, Per Anders Molberg.
 
-<https://polyformproject.org/licenses/noncommercial/1.0.0>
+1. Licensor and scope
 
-## Acceptance
+The Licensor is Per Anders Molberg. "Covered Material" means the original code,
+documentation, tests, notebooks, project configuration and other original project
+material that the Licensor makes available under these terms, including original
+material developed with assistants or language models to the extent the Licensor
+owns or can license the applicable rights. These terms do not assert ownership
+of material or rights that the Licensor does not own or control.
 
-In order to get any license under these terms, you must agree
-to them as both strict obligations and conditions to all
-your licenses.
-## Copyright License
+The following are excluded from Covered Material:
+(a) learned model artifacts covered by LICENSE-WEIGHTS, as defined below;
+(b) third-party code, content, dependencies, datasets and assets, including
+    upstream portions of vendored components, which retain their own terms;
+(c) material explicitly supplied under another license or agreement.
 
-The licensor grants you a copyright license for the
-software to do everything you might do with the software
-that would otherwise infringe the licensor's copyright
-in it for any permitted purpose.  However, you may
-only distribute the software according to [Distribution
-License](#distribution-license) and make changes or new works
-based on the software according to [Changes and New Works
-License](#changes-and-new-works-license).
-## Distribution License
+A filename, directory location, or binary format alone does not determine which
+license applies. See NOTICE and docs/LICENSING.md for component boundaries.
 
-The licensor grants you an additional copyright license
-to distribute copies of the software.  Your license
-to distribute covers distributing the software with
-changes and new works permitted by [Changes and New Works
-License](#changes-and-new-works-license).
-## Notices
+2. Free noncommercial permission
 
-You must ensure that anyone who gets a copy of any part of
-the software from you also gets a copy of these terms or the
-URL for them above, as well as copies of any plain-text lines
-beginning with `Required Notice:` that the licensor provided
-with the software.  For example:
+Subject to these terms, the Licensor grants everyone a worldwide, nonexclusive,
+royalty-free copyright license to use, inspect, run, copy, modify and redistribute
+Covered Material, including modified versions, solely for noncommercial purposes.
+This includes personal study, hobby use, and genuinely noncommercial research,
+education and community projects. Access is not limited to particular persons,
+nationalities or organizations. Noncommercial redistribution must be free of
+charge, preserve this license and applicable copyright and attribution notices,
+and identify modifications without implying endorsement by the Licensor.
 
-> Required Notice: Copyright Yoyodyne, Inc. (http://example.com)
-## Changes and New Works License
+Recipients receive permission directly from the Licensor under these terms.
+You may not grant broader rights to the Licensor's Covered Material, remove its
+restrictions, or present it as available under a permissive commercial license.
+Modifications and inclusion in another project do not remove these conditions
+from the Covered Material contained in that modified or combined work.
 
-The licensor grants you an additional copyright license to
-make changes and new works based on the software for any
-permitted purpose.
+3. Commercial use requires a separate agreement
 
-## Patent License
+Without a separate written commercial license agreement with the Licensor,
+you may not use Covered Material for commercial purposes, sell or resell it,
+or charge money for access to it or for a product or service that uses it.
 
-The licensor grants you a patent license for the software that
-covers patent claims the licensor can license, or becomes able
-to license, that you would infringe by using the software.
+"Commercial purposes" includes use directed toward commercial advantage,
+revenue or business operations, including internal business use; commercial
+research or development; incorporation into paid products or services; paid
+hosting, subscriptions, consulting or support using Covered Material; resale;
+and monetization through advertising or other required consideration. Charging
+only to recover costs does not create an exception. An organization's legal
+form, tax status or educational purpose does not by itself make a use
+noncommercial. Voluntary donations that are not required for access or services
+and do not support a commercial use do not alone make a use commercial.
 
-## Noncommercial Purposes
+Commercial permission must come from the Licensor, not merely from a distributor
+or contributor who lacks authority to grant it. The agreement may be free of
+charge; these terms impose no minimum fee or royalty. Requests may be directed
+to Per Anders Molberg through the project's GitHub account, Nysgjerrigper.
 
-Any noncommercial purpose is a permitted purpose.
-## Personal Uses
+4. Learned-model exception
 
-Personal use for research, experiment, and testing for
-the benefit of public knowledge, personal study, private
-entertainment, hobby projects, amateur pursuits, or religious
-observance, without any anticipated commercial application,
-is use for a permitted purpose.
-## Noncommercial Organizations
+Learned model parameters, trained weights, fitted numerical coefficients,
+learned trees and other learned model state that the Licensor releases as
+trained artifacts are available under the MIT license in LICENSE-WEIGHTS,
+including for commercial use. This includes non-executable metadata necessary
+to load and interpret those learned artifacts. Using those artifacts independently does not require a commercial agreement
+with the Licensor. This permission does not extend to Covered Material bundled
+with an artifact: architecture or runtime source, custom executable classes,
+training/inference scripts, feature engineering, optimization code, or project
+configuration remain subject to their own licenses. Serialization does not
+convert embedded executable project code into unrestricted model weights.
 
-Use by any charitable organization, educational institution,
-public research organization, public safety or health
-organization, environmental protection organization,
-or government institution is use for a permitted purpose
-regardless of the source of funding or obligations resulting
-from the funding.
+Training hyperparameters, tuning-study configuration and trial histories are
+project configuration, not learned weights. Third-party models or data cannot
+be relicensed by this exception. Artifact recipients must retain the applicable
+MIT notice and any separate third-party notices.
 
-## Fair Use
+5. Rights reserved and independent rights
 
-You may have "fair use" rights for the software under the
-law. These terms do not limit them.
-## No Other Rights
+The Licensor retains ownership and may use, commercialize, sell or separately
+license their own material without being restricted by this license. No
+ownership assignment is required from a recipient. These terms do not give the
+Licensor ownership of another person's independent contributions or grant
+commercial relicensing rights over them without that person's authorization.
+They do not restrict independently created material, ideas, facts, or rights
+already granted by applicable law or a separate license. No trademark or
+endorsement rights are granted. Rights not expressly granted are reserved.
 
-These terms do not allow you to sublicense or transfer any of
-your licenses to anyone else, or prevent the licensor from
-granting licenses to anyone else.  These terms do not imply
-any other licenses.
-## Patent Defense
+6. Compliance and termination
 
-If you make any written claim that the software infringes or
-contributes to infringement of any patent, your patent license
-for the software granted under these terms ends immediately. If
-your company makes such a claim, your patent license ends
-immediately for work on behalf of your company.
-## Violations
+Permissions under these terms end if you violate their conditions. Continued
+commercial use then requires the Licensor's written agreement; obtaining a
+copy from someone else does not restore permission. A separate agreement may
+provide different remedies or restore permission. Mandatory rights under
+applicable law are unaffected.
 
-The first time you are notified in writing that you have
-violated any of these terms, or done anything with the software
-not covered by your licenses, your licenses can nonetheless
-continue if you come into full compliance with these terms,
-and take practical steps to correct past violations, within
-32 days of receiving notice.  Otherwise, all your licenses
-end immediately.
-## No Liability
+7. No warranty or liability
 
-***As far as the law allows, the software comes as is, without
-any warranty or condition, and the licensor will not be liable
-to you for any damages arising out of these terms or the use
-or nature of the software, under any kind of legal claim.***
-## Definitions
+To the extent permitted by applicable law, Covered Material is provided "AS IS",
+without warranties, including merchantability, fitness for a particular purpose,
+noninfringement, accuracy, availability or fitness for financial decisions.
+To that same extent the Licensor is not liable for claims, damages or other
+liability arising from the material or its use. Nothing excludes liability
+that applicable law prohibits excluding.
 
-The **licensor** is the individual or entity offering these
-terms, and the **software** is the software the licensor makes
-available under these terms.
+8. Character of these terms
 
-**You** refers to the individual or entity agreeing to these
-terms.
-**Your company** is any legal entity, sole proprietorship,
-or other kind of organization that you work for, plus all
-organizations that have control over, are under the control of,
-or are under common control with that organization.  **Control**
-means ownership of substantially all the assets of an entity,
-or the power to direct its management and policies by vote,
-contract, or otherwise. Control can be direct or indirect.
-**Your licenses** are all the licenses granted to you for the
-software under these terms.
-
-**Use** means anything you do with the software requiring one
-of your licenses.
+This is a custom source-available, noncommercial license. It is not an
+OSI-approved open-source license and must not be described as one. The separate
+MIT license for learned artifacts does not make the entire project permissively
+licensed. A separate written agreement controls where it expressly differs
+from these terms.

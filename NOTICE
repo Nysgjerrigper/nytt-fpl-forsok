@@ -1,0 +1,27 @@
+FPL forecasting and squad optimization
+
+Original material: Per Anders Molberg, 2026, to the extent owned/licensable.
+Root terms: LICENSE (custom noncommercial source license).
+Released learned model artifacts: LICENSE-WEIGHTS (MIT, scope-limited to learned
+parameters/state; no commercial restriction on those artifacts).
+
+Third-party material is not relicensed by either project license. Dependencies,
+datasets, scraped or archived responses, external model artifacts, quoted source
+content, images and other external assets retain their original terms. This
+project does not grant rights to Premier League/FPL, Understat, club or player
+content that its owner does not hold.
+
+Vendored optional optimizer: fpl/milp/_vendor/solio/
+Upstream: https://github.com/solioanalytics/open-fpl-solver
+Pinned revision: ec65f5e2b2be34441cb4b2a9efafea1ec0fe3b79
+Its original LICENSE contains Apache License 2.0 text and appended commercial
+licensing wording. Preserve the complete upstream text; these project licenses
+neither resolve that wording nor replace permissions/requirements of its owner.
+Upstream bytes, provenance and local compatibility changes are identified in
+that directory's MANIFEST.json and PATCH.diff. Original upstream portions remain
+under their upstream terms; original project modifications are under the root
+LICENSE unless explicitly licensed otherwise.
+
+Preserved source-license files under experiments/ belong to their respective
+sources and remain unchanged. Local audit copies are evidence, not adoption or
+relicensing of upstream applications. See docs/LICENSING.md for practical scope.
