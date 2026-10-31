@@ -37,6 +37,7 @@ import requests
 
 from fpl import config, features
 from fpl.data import fetch
+from fpl.live_evaluation import capture, record_evaluation
 from fpl.model.expert_policy import (
     fit_mid_gate_experts, parse_expert_map, predict_by_position, predict_with_mid_gate,
     resolve_weight_strategy,
@@ -527,6 +528,9 @@ def main():
 
     print("--- Building features & training models on all data so far ---")
     raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
+    evaluation = record_evaluation(raw, bootstrap)
+    if evaluation is not None:
+        print(f"Saved prior live forecast evaluation: {evaluation}")
     feat_df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(feat_df)
     cold_start_priors = None
@@ -588,6 +592,8 @@ def main():
         out_cols.extend(["is_cold_start", "forecast_source", "prior_std", "p_played", "p60", "prior_count"])
     preds = preds[out_cols]
     config.PREDICTIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    captured = capture(preds, bootstrap, strategy=effective_strategy)
+    print(f"Archived live forecast for later evaluation: {captured}")
     preds.to_csv(config.PREDICTIONS_PATH, index=False)
     print(f"Saved {len(preds)} predicted rows to {config.PREDICTIONS_PATH}")
 

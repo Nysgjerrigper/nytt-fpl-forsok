@@ -61,3 +61,6 @@ experiments/foss_interface_audit_2026-10-04/raw/
 experiments/understat_archive_audit_2026-10-04/raw/
 experiments/corrected_optimizer_replay_*/**/*.csv
 experiments/corrected_optimizer_replay_*/**/*.log
+
+# Immutable local weekly forecast captures (not research input).
+fpl/live_forecasts/
