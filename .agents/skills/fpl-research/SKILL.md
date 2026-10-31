@@ -5,7 +5,7 @@ description: Design, register, run and skeptically review bounded FPL forecastin
 
 # FPL research
 
-Read `CLAUDE.md` first. Use [Training Ground](../../../../docs/TRAINING_GROUND.md)
+Read `CLAUDE.md` first. Use [Training Ground](../../../docs/TRAINING_GROUND.md)
 for the workflow CLI, architecture and external-skill comparison.
 
 ## Design before results
