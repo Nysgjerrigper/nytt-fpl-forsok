@@ -5,6 +5,12 @@ tried, why, and what actually happened, so results are reproducible and don't ne
 re-derived from git history or re-litigated later. Newest entries at the top. See `CLAUDE.md`
 for the current architecture; this file is the history of *why* it looks that way.
 
+## 2026-10-31 — Bounded Codex research workflow pilot
+
+Registered one 180-second selection diagnostic on observed GW141–142, matched CatBoost MAE/RMSE 50-tree recipes, seed 0. The existing runner completed 16 measured fits and 8 native-optimal solves in 28.63s. RMSE improved forecast RMSE/calibration but reduced corrected net points: standard 125 versus 154 (-29); origin 120 versus 140 (-20). Requested bootstrap block 3 was clamped to sample length 2; the resulting zero-width intervals are degenerate and do not quantify generalization. Engineering success; scientific screening failed. No production change, final-holdout claim or repeat trial.
+
+Hypothesis/configuration, preregistration link, primary-session skeptical review, reproduction commands, compact verified metrics and raw-byte manifest: [pilot report](experiments/fpl_workflow_pilot_2026-10-31/REPORT.md). Existing `fpl.experiment` rows are preserved in that directory; original negative evidence remains intact.
+
 ## 2026-08-11 - Optional PyTabKit dependency lane: RealMLP/TabM available; TabR incomplete
 
 ### Integration execution note (fresh Python 3.11.15 shared environment)
