@@ -25,5 +25,3 @@ def test_level_calibration_rejects_explicit_overrides_before_fitting(monkeypatch
     monkeypatch.setattr(predict, "fit_holdout_weights", lambda *a, **k: pytest.fail("ambient fit"))
     with pytest.raises(ValueError, match="level calibration"):
         predict.walk_forward_predictions(pd.DataFrame(), [], 1, 2, seed=2, calibrate_level=True)
-
-
