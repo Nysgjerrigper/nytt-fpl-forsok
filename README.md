@@ -97,8 +97,13 @@ combination is blocked before native fitting; no neural rerun is proposed withou
 
 ## License
 
-Project-created software and other original materials in this repository are available free
-for noncommercial use under the [PolyForm Noncommercial License 1.0.0](LICENSE). Third-party
+Original code, documentation and project configuration are available free for noncommercial
+use under the [Per Anders Molberg Noncommercial Source License 1.0](LICENSE).
+Commercial use, resale and paid services require a separate written agreement with
+Per Anders Molberg. Released learned model artifacts and necessary non-executable loading
+metadata are separately available under [MIT](LICENSE-WEIGHTS), including for commercial
+use; this exception does not cover bundled executable code or tuning configuration.
+See [Project licensing](docs/LICENSING.md) for the component boundaries. Third-party
 software and code retain their own terms; see the relevant notices beside those components.
 In particular, the bundled Open FPL solver has separate upstream licensing terms in
 `fpl/milp/_vendor/solio/LICENSE`.
