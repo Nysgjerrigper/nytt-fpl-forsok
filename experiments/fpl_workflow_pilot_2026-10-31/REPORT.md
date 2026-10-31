@@ -44,7 +44,7 @@ Keep the workflow; reject this pilot as evidence for a model switch. Next: audit
 
 ## Reproduce
 
-At source commit `1302373` with the recorded library versions and admitted frozen CSV, run from the repository root:
+This evidence PR adds the reproduction script while leaving FPL runtime source at `1302373`. From this pilot checkout, with the recorded library versions and admitted frozen CSV, run from the repository root:
 
 ```sh
 PYTHONPATH="$PWD" python experiments/fpl_workflow_pilot_2026-10-31/reproduce.py --output /tmp/new-registration
