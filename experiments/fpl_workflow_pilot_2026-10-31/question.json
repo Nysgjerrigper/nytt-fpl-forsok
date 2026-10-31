@@ -1,0 +1,9 @@
+{
+  "question": "Can the registered workflow compare matched MAE/RMSE CatBoost losses through forecasts, MILP and verified reporting?",
+  "hypothesis": "At fixed 50-tree recipes, RMSE loss improves origin mean calibration and net points relative to MAE; this is a wiring pilot, not a promotion test.",
+  "success_criteria": "Engineering: both protocols complete 16 measured fits and 8 native-optimal solves, emit forecast diagnostics and paired intervals, and verify their artifacts. Scientific screening only: all origin leads have no worse absolute calibration deviation from 1, origin net delta > 0, and origin CI lower bound > 0. Even a pass cannot establish robust improvement on two observed rounds.",
+  "stopping_rule": "Exactly one attempt, 180 worker seconds total, 30 seconds per solve. Stop on failure, timeout or completion regardless of outcome. No retry or selection of another candidate.",
+  "limitations": "Global GW141-142 previously observed selection diagnostics; seed 0; 50 trees; two rounds; fixed research control differs from production; standard lookahead and origin fixture/price assumptions remain. No independent legality or fresh holdout claim.",
+  "max_worker_seconds": 180,
+  "plans": ["plan.json"]
+}
