@@ -1,0 +1,115 @@
+Per Anders Molberg Noncommercial Source License 1.0
+SPDX-License-Identifier: LicenseRef-Per-Anders-Molberg-Noncommercial
+
+Copyright (c) 2026 Per Anders Molberg, to the extent applicable rights exist
+and are owned by, or available for licensing by, Per Anders Molberg.
+
+1. Licensor and scope
+
+The Licensor is Per Anders Molberg. "Covered Material" means the original code,
+documentation, tests, notebooks, project configuration and other original project
+material that the Licensor makes available under these terms, including original
+material developed with assistants or language models to the extent the Licensor
+owns or can license the applicable rights. These terms do not assert ownership
+of material or rights that the Licensor does not own or control.
+
+The following are excluded from Covered Material:
+(a) learned model artifacts covered by LICENSE-WEIGHTS, as defined below;
+(b) third-party code, content, dependencies, datasets and assets, including
+    upstream portions of vendored components, which retain their own terms;
+(c) material explicitly supplied under another license or agreement.
+
+A filename, directory location, or binary format alone does not determine which
+license applies. See NOTICE and docs/LICENSING.md for component boundaries.
+
+2. Free noncommercial permission
+
+Subject to these terms, the Licensor grants everyone a worldwide, nonexclusive,
+royalty-free copyright license to use, inspect, run, copy, modify and redistribute
+Covered Material, including modified versions, solely for noncommercial purposes.
+This includes personal study, hobby use, and genuinely noncommercial research,
+education and community projects. Access is not limited to particular persons,
+nationalities or organizations. Noncommercial redistribution must be free of
+charge, preserve this license and applicable copyright and attribution notices,
+and identify modifications without implying endorsement by the Licensor.
+
+Recipients receive permission directly from the Licensor under these terms.
+You may not grant broader rights to the Licensor's Covered Material, remove its
+restrictions, or present it as available under a permissive commercial license.
+Modifications and inclusion in another project do not remove these conditions
+from the Covered Material contained in that modified or combined work.
+
+3. Commercial use requires a separate agreement
+
+Without a separate written commercial license agreement with the Licensor,
+you may not use Covered Material for commercial purposes, sell or resell it,
+or charge money for access to it or for a product or service that uses it.
+
+"Commercial purposes" includes use directed toward commercial advantage,
+revenue or business operations, including internal business use; commercial
+research or development; incorporation into paid products or services; paid
+hosting, subscriptions, consulting or support using Covered Material; resale;
+and monetization through advertising or other required consideration. Charging
+only to recover costs does not create an exception. An organization's legal
+form, tax status or educational purpose does not by itself make a use
+noncommercial. Voluntary donations that are not required for access or services
+and do not support a commercial use do not alone make a use commercial.
+
+Commercial permission must come from the Licensor, not merely from a distributor
+or contributor who lacks authority to grant it. The agreement may be free of
+charge; these terms impose no minimum fee or royalty. Requests may be directed
+to Per Anders Molberg through the project's GitHub account, Nysgjerrigper.
+
+4. Learned-model exception
+
+Learned model parameters, trained weights, fitted numerical coefficients,
+learned trees and other learned model state that the Licensor releases as
+trained artifacts are available under the MIT license in LICENSE-WEIGHTS,
+including for commercial use. This includes non-executable metadata necessary
+to load and interpret those learned artifacts. Using those artifacts independently does not require a commercial agreement
+with the Licensor. This permission does not extend to Covered Material bundled
+with an artifact: architecture or runtime source, custom executable classes,
+training/inference scripts, feature engineering, optimization code, or project
+configuration remain subject to their own licenses. Serialization does not
+convert embedded executable project code into unrestricted model weights.
+
+Training hyperparameters, tuning-study configuration and trial histories are
+project configuration, not learned weights. Third-party models or data cannot
+be relicensed by this exception. Artifact recipients must retain the applicable
+MIT notice and any separate third-party notices.
+
+5. Rights reserved and independent rights
+
+The Licensor retains ownership and may use, commercialize, sell or separately
+license their own material without being restricted by this license. No
+ownership assignment is required from a recipient. These terms do not give the
+Licensor ownership of another person's independent contributions or grant
+commercial relicensing rights over them without that person's authorization.
+They do not restrict independently created material, ideas, facts, or rights
+already granted by applicable law or a separate license. No trademark or
+endorsement rights are granted. Rights not expressly granted are reserved.
+
+6. Compliance and termination
+
+Permissions under these terms end if you violate their conditions. Continued
+commercial use then requires the Licensor's written agreement; obtaining a
+copy from someone else does not restore permission. A separate agreement may
+provide different remedies or restore permission. Mandatory rights under
+applicable law are unaffected.
+
+7. No warranty or liability
+
+To the extent permitted by applicable law, Covered Material is provided "AS IS",
+without warranties, including merchantability, fitness for a particular purpose,
+noninfringement, accuracy, availability or fitness for financial decisions.
+To that same extent the Licensor is not liable for claims, damages or other
+liability arising from the material or its use. Nothing excludes liability
+that applicable law prohibits excluding.
+
+8. Character of these terms
+
+This is a custom source-available, noncommercial license. It is not an
+OSI-approved open-source license and must not be described as one. The separate
+MIT license for learned artifacts does not make the entire project permissively
+licensed. A separate written agreement controls where it expressly differs
+from these terms.

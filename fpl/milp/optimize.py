@@ -1,16 +1,9 @@
-"""
-Consolidated MILP squad-selection optimizer.
+"""Rolling-horizon squad optimization with explicit budget and transfer state.
 
-Originally replaced 8 near-identical scripts this project used to have
-(MILP.py, MILP-GC.py, AUTO-MILP-GC*.py, t-auto*.py - since deleted, see git
-history) with one parameterized version. The optimization model itself
-(budget, formation, captaincy, transfers, chip logic) is unchanged from that
-original t-auto.py - that formulation, based on Kristiansen et al., was
-already correct (see the `actual_total_points` fix in git history). What
-changed is that every hardcoded path/gameweek-range/chip-target is now a CLI
-argument, so one script covers live weekly runs, backtests against actual
-results, and sweeps over sub-horizon lengths, instead of needing a different
-.py/.bat file per scenario.
+Uses a Kristiansen-style budget, formation, captaincy and transfer model. Paths,
+windows and chip targets are CLI arguments. Corrected free-transfer rollover and
+strict solver status checks are covered by regressions; the retained legacy chip
+reset policy is documented separately from modern rules.
 """
 import argparse
 import itertools
@@ -22,6 +15,7 @@ from collections import Counter
 from typing import Hashable, Mapping, Sequence
 
 import pandas as pd
+import numpy as np
 import pulp
 
 from fpl import config
@@ -108,29 +102,84 @@ def parse_args(argv=None):
     parser.add_argument("--initial-budget", type=float, default=None,
                          help="Bank balance (in the 0.1m units FPL uses) when continuing an existing squad.")
     parser.add_argument("--initial-ft", type=int, default=1, help="Free transfers available when continuing an existing squad.")
+    parser.add_argument("--origin-price-catalog", type=str, default=None,
+                        help="Opt-in research CSV of strictly prior observed prices; restricts eligibility identically for both price policies.")
+    parser.add_argument("--origin-price-policy", choices=("target-replay", "origin-asof", "origin-current-proxy"), default="target-replay",
+                        help="With a catalog, replay target prices, freeze prior observations, or freeze the replay's current price proxy. None proves deadline publication. Default preserves historical replay.")
     return parser.parse_args(argv)
+
+
+def origin_price_state(catalog: pd.DataFrame, origin: int, players: list,
+                       horizon: list[int], replay: pd.DataFrame, policy: str) -> tuple[pd.DataFrame, set]:
+    """Return origin-specific budget prices and players with known prior prices.
+
+    Catalog admission belongs to the caller. Unknown players receive zero matrix
+    placeholders and must be barred from holdings/transfers; zero is not a fallback
+    purchasable price. Both freeze policies stay fixed over the full horizon.
+    ``origin-current-proxy`` uses the replay's reconstructed current price vector
+    (including its historical filling rules), isolating horizon changes conditional
+    on that vector; it does not establish actual deadline prices.
+    """
+    if policy not in ("target-replay", "origin-asof", "origin-current-proxy"):
+        raise ValueError("unknown origin price policy")
+    observed = catalog.loc[catalog.origin_gw == origin].set_index("player_id").value
+    eligible = set(observed.index)
+    if policy in ("origin-asof", "origin-current-proxy"):
+        values = (observed.reindex(players).fillna(0.) if policy == "origin-asof"
+                  else replay.loc[players, origin].copy())
+        if policy == "origin-current-proxy":
+            values.loc[[p for p in players if p not in eligible]] = 0.
+        matrix = pd.DataFrame({gw: values for gw in horizon})
+    else:
+        matrix = replay.loc[players, horizon].copy()
+        matrix.loc[[p for p in players if p not in eligible]] = 0.
+    known = matrix.loc[[p for p in players if p in eligible]].to_numpy(dtype=float)
+    if not np.isfinite(known).all() or (known <= 0).any():
+        raise ValueError("eligible origin prices must be finite and positive")
+    return matrix, eligible
+
+
+def validate_owned_forecast_pool(
+    initial_ids: Sequence[Hashable], forecast_ids: Sequence[Hashable],
+) -> None:
+    """Fail closed when forecasts cannot represent the complete owned squad.
+
+    A player with no fixtures in the requested horizon may have no forecast rows.
+    Without that player's holding/price state, optimization cannot account for the
+    complete owned squad; this guard does not invent zero-point forecast rows.
+    """
+    missing = set(initial_ids).difference(forecast_ids)
+    if missing:
+        listed = sorted(missing, key=str)
+        raise ValueError(
+            f"Owned player IDs missing from the forecast pool: {listed}. "
+            "They may have no fixtures in the requested horizon; cannot optimize "
+            "the complete owned squad without their forecast/holding state."
+        )
 
 
 def make_solver(name: str, time_limit: float | None, threads: int = 0,
                 gap_rel: float = 0.0) -> pulp.LpSolver:
     """Build the PuLP solver backend by name ('cbc' or 'highs').
 
-    With gap_rel=0 both backends return proven-optimal solutions, so squad
-    output is identical up to objective ties; they differ only in speed (see
-    config.MILP_SOLVER for the benchmark numbers behind the default).
+    Explicitly pass zero tolerances: omitting gapRel retains the solver default.
+    A time limit can still stop either backend before optimality; callers must
+    check both the problem status and the solution status after solving.
     """
+    if not np.isfinite(gap_rel) or gap_rel < 0:
+        raise ValueError("solver relative gap must be finite and nonnegative")
+    if name not in ("highs", "cbc"):
+        raise ValueError("unknown solver backend")
     if name == "highs":
-        kwargs = {"msg": False, "timeLimit": time_limit}
+        kwargs = {"msg": False, "timeLimit": time_limit, "gapRel": gap_rel, "gapAbs": 0.0}
         if threads:
             kwargs["threads"] = threads
-        if gap_rel:
-            kwargs["gapRel"] = gap_rel
         solver = pulp.HiGHS(**kwargs)
         if not solver.available():
             sys.exit("ERROR: --solver highs requires the highspy package (pip install highspy).")
         return solver
     return pulp.PULP_CBC_CMD(msg=True, timeLimit=time_limit, threads=threads or None,
-                             gapRel=gap_rel or None)
+                             gapRel=gap_rel, gapAbs=0.0)
 
 
 def validate_chip_targets(args) -> dict[str, int]:
@@ -160,7 +209,6 @@ def validate_chip_targets(args) -> dict[str, int]:
 
 def run(args):
     chip_targets = validate_chip_targets(args)
-    solver = make_solver(args.solver, args.time_limit, args.threads, args.gap_rel)
 
     print(f"--- Loading predictions from {args.predictions_csv} ---")
     allesesonger = pd.read_csv(args.predictions_csv)
@@ -187,6 +235,12 @@ def run(args):
     # information available at t's deadline. The solve at GW t then uses exclusively the
     # origin-t forecast set for its whole lookahead, mirroring what a live run knows.
     has_origin = "origin_gw" in allesesonger.columns
+    price_catalog_path = getattr(args, "origin_price_catalog", None)
+    price_policy = getattr(args, "origin_price_policy", "target-replay")
+    if (price_catalog_path or price_policy != "target-replay") and not has_origin:
+        raise ValueError("origin price research requires origin forecasts")
+    if price_policy != "target-replay" and not price_catalog_path:
+        raise ValueError(f"{price_policy} requires an admitted origin price catalog")
     if has_origin:
         allesesonger["origin_gw"] = pd.to_numeric(allesesonger["origin_gw"])
         print("origin_gw column found: solving each gameweek from its own origin forecast set.")
@@ -213,6 +267,11 @@ def run(args):
 
     T_setofgameweeks_full = sorted(data_full_range_raw["GW"].unique())
     p = sorted(data_full_range_raw["player_id"].unique())
+    price_catalog = None
+    if price_catalog_path:
+        from fpl.data.origin_prices import validate_origin_price_catalog
+        price_catalog = validate_origin_price_catalog(
+            pd.read_csv(price_catalog_path), p, list(range(args.start_gw, args.max_gw + 1)))
     final_player_info = data_full_range_raw.drop_duplicates(subset=["player_id"], keep="first")
     player_name_map = final_player_info.set_index("player_id")["name"].to_dict()
     pos_map = pd.Series(final_player_info["position"].values, index=final_player_info["player_id"])
@@ -279,6 +338,7 @@ def run(args):
     master_results = []
     if continuing_squad:
         initial_ids = [int(pid) for pid in args.initial_squad.split(",")]
+        validate_owned_forecast_pool(initial_ids, p)
         previous_squad_dict = {pid: 1 for pid in initial_ids}
         if args.initial_budget is None:
             sys.exit("ERROR: --initial-budget is required when --initial-squad is given.")
@@ -290,6 +350,7 @@ def run(args):
         previous_budget = BS
         previous_ft = 1
     used_chips_tracker = {"wc1": False, "wc2": False, "bb": False, "tc": False, "fh": False}
+    solver = make_solver(args.solver, args.time_limit, args.threads, args.gap_rel)
     # 0 means "disabled" (never matches a real gameweek, so the chip is always forced off);
     # a positive value forces that chip at exactly that absolute gameweek.
 
@@ -329,6 +390,7 @@ def run(args):
         q = model.add_variable_dicts("FreeTransfersAvailable", t_sub, lowBound=0, upBound=Q_bar, cat="Integer")
         alpha = model.add_variable_dicts("PenalizedTransfers", t_sub, lowBound=0, upBound=M_alpha, cat="Integer")
         ft_carry = model.add_variable_dicts("FT_Carry", t_sub, lowBound=0)
+        ft_capped = model.add_variable_dicts("FT_CarryCapped", t_sub, cat="Binary")
 
         if has_origin:
             origin_matrix = points_matrix_by_origin.get(current_gw)
@@ -338,7 +400,20 @@ def run(args):
             points_sub = origin_matrix.reindex(columns=t_sub, fill_value=0.0).fillna(0.0).loc[p]
         else:
             points_sub = points_matrix_df.loc[p, t_sub]
-        value_sub = value_matrix_df.loc[p, t_sub]
+        if price_catalog is None:
+            value_sub = value_matrix_df.loc[p, t_sub]
+        else:
+            value_sub, price_known = origin_price_state(price_catalog, current_gw, p, t_sub,
+                                                       value_matrix_df, price_policy)
+            if any(held and pid not in price_known for pid, held in previous_squad_dict.items()):
+                raise ValueError("owned player lacks an origin-known price; no stale/future fallback")
+            for pid in p:
+                if pid not in price_known:
+                    for gw in t_sub:
+                        model += x[pid][gw] == 0
+                        model += x_freehit[pid][gw] == 0
+                        model += e[pid][gw] == 0
+                        model += u[pid][gw] == 0
 
         points_from_lineup = pulp.lpSum(points_sub.loc[p_, t_] * y[p_][t_] for p_ in p for t_ in t_sub)
         points_from_captain = pulp.lpSum(points_sub.loc[p_, t_] * f[p_][t_] for p_ in p for t_ in t_sub)
@@ -471,11 +546,20 @@ def run(args):
             model += alpha[t_curr] <= M_alpha * (1 - w[t_curr])
             model += alpha[t_curr] <= M_alpha * (1 - r[t_curr])
             ft_used_eff_prev = pulp.lpSum(e[p_][t_prev] for p_ in p) - alpha[t_prev]
-            model += ft_carry[t_prev] >= (
-                q[t_prev] - ft_used_eff_prev - M_q * (w[t_prev] + r[t_prev])
-            )
-            model += ft_carry[t_prev] <= Q_bar - Q_under_bar
+            remaining_ft = q[t_prev] - ft_used_eff_prev
+            carry_cap = Q_bar - Q_under_bar
             chip_active_prev = w[t_prev] + r[t_prev]
+            # Exact rollover: carry = min(remaining FT, cap - weekly grant).
+            # A lower bound alone both invents future FTs and makes a full stack
+            # with no transfers infeasible. Chips retain the legacy reset policy.
+            model += ft_carry[t_prev] >= (
+                remaining_ft - M_q * (ft_capped[t_prev] + chip_active_prev)
+            )
+            # A wildcard can use all 15 transfers without hits: remaining_ft
+            # may be -15, so this relaxation needs the transfer bound, not M_q.
+            model += ft_carry[t_prev] <= remaining_ft + M_alpha * chip_active_prev
+            model += ft_carry[t_prev] >= carry_cap - M_q * (1 - ft_capped[t_prev] + chip_active_prev)
+            model += ft_carry[t_prev] <= carry_cap
             q_normal = ft_carry[t_prev] + Q_under_bar
             model += q[t_curr] <= q_normal + M_q * chip_active_prev
             model += q[t_curr] >= q_normal - M_q * chip_active_prev
@@ -491,101 +575,109 @@ def run(args):
             print(f"Solver error: {exc}")
             status = -1000
         solve_time = time.time() - solve_start
-        status_str = pulp.LpStatus.get(status, "Unknown Status")
+        solution_status = getattr(model, "sol_status", pulp.LpSolutionNoSolutionFound)
+        solution_status_str = pulp.LpSolution.get(solution_status, "Unknown Solution Status")
+        acceptable = status == pulp.LpStatusOptimal and solution_status == pulp.LpSolutionOptimal
+        # PuLP maps some HiGHS time/iteration limits to LpStatusOptimal while
+        # sol_status remains IntegerFeasible. Never log those as proven optimal.
+        status_str = "Optimal" if acceptable else f"Unproven ({pulp.LpStatus.get(status, 'Unknown Status')}; {solution_status_str})"
         print(f"Status: {status_str} (solve: {solve_time:.2f}s, model build: {solve_start - loop_start:.2f}s)")
 
         objective_value = model.objective.value() if model.objective is not None else None
-        acceptable = status == pulp.LpStatusOptimal or (
-            status == pulp.LpStatusNotSolved and objective_value is not None
-        )
+        if not acceptable:
+            raise RuntimeError(f"GW {current_gw}: solver did not prove optimality: {status_str}. No squad output written.")
+        native_evidence = {}
+        if args.solver == "highs":
+            native = model.solverModel
+            info = native.getInfo()
+            native_evidence = {"solver_native_status": native.modelStatusToString(native.getModelStatus()),
+                               "solver_mip_gap": info.mip_gap,
+                               "solver_primal_bound": info.objective_function_value,
+                               "solver_dual_bound": info.mip_dual_bound}
 
         def val(var, default=0.0):
             v_ = var.varValue
             return v_ if v_ is not None else default
 
-        if acceptable:
-            if is_fresh_start:
-                previous_squad_dict = {p_: 1 for p_ in p if val(x[p_][t1_sub]) > 0.9}
+        if is_fresh_start:
+            previous_squad_dict = {p_: 1 for p_ in p if val(x[p_][t1_sub]) > 0.9}
 
-            gw_results = {"gameweek": current_gw}
-            selected_squad = x_freehit if val(r[t1_sub]) > 0.9 else x
-            gw_results["squad"] = sorted([p_ for p_ in p if val(selected_squad[p_][t1_sub]) > 0.9])
-            gw_results["lineup"] = sorted([p_ for p_ in p if val(y[p_][t1_sub]) > 0.9])
-            bench = [p_ for p_ in gw_results["squad"] if p_ not in gw_results["lineup"]]
-            bench_gk = [p_ for p_ in bench if pos_map.get(p_) == "GK"]
-            bench_outfield = sorted(
-                [p_ for p_ in bench if pos_map.get(p_) != "GK"],
-                key=lambda p_: (-points_sub.loc[p_, t1_sub], str(p_)),
-            )
-            gw_results["bench_order"] = bench_gk + bench_outfield
-            potential_captains = [p_ for p_ in p if val(f[p_][t1_sub]) > 0.9]
-            potential_tc = [p_ for p_ in p if val(is_tc[p_][t1_sub]) > 0.9]
-            tc_active = bool(potential_tc)
-            captain_id = potential_tc[0] if potential_tc else (potential_captains[0] if potential_captains else None)
-            gw_results["captain"] = [captain_id] if captain_id is not None else []
-            gw_results["vice_captain"] = sorted([p_ for p_ in p if val(h[p_][t1_sub]) > 0.9])
-            gw_results["transfers_in"] = sorted([p_ for p_ in p if val(e[p_][t1_sub]) > 0.9])
-            gw_results["transfers_out"] = sorted([p_ for p_ in p if val(u[p_][t1_sub]) > 0.9])
-            gw_results["budget_end"] = val(v[t1_sub], previous_budget)
-            gw_results["budget_start"] = previous_budget
-            gw_results["alpha"] = round(val(alpha[t1_sub]))
-            gw_results["q_start"] = previous_ft
-            gw_results["objective_value"] = objective_value
+        gw_results = {"gameweek": current_gw, "solver_status": "Optimal",
+                      "solver_solution_status": solution_status_str,
+                      "solver_gap_rel": args.gap_rel, "solver_gap_abs": 0.0,
+                      **native_evidence}
+        selected_squad = x_freehit if val(r[t1_sub]) > 0.9 else x
+        gw_results["squad"] = sorted([p_ for p_ in p if val(selected_squad[p_][t1_sub]) > 0.9])
+        gw_results["lineup"] = sorted([p_ for p_ in p if val(y[p_][t1_sub]) > 0.9])
+        bench = [p_ for p_ in gw_results["squad"] if p_ not in gw_results["lineup"]]
+        bench_gk = [p_ for p_ in bench if pos_map.get(p_) == "GK"]
+        bench_outfield = sorted(
+            [p_ for p_ in bench if pos_map.get(p_) != "GK"],
+            key=lambda p_: (-points_sub.loc[p_, t1_sub], str(p_)),
+        )
+        gw_results["bench_order"] = bench_gk + bench_outfield
+        potential_captains = [p_ for p_ in p if val(f[p_][t1_sub]) > 0.9]
+        potential_tc = [p_ for p_ in p if val(is_tc[p_][t1_sub]) > 0.9]
+        tc_active = bool(potential_tc)
+        captain_id = potential_tc[0] if potential_tc else (potential_captains[0] if potential_captains else None)
+        gw_results["captain"] = [captain_id] if captain_id is not None else []
+        gw_results["vice_captain"] = sorted([p_ for p_ in p if val(h[p_][t1_sub]) > 0.9])
+        gw_results["transfers_in"] = sorted([p_ for p_ in p if val(e[p_][t1_sub]) > 0.9])
+        gw_results["transfers_out"] = sorted([p_ for p_ in p if val(u[p_][t1_sub]) > 0.9])
+        gw_results["budget_end"] = val(v[t1_sub], previous_budget)
+        gw_results["budget_start"] = previous_budget
+        gw_results["alpha"] = round(val(alpha[t1_sub]))
+        gw_results["q_start"] = previous_ft
+        gw_results["objective_value"] = objective_value
 
-            wc_active = val(w[t1_sub]) > 0.9
-            bb_active = val(b[t1_sub]) > 0.9
-            fh_active = val(r[t1_sub]) > 0.9
-            chip_name = None
-            if wc_active: chip_name = "WC"
-            if bb_active: chip_name = "BB"
-            if fh_active: chip_name = "FH"
-            if tc_active and captain_id is not None:
-                chip_name = f"TC_{player_name_map.get(captain_id, captain_id)}"
-            gw_results["chip_played"] = chip_name
+        wc_active = val(w[t1_sub]) > 0.9
+        bb_active = val(b[t1_sub]) > 0.9
+        fh_active = val(r[t1_sub]) > 0.9
+        chip_name = None
+        if wc_active: chip_name = "WC"
+        if bb_active: chip_name = "BB"
+        if fh_active: chip_name = "FH"
+        if tc_active and captain_id is not None:
+            chip_name = f"TC_{player_name_map.get(captain_id, captain_id)}"
+        gw_results["chip_played"] = chip_name
 
-            e_sum = len(gw_results["transfers_in"])
-            if chip_name in ("WC", "FH"):
-                next_ft = Q_under_bar
-            else:
-                ft_used_eff = max(0, e_sum - gw_results["alpha"])
-                ft_carry_val = max(0, previous_ft - ft_used_eff)
-                next_ft = min(Q_bar, math.floor(ft_carry_val + Q_under_bar))
-
-            if fh_active:
-                previous_budget = gw_results["budget_start"]
-            else:
-                previous_squad_dict = {p_: 1 for p_ in gw_results["squad"]}
-                previous_budget = gw_results["budget_end"]
-            previous_ft = next_ft
-
-            if chip_name == "WC":
-                if current_gw <= mid_season_split_gw:
-                    used_chips_tracker["wc1"] = True
-                else:
-                    used_chips_tracker["wc2"] = True
-            elif chip_name == "BB":
-                used_chips_tracker["bb"] = True
-            elif chip_name == "FH":
-                used_chips_tracker["fh"] = True
-            elif chip_name and chip_name.startswith("TC_"):
-                used_chips_tracker["tc"] = True
-
-            master_results.append(gw_results)
-            print(f"GW {current_gw}: chip={chip_name}, transfers in/out={len(gw_results['transfers_in'])}, "
-                  f"budget_end={previous_budget:.1f}, next FT={previous_ft}")
+        e_sum = len(gw_results["transfers_in"])
+        if chip_name in ("WC", "FH"):
+            next_ft = Q_under_bar
         else:
-            print(f"No acceptable solution for GW {current_gw}; falling back to no transfers.")
-            master_results.append({
-                "gameweek": current_gw, "squad": sorted(previous_squad_dict.keys()),
-                "lineup": [], "bench_order": [], "captain": [], "vice_captain": [], "transfers_in": [], "transfers_out": [],
-                "budget_end": previous_budget, "budget_start": previous_budget, "alpha": 0,
-                "q_start": previous_ft, "objective_value": None, "chip_played": "FALLBACK_NO_TRANSFERS",
-            })
-            previous_ft = min(Q_bar, math.floor(previous_ft + Q_under_bar))
+            ft_used_eff = max(0, e_sum - gw_results["alpha"])
+            ft_carry_val = max(0, previous_ft - ft_used_eff)
+            next_ft = min(Q_bar, math.floor(ft_carry_val + Q_under_bar))
+
+        if fh_active:
+            previous_budget = gw_results["budget_start"]
+        else:
+            previous_squad_dict = {p_: 1 for p_ in gw_results["squad"]}
+            previous_budget = gw_results["budget_end"]
+        previous_ft = next_ft
+
+        if chip_name == "WC":
+            if current_gw <= mid_season_split_gw:
+                used_chips_tracker["wc1"] = True
+            else:
+                used_chips_tracker["wc2"] = True
+        elif chip_name == "BB":
+            used_chips_tracker["bb"] = True
+        elif chip_name == "FH":
+            used_chips_tracker["fh"] = True
+        elif chip_name and chip_name.startswith("TC_"):
+            used_chips_tracker["tc"] = True
+
+        master_results.append(gw_results)
+        print(f"GW {current_gw}: chip={chip_name}, transfers in/out={len(gw_results['transfers_in'])}, "
+              f"budget_end={previous_budget:.1f}, next FT={previous_ft}")
 
         print(f"GW {current_gw} loop time: {time.time() - loop_start:.2f}s")
 
     results_df = pd.DataFrame(master_results)
+    if price_catalog is not None:
+        results_df["origin_price_policy"] = price_policy
+        results_df["price_eligibility"] = "strictly_prior_observed_price"
     if not results_df.empty:
         id_cols = ["squad", "lineup", "bench_order", "captain", "vice_captain", "transfers_in", "transfers_out"]
         results_named = results_df.copy()

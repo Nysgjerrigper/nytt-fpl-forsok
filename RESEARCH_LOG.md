@@ -1493,3 +1493,974 @@ for all 62 candidate windows, with unchanged registered vendor solver bytes.
 
 Independent rule and regression suite: 556 passed, two existing warnings. Preserve the
 optional integration and negative results; retain legacy default and single:catboost.
+
+### 2026-10-03 — Registered reproducible forecast priorities, seed 0
+
+PO authorized the proposed research plan. First package covers reproducible controls,
+existing MAE/RMSE decision comparisons, bounded feature ablations and opt-in registered
+cold-start coverage (issue #13). Production remains single:catboost. Before fitting,
+experiments/research_priorities_2026-10-03/selection_seed0/registration.json registered
+exact parameters, all source hashes, ordered features, software versions and frozen
+input SHA 62f8f1d31d47a5f859f6d73819c9e631a59de346fed7de2fd5877b994a2ccc98.
+The controls are newly fitted validated seed-0 selection artifacts, with five-thread
+runtime overrides; they are not a replay of historical 2088/1901 controls.
+
+Hypothesis: loss and existing feature families may alter realized decisions differently
+from forecast error. Six predeclared selection-origin variants: full MAE/RMSE and MAE
+without fixture, minutes, opponent or xP features. Selection GW137–152 chooses at most
+one ablation, ties retaining full features; RMSE is predeclared. Finalists are locked
+before standard/origin GW153–183 evaluation. Horizon 3, retrain every 4, chips disabled,
+legacy HiGHS gap 0, proven optimal solves, corrected autosubs_v2, net transfer hits
+with gross points retained. Paired bootstrap 10,000 draws, block 3, seed 0.
+
+This is exploratory, seed 0 only, not promotion evidence. GW153–183 is repeatedly
+examined historical reference; spent GW191–221 and prospective GW232+ are excluded.
+Archived prices/fixtures lack complete publication-time provenance. Cold-start cohort
+coverage uses first-recorded player rounds; it cannot prove historical registration
+or a realized MILP gain. New defensive-contribution scoring is outside this reference.
+
+Admission and cold-start regression checks passed; full suite initially 654 tests,
+with four additional explicit parameter-forwarding/exact-member tests subsequently
+passing. First-recorded cohort diagnostic: selection 58 players/58 player rounds,
+68 fixture rows, 50 DNP rounds; reference 185 players/185 player rounds, 187 fixture
+rows, 127 DNP rounds. Pooled-prior player-round MAE/RMSE are 1.333/1.495 selection
+and 1.206/1.591 reference. These forecast diagnostics do not establish a decision
+gain. Preserved cohort hashes and limitations are in cold_start_diagnostic.json.
+
+Completed seed-0 evidence: newly fitted full MAE 2082 standard / 1905 origin net
+points; tuned RMSE 1939 / 1852; locked MAE-without-opponent 2040 / 1932. Selection
+origin totals: MAE 930, RMSE 1000, without-fixture 930, without-minutes 963,
+without-opponent 973, without-xP 918. Only without-opponent advanced, locked before
+reference evaluation. All 282 solves optimal. RMSE paid 32 selection hit points
+and 8 origin-reference hit points (gross 1860, net 1852); every other run paid zero.
+
+Candidate-minus-MAE paired 95% CIs (10,000 draws, block 3, seed 0): RMSE standard
+-143 [-255,-17], origin -53 [-227.025,149]; without-opponent standard -42
+[-141,74], origin +27 [-87,136]. The standard RMSE loss is supported on this
+historical window; the origin RMSE gap and both ablation gaps are inconclusive.
+Neither challenger establishes a production improvement. Retain single:catboost
+and full features. This comparison assesses complete tuned configurations, whose
+loss and tree capacity differ; it does not isolate a causal loss-function effect.
+Recorded forecast generation plus MILP summed to 52.6 minutes on the local CPU.
+Forecast-generation timers include refits, predictions and origin snapshot rebuilds.
+
+Independent artifact verification recomputed every prediction/squad hash, checked
+paired pools/outcomes/minutes/prices/fixture metadata, net-hit arithmetic and all
+confidence intervals. verification.json records PASS and the final summary file
+SHA 9d421af2cea36abaa33a8339c7bd981927fea4e117c75587a80bda14f8bbc5d7.
+The original selection-summary bytes were preserved before reference output and
+match the pre-reference finalist lock. The original completion registry hash is
+of canonical JSON content, not pretty file bytes; the later VERIFIED entry records
+the actual file SHA explicitly without altering that historical record.
+
+After evaluation, the original evaluated sources were preserved under
+selection_seed0/evaluated_sources/ and checked against registration. Subsequent
+hardening retains immutable selection_summary.json automatically, logs final
+summary file bytes, validates paired forecast inputs, checks source hashes around
+every reference pass and at completion, and derives the probabilistic training
+ceiling at runtime. The quantile module's captaincy explanation now states that
+equal means give equal expected doubled points. These changes did not refit or
+re-score the preserved experiment. Final full suite: 671 passed, two existing
+warnings; one additional final-pass source-drift regression passed separately.
+External-data, neural and scenario priorities remain conditional subsequent work;
+no GW232+ admission, production promotion, commit, push or merge.
+
+### 2026-10-03 — External-source admission audit (issue #14)
+
+Pinned Vaastav 9779cdbc0c07f6c900c2d0c181ddf6bb9c800f88,
+Core Insights bcea139cd777b4f16e21887db22c90e5b498999e and OpenFPL
+ad055ba7270145ce8ecc1f19581423493b1357e7. Preserved compact directory inventories,
+Git blob verification, sample byte hashes and conclusions in
+experiments/external_source_audit_2026-10-03/audit.json, SHA256
+9a1c0b52c2cdf1f1920b5d595e52ea5a2699e2609c0fdf3b55c7a62b85f3dd1a.
+No source is admitted to fitting. Individual Understat player-history file counts
+are 0/712/554/774 for 2020/21–2023/24; filenames are not full-cohort coverage.
+The 2020/21 aggregate has 524 players but no event dates. The sampled 2021/22
+identity dictionary has 609 unique exact pairs, all joining the 737-player roster
+with unique stable codes. Those sample bytes match the pinned revision; this does
+not backdate the final dictionary to earlier deadlines. The sampled player history
+contains 264 matches across seasons 2014–2021, with date-only event timestamps
+and no publication/capture fields. Directory season labels are insufficient filters.
+
+Core Insights begins at 2024/25 (GW153), after discovery/selection; historical GW
+folders are event partitions and dynamic statistics are rewritten after finished
+rounds. Cup coverage is uneven; capture/publication timing and Elo effective time
+remain unproven. OpenFPL's pretrained inference artifacts and later-season imputation
+do not provide an admissible temporal retraining corpus. Understat RF/XGB, its blend,
+and cup/rest/Elo/availability candidates remain blocked on these prerequisites.
+No GW232+ player outcomes accessed. Missing external collection stays missing.
+
+Implemented research-only fpl.data.external contract: full-byte SHA before parsing,
+explicit publication claims and timezone-aware timestamps, exact season-scoped
+identity translation, composed mapping/roster availability, latest pre-deadline
+versions and explicit current-fixture exclusion. All 39 focused synthetic tests
+passed in the primary session. Tests validate consistency, not factual publication
+proof. No external feature or production integration and no model-gain claim.
+
+### 2026-10-03 — Earlier-only quantile interval calibration, seed 0
+
+PO authorized continuation through the usage limit. The numerical protocol was
+registered before fitting under the research backlog (#11); publication of its
+prepared focused issue text remains pending explicit approval after automatic
+review rejected disclosure of that payload. Local registration and implementation
+are authorized. Artifacts: experiments/interval_calibration_2026-10-03/seed0/.
+Every registered source is archived and hash-verified. Frozen input unchanged.
+
+Fixed LightGBM p10/p50/p90, 300 trees, seed 0, five CPU threads, existing full
+features, no tuning. Fit fixture targets; sum distinct fixtures into player rounds
+before calibration. Selection: fit <=GW128, calibrate GW129–136, evaluate GW137–152.
+Reference: fit <=GW144, calibrate GW145–152, evaluate GW153–183. Signed CQR scores
+max(lower-y,y-upper), exact ceil((n+1)*0.8) order statistic; adjusted intervals
+bracket the unchanged median. Summed fixture quantiles approximate round intervals,
+not exact quantiles of a sum. Dependent temporal/player observations do not satisfy
+an established exchangeability guarantee. This is static one-step distribution
+validation; no horizon-three origin distribution or expected-points optimization
+change, production promotion or realized MILP gain is claimed.
+
+All eight position/phase adjustments were exactly zero. Raw/calibrated coverage,
+width and interval score are therefore identical. Selection pooled coverage 0.91679,
+width 2.28498, interval score 4.25432, n = 12,751 player rounds. Reference coverage 0.89984,
+width 2.52208, interval score 4.73221, n = 21,606. Large zero-score atoms in earlier
+calibration data (roughly 59–78% by position/phase) prevent smooth calibration toward
+80% inclusive coverage. Descriptive reference coverage is0.98868 for 12,279 DNP
+rounds and0.78289 for 9,327 played rounds; participation is known after the match,
+so these subgroup results cannot be used as deadline-known selection/calibration
+labels. No retuning based on reference diagnostics.
+
+Local total 44.73 s, including 4.48 s feature preprocessing and 39.12 s across 24 fits.
+Independent verification recomputed archived-source hashes, calibration order
+statistics, CSV hashes and raw interval metrics, and confirmed identical endpoints
+and preserved medians. Null result retained; no model or optimizer defaults changed.
+Numerical/runner regressions and external admission: 98 focused tests passed. The
+full suite before the final eight external edge-case additions passed 762 tests,
+with two existing warnings; the eight new regressions passed separately.
+
+### 2026-10-03 — CNN native-runtime containment before historical fitting
+
+The bounded CNN's separate synthetic CPU estimator tests passed, and a standalone
+Torch 2.13.0 Conv1d microprobe passed. The primary combined registry/origin/CNN
+suite nevertheless exited 139 with a native segmentation fault in Torch Conv1d.
+Root cause is not established; the failing process also loaded the tree libraries.
+Preserved command, output fragment, source bytes/hash and prior microprobe context
+in experiments/cnn_runtime_2026-10-03/crash.json. No historical CNN fit occurred.
+The combined in-process path is blocked, with no retry. Existing PyTabKit/MPS crash
+guards remain unchanged. A fresh CPU process worker is being validated separately
+before any registered historical experiment; synthetic success will not constitute
+forecast or MILP gain evidence. Native estimator contract tests execute only in a
+fresh subprocess, so the combined regression suite cannot retry the failing path.
+
+### 2026-10-03 — Bounded CNN selection, isolated CPU worker
+
+After the in-process native failure, the process-isolated backend passed synthetic
+validation with GBMs in the parent and Torch confined to a fresh child. Direct CNN
+fitting now fails before Torch import when GBMs are loaded. Crash, timeout and partial
+protocol responses fail closed without retries. The full suite passed 847 tests,
+with four direct native tests skipped in the parent and passed separately in a fresh
+subprocess; two existing warnings. Two later selection-input regressions also passed.
+No historical fit attempted on the blocked mixed-runtime path.
+
+Registered exact sources, parameters, feature order, runtime, frozen input and
+fixed-fit calendar before evaluation in experiments/cnn_research_2026-10-03/seed0/.
+Eight prior recorded player rounds (not calendar weeks), eight statistics, fixture
+sums retaining NaN, 72 sequence/mask columns added to the 115 base features.
+Two Conv1d layers with 16 channels, kernel 3/padding 1, masked pooling, context and
+missingness, 32-unit head; seed 0, 15 fixed epochs, batch 1024, Adam 0.001,
+weight decay 0.0001, gradient clipping 1, training-only preprocessing/MSE scaling.
+No tuning. All variants fit once through GW136 and issue horizon-three origin
+forecasts on GW137–152; these are different controls from the earlier rolling-refit
+package. Every added sequence column is rebuilt from origin-truncated history and
+frozen over the full horizon. Pools, scoring inputs and prices match exactly.
+
+All 64 MILP solves proven optimal. Net/gross/hits: base MAE 926/926/0;
+MAE plus sequences 893/893/0; RMSE plus sequences 1024/1056/32;
+CNN plus sequences 982/1022/40. CNN failed the preregistered strict point gate
+against the strongest tree, so reference features were not built or evaluated.
+This rejects advancement of this bounded candidate, not CNNs in general.
+No production change or MoE promotion. Verification independently recomputed
+source archives, prediction/squad hashes, identical-input comparisons, net-hit
+arithmetic, optimal counts and immutable selection lock.
+
+Completed wall time 491.71 seconds (8.2 minutes). Forecast-generation timers
+include training, worker startup, predictions and origin rebuilds: MAE 29.04 s,
+sequence MAE 33.07 s, sequence RMSE 111.33 s, CNN 82.38 s. These are not pure
+single-fit benchmarks. The earlier commentary's 9.9-minute estimate was too high;
+the completed timer above is authoritative. Final summary byte SHA256
+ceff744b26b2ffccf968b0384c8bfae1067b20499a9ca0362ad968bc09a0e616.
+
+Interpretation correction for uncertainty: inclusive p10–p90 coverage above 80%
+can arise from discrete point masses even with correct quantiles. It does not by
+itself prove excessive width or under-confidence. The earlier historical log's
+continuous-outcome interpretation should not be reused. Report both tail miss rates,
+width and proper interval score; the signed earlier-only corrections remained zero.
+
+### 2026-10-03 — Runner artifact preservation hardened before seed repeats
+
+Primary review found that the package rechecked current Python hashes but did not
+rehash every preserved input, lock and scored output throughout its run. New package
+runs now archive exact registered sources before evaluation and repeatedly check
+full dataset bytes, pinned tuned JSONs, registration, archive, immutable selection
+summary/lock, prediction/squad CSVs and result JSONs. CNN and temporal-blend runners
+also bind and recheck their registered archives, locks and scored CSVs before
+ranking, paired CIs and completion. A mutation fails closed with an incomplete
+checkpoint; no automatic retry. Existing verified historical artifacts unchanged.
+
+Mutation regressions cover dataset, parameter, archive, registration, frozen
+selection/weight/pilot locks and prior scored outputs, including drift during CI
+calculation. Full suite: 915 passed, four direct native CNN tests skipped in the
+mixed parent and passed in an isolated subprocess, two existing warnings; 26.06 s.
+Production remains single:catboost; no commit, push, merge or promotion.
+
+### 2026-10-03 — Earlier-only CNN/RMSE temporal blend, seed 0
+
+Registered and archived all 47 current Python sources before scoring in
+experiments/temporal_blend_2026-10-03/seed0/. Cached member source inputs were
+verified against their original 45-source archive, immutable selection summary
+and lock, full prediction CSV hashes and verification record. Frozen data unchanged.
+Weight-fitting current-origin player rounds GW137–144 only, summing DGW fixtures.
+Closed-form no-intercept convex MSE weights: CNN DEF 0.3816267815, FWD 0.0343532380,
+GK 0.4283043450, MID 0.3756859836. No intercept, tuning or reference weight update.
+
+Late GW145–152 replay resets the same fresh MILP state for both members. Blend
+579 net / 587 gross / 8 hit points; RMSE 504 / 520 / 16. Delta +75, block-3 paired
+bootstrap CI [9, 141]; two-sided sign test p = 0.125. This was already examined
+selection data, including earlier selection of the tree member. The pilot is
+exploratory continuation, not independent unseen validation. Strict points gate
+passed; all settings and pilot bytes locked before reference feature construction.
+
+Reference fixed fits <=GW152; GW153–183 standard/origin net points:
+full MAE 2032/1906; sequence RMSE 2056/1944; blend 2112/1956.
+Blend origin has four hit points, all other reference variants have zero.
+Blend vs RMSE delta standard +56 CI [-22, 161], origin +12 CI [-148, 147.025].
+Blend vs MAE standard +80 CI [-48, 226], origin +50 CI [-172, 251]. Every reference
+CI includes zero. There is no established repeatable gain, no promotion, and no
+comparison against historical 2088/1901 or the rolling-refit package controls.
+
+All 202 solves optimal, gap zero, chips disabled, corrected autosubs_v2 with hits
+paid. Independent verification recomputed earlier fixture-summed weights, cached
+blend predictions, archive/cached-input/dataset hashes, unchanged weight locks,
+exact paired reference metadata, net/gross/hit arithmetic, optimal counts and CI
+point differences. Verification and its exact script bytes are preserved locally.
+No joint distributions or risk objective are established by a mean blend.
+
+Completed time 1460.28 s (24.3 minutes), including cached pilot and six reference
+passes. Forecast timers (include fitting, snapshots, worker startup/predictions):
+blend standard158.07 s/origin212.70 s; RMSE92.3/146.9 s; MAE7.6/60.3 s.
+Final summary byte SHA256
+0c7788908b8d362c53d15b52761ab0cf5924c9174ee194f5a102dfcfcefb5e5f.
+
+### 2026-10-03 — Tree refit seed robustness registered
+
+Registered seeds 1 and 2 together before either evaluation in
+experiments/research_priorities_2026-10-03/robustness_protocol.json; serial launcher
+and its bytes are bound. Uses the exact seed-zero tuned studies, same frozen input,
+feature variants and four-round refit calendar as the completed first package.
+Only refit random seeds change; no tuning or production promotion. Each seed selects
+its ablation on earlier origin points, ties retaining full features, and freezes
+finalists before reference. Different finalists cannot be pooled as one treatment;
+all seeds share outcomes and do not constitute independent replications.
+
+Seed 1 started in exec session 84806; seed 2 follows only after seed 1 completes
+and registered source/input checks pass. Child runs preserve every scored artifact
+and checkpoints; parent summary is written after each completed seed. Current
+status is registered/running, not a result. Runtime metadata records the session
+for classification on continuation. Do not overwrite, rerun or transfer execution
+authority if the existing process cannot be classified. No commit/push/merge.
+
+### 2026-10-03 — Historical future-price limitation made explicit
+
+Read-only audit confirmed origin forecasts retain each target row's `value`.
+milp.optimize constructs value_matrix_df by player/GW and uses its horizon columns
+in future purchase/sale constraints. Origin form freezing therefore does not freeze
+the realized future price path. Same-input comparisons remain registered historical
+replays; their absolute points do not establish fully point-in-time deployment.
+Documented in FORECAST_RESEARCH. No running settings or score artifacts changed.
+A distinct origin-known price protocol is needed before a strict deployment claim;
+fixture ratings and availability publication timing remain separate evidence gaps.
+
+### 2026-10-03 — Tree refit robustness completed and independently verified
+
+Serial exec session 84806 completed with exit_code 0; no training remains running.
+Parent wall time 7502.96 s (125.05 minutes), seeds 1/2 preregistered together using
+unchanged seed-zero tuning studies. Each seed: 282 optimal solves, 47 archived
+source hashes, 85 immutable output hashes and eight tuning hashes verified.
+Primary verifier additionally recomputed paired metadata, all net/gross/hit
+arithmetic, earlier selection ranking and complete bootstrap/sign-test reports.
+Exact verification script and per-seed/parent verification JSON are preserved in
+experiments/research_priorities_2026-10-03/. Parent protocol byte SHA256
+1a00af8f14da7a1add769693aa83bcd25ea0f603c185341a169cb0b6594d965c;
+parent summary 5241e506476243c777334b9715bdd84b633b90bfb42fa4eebf2f320d2e6b10d4.
+
+Seed 1 selected without-fixture (1031) over MAE full (991); RMSE selection1130.
+Reference standard/origin: MAE1937/1965; RMSE1979/1913; ablation1958/1917.
+RMSE standard delta+42 CI[-144,204], origin-52 CI[-221,86]. Ablation standard+21
+CI[-119,139], origin-48 CI[-149,22]. RMSE hits standard4/origin16; other arms0.
+Seed 1 summary cd5198d055cf1a740cd1c4c2b9cb824882c00bb1f499abb098e9297946042b5c.
+
+Seed 2 selected without-minutes (1010) over MAE full (969); RMSE selection1084.
+Reference standard/origin: MAE1979/1987; RMSE1882/1881; ablation2101/1893.
+RMSE standard delta-97 CI[-321.025,168.025], origin-106 CI[-296,138]. Ablation
+standard+122 CI[-58,340], origin-94 CI[-277,100.025]. RMSE hits standard0/origin28;
+other arms0. Seed 2 summary 7bf58bb439d88190c94ff70f5b5545de5778c8d0647f45392d31a03be18f00ae.
+
+With seed0, RMSE lost origin net points in all three refits (-53,-52,-106), while
+selected ablations differ (opponent/fixture/minutes). No replicated feature gain.
+All seeds share outcomes; different ablations are different treatments, and these
+are diagnostic historical replays with known future-price limitations. Retain
+full-feature MAE research control and production single:catboost. No promotion,
+commit, push or merge. The earlier running entry remains historical status only.
+
+### 2026-10-03 — Cached origin price sensitivity registered
+
+Registered experiments/price_provenance_2026-10-03/seed0/ before any scoring;
+49 current pipeline source files archived. Uses completed seed0 MAE/RMSE origin
+forecasts, no model fitting or tuning. Four predeclared arms in GW137–152 and
+GW153–183 compare target replay against latest strictly prior observed prices
+held constant over each horizon. Both policies share price-known eligibility and
+fresh identical initial state. All 188 solves must be optimal with gap0, chips0,
+autosubs_v2 and net transfer-hit accounting. Paired block3/bootstrap10000 seed0
+within-model price comparisons and RMSE/MAE within each policy are predeclared.
+
+Catalogs for both phases sealed before first solve; current and original archived
+sources, cached input bytes, data, catalog locks, scored files and metadata rehashed
+throughout. Known-price union at initial selection origin:807 eligible/55 unknown;
+reference origin:587 eligible/184 unknown. Recorded price ages reach 23 and115
+rounds respectively at these initial origins. A historical observation is a proxy,
+not deadline price/publication proof; stale observations are not silently labelled
+current. No retrospective age filter is selected from reference outcomes.
+
+Controls differ from unrestricted historical controls due to common eligibility.
+Legacy selling-price and transfer rules remain; roster/fixture/availability timing
+still needs evidence. This is price sensitivity, not full point-in-time validation
+or promotion. Full suite before registration:989 passed, four native CNN tests
+skipped in mixed parent (isolated tests cover them),16 warnings,32.84s. Tiny CBC
+synthetic tests prove future-target-price perturbation cannot change asof budgets
+or decisions and allknown replay catalog retains legacy outputs. Runtime is owned
+execsession11710, serial MILP only. No training, commit, push or production change.
+
+### 2026-10-03 — Price proxy sensitivity completed: model ranking depends on prices
+
+Exec session 11710 completed with exit code 0: 817.75 s (13.6 minutes), 188 optimal
+zero-gap solves, no model fits. All 49 archived source files, 47 cached input hashes
+and 95 immutable output hashes verified against registered bytes. An independent
+catalog reconstruction checked 13,454 selection and 22,094 reference observations,
+each using the latest recorded GW strictly before its origin. Primary verification
+decoded named squad exports through unique names/stable codes, reconstructed all 188
+current budgets, checked known-price eligibility and net/gross/hit arithmetic, and
+recomputed all paired bootstrap/sign-test reports. Exact verifier, verification.json
+and completed runtime classification are preserved in
+experiments/price_provenance_2026-10-03/seed0/.
+
+Selection net points: MAE replay 930/asof 942; RMSE replay 1000/asof 975. RMSE paid 32
+hit points in each policy; MAE paid 0. MAE policy delta +12 CI [-46, 80]; RMSE policy
+-25 CI [-41, -2]. Reference MAE replay 1905/asof 1889; RMSE replay 1678/asof 2110.
+RMSE replay gross 1702/hits 24; all other reference arms paid 0 hits. Net differences:
+MAE asof versus replay -16 CI [-174, 90]; RMSE asof versus replay +432 CI [326, 569.025].
+RMSE versus MAE under replay -227 CI [-427, -18], under asof +221 CI [36, 483].
+
+This reverses the single-seed ranking under a changed price proxy. It does not
+establish production gain, actual deadline prices or independent holdout evidence.
+Asof changes current price proxies as well as future horizon paths; their effects
+are not isolated. Conditional horizon-only freezing is the next registered
+diagnostic, without new model fitting. Multiple descriptive comparisons are not a
+registered promotion assessment.
+
+The restricted RMSE replay differs from the original unrestricted 1852. Elyh
+Harrison, stable code 588555, first appears in frozen raw history at GW176/price 40;
+his first origin forecast is 177. The original RMSE squad nevertheless held him
+from GW153 through 176 using the optimizer's future union pool. The original MAE
+squad never held a player without prior observed prices. Missing price/history is
+not proof of missing historical registration: a real registered debutant can lack
+this history. The stricter proxy catalog therefore changes eligibility deliberately.
+
+All selected asof observations were at most two rounds old; catalogs also include
+much older unselected observations. One selected RMSE replay player-round has
+price age 39 and no horizon fixture, exposing remaining roster/availability timing
+uncertainty. No age filter was chosen from reference outcomes.
+
+Summary byte SHA256 abd278ab943deda2ed3434bb30408cf81a48f14e0beb77eb725a7ec1734f41f7.
+Production single:catboost unchanged. No commit, push, merge or public publication.
+
+### 2026-10-03 — Conditional horizon-price freezing completed
+
+Exec session1528 completed exit0. Four new evaluations reused verified price
+controls, identical prediction CSV bytes and known-price catalogs.50 current
+source files archived;74 immutable output hashes verified.94 optimal solves and
+94 independent current-budget reconstructions passed. Complete source/input/
+lock checks, forecast equality, net/gross/hits and all10 paired reports were
+recomputed. Source/verification/runtime/wheel evidence preserved in
+experiments/price_horizon_2026-10-03/seed0/. No model fits or tuning.
+
+Elapsed408.31s (6.8 minutes). Selection MAE930/RMSE993; reference MAE1938/RMSE1856.
+Reference current-horizon versus replay: MAE+33 CI[-24,91], RMSE+178 CI[42,312].
+RMSE versus MAE current-horizon-82 CI[-259,98]. Versus lagged-asof, MAE+49
+CI[-68,216], RMSE-254 CI[-414.025,-128]. Reference ranking flip disappears when
+only horizon prices change; intervals do not establish a model promotion.
+
+Separate independent initial-squad price lookup exposes a season reset issue:
+lagged-asof MAE initial squad costs1035 and RMSE1080 under reconstructed current
+prices, vs1000 fresh budget. RMSE costs979 under the lagged proxy and retains21
+bank units. Target/current vectors are not verified deadline quotes, but price
+repricing makes the prior-price proxy unreliable as a practical budget input.
+The diagnostic is preserved as price_provenance/seed0/initial_price_sensitivity.json.
+Do not interpret the asof2110 score as deployable gain. Subsequent registered
+seed1/2 price comparisons exclude that proxy because of this budget mismatch,
+not because of its favorable model outcome. Preserve examined-window limitations.
+
+Summary bytes SHA256 fcd53056c55473c727cae6cef84f0a196b243b6eaca795ece725f3b77aa736b9.
+Full suite before scoring1013 passed/four native parent skips/22 warnings,33.10s.
+Offline wheel built without network: all50 Python sources and45 model/data JSON
+artifacts match bytes; installed-package import preserves lazy Torch and production
+single:catboost. Wheel SHA256 dee6d0c866e6326f3d7e27bee2d7fbe1d7ecc90884da01b8ebbd954d2dc8a199.
+No production changes, commit, push, merge or public publication.
+
+## 2026-10-03 — Cached price-policy robustness across refit seeds
+
+Registered both seeds 1/2 before scoring, reference GW153–183 only, cached MAE/RMSE
+forecasts and matching known-price eligibility. Target replay versus a frozen
+reconstructed current-origin price vector; the lagged-price budget proxy was
+excluded because season repricing changed starting-squad feasibility. No new
+model fits, hyperparameter search, finalist selection or untouched holdout.
+
+Owned exec session 1453 returned exit code 0. Elapsed 1344.60 seconds (22.4 minutes).
+Independent per-seed checks and the parent verifier passed: 248 optimal solves,
+248 reconstructed budgets, 432 sealed files, 50 archived source files. Recomputed
+all paired bootstrap/sign-test reports, net/gross/hit arithmetic and cached
+prediction equality. A separate read-only audit found no material defect.
+
+| Refit seed | Replay MAE / RMSE | Fixed-current MAE / RMSE | Fixed-current RMSE minus MAE, 95% CI |
+|---:|---:|---:|---|
+| 0 (previously verified) | 1905 / 1678 | 1938 / 1856 | -82 [-259, 98] |
+| 1 | 1965 / 1891 | 1958 / 1872 | -86 [-209, 27.025] |
+| 2 | 1995 / 1881 | 1999 / 2016 | +17 [-116.025, 181.025] |
+
+No repeated RMSE advantage is established. RMSE's within-model horizon-policy
+changes are +178, -19 and +135; MAE's are +33, -7 and +4. Seeds share outcomes and
+seed-zero tuning studies; no independent-sample pooling. These eligible-player
+controls differ from the original unrestricted controls. Current vectors retain
+historical reconstruction and possible filling, rather than proven deadline
+quotes. Selling-price, roster and publication-time limitations remain.
+
+Preserve production single:catboost and the full-feature MAE research control.
+Prioritize deadline-bound prices, season repricing and historical rosters before
+further model promotion claims. Completed evidence and independent verification:
+experiments/price_provenance_2026-10-03/seed_robustness_*.json,
+reference_seed1/verification.json and reference_seed2/verification.json.
+Parent summary SHA256 c2040ffba0eedbf15b0b4df1691e5924caffe566910d27bdb1dbf181da894a31.
+Latest full suite: 1050 passed, four direct native-parent skips covered by separate
+fresh-process tests, 22 warnings, 32.99 seconds. No active training/solver jobs.
+No production changes, commit, push, merge or new public publication.
+
+### Subsequent final engineering verification
+
+Final review found two admission issues and fixed them without rerunning or
+rewriting completed studies. The live driver and direct legacy optimizer now
+reject owned IDs absent from the forecast pool before solver construction; the
+live guard covers Solio too. A registered player without a fixture across the
+horizon can otherwise lose all exported rows. No synthetic fixtures are created.
+
+New interval runs immediately hash registration, source archives and each CSV,
+then rehash them around phases and completion. The final summary includes an
+immutable manifest. Eight mutation/manifest regressions cover archive, registration,
+dataset and earlier output changes. Bucket walk-forward diagnostics no longer
+claim to constitute realized-decision evidence. Original study source archives
+remain preserved and the original numerical evidence is unchanged.
+
+Primary full suite after both changes: 1064 passed, four direct native-parent skips
+covered separately in fresh-process tests, 17 warnings, 45.24 seconds. Aggregate
+scientific verification binds ten completed studies and independent reports,
+1642 optimal solves and 487 unique immutable outputs. No repeated scoring.
+
+Final offline wheel build and installed imports passed; all 50 Python sources and
+45 model/data JSON files match source bytes. Torch remains lazy and production
+single:catboost is unchanged. Wheel SHA256
+772f3c618cd1a740fb9e990c58206623bbd861b59d0dd455a37dbb6d7be08d5b.
+Package verification and reproducible scripts are under
+experiments/research_priorities_2026-10-03/package*_verification.json.
+No active training/solver jobs, production promotion, commit, push or merge.
+
+
+## 2026-10-03 — Independently dated historical bootstrap admission
+
+Related source prerequisite: issue #14; availability/cold-start research remains
+exploratory under issue #13 and does not change production. Public pinned sources
+are Randdalf/fplcache de78720734e8c24954433fbf91bc356188cfc669 and
+unsaltedpw/fpl-armband 4cbbe8b206686a6def6751966c640fbc673333a7.
+Candidate folder names and Git commit clocks were not accepted as capture proof.
+Internet Archive CDX timestamps and original response SHA1 digests independently
+verify 47 selection/reference and 96 earlier training captures. Decoded body
+SHA256/length also match the pinned source manifests. Original gzip response
+bytes, not decoded JSON, carry the CDX digest. Transport failures remain recorded;
+40 earlier captures were not verified and are explicitly missing, not substituted.
+
+Offline admission requires selected official endpoint, exact timestamp/digest,
+body deadline, target is_next event, stable codes, team/position identity and age
+strictly greater than zero and at most 24 hours. Corruption and schema ambiguity
+fail; only absent, over-age or earlier-event captures can become missing signals.
+This admits 78/136 discovery rounds, 16/16 selection rounds and 28/31 reference
+rounds. Reference GW160/161/162 captures are 225.849/377.349/562.849 hours old
+and therefore rejected. All target outcome rows remain present. Validated type-5
+assistant managers are excluded and counted, never converted to a player position.
+
+The new pure availability transform adds six status indicators, published next-
+round playing chance and capture age. Missing source/player coverage stays NaN.
+An exact-origin snapshot callback freezes these values over the forecast horizon;
+no current-round outcome or later availability is used. This is information at
+the selected crawl time, not proof that prices/status/registration were unchanged
+until the actual deadline. Latest eligible capture selection is not claimed.
+fplcache filename clocks/near-deadline comparisons are corroboration only.
+The armband tree has no LICENSE; upstream implementation is not vendored or
+executed, its source documents and local payload corpus remain ignored.
+
+An outcome-free pool audit reproduces the live snapshot's active-code rule:
+selection missing registered codes range from 0–9; fresh reference rounds from
+0–133. At GW153, 133 registered players are absent, including 72 with no prior
+dataset row. These are crawl-time coverage counts, not independent repeated
+observations or a cold-prior calibration/realized-points result.
+
+Evidence: experiments/deadline_snapshot_audit_2026-10-03/{wayback_verification,
+discovery_wayback_verification,admission_results,forecast_pool_audit}.json, with
+repeatable offline admission and roster audit scripts. Primary full regression
+suite after the adapters: 1194 passed, four skips, 17 warnings, 46.99 seconds.
+No new model fitting or MILP scoring had occurred when this entry was recorded.
+
+
+### Registered prior coverage follow-up and sealed availability study
+
+The crawl-time registered-cohort check supplied finite empirical priors for all
+191 missing stable codes across 44 admitted selection/reference origins. Each
+prior uses only history strictly before its origin; total fitting took 10.259
+seconds. There is no target accuracy or realized-decision assessment. The saved
+registration's target_outcomes_read flag was overbroad: the frozen CSV parser
+loads outcome columns, while prediction uses only strictly earlier outcomes.
+registered_priors_metadata_correction.json preserves this correction without
+altering the original registration or numerical output.
+
+A later admission-verifier run changed only a source hash for the now-finished
+availability runner and inadvertently replaced the report bound by the coverage
+registration. The exact original bytes were reconstructed using the earlier
+recorded source hash and accepted only after their complete SHA256 matched the
+original registration (72224c545152dcab91a9f0f4f9cb31b725469a3fa8c209170aa18e729e892ab2).
+The newer report is preserved separately as admission_verification_current.json;
+raw capture evidence and admission counts were unchanged. Subsequent verification
+commands write a separate current report to preserve completed-study inputs.
+
+The seed-zero availability experiment registers identical tracked MAE capacity,
+115 control features versus 123 challenger features, before fitting. Selection
+origin net points are 930 control / 952 candidate; paired block CI for +22 is
+[-25, 110], with 32 optimal solves. Both arms freeze reconstructed current-origin
+prices across the horizon and share strictly-prior-price eligibility. Forecasting
+took 51.2/55.4 seconds; MILP took 56.9/108.6 seconds. The strict registered point-
+estimate gate advances the fixed candidate; no gain or promotion conclusion
+follows from this uncertain selection result. Reference settings are locked
+before scoring. Reference standard control is 2082 (same as the earlier fresh
+control), forecasting 95.9 seconds and MILP 159.0 seconds. Reference evaluation
+was still running when this interim scientific evidence entry was recorded.
+
+Primary full suite with the sealed runner: 1213 passed, four skips, 17 warnings,
+33.65 seconds. Offline wheel verification matches all 53 Python sources and 45
+model/data JSON artifacts, installed imports pass, and Torch remains lazy.
+Wheel SHA256 fd7509f5e49a851d56d87b9036c56889c8fd3e2c86223165adfaba5fb9ba2f3d.
+The ten previously completed studies still verify 1642 optimal solves and 487
+unique immutable outputs. New availability solves are not yet in that aggregate.
+
+
+### Availability seed-zero completed — no improvement
+
+Registered reference comparisons completed in 1503.98 seconds (25.1 minutes):
+MAE control standard/origin 2082/1938; availability challenger 1917/1922.
+Candidate minus control standard -165, paired CI [-357, 0.025]; origin -16,
+CI [-122.025, 51.025]. Forecasting/MILP seconds: control standard95.9/159.0,
+control origin194.0/126.4, challenger standard107.4/160.3, origin210.9/158.4.
+These forecasting timings include fitting, inference and snapshot reconstruction,
+not a single training-pass benchmark. No hyperparameter search was performed.
+
+Independent primary verification rehashes original source archives, frozen input,
+all admitted capture inputs and 91 immutable outputs; reconstructs both strict
+prior-price catalogs and confirms unchanged outcome-fixture multisets; reproduces
+all three bootstrap/sign reports, net/gross/hit arithmetic, disabled chips and
+156 exact-optimal statuses; reconstructs 94 origin current-price budgets and
+checks selected-player eligibility. Summary SHA256
+e8db77bd7152eeb05d90b96cfcf3d4fad9ea2db1f8286645958f34f9fdff2174.
+
+The new information did not establish a decision gain. The feature family remains
+research-only, with selected-crawl-time coverage and reconstructed-price/roster/
+FT/selling limitations explicit. No production promotion, commit, push or merge.
+
+Seed1/2 replication was registered before those fits and while seed0 reference
+evaluation was still running. Same tracked seed-zero parameter capacities,
+eight additions and coverage mask, with seed overrides only. Each seed retains
+the strict earlier origin-net gate; a loss/tie has no reference evaluation. Seeds
+share historical outcomes and are not pooled independent samples. The staged
+implementation was applied only after seed0 completed and passed verification;
+current source hashes match the parent protocol exactly. Focused primary checks:
+168 passed. Parent registration and extension are retained under
+experiments/availability_research_2026-10-03/robustness_*.
+
+
+### MAE availability replication rejected; RMSE information pilot registered
+
+Seed1 selection control921 / candidate881, delta-40, CI[-181,69]. Seed2
+control969 / candidate925, delta-44, CI[-162,95]. Both fail the predeclared
+strict net-point gate and correctly have no reference evaluation. The two-seed
+parent completes in506.33 seconds (8.44 minutes). Each study has32 optimal
+solves and32 independently reconstructed origin budgets. Primary recomputation
+of all three individual studies plus parent byte/archive checks passed; the
+family's220 optimal solves are bound by robustness_verification.json. The
+seed0 positive selection result is not stable and its reference lost on both
+standard/origin comparisons. No availability gain or production change.
+
+A separate one-seed RMSE information pilot was registered before fitting, after
+the fixed MAE replications. The same eight additions, data/coverage and pricing
+are used; both arms use their own tracked RMSE capacity. No new HPO, new feature
+selection, pure MAE-versus-RMSE claim or promotion protocol. Each loss shares the
+same repeatedly examined historical outcomes. A strict earlier origin gain is
+required before reference scoring. Its proposed source extension hashes were
+registered, applied only after the MAE parent ended and passed verification, and
+matched exactly before fitting. The driver seals its own bytes and verification
+script before execution. Local scientific artifacts are under
+experiments/availability_research_2026-10-03/rmse_*.
+
+Primary focused checks183 passed. Full suite1243 passed, four skips,17 warnings,
+34.69 seconds. Latest offline wheel sources53 andJSON artifacts45 all match;
+installed imports/defaultproduction/lazyTorch pass. Wheel SHA256
+85a94bcce5bd188cb5bace492b5d65b8ee0e7f325f902d2e9642e7cdf892e5af.
+The RMSE pilot was still running when this entry was recorded.
+
+### 2026-10-04: RMSE availability selection gate
+
+The registered RMSE pilot completed selection with control 993 / candidate 996
+net points, delta +3 and paired block-bootstrap CI [-96, 119]. The exact paired
+sign-test one-sided candidate-better p-value is 0.84912109375 (six wins,
+nine losses, one tie). These diagnostics do not establish an improvement; the
+predeclared strict point-estimate gate nevertheless advances the unchanged
+candidate. Both arms together have 32 optimal selection solves. Forecasting
+seconds are 499.19 control / 488.49 candidate; MILP seconds 87.41 / 75.59.
+The forecasting interval includes repeated fits, inference and snapshot work,
+not one four-position training pass. Reference settings are locked before
+scoring and evaluation remains in progress. No production change or promotion.
+
+The first reference arm reproduced the RMSE standard control at 1939 net points.
+Forecast generation took 751.4 seconds and MILP 179.7 seconds. The remaining
+reference arms were still running at this entry; partial controls are not a
+candidate result.
+
+A separate verified compute ledger rehashes all 13 completed studies' summary
+and independent report bytes. Primary numeric reconstruction checked seven
+study timing tuples and exclusion of reused price controls. The aggregate
+verifier now admits both PASS and verified report labels; five synthetic
+status cases passed in the primary session. No pipeline sources were changed.
+The RMSE completion finalizer seals its scripts before waiting for the parent
+verification report. It rechecks all pilot input/source locks, then creates new
+aggregate/timing/finalization reports without repeating fits or solves. It
+fails on an explicit study error, changed script bytes or a three-hour timeout.
+The prior 1862-optimal-solve package remains preserved pending completion.
+
+Independent finalizer fixtures exposed two postprocessing weaknesses: Python
+optimization could bypass assertions, and inputs were not rechecked after child
+report generation. Original bytes remain in finalize_rmse_evidence_v1.py. The
+initial waiting process classified exit1 on changed script SHA without creating
+reports; the model process remained untouched. Hardened finalization rejects
+optimized execution and rechecks parent/protocol/input/source/summary/report
+bytes after each child, plus aggregate bytes after ledger generation. Its v2
+script lock is rmse_finalization_v2_input_lock.json. Primary regression checks
+cover eight tests and 15 subtests, including mutations after either child and
+existing-output preservation. Full primary suite: 1251 passed, four skips,
+17 warnings and15 subtests in55.23 seconds. Pipeline sources are unchanged from
+the sealed pilot and the verified 53-source wheel. Reference scoring remains
+in progress; no final RMSE availability result is claimed here.
+
+Primary byte reproduction checks confirm the RMSE standard reference control
+matches the earlier registered tree-package control exactly: prediction CSV
+SHA, squad CSV SHA, net/gross/hit totals all identical. Both actual CSV files
+were rehashed. The proof is rmse_control_replay_verification.json. This verifies
+the standard control only; remaining origin/candidate arms are still running.
+
+### 2026-10-04: RMSE availability pilot completed and verified
+
+The registered seed-zero pilot completed in 5473.19 seconds (91.2 minutes).
+Reference standard control/candidate: 1939/2055 net points, delta +116,
+paired block-bootstrap CI [-16, 237]. Reference origin control/candidate:
+1856/1943, delta +87, CI [-65, 207]. Exact paired sign-test one-sided p-values
+are 0.23656483 standard and 0.22912916 origin. Both confidence intervals include
+zero. This is encouraging single-seed evidence relative to the registered RMSE
+control; it does not establish a gain or production-promotion case. Earlier
+selection was +3, CI [-96, 119]. The same repeatedly examined reference and
+selected crawl-time/reconstructed-price limitations apply.
+
+Forecast-generation/MILP seconds: control standard 751.4/179.7, control origin
+1031.6/185.5, candidate standard 903.3/141.0, candidate origin 938.9/174.0.
+These are repeated-fit forecast-arm timings, not one training pass. All 156
+solves were optimal. Independent verification reconstructed 94 current-price
+budgets, checked unchanged fixture outcomes and all paired CI/sign reports,
+and bound 91 immutable outputs. Summary SHA256:
+ed4bb9809814222552303594dbeefee416fe25708a3d07ee7a6297826b53fb91.
+
+The hardened waiting finalizer completed successfully. The aggregate now binds
+2018 optimal solves and 811 unique immutable outputs across 14 completed
+studies. A separate RMSE-inclusive compute ledger preserves the earlier ledger.
+Primary rechecking of 395 pilot/input/output artifact hashes passed and matched
+the finalization comparisons exactly. Both owned background processes exited
+zero; no outstanding job remains from this pilot. Full suite remains 1251 passed,
+four skips, 17 warnings and 15 finalizer subtests. Production remains
+single:catboost; no commit, push, merge or model promotion.
+
+### 2026-10-04: RMSE refit-seed replication registered
+
+After the completed seed-zero pilot was independently reverified in the primary
+session, fixed refit seeds 1 and 2 were registered before either new fit. Both
+retain the identical data, archive mask, eight additions, tracked seed-zero
+RMSE capacities, pricing and strict earlier-origin selection gate. Model and
+paired-bootstrap seeds change together; no new HPO or feature selection.
+All baseline outputs and archived sources are bound alongside raw-input and
+current-source hashes. Child settings/versions are checked against the parent,
+and each completed child receives a fresh independent numerical verifier.
+Negative/tied selection stops that seed before reference scoring. Outcomes are
+shared and the historical reference remains repeatedly examined; this is a
+replication protocol, not production promotion.
+
+Preflight regression tests reject invalid seeds/models, changed baseline bytes,
+wrong driver/verifier hashes, invalid prior status and existing output paths
+before fitting. An exact integer identity guard rejects False as seed zero;
+the real seed-zero metadata is integer 0. Primary full suite: 1260 passed,
+four skips, 17 warnings and 34 subtests in 43.42 seconds. No pipeline sources
+changed. Driver SHA256:
+a07469cc04b11f5fd551a736fb706fe534b7e4da9a4b79d8d7a5d4ce74a7fa27.
+The serial replication was launched after registration. Outputs are
+rmse_seed1/rmse_seed2 and rmse_robustness_* under the availability study.
+
+### 2026-10-04: RMSE replications completed and independently verified
+
+Fixed refit seeds 1 and 2 completed normally. Selection-origin control/candidate
+points were 1081/1062 for seed 1 (difference -19, paired CI [-122, 57]) and
+1116/1050 for seed 2 (-66, CI [-181, 23]). Both failed the registered strict
+positive-selection gate and have no reference evaluation. Together with
+seed-zero selection +3 [-96, 119], this family does not establish a stable
+benefit. The previously reported positive seed-zero reference intervals still
+include zero. Keep production single:catboost.
+
+The serial parent took 1430.96 seconds (23.85 minutes); children recorded
+692.39 and 730.39 seconds. No HPO was repeated. The new replication verifier
+binds 64 additional optimal solves and 220 for the RMSE availability family.
+A separate 16-study package now binds 2082 optimal solves and 953 unique
+immutable outputs. Earlier aggregate reports remain unchanged. Primary
+independent child numerical verification and parent hash rechecks passed.
+The additional read-only recheck binds 1351 unique evidence artifacts; its
+current-source observation distinguishes later config additions from archived
+study code. There is no fresh holdout or production promotion claim.
+
+New evidence: rmse_robustness_verification.json and
+rmse_replications_recheck_2026-10-04.json under the availability study;
+package_with_availability_replications_verification.json and
+compute_timings_with_replications_verified.json under research_priorities.
+
+### 2026-10-04: Grouped uncertainty diagnostics registered and completed
+
+Added a research-only grouped conformal calibration core and runner. Fixed
+exposure groups use strictly shifted mins60_rate_roll5, boundaries 0.2/0.8,
+an explicit missing group and position fallback for fewer than 100 earlier
+calibration rows. Settings, frozen input, original quantile outputs and source
+archives were sealed before preprocessing. No quantile model was refitted.
+The original position-only control is numerically reconstructed before scoring.
+Player-round interval-score deltas use whole-round moving blocks of length
+three, 10000 draws, seed zero and player-round weighting. Both fixed phases
+are descriptive diagnostics, regardless of selection direction.
+
+The run completed normally in 5.36 seconds. Independent numerical verification
+is pending; do not interpret its diagnostic result as model promotion evidence.
+Root full suite after the core/runner/config additions: 1345 passed, four skipped,
+17 warnings and 34 subtests in 35.98 seconds. Production remains unchanged.
+
+### 2026-10-04: Grouped interval diagnostic independently verified
+
+Primary execution of the independent NumPy/Pandas verifier rederived signed
+order-statistic cells, sparse fallbacks, original control and grouped bounds,
+all subgroup metrics and weighted noncircular block intervals. All 169 bound
+artifacts passed; original CSV fields and capped shifted-feature/DGW joins match.
+Selection proper interval-score delta was -0.0062463, CI [-0.0189959, 0.0034776];
+reference -0.0029823, CI [-0.0108672, 0.0048672] (candidate minus control, lower
+better). Both include zero. Reference coverage rose 0.899843 to 0.902620 and
+width 2.522082 to 2.571142. Played-only score worsened slightly in both phases;
+that subgroup uses observed minutes and is diagnostic only. No clear benefit.
+
+A new wheel built without dependency installation; all 55 pipeline Python files
+match current source bytes, with frozen manifest and vendor license included.
+Wheel SHA256: 70123381a7a3701683558cc731be46b43b88f5971c1483ed76be296c7205bbf8.
+Evidence lives in grouped_interval_calibration_2026-10-04; no fit or MILP was
+run by its numerical verifier or packaging check.
+
+### 2026-10-04: Registered missing-pool outcome coverage audit
+
+A fixed coverage-only linkage was registered before frozen outcome parsing,
+reusing the 191 sealed registered player-origin prior rows. Same-round fixture
+labels are joined by stable code and origin; absent labels remain missing,
+observed DNP zero is distinct, and no retrospective fixture count changes any
+prior or forecast. The run completed normally: all 191 rows have observed labels,
+192 fixtures, 93 with positive minutes, 88 with positive points and 180 summed
+observed points. No registered-position/team mismatches. These are repeated
+player-origin observations, not an attainable optimizer gain or independent
+sample. Independent reconstruction is pending. Eight synthetic regression tests
+passed, including pre-parse registration, drift, DGW and absence contracts.
+
+### 2026-10-04: FOSS interface issue and historical Understat feasibility
+
+Created GitHub issue #15, Explore reusable FOSS interfaces for the FPL pipeline.
+Five pinned source repositories were inspected; three have actual license files,
+two need licensing clarification. Detailed local findings are in
+FOSS_INTERFACE_AUDIT.md. Automatic approval review rejected publishing that
+specific detailed comment/effort estimate without explicit payload approval;
+the requested issue itself was created successfully. No upstream application
+code was executed or adopted.
+
+One Understat Liverpool/2020 HTML archive capture is now locally preserved and
+its decoded SHA1 independently matches the Archive CDX digest. Decoded SHA256:
+c185d7a7c599af3bf7d9c2d6ea7caf1af757b66ef730349eaeceba8626aba7da.
+The 2020-11-01 capture contains team fixture data plus player season-to-capture
+aggregates, not player-match histories. This proves a sparse acquisition path;
+it does not establish full deadline coverage, timezone/identity mapping or
+admissibility for model fitting. No external observations entered training.
+
+### 2026-10-04: Cold coverage proof and safe Understat extraction
+
+Independent primary reconstruction of registered missing-pool outcomes passed:
+original 191 prior rows/fields remain unchanged; fixture sums, every phase/position/
+status count and all preserved bytes match. No position/team mismatches or missing
+labels occurred in this bounded cohort. The eight added audit tests brought the
+full suite to 1353 passed, four skips, 17 warnings and 42 subtests (39.69 seconds).
+No predictive score or optimizer benefit was assessed.
+
+The original Understat replay and independent CDX metadata are now both preserved,
+with matching timestamp/URL/digest records. A static restricted-string/JSON parser
+extracts the three named collections without executing JavaScript. It rejects
+ambiguous keys/IDs, nonfinite values, malformed literals and oversized HTML;
+65 synthetic tests passed. Actual extraction found seven completed matches and
+31 upcoming fixtures, plus 21 player season aggregates and seven statistics
+objects. Source numeric strings and naive event datetimes remain unchanged.
+The parsed collections are ignored local evidence, with compact hashes retained.
+No clock inference, player identity mapping, model fit or external-data admission.
+
+### 2026-10-04: Verified diagnostic package and league-calendar preparation
+
+A separate eighteen-study evidence extension preserves the earlier package and
+adds the independently verified grouped intervals and missing-pool coverage
+diagnostic. It rechecks 1116 bound artifacts and 1074 unique generated immutable
+outputs. Optimal solves remain 2082: neither diagnostic ran an optimizer. This
+aggregate is bookkeeping, not independent-sample pooling or promotion evidence.
+
+Root full suite after the static source parser: 1418 passed, four skips,
+17 warnings and 42 subtests in 39.95 seconds. Diff whitespace checks passed.
+
+A partial priority-seven candidate is being prepared from unused existing EPL
+kickoff fields: prior league rest days and counts over (0,7]/(0,14] days. Entire
+current DGWs are excluded, lower-gameweek matches must also precede the clock,
+missing league history stays NaN, and origin values must freeze over the horizon.
+The historical fixture calendar remains a schedule proxy, not proof of deadline
+publication; cup/European load and Elo are not supplied. Discovery quality checks
+found no missing kickoff/fixture fields, conflicting team-fixture clocks or
+fixtures with more than two teams among 92289 admitted rows. Nine synthetic
+workload tests passed. No workload model has been fitted or scored yet.
+
+### 2026-10-04: League workload comparison registered and launched
+
+After primary review of the fixed helper/runner and synthetic gate/source tests,
+the full suite passed 1449 tests, four skips, 17 warnings and 55 subtests in
+41.05 seconds. The seed-zero workload study was then registered before any
+feature construction or model fit. It binds the exact driver/helper bytes,
+55 pipeline sources, frozen input, manifest and tracked parameters. Both arms
+use identical seed-zero MAE capacity, five threads, four-round refitting and
+horizon three. Exact ordered 115/118 schemas, context and price catalogs lock
+before each phase's first fit. Selection-origin current-price proxy is common;
+reference standard is target-price replay and origin retains the shared proxy.
+
+The candidate adds only league_rest_days, league_matches_last7_days and
+league_matches_last14_days. All current DGW fixture rows share context; only
+strictly lower-round fixtures before the earliest current kickoff count. Origin
+context freezes over the horizon and missing team/round context remains NaN.
+The candidate must strictly exceed earlier selection net points before reference
+features are admitted. This is a historical schedule-proxy experiment, not full
+all-competition load, exact deadline publication evidence or model promotion.
+The serial job is active; no result or gain claim yet.
+
+Independent read-only Understat reconstruction separately matched all original
+transfer/decoded/index/parser hashes and reconstructed the same three collections
+without the production parser or JavaScript execution. Capture clocks and exact
+CDX row identity agree; all training-admitted flags remain false.
+
+### 2026-10-04: Workload candidate passes registered selection gate
+
+Selection-origin control/candidate scored 930/1008 net points: +78. Recorded
+control forecast/MILP times were 53.9/59.7 seconds; candidate 57.5/53.3 seconds.
+Primary byte comparison confirms control predictions and squads exactly match
+availability seed-zero's previously verified control. A separate replay proof
+preserves both pairs of hashes. This control identity guards against accidental
+baseline drift; the candidate result is not a production-promotion assessment.
+
+The positive gate admitted reference evaluation. The local serial study remains
+active. A reviewed independent verifier is queued behind terminal completion and
+will reconstruct contexts, ordered schemas, budgets, realized scoring, forecast
+diagnostics, paired confidence intervals and exact sign tests without refitting
+or solving. The finalizer accepts only terminal complete/rejected evidence,
+refuses incomplete runs or changed verifier bytes, writes a new verification file
+once and does not retry failures. Reference results and final verification are
+pending. Do not include this active study in the eighteen-study completed package.
+
+
+## 2026-10-04 — Setup/logic audit and historical optimizer qualification (issues #6/#13)
+
+The audit checkpoint is `experiments/setup_logic_audit_2026-10-04/pause_checkpoint.json`;
+source, test-log and historical-audit byte hashes were rechecked on resume. Final
+engineering validation: **1,624 passed, 4 skipped, 55 subtests**, 19 warnings,
+41.45 seconds. `pip check` found no broken requirements; `git diff --check` passed.
+
+Confirmed optimizer defects: a requested zero relative gap was omitted from the
+HiGHS constructor, retaining its 0.0001 default; PuLP can translate time-limited
+feasible incumbents to problem status `Optimal` while solution status remains
+`IntegerFeasible`. The wrapper now passes explicit zero relative/absolute gaps,
+requires optimal problem and solution statuses, saves native HiGHS termination,
+primal/dual bounds and achieved gap, and aborts instead of exporting fallback
+squads. Free-transfer lookahead now enforces exact capped rollover; the previous
+lower-bound-only equation could invent future free transfers or become infeasible
+at the banking cap. Existing policy cap and legacy chip-reset semantics remain.
+
+Forecast admission now rejects conflicting player/fixture identities and invalid
+IDs/prices/cross-origin metadata. Selection pools are paired before ranking;
+admissions, logs, frozen manifest and final summaries are hash-bound. Reference
+features load after the finalist lock. Comparisons reject incompatible scoring/
+point-accounting and nonfinite data. Owned-squad retrieval no longer drops unknown
+assets; incomplete/ambiguous state and pre-GW1 previous-round retrieval fail clearly.
+Explicit parameter/seed overrides are refused for auxiliary fits that cannot honor
+them. The isolated CNN has a separate PyTorch 2.13.0 requirements file.
+
+Read-only historical validation found **94 valid forecast exports and 15 matching
+selection candidate/control pools**. The corresponding 94 logs contain **2,238
+reported `Optimal` statuses**, but no retained solution-status/native-gap certificate.
+Those counts do **not** prove exact optimality. Original squads, scores, negative
+findings and verification bytes are preserved. New paired saved-prediction replays
+are required before interpreting comparisons under the corrected optimizer; this
+is an optimizer audit, not model promotion or a new untouched holdout.
+
+The previously pending EPL workload study completed before the audit: reference
+control/candidate were 2082/2019 standard and 1938/1897 origin, differences
+-63 [95% CI -159,54] and -41 [-152,55]. `verify_v2.py` independently reconstructed
+156 scored rounds and 114 retained artifacts; it discloses 78 absent whole-squad
+player-round outcomes using existing scorer omission semantics. The original
+verifier/finalizer failure is preserved. These are historical-wrapper results
+subject to the same optimality and free-transfer qualification, not corrected
+optimizer evidence.
+
+## 2026-10-04 — Corrected optimizer: paired byte-preserving MAE/RMSE replay
+
+The registered replay completed all 12 cases (three seeds, two full registered configurations, standard/origin) over GW153–183, horizon 3, chips disabled. Original forecast CSV bytes were copied exactly; no model was refitted. All 372 solves requested zero relative and absolute solver gaps, retained optimal problem/solution/native status and primal/dual certificates, and passed independent accounting reconstruction. Native gaps were at most 3.391e-16; the predeclared verification tolerance is 64 machine epsilons for floating-point certificate roundoff, not a nonzero solver setting.
+
+| Seed | MAE standard | RMSE standard | Difference (95% paired CI) | MAE origin | RMSE origin | Difference (95% paired CI) |
+|---:|---:|---:|---|---:|---:|---|
+| 0 | 2091 | 2036 | -55 [-192, 49] | 1825 | 1840 | +15 [-147, 191.025] |
+| 1 | 2080 | 1997 | -83 [-224, 75] | 1945 | 1811 | -134 [-307.025, -1] |
+| 2 | 2059 | 1877 | -182 [-366, -11] | 2007 | 1824 | -183 [-354, 0] |
+
+Differences are RMSE minus MAE; paired moving-block bootstrap uses 10,000 samples, block length 3 and the corresponding seed. The RMSE configuration loses all three standard comparisons and two origin comparisons; it does not demonstrate an improvement and remains research-only. This compares complete configurations with different tree capacities, not loss function alone. Production remains `single:catboost`.
+
+Local replay took 25.34 minutes (25.29 minutes in MILP; zero fitting time). The independent verifier rehashed 137 artifacts, reconstructed 372 rounds and reproduced all six comparisons. It discloses 88 missing all-origin whole-squad outcome rows under the existing scorer omission semantics; these are not invented zero labels. Full regression: **1638 passed, 8 skipped, 19 warnings, 55 subtests**, 39.98s; `git diff --check` passed.
+
+Evidence: `experiments/corrected_optimizer_replay_2026-10-04/replay_v3/{registration,summary,verification}.json`; sealed pipeline sources and original-byte forecast/squad/log artifacts are retained locally. The stopped v1 literal-zero roundoff check and v2 byte-roundtrip check are preserved separately. Neither was a native failure; v3 registered byte copying before new scoring.
+
+These are corrected-optimizer replays of repeatedly examined historical forecasts, not a new untouched holdout or production promotion. Earlier score tables remain preserved and qualified: changed FT formulation and solver handling mean they are not matching corrected controls. Other feature/model research still needs its own corrected paired replay before interpreting those historical scores under this optimizer. Historical availability/publication timing, accepted buy-price accounting and legacy chip/FT policy limitations remain. No commit, push or merge was performed.

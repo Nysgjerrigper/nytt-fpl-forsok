@@ -1,0 +1,30 @@
+{
+  "dataset_sha256": "62f8f1d31d47a5f859f6d73819c9e631a59de346fed7de2fd5877b994a2ccc98",
+  "limitations": [
+    "First recorded player rounds; historical API registration not reconstructed.",
+    "No cold-start realized MILP benefit assessed.",
+    "Empirical spread is not a calibrated prediction interval."
+  ],
+  "prior_strength": 20,
+  "reports": {
+    "reference": {
+      "dnp_rounds": 127,
+      "fixture_rows": 187,
+      "player_rounds": 185,
+      "players": 185,
+      "round_mae": 1.2062443468080413,
+      "round_rmse": 1.590563366131492,
+      "sha256": "fb5d76491c9613dce8d389b022c6a7810734bd9c0f8a0687247b624a325f474e"
+    },
+    "selection": {
+      "dnp_rounds": 50,
+      "fixture_rows": 68,
+      "player_rounds": 58,
+      "players": 58,
+      "round_mae": 1.3325331798992086,
+      "round_rmse": 1.4948650943402175,
+      "sha256": "93b7950d388797b00af6ce78ed32af6f5042b38b0d47484763acee420a5eb7e4"
+    }
+  },
+  "status": "complete"
+}

@@ -1,0 +1,1169 @@
+{
+  "admitted_count": 122,
+  "origins": [
+    {
+      "origin": 1,
+      "reason": "capture age 32.5717h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 2,
+      "reason": "capture age 69.9247h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 3,
+      "reason": "capture age 237.925h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 16.455277777777777,
+      "excluded_managers": 0,
+      "origin": 4,
+      "players": 558,
+      "status": "admitted"
+    },
+    {
+      "origin": 5,
+      "reason": "capture age 218.087h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 6,
+      "reason": "capture age 149.163h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 7,
+      "reason": "capture age 318.163h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 5.509166666666666,
+      "excluded_managers": 0,
+      "origin": 8,
+      "players": 597,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.7738888888888888,
+      "excluded_managers": 0,
+      "origin": 9,
+      "players": 600,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.699722222222222,
+      "excluded_managers": 0,
+      "origin": 10,
+      "players": 601,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.6447222222222222,
+      "excluded_managers": 0,
+      "origin": 11,
+      "players": 603,
+      "status": "admitted"
+    },
+    {
+      "origin": 12,
+      "reason": "capture age 25.9247h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 1.553611111111111,
+      "excluded_managers": 0,
+      "origin": 13,
+      "players": 607,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.8072222222222222,
+      "excluded_managers": 0,
+      "origin": 14,
+      "players": 607,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.5533333333333333,
+      "excluded_managers": 0,
+      "origin": 15,
+      "players": 611,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.8166666666666667,
+      "excluded_managers": 0,
+      "origin": 16,
+      "players": 614,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 20.772777777777776,
+      "excluded_managers": 0,
+      "origin": 17,
+      "players": 616,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 17.84027777777778,
+      "excluded_managers": 0,
+      "origin": 18,
+      "players": 628,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.0016666666666667,
+      "excluded_managers": 0,
+      "origin": 19,
+      "players": 633,
+      "status": "admitted"
+    },
+    {
+      "origin": 20,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 21,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 22,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 23,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 24,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 25,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 26,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 27,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 28,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 29,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 30,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 31,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 32,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 0.9583333333333334,
+      "excluded_managers": 0,
+      "origin": 33,
+      "players": 691,
+      "status": "admitted"
+    },
+    {
+      "origin": 34,
+      "reason": "capture age 57.0025h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 8.114444444444445,
+      "excluded_managers": 0,
+      "origin": 35,
+      "players": 695,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 18.073333333333334,
+      "excluded_managers": 0,
+      "origin": 36,
+      "players": 703,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.361111111111111,
+      "excluded_managers": 0,
+      "origin": 37,
+      "players": 703,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 4.466111111111111,
+      "excluded_managers": 0,
+      "origin": 38,
+      "players": 706,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 7.6177777777777775,
+      "excluded_managers": 0,
+      "origin": 39,
+      "players": 529,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.7072222222222222,
+      "excluded_managers": 0,
+      "origin": 40,
+      "players": 559,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.9977777777777778,
+      "excluded_managers": 0,
+      "origin": 41,
+      "players": 567,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.4380555555555556,
+      "excluded_managers": 0,
+      "origin": 42,
+      "players": 594,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 22.99861111111111,
+      "excluded_managers": 0,
+      "origin": 43,
+      "players": 599,
+      "status": "admitted"
+    },
+    {
+      "origin": 44,
+      "reason": "capture age 39.4883h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 45,
+      "reason": "capture age 38.9844h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 1.85,
+      "excluded_managers": 0,
+      "origin": 46,
+      "players": 613,
+      "status": "admitted"
+    },
+    {
+      "origin": 47,
+      "reason": "capture age 81.1733h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 48,
+      "reason": "capture age 73.2486h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 8.558055555555555,
+      "excluded_managers": 0,
+      "origin": 49,
+      "players": 623,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.4169444444444443,
+      "excluded_managers": 0,
+      "origin": 50,
+      "players": 624,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.5647222222222222,
+      "excluded_managers": 0,
+      "origin": 51,
+      "players": 631,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 8.33361111111111,
+      "excluded_managers": 0,
+      "origin": 52,
+      "players": 633,
+      "status": "admitted"
+    },
+    {
+      "origin": 53,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 54,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 55,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 56,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 57,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 58,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 59,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 60,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 61,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 62,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 63,
+      "reason": "capture age 24.9025h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 64,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 8.4775,
+      "excluded_managers": 0,
+      "origin": 65,
+      "players": 711,
+      "status": "admitted"
+    },
+    {
+      "origin": 66,
+      "reason": "capture age 48.8483h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 1.103611111111111,
+      "excluded_managers": 0,
+      "origin": 67,
+      "players": 714,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 8.671111111111111,
+      "excluded_managers": 0,
+      "origin": 68,
+      "players": 714,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.3425,
+      "excluded_managers": 0,
+      "origin": 69,
+      "players": 714,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 3.2933333333333334,
+      "excluded_managers": 0,
+      "origin": 70,
+      "players": 720,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 17.442222222222224,
+      "excluded_managers": 0,
+      "origin": 71,
+      "players": 722,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.9319444444444445,
+      "excluded_managers": 0,
+      "origin": 72,
+      "players": 726,
+      "status": "admitted"
+    },
+    {
+      "origin": 73,
+      "reason": "capture age 24.9208h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 74,
+      "reason": "capture age 25.7303h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 5.875,
+      "excluded_managers": 0,
+      "origin": 75,
+      "players": 734,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 12.526666666666667,
+      "excluded_managers": 0,
+      "origin": 76,
+      "players": 736,
+      "status": "admitted"
+    },
+    {
+      "origin": 77,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 78,
+      "reason": "capture age 37.1211h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 1.2202777777777778,
+      "excluded_managers": 0,
+      "origin": 79,
+      "players": 589,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.1944444444444444,
+      "excluded_managers": 0,
+      "origin": 80,
+      "players": 594,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 19.5,
+      "excluded_managers": 0,
+      "origin": 81,
+      "players": 601,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.4625,
+      "excluded_managers": 0,
+      "origin": 82,
+      "players": 623,
+      "status": "admitted"
+    },
+    {
+      "origin": 83,
+      "reason": "capture age 25.2142h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 9.635833333333334,
+      "excluded_managers": 0,
+      "origin": 84,
+      "players": 627,
+      "status": "admitted"
+    },
+    {
+      "origin": 85,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 86,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 87,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 88,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 89,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 90,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 91,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 92,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 93,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 20.724722222222223,
+      "excluded_managers": 0,
+      "origin": 94,
+      "players": 675,
+      "status": "admitted"
+    },
+    {
+      "origin": 95,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 21.596944444444443,
+      "excluded_managers": 0,
+      "origin": 96,
+      "players": 692,
+      "status": "admitted"
+    },
+    {
+      "origin": 97,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 2.4780555555555557,
+      "excluded_managers": 0,
+      "origin": 98,
+      "players": 734,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.998611111111111,
+      "excluded_managers": 0,
+      "origin": 99,
+      "players": 740,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.997777777777778,
+      "excluded_managers": 0,
+      "origin": 100,
+      "players": 745,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 18.440833333333334,
+      "excluded_managers": 0,
+      "origin": 101,
+      "players": 746,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.968333333333334,
+      "excluded_managers": 0,
+      "origin": 102,
+      "players": 746,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.6336111111111111,
+      "excluded_managers": 0,
+      "origin": 103,
+      "players": 747,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.667777777777778,
+      "excluded_managers": 0,
+      "origin": 104,
+      "players": 750,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.922777777777778,
+      "excluded_managers": 0,
+      "origin": 105,
+      "players": 751,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.9980555555555557,
+      "excluded_managers": 0,
+      "origin": 106,
+      "players": 754,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.1936111111111112,
+      "excluded_managers": 0,
+      "origin": 107,
+      "players": 754,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.488888888888889,
+      "excluded_managers": 0,
+      "origin": 108,
+      "players": 759,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 8.786944444444444,
+      "excluded_managers": 0,
+      "origin": 109,
+      "players": 760,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.995,
+      "excluded_managers": 0,
+      "origin": 110,
+      "players": 761,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.4880555555555555,
+      "excluded_managers": 0,
+      "origin": 111,
+      "players": 762,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.06416666666666666,
+      "excluded_managers": 0,
+      "origin": 112,
+      "players": 763,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.998611111111111,
+      "excluded_managers": 0,
+      "origin": 113,
+      "players": 765,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.9983333333333335,
+      "excluded_managers": 0,
+      "origin": 114,
+      "players": 775,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 8.876944444444444,
+      "excluded_managers": 0,
+      "origin": 115,
+      "players": 641,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.2472222222222222,
+      "excluded_managers": 0,
+      "origin": 116,
+      "players": 666,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.4908333333333332,
+      "excluded_managers": 0,
+      "origin": 117,
+      "players": 678,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.497777777777778,
+      "excluded_managers": 0,
+      "origin": 118,
+      "players": 699,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.998333333333333,
+      "excluded_managers": 0,
+      "origin": 119,
+      "players": 714,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.498055555555556,
+      "excluded_managers": 0,
+      "origin": 120,
+      "players": 717,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.998611111111111,
+      "excluded_managers": 0,
+      "origin": 121,
+      "players": 718,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.9825,
+      "excluded_managers": 0,
+      "origin": 122,
+      "players": 722,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.997777777777778,
+      "excluded_managers": 0,
+      "origin": 123,
+      "players": 726,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.498333333333333,
+      "excluded_managers": 0,
+      "origin": 124,
+      "players": 730,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.994722222222222,
+      "excluded_managers": 0,
+      "origin": 125,
+      "players": 731,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.0475,
+      "excluded_managers": 0,
+      "origin": 126,
+      "players": 733,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.4036111111111111,
+      "excluded_managers": 0,
+      "origin": 127,
+      "players": 743,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.237777777777778,
+      "excluded_managers": 0,
+      "origin": 128,
+      "players": 747,
+      "status": "admitted"
+    },
+    {
+      "origin": 129,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 130,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 131,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 10.498333333333333,
+      "excluded_managers": 0,
+      "origin": 132,
+      "players": 765,
+      "status": "admitted"
+    },
+    {
+      "origin": 133,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 2.997777777777778,
+      "excluded_managers": 0,
+      "origin": 134,
+      "players": 771,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.245833333333334,
+      "excluded_managers": 0,
+      "origin": 135,
+      "players": 775,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.998611111111111,
+      "excluded_managers": 0,
+      "origin": 136,
+      "players": 790,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.999444444444444,
+      "excluded_managers": 0,
+      "origin": 137,
+      "players": 808,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.971111111111112,
+      "excluded_managers": 0,
+      "origin": 138,
+      "players": 809,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.94111111111111,
+      "excluded_managers": 0,
+      "origin": 139,
+      "players": 815,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.0238888888888888,
+      "excluded_managers": 0,
+      "origin": 140,
+      "players": 823,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.498333333333333,
+      "excluded_managers": 0,
+      "origin": 141,
+      "players": 828,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.6111111111111112,
+      "excluded_managers": 0,
+      "origin": 142,
+      "players": 832,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.498333333333333,
+      "excluded_managers": 0,
+      "origin": 143,
+      "players": 838,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.9466666666666667,
+      "excluded_managers": 0,
+      "origin": 144,
+      "players": 838,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.772222222222222,
+      "excluded_managers": 0,
+      "origin": 145,
+      "players": 842,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.995555555555555,
+      "excluded_managers": 0,
+      "origin": 146,
+      "players": 844,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.956388888888889,
+      "excluded_managers": 0,
+      "origin": 147,
+      "players": 846,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.498333333333333,
+      "excluded_managers": 0,
+      "origin": 148,
+      "players": 851,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 14.797222222222222,
+      "excluded_managers": 0,
+      "origin": 149,
+      "players": 856,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.491111111111111,
+      "excluded_managers": 0,
+      "origin": 150,
+      "players": 859,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.994444444444444,
+      "excluded_managers": 0,
+      "origin": 151,
+      "players": 859,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.4975,
+      "excluded_managers": 0,
+      "origin": 152,
+      "players": 861,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 4.945277777777778,
+      "excluded_managers": 0,
+      "origin": 153,
+      "players": 610,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.995277777777778,
+      "excluded_managers": 0,
+      "origin": 154,
+      "players": 625,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.998888888888889,
+      "excluded_managers": 0,
+      "origin": 155,
+      "players": 637,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 12.781944444444445,
+      "excluded_managers": 0,
+      "origin": 156,
+      "players": 655,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.99,
+      "excluded_managers": 0,
+      "origin": 157,
+      "players": 659,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.0,
+      "excluded_managers": 0,
+      "origin": 158,
+      "players": 661,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.996944444444445,
+      "excluded_managers": 0,
+      "origin": 159,
+      "players": 664,
+      "status": "admitted"
+    },
+    {
+      "origin": 160,
+      "reason": "capture age 225.849h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 161,
+      "reason": "capture age 377.349h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 162,
+      "reason": "capture age 562.849h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 3.276666666666667,
+      "excluded_managers": 0,
+      "origin": 163,
+      "players": 674,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 11.705,
+      "excluded_managers": 0,
+      "origin": 164,
+      "players": 678,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.495,
+      "excluded_managers": 0,
+      "origin": 165,
+      "players": 684,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.994722222222222,
+      "excluded_managers": 0,
+      "origin": 166,
+      "players": 690,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.995555555555555,
+      "excluded_managers": 0,
+      "origin": 167,
+      "players": 693,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.4958333333333333,
+      "excluded_managers": 0,
+      "origin": 168,
+      "players": 693,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.20222222222222222,
+      "excluded_managers": 0,
+      "origin": 169,
+      "players": 701,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.3308333333333333,
+      "excluded_managers": 0,
+      "origin": 170,
+      "players": 701,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.9969444444444444,
+      "excluded_managers": 0,
+      "origin": 171,
+      "players": 705,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.08,
+      "excluded_managers": 0,
+      "origin": 172,
+      "players": 709,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.996666666666667,
+      "excluded_managers": 0,
+      "origin": 173,
+      "players": 718,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.9983333333333335,
+      "excluded_managers": 0,
+      "origin": 174,
+      "players": 726,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.497222222222222,
+      "excluded_managers": 20,
+      "origin": 175,
+      "players": 735,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.014166666666666666,
+      "excluded_managers": 20,
+      "origin": 176,
+      "players": 737,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.4172222222222222,
+      "excluded_managers": 20,
+      "origin": 177,
+      "players": 753,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.4369444444444444,
+      "excluded_managers": 20,
+      "origin": 178,
+      "players": 759,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.050555555555555555,
+      "excluded_managers": 20,
+      "origin": 179,
+      "players": 763,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.9808333333333333,
+      "excluded_managers": 20,
+      "origin": 180,
+      "players": 765,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.488888888888889,
+      "excluded_managers": 20,
+      "origin": 181,
+      "players": 769,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.866944444444444,
+      "excluded_managers": 20,
+      "origin": 182,
+      "players": 769,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.995,
+      "excluded_managers": 20,
+      "origin": 183,
+      "players": 771,
+      "status": "admitted"
+    }
+  ],
+  "proof_sha256": {
+    "discovery_wayback_verification.json": "f15dc5465e3c52a964bec49597391dd3d6ebf3808471e94687226623c0e42720",
+    "wayback_verification.json": "bd0bed84935ddc689582eafcd8e7b5573c76166f718b7591122f0f6f16f12af0"
+  },
+  "status": "complete"
+}

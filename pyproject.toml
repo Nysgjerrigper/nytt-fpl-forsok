@@ -7,6 +7,8 @@ name = "fpl-forecast-optimizer"
 version = "0.1.0"
 description = "Fantasy Premier League forecasting and squad optimization"
 readme = "README.md"
+license = "LicenseRef-Per-Anders-Molberg-Noncommercial"
+license-files = ["LICENSE", "LICENSE-WEIGHTS", "NOTICE"]
 requires-python = ">=3.11"
 dynamic = ["dependencies"]
 

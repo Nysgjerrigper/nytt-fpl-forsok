@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "frozen full bytes",
+    "parent preregistration and launcher",
+    "all archived sources",
+    "all tuned parameters",
+    "selection lock and earlier-only ranking",
+    "all scored output hashes",
+    "predicted metadata and paired universe",
+    "net gross hits arithmetic",
+    "optimal solve counts",
+    "recomputed full paired bootstrap/sign-test reports"
+  ],
+  "immutable_outputs": 85,
+  "optimal_solves": 282,
+  "promotion_eligible": false,
+  "registration_sha256": "bb06882df46fb765aced04c22a881aeff7b82327cfee780044d7b6f4652b9c68",
+  "source_files": 47,
+  "status": "verified",
+  "summary_sha256": "cd5198d055cf1a740cd1c4c2b9cb824882c00bb1f499abb098e9297946042b5c",
+  "verified_at_utc": "2026-10-03T17:00:30.986968+00:00"
+}

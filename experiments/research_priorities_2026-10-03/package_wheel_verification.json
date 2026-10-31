@@ -1,0 +1,14 @@
+{
+  "status": "verified",
+  "wheel_sha256": "85a94bcce5bd188cb5bace492b5d65b8ee0e7f325f902d2e9642e7cdf892e5af",
+  "pipeline_sources": 53,
+  "json_artifacts": 45,
+  "checks": [
+    "offline build",
+    "all shipped Python sources exact",
+    "all model/data JSON bytes exact",
+    "installed imports outside checkout",
+    "unchanged production default",
+    "Torch remains lazy"
+  ]
+}

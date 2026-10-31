@@ -121,3 +121,81 @@ def test_sign_test_exposes_exact_one_sided_null_p_value():
     assert result["wins_a"] == 8
     assert result["ties"] == 1
     assert result["p_a_better"] == pytest.approx(0.0546875)
+
+
+@pytest.mark.parametrize('column', ['scoring_protocol','points_accounting'])
+def test_labels_require_matching_protocol_and_accounting(column):
+    a=_run_df({1:50.,2:60.});b=a.copy()
+    a[column]='autosubs_v2' if column=='scoring_protocol' else 'net_after_transfer_hits'
+    b[column]='legacy_no_autosubs' if column=='scoring_protocol' else 'gross_before_hits'
+    with pytest.raises(ValueError,match=f'different {column}'):cb.paired_gw_differences(a,b)
+    with pytest.raises(ValueError,match=f'both runs must declare {column}'):cb.paired_gw_differences(a,b.drop(columns=column))
+
+
+@pytest.mark.parametrize('column', ['scoring_protocol','points_accounting'])
+@pytest.mark.parametrize('values', [[None,None],['',''],[' ',' '],['one','two'],['one',None],[1,1]])
+def test_each_protocol_label_is_single_nonmissing_nonblank_string(column,values):
+    a=_run_df({1:50.,2:60.});a[column]=values
+    with pytest.raises(ValueError,match='one nonmissing nonblank string'):cb.paired_gw_differences(a,a.copy())
+
+
+def test_valid_labels_and_unlabelled_legacy_preserve_differences():
+    a=_run_df({1:55.,2:65.});b=_run_df({1:50.,2:60.})
+    legacy=cb.paired_gw_differences(a,b)
+    for frame in (a,b):
+        frame['scoring_protocol']='autosubs_v2';frame['points_accounting']='net_after_transfer_hits'
+    pd.testing.assert_series_equal(cb.paired_gw_differences(a,b),legacy)
+    assert list(legacy)==[5.,5.]
+
+
+@pytest.mark.parametrize('column', ['gameweek','actual_total_points'])
+@pytest.mark.parametrize('value', [np.nan,np.inf,-np.inf,True,'50'])
+def test_finite_real_numeric_columns_required(column,value):
+    a=_run_df({1:50.,2:60.})
+    a[column]=a[column].astype(object if isinstance(value,(bool,str)) else float)
+    a.loc[0,column]=value
+    with pytest.raises(ValueError,match='finite numeric'):cb.paired_gw_differences(a,a.copy())
+
+
+@pytest.mark.parametrize('value',[0.,-1.,1.5])
+def test_positive_whole_gameweek_required(value):
+    a=_run_df({1:50.,2:60.});a['gameweek']=a.gameweek.astype(float);a.loc[0,'gameweek']=value
+    with pytest.raises(ValueError,match='positive integer'):cb.paired_gw_differences(a,a.copy())
+
+
+def test_empty_frames_missing_and_duplicate_columns_refused():
+    a=_run_df({1:50.,2:60.})
+    for invalid in (a.iloc[:0],pd.concat([a,a[['gameweek']]],axis=1)):
+        with pytest.raises(ValueError,match='nonempty frame with unique'):cb.paired_gw_differences(invalid,a)
+    for column in a:
+        with pytest.raises(ValueError,match='required columns'):cb.paired_gw_differences(a.drop(columns=column),a)
+    a['actual_total_points']=a.actual_total_points.astype('Float64');a.loc[0,'actual_total_points']=pd.NA
+    with pytest.raises(ValueError,match='finite numeric'):cb.paired_gw_differences(a,a.copy())
+
+
+@pytest.mark.parametrize('values',[[],[[1.,2.]],np.array(1.),[np.nan],[np.inf],[-np.inf],[1.,np.nan]])
+@pytest.mark.parametrize('function',[cb.sign_test,cb.moving_block_bootstrap_total])
+def test_numerical_series_must_be_nonempty_1d_finite(function,values):
+    with pytest.raises(ValueError,match='one-dimensional'):function(values)
+
+
+@pytest.mark.parametrize('name', ['n_boot','block_len','seed'])
+@pytest.mark.parametrize('value',[True,False,-1,1.5,'1'])
+def test_bootstrap_configuration_integer_guards(name,value):
+    with pytest.raises(ValueError,match=name):cb.moving_block_bootstrap_total([1.,-1.],**{name:value})
+
+
+@pytest.mark.parametrize('name',['n_boot','block_len'])
+def test_bootstrap_counts_cannot_be_zero(name):
+    with pytest.raises(ValueError,match=name):cb.moving_block_bootstrap_total([1.,-1.],**{name:0})
+
+
+def test_large_valid_block_still_caps_at_series_length():
+    result=cb.moving_block_bootstrap_total([1.,2.],n_boot=3,block_len=99,seed=0)
+    assert result['block_len']==2 and result['total_diff']==3.
+    assert result['ci_low']==result['ci_high']==3.
+
+
+@pytest.mark.parametrize('function',[cb.sign_test,cb.moving_block_bootstrap_total])
+def test_complex_differences_cannot_silently_discard_imaginary_part(function):
+    with pytest.raises(ValueError,match='finite real'):function(np.array([1.+2.j]))

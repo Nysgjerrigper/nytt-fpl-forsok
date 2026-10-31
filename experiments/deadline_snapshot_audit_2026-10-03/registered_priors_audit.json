@@ -1,0 +1,471 @@
+{
+  "covered_player_origin_rows": 191,
+  "export_sha256": "1ee8d7a6905ade17845586a2341a4d09ec8b10e47eb1fe0d7c80dfe479761042",
+  "limitations": [
+    "Coverage at selected crawl time, not exact deadline or player eligibility.",
+    "Prior distributions are empirical and uncalibrated; no accuracy or MILP gain assessment.",
+    "Repeated players across origins are not independent observations."
+  ],
+  "origins": [
+    {
+      "covered_historical_codes": 799,
+      "origin": 137,
+      "pooled_prior_codes": 9,
+      "prior_mean_max": 1.487283002104987,
+      "prior_mean_min": 0.7008488933854563,
+      "registered_codes_after_fallback": 808,
+      "registered_players": 808,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 809,
+      "origin": 138,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 809,
+      "registered_players": 809,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 814,
+      "origin": 139,
+      "pooled_prior_codes": 1,
+      "prior_mean_max": 1.2033659254558378,
+      "prior_mean_min": 1.2033659254558378,
+      "registered_codes_after_fallback": 815,
+      "registered_players": 815,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 823,
+      "origin": 140,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 823,
+      "registered_players": 823,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 828,
+      "origin": 141,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 828,
+      "registered_players": 828,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 832,
+      "origin": 142,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 832,
+      "registered_players": 832,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 838,
+      "origin": 143,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 838,
+      "registered_players": 838,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 838,
+      "origin": 144,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 838,
+      "registered_players": 838,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 842,
+      "origin": 145,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 842,
+      "registered_players": 842,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 844,
+      "origin": 146,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 844,
+      "registered_players": 844,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 846,
+      "origin": 147,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 846,
+      "registered_players": 846,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 851,
+      "origin": 148,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 851,
+      "registered_players": 851,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 856,
+      "origin": 149,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 856,
+      "registered_players": 856,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 859,
+      "origin": 150,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 859,
+      "registered_players": 859,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 859,
+      "origin": 151,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 859,
+      "registered_players": 859,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 861,
+      "origin": 152,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 861,
+      "registered_players": 861,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 477,
+      "origin": 153,
+      "pooled_prior_codes": 133,
+      "prior_mean_max": 2.3501965959838547,
+      "prior_mean_min": 0.5894811556564472,
+      "registered_codes_after_fallback": 610,
+      "registered_players": 610,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 617,
+      "origin": 154,
+      "pooled_prior_codes": 8,
+      "prior_mean_max": 1.997350490696052,
+      "prior_mean_min": 0.8453795805690368,
+      "registered_codes_after_fallback": 625,
+      "registered_players": 625,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 629,
+      "origin": 155,
+      "pooled_prior_codes": 8,
+      "prior_mean_max": 1.588158637005992,
+      "prior_mean_min": 1.1192681309369776,
+      "registered_codes_after_fallback": 637,
+      "registered_players": 637,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 649,
+      "origin": 156,
+      "pooled_prior_codes": 6,
+      "prior_mean_max": 1.6723997012224108,
+      "prior_mean_min": 0.60687912786437,
+      "registered_codes_after_fallback": 655,
+      "registered_players": 655,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 659,
+      "origin": 157,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 659,
+      "registered_players": 659,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 661,
+      "origin": 158,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 661,
+      "registered_players": 661,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 664,
+      "origin": 159,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 664,
+      "registered_players": 664,
+      "status": "admitted"
+    },
+    {
+      "origin": 160,
+      "reason": "capture age 225.849h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 161,
+      "reason": "capture age 377.349h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 162,
+      "reason": "capture age 562.849h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "covered_historical_codes": 674,
+      "origin": 163,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 674,
+      "registered_players": 674,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 678,
+      "origin": 164,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 678,
+      "registered_players": 678,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 684,
+      "origin": 165,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 684,
+      "registered_players": 684,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 690,
+      "origin": 166,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 690,
+      "registered_players": 690,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 693,
+      "origin": 167,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 693,
+      "registered_players": 693,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 693,
+      "origin": 168,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 693,
+      "registered_players": 693,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 701,
+      "origin": 169,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 701,
+      "registered_players": 701,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 701,
+      "origin": 170,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 701,
+      "registered_players": 701,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 705,
+      "origin": 171,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 705,
+      "registered_players": 705,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 709,
+      "origin": 172,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 709,
+      "registered_players": 709,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 712,
+      "origin": 173,
+      "pooled_prior_codes": 6,
+      "prior_mean_max": 1.4986356220277004,
+      "prior_mean_min": 0.9483903611409777,
+      "registered_codes_after_fallback": 718,
+      "registered_players": 718,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 724,
+      "origin": 174,
+      "pooled_prior_codes": 2,
+      "prior_mean_max": 1.2456419937291332,
+      "prior_mean_min": 0.9359447592834136,
+      "registered_codes_after_fallback": 726,
+      "registered_players": 726,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 729,
+      "origin": 175,
+      "pooled_prior_codes": 6,
+      "prior_mean_max": 2.6447379298941796,
+      "prior_mean_min": 1.0856381121945915,
+      "registered_codes_after_fallback": 735,
+      "registered_players": 735,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 736,
+      "origin": 176,
+      "pooled_prior_codes": 1,
+      "prior_mean_max": 1.0602560006416257,
+      "prior_mean_min": 1.0602560006416257,
+      "registered_codes_after_fallback": 737,
+      "registered_players": 737,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 743,
+      "origin": 177,
+      "pooled_prior_codes": 10,
+      "prior_mean_max": 1.9590293472804168,
+      "prior_mean_min": 0.8835992376978992,
+      "registered_codes_after_fallback": 753,
+      "registered_players": 753,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 759,
+      "origin": 178,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 759,
+      "registered_players": 759,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 763,
+      "origin": 179,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 763,
+      "registered_players": 763,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 764,
+      "origin": 180,
+      "pooled_prior_codes": 1,
+      "prior_mean_max": 1.9478161298445222,
+      "prior_mean_min": 1.9478161298445222,
+      "registered_codes_after_fallback": 765,
+      "registered_players": 765,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 769,
+      "origin": 181,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 769,
+      "registered_players": 769,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 769,
+      "origin": 182,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 769,
+      "registered_players": 769,
+      "status": "admitted"
+    },
+    {
+      "covered_historical_codes": 771,
+      "origin": 183,
+      "pooled_prior_codes": 0,
+      "prior_mean_max": null,
+      "prior_mean_min": null,
+      "registered_codes_after_fallback": 771,
+      "registered_players": 771,
+      "status": "admitted"
+    }
+  ],
+  "prior_fit_seconds": 10.258652535732836,
+  "promotion_eligible": false,
+  "registration_sha256": "48bfefead5e62fb764010fb45f5143c1faf5bacf32e210a8420fd88471c82708",
+  "status": "complete",
+  "unique_covered_codes": 191
+}

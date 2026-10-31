@@ -1,0 +1,53 @@
+{
+  "elapsed_seconds": 7502.959859999828,
+  "promotion_eligible": false,
+  "protocol_sha256": "1a00af8f14da7a1add769693aa83bcd25ea0f603c185341a169cb0b6594d965c",
+  "seeds": {
+    "1": {
+      "checks": [
+        "frozen full bytes",
+        "parent preregistration and launcher",
+        "all archived sources",
+        "all tuned parameters",
+        "selection lock and earlier-only ranking",
+        "all scored output hashes",
+        "predicted metadata and paired universe",
+        "net gross hits arithmetic",
+        "optimal solve counts",
+        "recomputed full paired bootstrap/sign-test reports"
+      ],
+      "immutable_outputs": 85,
+      "optimal_solves": 282,
+      "promotion_eligible": false,
+      "registration_sha256": "bb06882df46fb765aced04c22a881aeff7b82327cfee780044d7b6f4652b9c68",
+      "source_files": 47,
+      "status": "verified",
+      "summary_sha256": "cd5198d055cf1a740cd1c4c2b9cb824882c00bb1f499abb098e9297946042b5c",
+      "verified_at_utc": "2026-10-03T17:00:30.986968+00:00"
+    },
+    "2": {
+      "checks": [
+        "frozen full bytes",
+        "parent preregistration and launcher",
+        "all archived sources",
+        "all tuned parameters",
+        "selection lock and earlier-only ranking",
+        "all scored output hashes",
+        "predicted metadata and paired universe",
+        "net gross hits arithmetic",
+        "optimal solve counts",
+        "recomputed full paired bootstrap/sign-test reports"
+      ],
+      "immutable_outputs": 85,
+      "optimal_solves": 282,
+      "promotion_eligible": false,
+      "registration_sha256": "5c9b2e92e56104b4ebc21f1d7dae67e82061f35810c0498d6db837ca92e664d9",
+      "source_files": 47,
+      "status": "verified",
+      "summary_sha256": "7bf58bb439d88190c94ff70f5b5545de5778c8d0647f45392d31a03be18f00ae",
+      "verified_at_utc": "2026-10-03T17:00:31.382419+00:00"
+    }
+  },
+  "status": "verified",
+  "summary_sha256": "5241e506476243c777334b9715bdd84b633b90bfb42fa4eebf2f320d2e6b10d4"
+}

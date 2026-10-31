@@ -1,0 +1,4 @@
+# Optional isolated CPU CNN runtime, matching the preserved 2026-10-03 study.
+# Install after requirements.txt; independent of the parked PyTabKit lanes.
+# Keep native fits in fpl.model.cnn_process, never in the GBM-importing parent.
+torch==2.13.0

@@ -1,0 +1,719 @@
+{
+  "code_sha256": {
+    "fpl/config.py": "a9fbfe6de2d4c4ba195c85d48266ad023e80116f6358111c7e16cb976f7adf5d",
+    "fpl/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/data/deadline_snapshots.py": "00d2f2a73a670106c19542e3ec5d06f5a144da7323efe8c12d5a2047fede5feb",
+    "fpl/data/external.py": "db38873a567aa51ad85fc264e97626b05bb6c84ad7c5b32802afc49eda754d11",
+    "fpl/data/feature_cache.py": "dd587e3355b0a4732a57614cd8e5d50ef1c01a7727c44ee9583145e257c7a8bb",
+    "fpl/data/fetch.py": "ece93d1be41d669e62b858da31f0219893553655ac73ae4f40173ed0b70b0764",
+    "fpl/data/origin_prices.py": "d9c7c149d4fe3a66fa04b517138d4ce7d8ae90da69d23e24b6427af5ff421f6c",
+    "fpl/data/provenance.py": "569d4fef2247c8dfd6a6dea7992ac09cfc444c11d0b1a5c17d719c5807a858aa",
+    "fpl/data/research.py": "a3f92b92088915c541956b68c300b7ab8f7ff5ddd4595ec8e366821383710434",
+    "fpl/experiment.py": "2780bf8ead3e6c0c4f3a988fd176ccd98769acbb652d1cc3ca52fc30bf6b5404",
+    "fpl/features.py": "df09943d91ced157ee36091526a527dd26013516055383c9976bf2df94afae7d",
+    "fpl/milp/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+    "fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "fpl/milp/compare_backtests.py": "0be8917170884f3d5fa31ace4d796d457d8d312c43023cd8c6f8fd6c14e9e739",
+    "fpl/milp/optimize.py": "8aaccfe87943ecc60c875c8ebdce5f936d3445d1521c84b147178bed096ca639",
+    "fpl/milp/solio.py": "44e89d100e888e6341d6342196b57240ab1a113921d55cf7645155fc5d21863e",
+    "fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+    "fpl/milp/solio_output.py": "22724577e69f8e440f38d005e8837626e2e1232fa43bcb47e77a4a4fb83ca56e",
+    "fpl/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/model/availability_research.py": "5148945d90a00dd487b9bc89a19a9e557068cb0ae81d29135623256cedb634e3",
+    "fpl/model/baselines.py": "7147a8801e27003c25bdf40a71898be49fd19711303447f6723e68e6d9b535de",
+    "fpl/model/blend_research.py": "115a7708b2d995826dd3ec01897c244d09519aa3fe8744f1fa8cca45228d8a18",
+    "fpl/model/cnn_process.py": "74c6827496972cd93d9b41fe2972ad236d21d83b65bd96b6aaf92c2109914c2f",
+    "fpl/model/cnn_research.py": "1d4ab1eaa18fef8d5045c18053022367ccfe484c99a62225e2216f2fc4e14b7e",
+    "fpl/model/cnn_worker.py": "0ee5be8ea265d7036331ede3dc79120f099a39d1b14f17b9d8f5f9164ab35982",
+    "fpl/model/cold_start.py": "039a645266e2f3e1326336298dbbb904ecff4e8dc913b95ea61a14c587bbc4c5",
+    "fpl/model/deadline_availability.py": "cdc9a660f7fa496b5934fdd80805241762eb9a8281ef4676ea8b740f249fa469",
+    "fpl/model/ensemble.py": "d960e588b8c9ad75738128f96df77dd8648752ce52815d9f1888e83b818cc8e8",
+    "fpl/model/expert_policy.py": "d57d549c92fb132e27b654bee02a6a32e728be5d45b1be4f66d9ca9a1794e67b",
+    "fpl/model/horizon_price_research.py": "55d8027af118427aadd1d4a70e8a8b9c19359d14d8507d6440379a4b66667f05",
+    "fpl/model/interval_calibration.py": "6b1b70f7afcbd4beac28c0d15c29959ffcaf3bee4f2dbf983000262d911f8a0a",
+    "fpl/model/interval_research.py": "db2b472caf9b00529356115ade57cfd0b32ff35da74833480e11fe1baaa8c483",
+    "fpl/model/metrics.py": "3592bebfe9922ca5b38e2c3c71be75d79592987d39db8341c46ec1b3a496bad7",
+    "fpl/model/mid_gate.py": "3798843118ef6f53ac832fb5c181d2d4b4b18855e7fbe3cdacb1511e6413a151",
+    "fpl/model/models.py": "16dc89c77cd736ca63aab611d20377592d44e2ace681f40384656006f737f28b",
+    "fpl/model/moe_promotion.py": "93982d906ca6805acb676d13933e49d99a6817ea3fc72b862b331d8812e31337",
+    "fpl/model/moe_tournament.py": "484a17fa26848696470af514457b586fd85e8d09a307c438f009665397e5f23e",
+    "fpl/model/oof_panel.py": "d899f24d4e35b6abc98e950aad63794ba2eaedbe39ed1979eb1f819ef8c5a4b1",
+    "fpl/model/predict.py": "deaa0d5e7c4c6c87b472859cb70dbe4fd75c4f6663e46916a0e19626380259f3",
+    "fpl/model/price_research.py": "244ea0684072ace4895b61c784a423336c89d302fe45cebf903454dca2a5b9dd",
+    "fpl/model/probabilistic.py": "6844a48b428042f89f833b45f6293ccb64e89fe06a4e4bbf9955e0047516eedd",
+    "fpl/model/probabilistic_buckets.py": "9592610fd0312621280656577a5618c63a5b43c07bd61bf6d108588d735ef3dd",
+    "fpl/model/research_package.py": "13b65fcc8623d8a04e310defdc910eb407a30f934449fe85d2a138850981d899",
+    "fpl/model/screen.py": "b5827a438c0e3d5bb6c81d645e735ad49c7997c45697bb9407b59508fa8e28e7",
+    "fpl/model/sequence_cnn.py": "257aedd0bd26e9100de21368ff94b4f68e2eb2594a591c3fd957318f203b9128",
+    "fpl/model/sequence_features.py": "0fba4921fe05c50a55d66002923490fc360b6116e468bb65eed5f18fee760341",
+    "fpl/model/temporal_blend.py": "a857a865f8ed93e0b139194f3ffd2d67bcf63694615a8b51db56c955f4a4098d",
+    "fpl/model/train.py": "9b834aeffea049bed398a6fe7187846dc2759c9386ea1af68450a065bdca8a85",
+    "fpl/model/tuning.py": "39f59413234997e9d66a9cd0e10e1e40fc426ff2636bc5e86a38b8e1aa40b2d7",
+    "fpl/model/tuning_checkpoint.py": "f04b5bb78f81eb2350a22fb53a797f6eb871463019e537cd71d1bdb882895cdc",
+    "fpl/model/walk_forward.py": "08aa034fe8abb947d898f1b3cd625140486d5c09ad32e53d4abbfc99496947d0",
+    "fpl/run_week.py": "e67f6ad32a3865e7cf0bfd6828a7451c49b78c47acaf85cdf400c370b66d1401"
+  },
+  "dataset_sha256": "62f8f1d31d47a5f859f6d73819c9e631a59de346fed7de2fd5877b994a2ccc98",
+  "limitations": [
+    "Crawl-time roster, not exact deadline registration.",
+    "Codes absent from a capture can be historical departures; this does not establish live eligibility.",
+    "Counts repeat players across rounds and are not independent observations.",
+    "No new forecast, realized-point or cold-prior calibration result."
+  ],
+  "origins": [
+    {
+      "active_historical_codes": 1059,
+      "excluded_managers": 0,
+      "missing_code_examples": [
+        85633,
+        168636,
+        209293,
+        244850,
+        427420,
+        477717,
+        496221,
+        503724,
+        551232
+      ],
+      "missing_status_counts": {
+        "a": 9
+      },
+      "origin": 137,
+      "registered_absent_from_snapshot": 9,
+      "registered_players": 808,
+      "registered_without_any_prior_row": 9,
+      "snapshot_codes_absent_from_capture": 260,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1069,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 138,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 809,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 260,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1072,
+      "excluded_managers": 0,
+      "missing_code_examples": [
+        543158
+      ],
+      "missing_status_counts": {
+        "a": 1
+      },
+      "origin": 139,
+      "registered_absent_from_snapshot": 1,
+      "registered_players": 815,
+      "registered_without_any_prior_row": 1,
+      "snapshot_codes_absent_from_capture": 258,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1080,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 140,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 823,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 257,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1084,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 141,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 828,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 256,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1088,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 142,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 832,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 256,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1094,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 143,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 838,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 256,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1094,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 144,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 838,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 256,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1097,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 145,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 842,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 255,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1098,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 146,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 844,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 254,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1100,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 147,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 846,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 254,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1104,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 148,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 851,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 253,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1109,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 149,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 856,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 253,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1112,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 150,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 859,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 253,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1112,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 151,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 859,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 253,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1114,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 152,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 861,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 253,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 865,
+      "excluded_managers": 0,
+      "missing_code_examples": [
+        19236,
+        58376,
+        74944,
+        88900,
+        91889,
+        93100,
+        94147,
+        94926,
+        95463,
+        101668
+      ],
+      "missing_status_counts": {
+        "a": 113,
+        "d": 3,
+        "i": 10,
+        "u": 7
+      },
+      "origin": 153,
+      "registered_absent_from_snapshot": 133,
+      "registered_players": 610,
+      "registered_without_any_prior_row": 72,
+      "snapshot_codes_absent_from_capture": 388,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1001,
+      "excluded_managers": 0,
+      "missing_code_examples": [
+        40349,
+        59859,
+        428399,
+        444102,
+        454667,
+        463067,
+        502222,
+        551226
+      ],
+      "missing_status_counts": {
+        "a": 8
+      },
+      "origin": 154,
+      "registered_absent_from_snapshot": 8,
+      "registered_players": 625,
+      "registered_without_any_prior_row": 4,
+      "snapshot_codes_absent_from_capture": 384,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1010,
+      "excluded_managers": 0,
+      "missing_code_examples": [
+        195384,
+        219249,
+        223541,
+        231416,
+        443261,
+        513527,
+        560248,
+        626464
+      ],
+      "missing_status_counts": {
+        "a": 6,
+        "i": 2
+      },
+      "origin": 155,
+      "registered_absent_from_snapshot": 8,
+      "registered_players": 637,
+      "registered_without_any_prior_row": 8,
+      "snapshot_codes_absent_from_capture": 381,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1024,
+      "excluded_managers": 0,
+      "missing_code_examples": [
+        224860,
+        232112,
+        437499,
+        463212,
+        485047,
+        499717
+      ],
+      "missing_status_counts": {
+        "a": 6
+      },
+      "origin": 156,
+      "registered_absent_from_snapshot": 6,
+      "registered_players": 655,
+      "registered_without_any_prior_row": 6,
+      "snapshot_codes_absent_from_capture": 375,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1033,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 157,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 659,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 374,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1035,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 158,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 661,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 374,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1038,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 159,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 664,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 374,
+      "status": "admitted"
+    },
+    {
+      "origin": 160,
+      "reason": "capture age 225.849h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 161,
+      "reason": "capture age 377.349h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 162,
+      "reason": "capture age 562.849h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "active_historical_codes": 1046,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 163,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 674,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 372,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1049,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 164,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 678,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 371,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1054,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 165,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 684,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 370,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1059,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 166,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 690,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 369,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1061,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 167,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 693,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 368,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1061,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 168,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 693,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 368,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1064,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 169,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 701,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 363,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1064,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 170,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 701,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 363,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1067,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 171,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 705,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 362,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1070,
+      "excluded_managers": 0,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 172,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 709,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 361,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1071,
+      "excluded_managers": 0,
+      "missing_code_examples": [
+        485055,
+        500016,
+        514254,
+        541462,
+        575901,
+        623095
+      ],
+      "missing_status_counts": {
+        "a": 6
+      },
+      "origin": 173,
+      "registered_absent_from_snapshot": 6,
+      "registered_players": 718,
+      "registered_without_any_prior_row": 6,
+      "snapshot_codes_absent_from_capture": 359,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1081,
+      "excluded_managers": 0,
+      "missing_code_examples": [
+        204646,
+        488439
+      ],
+      "missing_status_counts": {
+        "a": 2
+      },
+      "origin": 174,
+      "registered_absent_from_snapshot": 2,
+      "registered_players": 726,
+      "registered_without_any_prior_row": 2,
+      "snapshot_codes_absent_from_capture": 357,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1085,
+      "excluded_managers": 20,
+      "missing_code_examples": [
+        438234,
+        494779,
+        578153,
+        606798,
+        606921,
+        616222
+      ],
+      "missing_status_counts": {
+        "a": 6
+      },
+      "origin": 175,
+      "registered_absent_from_snapshot": 6,
+      "registered_players": 735,
+      "registered_without_any_prior_row": 6,
+      "snapshot_codes_absent_from_capture": 356,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1092,
+      "excluded_managers": 20,
+      "missing_code_examples": [
+        607464
+      ],
+      "missing_status_counts": {
+        "a": 1
+      },
+      "origin": 176,
+      "registered_absent_from_snapshot": 1,
+      "registered_players": 737,
+      "registered_without_any_prior_row": 1,
+      "snapshot_codes_absent_from_capture": 356,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1098,
+      "excluded_managers": 20,
+      "missing_code_examples": [
+        112520,
+        135720,
+        174292,
+        433312,
+        439135,
+        465694,
+        511499,
+        531170,
+        596777,
+        609640
+      ],
+      "missing_status_counts": {
+        "a": 10
+      },
+      "origin": 177,
+      "registered_absent_from_snapshot": 10,
+      "registered_players": 753,
+      "registered_without_any_prior_row": 10,
+      "snapshot_codes_absent_from_capture": 355,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1114,
+      "excluded_managers": 20,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 178,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 759,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 355,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1117,
+      "excluded_managers": 20,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 179,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 763,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 354,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1118,
+      "excluded_managers": 20,
+      "missing_code_examples": [
+        575204
+      ],
+      "missing_status_counts": {
+        "a": 1
+      },
+      "origin": 180,
+      "registered_absent_from_snapshot": 1,
+      "registered_players": 765,
+      "registered_without_any_prior_row": 1,
+      "snapshot_codes_absent_from_capture": 354,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1121,
+      "excluded_managers": 20,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 181,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 769,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 352,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1121,
+      "excluded_managers": 20,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 182,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 769,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 352,
+      "status": "admitted"
+    },
+    {
+      "active_historical_codes": 1123,
+      "excluded_managers": 20,
+      "missing_code_examples": [],
+      "missing_status_counts": {},
+      "origin": 183,
+      "registered_absent_from_snapshot": 0,
+      "registered_players": 771,
+      "registered_without_any_prior_row": 0,
+      "snapshot_codes_absent_from_capture": 352,
+      "status": "admitted"
+    }
+  ],
+  "proof_sha256": "bd0bed84935ddc689582eafcd8e7b5573c76166f718b7591122f0f6f16f12af0",
+  "status": "complete"
+}

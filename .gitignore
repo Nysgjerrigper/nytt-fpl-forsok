@@ -34,3 +34,29 @@ experiments/optimizer_migration_*/*.csv
 experiments/optimizer_migration_*/*.log
 experiments/optimizer_migration_*/wheel/
 experiments/optimizer_migration_*/*.tar.gz
+
+# Preserve large research outputs locally; compact registrations/results remain tracked.
+experiments/research_priorities_*/**/*.csv
+experiments/research_priorities_*/**/*.log
+experiments/external_source_audit_*/*.csv
+experiments/interval_calibration_*/**/*.csv
+experiments/interval_calibration_*/**/*.log
+experiments/cnn_research_*/**/*.csv
+experiments/cnn_research_*/**/*.log
+experiments/temporal_blend_*/**/*.csv
+experiments/temporal_blend_*/**/*.log
+experiments/price_provenance_*/**/*.csv
+experiments/price_provenance_*/**/*.log
+experiments/price_horizon_*/**/*.csv
+experiments/price_horizon_*/**/*.log
+experiments/deadline_snapshot_audit_*/inventory/
+experiments/deadline_snapshot_audit_*/captures/
+experiments/deadline_snapshot_audit_*/**/*.csv
+experiments/deadline_snapshot_audit_*/source_documents/armband/
+experiments/availability_research_*/**/*.csv
+experiments/availability_research_*/**/*.log
+# Preserve third-party audit bytes locally without vendoring upstream interfaces.
+experiments/foss_interface_audit_2026-10-04/raw/
+experiments/understat_archive_audit_2026-10-04/raw/
+experiments/corrected_optimizer_replay_*/**/*.csv
+experiments/corrected_optimizer_replay_*/**/*.log

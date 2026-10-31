@@ -1,0 +1,174 @@
+{
+  "aggregate_verifier_sha256": "cdc9646603840e20bdf68542a7cb0ce4a135cea8c636bbc7122aef24cfe2420d",
+  "current_pipeline_source_sha256": {
+    "fpl/config.py": "a9fbfe6de2d4c4ba195c85d48266ad023e80116f6358111c7e16cb976f7adf5d",
+    "fpl/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/data/deadline_snapshots.py": "00d2f2a73a670106c19542e3ec5d06f5a144da7323efe8c12d5a2047fede5feb",
+    "fpl/data/external.py": "db38873a567aa51ad85fc264e97626b05bb6c84ad7c5b32802afc49eda754d11",
+    "fpl/data/feature_cache.py": "dd587e3355b0a4732a57614cd8e5d50ef1c01a7727c44ee9583145e257c7a8bb",
+    "fpl/data/fetch.py": "ece93d1be41d669e62b858da31f0219893553655ac73ae4f40173ed0b70b0764",
+    "fpl/data/origin_prices.py": "d9c7c149d4fe3a66fa04b517138d4ce7d8ae90da69d23e24b6427af5ff421f6c",
+    "fpl/data/provenance.py": "569d4fef2247c8dfd6a6dea7992ac09cfc444c11d0b1a5c17d719c5807a858aa",
+    "fpl/data/research.py": "a3f92b92088915c541956b68c300b7ab8f7ff5ddd4595ec8e366821383710434",
+    "fpl/experiment.py": "2780bf8ead3e6c0c4f3a988fd176ccd98769acbb652d1cc3ca52fc30bf6b5404",
+    "fpl/features.py": "df09943d91ced157ee36091526a527dd26013516055383c9976bf2df94afae7d",
+    "fpl/milp/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+    "fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "fpl/milp/compare_backtests.py": "0be8917170884f3d5fa31ace4d796d457d8d312c43023cd8c6f8fd6c14e9e739",
+    "fpl/milp/optimize.py": "8aaccfe87943ecc60c875c8ebdce5f936d3445d1521c84b147178bed096ca639",
+    "fpl/milp/solio.py": "44e89d100e888e6341d6342196b57240ab1a113921d55cf7645155fc5d21863e",
+    "fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+    "fpl/milp/solio_output.py": "22724577e69f8e440f38d005e8837626e2e1232fa43bcb47e77a4a4fb83ca56e",
+    "fpl/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/model/availability_research.py": "a2f6a6b31f5c22e1aa53bfbd00aa21ef2da4bddb0b5722f115025cf6b0a8b8fb",
+    "fpl/model/baselines.py": "7147a8801e27003c25bdf40a71898be49fd19711303447f6723e68e6d9b535de",
+    "fpl/model/blend_research.py": "115a7708b2d995826dd3ec01897c244d09519aa3fe8744f1fa8cca45228d8a18",
+    "fpl/model/cnn_process.py": "74c6827496972cd93d9b41fe2972ad236d21d83b65bd96b6aaf92c2109914c2f",
+    "fpl/model/cnn_research.py": "1d4ab1eaa18fef8d5045c18053022367ccfe484c99a62225e2216f2fc4e14b7e",
+    "fpl/model/cnn_worker.py": "0ee5be8ea265d7036331ede3dc79120f099a39d1b14f17b9d8f5f9164ab35982",
+    "fpl/model/cold_start.py": "039a645266e2f3e1326336298dbbb904ecff4e8dc913b95ea61a14c587bbc4c5",
+    "fpl/model/deadline_availability.py": "cdc9a660f7fa496b5934fdd80805241762eb9a8281ef4676ea8b740f249fa469",
+    "fpl/model/ensemble.py": "d960e588b8c9ad75738128f96df77dd8648752ce52815d9f1888e83b818cc8e8",
+    "fpl/model/expert_policy.py": "d57d549c92fb132e27b654bee02a6a32e728be5d45b1be4f66d9ca9a1794e67b",
+    "fpl/model/grouped_interval_calibration.py": "c9afc2ddd549fc1280d1b56d5efcc3c3e6bcb7038b4fdf4b109b72aa19569bdb",
+    "fpl/model/horizon_price_research.py": "55d8027af118427aadd1d4a70e8a8b9c19359d14d8507d6440379a4b66667f05",
+    "fpl/model/interval_calibration.py": "6b1b70f7afcbd4beac28c0d15c29959ffcaf3bee4f2dbf983000262d911f8a0a",
+    "fpl/model/interval_research.py": "db2b472caf9b00529356115ade57cfd0b32ff35da74833480e11fe1baaa8c483",
+    "fpl/model/metrics.py": "3592bebfe9922ca5b38e2c3c71be75d79592987d39db8341c46ec1b3a496bad7",
+    "fpl/model/mid_gate.py": "3798843118ef6f53ac832fb5c181d2d4b4b18855e7fbe3cdacb1511e6413a151",
+    "fpl/model/models.py": "16dc89c77cd736ca63aab611d20377592d44e2ace681f40384656006f737f28b",
+    "fpl/model/moe_promotion.py": "93982d906ca6805acb676d13933e49d99a6817ea3fc72b862b331d8812e31337",
+    "fpl/model/moe_tournament.py": "484a17fa26848696470af514457b586fd85e8d09a307c438f009665397e5f23e",
+    "fpl/model/oof_panel.py": "d899f24d4e35b6abc98e950aad63794ba2eaedbe39ed1979eb1f819ef8c5a4b1",
+    "fpl/model/predict.py": "deaa0d5e7c4c6c87b472859cb70dbe4fd75c4f6663e46916a0e19626380259f3",
+    "fpl/model/price_research.py": "244ea0684072ace4895b61c784a423336c89d302fe45cebf903454dca2a5b9dd",
+    "fpl/model/probabilistic.py": "6844a48b428042f89f833b45f6293ccb64e89fe06a4e4bbf9955e0047516eedd",
+    "fpl/model/probabilistic_buckets.py": "9592610fd0312621280656577a5618c63a5b43c07bd61bf6d108588d735ef3dd",
+    "fpl/model/research_package.py": "13b65fcc8623d8a04e310defdc910eb407a30f934449fe85d2a138850981d899",
+    "fpl/model/screen.py": "b5827a438c0e3d5bb6c81d645e735ad49c7997c45697bb9407b59508fa8e28e7",
+    "fpl/model/sequence_cnn.py": "257aedd0bd26e9100de21368ff94b4f68e2eb2594a591c3fd957318f203b9128",
+    "fpl/model/sequence_features.py": "0fba4921fe05c50a55d66002923490fc360b6116e468bb65eed5f18fee760341",
+    "fpl/model/temporal_blend.py": "a857a865f8ed93e0b139194f3ffd2d67bcf63694615a8b51db56c955f4a4098d",
+    "fpl/model/train.py": "9b834aeffea049bed398a6fe7187846dc2759c9386ea1af68450a065bdca8a85",
+    "fpl/model/tuning.py": "39f59413234997e9d66a9cd0e10e1e40fc426ff2636bc5e86a38b8e1aa40b2d7",
+    "fpl/model/tuning_checkpoint.py": "f04b5bb78f81eb2350a22fb53a797f6eb871463019e537cd71d1bdb882895cdc",
+    "fpl/model/walk_forward.py": "08aa034fe8abb947d898f1b3cd625140486d5c09ad32e53d4abbfc99496947d0",
+    "fpl/run_week.py": "e67f6ad32a3865e7cf0bfd6828a7451c49b78c47acaf85cdf400c370b66d1401"
+  },
+  "external_audit_sha256": "9a1c0b52c2cdf1f1920b5d595e52ea5a2699e2609c0fdf3b55c7a62b85f3dd1a",
+  "limitations": [
+    "Per-study independent reports remain evidence for numerical reconstruction.",
+    "Historical reference outcomes repeatedly examined; no fresh holdout.",
+    "Refit seeds share outcomes and fixed seed-zero tuning; no independent-sample pooling.",
+    "Historical prices, registered rosters and external publication times remain incompletely verified.",
+    "Current source hashes describe subsequent state; archived sources bind completed studies.",
+    "No model promotion, production change, commit, push or merge."
+  ],
+  "omitted_availability_studies": {},
+  "production_strategy": "single:catboost",
+  "promotion_eligible": false,
+  "rechecked_unique_immutable_outputs": 953,
+  "rmse_robustness_verification_sha256": "469575a7d9065a302f968770f2acc0d6cf963f31754e74e484b0fad6eba75b97",
+  "status": "verified",
+  "studies": {
+    "availability_research_2026-10-03/rmse_seed0": {
+      "optimal_solves": 156,
+      "status": "complete",
+      "summary_sha256": "ed4bb9809814222552303594dbeefee416fe25708a3d07ee7a6297826b53fb91",
+      "verification_sha256": "67f493ba79d561197ac0605d380a69ad8181e4a70b3c8b0bace9cb3dd16b15ac"
+    },
+    "availability_research_2026-10-03/rmse_seed1": {
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "189cc0869a1e21bf3e6f7479cbba635b0182c16de3bec76cb48d3e3e14b88e3e",
+      "verification_sha256": "93b10e1c2fe621d56ec5d4c009e89734dd5530518969d5ef9f5d6883719103bd"
+    },
+    "availability_research_2026-10-03/rmse_seed2": {
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "a10462eaa2e5a24a731763d6424c3238cd65e560d1c1d936902cb974aec9fed7",
+      "verification_sha256": "63d2e524f7044770c964180a781c912749b534ec379ff04d0a3fa5a8eec3e2c0"
+    },
+    "availability_research_2026-10-03/seed0": {
+      "optimal_solves": 156,
+      "status": "complete",
+      "summary_sha256": "e8db77bd7152eeb05d90b96cfcf3d4fad9ea2db1f8286645958f34f9fdff2174",
+      "verification_sha256": "e816383b846764a4fa0ec88f3662466b3e9b794d2fe6d3e6c6db324ae61640bb"
+    },
+    "availability_research_2026-10-03/seed1": {
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "e70b0098e3a0025864cb634fc3010d81d4bb0fa2fb7ac5013b9222c903c0714b",
+      "verification_sha256": "5e2f91bf41d5272dd2e4baff9bbc2b530cf71e7b2b4c790c3e5da19a7fb62a00"
+    },
+    "availability_research_2026-10-03/seed2": {
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "d06ec81d77ec50cf5c01643b789f811fe01943be175419ef8f6c8753b9eb1099",
+      "verification_sha256": "08d677e5bb8de71b7d6f249d2fad265586604e2115fa35b867a256ed1ea31f4d"
+    },
+    "cnn_research_2026-10-03/seed0": {
+      "optimal_solves": 64,
+      "status": "selection_rejected",
+      "summary_sha256": "ceff744b26b2ffccf968b0384c8bfae1067b20499a9ca0362ad968bc09a0e616",
+      "verification_sha256": "a113250414b23b928825ac2b6e5d84063024d7c5a0d29656f6d95ac4576d3e10"
+    },
+    "interval_calibration_2026-10-03/seed0": {
+      "optimal_solves": 0,
+      "status": "complete",
+      "summary_sha256": "e4eeb7a62299454b4b8dfc9817018dadad25ba9934e7efc8cc3749fbbe2ffc06",
+      "verification_sha256": "575c2a78a4a44fae3e6d09e1522997efed61222007ef0c3442d5a697e974fa77"
+    },
+    "price_horizon_2026-10-03/seed0": {
+      "optimal_solves": 94,
+      "status": "complete",
+      "summary_sha256": "fcd53056c55473c727cae6cef84f0a196b243b6eaca795ece725f3b77aa736b9",
+      "verification_sha256": "829ecc6ded80e6346d4a2c8211e9a73836e510fcb8d05524b038926995da466e"
+    },
+    "price_provenance_2026-10-03/reference_seed1": {
+      "optimal_solves": 124,
+      "status": "complete",
+      "summary_sha256": "c8702353d90779634e04d31d5476f2b83b7050e65ddb374e200adb0241fde383",
+      "verification_sha256": "81b2129d8c0362939b22884aa040df85f38e6f663c2d1f71d56f5196c9de2dc9"
+    },
+    "price_provenance_2026-10-03/reference_seed2": {
+      "optimal_solves": 124,
+      "status": "complete",
+      "summary_sha256": "3889b180c8dd4a4ad4d58df5c12e9c73ec68499bc1cea100e3e40dcf04e30e54",
+      "verification_sha256": "373acf300e6fdbaa25477246f2ff818a75419b00527c9eead93e374e7482e23b"
+    },
+    "price_provenance_2026-10-03/seed0": {
+      "optimal_solves": 188,
+      "status": "complete",
+      "summary_sha256": "abd278ab943deda2ed3434bb30408cf81a48f14e0beb77eb725a7ec1734f41f7",
+      "verification_sha256": "d45a11e2df6772fd8986a822f672d1695f00038eccfcdd3bc5c67fbeeb040c31"
+    },
+    "research_priorities_2026-10-03/selection_seed0": {
+      "optimal_solves": 282,
+      "status": "complete",
+      "summary_sha256": "9d421af2cea36abaa33a8339c7bd981927fea4e117c75587a80bda14f8bbc5d7",
+      "verification_sha256": "3486338ca0f2387e582293e1e79e7e3377081303d84f8300cc4b4b9f026cf3d7"
+    },
+    "research_priorities_2026-10-03/selection_seed1": {
+      "optimal_solves": 282,
+      "status": "complete",
+      "summary_sha256": "cd5198d055cf1a740cd1c4c2b9cb824882c00bb1f499abb098e9297946042b5c",
+      "verification_sha256": "10e9eb32fb555fb657470e5f6b9d6aeea0ac322c597af6f8d2aece86957685ac"
+    },
+    "research_priorities_2026-10-03/selection_seed2": {
+      "optimal_solves": 282,
+      "status": "complete",
+      "summary_sha256": "7bf58bb439d88190c94ff70f5b5545de5778c8d0647f45392d31a03be18f00ae",
+      "verification_sha256": "6d17f23de0d04784a81a3e217694a44f9bfbd30a1cf28baa0e00a4749dfe5568"
+    },
+    "temporal_blend_2026-10-03/seed0": {
+      "optimal_solves": 202,
+      "status": "complete",
+      "summary_sha256": "0c7788908b8d362c53d15b52761ab0cf5924c9174ee194f5a102dfcfcefb5e5f",
+      "verification_sha256": "2b640d274b1e2733c0b008d2fc754e7ca0a89ca3d60586925ff2b1388b3ee562"
+    }
+  },
+  "verified_at_utc": "2026-10-04T07:28:59.438789+00:00",
+  "verified_optimal_solves": 2082
+}

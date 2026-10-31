@@ -185,7 +185,11 @@ def test_initial_ft_above_policy_cap_is_honored(tmp_path):
     by_pos = {}
     for pid, pos, _, _ in PLAYERS:
         by_pos.setdefault(pos, []).append(int_id[pid])
-    squad_ids = by_pos["GK"][:2] + by_pos["DEF"][:5] + by_pos["MID"][:5] + by_pos["FWD"][:3]
+    squad_ids = by_pos["GK"][:2] + by_pos["DEF"][:5] + by_pos["MID"][:5] + by_pos["FWD"][2:5]
+    # Each club must also have exactly three holdings. The previous fixture
+    # overloaded two clubs and was accepted only via the no-transfers fallback.
+    club_by_id = {int_id[pid]: club for pid, _, club, _ in PLAYERS}
+    assert all(sum(club_by_id[pid] == club for pid in squad_ids) == 3 for club in range(5))
 
     args = optimize.parse_args([
         "--predictions-csv", str(predictions_csv),
@@ -200,6 +204,7 @@ def test_initial_ft_above_policy_cap_is_honored(tmp_path):
     ])
     results_df = optimize.run(args)
     assert not results_df.empty
+    assert results_df.solver_solution_status.eq("Optimal Solution Found").all()
     assert results_df.iloc[0]["q_start"] == 5  # full banked stack available at GW1
 
 

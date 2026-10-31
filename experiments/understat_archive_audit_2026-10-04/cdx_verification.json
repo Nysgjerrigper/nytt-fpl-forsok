@@ -1,0 +1,20 @@
+{
+  "capture_report_sha256": "771cff0ba2eb4288a87732bc6d63eae11be5b08b4f47c95c56e177cacda95849",
+  "cdx_sha256": "cd89f4feac0102ba6be02b4a2292cb50d2e18b834a3b56d99812050782be0c09",
+  "coverage": "One historical team-page capture only.",
+  "matched_records": [
+    {
+      "digest": "ROLN4L5ZQQGBKLVTNMPY5C23R7GAHZUQ",
+      "length": "10117",
+      "mimetype": "text/html",
+      "original": "https://understat.com/team/Liverpool/2020",
+      "statuscode": "200",
+      "timestamp": "20201101041833"
+    }
+  ],
+  "query_url": "https://web.archive.org/cdx/search/cdx?url=understat.com/team/Liverpool/2020&output=json&filter=statuscode:200&filter=mimetype:text/html&from=20201101041833&to=20201101041833&fl=timestamp,original,digest,length,statuscode,mimetype",
+  "script_sha256": "e623ceaf3005d01b143edbbf736711a31dbe344a64f4c9f537cd6fc5d439d94f",
+  "status": "verified",
+  "training_admitted": false,
+  "verified_at_utc": "2026-10-04T07:55:32.624002+00:00"
+}

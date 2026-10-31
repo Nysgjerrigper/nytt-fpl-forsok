@@ -1,0 +1,59 @@
+{
+  "diagnostics": [
+    {
+      "bias": -0.5098433192455974,
+      "mae": 0.8303342856601617,
+      "mase": 0.5893794981676013,
+      "position": "DEF",
+      "rmse": 2.094139242986907,
+      "rounds": 4087,
+      "spearman": 0.5878166820188383,
+      "top1_capture": 0.3504273504273504,
+      "total_calibration": 0.46474964147013703
+    },
+    {
+      "bias": -0.6019186768350048,
+      "mae": 0.8363932610727572,
+      "mase": 0.5835531747597423,
+      "position": "FWD",
+      "rmse": 2.3625432168536604,
+      "rounds": 1657,
+      "spearman": 0.7253145995592062,
+      "top1_capture": 0.483739837398374,
+      "total_calibration": 0.4879983328975344
+    },
+    {
+      "bias": -0.2823822069725763,
+      "mae": 0.48995579637440445,
+      "mase": 0.531302177880575,
+      "position": "GK",
+      "rmse": 1.510536522584709,
+      "rounds": 1440,
+      "spearman": 0.6107663929779357,
+      "top1_capture": 0.4583333333333333,
+      "total_calibration": 0.6078781311084765
+    },
+    {
+      "bias": -0.4870858397777741,
+      "mae": 0.8138085822523193,
+      "mase": 0.6258562536202085,
+      "position": "MID",
+      "rmse": 2.159084901888448,
+      "rounds": 5509,
+      "spearman": 0.7325178528040897,
+      "top1_capture": 0.3262411347517731,
+      "total_calibration": 0.5913878648795862
+    }
+  ],
+  "fit_seconds": 50.49395333393477,
+  "gross_points": 963.0,
+  "milp_seconds": 45.86817133310251,
+  "origin": true,
+  "prediction_sha256": "efb4d18618a3fd7e45ef5398d065ea5753afbe2fa674cf2d7ff2c7afb72a1da4",
+  "predictions": "mae_without_minutes_origin.predictions.csv",
+  "squad_sha256": "26a7bb5c46cd3a436e1d031b73f98e5d24f375058fee9a21ebde6ecff9bc0ec9",
+  "squads": "mae_without_minutes_origin.squads.csv",
+  "total_points": 963.0,
+  "transfer_hit_points": 0.0,
+  "variant": "mae_without_minutes"
+}

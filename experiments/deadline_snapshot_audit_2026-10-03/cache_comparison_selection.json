@@ -1,0 +1,665 @@
+{
+  "clock_assumption": "Naive datetime.today on GitHub Ubuntu runner interpreted as UTC; not independently proven by filenames. Minute upper bound is used.",
+  "repository": "Randdalf/fplcache",
+  "revision": "de78720734e8c24954433fbf91bc356188cfc669",
+  "captures": [
+    {
+      "season": "2023-24",
+      "event": 23,
+      "deadline": "2024-02-03T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-02-03T06:20:00+00:00",
+      "item": {
+        "path": "cache/2024/2/3/0620.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "353c6040fb87a5d8cbf02c2936e2770316a3f214",
+        "size": 129328,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/353c6040fb87a5d8cbf02c2936e2770316a3f214"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 24,
+      "deadline": "2024-02-10T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-02-10T06:20:00+00:00",
+      "item": {
+        "path": "cache/2024/2/10/0620.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e6689f5a688b5e9a241747f0a93f7387bdcad61d",
+        "size": 130648,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/e6689f5a688b5e9a241747f0a93f7387bdcad61d"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 25,
+      "deadline": "2024-02-17T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-02-17T06:21:00+00:00",
+      "item": {
+        "path": "cache/2024/2/17/0621.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "51d5dc4e0a30fb12788d933d13f27701318ddb7a",
+        "size": 131820,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/51d5dc4e0a30fb12788d933d13f27701318ddb7a"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 26,
+      "deadline": "2024-02-24T13:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-02-24T12:29:00+00:00",
+      "item": {
+        "path": "cache/2024/2/24/1229.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6420a203a42194aaade5ac5cac7359639b9e6e89",
+        "size": 132692,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/6420a203a42194aaade5ac5cac7359639b9e6e89"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 27,
+      "deadline": "2024-03-02T13:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-03-02T12:29:00+00:00",
+      "item": {
+        "path": "cache/2024/3/2/1229.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "005d9ee01518ac261d313cba818713669590cbaf",
+        "size": 133660,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/005d9ee01518ac261d313cba818713669590cbaf"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 28,
+      "deadline": "2024-03-09T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-03-09T06:23:00+00:00",
+      "item": {
+        "path": "cache/2024/3/9/0623.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e453f21fbcaef7574e9589fa4402c8fa5baeebc3",
+        "size": 134508,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/e453f21fbcaef7574e9589fa4402c8fa5baeebc3"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 29,
+      "deadline": "2024-03-16T13:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-03-16T12:31:00+00:00",
+      "item": {
+        "path": "cache/2024/3/16/1231.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c559f81770299093ec0d1161b1fff5987ca830e6",
+        "size": 135100,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/c559f81770299093ec0d1161b1fff5987ca830e6"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 30,
+      "deadline": "2024-03-30T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-03-30T06:21:00+00:00",
+      "item": {
+        "path": "cache/2024/3/30/0621.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e31a66e599098c197d833223ee3226ee29a87955",
+        "size": 135020,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/e31a66e599098c197d833223ee3226ee29a87955"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 31,
+      "deadline": "2024-04-02T17:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-04-02T12:33:00+00:00",
+      "item": {
+        "path": "cache/2024/4/2/1233.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "55f14244bf898ad129a8b96f755a1b58aea05922",
+        "size": 135976,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/55f14244bf898ad129a8b96f755a1b58aea05922"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 32,
+      "deadline": "2024-04-06T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-04-06T06:21:00+00:00",
+      "item": {
+        "path": "cache/2024/4/6/0621.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3daa067115f0364db0ea3d067df90ebf61023e55",
+        "size": 136712,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/3daa067115f0364db0ea3d067df90ebf61023e55"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 33,
+      "deadline": "2024-04-13T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-04-13T06:17:00+00:00",
+      "item": {
+        "path": "cache/2024/4/13/0617.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bdb1c4d0816e9a07da0c347026cdf37b9c79b913",
+        "size": 137244,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/bdb1c4d0816e9a07da0c347026cdf37b9c79b913"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 34,
+      "deadline": "2024-04-20T12:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-04-20T06:21:00+00:00",
+      "item": {
+        "path": "cache/2024/4/20/0621.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "99f5c72b26c38d06cf62d198835beaf5dd51f486",
+        "size": 138244,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/99f5c72b26c38d06cf62d198835beaf5dd51f486"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 35,
+      "deadline": "2024-04-27T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-04-27T06:23:00+00:00",
+      "item": {
+        "path": "cache/2024/4/27/0623.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "799c12f52424730908d39ef29246213b2f281b9c",
+        "size": 139288,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/799c12f52424730908d39ef29246213b2f281b9c"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 36,
+      "deadline": "2024-05-03T17:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-05-03T12:32:00+00:00",
+      "item": {
+        "path": "cache/2024/5/3/1232.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6d2e50507e58f316d58f5b16dae25a198e176d1a",
+        "size": 139476,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/6d2e50507e58f316d58f5b16dae25a198e176d1a"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 37,
+      "deadline": "2024-05-11T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-05-11T06:22:00+00:00",
+      "item": {
+        "path": "cache/2024/5/11/0622.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ec68367420a6bf7a6c82a37e9df67dec0c36e9a9",
+        "size": 139908,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/ec68367420a6bf7a6c82a37e9df67dec0c36e9a9"
+      }
+    },
+    {
+      "season": "2023-24",
+      "event": 38,
+      "deadline": "2024-05-19T13:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-05-19T12:33:00+00:00",
+      "item": {
+        "path": "cache/2024/5/19/1233.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "f7467f7aca1c7c442e78d1323e1764a501508b78",
+        "size": 140604,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/f7467f7aca1c7c442e78d1323e1764a501508b78"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 1,
+      "deadline": "2024-08-16T17:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-08-16T12:38:00+00:00",
+      "item": {
+        "path": "cache/2024/8/16/1238.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "2f694667522829dabf569a672f616aab932ce1a7",
+        "size": 84632,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/2f694667522829dabf569a672f616aab932ce1a7"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 2,
+      "deadline": "2024-08-24T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-08-24T06:27:00+00:00",
+      "item": {
+        "path": "cache/2024/8/24/0627.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "45d1a649a2c02925578e2e455305e235ca96dd21",
+        "size": 82156,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/45d1a649a2c02925578e2e455305e235ca96dd21"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 3,
+      "deadline": "2024-08-31T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-08-31T06:27:00+00:00",
+      "item": {
+        "path": "cache/2024/8/31/0627.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "da900805238e27ac0eff3b76fbb00fb7226d61f0",
+        "size": 89976,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/da900805238e27ac0eff3b76fbb00fb7226d61f0"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 4,
+      "deadline": "2024-09-14T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-09-14T06:29:00+00:00",
+      "item": {
+        "path": "cache/2024/9/14/0629.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3b695b81902e4b0b1b20b0eb6082b6a2877816c1",
+        "size": 96764,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/3b695b81902e4b0b1b20b0eb6082b6a2877816c1"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 5,
+      "deadline": "2024-09-21T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-09-21T06:28:00+00:00",
+      "item": {
+        "path": "cache/2024/9/21/0628.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "fed7281b78a63f5ac3b4e07f62ef256824b5c3b3",
+        "size": 99084,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/fed7281b78a63f5ac3b4e07f62ef256824b5c3b3"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 6,
+      "deadline": "2024-09-28T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-09-28T06:28:00+00:00",
+      "item": {
+        "path": "cache/2024/9/28/0628.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9277a78938b5b8041af9c9364f80f9b7b5df2b9d",
+        "size": 101036,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/9277a78938b5b8041af9c9364f80f9b7b5df2b9d"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 7,
+      "deadline": "2024-10-05T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-10-05T06:29:00+00:00",
+      "item": {
+        "path": "cache/2024/10/5/0629.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8c3b3df8a9042cabb8943cd378e044ec0588be42",
+        "size": 102408,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/8c3b3df8a9042cabb8943cd378e044ec0588be42"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 8,
+      "deadline": "2024-10-19T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-10-19T06:28:00+00:00",
+      "item": {
+        "path": "cache/2024/10/19/0628.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a0d576be12c82eb5d4ae7d1526b2a4c7b5e94501",
+        "size": 104312,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/a0d576be12c82eb5d4ae7d1526b2a4c7b5e94501"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 9,
+      "deadline": "2024-10-25T17:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-10-25T12:43:00+00:00",
+      "item": {
+        "path": "cache/2024/10/25/1243.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "011552926359c4869aa03fedcd228dcfa98d46d8",
+        "size": 104864,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/011552926359c4869aa03fedcd228dcfa98d46d8"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 10,
+      "deadline": "2024-11-02T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-11-02T06:30:00+00:00",
+      "item": {
+        "path": "cache/2024/11/2/0630.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "fe27e773f36bcf0be38930b96155122c155dce0f",
+        "size": 106504,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/fe27e773f36bcf0be38930b96155122c155dce0f"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 11,
+      "deadline": "2024-11-09T13:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-11-09T12:38:00+00:00",
+      "item": {
+        "path": "cache/2024/11/9/1238.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "801b8891367e28b983850a5a1beb2f4049bd5d23",
+        "size": 107616,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/801b8891367e28b983850a5a1beb2f4049bd5d23"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 12,
+      "deadline": "2024-11-23T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-11-23T06:30:00+00:00",
+      "item": {
+        "path": "cache/2024/11/23/0630.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "86872d0170e27136275e8a5f529858b735bb7b81",
+        "size": 108856,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/86872d0170e27136275e8a5f529858b735bb7b81"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 13,
+      "deadline": "2024-11-29T18:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-11-29T12:47:00+00:00",
+      "item": {
+        "path": "cache/2024/11/29/1247.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3f29bbb26b0f29c19584c73cab0392a51353a79d",
+        "size": 109560,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/3f29bbb26b0f29c19584c73cab0392a51353a79d"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 14,
+      "deadline": "2024-12-03T18:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-12-03T12:48:00+00:00",
+      "item": {
+        "path": "cache/2024/12/3/1248.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "35a16f92494a41ade43055f896fb92cd7a476e5e",
+        "size": 111420,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/35a16f92494a41ade43055f896fb92cd7a476e5e"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 15,
+      "deadline": "2024-12-07T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-12-07T06:31:00+00:00",
+      "item": {
+        "path": "cache/2024/12/7/0631.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "35b37f60b231ec6e9793b1677ce49cc515fc6064",
+        "size": 112172,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/35b37f60b231ec6e9793b1677ce49cc515fc6064"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 16,
+      "deadline": "2024-12-14T13:30:00+00:00",
+      "filename_clock_assuming_utc": "2024-12-14T12:43:00+00:00",
+      "item": {
+        "path": "cache/2024/12/14/1243.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "553761234673a703b8cb8b3a4536843ce84ec4cb",
+        "size": 114200,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/553761234673a703b8cb8b3a4536843ce84ec4cb"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 17,
+      "deadline": "2024-12-21T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-12-21T06:28:00+00:00",
+      "item": {
+        "path": "cache/2024/12/21/0628.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "047b987b571ab055c8eca653edc9079719a12d20",
+        "size": 117784,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/047b987b571ab055c8eca653edc9079719a12d20"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 18,
+      "deadline": "2024-12-26T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-12-26T06:31:00+00:00",
+      "item": {
+        "path": "cache/2024/12/26/0631.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "30d1fad71ac52d3f626992713094dce3fc18cd1c",
+        "size": 118408,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/30d1fad71ac52d3f626992713094dce3fc18cd1c"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 19,
+      "deadline": "2024-12-29T13:00:00+00:00",
+      "filename_clock_assuming_utc": "2024-12-29T12:39:00+00:00",
+      "item": {
+        "path": "cache/2024/12/29/1239.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4445ca2d91a10849a31db200a62d5449e5884282",
+        "size": 119364,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/4445ca2d91a10849a31db200a62d5449e5884282"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 20,
+      "deadline": "2025-01-04T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2025-01-04T06:29:00+00:00",
+      "item": {
+        "path": "cache/2025/1/4/0629.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "170a60b58b327dd8948642078a8b575028f3667d",
+        "size": 120420,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/170a60b58b327dd8948642078a8b575028f3667d"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 21,
+      "deadline": "2025-01-14T18:00:00+00:00",
+      "filename_clock_assuming_utc": "2025-01-14T12:41:00+00:00",
+      "item": {
+        "path": "cache/2025/1/14/1241.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "b9ddc55c23d26f7e8a2e92b7ad335428ac3af7c5",
+        "size": 121912,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/b9ddc55c23d26f7e8a2e92b7ad335428ac3af7c5"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 22,
+      "deadline": "2025-01-18T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2025-01-18T06:27:00+00:00",
+      "item": {
+        "path": "cache/2025/1/18/0627.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6399f97c45b86b732e4871ab029459ca58ee51f1",
+        "size": 123008,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/6399f97c45b86b732e4871ab029459ca58ee51f1"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 23,
+      "deadline": "2025-01-25T13:30:00+00:00",
+      "filename_clock_assuming_utc": "2025-01-25T12:38:00+00:00",
+      "item": {
+        "path": "cache/2025/1/25/1238.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ee315bfedca0f55b8dc6168c96e882b485f4ee82",
+        "size": 132684,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/ee315bfedca0f55b8dc6168c96e882b485f4ee82"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 24,
+      "deadline": "2025-02-01T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2025-02-01T06:28:00+00:00",
+      "item": {
+        "path": "cache/2025/2/1/0628.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9c0c80eee6b73b462e3f0ef0757d7d2238a6a93d",
+        "size": 133440,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/9c0c80eee6b73b462e3f0ef0757d7d2238a6a93d"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 25,
+      "deadline": "2025-02-14T18:30:00+00:00",
+      "filename_clock_assuming_utc": "2025-02-14T12:43:00+00:00",
+      "item": {
+        "path": "cache/2025/2/14/1243.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3907dcf0de558b66dacdd25f8f1f41162cf5205e",
+        "size": 139660,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/3907dcf0de558b66dacdd25f8f1f41162cf5205e"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 26,
+      "deadline": "2025-02-21T18:30:00+00:00",
+      "filename_clock_assuming_utc": "2025-02-21T12:44:00+00:00",
+      "item": {
+        "path": "cache/2025/2/21/1244.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bad419aae27a44a779badde63b8d4f3d20b1b409",
+        "size": 140560,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/bad419aae27a44a779badde63b8d4f3d20b1b409"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 27,
+      "deadline": "2025-02-25T18:00:00+00:00",
+      "filename_clock_assuming_utc": "2025-02-25T12:45:00+00:00",
+      "item": {
+        "path": "cache/2025/2/25/1245.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4cc98cb88a9143c169d6b226debe1a72402635e6",
+        "size": 141204,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/4cc98cb88a9143c169d6b226debe1a72402635e6"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 28,
+      "deadline": "2025-03-08T11:00:00+00:00",
+      "filename_clock_assuming_utc": "2025-03-08T06:25:00+00:00",
+      "item": {
+        "path": "cache/2025/3/8/0625.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a58a9819b195947900c83e94b075844e56c488ee",
+        "size": 142128,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/a58a9819b195947900c83e94b075844e56c488ee"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 29,
+      "deadline": "2025-03-15T13:30:00+00:00",
+      "filename_clock_assuming_utc": "2025-03-15T12:41:00+00:00",
+      "item": {
+        "path": "cache/2025/3/15/1241.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8f65080633826f9a5355befb5cd020db6d7f30fb",
+        "size": 142512,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/8f65080633826f9a5355befb5cd020db6d7f30fb"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 30,
+      "deadline": "2025-04-01T17:15:00+00:00",
+      "filename_clock_assuming_utc": "2025-04-01T12:50:00+00:00",
+      "item": {
+        "path": "cache/2025/4/1/1250.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "2c9758d0861adcee4e93604765f4b3e4a03473e2",
+        "size": 142588,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/2c9758d0861adcee4e93604765f4b3e4a03473e2"
+      }
+    },
+    {
+      "season": "2024-25",
+      "event": 31,
+      "deadline": "2025-04-05T10:00:00+00:00",
+      "filename_clock_assuming_utc": "2025-04-05T06:31:00+00:00",
+      "item": {
+        "path": "cache/2025/4/5/0631.json.xz",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "97aae23353c015026ccc65378187b220ccb361cb",
+        "size": 143108,
+        "url": "https://api.github.com/repos/Randdalf/fplcache/git/blobs/97aae23353c015026ccc65378187b220ccb361cb"
+      }
+    }
+  ]
+}

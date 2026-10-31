@@ -1,0 +1,2208 @@
+{
+  "files": [
+    {
+      "git_blob_sha": "b2489c85642ff34b6f41e737be1e22aab67110ed",
+      "local_path": "captures/armband/data/captures/2020-21/GW01-2020-09-11T0125Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW01-2020-09-11T0125Z/bootstrap-static.json.gz",
+      "sha256": "6455d33e46f7c5ebbd062537ce9220074e40677a37cd24a489b7978f5d3bf8ee",
+      "size": 62322,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW01-2020-09-11T0125Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "86d5a6ea942763e33c91f138eeb56ce4eda1c0be",
+      "local_path": "captures/armband/data/captures/2020-21/GW01-2020-09-11T0125Z/manifest.json",
+      "path": "data/captures/2020-21/GW01-2020-09-11T0125Z/manifest.json",
+      "sha256": "c5e3968a09e58b1552ef71f248cc85f6bcf59246bc34327194b04db79e64a167",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW01-2020-09-11T0125Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "7ec9a24f28c38320d4a2cda46dde5e031d2a944d",
+      "local_path": "captures/armband/data/captures/2020-21/GW02-2020-09-16T1204Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW02-2020-09-16T1204Z/bootstrap-static.json.gz",
+      "sha256": "9f0576efa067590e104759cc8a3bc9e0eb4ef455810275960103e00234acfc65",
+      "size": 62989,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW02-2020-09-16T1204Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "3e604bb909c1f568212cd2122111f18c7815e6e1",
+      "local_path": "captures/armband/data/captures/2020-21/GW02-2020-09-16T1204Z/manifest.json",
+      "path": "data/captures/2020-21/GW02-2020-09-16T1204Z/manifest.json",
+      "sha256": "a980d95d587cd195aa4b427fa68b7a40e67c7146712be6ae2e1b500ca34a0872",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW02-2020-09-16T1204Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "7ec9a24f28c38320d4a2cda46dde5e031d2a944d",
+      "local_path": "captures/armband/data/captures/2020-21/GW03-2020-09-16T1204Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW03-2020-09-16T1204Z/bootstrap-static.json.gz",
+      "sha256": "9f0576efa067590e104759cc8a3bc9e0eb4ef455810275960103e00234acfc65",
+      "size": 62989,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW03-2020-09-16T1204Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "d9486d1e266295f41a47180e9901016ffa8d06bb",
+      "local_path": "captures/armband/data/captures/2020-21/GW03-2020-09-16T1204Z/manifest.json",
+      "path": "data/captures/2020-21/GW03-2020-09-16T1204Z/manifest.json",
+      "sha256": "0b7a67fa787ba0731e5d39924191925e0d788b6924334b5603a832decefa28ed",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW03-2020-09-16T1204Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "1c194623a5ec9114d246efd39ef090d60bbb904c",
+      "local_path": "captures/armband/data/captures/2020-21/GW04-2020-10-02T1732Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW04-2020-10-02T1732Z/bootstrap-static.json.gz",
+      "sha256": "9340331887ce1d4b1d1de26506b3ef14d4f8caa0696babfd3083128836cb67d2",
+      "size": 75643,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW04-2020-10-02T1732Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "4ee8973248e93c69b5b88cbb78d7096e715d4201",
+      "local_path": "captures/armband/data/captures/2020-21/GW04-2020-10-02T1732Z/manifest.json",
+      "path": "data/captures/2020-21/GW04-2020-10-02T1732Z/manifest.json",
+      "sha256": "408bfe170858295dc4720c40cbc82dfd36b53158ad4ecb95b6a743c2494079f5",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW04-2020-10-02T1732Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "9cba0d09f79cb64ccf653fb714fc5bb75b4523f1",
+      "local_path": "captures/armband/data/captures/2020-21/GW05-2020-10-08T0754Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW05-2020-10-08T0754Z/bootstrap-static.json.gz",
+      "sha256": "cd3523c87c6eb36a9b94554bf24edc219c8f4127b08479300bb02f5dda278c28",
+      "size": 79966,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW05-2020-10-08T0754Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "6c14c9145a960eb33dd836697ed68f61abebbe8e",
+      "local_path": "captures/armband/data/captures/2020-21/GW05-2020-10-08T0754Z/manifest.json",
+      "path": "data/captures/2020-21/GW05-2020-10-08T0754Z/manifest.json",
+      "sha256": "44d59ebf6107251d926dfeb63a910d3c391feb161cca77ecef8e2137fd2a6fbd",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW05-2020-10-08T0754Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "a194c7a2dad0ee36dfac25aab913e01918328676",
+      "local_path": "captures/armband/data/captures/2020-21/GW06-2020-10-17T1220Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW06-2020-10-17T1220Z/bootstrap-static.json.gz",
+      "sha256": "ffe17a637c7ca637c6b5fc71eb8f93594cc9733374d0a542f808dc00fb1d815a",
+      "size": 78747,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW06-2020-10-17T1220Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "68a2c9ec1e33ea6f521c0ca452f5700fd4e0e145",
+      "local_path": "captures/armband/data/captures/2020-21/GW06-2020-10-17T1220Z/manifest.json",
+      "path": "data/captures/2020-21/GW06-2020-10-17T1220Z/manifest.json",
+      "sha256": "11a6809c34278d48dc42bf38befe05216fdd68e8c7f24eca6b0577655cdbd2e4",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW06-2020-10-17T1220Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "a194c7a2dad0ee36dfac25aab913e01918328676",
+      "local_path": "captures/armband/data/captures/2020-21/GW07-2020-10-17T1220Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW07-2020-10-17T1220Z/bootstrap-static.json.gz",
+      "sha256": "ffe17a637c7ca637c6b5fc71eb8f93594cc9733374d0a542f808dc00fb1d815a",
+      "size": 78747,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW07-2020-10-17T1220Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "8abb675ad0087d6f79072460a4dd15ff0e59be2b",
+      "local_path": "captures/armband/data/captures/2020-21/GW07-2020-10-17T1220Z/manifest.json",
+      "path": "data/captures/2020-21/GW07-2020-10-17T1220Z/manifest.json",
+      "sha256": "5d6f4044b01a9743d3be597b5b3de96164f46953cf893daa18ca58c59f8cdbed",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW07-2020-10-17T1220Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "6ec2b84bd140265173ed043dedf41db382b6820c",
+      "local_path": "captures/armband/data/captures/2020-21/GW08-2020-11-06T1029Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW08-2020-11-06T1029Z/bootstrap-static.json.gz",
+      "sha256": "74ecd7cde91e936ab5efe3538fff233414d959941401620bf383bbd07e4f8bfa",
+      "size": 87296,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW08-2020-11-06T1029Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "914184e1f558a315912d480c4c28e4dedb99d361",
+      "local_path": "captures/armband/data/captures/2020-21/GW08-2020-11-06T1029Z/manifest.json",
+      "path": "data/captures/2020-21/GW08-2020-11-06T1029Z/manifest.json",
+      "sha256": "7d28a01bd0613e422b17ad0ed61bbf552ac5ccc2f3e9dd4752b408f5614c21af",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW08-2020-11-06T1029Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "90c0ae0baf7c12208e33e026257d07c1d58107dc",
+      "local_path": "captures/armband/data/captures/2020-21/GW09-2020-11-21T1013Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW09-2020-11-21T1013Z/bootstrap-static.json.gz",
+      "sha256": "bb868388a796442041564f65847cdeb7ef38c887e3e525bb065dbb5eaa9a3607",
+      "size": 89069,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW09-2020-11-21T1013Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "b34dc4e77e4b0dd158c33fc0b50da719e7a37ea9",
+      "local_path": "captures/armband/data/captures/2020-21/GW09-2020-11-21T1013Z/manifest.json",
+      "path": "data/captures/2020-21/GW09-2020-11-21T1013Z/manifest.json",
+      "sha256": "fff9c8908ef6b28fb466629fe48f73ee6d13bd373e344dded5de03e162c92c81",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW09-2020-11-21T1013Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "1b1fc4416423bc072c52b475fb280c739d1e3c3c",
+      "local_path": "captures/armband/data/captures/2020-21/GW10-2020-11-27T1148Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW10-2020-11-27T1148Z/bootstrap-static.json.gz",
+      "sha256": "c4b0cea9ef86c5a2195eab96124d3427847512afe15482e50264e854fbdc9456",
+      "size": 89409,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW10-2020-11-27T1148Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "dfc8e2a416b2e547e4e346e6ffcdedcfbb4e3427",
+      "local_path": "captures/armband/data/captures/2020-21/GW10-2020-11-27T1148Z/manifest.json",
+      "path": "data/captures/2020-21/GW10-2020-11-27T1148Z/manifest.json",
+      "sha256": "530522349fbb57cd2c2f806cf4bcb69c9417baabbd639bfedf5d5a2a8a689a86",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW10-2020-11-27T1148Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5a7f5f778e3c15a651b0896bb531d50b92a61bf6",
+      "local_path": "captures/armband/data/captures/2020-21/GW11-2020-12-05T1021Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW11-2020-12-05T1021Z/bootstrap-static.json.gz",
+      "sha256": "12e8d568fd35f20226da59d7223ea6c4200e2fdbe5db607ece91127c068c6da0",
+      "size": 90412,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW11-2020-12-05T1021Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "c245f457e3170333ebb482f6c7fb6876d63c050a",
+      "local_path": "captures/armband/data/captures/2020-21/GW11-2020-12-05T1021Z/manifest.json",
+      "path": "data/captures/2020-21/GW11-2020-12-05T1021Z/manifest.json",
+      "sha256": "146dad33002416862a8a477b64935ba6b932127e83b0433b491d1bf498e4c23e",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW11-2020-12-05T1021Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "41d06dea6f687f60dfb0ffa79b2655e9024b7bd6",
+      "local_path": "captures/armband/data/captures/2020-21/GW12-2020-12-10T1634Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW12-2020-12-10T1634Z/bootstrap-static.json.gz",
+      "sha256": "f4d072f28395d20a1ac062ece8f65b073bdad9b097e484903b57dbe494fccf47",
+      "size": 90522,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW12-2020-12-10T1634Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "2995fbfe3d527359f1882c7ee05a544672b087e4",
+      "local_path": "captures/armband/data/captures/2020-21/GW12-2020-12-10T1634Z/manifest.json",
+      "path": "data/captures/2020-21/GW12-2020-12-10T1634Z/manifest.json",
+      "sha256": "c16904f2e02704db0603c32081fbc42d9f37b17360c75819a56499811116da9e",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW12-2020-12-10T1634Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "70e6de30af75433fa68ebe225b774bb3deec0d0f",
+      "local_path": "captures/armband/data/captures/2020-21/GW13-2020-12-15T1456Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW13-2020-12-15T1456Z/bootstrap-static.json.gz",
+      "sha256": "2d5135b4ef96f35858f7d433d69de04e51f78bc2363c6ee84d1c2ec650b3385a",
+      "size": 91786,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW13-2020-12-15T1456Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "fe32a43529a99bf797c9c9059368028b9786235d",
+      "local_path": "captures/armband/data/captures/2020-21/GW13-2020-12-15T1456Z/manifest.json",
+      "path": "data/captures/2020-21/GW13-2020-12-15T1456Z/manifest.json",
+      "sha256": "ed612772321016383e370d370b3a27e459ab75e4d4d01ea63ce7a31438b81889",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW13-2020-12-15T1456Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5c1ce72424dc91ff2e0a56f6c93e0c828beb7e64",
+      "local_path": "captures/armband/data/captures/2020-21/GW14-2020-12-19T1011Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW14-2020-12-19T1011Z/bootstrap-static.json.gz",
+      "sha256": "b5ef94a7d54ff19245c68c1c1b9d196c24feb935c3d487c657211aee7aa55a53",
+      "size": 92506,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW14-2020-12-19T1011Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "8fc14aa387db9b2c84549210c89fd56499955813",
+      "local_path": "captures/armband/data/captures/2020-21/GW14-2020-12-19T1011Z/manifest.json",
+      "path": "data/captures/2020-21/GW14-2020-12-19T1011Z/manifest.json",
+      "sha256": "bdbfeb33d5fed99f18a0321d77b7fa64d38ec6f4c67827cd313e474a0f53a707",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW14-2020-12-19T1011Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "cd10dd7bd62e2ef6a32054a0647b5341275b6975",
+      "local_path": "captures/armband/data/captures/2020-21/GW15-2020-12-26T1026Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW15-2020-12-26T1026Z/bootstrap-static.json.gz",
+      "sha256": "1f8883b287fc1c47f8688c791782be1c7f50c8d19516e071cd4248e491a63f08",
+      "size": 93842,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW15-2020-12-26T1026Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "e2a483bf16bb4f670157e627e60974c5c0baff4c",
+      "local_path": "captures/armband/data/captures/2020-21/GW15-2020-12-26T1026Z/manifest.json",
+      "path": "data/captures/2020-21/GW15-2020-12-26T1026Z/manifest.json",
+      "sha256": "a3146a3ff6529ff3241d4e9d87aa6776f2d0dfee5acfde173717b68712d0a4b0",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW15-2020-12-26T1026Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "600be69197d57d58f18e7399a7a70dd6eb1f7901",
+      "local_path": "captures/armband/data/captures/2020-21/GW16-2020-12-28T1241Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW16-2020-12-28T1241Z/bootstrap-static.json.gz",
+      "sha256": "a9c0f6771f6893f2b50eb8f65b61d79ee694c84fd0e7fcbd8b2480de483b151a",
+      "size": 94204,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW16-2020-12-28T1241Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "57f393e9924d842eb0ca32162e385fe86e4863a9",
+      "local_path": "captures/armband/data/captures/2020-21/GW16-2020-12-28T1241Z/manifest.json",
+      "path": "data/captures/2020-21/GW16-2020-12-28T1241Z/manifest.json",
+      "sha256": "f7daffa6da3aa544547a212ffff66d5adc413f51d071efa15f285ac53fc5fdd2",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW16-2020-12-28T1241Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "1594b42c097386375e56d8bac7d7af75a9e6b33e",
+      "local_path": "captures/armband/data/captures/2020-21/GW17-2020-12-31T1913Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW17-2020-12-31T1913Z/bootstrap-static.json.gz",
+      "sha256": "98b5a96f1eac6cd96f110faac7447ba6ddb796fa02515aa3e955143481265fac",
+      "size": 94531,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW17-2020-12-31T1913Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "eb43dcc2b83aedcbb0519658b48eb3c3d05b44aa",
+      "local_path": "captures/armband/data/captures/2020-21/GW17-2020-12-31T1913Z/manifest.json",
+      "path": "data/captures/2020-21/GW17-2020-12-31T1913Z/manifest.json",
+      "sha256": "aab9b90fcccdbef5827b887b05babbc90017cfa3c9a0acc152967403d21204e2",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW17-2020-12-31T1913Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "d3d1cf490b2088eb612e9a01e8ea91b5f46d0d66",
+      "local_path": "captures/armband/data/captures/2020-21/GW18-2021-01-11T2239Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW18-2021-01-11T2239Z/bootstrap-static.json.gz",
+      "sha256": "33c028426d5892a7f1fd1304a38b60938a996318ed7ce272a469ed34e272e809",
+      "size": 96743,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW18-2021-01-11T2239Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "0b6b3ee07b235a69928087b4aa023a212946374e",
+      "local_path": "captures/armband/data/captures/2020-21/GW18-2021-01-11T2239Z/manifest.json",
+      "path": "data/captures/2020-21/GW18-2021-01-11T2239Z/manifest.json",
+      "sha256": "8448e73bae6f4be246a7cf082e90e1247764298ef01322340042281c80a0ce62",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW18-2021-01-11T2239Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "a66ba339967975f13d8265ddc89de69f5b4af598",
+      "local_path": "captures/armband/data/captures/2020-21/GW19-2021-01-16T0959Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW19-2021-01-16T0959Z/bootstrap-static.json.gz",
+      "sha256": "fa21bf35cf69d01cae74e2e51cfdbaaa5d1a2a17ca87768aa074152a3e21b57a",
+      "size": 97391,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW19-2021-01-16T0959Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "04f380b05bdc37bdd1ba0377f7b2aa6ec2f774da",
+      "local_path": "captures/armband/data/captures/2020-21/GW19-2021-01-16T0959Z/manifest.json",
+      "path": "data/captures/2020-21/GW19-2021-01-16T0959Z/manifest.json",
+      "sha256": "3b23b65795612f235e2b6bc80b8a52729f8e35d1f1914ceb63a32fdb82be377c",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW19-2021-01-16T0959Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "b7d98c01b313de34148f90e530ee6b9145b035b8",
+      "local_path": "captures/armband/data/captures/2020-21/GW20-2021-01-26T1005Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW20-2021-01-26T1005Z/bootstrap-static.json.gz",
+      "sha256": "0eddd8d8cdd50567e34921150d8f24fb3ef28d664cb6914520a1c0cc6614046a",
+      "size": 99804,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW20-2021-01-26T1005Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "2341a52fad228f33ff9fa83f27ee1083356d59ea",
+      "local_path": "captures/armband/data/captures/2020-21/GW20-2021-01-26T1005Z/manifest.json",
+      "path": "data/captures/2020-21/GW20-2021-01-26T1005Z/manifest.json",
+      "sha256": "331865e15c4444765c0c286462d623cfb12f160da5462dc50eab04f74a712922",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW20-2021-01-26T1005Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "cf6f1f16117493b135968947e24dc1f781943a71",
+      "local_path": "captures/armband/data/captures/2020-21/GW21-2021-01-30T1023Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW21-2021-01-30T1023Z/bootstrap-static.json.gz",
+      "sha256": "f4f7f153b3a7ae31d87d76ebda0e54de75ff3d2f8486ad7b4392e36ade25028c",
+      "size": 99727,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW21-2021-01-30T1023Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "dbd681a8402332b95d457efc2e129998490579f8",
+      "local_path": "captures/armband/data/captures/2020-21/GW21-2021-01-30T1023Z/manifest.json",
+      "path": "data/captures/2020-21/GW21-2021-01-30T1023Z/manifest.json",
+      "sha256": "6697ad96e3477ec4b0d62faab48764627349fb09adf76e2cef5358f424c95225",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW21-2021-01-30T1023Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "05b7ce71a7a8604a70f1edf91ab81a469efe54ee",
+      "local_path": "captures/armband/data/captures/2020-21/GW22-2021-02-02T1020Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW22-2021-02-02T1020Z/bootstrap-static.json.gz",
+      "sha256": "490297430b28a02d45cc7cc14b3baa8173802217ad976ddbf644dcd581263c91",
+      "size": 101392,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW22-2021-02-02T1020Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "85ea758918ece68c4f41b30e15a0f7211ce95c1a",
+      "local_path": "captures/armband/data/captures/2020-21/GW22-2021-02-02T1020Z/manifest.json",
+      "path": "data/captures/2020-21/GW22-2021-02-02T1020Z/manifest.json",
+      "sha256": "ce0b98ca09e3075e9d722b29d243c1f815cd5822a1e4b23d39c7f192c3eee07d",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW22-2021-02-02T1020Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "e1941d827d76b7e76fedb0567e11483ee1554a77",
+      "local_path": "captures/armband/data/captures/2020-21/GW23-2021-02-05T1140Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW23-2021-02-05T1140Z/bootstrap-static.json.gz",
+      "sha256": "23867a07450bacc052774cd85e99beaf4e43c753b5652cc9a3b16be504ee27ba",
+      "size": 103277,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW23-2021-02-05T1140Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "009623a8303c46c5a9e992dd3cfb0ab052732886",
+      "local_path": "captures/armband/data/captures/2020-21/GW23-2021-02-05T1140Z/manifest.json",
+      "path": "data/captures/2020-21/GW23-2021-02-05T1140Z/manifest.json",
+      "sha256": "2446c44ab98b8a84dfcfb8bf5d1b4fbf48fabf3c002ee9b1c2f5e4604b23eae7",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW23-2021-02-05T1140Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "90165385006642905a997783f78e4a43e421bb5c",
+      "local_path": "captures/armband/data/captures/2020-21/GW24-2021-02-13T1049Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW24-2021-02-13T1049Z/bootstrap-static.json.gz",
+      "sha256": "398b98d5fc1a38bc3b5e9147d6896d6fe86cf017a52b199ab3f4417d97dbe280",
+      "size": 104394,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW24-2021-02-13T1049Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "833a16f3ee475c5cf84a9e88865700afceba4f6e",
+      "local_path": "captures/armband/data/captures/2020-21/GW24-2021-02-13T1049Z/manifest.json",
+      "path": "data/captures/2020-21/GW24-2021-02-13T1049Z/manifest.json",
+      "sha256": "94de2c454ea6673250f76bb54380e75a1e9a68f6a8a1fbd4f8dc070b88be2651",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW24-2021-02-13T1049Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "b824a790997826a200b81042e19265fba9507193",
+      "local_path": "captures/armband/data/captures/2020-21/GW25-2021-02-19T1639Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW25-2021-02-19T1639Z/bootstrap-static.json.gz",
+      "sha256": "6533e8db1b2357975ae8c59b8d483a1be3f00eec2670082eb49ef49bf2092485",
+      "size": 104935,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW25-2021-02-19T1639Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "e4e094ceca713a94a2c512421e6ffb9f15ac38c2",
+      "local_path": "captures/armband/data/captures/2020-21/GW25-2021-02-19T1639Z/manifest.json",
+      "path": "data/captures/2020-21/GW25-2021-02-19T1639Z/manifest.json",
+      "sha256": "7b27f3d7cf075eed1970320134323fa693151508e65b610b609b8636452d122a",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW25-2021-02-19T1639Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "51e0876efc98439738f4e7c6560bb2bcd9011cdc",
+      "local_path": "captures/armband/data/captures/2020-21/GW26-2021-02-27T1031Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW26-2021-02-27T1031Z/bootstrap-static.json.gz",
+      "sha256": "0364a5818fc727a6d851c97bd455627fb876eea04605122bdb2502f86654b1fc",
+      "size": 105421,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW26-2021-02-27T1031Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "65a06cfebd337dedfd944d0f1f84269bc45e2fc1",
+      "local_path": "captures/armband/data/captures/2020-21/GW26-2021-02-27T1031Z/manifest.json",
+      "path": "data/captures/2020-21/GW26-2021-02-27T1031Z/manifest.json",
+      "sha256": "b2af6d3b4309104b1e66c78dc3ecd94cfd29171d71cbc79c533f37196f59e822",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW26-2021-02-27T1031Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "a9c093a680aad88ca92b6293ed8052958ccb5e69",
+      "local_path": "captures/armband/data/captures/2020-21/GW27-2021-03-06T1029Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW27-2021-03-06T1029Z/bootstrap-static.json.gz",
+      "sha256": "8c24390e32a9a2837c21e3bd2fd28d5d8ab9255630a79b7126afe80eb8b33ea1",
+      "size": 106776,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW27-2021-03-06T1029Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "95c8ccb4c69ba49c3e30cefa7bf1a7972af14d19",
+      "local_path": "captures/armband/data/captures/2020-21/GW27-2021-03-06T1029Z/manifest.json",
+      "path": "data/captures/2020-21/GW27-2021-03-06T1029Z/manifest.json",
+      "sha256": "a9d0a38f8b45b17d4dfdccfafc556e7e1719df7c132fb3d3a3def55aa0ed6743",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW27-2021-03-06T1029Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "4072bbecfa57428b2ed32bf4341ea97daa6421f7",
+      "local_path": "captures/armband/data/captures/2020-21/GW28-2021-03-12T1529Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW28-2021-03-12T1529Z/bootstrap-static.json.gz",
+      "sha256": "5c4ea69e489dfc0324a0c16d540a34d1515427e6a36cd36f7c7898c449708efb",
+      "size": 107376,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW28-2021-03-12T1529Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "6cbc4a67b36dd1c644dc793c7f436dc172f21931",
+      "local_path": "captures/armband/data/captures/2020-21/GW28-2021-03-12T1529Z/manifest.json",
+      "path": "data/captures/2020-21/GW28-2021-03-12T1529Z/manifest.json",
+      "sha256": "1beb3213772d28e239a6f57273cba603481c25a4a35adeb5dcb4c0cfde115375",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW28-2021-03-12T1529Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5b9f83eee2ac8990b2acaf89461ebe97d25f16a0",
+      "local_path": "captures/armband/data/captures/2020-21/GW29-2021-03-19T1348Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW29-2021-03-19T1348Z/bootstrap-static.json.gz",
+      "sha256": "694921b4e7a1d6a39aaee7a1029ebed1985fcb3b48c92108984c8827979a7eda",
+      "size": 107162,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW29-2021-03-19T1348Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "cd1095e9b5c3ea5ea878aa88e7f3e5375bd6be60",
+      "local_path": "captures/armband/data/captures/2020-21/GW29-2021-03-19T1348Z/manifest.json",
+      "path": "data/captures/2020-21/GW29-2021-03-19T1348Z/manifest.json",
+      "sha256": "cffc96839bada7e071a4b69a7df5aeed053178ec5dfe04424484f8c721ec060c",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW29-2021-03-19T1348Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "06afb6dcf948d227c5cc6ccba72e1751228f428c",
+      "local_path": "captures/armband/data/captures/2020-21/GW30-2021-04-03T0937Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW30-2021-04-03T0937Z/bootstrap-static.json.gz",
+      "sha256": "38068d725904618eb5214ecd2cbd22c5ddc83bf5db557a8a82e543b02a503ff7",
+      "size": 106757,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW30-2021-04-03T0937Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "f0e9ded84d1de05033ccf137d62f7044b4355ebb",
+      "local_path": "captures/armband/data/captures/2020-21/GW30-2021-04-03T0937Z/manifest.json",
+      "path": "data/captures/2020-21/GW30-2021-04-03T0937Z/manifest.json",
+      "sha256": "cd8603264814fe7eb9a7efbd93f48b2e7cab12643a1bd9daa8fe112ce9132958",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW30-2021-04-03T0937Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "4768d5cb528d370f67282f9601620fcf1ba2e8d2",
+      "local_path": "captures/armband/data/captures/2020-21/GW31-2021-04-09T0831Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW31-2021-04-09T0831Z/bootstrap-static.json.gz",
+      "sha256": "70319e9c0659f506323210c4356057d7ef8c5ba9dc2ed9cd62f44cf73d8c9513",
+      "size": 107492,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW31-2021-04-09T0831Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "1fcef13696d6ec49988b128edfee19d1d835c1e2",
+      "local_path": "captures/armband/data/captures/2020-21/GW31-2021-04-09T0831Z/manifest.json",
+      "path": "data/captures/2020-21/GW31-2021-04-09T0831Z/manifest.json",
+      "sha256": "4d9fdb9a90c19be17c4a3d1f08b421ba446905f28490ad1b6a1e9207a9d0021a",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW31-2021-04-09T0831Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "3fb829dfd62b26898b9441aeeed4b276ace2f96c",
+      "local_path": "captures/armband/data/captures/2020-21/GW32-2021-04-16T0825Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW32-2021-04-16T0825Z/bootstrap-static.json.gz",
+      "sha256": "61ae11fba00b2dbaa76e680cc9f517808bbec074a4ac819e0c662a5cc4659cb1",
+      "size": 108227,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW32-2021-04-16T0825Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "97c908b96b5cba1423e362bbd938546c30e2b5cb",
+      "local_path": "captures/armband/data/captures/2020-21/GW32-2021-04-16T0825Z/manifest.json",
+      "path": "data/captures/2020-21/GW32-2021-04-16T0825Z/manifest.json",
+      "sha256": "1e5fa86bdc603067ea4e6ebe5b962eb46facfd3079db25e91d465ee2b0a1df36",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW32-2021-04-16T0825Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "6d89d54200ad5b4ce0f449d981e0aecbe9c0d7f5",
+      "local_path": "captures/armband/data/captures/2020-21/GW33-2021-04-23T1632Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW33-2021-04-23T1632Z/bootstrap-static.json.gz",
+      "sha256": "9425942b4b8d7705711e665c84b7717ea6bb499bc92ad6cbb00d3c48530989ca",
+      "size": 108455,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW33-2021-04-23T1632Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "0fe6288cee1287ac3af26f7f817f73a1dce2bbba",
+      "local_path": "captures/armband/data/captures/2020-21/GW33-2021-04-23T1632Z/manifest.json",
+      "path": "data/captures/2020-21/GW33-2021-04-23T1632Z/manifest.json",
+      "sha256": "1e2a062a15b2202a68a891adbebc4e04b9ffd2115720bdc49fea3563f237b23e",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW33-2021-04-23T1632Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "830cc67aad9bede3b9d3cad4d2b9b7d05efdb023",
+      "local_path": "captures/armband/data/captures/2020-21/GW34-2021-04-28T0829Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW34-2021-04-28T0829Z/bootstrap-static.json.gz",
+      "sha256": "7aad0731beff411ec88d7a4fc410614571bcd327ac3d73d3a6b3ee3334b17625",
+      "size": 108528,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW34-2021-04-28T0829Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "fd44359f7b7979a015a347d6ab8ab38fd66894a9",
+      "local_path": "captures/armband/data/captures/2020-21/GW34-2021-04-28T0829Z/manifest.json",
+      "path": "data/captures/2020-21/GW34-2021-04-28T0829Z/manifest.json",
+      "sha256": "c40dcf23dd12722492794116f242613b073196a93a2666180701d98f3258b5eb",
+      "size": 678,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW34-2021-04-28T0829Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "d8e73057a46146942b2fd6c9297f2c670e7bb147",
+      "local_path": "captures/armband/data/captures/2020-21/GW35-2021-05-07T0923Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW35-2021-05-07T0923Z/bootstrap-static.json.gz",
+      "sha256": "bebf73c6ddb0c114540ea90ed3173f509ac1a0bc7b1393c57231ed6694eec26a",
+      "size": 109243,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW35-2021-05-07T0923Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "684226b06a3aebab6e36e462198fc585b41c8379",
+      "local_path": "captures/armband/data/captures/2020-21/GW35-2021-05-07T0923Z/manifest.json",
+      "path": "data/captures/2020-21/GW35-2021-05-07T0923Z/manifest.json",
+      "sha256": "cf2af9fa87f3b9e4c3d486601572a7006234845fcc3999f86233d8c51b79c5c0",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW35-2021-05-07T0923Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "af8503b281b6e5a653ad80e713a13f87130d7d41",
+      "local_path": "captures/armband/data/captures/2020-21/GW36-2021-05-13T2325Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW36-2021-05-13T2325Z/bootstrap-static.json.gz",
+      "sha256": "c700e296d3ef52d45367d515ad1e533075ce839c3070705cff29971908ea4197",
+      "size": 110583,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW36-2021-05-13T2325Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "31fa7a4b2c5a9bc580fdf7545a36aa5c7b54caee",
+      "local_path": "captures/armband/data/captures/2020-21/GW36-2021-05-13T2325Z/manifest.json",
+      "path": "data/captures/2020-21/GW36-2021-05-13T2325Z/manifest.json",
+      "sha256": "02251270d02b5d946ac24b21dc9f1f0bd5622522ec7d0c28859efba25de2d4bb",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW36-2021-05-13T2325Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "276948fb81d42e6dac8ae07e946b974870506464",
+      "local_path": "captures/armband/data/captures/2020-21/GW37-2021-05-18T0908Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW37-2021-05-18T0908Z/bootstrap-static.json.gz",
+      "sha256": "140cb2ad0de08f5bd07b1a0aea8f7683c53ef3ba995c8bf1012d2a0fb0c46b1b",
+      "size": 110860,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW37-2021-05-18T0908Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "eea720fbd3705ed689c28809fc448d3de8f2e449",
+      "local_path": "captures/armband/data/captures/2020-21/GW37-2021-05-18T0908Z/manifest.json",
+      "path": "data/captures/2020-21/GW37-2021-05-18T0908Z/manifest.json",
+      "sha256": "df44a0685baf07f2a37fd16bc457bb47bccb6656b3428fe77352c68d36c19e32",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW37-2021-05-18T0908Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "65f4e4e9a19bf45e85a91958600d507717313c7c",
+      "local_path": "captures/armband/data/captures/2020-21/GW38-2021-05-23T0902Z/bootstrap-static.json.gz",
+      "path": "data/captures/2020-21/GW38-2021-05-23T0902Z/bootstrap-static.json.gz",
+      "sha256": "d564f2942a18f254d9aa9607089c57d8153877e74c2a6049d80cdac59e87cb4c",
+      "size": 111861,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW38-2021-05-23T0902Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "4816fcaf36a261708372db848b3ee775f99ec5df",
+      "local_path": "captures/armband/data/captures/2020-21/GW38-2021-05-23T0902Z/manifest.json",
+      "path": "data/captures/2020-21/GW38-2021-05-23T0902Z/manifest.json",
+      "sha256": "d7a5ba260aca8ce8aa284ddb8c00896e29d902323986c0c67c9e7e3f414d96b0",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/GW38-2021-05-23T0902Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "ea79c40e7ee8c17334d6432a252abd45e52919fe",
+      "local_path": "captures/armband/data/captures/2020-21/deadlines.json",
+      "path": "data/captures/2020-21/deadlines.json",
+      "sha256": "6f8bf5a63ac7cc4b31e3d15aa08537672775b08cbee4a4b7f00b870f76aa0ccd",
+      "size": 8255,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2020-21/deadlines.json"
+    },
+    {
+      "git_blob_sha": "88e2fe63ffceffeec95d9b6ac175f32682c92259",
+      "local_path": "captures/armband/data/captures/2021-22/GW01-2021-08-13T0952Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW01-2021-08-13T0952Z/bootstrap-static.json.gz",
+      "sha256": "66c3e1237e42402d5509c288d2e5d505629352e965093f85011cfb50dac34ba3",
+      "size": 63252,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW01-2021-08-13T0952Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "8206f9259557f6e1819a2a12085be39dc7321f36",
+      "local_path": "captures/armband/data/captures/2021-22/GW01-2021-08-13T0952Z/manifest.json",
+      "path": "data/captures/2021-22/GW01-2021-08-13T0952Z/manifest.json",
+      "sha256": "859293cd795894a02da1ce0610120a29c33a611690bb33b59a3aed5e07941c7b",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW01-2021-08-13T0952Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "f4dc91163ab8e6e7ebbc5631c72c9311f3d556f7",
+      "local_path": "captures/armband/data/captures/2021-22/GW02-2021-08-21T0917Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW02-2021-08-21T0917Z/bootstrap-static.json.gz",
+      "sha256": "e57d5d4e1d50bdbdb3c1271561918e01863970af0eba8171a0d92f54be33a71a",
+      "size": 68964,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW02-2021-08-21T0917Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "557bb40bdb3659be71e3bdb068549a6627a1a76d",
+      "local_path": "captures/armband/data/captures/2021-22/GW02-2021-08-21T0917Z/manifest.json",
+      "path": "data/captures/2021-22/GW02-2021-08-21T0917Z/manifest.json",
+      "sha256": "25b52b383be67a42d89837dab19f83d275b8958a15bd238c7dc9246455d8dafa",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW02-2021-08-21T0917Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "20aa28985fb12f215033ccd594eae1d849c68359",
+      "local_path": "captures/armband/data/captures/2021-22/GW03-2021-08-28T0900Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW03-2021-08-28T0900Z/bootstrap-static.json.gz",
+      "sha256": "a2cdea9d829370b036e7506aa3997e0b1d844299c22a1379c7d8008ebbb52a99",
+      "size": 74351,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW03-2021-08-28T0900Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "dc78c2d61058a9b115939ef25a2ad0f095151e79",
+      "local_path": "captures/armband/data/captures/2021-22/GW03-2021-08-28T0900Z/manifest.json",
+      "path": "data/captures/2021-22/GW03-2021-08-28T0900Z/manifest.json",
+      "sha256": "4559d3a3b840f2dccd981997ad8bbadcbf687b997fcdd2f8a859730e05da4fd6",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW03-2021-08-28T0900Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "0ca9d6e7be7916189763c8a08c39758289ace5a5",
+      "local_path": "captures/armband/data/captures/2021-22/GW04-2021-09-11T0733Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW04-2021-09-11T0733Z/bootstrap-static.json.gz",
+      "sha256": "726f6d6cbe8ddd62617eed2cd6e2d136cad7534c7bf24faba57f5b5a5a23c793",
+      "size": 81748,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW04-2021-09-11T0733Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "23947cc7d9d9239a82898ab15e19f769c18cdc18",
+      "local_path": "captures/armband/data/captures/2021-22/GW04-2021-09-11T0733Z/manifest.json",
+      "path": "data/captures/2021-22/GW04-2021-09-11T0733Z/manifest.json",
+      "sha256": "e55ff9c92de9a2adf97aa5391a926dbf6b32a44de75035212b9ec23595c7f15e",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW04-2021-09-11T0733Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "c92bc1614531a5a2de5255e508b29aee7843cdb9",
+      "local_path": "captures/armband/data/captures/2021-22/GW05-2021-09-16T1830Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW05-2021-09-16T1830Z/bootstrap-static.json.gz",
+      "sha256": "96a2c510e03553212a3598f0ad876cb330c1a762c0aa2930302502b14092484e",
+      "size": 83420,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW05-2021-09-16T1830Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "a314d05336e015576b8e952a5852a42c73416d59",
+      "local_path": "captures/armband/data/captures/2021-22/GW05-2021-09-16T1830Z/manifest.json",
+      "path": "data/captures/2021-22/GW05-2021-09-16T1830Z/manifest.json",
+      "sha256": "bbdabe8c151c111dc8944bebc9e018b34573c0529ae5ac3d887b6d8be43370c7",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW05-2021-09-16T1830Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "317a3f5bf38a4bdaf072e0d028dfa1e8d83e8d49",
+      "local_path": "captures/armband/data/captures/2021-22/GW06-2021-09-23T1830Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW06-2021-09-23T1830Z/bootstrap-static.json.gz",
+      "sha256": "84ec64ddc57f72fe884236d846c092ed04dd393557e084a115328a847e06a08c",
+      "size": 85952,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW06-2021-09-23T1830Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "a5b66b4e6826e9c01281626a2785e0d7f94c7639",
+      "local_path": "captures/armband/data/captures/2021-22/GW06-2021-09-23T1830Z/manifest.json",
+      "path": "data/captures/2021-22/GW06-2021-09-23T1830Z/manifest.json",
+      "sha256": "a0a1ec8042c1e156ffe6b3c041581ba85493d9e5189c2015259c2a390b767efe",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW06-2021-09-23T1830Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "f730a67ff1f387159ebc7022dc07629c3e31846a",
+      "local_path": "captures/armband/data/captures/2021-22/GW07-2021-09-30T1900Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW07-2021-09-30T1900Z/bootstrap-static.json.gz",
+      "sha256": "819ad1b3b0e9867e4cac0082e0588f33d6f867a6dd6d019ed23aaeaeb644d280",
+      "size": 86895,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW07-2021-09-30T1900Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "3abdeecc1c29bdc8faf1022c3322c7083bd5ba1d",
+      "local_path": "captures/armband/data/captures/2021-22/GW07-2021-09-30T1900Z/manifest.json",
+      "path": "data/captures/2021-22/GW07-2021-09-30T1900Z/manifest.json",
+      "sha256": "b1b8fbb21952336df3dbd8ce9827f440e21555e104cf983e027ece228fdc766a",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW07-2021-09-30T1900Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "91cce2a376eb4e28424da96c40b8c3f5412113e1",
+      "local_path": "captures/armband/data/captures/2021-22/GW08-2021-10-16T0809Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW08-2021-10-16T0809Z/bootstrap-static.json.gz",
+      "sha256": "acce5276be2baa5991211cb863d811073f0b49e4be191c2be57cf5ed179869b1",
+      "size": 88853,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW08-2021-10-16T0809Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "67e29536548c3c8fe20aff5b94a3e1e0e20b24ff",
+      "local_path": "captures/armband/data/captures/2021-22/GW08-2021-10-16T0809Z/manifest.json",
+      "path": "data/captures/2021-22/GW08-2021-10-16T0809Z/manifest.json",
+      "sha256": "263e3d7fc92cff1d1edc27b74f01eb4cb97449ce3d8f89a630008ca3bcfa061c",
+      "size": 673,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW08-2021-10-16T0809Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "a2034f3deca3b7ba8683a62948af532b276a8425",
+      "local_path": "captures/armband/data/captures/2021-22/GW09-2021-10-19T0819Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW09-2021-10-19T0819Z/bootstrap-static.json.gz",
+      "sha256": "29e3d757fa1ea40f0d69001a6b1e5af7d8ea7b7b6b1f52d9aeb13a8937982c15",
+      "size": 89711,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW09-2021-10-19T0819Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "aa29ed8853d3c0ae5f896d0719a2ac7a41d9aeb7",
+      "local_path": "captures/armband/data/captures/2021-22/GW09-2021-10-19T0819Z/manifest.json",
+      "path": "data/captures/2021-22/GW09-2021-10-19T0819Z/manifest.json",
+      "sha256": "dd073b5171b886bc4cafda8fe13f66611bf55b8e3e9055e9664221a78169bbde",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW09-2021-10-19T0819Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "90a2db14b360ce8dca50e18bf418c94541532deb",
+      "local_path": "captures/armband/data/captures/2021-22/GW10-2021-10-27T0845Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW10-2021-10-27T0845Z/bootstrap-static.json.gz",
+      "sha256": "bf71e8972cb82b07d3c94af7a187e1d0fa6bb13e982ba8042521df70d96b3bc6",
+      "size": 90880,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW10-2021-10-27T0845Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "cf6c27582d6ff23f6509fe2f80c022f55fe93d45",
+      "local_path": "captures/armband/data/captures/2021-22/GW10-2021-10-27T0845Z/manifest.json",
+      "path": "data/captures/2021-22/GW10-2021-10-27T0845Z/manifest.json",
+      "sha256": "3178619e3f994f5ef0d4f0c342ea0bd13ee870efeee57e21a5a390c9fe897e58",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW10-2021-10-27T0845Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "80d80a5cf3a30b76514b5d4f515fea039a0a3f07",
+      "local_path": "captures/armband/data/captures/2021-22/GW11-2021-11-05T0956Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW11-2021-11-05T0956Z/bootstrap-static.json.gz",
+      "sha256": "ca75697902102dab6ae390bbeb917a6cab313c6e7ab562161bb9efe254427578",
+      "size": 92005,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW11-2021-11-05T0956Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "5f13e3ce9841aefd621cc510654a5e753ae809f4",
+      "local_path": "captures/armband/data/captures/2021-22/GW11-2021-11-05T0956Z/manifest.json",
+      "path": "data/captures/2021-22/GW11-2021-11-05T0956Z/manifest.json",
+      "sha256": "ac713be17a5ba48a2ff29373d72393677b80c3cca2bdfbb3e20c486abcffe1a8",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW11-2021-11-05T0956Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "586e772e23dccc82ca22940f30ca886d4618d9a5",
+      "local_path": "captures/armband/data/captures/2021-22/GW12-2021-11-20T0934Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW12-2021-11-20T0934Z/bootstrap-static.json.gz",
+      "sha256": "8354a66994f32548b0d6e0c3f8bc454e457207c781158a719fc11e7107701159",
+      "size": 93163,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW12-2021-11-20T0934Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "bb49483c6dee991577547be7e0ecea323def48c0",
+      "local_path": "captures/armband/data/captures/2021-22/GW12-2021-11-20T0934Z/manifest.json",
+      "path": "data/captures/2021-22/GW12-2021-11-20T0934Z/manifest.json",
+      "sha256": "5ab2b918403a6ac2efc026c38564bc97e40bc38cc4f5cdde6af9e175b6861ab8",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW12-2021-11-20T0934Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "ece0d465d81480d55f8f9a06f9475d449e1072ee",
+      "local_path": "captures/armband/data/captures/2021-22/GW13-2021-11-27T1026Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW13-2021-11-27T1026Z/bootstrap-static.json.gz",
+      "sha256": "9e2b9c42cdda340fdb3269ed24264008b9d6e485741d85ff82f1ff3e7eac34f4",
+      "size": 94344,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW13-2021-11-27T1026Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "45797f47fca915743ad86fb556774c8f201ca435",
+      "local_path": "captures/armband/data/captures/2021-22/GW13-2021-11-27T1026Z/manifest.json",
+      "path": "data/captures/2021-22/GW13-2021-11-27T1026Z/manifest.json",
+      "sha256": "150847e8e7162059be9f1660b7197dcd5fc66d8c186120bd4fbbfab19545fbfe",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW13-2021-11-27T1026Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "10ee7669d6bc036630f0d38ac4129b1095bc7882",
+      "local_path": "captures/armband/data/captures/2021-22/GW14-2021-11-30T0939Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW14-2021-11-30T0939Z/bootstrap-static.json.gz",
+      "sha256": "8647264f32ad709ad9e441d410d50e5790999b064e3f1ef4ab89555a5a15b814",
+      "size": 94707,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW14-2021-11-30T0939Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "dd5ba1aee0727a47fdbf6fb1dd7a16b01676ae4e",
+      "local_path": "captures/armband/data/captures/2021-22/GW14-2021-11-30T0939Z/manifest.json",
+      "path": "data/captures/2021-22/GW14-2021-11-30T0939Z/manifest.json",
+      "sha256": "72a67d4656f3a1e4d225fbae8fa14f1ac83f292731ae62a8c1bbe683253dc7e8",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW14-2021-11-30T0939Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "ef0327b686ff2caa6658c48a7190bd663ea619ce",
+      "local_path": "captures/armband/data/captures/2021-22/GW15-2021-12-04T0952Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW15-2021-12-04T0952Z/bootstrap-static.json.gz",
+      "sha256": "33b73a895149bd31d5c57a76f2fd7f49020efae3f22018ebdbd4bf1793735843",
+      "size": 95898,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW15-2021-12-04T0952Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "a291c8741552d23dd7477a819e3ff91295d83e43",
+      "local_path": "captures/armband/data/captures/2021-22/GW15-2021-12-04T0952Z/manifest.json",
+      "path": "data/captures/2021-22/GW15-2021-12-04T0952Z/manifest.json",
+      "sha256": "bb5090225bd28353b7587292e3425f236daa3ae65509ed42d8668378ce8b48c8",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW15-2021-12-04T0952Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "6c9a9759ca84723f0caabe66e39c7cf490fe1204",
+      "local_path": "captures/armband/data/captures/2021-22/GW16-2021-12-10T1031Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW16-2021-12-10T1031Z/bootstrap-static.json.gz",
+      "sha256": "0112bad26d6a0ff0a00be5530af9c273069971b22c421cb8f2f0fe7dd18d6d86",
+      "size": 97286,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW16-2021-12-10T1031Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "34ac2d255c053561edab713389f8e421df3d6dc7",
+      "local_path": "captures/armband/data/captures/2021-22/GW16-2021-12-10T1031Z/manifest.json",
+      "path": "data/captures/2021-22/GW16-2021-12-10T1031Z/manifest.json",
+      "sha256": "ff04e91a3e04b82a66aeb2a6b5d5f6fc5e516e89003bdc0d1ceb2d32ad69022f",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW16-2021-12-10T1031Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "baae8d09a839e0b09b54955b2503cda4fcbd811a",
+      "local_path": "captures/armband/data/captures/2021-22/GW17-2021-12-13T1030Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW17-2021-12-13T1030Z/bootstrap-static.json.gz",
+      "sha256": "4d1f676a7453eae51ee3cb73c881de44f1afb047f7bf72a74e425f483f411d4c",
+      "size": 98096,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW17-2021-12-13T1030Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "4663170f7dd0e6b4351b53b90c102df7d1a99848",
+      "local_path": "captures/armband/data/captures/2021-22/GW17-2021-12-13T1030Z/manifest.json",
+      "path": "data/captures/2021-22/GW17-2021-12-13T1030Z/manifest.json",
+      "sha256": "aa90ee24ce025f41447ea9be6dc5e5018d1d15b7c116eca0deba0389d9c6cf39",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW17-2021-12-13T1030Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "8a7dd06ed6186bb79c1c6d076c22e45dc85d3287",
+      "local_path": "captures/armband/data/captures/2021-22/GW18-2021-12-17T0955Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW18-2021-12-17T0955Z/bootstrap-static.json.gz",
+      "sha256": "2483f382c989ef33425d8678ea91dcb06eaf33106fd8b854c9022a3e60f4211a",
+      "size": 98792,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW18-2021-12-17T0955Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "c461fa1721e6017254ad18a6201cb4b797e9bcd6",
+      "local_path": "captures/armband/data/captures/2021-22/GW18-2021-12-17T0955Z/manifest.json",
+      "path": "data/captures/2021-22/GW18-2021-12-17T0955Z/manifest.json",
+      "sha256": "7611b6ccd3fe5cea436b3b8b900475e1d194cd6726d3a1277468762df55b8874",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW18-2021-12-17T0955Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "f320325338389ed202437b7b8dd49c3533d762dc",
+      "local_path": "captures/armband/data/captures/2021-22/GW19-2021-12-26T0956Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW19-2021-12-26T0956Z/bootstrap-static.json.gz",
+      "sha256": "20763ab22d3bb863fde04069ff6233854897f858a706fc1acf7824999d227f6f",
+      "size": 99793,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW19-2021-12-26T0956Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "db5b77da0b3eefe0fcd078829d8b46ffe44c7b6f",
+      "local_path": "captures/armband/data/captures/2021-22/GW19-2021-12-26T0956Z/manifest.json",
+      "path": "data/captures/2021-22/GW19-2021-12-26T0956Z/manifest.json",
+      "sha256": "601920afdd7d15ef75b1bdf5b93cf653f9f211f8ed8f68b085bd52101aa56d0d",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW19-2021-12-26T0956Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "f698b11117458ac451c4700d98ebb869048648a1",
+      "local_path": "captures/armband/data/captures/2021-22/GW20-2021-12-28T1041Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW20-2021-12-28T1041Z/bootstrap-static.json.gz",
+      "sha256": "7faff3c73e39430355bef7296653a377434130a75a26867ae033ca0f75b52550",
+      "size": 100813,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW20-2021-12-28T1041Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "e5ccb2c9ac23943f304b0509c71e1b9249c5e15f",
+      "local_path": "captures/armband/data/captures/2021-22/GW20-2021-12-28T1041Z/manifest.json",
+      "path": "data/captures/2021-22/GW20-2021-12-28T1041Z/manifest.json",
+      "sha256": "275ba3cf5b22a2ef1cbb5e062756373d291ffa7e1a5f7661dc700ceb2f5940b6",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW20-2021-12-28T1041Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "66f73aacec59f9f0ee5cb298bd2454e3f7671950",
+      "local_path": "captures/armband/data/captures/2021-22/GW21-2021-12-30T0640Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW21-2021-12-30T0640Z/bootstrap-static.json.gz",
+      "sha256": "fb0ff8a4f63447300236dcb158b95bbeb137e2f9c61622221c7b42dd55369217",
+      "size": 101434,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW21-2021-12-30T0640Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "0351622ecea42b6acbe54dfe22b8caaed8ce8445",
+      "local_path": "captures/armband/data/captures/2021-22/GW21-2021-12-30T0640Z/manifest.json",
+      "path": "data/captures/2021-22/GW21-2021-12-30T0640Z/manifest.json",
+      "sha256": "afcf1cec6619f89868a0ce0d85a4da60b8b7a046acca375ceeaa324a6bea505c",
+      "size": 678,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW21-2021-12-30T0640Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "0b8e3ad7498b6fc96f751ab10511b7ba6ac0e280",
+      "local_path": "captures/armband/data/captures/2021-22/GW22-2022-01-13T2123Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW22-2022-01-13T2123Z/bootstrap-static.json.gz",
+      "sha256": "d0bf899119ccc6df46d1fd74b218c4504d5bbc0ec30e061247d25bfd8221f180",
+      "size": 104603,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW22-2022-01-13T2123Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "f2b83dd4fc673d1245e03f82fa32df5db4990a0b",
+      "local_path": "captures/armband/data/captures/2021-22/GW22-2022-01-13T2123Z/manifest.json",
+      "path": "data/captures/2021-22/GW22-2022-01-13T2123Z/manifest.json",
+      "sha256": "0f6e9920fdd44d3a7ccf08691ba162f697861f565c192ff2fc570bb88639375a",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW22-2022-01-13T2123Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "a53c6b84e433c9365efaa227c97854f00a7e2f18",
+      "local_path": "captures/armband/data/captures/2021-22/GW23-2022-01-21T1039Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW23-2022-01-21T1039Z/bootstrap-static.json.gz",
+      "sha256": "4ee36fba5ac4a381ad4fbc95ec0c3aeeb8279fe5ef3021795673a5b085eaefc8",
+      "size": 105539,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW23-2022-01-21T1039Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "d91e905728fdf0143edda95162580795c7ee2af0",
+      "local_path": "captures/armband/data/captures/2021-22/GW23-2022-01-21T1039Z/manifest.json",
+      "path": "data/captures/2021-22/GW23-2022-01-21T1039Z/manifest.json",
+      "sha256": "7b663141a72f4c9805bf0f85ff3cfe4239ee53cc7ffdb18092d23ee7e2a22e59",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW23-2022-01-21T1039Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "55f0da415ff85dd1cc06cc25a9d7d3a383f11202",
+      "local_path": "captures/armband/data/captures/2021-22/GW24-2022-02-06T2231Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW24-2022-02-06T2231Z/bootstrap-static.json.gz",
+      "sha256": "23c2fbe4b79c60b9a4bbb9b25c8a01602dfe296aa6b2bea5ae52e86e4c26bea2",
+      "size": 107496,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW24-2022-02-06T2231Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "26704cb559ece007e6391041d8a7f3014f9ae799",
+      "local_path": "captures/armband/data/captures/2021-22/GW24-2022-02-06T2231Z/manifest.json",
+      "path": "data/captures/2021-22/GW24-2022-02-06T2231Z/manifest.json",
+      "sha256": "6352507fa8c75aaaa57f6538a2891d66f7de1e390eed9946cc2d228ef4862077",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW24-2022-02-06T2231Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "763ff663deb9975186d3d022170ea10e0fecbbc5",
+      "local_path": "captures/armband/data/captures/2021-22/GW25-2022-02-11T1005Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW25-2022-02-11T1005Z/bootstrap-static.json.gz",
+      "sha256": "01964a31178097f8e5541f21cd552fe4521468a0b737cbca7d237b3b3e17c1ec",
+      "size": 107918,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW25-2022-02-11T1005Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "e726531ae534bc3992f00d65e7e3613aede29a0b",
+      "local_path": "captures/armband/data/captures/2021-22/GW25-2022-02-11T1005Z/manifest.json",
+      "path": "data/captures/2021-22/GW25-2022-02-11T1005Z/manifest.json",
+      "sha256": "8e1758d69887981bbabc70a2cd76ea217580c42b5195d45baa716dd9d0e9f741",
+      "size": 679,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW25-2022-02-11T1005Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "e85455008ead19c172136feee05fc40837a1f226",
+      "local_path": "captures/armband/data/captures/2021-22/GW26-2022-02-18T1034Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW26-2022-02-18T1034Z/bootstrap-static.json.gz",
+      "sha256": "3f6df445ba49854495fe5b3156d5822aa55ea81238cecbc898c058efb8963d64",
+      "size": 108758,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW26-2022-02-18T1034Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "3d2b2e6b061701aa4e42b9d518b5032709baa832",
+      "local_path": "captures/armband/data/captures/2021-22/GW26-2022-02-18T1034Z/manifest.json",
+      "path": "data/captures/2021-22/GW26-2022-02-18T1034Z/manifest.json",
+      "sha256": "71347d792fbf416d8f253c829dd9a3038c586ffda6d5ed2d0cd72ab4de324075",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW26-2022-02-18T1034Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "fa44564d1fe96446f80dfdf30bd70526989b6d75",
+      "local_path": "captures/armband/data/captures/2021-22/GW27-2022-02-25T1001Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW27-2022-02-25T1001Z/bootstrap-static.json.gz",
+      "sha256": "ab21a69a34a3d9cb39662988166b8ef451201f637d5e1bdea7c0c336a7aa03fd",
+      "size": 109460,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW27-2022-02-25T1001Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "f99c36ad9d442766df16789d80397bbf4c31369e",
+      "local_path": "captures/armband/data/captures/2021-22/GW27-2022-02-25T1001Z/manifest.json",
+      "path": "data/captures/2021-22/GW27-2022-02-25T1001Z/manifest.json",
+      "sha256": "c4f8bc113bbd0f00ea5ce802252fcb26f8e6c77a84ea4165693bf507bb203767",
+      "size": 678,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW27-2022-02-25T1001Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "dfa8fec62169f6ee9a81b182f5ffc59f2070ad9b",
+      "local_path": "captures/armband/data/captures/2021-22/GW28-2022-03-03T1009Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW28-2022-03-03T1009Z/bootstrap-static.json.gz",
+      "sha256": "2dece2f9387da10eab0091a3195f7fe84c08ea5cf4da5199db93ac6ee4daf398",
+      "size": 110037,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW28-2022-03-03T1009Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "04ce1c53e7fcfa6ba904820a5f1a3bbd7493dcfb",
+      "local_path": "captures/armband/data/captures/2021-22/GW28-2022-03-03T1009Z/manifest.json",
+      "path": "data/captures/2021-22/GW28-2022-03-03T1009Z/manifest.json",
+      "sha256": "6896f1b189ff5379e7a1196db1edb6a514f4e403fe166c33e9d18921495702fd",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW28-2022-03-03T1009Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "646370c6a47e0cfe547b0da9ba8917ce99d46ed6",
+      "local_path": "captures/armband/data/captures/2021-22/GW29-2022-03-12T0953Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW29-2022-03-12T0953Z/bootstrap-static.json.gz",
+      "sha256": "f8a17aa0f16d414091f7fc25b199f4be1f68408581aed46bf0de2c09f2cde8db",
+      "size": 111076,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW29-2022-03-12T0953Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "6ce250d92f988af7fe75160b02e528b15b3d6e0c",
+      "local_path": "captures/armband/data/captures/2021-22/GW29-2022-03-12T0953Z/manifest.json",
+      "path": "data/captures/2021-22/GW29-2022-03-12T0953Z/manifest.json",
+      "sha256": "76f4cee3c6b1ca443727886e2d0bdd3188bcff3b50f91eee69dcefee04fa1a00",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW29-2022-03-12T0953Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "769fb056b8dfd6f39fba8faf1d1f49dbde8603be",
+      "local_path": "captures/armband/data/captures/2021-22/GW30-2022-03-18T0949Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW30-2022-03-18T0949Z/bootstrap-static.json.gz",
+      "sha256": "3228825f82236fffd15cd8ff15ef2755e9d9d1569383dbd49c2ef0a6680ea2d0",
+      "size": 110237,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW30-2022-03-18T0949Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "4bab1e75fa90f8dd4ad3dea1bb1753e4793614c1",
+      "local_path": "captures/armband/data/captures/2021-22/GW30-2022-03-18T0949Z/manifest.json",
+      "path": "data/captures/2021-22/GW30-2022-03-18T0949Z/manifest.json",
+      "sha256": "a997b6d7611ee69bfd0a143c0b422f272899a4da585730309d1eaa3f7b751da2",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW30-2022-03-18T0949Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5c33fb5d0f26c7b550406521a2498c4fd5d08ca3",
+      "local_path": "captures/armband/data/captures/2021-22/GW31-2022-04-02T0939Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW31-2022-04-02T0939Z/bootstrap-static.json.gz",
+      "sha256": "b414edcffd9dbd5e95c6dd4b1b91c7d8c26e4efb939cd587c80b6e65271262f4",
+      "size": 110401,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW31-2022-04-02T0939Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "446067e60c001eb9c74cfc5708d741259ae68ebd",
+      "local_path": "captures/armband/data/captures/2021-22/GW31-2022-04-02T0939Z/manifest.json",
+      "path": "data/captures/2021-22/GW31-2022-04-02T0939Z/manifest.json",
+      "sha256": "5eac6d5b9079999a02b6afdb6ed5c0857a7e94b5b90719581254d10c799cec2b",
+      "size": 678,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW31-2022-04-02T0939Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5730e2f0feaa27f9d294f12f1eb809cba7ee903f",
+      "local_path": "captures/armband/data/captures/2021-22/GW32-2022-04-08T1412Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW32-2022-04-08T1412Z/bootstrap-static.json.gz",
+      "sha256": "25c3ead8433a1432a35d2838e46513fcb8073eed7e2ba90135374f5aebb74376",
+      "size": 111766,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW32-2022-04-08T1412Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "3973595c1648e0d55bea47b51c21ac1d9a873b9b",
+      "local_path": "captures/armband/data/captures/2021-22/GW32-2022-04-08T1412Z/manifest.json",
+      "path": "data/captures/2021-22/GW32-2022-04-08T1412Z/manifest.json",
+      "sha256": "1724241393a83c2199375a43dfe23603a39ad9e8ea4bcf25098ebe29784ff76b",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW32-2022-04-08T1412Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "38107b4ad4733d0b5dfbb87a45ce0b4d859be85e",
+      "local_path": "captures/armband/data/captures/2021-22/GW33-2022-04-15T1633Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW33-2022-04-15T1633Z/bootstrap-static.json.gz",
+      "sha256": "b0bd88ebfbe86f0ff118f725613af2615cb408d81b4ea1b060a4d67513561d48",
+      "size": 112080,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW33-2022-04-15T1633Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "5cc6d85c1be5421c125fc7f68a9c9fc3e369be71",
+      "local_path": "captures/armband/data/captures/2021-22/GW33-2022-04-15T1633Z/manifest.json",
+      "path": "data/captures/2021-22/GW33-2022-04-15T1633Z/manifest.json",
+      "sha256": "828d1caa16c1d59091a032f4684260cbd72d500dd9c7abd04a122a32f2eea742",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW33-2022-04-15T1633Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "504e98ae8035bb2716a846a5ea55b43092d2af91",
+      "local_path": "captures/armband/data/captures/2021-22/GW34-2022-04-23T0804Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW34-2022-04-23T0804Z/bootstrap-static.json.gz",
+      "sha256": "e79475cc7a58b02d732b5ec3aba0a84a37b48bef2a707eee4b837f6f08af84cc",
+      "size": 112918,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW34-2022-04-23T0804Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "2f9a60fdf4212443d2a70229369209f7e8905344",
+      "local_path": "captures/armband/data/captures/2021-22/GW34-2022-04-23T0804Z/manifest.json",
+      "path": "data/captures/2021-22/GW34-2022-04-23T0804Z/manifest.json",
+      "sha256": "1c79635c051b6b73317b7d3fad42a69522bc40f915d3ccf3c77713e5435d290f",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW34-2022-04-23T0804Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "9e06c26541b30ac3d341ab55db04673f09401397",
+      "local_path": "captures/armband/data/captures/2021-22/GW35-2022-04-29T0904Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW35-2022-04-29T0904Z/bootstrap-static.json.gz",
+      "sha256": "3e69a8251fdb389115325e4d6e49a33d13a5352b586b10e244c1b5b27d96ad94",
+      "size": 113640,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW35-2022-04-29T0904Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "24ddbbc0b0edb393cd5fac3b0d33414b070b50fd",
+      "local_path": "captures/armband/data/captures/2021-22/GW35-2022-04-29T0904Z/manifest.json",
+      "path": "data/captures/2021-22/GW35-2022-04-29T0904Z/manifest.json",
+      "sha256": "7b9c119241b0b937180d6b7f9e0875b576c4d71e04a88f0233ae004db3680db7",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW35-2022-04-29T0904Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "e4da2425739f53851bc8669abbb2c088bf2bf13d",
+      "local_path": "captures/armband/data/captures/2021-22/GW36-2022-05-06T1046Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW36-2022-05-06T1046Z/bootstrap-static.json.gz",
+      "sha256": "a5c1b7bae9035605ba670284bb44a5a53dc716fcde9764ba4be4d7a39e91967e",
+      "size": 114030,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW36-2022-05-06T1046Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "71ff2819296e958479836c0dd678c27541c70870",
+      "local_path": "captures/armband/data/captures/2021-22/GW36-2022-05-06T1046Z/manifest.json",
+      "path": "data/captures/2021-22/GW36-2022-05-06T1046Z/manifest.json",
+      "sha256": "0728a3f474e0d01024908ba6d46de424c7c68725d936719927d52592b3187f6b",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW36-2022-05-06T1046Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "193664732f013ddcf95683475db5d738536cb6b3",
+      "local_path": "captures/armband/data/captures/2021-22/GW37-2022-05-15T0337Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW37-2022-05-15T0337Z/bootstrap-static.json.gz",
+      "sha256": "27b49e084c8c4ab11dff711fdb88ad02f2af9348b3ae9580bce67a459c73cd39",
+      "size": 115217,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW37-2022-05-15T0337Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "fe792bb5194fb7117c904d19a3529e3cbc61b0c3",
+      "local_path": "captures/armband/data/captures/2021-22/GW37-2022-05-15T0337Z/manifest.json",
+      "path": "data/captures/2021-22/GW37-2022-05-15T0337Z/manifest.json",
+      "sha256": "0b17e8a1ef34cd783592612236545c285751dae016f8d10e29d30d8fc9f537b8",
+      "size": 677,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW37-2022-05-15T0337Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "7545b642c64ff17d32c32ae5eb4ce60d807ab021",
+      "local_path": "captures/armband/data/captures/2021-22/GW38-2022-05-22T0058Z/bootstrap-static.json.gz",
+      "path": "data/captures/2021-22/GW38-2022-05-22T0058Z/bootstrap-static.json.gz",
+      "sha256": "ee8b47a7d179977c8867c57e00add43f21cb1edd85f47223eceb3fb814f8e4e9",
+      "size": 115717,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW38-2022-05-22T0058Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "72516e69ebe89e1dc535733e832d310200dac901",
+      "local_path": "captures/armband/data/captures/2021-22/GW38-2022-05-22T0058Z/manifest.json",
+      "path": "data/captures/2021-22/GW38-2022-05-22T0058Z/manifest.json",
+      "sha256": "8286178864a5590a06a32028bc16187db34e9822dd9649a079e21ba94f1b65b0",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/GW38-2022-05-22T0058Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "1689a403bf94c7860fe7d441077ad6ac8ba0b3a6",
+      "local_path": "captures/armband/data/captures/2021-22/deadlines.json",
+      "path": "data/captures/2021-22/deadlines.json",
+      "sha256": "5c3bdbe8914202fe14937206633c09d9930d70cbc37bb5a3dc6ec9c56e88e072",
+      "size": 8242,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2021-22/deadlines.json"
+    },
+    {
+      "git_blob_sha": "6692597bbb6e896c068da0af69890fb1278cdcee",
+      "local_path": "captures/armband/data/captures/2022-23/GW01-2022-08-05T1716Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW01-2022-08-05T1716Z/bootstrap-static.json.gz",
+      "sha256": "eba4a30c52d1a466e643898de8c2cf607e0007f3ef3bb992b03f6d8ce4c9acea",
+      "size": 66719,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW01-2022-08-05T1716Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "9c37c6f29f26107e6c3b6459378a8ec49d18fa5b",
+      "local_path": "captures/armband/data/captures/2022-23/GW01-2022-08-05T1716Z/manifest.json",
+      "path": "data/captures/2022-23/GW01-2022-08-05T1716Z/manifest.json",
+      "sha256": "a836b35838abdd040654b99c8af087778481c58d4a7591272c1cce11e751cdcf",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW01-2022-08-05T1716Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "ea48831e874404acfda4c928937fbf95bfa1763c",
+      "local_path": "captures/armband/data/captures/2022-23/GW02-2022-08-11T2052Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW02-2022-08-11T2052Z/bootstrap-static.json.gz",
+      "sha256": "0287bdbb31a6556df60ce13606de8d2b0ed9297ea84e2970bc6211dcc7820e1c",
+      "size": 69855,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW02-2022-08-11T2052Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "e9d32fb39aedbb689db20f0752df65516597a204",
+      "local_path": "captures/armband/data/captures/2022-23/GW02-2022-08-11T2052Z/manifest.json",
+      "path": "data/captures/2022-23/GW02-2022-08-11T2052Z/manifest.json",
+      "sha256": "1a8a13ae1ea5db9b913640ae45db87856174204295fb520849917e47f1639935",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW02-2022-08-11T2052Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "78fbd4fbea016f8b86666814e000b75394a248a5",
+      "local_path": "captures/armband/data/captures/2022-23/GW03-2022-08-20T0846Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW03-2022-08-20T0846Z/bootstrap-static.json.gz",
+      "sha256": "cf84cf94436e51b8e673c2e576c2f9c142e87f95daa14b984b63320a2bd956c2",
+      "size": 76253,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW03-2022-08-20T0846Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "8f1e2c72be80863176d7b3a9b80211190b1af15e",
+      "local_path": "captures/armband/data/captures/2022-23/GW03-2022-08-20T0846Z/manifest.json",
+      "path": "data/captures/2022-23/GW03-2022-08-20T0846Z/manifest.json",
+      "sha256": "b18ba8df3971717e7593b517c37f72a55086f8302ed38cb5a4a90f7b7052db49",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW03-2022-08-20T0846Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "b8a4981970e066d42800ec5cb258ac75e1082373",
+      "local_path": "captures/armband/data/captures/2022-23/GW04-2022-08-27T0848Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW04-2022-08-27T0848Z/bootstrap-static.json.gz",
+      "sha256": "4abdd40c035170d2539a23b31ade1c7d421fd94e9fb5eb511694ea1aebb9ccb5",
+      "size": 79678,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW04-2022-08-27T0848Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "78218c46ea5341434707acca3952e4256dd1e891",
+      "local_path": "captures/armband/data/captures/2022-23/GW04-2022-08-27T0848Z/manifest.json",
+      "path": "data/captures/2022-23/GW04-2022-08-27T0848Z/manifest.json",
+      "sha256": "5f1f3cf728163a349936bcd50a632bc663b81b793758493956bc1c1a0cb2c957",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW04-2022-08-27T0848Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "a318f4b7fd9ddaef3db488ef8fa16c87cf7ee702",
+      "local_path": "captures/armband/data/captures/2022-23/GW05-2022-08-29T2130Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW05-2022-08-29T2130Z/bootstrap-static.json.gz",
+      "sha256": "4ba16b01b35030223d6ed40b426eb242683d06a6af2a537b6d545e5a25d22c57",
+      "size": 82289,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW05-2022-08-29T2130Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "ed34268f0c7f2d8513a718174661cfa27896da35",
+      "local_path": "captures/armband/data/captures/2022-23/GW05-2022-08-29T2130Z/manifest.json",
+      "path": "data/captures/2022-23/GW05-2022-08-29T2130Z/manifest.json",
+      "sha256": "e33d814182825b4f0f0a5845284c2e56052959d92392c0d63f7dace97bb6e34e",
+      "size": 673,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW05-2022-08-29T2130Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "1169c8d2e805e680a16bbf648ed16c9df0731232",
+      "local_path": "captures/armband/data/captures/2022-23/GW06-2022-09-03T0932Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW06-2022-09-03T0932Z/bootstrap-static.json.gz",
+      "sha256": "4c9c94f093ee8257a79a3a6b05ddfe244a63092d1c07aa8d83c153905540e4d4",
+      "size": 87871,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW06-2022-09-03T0932Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "2f157fd6d737f48670d24838a44c67e33ae6deef",
+      "local_path": "captures/armband/data/captures/2022-23/GW06-2022-09-03T0932Z/manifest.json",
+      "path": "data/captures/2022-23/GW06-2022-09-03T0932Z/manifest.json",
+      "sha256": "f586b74583a0c99ee64fda06291d4e764b3596060fcfa9378f735a9a85464790",
+      "size": 675,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW06-2022-09-03T0932Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "2390645017a2f44e47bc28700bb9de0c6df61104",
+      "local_path": "captures/armband/data/captures/2022-23/GW07-2022-09-09T0847Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW07-2022-09-09T0847Z/bootstrap-static.json.gz",
+      "sha256": "a058aeb5bb581a79be9c2f74c79703e4c9de924a6e40d4b760edc27b4b76af1b",
+      "size": 88591,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW07-2022-09-09T0847Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "17bfb0b3d0a6c11e957f7ff69c01d9dfa0c60cf4",
+      "local_path": "captures/armband/data/captures/2022-23/GW07-2022-09-09T0847Z/manifest.json",
+      "path": "data/captures/2022-23/GW07-2022-09-09T0847Z/manifest.json",
+      "sha256": "99361258843bb382fafbb6d32e7c25c26c0c2268cde8aa911bd42237f4a12eb9",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW07-2022-09-09T0847Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "bd53c8206dfcba8d387583b97c5e52ac0cbfdabb",
+      "local_path": "captures/armband/data/captures/2022-23/GW08-2022-09-16T0751Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW08-2022-09-16T0751Z/bootstrap-static.json.gz",
+      "sha256": "06fdc4315dfee44bc13e93983627763c8bf39a37626270813c0332cfeb894785",
+      "size": 86722,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW08-2022-09-16T0751Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "b77107a499d765e664cebed02ca4b8ec6baa6c10",
+      "local_path": "captures/armband/data/captures/2022-23/GW08-2022-09-16T0751Z/manifest.json",
+      "path": "data/captures/2022-23/GW08-2022-09-16T0751Z/manifest.json",
+      "sha256": "c8073d369ae2cb72108e59c626adf18506b681a673759418ed97a6bd54a0f7c8",
+      "size": 686,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW08-2022-09-16T0751Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5cb628dfe9015c81be7df13df3200b0130e2328a",
+      "local_path": "captures/armband/data/captures/2022-23/GW09-2022-09-26T1013Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW09-2022-09-26T1013Z/bootstrap-static.json.gz",
+      "sha256": "c27b504e6ee202b37145ab6a054a14a39210906ece8708daa73f17874d377cfe",
+      "size": 89575,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW09-2022-09-26T1013Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "fcf8b2a4d2300a4d8a95ab674fd2db0b1c922ca3",
+      "local_path": "captures/armband/data/captures/2022-23/GW09-2022-09-26T1013Z/manifest.json",
+      "path": "data/captures/2022-23/GW09-2022-09-26T1013Z/manifest.json",
+      "sha256": "b7da2a293c30e5d59a5aa4a40eedec371a125645368fb7cb11417b0336368f2c",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW09-2022-09-26T1013Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "f1520d0d4ad9de0a028956ad3dfbf22b84c66fe3",
+      "local_path": "captures/armband/data/captures/2022-23/GW10-2022-10-07T2137Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW10-2022-10-07T2137Z/bootstrap-static.json.gz",
+      "sha256": "5d95019d7c5ba893f7c8d2b57aa538946fda716ef2d5803c5bb9265e22755bbb",
+      "size": 91728,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW10-2022-10-07T2137Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "796162addc888ee1dfb630913ed49e471d8df8e8",
+      "local_path": "captures/armband/data/captures/2022-23/GW10-2022-10-07T2137Z/manifest.json",
+      "path": "data/captures/2022-23/GW10-2022-10-07T2137Z/manifest.json",
+      "sha256": "aec7bf47b195a4441dd479b4a490ad98b5ed2efa06bd26232e5429f1ea6dc18a",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW10-2022-10-07T2137Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "b109ac3f3ecbc4765d039cc1d0f02325cfb315f7",
+      "local_path": "captures/armband/data/captures/2022-23/GW11-2022-10-12T2240Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW11-2022-10-12T2240Z/bootstrap-static.json.gz",
+      "sha256": "351b18f758cec4e62d545e6c7bab0cc16341284f13beba6479bcd68bbb52509a",
+      "size": 92899,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW11-2022-10-12T2240Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "37839b4b50b5bf07c59c82dc87a75243db32b496",
+      "local_path": "captures/armband/data/captures/2022-23/GW11-2022-10-12T2240Z/manifest.json",
+      "path": "data/captures/2022-23/GW11-2022-10-12T2240Z/manifest.json",
+      "sha256": "546a1872257e8d43c4cf5c44a659319217551ded210d4883fda6141c7bac66fc",
+      "size": 687,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW11-2022-10-12T2240Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "78a6eb7bc3fe1fad40caa2de09b385b67b2f771c",
+      "local_path": "captures/armband/data/captures/2022-23/GW12-2022-10-18T0949Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW12-2022-10-18T0949Z/bootstrap-static.json.gz",
+      "sha256": "ed6a9e43d77bd7bad12ada0ee7dbd826bc5241452b91a6a7f26d84e668abb90f",
+      "size": 113408,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW12-2022-10-18T0949Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "66e06110f79685348201733871f1d0f2803ef76c",
+      "local_path": "captures/armband/data/captures/2022-23/GW12-2022-10-18T0949Z/manifest.json",
+      "path": "data/captures/2022-23/GW12-2022-10-18T0949Z/manifest.json",
+      "sha256": "63da1fc0ed2356492bfac1bdc03248fe7db8dad0d9b56cd711fec7fa3dcc3e0e",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW12-2022-10-18T0949Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "799d90d9c15bdc2bad352709391335c17d0d8b92",
+      "local_path": "captures/armband/data/captures/2022-23/GW13-2022-10-21T1432Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW13-2022-10-21T1432Z/bootstrap-static.json.gz",
+      "sha256": "f4e3cecbd86ea1251a6e332294daf8ff67ad4874f7521ddd2d691b3f54f6c7ca",
+      "size": 113880,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW13-2022-10-21T1432Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "2650f87b2d82b6433c44923d534874a63e5f11f1",
+      "local_path": "captures/armband/data/captures/2022-23/GW13-2022-10-21T1432Z/manifest.json",
+      "path": "data/captures/2022-23/GW13-2022-10-21T1432Z/manifest.json",
+      "sha256": "c7301122b9fe19328c0cad2e23cbd195122afe36bbe56612be5b2b9470c21c9c",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW13-2022-10-21T1432Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "41c8e709ac35313a4071e1751fe1eb45b7953b37",
+      "local_path": "captures/armband/data/captures/2022-23/GW14-2022-10-28T1440Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW14-2022-10-28T1440Z/bootstrap-static.json.gz",
+      "sha256": "6d635e5d5f15ae5de7973e5d81a9c95422a308f591372ef2abb50aacbc9bdaf3",
+      "size": 115527,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW14-2022-10-28T1440Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "522444b01413ddc1383bd2e7ccdabc5f8ef91f2d",
+      "local_path": "captures/armband/data/captures/2022-23/GW14-2022-10-28T1440Z/manifest.json",
+      "path": "data/captures/2022-23/GW14-2022-10-28T1440Z/manifest.json",
+      "sha256": "180b11b5ec676f1ae5415beeaa8202076d90403519586c16621d588137adb154",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW14-2022-10-28T1440Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "c4f4fa6e532b3a21b3e7e141474b84eedc64f309",
+      "local_path": "captures/armband/data/captures/2022-23/GW15-2022-11-03T1404Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW15-2022-11-03T1404Z/bootstrap-static.json.gz",
+      "sha256": "70369214ca22dc7df9eced431f7728203f7f765677814ca19b372418f50e792d",
+      "size": 117207,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW15-2022-11-03T1404Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "7a9092306ede1533d909bc5f924e5e007c4cd3c2",
+      "local_path": "captures/armband/data/captures/2022-23/GW15-2022-11-03T1404Z/manifest.json",
+      "path": "data/captures/2022-23/GW15-2022-11-03T1404Z/manifest.json",
+      "sha256": "4b21c347f6e30b34ef5faf9500105deef581a37bd6ea4080774a221cdc32cd03",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW15-2022-11-03T1404Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "f59d933e8e7d4c4c75c4da4103e97238049a55ba",
+      "local_path": "captures/armband/data/captures/2022-23/GW16-2022-11-11T2308Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW16-2022-11-11T2308Z/bootstrap-static.json.gz",
+      "sha256": "a64f2aba1c51900d6da00bda0fb7b18c5c26a322f41541fd2c5e340bf32c74e5",
+      "size": 126485,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW16-2022-11-11T2308Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "154e7adfef838336e3af4a33c5a2635866564714",
+      "local_path": "captures/armband/data/captures/2022-23/GW16-2022-11-11T2308Z/manifest.json",
+      "path": "data/captures/2022-23/GW16-2022-11-11T2308Z/manifest.json",
+      "sha256": "e1454528b2bdca2ff73dc01283914525f18cb7614c441a979deca8f9dc5f306c",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW16-2022-11-11T2308Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5d2e676b09ccd3ac06b3958dde7da0dd056345b4",
+      "local_path": "captures/armband/data/captures/2022-23/GW17-2022-12-25T1522Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW17-2022-12-25T1522Z/bootstrap-static.json.gz",
+      "sha256": "066dca8488caffb2ee0041f4be1200f367583b6bbae5d5e5c4cb2ea15c76eb00",
+      "size": 146645,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW17-2022-12-25T1522Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "4f5627d16afaf8fbab4183ce63445aef786647f7",
+      "local_path": "captures/armband/data/captures/2022-23/GW17-2022-12-25T1522Z/manifest.json",
+      "path": "data/captures/2022-23/GW17-2022-12-25T1522Z/manifest.json",
+      "sha256": "f4c0f9aec587301d4518dbe7543fc765f7b271a388dd2e522c8be743a8da1bb1",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW17-2022-12-25T1522Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5c99da87d8efa7352e0b8a758c973d1724e6ea97",
+      "local_path": "captures/armband/data/captures/2022-23/GW18-2022-12-29T2131Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW18-2022-12-29T2131Z/bootstrap-static.json.gz",
+      "sha256": "f02cf85d1e53aae4b6864145befbde238bb8d07cb16f30728896a950f7283558",
+      "size": 149580,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW18-2022-12-29T2131Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "2222f27e2d5bf649d95c8b637a5a87bb55feacc2",
+      "local_path": "captures/armband/data/captures/2022-23/GW18-2022-12-29T2131Z/manifest.json",
+      "path": "data/captures/2022-23/GW18-2022-12-29T2131Z/manifest.json",
+      "sha256": "f54d33853ddaf57860a6d7340403aae781805c37717fd6198a93d6ad1092dc18",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW18-2022-12-29T2131Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "fed4a374dc17dcf091b69825404841fde6d8d609",
+      "local_path": "captures/armband/data/captures/2022-23/GW19-2023-01-02T0835Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW19-2023-01-02T0835Z/bootstrap-static.json.gz",
+      "sha256": "4dc5caf96e7b6ba6aafd6e76f6f15395ec29e29b06239aba30c66176f5b96f84",
+      "size": 151854,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW19-2023-01-02T0835Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "5c9611264456f4c8fe27c09bce230d21e6b44985",
+      "local_path": "captures/armband/data/captures/2022-23/GW19-2023-01-02T0835Z/manifest.json",
+      "path": "data/captures/2022-23/GW19-2023-01-02T0835Z/manifest.json",
+      "sha256": "721ef6f93f0872848940bbeb3d1ab010b8f189690798748b33858e72b4e68397",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW19-2023-01-02T0835Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "9aae97d0f0da3b9f816121cd7d55c5f438d98ee1",
+      "local_path": "captures/armband/data/captures/2022-23/GW20-2023-01-12T2054Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW20-2023-01-12T2054Z/bootstrap-static.json.gz",
+      "sha256": "bc139259c2d155b7e82bffa9e2ae93394496ba02a3b97cdf012744a6aa9b409d",
+      "size": 155803,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW20-2023-01-12T2054Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "ed9a347d105c3f2a9f727149d061b17bfff2acfd",
+      "local_path": "captures/armband/data/captures/2022-23/GW20-2023-01-12T2054Z/manifest.json",
+      "path": "data/captures/2022-23/GW20-2023-01-12T2054Z/manifest.json",
+      "sha256": "cfa4eabef469f76647318ee19946b8946c85e3e91d32b77fc344497a944028d9",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW20-2023-01-12T2054Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "1fb4989f1a97effd75c03483a24017df209d5ec4",
+      "local_path": "captures/armband/data/captures/2022-23/GW21-2023-01-21T1013Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW21-2023-01-21T1013Z/bootstrap-static.json.gz",
+      "sha256": "126e071015d8cdfa502593fc9c06177c4d7127ec02da83af0b80c5388da8becc",
+      "size": 159158,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW21-2023-01-21T1013Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "d824f50b034331ab4e644ce868868f333f5f2622",
+      "local_path": "captures/armband/data/captures/2022-23/GW21-2023-01-21T1013Z/manifest.json",
+      "path": "data/captures/2022-23/GW21-2023-01-21T1013Z/manifest.json",
+      "sha256": "dc7644adee4e7109559a21b8c6b01cf12a8422920fbd9527586e3546eefcb4aa",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW21-2023-01-21T1013Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "2aa3541f528d49e78dbea9f970f4dd3ab4577b4a",
+      "local_path": "captures/armband/data/captures/2022-23/GW22-2023-02-03T1601Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW22-2023-02-03T1601Z/bootstrap-static.json.gz",
+      "sha256": "4631234a06051e0dd7e6ed5c8d58cfbf6a518a7b923830977aeb1c313e4fcb5a",
+      "size": 156849,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW22-2023-02-03T1601Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "14b573cd730d379e514bd8a2fb5ed85dd724f11b",
+      "local_path": "captures/armband/data/captures/2022-23/GW22-2023-02-03T1601Z/manifest.json",
+      "path": "data/captures/2022-23/GW22-2023-02-03T1601Z/manifest.json",
+      "sha256": "ae2bea364c259b9e0d3e47ef3db874e59145622f55c879c1b69f8613a558f258",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW22-2023-02-03T1601Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5c12716858912f25c351151cdc273afc41ec53f9",
+      "local_path": "captures/armband/data/captures/2022-23/GW23-2023-02-11T0800Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW23-2023-02-11T0800Z/bootstrap-static.json.gz",
+      "sha256": "907119ed273823efe9806b9c672848df67e22a187b3eeefcdfbbc84dc4cb50d7",
+      "size": 159028,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW23-2023-02-11T0800Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "62908ba3b718abbd30640908000a8d2b77e34cf2",
+      "local_path": "captures/armband/data/captures/2022-23/GW23-2023-02-11T0800Z/manifest.json",
+      "path": "data/captures/2022-23/GW23-2023-02-11T0800Z/manifest.json",
+      "sha256": "1a6023c3d45d84a1a0058551b99f490f75292587055be0ff538c446bafae4237",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW23-2023-02-11T0800Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "ad516bf8d0016fdc3e1f1e80b40901f680518477",
+      "local_path": "captures/armband/data/captures/2022-23/GW24-2023-02-18T0800Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW24-2023-02-18T0800Z/bootstrap-static.json.gz",
+      "sha256": "a20ebc07f22b654573b0364cf0d1f68475b5ee41a6cc58ad6a297aa174c923f2",
+      "size": 160233,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW24-2023-02-18T0800Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "3427da839a9c46a58a71a4c9faaf84c5ccb996bc",
+      "local_path": "captures/armband/data/captures/2022-23/GW24-2023-02-18T0800Z/manifest.json",
+      "path": "data/captures/2022-23/GW24-2023-02-18T0800Z/manifest.json",
+      "sha256": "137454c4bb073655e9f67802bc46080b141c9c6d46401ed83db8aa4392c9a1e7",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW24-2023-02-18T0800Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "0b7b62200691c55fb7a71022b83ff36d4bbcdfc9",
+      "local_path": "captures/armband/data/captures/2022-23/GW25-2023-02-24T0003Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW25-2023-02-24T0003Z/bootstrap-static.json.gz",
+      "sha256": "4c5b06285969b2a3d73210833e447f7c9d43e47188e62463e7bafce9dcffe63a",
+      "size": 160462,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW25-2023-02-24T0003Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "2605b2281b06eebe558849bd34f19382e25fcbac",
+      "local_path": "captures/armband/data/captures/2022-23/GW25-2023-02-24T0003Z/manifest.json",
+      "path": "data/captures/2022-23/GW25-2023-02-24T0003Z/manifest.json",
+      "sha256": "fa1304e53e9a88c3e87e2037becd51b137ac9203a06aa918023a489608d9efa9",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW25-2023-02-24T0003Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5602b8072f5e442e1ce441e6da4a33efce57e257",
+      "local_path": "captures/armband/data/captures/2022-23/GW26-2023-03-04T0001Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW26-2023-03-04T0001Z/bootstrap-static.json.gz",
+      "sha256": "338225ae76827475851801adb12ac967836c2f2128dd5e0b7000a14fb231a6c4",
+      "size": 160922,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW26-2023-03-04T0001Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "0e670a7047ced26d2c078430f27250ce7564129c",
+      "local_path": "captures/armband/data/captures/2022-23/GW26-2023-03-04T0001Z/manifest.json",
+      "path": "data/captures/2022-23/GW26-2023-03-04T0001Z/manifest.json",
+      "sha256": "d5997c2238e329eca08d9a1b6f8eead70dc8ad790ae99c851e438bba17027177",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW26-2023-03-04T0001Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "b9c8867bb039bd93f5ad50e4e4c1bb03ba7359ab",
+      "local_path": "captures/armband/data/captures/2022-23/GW27-2023-03-11T1021Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW27-2023-03-11T1021Z/bootstrap-static.json.gz",
+      "sha256": "791bd8f02c4b0cd9dca331fe4f53208fb4d0aa7a9cf04ea89c773c3d48d11d6f",
+      "size": 162380,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW27-2023-03-11T1021Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "01e7c4a287e33a71f74b38d27c20aed3f92b5296",
+      "local_path": "captures/armband/data/captures/2022-23/GW27-2023-03-11T1021Z/manifest.json",
+      "path": "data/captures/2022-23/GW27-2023-03-11T1021Z/manifest.json",
+      "sha256": "78f5c123f2a7aac64a7c54b5f183957af5d0d0c08cb73dbf448e9e0349c736ff",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW27-2023-03-11T1021Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "f9146428ff54d5c6d30675b6f92a0c199d0a0bea",
+      "local_path": "captures/armband/data/captures/2022-23/GW28-2023-03-17T1549Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW28-2023-03-17T1549Z/bootstrap-static.json.gz",
+      "sha256": "a221908c0348f0b86aeeb038e6d8760cf941a370da910598be7103b940cca874",
+      "size": 163012,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW28-2023-03-17T1549Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "acbaf31f1621d7ee9a69cbe299283d70b3fe8879",
+      "local_path": "captures/armband/data/captures/2022-23/GW28-2023-03-17T1549Z/manifest.json",
+      "path": "data/captures/2022-23/GW28-2023-03-17T1549Z/manifest.json",
+      "sha256": "0aefffe60dabaeb57687636b7c79facec7973014e05dcf84a514af56a7b62b97",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW28-2023-03-17T1549Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "226312dab0ea23bbc68f7aad19b2af259892fadb",
+      "local_path": "captures/armband/data/captures/2022-23/GW29-2023-04-01T0004Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW29-2023-04-01T0004Z/bootstrap-static.json.gz",
+      "sha256": "ac96849b8c122520bb36ba94fc66d153d3e84d6f5beeb0275d354cf574e6d00c",
+      "size": 163503,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW29-2023-04-01T0004Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "810720233ad05468e52bacefbabdb6cb9b743976",
+      "local_path": "captures/armband/data/captures/2022-23/GW29-2023-04-01T0004Z/manifest.json",
+      "path": "data/captures/2022-23/GW29-2023-04-01T0004Z/manifest.json",
+      "sha256": "4e526cc40fbb70a1a23c1792c9bd61cd4a217e7c2ef61d40ec1d47d5b4541d5b",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW29-2023-04-01T0004Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "a10be0b1c97e8371dade56ca1d39c847b926733e",
+      "local_path": "captures/armband/data/captures/2022-23/GW30-2023-04-08T0700Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW30-2023-04-08T0700Z/bootstrap-static.json.gz",
+      "sha256": "5809100297769a705365dd701b40ba7de3989b8129fab2ea87f19835e079dfec",
+      "size": 164339,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW30-2023-04-08T0700Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "911046a74ae0d2ce12508158797266c29d2acf0e",
+      "local_path": "captures/armband/data/captures/2022-23/GW30-2023-04-08T0700Z/manifest.json",
+      "path": "data/captures/2022-23/GW30-2023-04-08T0700Z/manifest.json",
+      "sha256": "afe6ad8021d54658d8ed08c55a6d68212e9cb38e8bbb72c1f0ea31a6534d4188",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW30-2023-04-08T0700Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "50bc7c426802b1e92365966a2e110c04237a1c64",
+      "local_path": "captures/armband/data/captures/2022-23/GW31-2023-04-15T0848Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW31-2023-04-15T0848Z/bootstrap-static.json.gz",
+      "sha256": "c2902ca1090e41fb72c23d151e011d30157263ced91a25aa3170616579a2d800",
+      "size": 164298,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW31-2023-04-15T0848Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "40809324cd42719f85298c80928582f558b46e96",
+      "local_path": "captures/armband/data/captures/2022-23/GW31-2023-04-15T0848Z/manifest.json",
+      "path": "data/captures/2022-23/GW31-2023-04-15T0848Z/manifest.json",
+      "sha256": "840c75362023043935497ba5c690e1fde57653ad06d436536180d1116d5c11f6",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW31-2023-04-15T0848Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "f7ad6ed4560ce220ab4ed18d4bb29cdf5506d311",
+      "local_path": "captures/armband/data/captures/2022-23/GW32-2023-04-21T1100Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW32-2023-04-21T1100Z/bootstrap-static.json.gz",
+      "sha256": "abd6a5f75dd45ef1fd9668595fbf800c02ad33f13e84ce3864ffebe0f7b13eb5",
+      "size": 165314,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW32-2023-04-21T1100Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "944ba2f51889aeea57ee8342b9caa5e0fa86dc1f",
+      "local_path": "captures/armband/data/captures/2022-23/GW32-2023-04-21T1100Z/manifest.json",
+      "path": "data/captures/2022-23/GW32-2023-04-21T1100Z/manifest.json",
+      "sha256": "8d66fae70de91b8a9285b8cc223f9a0b4afe855c8d26a7b9e7f6929bbef3a9f3",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW32-2023-04-21T1100Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "e1402fcc61ab1ed17346a69d939172b4c066c876",
+      "local_path": "captures/armband/data/captures/2022-23/GW33-2023-04-25T0812Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW33-2023-04-25T0812Z/bootstrap-static.json.gz",
+      "sha256": "9dc1d62f1dd1a6a51317638ecd05231b34b44a3d601eb2b13862d4f046ed48d0",
+      "size": 165440,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW33-2023-04-25T0812Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "ed93699a9fe80170c4126c384461e59bb33bb746",
+      "local_path": "captures/armband/data/captures/2022-23/GW33-2023-04-25T0812Z/manifest.json",
+      "path": "data/captures/2022-23/GW33-2023-04-25T0812Z/manifest.json",
+      "sha256": "86139ca3b2487a71dfc3cc095ce97de5ac642e40b491873102e471b27fed9a35",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW33-2023-04-25T0812Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5657882b6274e623b1f5970bae146f496ef84b43",
+      "local_path": "captures/armband/data/captures/2022-23/GW34-2023-04-29T0300Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW34-2023-04-29T0300Z/bootstrap-static.json.gz",
+      "sha256": "d43b919462449d52160d9e5f9b15317f0e7f0d51225acf8fdd9dfae9133cd73d",
+      "size": 166493,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW34-2023-04-29T0300Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "f7a836c0081d8b0d18dacc7793d681de27f2b259",
+      "local_path": "captures/armband/data/captures/2022-23/GW34-2023-04-29T0300Z/manifest.json",
+      "path": "data/captures/2022-23/GW34-2023-04-29T0300Z/manifest.json",
+      "sha256": "d1042737cce24c5cfa3a81163035f484e95d1a0dcdf1ec25ba2a992185f5ee14",
+      "size": 677,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW34-2023-04-29T0300Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "6ccf6a43c2e3e025afd97daad385e8bc0668a830",
+      "local_path": "captures/armband/data/captures/2022-23/GW35-2023-05-06T1100Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW35-2023-05-06T1100Z/bootstrap-static.json.gz",
+      "sha256": "9f1944a85c2948117e0dff87049730359fa18023467ede26321a1ccc4ec99bbb",
+      "size": 167378,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW35-2023-05-06T1100Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "ce6eb0c5975c8fa00b3daef0a3ddb572c42d5fdb",
+      "local_path": "captures/armband/data/captures/2022-23/GW35-2023-05-06T1100Z/manifest.json",
+      "path": "data/captures/2022-23/GW35-2023-05-06T1100Z/manifest.json",
+      "sha256": "8baadb42b9a78ede5cf041f25b8d23f90c02605993d4cef42842a2d10c6db734",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW35-2023-05-06T1100Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "8dc605a24eb9043929c23419cceb2d2870b4ee30",
+      "local_path": "captures/armband/data/captures/2022-23/GW36-2023-05-13T0956Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW36-2023-05-13T0956Z/bootstrap-static.json.gz",
+      "sha256": "181813fb67e0379273033c67896b8fdc40f4ddea9ab97058e9483279731b1856",
+      "size": 167625,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW36-2023-05-13T0956Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "d1a540ee43ac4e07b7eb14156db969673a8a99f9",
+      "local_path": "captures/armband/data/captures/2022-23/GW36-2023-05-13T0956Z/manifest.json",
+      "path": "data/captures/2022-23/GW36-2023-05-13T0956Z/manifest.json",
+      "sha256": "202754375008c50710623c4d786c74ab8b1dc9a7c243431f9b099ba72bb11e8d",
+      "size": 691,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW36-2023-05-13T0956Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "273031d987405dfefce2781c18e1592035e59fe1",
+      "local_path": "captures/armband/data/captures/2022-23/GW37-2023-05-20T0300Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW37-2023-05-20T0300Z/bootstrap-static.json.gz",
+      "sha256": "d261ca9162ae618d3a993813a0b50acc646f88f609d52c2311340f15a40c9e35",
+      "size": 168801,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW37-2023-05-20T0300Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "4e7d82a74943684752fa59a002d019fbaf990da9",
+      "local_path": "captures/armband/data/captures/2022-23/GW37-2023-05-20T0300Z/manifest.json",
+      "path": "data/captures/2022-23/GW37-2023-05-20T0300Z/manifest.json",
+      "sha256": "effe41a7425a258d4a68cd49bc0d80e6e6dae8a3bcc5095b67bc2eaef9849255",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW37-2023-05-20T0300Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "02ff9947a3d144c071f516fb6bcd68e093c528cb",
+      "local_path": "captures/armband/data/captures/2022-23/GW38-2023-05-28T1100Z/bootstrap-static.json.gz",
+      "path": "data/captures/2022-23/GW38-2023-05-28T1100Z/bootstrap-static.json.gz",
+      "sha256": "a860911c189b2553388fe50cf5e2d0c1847cff48b38c61d9c9d13867f66aff30",
+      "size": 170759,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW38-2023-05-28T1100Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "6931740f0031c4b5b4fbb5a375fd43cecad378c4",
+      "local_path": "captures/armband/data/captures/2022-23/GW38-2023-05-28T1100Z/manifest.json",
+      "path": "data/captures/2022-23/GW38-2023-05-28T1100Z/manifest.json",
+      "sha256": "b10cb71e47a16fdaa0760d412a523f3600e373deea77af59bb3de5e59d7ab48f",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/GW38-2023-05-28T1100Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "b83936788c544329a8facecac0ea879c8c594157",
+      "local_path": "captures/armband/data/captures/2022-23/deadlines.json",
+      "path": "data/captures/2022-23/deadlines.json",
+      "sha256": "7bdb5a730857eff01f3605cb78b714ab4ef1402c17f9a7b5bbae79433880af44",
+      "size": 8081,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2022-23/deadlines.json"
+    },
+    {
+      "git_blob_sha": "eb1e69e8df161ef65293f71319f635bc49dcc171",
+      "local_path": "captures/armband/data/captures/2023-24/GW01-2023-08-11T0837Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW01-2023-08-11T0837Z/bootstrap-static.json.gz",
+      "sha256": "9c2158c5e958fe563efe4e4427180e061310e79b538ab53dca959c30b667d9b5",
+      "size": 112798,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW01-2023-08-11T0837Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "0fd5183f0938447a44ef49a3eac7bc8c052a9d17",
+      "local_path": "captures/armband/data/captures/2023-24/GW01-2023-08-11T0837Z/manifest.json",
+      "path": "data/captures/2023-24/GW01-2023-08-11T0837Z/manifest.json",
+      "sha256": "b13f5ac03cfa78746e6aec3bb5ab08d8bf1c3a823dd9b6f5a8266588993aa004",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW01-2023-08-11T0837Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "8686195c5d409ed31d4489a9a0d9250b0459aeac",
+      "local_path": "captures/armband/data/captures/2023-24/GW02-2023-08-18T1500Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW02-2023-08-18T1500Z/bootstrap-static.json.gz",
+      "sha256": "d87f26eaaa19ed9bcc45d97679fb5b62b0cb18f9c7c50cf8b83adf3cb7a64614",
+      "size": 108956,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW02-2023-08-18T1500Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "a99dbbe874e738aaf91efab609864c95d0f8378f",
+      "local_path": "captures/armband/data/captures/2023-24/GW02-2023-08-18T1500Z/manifest.json",
+      "path": "data/captures/2023-24/GW02-2023-08-18T1500Z/manifest.json",
+      "sha256": "01a6f7b8e029b0a80357c2ea914ec0be0e44aa065b6f504944a5bac537da1855",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW02-2023-08-18T1500Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "bad460d1ab42fe5245cfe356f0d1cb4f87db1fb3",
+      "local_path": "captures/armband/data/captures/2023-24/GW03-2023-08-25T1500Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW03-2023-08-25T1500Z/bootstrap-static.json.gz",
+      "sha256": "5e9521301d0ae66a6c9a48f334604b6b8a42312d1b02f3fb681a3f07b903b863",
+      "size": 119257,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW03-2023-08-25T1500Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "a24f58f72b00c4a8facf4f294e87713ce614b385",
+      "local_path": "captures/armband/data/captures/2023-24/GW03-2023-08-25T1500Z/manifest.json",
+      "path": "data/captures/2023-24/GW03-2023-08-25T1500Z/manifest.json",
+      "sha256": "806fce008efd78fdcf8b15850f8059bdac2b5018dbcff9bbf82f22b8e8999e57",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW03-2023-08-25T1500Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5152d823831a3750ed5b6e576bff16c7bea30b53",
+      "local_path": "captures/armband/data/captures/2023-24/GW04-2023-09-01T1500Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW04-2023-09-01T1500Z/bootstrap-static.json.gz",
+      "sha256": "c4907ab5dbd8c2e81d93134f599474980b3ec606216be186088d15defc02fef8",
+      "size": 128363,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW04-2023-09-01T1500Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "c9319d10ce6ad26c01abb7663793bab9d3349d95",
+      "local_path": "captures/armband/data/captures/2023-24/GW04-2023-09-01T1500Z/manifest.json",
+      "path": "data/captures/2023-24/GW04-2023-09-01T1500Z/manifest.json",
+      "sha256": "a7a51ae113068d5cf2db077563fb060db01bd4739f9d47523e7625909c5450d6",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW04-2023-09-01T1500Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "22241c2aef02580536f20da80be56225490c468c",
+      "local_path": "captures/armband/data/captures/2023-24/GW05-2023-09-16T0300Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW05-2023-09-16T0300Z/bootstrap-static.json.gz",
+      "sha256": "00841e10eec93704a11ed0eb854c4ee8c622abf88aaa628d658eb3083ade64dd",
+      "size": 135527,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW05-2023-09-16T0300Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "1fc9a75b2130d84f25bfefe559c03748fd31f9e7",
+      "local_path": "captures/armband/data/captures/2023-24/GW05-2023-09-16T0300Z/manifest.json",
+      "path": "data/captures/2023-24/GW05-2023-09-16T0300Z/manifest.json",
+      "sha256": "0ad029c06285c8b9704cbfe3ae1f08dc3a1d60a20e2c4329d403b4dd69c8f106",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW05-2023-09-16T0300Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "3cfe62e9b7c5567001b694080c7d806c9142dee4",
+      "local_path": "captures/armband/data/captures/2023-24/GW06-2023-09-23T0300Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW06-2023-09-23T0300Z/bootstrap-static.json.gz",
+      "sha256": "a3befa5a08255dfb36f5d1f19af012e40f9fa7738d1e4094d3f166d6df009ab9",
+      "size": 138689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW06-2023-09-23T0300Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "90d29da0cdcf862480d32a130aac29ec0c1b509c",
+      "local_path": "captures/armband/data/captures/2023-24/GW06-2023-09-23T0300Z/manifest.json",
+      "path": "data/captures/2023-24/GW06-2023-09-23T0300Z/manifest.json",
+      "sha256": "02291214c7323bd5300227fc9dd42d9bddf3bf434ea2343216ddcd8c890c3773",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW06-2023-09-23T0300Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5a177f68d76d0ec67de5e139114baa38328559b9",
+      "local_path": "captures/armband/data/captures/2023-24/GW07-2023-09-30T0700Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW07-2023-09-30T0700Z/bootstrap-static.json.gz",
+      "sha256": "48a9b8dc1bc599adeac4a40958d1d3483fedcfa977062c8e6ee2e9d7055e3c07",
+      "size": 141506,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW07-2023-09-30T0700Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "9488ca640d96dabdf63777b4b90780ff83c94dd1",
+      "local_path": "captures/armband/data/captures/2023-24/GW07-2023-09-30T0700Z/manifest.json",
+      "path": "data/captures/2023-24/GW07-2023-09-30T0700Z/manifest.json",
+      "sha256": "d861d17d585f1f292cfa9f7ac25e787ce649fac60790dea711a73353f4f972aa",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW07-2023-09-30T0700Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "f97c5627baa43d0a05da432028d6d1ed8c416135",
+      "local_path": "captures/armband/data/captures/2023-24/GW08-2023-10-07T0701Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW08-2023-10-07T0701Z/bootstrap-static.json.gz",
+      "sha256": "50858e290daf1a5402e6fc2587660a047140d091665a714419aa06a5e3264054",
+      "size": 144525,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW08-2023-10-07T0701Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "72ccda65b771a26b41a3474a06b27b0bed789c75",
+      "local_path": "captures/armband/data/captures/2023-24/GW08-2023-10-07T0701Z/manifest.json",
+      "path": "data/captures/2023-24/GW08-2023-10-07T0701Z/manifest.json",
+      "sha256": "50fec874492e33e6bd6b9d6e69b00d64ecc0c03c6d1642e85619c8e33db54535",
+      "size": 677,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW08-2023-10-07T0701Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "9be11eb261d2c4cf9ed0ef01d834e7f0ffac8502",
+      "local_path": "captures/armband/data/captures/2023-24/GW09-2023-10-21T0700Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW09-2023-10-21T0700Z/bootstrap-static.json.gz",
+      "sha256": "1f9f1c50fb5a1f9e09ca42996114249df0f76a49d65cd619636ba9ff94707086",
+      "size": 146286,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW09-2023-10-21T0700Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "04d77f49a161fded3a2615c40127c456ab717ae5",
+      "local_path": "captures/armband/data/captures/2023-24/GW09-2023-10-21T0700Z/manifest.json",
+      "path": "data/captures/2023-24/GW09-2023-10-21T0700Z/manifest.json",
+      "sha256": "a95324d3a18320f04226ae235fdfc2110f1d9aa140e5f7abcabfceadb9a5cecb",
+      "size": 688,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW09-2023-10-21T0700Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "205c03777210bcdee6124687d531fa6ab860d281",
+      "local_path": "captures/armband/data/captures/2023-24/GW10-2023-10-27T0700Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW10-2023-10-27T0700Z/bootstrap-static.json.gz",
+      "sha256": "45bb9947a20a9bbcffe89e6e96bf81db28eee98f346437291065cea5349ba2c6",
+      "size": 147541,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW10-2023-10-27T0700Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "18a303134982b13e15e5d57cbad3628daa1b02df",
+      "local_path": "captures/armband/data/captures/2023-24/GW10-2023-10-27T0700Z/manifest.json",
+      "path": "data/captures/2023-24/GW10-2023-10-27T0700Z/manifest.json",
+      "sha256": "0e0ac7eca5184b547194796c0f23e7c5ce3bf03dd365d56852ddea5af2a2eefa",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW10-2023-10-27T0700Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "30a071baf9089bf605e031d1ce90976ca7da0c1c",
+      "local_path": "captures/armband/data/captures/2023-24/GW11-2023-11-04T0000Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW11-2023-11-04T0000Z/bootstrap-static.json.gz",
+      "sha256": "2c91683b2e9d376b95f80a09bd8744b89c9b4ee6474f6d8cb918f696b68e87d5",
+      "size": 148826,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW11-2023-11-04T0000Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "e3f1033c6c2de0558c0f79e1b70523763be63362",
+      "local_path": "captures/armband/data/captures/2023-24/GW11-2023-11-04T0000Z/manifest.json",
+      "path": "data/captures/2023-24/GW11-2023-11-04T0000Z/manifest.json",
+      "sha256": "c14d3b634012a5d8b9075e5da23ffdfd90ef6d70ffad067423ae98ffc7ded538",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW11-2023-11-04T0000Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "32e83ea6ce404face7f40a683c27719c1409b305",
+      "local_path": "captures/armband/data/captures/2023-24/GW12-2023-11-11T0957Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW12-2023-11-11T0957Z/bootstrap-static.json.gz",
+      "sha256": "2ce06e0fc8223d9b9fead5af982a82e2d3e54c17a1a6d24124d40446a032e00e",
+      "size": 150565,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW12-2023-11-11T0957Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "fc22f4e3b44d4eee5b4a2301fb447c5cc012befc",
+      "local_path": "captures/armband/data/captures/2023-24/GW12-2023-11-11T0957Z/manifest.json",
+      "path": "data/captures/2023-24/GW12-2023-11-11T0957Z/manifest.json",
+      "sha256": "79f9ba493d9f57abcfeba397717ff9599c31d91356399ead698b6eb72151861d",
+      "size": 678,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW12-2023-11-11T0957Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "93b0f45b26df407b9b42d4b4ca4ec1dba3003298",
+      "local_path": "captures/armband/data/captures/2023-24/GW13-2023-11-25T1035Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW13-2023-11-25T1035Z/bootstrap-static.json.gz",
+      "sha256": "061a28d50571de56600c3ed258a82d943b99a25e145450dbc1242f792a4e51ac",
+      "size": 153399,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW13-2023-11-25T1035Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "9abf98c161361134c77348270d2c34e9b45f339a",
+      "local_path": "captures/armband/data/captures/2023-24/GW13-2023-11-25T1035Z/manifest.json",
+      "path": "data/captures/2023-24/GW13-2023-11-25T1035Z/manifest.json",
+      "sha256": "eec8ec6b6a4d952e40e2850786cf50defe2fdcf647b3973b47ec48057837c85a",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW13-2023-11-25T1035Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "77d9739b448b0a4d54b6525c772f4415715c3b48",
+      "local_path": "captures/armband/data/captures/2023-24/GW14-2023-12-02T0815Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW14-2023-12-02T0815Z/bootstrap-static.json.gz",
+      "sha256": "0f1df83f98285157203ba46db0098d201ea03f2f0137ab794c2862e15b432772",
+      "size": 154658,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW14-2023-12-02T0815Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "1651440b0cfa4f5f9b0b608a29c2b30149a027ac",
+      "local_path": "captures/armband/data/captures/2023-24/GW14-2023-12-02T0815Z/manifest.json",
+      "path": "data/captures/2023-24/GW14-2023-12-02T0815Z/manifest.json",
+      "sha256": "3646cad689093ac2b318016a2010814bfe046ed5eb1ba863c828e3ca1e5fdd42",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW14-2023-12-02T0815Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "5cc0eb0de29c802154fd1c9bd9fcfb90d8aa352e",
+      "local_path": "captures/armband/data/captures/2023-24/GW15-2023-12-05T1200Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW15-2023-12-05T1200Z/bootstrap-static.json.gz",
+      "sha256": "f404e79b0f8fc541cd7ff98864e151cc81af2412f05084d28cf3fa940461c533",
+      "size": 156306,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW15-2023-12-05T1200Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "2ca97879c4dd937a390c98f5981c5dc466c2ae38",
+      "local_path": "captures/armband/data/captures/2023-24/GW15-2023-12-05T1200Z/manifest.json",
+      "path": "data/captures/2023-24/GW15-2023-12-05T1200Z/manifest.json",
+      "sha256": "a6ae73c9066745dd46e3d4019ebc93c9832c0adbeaab9ebca42b3407e2ea5ce9",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW15-2023-12-05T1200Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "c44131d677d5a1f7ab7cc8e3bc41b418e15cfb7c",
+      "local_path": "captures/armband/data/captures/2023-24/GW16-2023-12-09T0800Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW16-2023-12-09T0800Z/bootstrap-static.json.gz",
+      "sha256": "4a2d1ec82b9afe689711aea9734e2aa5fcac96e0f36384519de6263669584b86",
+      "size": 157792,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW16-2023-12-09T0800Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "9dbc873c4e41baf57fdffa7c600c4be1948cb8b0",
+      "local_path": "captures/armband/data/captures/2023-24/GW16-2023-12-09T0800Z/manifest.json",
+      "path": "data/captures/2023-24/GW16-2023-12-09T0800Z/manifest.json",
+      "sha256": "ada8d05fd240a12350af85f84f637da9d0379dc19f0a0292013c4ca786f63ac5",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW16-2023-12-09T0800Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "3507309589bef918a2321b5d70f2d80beeec9479",
+      "local_path": "captures/armband/data/captures/2023-24/GW17-2023-12-15T0800Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW17-2023-12-15T0800Z/bootstrap-static.json.gz",
+      "sha256": "478c2f0c9d0b9170cd461d24546de74602bee74e78088f0aeda1216f96eff2d6",
+      "size": 159203,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW17-2023-12-15T0800Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "228be86de21435363f98d94435cf77875365954b",
+      "local_path": "captures/armband/data/captures/2023-24/GW17-2023-12-15T0800Z/manifest.json",
+      "path": "data/captures/2023-24/GW17-2023-12-15T0800Z/manifest.json",
+      "sha256": "9ea881a750cdcf24e770aa4723418b7abe1fcc904ad25a69c16070ef9afe1b03",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW17-2023-12-15T0800Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "36876b67a93f6e6c634932370e1af898b6255e54",
+      "local_path": "captures/armband/data/captures/2023-24/GW18-2023-12-21T0800Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW18-2023-12-21T0800Z/bootstrap-static.json.gz",
+      "sha256": "63cf2c00e21b25b0ca1b282af14184955843aac4679f0e879a47ec5c23defc02",
+      "size": 160630,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW18-2023-12-21T0800Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "a29086e541303590ff1d388c2fad2dafd88128b6",
+      "local_path": "captures/armband/data/captures/2023-24/GW18-2023-12-21T0800Z/manifest.json",
+      "path": "data/captures/2023-24/GW18-2023-12-21T0800Z/manifest.json",
+      "sha256": "481142c086adfbbc4528817fd31ddcb638bf4a772ca5dcd9e36f2f3788e1160d",
+      "size": 690,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW18-2023-12-21T0800Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "a206fd5bdb133b0cde8bafc1552cc4c6f8c90977",
+      "local_path": "captures/armband/data/captures/2023-24/GW19-2023-12-26T0800Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW19-2023-12-26T0800Z/bootstrap-static.json.gz",
+      "sha256": "9a0990352d873ec14fd980ba7b6a650a886178546d8e1e1c5472cbf86f02604d",
+      "size": 161982,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW19-2023-12-26T0800Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "802a7e8d6845b13f1b5e0adaff58368794ea1dd6",
+      "local_path": "captures/armband/data/captures/2023-24/GW19-2023-12-26T0800Z/manifest.json",
+      "path": "data/captures/2023-24/GW19-2023-12-26T0800Z/manifest.json",
+      "sha256": "1cc8936de2aea0061798b959b9e0af3fa41e9803edda81c6aa1731d8e1c81b26",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW19-2023-12-26T0800Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "14429f623ee5deec406eefc40270749b8c2e1e01",
+      "local_path": "captures/armband/data/captures/2023-24/GW20-2023-12-30T0800Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW20-2023-12-30T0800Z/bootstrap-static.json.gz",
+      "sha256": "33c2dbfbc5b3afbb83c6f77cdf59b2146ecec967055cbdfcc509df9fefe92fe6",
+      "size": 163257,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW20-2023-12-30T0800Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "256e290fd73a9b1c57976a6e77dc16df7a36f68c",
+      "local_path": "captures/armband/data/captures/2023-24/GW20-2023-12-30T0800Z/manifest.json",
+      "path": "data/captures/2023-24/GW20-2023-12-30T0800Z/manifest.json",
+      "sha256": "25b0ecc46e7e4a8a2645a2d56c63f561dcf3fc6944ef8bd61346a219375346cf",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW20-2023-12-30T0800Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "634469601b70cc7a89e7992adbecf4acbe433dd4",
+      "local_path": "captures/armband/data/captures/2023-24/GW21-2024-01-12T1200Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW21-2024-01-12T1200Z/bootstrap-static.json.gz",
+      "sha256": "eb49788df3152ed056bde8fd712b5cfe1fd13fa58d7c41b21651ee6119c40dc9",
+      "size": 165179,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW21-2024-01-12T1200Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "4615782571b3ba60a268074d7d979d687a41cd7e",
+      "local_path": "captures/armband/data/captures/2023-24/GW21-2024-01-12T1200Z/manifest.json",
+      "path": "data/captures/2023-24/GW21-2024-01-12T1200Z/manifest.json",
+      "sha256": "355ab75a08588345bdbffa8d78238e18e7b3d5f14e6e7bbd37e0fb98a71c18d7",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW21-2024-01-12T1200Z/manifest.json"
+    },
+    {
+      "git_blob_sha": "d23481b04bcc5e7e1a8aeb13ae3b9b9c2e688024",
+      "local_path": "captures/armband/data/captures/2023-24/GW22-2024-01-30T1200Z/bootstrap-static.json.gz",
+      "path": "data/captures/2023-24/GW22-2024-01-30T1200Z/bootstrap-static.json.gz",
+      "sha256": "584a9fce94ef717b531af35bc74d0e6b8f21d798ca1b1279578cb9475cab5395",
+      "size": 167452,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW22-2024-01-30T1200Z/bootstrap-static.json.gz"
+    },
+    {
+      "git_blob_sha": "5a68abd993cee66293677d2cecaaf3a3353be479",
+      "local_path": "captures/armband/data/captures/2023-24/GW22-2024-01-30T1200Z/manifest.json",
+      "path": "data/captures/2023-24/GW22-2024-01-30T1200Z/manifest.json",
+      "sha256": "2b77b7b03615517a10e732d0000dda49f1b050a0387a9730422a86d9d99994fc",
+      "size": 689,
+      "url": "https://raw.githubusercontent.com/unsaltedpw/fpl-armband/4cbbe8b206686a6def6751966c640fbc673333a7/data/captures/2023-24/GW22-2024-01-30T1200Z/manifest.json"
+    }
+  ],
+  "repository": "unsaltedpw/fpl-armband",
+  "retrieved_at_utc": "2026-10-03T20:32:53.024168+00:00",
+  "revision": "4cbbe8b206686a6def6751966c640fbc673333a7",
+  "scope": "Discovery<=GW136 archive candidates only; no fitting/evaluation."
+}

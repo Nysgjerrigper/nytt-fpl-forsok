@@ -405,6 +405,8 @@ def walk_forward_evaluate(df, feature_cols, start_gw=40, step=1, model_name="lig
 
 def fit_position_ensembles(
     df: pd.DataFrame, feature_cols: list[str], weights_by_pos: dict[str, dict[str, float]],
+    *, parameters_by_pos: dict[str, dict[str, dict]] | None = None,
+    seed: int | None = None,
 ) -> dict[str, PositionEnsemble]:
     """Train, per position, the members carrying non-zero weight in `weights_by_pos`
     (position-aware, so tuned per-position hyperparameters load - see models.fit_model)
@@ -416,7 +418,12 @@ def fit_position_ensembles(
     `position=`, so the Optuna-tuned params never loaded live - audit finding A1). Only
     members with weight > 0 are trained; under a single:<model> strategy that's one model,
     so we don't waste time fitting eleven members the blend ignores. Positions with no rows
-    in `df` are skipped (absent from the returned dict)."""
+    in `df` are skipped (absent from the returned dict).
+
+    Opt-in parameters_by_pos must exactly cover nonzero members at every fitted
+    position. Explicit parameters bypass ambient JSON files; seed overrides refit
+    randomness only and does not establish a newly tuned study.
+    """
     ensembles = {}
     for pos in POSITIONS:
         pos_df = df[df["position"] == pos]
@@ -424,8 +431,14 @@ def fit_position_ensembles(
             continue
         weights = weights_by_pos[pos]
         X, y = pos_df[feature_cols], pos_df[features.TARGET_COL]
+        if parameters_by_pos is not None:
+            required = {name for name, weight in weights.items() if weight > 0}
+            if pos not in parameters_by_pos or set(parameters_by_pos[pos]) != required:
+                raise ValueError(f"explicit parameters must exactly cover fitted members for {pos}")
         members = {name: models.fit_model(name, X, y, position=pos, minutes=pos_df.get("minutes"),
-                                          gw=pos_df.get("GW_global"))
+                                          gw=pos_df.get("GW_global"),
+                                          params=(parameters_by_pos[pos][name] if parameters_by_pos is not None else None),
+                                          seed=seed)
                    for name, w in weights.items() if w > 0}
         ensembles[pos] = PositionEnsemble(members, weights)
     return ensembles

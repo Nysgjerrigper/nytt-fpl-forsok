@@ -1,0 +1,11 @@
+{
+  "status": "verified",
+  "scope": "Byte-identical selection control replay across separate registered availability/workload studies.",
+  "artifacts": {
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/availability_research_2026-10-03/seed0/selection/mae_full_origin.predictions.csv": "d7628786568a34c9ab1b37251b2a6672aeb479b7a94d298567a8e5093e470d50",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/league_workload_2026-10-04/seed0/selection/mae_full_origin.predictions.csv": "d7628786568a34c9ab1b37251b2a6672aeb479b7a94d298567a8e5093e470d50",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/availability_research_2026-10-03/seed0/selection/mae_full_origin.squads.csv": "a7f4ecdc46795bdfa69fbaa3e21c806607fb63cc8c69a8ec9c9532e240a01ab1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/league_workload_2026-10-04/seed0/selection/mae_full_origin.squads.csv": "a7f4ecdc46795bdfa69fbaa3e21c806607fb63cc8c69a8ec9c9532e240a01ab1"
+  },
+  "production_promotion": false
+}

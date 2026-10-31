@@ -26,6 +26,7 @@ straddles zero says "do not conclude anything from this gap", which is exactly t
 guardrail the standing decision rule (realized points over MASE) was missing.
 """
 import argparse
+from numbers import Integral
 import sys
 from pathlib import Path
 
@@ -46,11 +47,33 @@ def paired_gw_differences(df_a: pd.DataFrame, df_b: pd.DataFrame) -> pd.Series:
     different seasons' difficulty, so that raises instead of silently intersecting.
     """
     for name, df in (("A", df_a), ("B", df_b)):
-        if POINTS_COL not in df.columns:
-            raise ValueError(f"run {name} has no '{POINTS_COL}' column - was the backtest "
-                             "run on predictions without actuals (a live run)?")
+        if not isinstance(df, pd.DataFrame) or df.empty or not df.columns.is_unique:
+            raise ValueError(f"run {name} requires a nonempty frame with unique columns")
+        if missing := {GW_COL, POINTS_COL}.difference(df.columns):
+            raise ValueError(f"run {name} lacks required columns: {sorted(missing)}")
+        for column in (GW_COL, POINTS_COL):
+            values = df[column]
+            if (not pd.api.types.is_numeric_dtype(values.dtype) or pd.api.types.is_bool_dtype(values.dtype)
+                    or pd.api.types.is_complex_dtype(values.dtype) or values.isna().any()
+                    or not np.isfinite(values).all()):
+                raise ValueError(f"run {name} requires finite numeric {column}")
+        if (df[GW_COL] <= 0).any() or (df[GW_COL] % 1 != 0).any():
+            raise ValueError(f"run {name} requires positive integer gameweeks")
         if df[GW_COL].duplicated().any():
             raise ValueError(f"run {name} has duplicate gameweek rows")
+    for column in ('scoring_protocol', 'points_accounting'):
+        if column not in df_a and column not in df_b:
+            continue  # Unlabelled historical frames retain legacy compatibility.
+        if column not in df_a or column not in df_b:
+            raise ValueError(f"both runs must declare {column}")
+        labels = []
+        for name, df in (("A", df_a), ("B", df_b)):
+            values = df[column]
+            if values.isna().any() or not values.map(lambda value: isinstance(value, str) and bool(value.strip())).all() or values.nunique() != 1:
+                raise ValueError(f"run {name} requires one nonmissing nonblank string {column}")
+            labels.append(values.iloc[0])
+        if labels[0] != labels[1]:
+            raise ValueError(f"runs have different {column}: {labels}")
     a = df_a.set_index(GW_COL)[POINTS_COL].sort_index()
     b = df_b.set_index(GW_COL)[POINTS_COL].sort_index()
     if not a.index.equals(b.index):
@@ -59,6 +82,19 @@ def paired_gw_differences(df_a: pd.DataFrame, df_b: pd.DataFrame) -> pd.Series:
         raise ValueError(f"gameweek windows differ (only in A: {only_a}, only in B: {only_b}); "
                          "a paired comparison needs identical windows")
     return a - b
+
+
+def _finite_differences(diffs) -> np.ndarray:
+    """Require one finite, nonempty real-valued difference series."""
+    if np.iscomplexobj(diffs):
+        raise ValueError("differences must be a finite real one-dimensional series")
+    try:
+        values = np.asarray(diffs, dtype=float)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("differences must be a finite one-dimensional series") from exc
+    if values.ndim != 1 or not len(values) or not np.isfinite(values).all():
+        raise ValueError("differences must be a finite nonempty one-dimensional series")
+    return values
 
 
 def moving_block_bootstrap_total(diffs, n_boot: int = 10000, block_len: int = 3,
@@ -72,10 +108,12 @@ def moving_block_bootstrap_total(diffs, n_boot: int = 10000, block_len: int = 3,
     bootstrap, which assumes away the squad-carryover autocorrelation - keep >= 2
     unless you know the runs share no state across gameweeks.
     """
-    d = np.asarray(diffs, dtype=float)
+    d = _finite_differences(diffs)
+    for name, value in (("n_boot", n_boot), ("block_len", block_len), ("seed", seed)):
+        minimum = 0 if name == "seed" else 1
+        if isinstance(value, bool) or not isinstance(value, Integral) or value < minimum:
+            raise ValueError(f"{name} requires an integer >= {minimum}")
     n = len(d)
-    if n == 0:
-        raise ValueError("empty difference series")
     block_len = max(1, min(block_len, n))
     rng = np.random.default_rng(seed)
     n_blocks = int(np.ceil(n / block_len))
@@ -104,7 +142,7 @@ def sign_test(diffs) -> dict:
     family in the promotion protocol; a bootstrap probability is not a null
     p-value and must never be used there.
     """
-    d = np.asarray(diffs, dtype=float)
+    d = _finite_differences(diffs)
     wins_a = int(np.sum(d > 0))
     wins_b = int(np.sum(d < 0))
     n_eff = wins_a + wins_b

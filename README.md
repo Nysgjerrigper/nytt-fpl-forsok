@@ -4,6 +4,13 @@ A Python pipeline for player-point forecasts and rolling-horizon FPL squad decis
 It replaces the thesis-era R/LSTM system; the old validation predictions remain a fixed
 benchmark. Production uses `single:catboost` for GK, DEF, MID and FWD.
 
+**Licensing:** original code and documentation are free for noncommercial use;
+commercial use, resale or paid services require a written agreement with Per
+Anders Molberg. Released learned weights/parameters are separately available
+under MIT, including commercial use. Third-party material retains its own terms.
+This is a source-available project, not FOSS. See [licensing](docs/LICENSING.md),
+[LICENSE](LICENSE), [LICENSE-WEIGHTS](LICENSE-WEIGHTS) and [NOTICE](NOTICE).
+
 ## Start here
 
 - [Setup and operating rules](CLAUDE.md): canonical instructions for every agent.
@@ -11,6 +18,8 @@ benchmark. Production uses `single:catboost` for GK, DEF, MID and FWD.
 - [Stakeholder overview](docs/STAKEHOLDER_OVERVIEW.md): purpose, goals and tools in plain English.
 - [Alternative optimizer review](docs/OPTIMIZER_REVIEW.md): current-season requirements and candidate gaps.
 - [Open FPL adapter](docs/OPEN_FPL_ADAPTER.md): optional modern-rule backend, inputs and measured comparison.
+- [Forecast research](docs/FORECAST_RESEARCH.md): pinned tree controls/ablations, frozen admission, cold-start priors, interval calibration, isolated CPU CNN and temporal blends.
+- [External data admission](docs/EXTERNAL_DATA.md): exact identity mapping, publication evidence and deadline filtering for research sources.
 - [Research history](RESEARCH_LOG.md) and [run registry](experiments/results.csv): dated evidence,
   including negative results; historical numbers are not automatically current controls.
 - [Historical documents](docs/archive/README.md): superseded handoffs, the July audit,
@@ -27,6 +36,11 @@ python -m pip install -r requirements.txt
 python -m pip install --no-deps --no-build-isolation -e .
 python -m pytest tests/ -q
 ```
+
+Use the editable checkout for pipeline execution: dataset and output paths are
+relative to the repository. A built wheel alone does not restore the frozen data
+or configure a writable research workspace. For the optional isolated CPU CNN,
+also install `python -m pip install -r requirements-cnn.txt`.
 
 `requirements-runtime.txt` pins pipeline dependencies; `requirements.txt` adds development
 and notebook tools. `requirements-research.txt` is optional and does not enable a model

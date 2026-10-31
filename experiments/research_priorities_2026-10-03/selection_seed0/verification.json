@@ -1,0 +1,23 @@
+{
+  "evaluated_runner_sha256": "2e495b12b71f0321d480732934bdd266f15862c4c24a465b6cd85ce8fb97e6e9",
+  "note": "Original runner evaluated as registered; immutable selection summary verified byte-for-byte against the pre-reference lock. Original registry completion summary hash describes canonical JSON payload, not pretty file bytes.",
+  "optimal_solves": 282,
+  "original_summary_canonical_payload_sha256": "cd58daa966f31a2b5e22db0b4f8c3ed686170146ece3b2e03ee03e5c9a2ba568",
+  "selection_summary_sha256": "d300677050b21c718afcf469c998d928b9b1d50908735a5b90762986ed9824c2",
+  "status": "PASS",
+  "summary_file_sha256": "9d421af2cea36abaa33a8339c7bd981927fea4e117c75587a80bda14f8bbc5d7",
+  "verified_runs": [
+    "selection/mae_full",
+    "selection/mae_without_fixture",
+    "selection/mae_without_minutes",
+    "selection/mae_without_opponent",
+    "selection/mae_without_xp",
+    "selection/rmse_full",
+    "evaluation/mae_full/origin",
+    "evaluation/mae_full/standard",
+    "evaluation/mae_without_opponent/origin",
+    "evaluation/mae_without_opponent/standard",
+    "evaluation/rmse_full/origin",
+    "evaluation/rmse_full/standard"
+  ]
+}

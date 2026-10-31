@@ -1,0 +1,1815 @@
+{
+  "admitted_count": 122,
+  "input_sha256": {
+    "experiments/deadline_snapshot_audit_2026-10-03/admission_results.json": "af685a24e818759763e994e19ab335446edeca6a21492dda6c8b53da931bcd4b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW01-2020-09-11T0125Z/bootstrap-static.json.gz": "6455d33e46f7c5ebbd062537ce9220074e40677a37cd24a489b7978f5d3bf8ee",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW01-2020-09-11T0125Z/manifest.json": "c5e3968a09e58b1552ef71f248cc85f6bcf59246bc34327194b04db79e64a167",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW02-2020-09-16T1204Z/bootstrap-static.json.gz": "9f0576efa067590e104759cc8a3bc9e0eb4ef455810275960103e00234acfc65",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW02-2020-09-16T1204Z/manifest.json": "a980d95d587cd195aa4b427fa68b7a40e67c7146712be6ae2e1b500ca34a0872",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW03-2020-09-16T1204Z/bootstrap-static.json.gz": "9f0576efa067590e104759cc8a3bc9e0eb4ef455810275960103e00234acfc65",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW03-2020-09-16T1204Z/manifest.json": "0b7a67fa787ba0731e5d39924191925e0d788b6924334b5603a832decefa28ed",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW04-2020-10-02T1732Z/bootstrap-static.json.gz": "9340331887ce1d4b1d1de26506b3ef14d4f8caa0696babfd3083128836cb67d2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW04-2020-10-02T1732Z/manifest.json": "408bfe170858295dc4720c40cbc82dfd36b53158ad4ecb95b6a743c2494079f5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW05-2020-10-08T0754Z/bootstrap-static.json.gz": "cd3523c87c6eb36a9b94554bf24edc219c8f4127b08479300bb02f5dda278c28",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW05-2020-10-08T0754Z/manifest.json": "44d59ebf6107251d926dfeb63a910d3c391feb161cca77ecef8e2137fd2a6fbd",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW06-2020-10-17T1220Z/bootstrap-static.json.gz": "ffe17a637c7ca637c6b5fc71eb8f93594cc9733374d0a542f808dc00fb1d815a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW06-2020-10-17T1220Z/manifest.json": "11a6809c34278d48dc42bf38befe05216fdd68e8c7f24eca6b0577655cdbd2e4",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW07-2020-10-17T1220Z/bootstrap-static.json.gz": "ffe17a637c7ca637c6b5fc71eb8f93594cc9733374d0a542f808dc00fb1d815a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW07-2020-10-17T1220Z/manifest.json": "5d6f4044b01a9743d3be597b5b3de96164f46953cf893daa18ca58c59f8cdbed",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW08-2020-11-06T1029Z/bootstrap-static.json.gz": "74ecd7cde91e936ab5efe3538fff233414d959941401620bf383bbd07e4f8bfa",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW08-2020-11-06T1029Z/manifest.json": "7d28a01bd0613e422b17ad0ed61bbf552ac5ccc2f3e9dd4752b408f5614c21af",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW09-2020-11-21T1013Z/bootstrap-static.json.gz": "bb868388a796442041564f65847cdeb7ef38c887e3e525bb065dbb5eaa9a3607",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW09-2020-11-21T1013Z/manifest.json": "fff9c8908ef6b28fb466629fe48f73ee6d13bd373e344dded5de03e162c92c81",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW10-2020-11-27T1148Z/bootstrap-static.json.gz": "c4b0cea9ef86c5a2195eab96124d3427847512afe15482e50264e854fbdc9456",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW10-2020-11-27T1148Z/manifest.json": "530522349fbb57cd2c2f806cf4bcb69c9417baabbd639bfedf5d5a2a8a689a86",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW11-2020-12-05T1021Z/bootstrap-static.json.gz": "12e8d568fd35f20226da59d7223ea6c4200e2fdbe5db607ece91127c068c6da0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW11-2020-12-05T1021Z/manifest.json": "146dad33002416862a8a477b64935ba6b932127e83b0433b491d1bf498e4c23e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW12-2020-12-10T1634Z/bootstrap-static.json.gz": "f4d072f28395d20a1ac062ece8f65b073bdad9b097e484903b57dbe494fccf47",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW12-2020-12-10T1634Z/manifest.json": "c16904f2e02704db0603c32081fbc42d9f37b17360c75819a56499811116da9e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW13-2020-12-15T1456Z/bootstrap-static.json.gz": "2d5135b4ef96f35858f7d433d69de04e51f78bc2363c6ee84d1c2ec650b3385a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW13-2020-12-15T1456Z/manifest.json": "ed612772321016383e370d370b3a27e459ab75e4d4d01ea63ce7a31438b81889",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW14-2020-12-19T1011Z/bootstrap-static.json.gz": "b5ef94a7d54ff19245c68c1c1b9d196c24feb935c3d487c657211aee7aa55a53",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW14-2020-12-19T1011Z/manifest.json": "bdbfeb33d5fed99f18a0321d77b7fa64d38ec6f4c67827cd313e474a0f53a707",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW15-2020-12-26T1026Z/bootstrap-static.json.gz": "1f8883b287fc1c47f8688c791782be1c7f50c8d19516e071cd4248e491a63f08",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW15-2020-12-26T1026Z/manifest.json": "a3146a3ff6529ff3241d4e9d87aa6776f2d0dfee5acfde173717b68712d0a4b0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW16-2020-12-28T1241Z/bootstrap-static.json.gz": "a9c0f6771f6893f2b50eb8f65b61d79ee694c84fd0e7fcbd8b2480de483b151a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW16-2020-12-28T1241Z/manifest.json": "f7daffa6da3aa544547a212ffff66d5adc413f51d071efa15f285ac53fc5fdd2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW17-2020-12-31T1913Z/bootstrap-static.json.gz": "98b5a96f1eac6cd96f110faac7447ba6ddb796fa02515aa3e955143481265fac",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW17-2020-12-31T1913Z/manifest.json": "aab9b90fcccdbef5827b887b05babbc90017cfa3c9a0acc152967403d21204e2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW18-2021-01-11T2239Z/bootstrap-static.json.gz": "33c028426d5892a7f1fd1304a38b60938a996318ed7ce272a469ed34e272e809",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW18-2021-01-11T2239Z/manifest.json": "8448e73bae6f4be246a7cf082e90e1247764298ef01322340042281c80a0ce62",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW19-2021-01-16T0959Z/bootstrap-static.json.gz": "fa21bf35cf69d01cae74e2e51cfdbaaa5d1a2a17ca87768aa074152a3e21b57a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW19-2021-01-16T0959Z/manifest.json": "3b23b65795612f235e2b6bc80b8a52729f8e35d1f1914ceb63a32fdb82be377c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW20-2021-01-26T1005Z/bootstrap-static.json.gz": "0eddd8d8cdd50567e34921150d8f24fb3ef28d664cb6914520a1c0cc6614046a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW20-2021-01-26T1005Z/manifest.json": "331865e15c4444765c0c286462d623cfb12f160da5462dc50eab04f74a712922",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW21-2021-01-30T1023Z/bootstrap-static.json.gz": "f4f7f153b3a7ae31d87d76ebda0e54de75ff3d2f8486ad7b4392e36ade25028c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW21-2021-01-30T1023Z/manifest.json": "6697ad96e3477ec4b0d62faab48764627349fb09adf76e2cef5358f424c95225",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW22-2021-02-02T1020Z/bootstrap-static.json.gz": "490297430b28a02d45cc7cc14b3baa8173802217ad976ddbf644dcd581263c91",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW22-2021-02-02T1020Z/manifest.json": "ce0b98ca09e3075e9d722b29d243c1f815cd5822a1e4b23d39c7f192c3eee07d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW23-2021-02-05T1140Z/bootstrap-static.json.gz": "23867a07450bacc052774cd85e99beaf4e43c753b5652cc9a3b16be504ee27ba",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW23-2021-02-05T1140Z/manifest.json": "2446c44ab98b8a84dfcfb8bf5d1b4fbf48fabf3c002ee9b1c2f5e4604b23eae7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW24-2021-02-13T1049Z/bootstrap-static.json.gz": "398b98d5fc1a38bc3b5e9147d6896d6fe86cf017a52b199ab3f4417d97dbe280",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW24-2021-02-13T1049Z/manifest.json": "94de2c454ea6673250f76bb54380e75a1e9a68f6a8a1fbd4f8dc070b88be2651",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW25-2021-02-19T1639Z/bootstrap-static.json.gz": "6533e8db1b2357975ae8c59b8d483a1be3f00eec2670082eb49ef49bf2092485",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW25-2021-02-19T1639Z/manifest.json": "7b27f3d7cf075eed1970320134323fa693151508e65b610b609b8636452d122a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW26-2021-02-27T1031Z/bootstrap-static.json.gz": "0364a5818fc727a6d851c97bd455627fb876eea04605122bdb2502f86654b1fc",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW26-2021-02-27T1031Z/manifest.json": "b2af6d3b4309104b1e66c78dc3ecd94cfd29171d71cbc79c533f37196f59e822",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW27-2021-03-06T1029Z/bootstrap-static.json.gz": "8c24390e32a9a2837c21e3bd2fd28d5d8ab9255630a79b7126afe80eb8b33ea1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW27-2021-03-06T1029Z/manifest.json": "a9d0a38f8b45b17d4dfdccfafc556e7e1719df7c132fb3d3a3def55aa0ed6743",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW28-2021-03-12T1529Z/bootstrap-static.json.gz": "5c4ea69e489dfc0324a0c16d540a34d1515427e6a36cd36f7c7898c449708efb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW28-2021-03-12T1529Z/manifest.json": "1beb3213772d28e239a6f57273cba603481c25a4a35adeb5dcb4c0cfde115375",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW29-2021-03-19T1348Z/bootstrap-static.json.gz": "694921b4e7a1d6a39aaee7a1029ebed1985fcb3b48c92108984c8827979a7eda",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW29-2021-03-19T1348Z/manifest.json": "cffc96839bada7e071a4b69a7df5aeed053178ec5dfe04424484f8c721ec060c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW30-2021-04-03T0937Z/bootstrap-static.json.gz": "38068d725904618eb5214ecd2cbd22c5ddc83bf5db557a8a82e543b02a503ff7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW30-2021-04-03T0937Z/manifest.json": "cd8603264814fe7eb9a7efbd93f48b2e7cab12643a1bd9daa8fe112ce9132958",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW31-2021-04-09T0831Z/bootstrap-static.json.gz": "70319e9c0659f506323210c4356057d7ef8c5ba9dc2ed9cd62f44cf73d8c9513",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW31-2021-04-09T0831Z/manifest.json": "4d9fdb9a90c19be17c4a3d1f08b421ba446905f28490ad1b6a1e9207a9d0021a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW32-2021-04-16T0825Z/bootstrap-static.json.gz": "61ae11fba00b2dbaa76e680cc9f517808bbec074a4ac819e0c662a5cc4659cb1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW32-2021-04-16T0825Z/manifest.json": "1e5fa86bdc603067ea4e6ebe5b962eb46facfd3079db25e91d465ee2b0a1df36",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW33-2021-04-23T1632Z/bootstrap-static.json.gz": "9425942b4b8d7705711e665c84b7717ea6bb499bc92ad6cbb00d3c48530989ca",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW33-2021-04-23T1632Z/manifest.json": "1e2a062a15b2202a68a891adbebc4e04b9ffd2115720bdc49fea3563f237b23e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW34-2021-04-28T0829Z/bootstrap-static.json.gz": "7aad0731beff411ec88d7a4fc410614571bcd327ac3d73d3a6b3ee3334b17625",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW34-2021-04-28T0829Z/manifest.json": "c40dcf23dd12722492794116f242613b073196a93a2666180701d98f3258b5eb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW35-2021-05-07T0923Z/bootstrap-static.json.gz": "bebf73c6ddb0c114540ea90ed3173f509ac1a0bc7b1393c57231ed6694eec26a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW35-2021-05-07T0923Z/manifest.json": "cf2af9fa87f3b9e4c3d486601572a7006234845fcc3999f86233d8c51b79c5c0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW36-2021-05-13T2325Z/bootstrap-static.json.gz": "c700e296d3ef52d45367d515ad1e533075ce839c3070705cff29971908ea4197",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW36-2021-05-13T2325Z/manifest.json": "02251270d02b5d946ac24b21dc9f1f0bd5622522ec7d0c28859efba25de2d4bb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW37-2021-05-18T0908Z/bootstrap-static.json.gz": "140cb2ad0de08f5bd07b1a0aea8f7683c53ef3ba995c8bf1012d2a0fb0c46b1b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW37-2021-05-18T0908Z/manifest.json": "df44a0685baf07f2a37fd16bc457bb47bccb6656b3428fe77352c68d36c19e32",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW38-2021-05-23T0902Z/bootstrap-static.json.gz": "d564f2942a18f254d9aa9607089c57d8153877e74c2a6049d80cdac59e87cb4c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/GW38-2021-05-23T0902Z/manifest.json": "d7a5ba260aca8ce8aa284ddb8c00896e29d902323986c0c67c9e7e3f414d96b0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2020-21/deadlines.json": "6f8bf5a63ac7cc4b31e3d15aa08537672775b08cbee4a4b7f00b870f76aa0ccd",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW01-2021-08-13T0952Z/bootstrap-static.json.gz": "66c3e1237e42402d5509c288d2e5d505629352e965093f85011cfb50dac34ba3",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW01-2021-08-13T0952Z/manifest.json": "859293cd795894a02da1ce0610120a29c33a611690bb33b59a3aed5e07941c7b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW02-2021-08-21T0917Z/bootstrap-static.json.gz": "e57d5d4e1d50bdbdb3c1271561918e01863970af0eba8171a0d92f54be33a71a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW02-2021-08-21T0917Z/manifest.json": "25b52b383be67a42d89837dab19f83d275b8958a15bd238c7dc9246455d8dafa",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW03-2021-08-28T0900Z/bootstrap-static.json.gz": "a2cdea9d829370b036e7506aa3997e0b1d844299c22a1379c7d8008ebbb52a99",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW03-2021-08-28T0900Z/manifest.json": "4559d3a3b840f2dccd981997ad8bbadcbf687b997fcdd2f8a859730e05da4fd6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW04-2021-09-11T0733Z/bootstrap-static.json.gz": "726f6d6cbe8ddd62617eed2cd6e2d136cad7534c7bf24faba57f5b5a5a23c793",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW04-2021-09-11T0733Z/manifest.json": "e55ff9c92de9a2adf97aa5391a926dbf6b32a44de75035212b9ec23595c7f15e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW05-2021-09-16T1830Z/bootstrap-static.json.gz": "96a2c510e03553212a3598f0ad876cb330c1a762c0aa2930302502b14092484e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW05-2021-09-16T1830Z/manifest.json": "bbdabe8c151c111dc8944bebc9e018b34573c0529ae5ac3d887b6d8be43370c7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW06-2021-09-23T1830Z/bootstrap-static.json.gz": "84ec64ddc57f72fe884236d846c092ed04dd393557e084a115328a847e06a08c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW06-2021-09-23T1830Z/manifest.json": "a0a1ec8042c1e156ffe6b3c041581ba85493d9e5189c2015259c2a390b767efe",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW07-2021-09-30T1900Z/bootstrap-static.json.gz": "819ad1b3b0e9867e4cac0082e0588f33d6f867a6dd6d019ed23aaeaeb644d280",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW07-2021-09-30T1900Z/manifest.json": "b1b8fbb21952336df3dbd8ce9827f440e21555e104cf983e027ece228fdc766a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW08-2021-10-16T0809Z/bootstrap-static.json.gz": "acce5276be2baa5991211cb863d811073f0b49e4be191c2be57cf5ed179869b1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW08-2021-10-16T0809Z/manifest.json": "263e3d7fc92cff1d1edc27b74f01eb4cb97449ce3d8f89a630008ca3bcfa061c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW09-2021-10-19T0819Z/bootstrap-static.json.gz": "29e3d757fa1ea40f0d69001a6b1e5af7d8ea7b7b6b1f52d9aeb13a8937982c15",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW09-2021-10-19T0819Z/manifest.json": "dd073b5171b886bc4cafda8fe13f66611bf55b8e3e9055e9664221a78169bbde",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW10-2021-10-27T0845Z/bootstrap-static.json.gz": "bf71e8972cb82b07d3c94af7a187e1d0fa6bb13e982ba8042521df70d96b3bc6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW10-2021-10-27T0845Z/manifest.json": "3178619e3f994f5ef0d4f0c342ea0bd13ee870efeee57e21a5a390c9fe897e58",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW11-2021-11-05T0956Z/bootstrap-static.json.gz": "ca75697902102dab6ae390bbeb917a6cab313c6e7ab562161bb9efe254427578",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW11-2021-11-05T0956Z/manifest.json": "ac713be17a5ba48a2ff29373d72393677b80c3cca2bdfbb3e20c486abcffe1a8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW12-2021-11-20T0934Z/bootstrap-static.json.gz": "8354a66994f32548b0d6e0c3f8bc454e457207c781158a719fc11e7107701159",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW12-2021-11-20T0934Z/manifest.json": "5ab2b918403a6ac2efc026c38564bc97e40bc38cc4f5cdde6af9e175b6861ab8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW13-2021-11-27T1026Z/bootstrap-static.json.gz": "9e2b9c42cdda340fdb3269ed24264008b9d6e485741d85ff82f1ff3e7eac34f4",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW13-2021-11-27T1026Z/manifest.json": "150847e8e7162059be9f1660b7197dcd5fc66d8c186120bd4fbbfab19545fbfe",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW14-2021-11-30T0939Z/bootstrap-static.json.gz": "8647264f32ad709ad9e441d410d50e5790999b064e3f1ef4ab89555a5a15b814",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW14-2021-11-30T0939Z/manifest.json": "72a67d4656f3a1e4d225fbae8fa14f1ac83f292731ae62a8c1bbe683253dc7e8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW15-2021-12-04T0952Z/bootstrap-static.json.gz": "33b73a895149bd31d5c57a76f2fd7f49020efae3f22018ebdbd4bf1793735843",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW15-2021-12-04T0952Z/manifest.json": "bb5090225bd28353b7587292e3425f236daa3ae65509ed42d8668378ce8b48c8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW16-2021-12-10T1031Z/bootstrap-static.json.gz": "0112bad26d6a0ff0a00be5530af9c273069971b22c421cb8f2f0fe7dd18d6d86",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW16-2021-12-10T1031Z/manifest.json": "ff04e91a3e04b82a66aeb2a6b5d5f6fc5e516e89003bdc0d1ceb2d32ad69022f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW17-2021-12-13T1030Z/bootstrap-static.json.gz": "4d1f676a7453eae51ee3cb73c881de44f1afb047f7bf72a74e425f483f411d4c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW17-2021-12-13T1030Z/manifest.json": "aa90ee24ce025f41447ea9be6dc5e5018d1d15b7c116eca0deba0389d9c6cf39",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW18-2021-12-17T0955Z/bootstrap-static.json.gz": "2483f382c989ef33425d8678ea91dcb06eaf33106fd8b854c9022a3e60f4211a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW18-2021-12-17T0955Z/manifest.json": "7611b6ccd3fe5cea436b3b8b900475e1d194cd6726d3a1277468762df55b8874",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW19-2021-12-26T0956Z/bootstrap-static.json.gz": "20763ab22d3bb863fde04069ff6233854897f858a706fc1acf7824999d227f6f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW19-2021-12-26T0956Z/manifest.json": "601920afdd7d15ef75b1bdf5b93cf653f9f211f8ed8f68b085bd52101aa56d0d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW20-2021-12-28T1041Z/bootstrap-static.json.gz": "7faff3c73e39430355bef7296653a377434130a75a26867ae033ca0f75b52550",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW20-2021-12-28T1041Z/manifest.json": "275ba3cf5b22a2ef1cbb5e062756373d291ffa7e1a5f7661dc700ceb2f5940b6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW21-2021-12-30T0640Z/bootstrap-static.json.gz": "fb0ff8a4f63447300236dcb158b95bbeb137e2f9c61622221c7b42dd55369217",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW21-2021-12-30T0640Z/manifest.json": "afcf1cec6619f89868a0ce0d85a4da60b8b7a046acca375ceeaa324a6bea505c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW22-2022-01-13T2123Z/bootstrap-static.json.gz": "d0bf899119ccc6df46d1fd74b218c4504d5bbc0ec30e061247d25bfd8221f180",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW22-2022-01-13T2123Z/manifest.json": "0f6e9920fdd44d3a7ccf08691ba162f697861f565c192ff2fc570bb88639375a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW23-2022-01-21T1039Z/bootstrap-static.json.gz": "4ee36fba5ac4a381ad4fbc95ec0c3aeeb8279fe5ef3021795673a5b085eaefc8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW23-2022-01-21T1039Z/manifest.json": "7b663141a72f4c9805bf0f85ff3cfe4239ee53cc7ffdb18092d23ee7e2a22e59",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW24-2022-02-06T2231Z/bootstrap-static.json.gz": "23c2fbe4b79c60b9a4bbb9b25c8a01602dfe296aa6b2bea5ae52e86e4c26bea2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW24-2022-02-06T2231Z/manifest.json": "6352507fa8c75aaaa57f6538a2891d66f7de1e390eed9946cc2d228ef4862077",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW25-2022-02-11T1005Z/bootstrap-static.json.gz": "01964a31178097f8e5541f21cd552fe4521468a0b737cbca7d237b3b3e17c1ec",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW25-2022-02-11T1005Z/manifest.json": "8e1758d69887981bbabc70a2cd76ea217580c42b5195d45baa716dd9d0e9f741",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW26-2022-02-18T1034Z/bootstrap-static.json.gz": "3f6df445ba49854495fe5b3156d5822aa55ea81238cecbc898c058efb8963d64",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW26-2022-02-18T1034Z/manifest.json": "71347d792fbf416d8f253c829dd9a3038c586ffda6d5ed2d0cd72ab4de324075",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW27-2022-02-25T1001Z/bootstrap-static.json.gz": "ab21a69a34a3d9cb39662988166b8ef451201f637d5e1bdea7c0c336a7aa03fd",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW27-2022-02-25T1001Z/manifest.json": "c4f8bc113bbd0f00ea5ce802252fcb26f8e6c77a84ea4165693bf507bb203767",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW28-2022-03-03T1009Z/bootstrap-static.json.gz": "2dece2f9387da10eab0091a3195f7fe84c08ea5cf4da5199db93ac6ee4daf398",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW28-2022-03-03T1009Z/manifest.json": "6896f1b189ff5379e7a1196db1edb6a514f4e403fe166c33e9d18921495702fd",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW29-2022-03-12T0953Z/bootstrap-static.json.gz": "f8a17aa0f16d414091f7fc25b199f4be1f68408581aed46bf0de2c09f2cde8db",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW29-2022-03-12T0953Z/manifest.json": "76f4cee3c6b1ca443727886e2d0bdd3188bcff3b50f91eee69dcefee04fa1a00",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW30-2022-03-18T0949Z/bootstrap-static.json.gz": "3228825f82236fffd15cd8ff15ef2755e9d9d1569383dbd49c2ef0a6680ea2d0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW30-2022-03-18T0949Z/manifest.json": "a997b6d7611ee69bfd0a143c0b422f272899a4da585730309d1eaa3f7b751da2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW31-2022-04-02T0939Z/bootstrap-static.json.gz": "b414edcffd9dbd5e95c6dd4b1b91c7d8c26e4efb939cd587c80b6e65271262f4",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW31-2022-04-02T0939Z/manifest.json": "5eac6d5b9079999a02b6afdb6ed5c0857a7e94b5b90719581254d10c799cec2b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW32-2022-04-08T1412Z/bootstrap-static.json.gz": "25c3ead8433a1432a35d2838e46513fcb8073eed7e2ba90135374f5aebb74376",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW32-2022-04-08T1412Z/manifest.json": "1724241393a83c2199375a43dfe23603a39ad9e8ea4bcf25098ebe29784ff76b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW33-2022-04-15T1633Z/bootstrap-static.json.gz": "b0bd88ebfbe86f0ff118f725613af2615cb408d81b4ea1b060a4d67513561d48",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW33-2022-04-15T1633Z/manifest.json": "828d1caa16c1d59091a032f4684260cbd72d500dd9c7abd04a122a32f2eea742",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW34-2022-04-23T0804Z/bootstrap-static.json.gz": "e79475cc7a58b02d732b5ec3aba0a84a37b48bef2a707eee4b837f6f08af84cc",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW34-2022-04-23T0804Z/manifest.json": "1c79635c051b6b73317b7d3fad42a69522bc40f915d3ccf3c77713e5435d290f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW35-2022-04-29T0904Z/bootstrap-static.json.gz": "3e69a8251fdb389115325e4d6e49a33d13a5352b586b10e244c1b5b27d96ad94",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW35-2022-04-29T0904Z/manifest.json": "7b9c119241b0b937180d6b7f9e0875b576c4d71e04a88f0233ae004db3680db7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW36-2022-05-06T1046Z/bootstrap-static.json.gz": "a5c1b7bae9035605ba670284bb44a5a53dc716fcde9764ba4be4d7a39e91967e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW36-2022-05-06T1046Z/manifest.json": "0728a3f474e0d01024908ba6d46de424c7c68725d936719927d52592b3187f6b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW37-2022-05-15T0337Z/bootstrap-static.json.gz": "27b49e084c8c4ab11dff711fdb88ad02f2af9348b3ae9580bce67a459c73cd39",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW37-2022-05-15T0337Z/manifest.json": "0b17e8a1ef34cd783592612236545c285751dae016f8d10e29d30d8fc9f537b8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW38-2022-05-22T0058Z/bootstrap-static.json.gz": "ee8b47a7d179977c8867c57e00add43f21cb1edd85f47223eceb3fb814f8e4e9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/GW38-2022-05-22T0058Z/manifest.json": "8286178864a5590a06a32028bc16187db34e9822dd9649a079e21ba94f1b65b0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2021-22/deadlines.json": "5c3bdbe8914202fe14937206633c09d9930d70cbc37bb5a3dc6ec9c56e88e072",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW01-2022-08-05T1716Z/bootstrap-static.json.gz": "eba4a30c52d1a466e643898de8c2cf607e0007f3ef3bb992b03f6d8ce4c9acea",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW01-2022-08-05T1716Z/manifest.json": "a836b35838abdd040654b99c8af087778481c58d4a7591272c1cce11e751cdcf",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW02-2022-08-11T2052Z/bootstrap-static.json.gz": "0287bdbb31a6556df60ce13606de8d2b0ed9297ea84e2970bc6211dcc7820e1c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW02-2022-08-11T2052Z/manifest.json": "1a8a13ae1ea5db9b913640ae45db87856174204295fb520849917e47f1639935",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW03-2022-08-20T0846Z/bootstrap-static.json.gz": "cf84cf94436e51b8e673c2e576c2f9c142e87f95daa14b984b63320a2bd956c2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW03-2022-08-20T0846Z/manifest.json": "b18ba8df3971717e7593b517c37f72a55086f8302ed38cb5a4a90f7b7052db49",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW04-2022-08-27T0848Z/bootstrap-static.json.gz": "4abdd40c035170d2539a23b31ade1c7d421fd94e9fb5eb511694ea1aebb9ccb5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW04-2022-08-27T0848Z/manifest.json": "5f1f3cf728163a349936bcd50a632bc663b81b793758493956bc1c1a0cb2c957",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW05-2022-08-29T2130Z/bootstrap-static.json.gz": "4ba16b01b35030223d6ed40b426eb242683d06a6af2a537b6d545e5a25d22c57",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW05-2022-08-29T2130Z/manifest.json": "e33d814182825b4f0f0a5845284c2e56052959d92392c0d63f7dace97bb6e34e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW06-2022-09-03T0932Z/bootstrap-static.json.gz": "4c9c94f093ee8257a79a3a6b05ddfe244a63092d1c07aa8d83c153905540e4d4",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW06-2022-09-03T0932Z/manifest.json": "f586b74583a0c99ee64fda06291d4e764b3596060fcfa9378f735a9a85464790",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW07-2022-09-09T0847Z/bootstrap-static.json.gz": "a058aeb5bb581a79be9c2f74c79703e4c9de924a6e40d4b760edc27b4b76af1b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW07-2022-09-09T0847Z/manifest.json": "99361258843bb382fafbb6d32e7c25c26c0c2268cde8aa911bd42237f4a12eb9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW08-2022-09-16T0751Z/bootstrap-static.json.gz": "06fdc4315dfee44bc13e93983627763c8bf39a37626270813c0332cfeb894785",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW08-2022-09-16T0751Z/manifest.json": "c8073d369ae2cb72108e59c626adf18506b681a673759418ed97a6bd54a0f7c8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW09-2022-09-26T1013Z/bootstrap-static.json.gz": "c27b504e6ee202b37145ab6a054a14a39210906ece8708daa73f17874d377cfe",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW09-2022-09-26T1013Z/manifest.json": "b7da2a293c30e5d59a5aa4a40eedec371a125645368fb7cb11417b0336368f2c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW10-2022-10-07T2137Z/bootstrap-static.json.gz": "5d95019d7c5ba893f7c8d2b57aa538946fda716ef2d5803c5bb9265e22755bbb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW10-2022-10-07T2137Z/manifest.json": "aec7bf47b195a4441dd479b4a490ad98b5ed2efa06bd26232e5429f1ea6dc18a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW11-2022-10-12T2240Z/bootstrap-static.json.gz": "351b18f758cec4e62d545e6c7bab0cc16341284f13beba6479bcd68bbb52509a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW11-2022-10-12T2240Z/manifest.json": "546a1872257e8d43c4cf5c44a659319217551ded210d4883fda6141c7bac66fc",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW12-2022-10-18T0949Z/bootstrap-static.json.gz": "ed6a9e43d77bd7bad12ada0ee7dbd826bc5241452b91a6a7f26d84e668abb90f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW12-2022-10-18T0949Z/manifest.json": "63da1fc0ed2356492bfac1bdc03248fe7db8dad0d9b56cd711fec7fa3dcc3e0e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW13-2022-10-21T1432Z/bootstrap-static.json.gz": "f4e3cecbd86ea1251a6e332294daf8ff67ad4874f7521ddd2d691b3f54f6c7ca",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW13-2022-10-21T1432Z/manifest.json": "c7301122b9fe19328c0cad2e23cbd195122afe36bbe56612be5b2b9470c21c9c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW14-2022-10-28T1440Z/bootstrap-static.json.gz": "6d635e5d5f15ae5de7973e5d81a9c95422a308f591372ef2abb50aacbc9bdaf3",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW14-2022-10-28T1440Z/manifest.json": "180b11b5ec676f1ae5415beeaa8202076d90403519586c16621d588137adb154",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW15-2022-11-03T1404Z/bootstrap-static.json.gz": "70369214ca22dc7df9eced431f7728203f7f765677814ca19b372418f50e792d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW15-2022-11-03T1404Z/manifest.json": "4b21c347f6e30b34ef5faf9500105deef581a37bd6ea4080774a221cdc32cd03",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW16-2022-11-11T2308Z/bootstrap-static.json.gz": "a64f2aba1c51900d6da00bda0fb7b18c5c26a322f41541fd2c5e340bf32c74e5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW16-2022-11-11T2308Z/manifest.json": "e1454528b2bdca2ff73dc01283914525f18cb7614c441a979deca8f9dc5f306c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW17-2022-12-25T1522Z/bootstrap-static.json.gz": "066dca8488caffb2ee0041f4be1200f367583b6bbae5d5e5c4cb2ea15c76eb00",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW17-2022-12-25T1522Z/manifest.json": "f4c0f9aec587301d4518dbe7543fc765f7b271a388dd2e522c8be743a8da1bb1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW18-2022-12-29T2131Z/bootstrap-static.json.gz": "f02cf85d1e53aae4b6864145befbde238bb8d07cb16f30728896a950f7283558",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW18-2022-12-29T2131Z/manifest.json": "f54d33853ddaf57860a6d7340403aae781805c37717fd6198a93d6ad1092dc18",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW19-2023-01-02T0835Z/bootstrap-static.json.gz": "4dc5caf96e7b6ba6aafd6e76f6f15395ec29e29b06239aba30c66176f5b96f84",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW19-2023-01-02T0835Z/manifest.json": "721ef6f93f0872848940bbeb3d1ab010b8f189690798748b33858e72b4e68397",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW20-2023-01-12T2054Z/bootstrap-static.json.gz": "bc139259c2d155b7e82bffa9e2ae93394496ba02a3b97cdf012744a6aa9b409d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW20-2023-01-12T2054Z/manifest.json": "cfa4eabef469f76647318ee19946b8946c85e3e91d32b77fc344497a944028d9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW21-2023-01-21T1013Z/bootstrap-static.json.gz": "126e071015d8cdfa502593fc9c06177c4d7127ec02da83af0b80c5388da8becc",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW21-2023-01-21T1013Z/manifest.json": "dc7644adee4e7109559a21b8c6b01cf12a8422920fbd9527586e3546eefcb4aa",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW22-2023-02-03T1601Z/bootstrap-static.json.gz": "4631234a06051e0dd7e6ed5c8d58cfbf6a518a7b923830977aeb1c313e4fcb5a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW22-2023-02-03T1601Z/manifest.json": "ae2bea364c259b9e0d3e47ef3db874e59145622f55c879c1b69f8613a558f258",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW23-2023-02-11T0800Z/bootstrap-static.json.gz": "907119ed273823efe9806b9c672848df67e22a187b3eeefcdfbbc84dc4cb50d7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW23-2023-02-11T0800Z/manifest.json": "1a6023c3d45d84a1a0058551b99f490f75292587055be0ff538c446bafae4237",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW24-2023-02-18T0800Z/bootstrap-static.json.gz": "a20ebc07f22b654573b0364cf0d1f68475b5ee41a6cc58ad6a297aa174c923f2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW24-2023-02-18T0800Z/manifest.json": "137454c4bb073655e9f67802bc46080b141c9c6d46401ed83db8aa4392c9a1e7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW25-2023-02-24T0003Z/bootstrap-static.json.gz": "4c5b06285969b2a3d73210833e447f7c9d43e47188e62463e7bafce9dcffe63a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW25-2023-02-24T0003Z/manifest.json": "fa1304e53e9a88c3e87e2037becd51b137ac9203a06aa918023a489608d9efa9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW26-2023-03-04T0001Z/bootstrap-static.json.gz": "338225ae76827475851801adb12ac967836c2f2128dd5e0b7000a14fb231a6c4",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW26-2023-03-04T0001Z/manifest.json": "d5997c2238e329eca08d9a1b6f8eead70dc8ad790ae99c851e438bba17027177",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW27-2023-03-11T1021Z/bootstrap-static.json.gz": "791bd8f02c4b0cd9dca331fe4f53208fb4d0aa7a9cf04ea89c773c3d48d11d6f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW27-2023-03-11T1021Z/manifest.json": "78f5c123f2a7aac64a7c54b5f183957af5d0d0c08cb73dbf448e9e0349c736ff",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW28-2023-03-17T1549Z/bootstrap-static.json.gz": "a221908c0348f0b86aeeb038e6d8760cf941a370da910598be7103b940cca874",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW28-2023-03-17T1549Z/manifest.json": "0aefffe60dabaeb57687636b7c79facec7973014e05dcf84a514af56a7b62b97",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW29-2023-04-01T0004Z/bootstrap-static.json.gz": "ac96849b8c122520bb36ba94fc66d153d3e84d6f5beeb0275d354cf574e6d00c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW29-2023-04-01T0004Z/manifest.json": "4e526cc40fbb70a1a23c1792c9bd61cd4a217e7c2ef61d40ec1d47d5b4541d5b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW30-2023-04-08T0700Z/bootstrap-static.json.gz": "5809100297769a705365dd701b40ba7de3989b8129fab2ea87f19835e079dfec",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW30-2023-04-08T0700Z/manifest.json": "afe6ad8021d54658d8ed08c55a6d68212e9cb38e8bbb72c1f0ea31a6534d4188",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW31-2023-04-15T0848Z/bootstrap-static.json.gz": "c2902ca1090e41fb72c23d151e011d30157263ced91a25aa3170616579a2d800",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW31-2023-04-15T0848Z/manifest.json": "840c75362023043935497ba5c690e1fde57653ad06d436536180d1116d5c11f6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW32-2023-04-21T1100Z/bootstrap-static.json.gz": "abd6a5f75dd45ef1fd9668595fbf800c02ad33f13e84ce3864ffebe0f7b13eb5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW32-2023-04-21T1100Z/manifest.json": "8d66fae70de91b8a9285b8cc223f9a0b4afe855c8d26a7b9e7f6929bbef3a9f3",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW33-2023-04-25T0812Z/bootstrap-static.json.gz": "9dc1d62f1dd1a6a51317638ecd05231b34b44a3d601eb2b13862d4f046ed48d0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW33-2023-04-25T0812Z/manifest.json": "86139ca3b2487a71dfc3cc095ce97de5ac642e40b491873102e471b27fed9a35",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW34-2023-04-29T0300Z/bootstrap-static.json.gz": "d43b919462449d52160d9e5f9b15317f0e7f0d51225acf8fdd9dfae9133cd73d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW34-2023-04-29T0300Z/manifest.json": "d1042737cce24c5cfa3a81163035f484e95d1a0dcdf1ec25ba2a992185f5ee14",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW35-2023-05-06T1100Z/bootstrap-static.json.gz": "9f1944a85c2948117e0dff87049730359fa18023467ede26321a1ccc4ec99bbb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW35-2023-05-06T1100Z/manifest.json": "8baadb42b9a78ede5cf041f25b8d23f90c02605993d4cef42842a2d10c6db734",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW36-2023-05-13T0956Z/bootstrap-static.json.gz": "181813fb67e0379273033c67896b8fdc40f4ddea9ab97058e9483279731b1856",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW36-2023-05-13T0956Z/manifest.json": "202754375008c50710623c4d786c74ab8b1dc9a7c243431f9b099ba72bb11e8d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW37-2023-05-20T0300Z/bootstrap-static.json.gz": "d261ca9162ae618d3a993813a0b50acc646f88f609d52c2311340f15a40c9e35",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW37-2023-05-20T0300Z/manifest.json": "effe41a7425a258d4a68cd49bc0d80e6e6dae8a3bcc5095b67bc2eaef9849255",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW38-2023-05-28T1100Z/bootstrap-static.json.gz": "a860911c189b2553388fe50cf5e2d0c1847cff48b38c61d9c9d13867f66aff30",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/GW38-2023-05-28T1100Z/manifest.json": "b10cb71e47a16fdaa0760d412a523f3600e373deea77af59bb3de5e59d7ab48f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2022-23/deadlines.json": "7bdb5a730857eff01f3605cb78b714ab4ef1402c17f9a7b5bbae79433880af44",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW01-2023-08-11T0837Z/bootstrap-static.json.gz": "9c2158c5e958fe563efe4e4427180e061310e79b538ab53dca959c30b667d9b5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW01-2023-08-11T0837Z/manifest.json": "b13f5ac03cfa78746e6aec3bb5ab08d8bf1c3a823dd9b6f5a8266588993aa004",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW02-2023-08-18T1500Z/bootstrap-static.json.gz": "d87f26eaaa19ed9bcc45d97679fb5b62b0cb18f9c7c50cf8b83adf3cb7a64614",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW02-2023-08-18T1500Z/manifest.json": "01a6f7b8e029b0a80357c2ea914ec0be0e44aa065b6f504944a5bac537da1855",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW03-2023-08-25T1500Z/bootstrap-static.json.gz": "5e9521301d0ae66a6c9a48f334604b6b8a42312d1b02f3fb681a3f07b903b863",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW03-2023-08-25T1500Z/manifest.json": "806fce008efd78fdcf8b15850f8059bdac2b5018dbcff9bbf82f22b8e8999e57",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW04-2023-09-01T1500Z/bootstrap-static.json.gz": "c4907ab5dbd8c2e81d93134f599474980b3ec606216be186088d15defc02fef8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW04-2023-09-01T1500Z/manifest.json": "a7a51ae113068d5cf2db077563fb060db01bd4739f9d47523e7625909c5450d6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW05-2023-09-16T0300Z/bootstrap-static.json.gz": "00841e10eec93704a11ed0eb854c4ee8c622abf88aaa628d658eb3083ade64dd",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW05-2023-09-16T0300Z/manifest.json": "0ad029c06285c8b9704cbfe3ae1f08dc3a1d60a20e2c4329d403b4dd69c8f106",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW06-2023-09-23T0300Z/bootstrap-static.json.gz": "a3befa5a08255dfb36f5d1f19af012e40f9fa7738d1e4094d3f166d6df009ab9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW06-2023-09-23T0300Z/manifest.json": "02291214c7323bd5300227fc9dd42d9bddf3bf434ea2343216ddcd8c890c3773",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW07-2023-09-30T0700Z/bootstrap-static.json.gz": "48a9b8dc1bc599adeac4a40958d1d3483fedcfa977062c8e6ee2e9d7055e3c07",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW07-2023-09-30T0700Z/manifest.json": "d861d17d585f1f292cfa9f7ac25e787ce649fac60790dea711a73353f4f972aa",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW08-2023-10-07T0701Z/bootstrap-static.json.gz": "50858e290daf1a5402e6fc2587660a047140d091665a714419aa06a5e3264054",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW08-2023-10-07T0701Z/manifest.json": "50fec874492e33e6bd6b9d6e69b00d64ecc0c03c6d1642e85619c8e33db54535",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW09-2023-10-21T0700Z/bootstrap-static.json.gz": "1f9f1c50fb5a1f9e09ca42996114249df0f76a49d65cd619636ba9ff94707086",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW09-2023-10-21T0700Z/manifest.json": "a95324d3a18320f04226ae235fdfc2110f1d9aa140e5f7abcabfceadb9a5cecb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW10-2023-10-27T0700Z/bootstrap-static.json.gz": "45bb9947a20a9bbcffe89e6e96bf81db28eee98f346437291065cea5349ba2c6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW10-2023-10-27T0700Z/manifest.json": "0e0ac7eca5184b547194796c0f23e7c5ce3bf03dd365d56852ddea5af2a2eefa",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW11-2023-11-04T0000Z/bootstrap-static.json.gz": "2c91683b2e9d376b95f80a09bd8744b89c9b4ee6474f6d8cb918f696b68e87d5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW11-2023-11-04T0000Z/manifest.json": "c14d3b634012a5d8b9075e5da23ffdfd90ef6d70ffad067423ae98ffc7ded538",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW12-2023-11-11T0957Z/bootstrap-static.json.gz": "2ce06e0fc8223d9b9fead5af982a82e2d3e54c17a1a6d24124d40446a032e00e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW12-2023-11-11T0957Z/manifest.json": "79f9ba493d9f57abcfeba397717ff9599c31d91356399ead698b6eb72151861d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW13-2023-11-25T1035Z/bootstrap-static.json.gz": "061a28d50571de56600c3ed258a82d943b99a25e145450dbc1242f792a4e51ac",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW13-2023-11-25T1035Z/manifest.json": "eec8ec6b6a4d952e40e2850786cf50defe2fdcf647b3973b47ec48057837c85a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW14-2023-12-02T0815Z/bootstrap-static.json.gz": "0f1df83f98285157203ba46db0098d201ea03f2f0137ab794c2862e15b432772",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW14-2023-12-02T0815Z/manifest.json": "3646cad689093ac2b318016a2010814bfe046ed5eb1ba863c828e3ca1e5fdd42",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW15-2023-12-05T1200Z/bootstrap-static.json.gz": "f404e79b0f8fc541cd7ff98864e151cc81af2412f05084d28cf3fa940461c533",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW15-2023-12-05T1200Z/manifest.json": "a6ae73c9066745dd46e3d4019ebc93c9832c0adbeaab9ebca42b3407e2ea5ce9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW16-2023-12-09T0800Z/bootstrap-static.json.gz": "4a2d1ec82b9afe689711aea9734e2aa5fcac96e0f36384519de6263669584b86",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW16-2023-12-09T0800Z/manifest.json": "ada8d05fd240a12350af85f84f637da9d0379dc19f0a0292013c4ca786f63ac5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW17-2023-12-15T0800Z/bootstrap-static.json.gz": "478c2f0c9d0b9170cd461d24546de74602bee74e78088f0aeda1216f96eff2d6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW17-2023-12-15T0800Z/manifest.json": "9ea881a750cdcf24e770aa4723418b7abe1fcc904ad25a69c16070ef9afe1b03",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW18-2023-12-21T0800Z/bootstrap-static.json.gz": "63cf2c00e21b25b0ca1b282af14184955843aac4679f0e879a47ec5c23defc02",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW18-2023-12-21T0800Z/manifest.json": "481142c086adfbbc4528817fd31ddcb638bf4a772ca5dcd9e36f2f3788e1160d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW19-2023-12-26T0800Z/bootstrap-static.json.gz": "9a0990352d873ec14fd980ba7b6a650a886178546d8e1e1c5472cbf86f02604d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW19-2023-12-26T0800Z/manifest.json": "1cc8936de2aea0061798b959b9e0af3fa41e9803edda81c6aa1731d8e1c81b26",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW20-2023-12-30T0800Z/bootstrap-static.json.gz": "33c2dbfbc5b3afbb83c6f77cdf59b2146ecec967055cbdfcc509df9fefe92fe6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW20-2023-12-30T0800Z/manifest.json": "25b0ecc46e7e4a8a2645a2d56c63f561dcf3fc6944ef8bd61346a219375346cf",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW21-2024-01-12T1200Z/bootstrap-static.json.gz": "eb49788df3152ed056bde8fd712b5cfe1fd13fa58d7c41b21651ee6119c40dc9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW21-2024-01-12T1200Z/manifest.json": "355ab75a08588345bdbffa8d78238e18e7b3d5f14e6e7bbd37e0fb98a71c18d7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW22-2024-01-30T1200Z/bootstrap-static.json.gz": "584a9fce94ef717b531af35bc74d0e6b8f21d798ca1b1279578cb9475cab5395",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW22-2024-01-30T1200Z/manifest.json": "2b77b7b03615517a10e732d0000dda49f1b050a0387a9730422a86d9d99994fc",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW23-2024-02-03T0000Z/bootstrap-static.json.gz": "53c9743beb3d635ccaa758d1a12d6817e2c5fc228e073cb1f7453a6655863334",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW23-2024-02-03T0000Z/manifest.json": "3f7be80e04172bab97abd6e16f561238ca69ecfa127bb09586b900934de76171",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW24-2024-02-10T0001Z/bootstrap-static.json.gz": "532c073e2463dcdede8883f40a9be34527b45d0b19731d054fc74edccfea342d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW24-2024-02-10T0001Z/manifest.json": "3193221aa7063357a3e38361f50a58e8d2dea8e677775e5751584a97b99cc7b6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW25-2024-02-17T0003Z/bootstrap-static.json.gz": "c9fad709d545ef310b85552314288988c3789fb7a27240062ecc88d9123c44c5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW25-2024-02-17T0003Z/manifest.json": "122b089cc564d13af706ee4907a27cebc13beeae7e0a92d816edd423cf535ca8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW26-2024-02-24T1228Z/bootstrap-static.json.gz": "6458c477282b1ad1f4dcab06fa855dfc08fc44682bce306fc863debec5097f14",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW26-2024-02-24T1228Z/manifest.json": "8c8fac90c0836e9e753dfff1c7618541e96812a811c8a4e1d8df923a9e80cd2e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW27-2024-03-02T0400Z/bootstrap-static.json.gz": "d095c73cb7627c83ee397f2bce440a0af82569d0a97979e90ed50857c3d49721",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW27-2024-03-02T0400Z/manifest.json": "604883c5b587af5535bfd658f9a6fe903dcb0f0d56dd872b01e985afc9c0f325",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW28-2024-03-09T1023Z/bootstrap-static.json.gz": "b46849ee5856d290eb73b21b22bddf916cb45c6e6abed370fbd4e612b7ed28af",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW28-2024-03-09T1023Z/manifest.json": "824c3e58ea163c2fa4180967c7865b4153698cdb7186142d09570da0a8280251",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW29-2024-03-16T0400Z/bootstrap-static.json.gz": "ac7b98078c798834a7666bed085953e27d98c05b1ab4073891e16c7839eab2fc",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW29-2024-03-16T0400Z/manifest.json": "d458d58f76319d3cec5b7277ba110b683bf4d8ee331d49be6e65c293c1bee298",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW30-2024-03-30T1003Z/bootstrap-static.json.gz": "0d4a715cec5d99db8f3b4304f50ac6b87ad052686965d676124b4050ae2baf4d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW30-2024-03-30T1003Z/manifest.json": "9e43bddd65d95bf6562c0de0da2cc69e5ae36a37ff671ac87a896c21ba1e8c04",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW31-2024-04-02T1013Z/bootstrap-static.json.gz": "c23c444a5f3b36e254cd5f8efcd8546c88930ed23f197bb5fb2670402c365532",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW31-2024-04-02T1013Z/manifest.json": "e3d5ce2b1cc4d412662cdcf9d034b20a1ffcc30bdf1f6962292f4668e9fe5b15",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW32-2024-04-06T0000Z/bootstrap-static.json.gz": "598fdfcd78ec99c08cfb1db400b7f689146f0a4a661cb933aa289264029c7ea9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW32-2024-04-06T0000Z/manifest.json": "5c441ac9893e925026b83b6a56e630d0817170e81b6642a5cdbc537c4dac9a22",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW33-2024-04-13T0302Z/bootstrap-static.json.gz": "a20eabd0917509c1a89892e74975a9a371a149862df21573f7d25a19a5e8ce98",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW33-2024-04-13T0302Z/manifest.json": "a4945170fced9e1ff550cefd5ee984dca694968da1f5fb2624f6358904a39654",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW34-2024-04-20T0700Z/bootstrap-static.json.gz": "6dd843a88647961301b7a3246754be931576adfbc583582025e3fa12c112641e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW34-2024-04-20T0700Z/manifest.json": "17abd13e33733663a9275b22b2dbd6239421c81bb0d044588ff4d4208b0ee2ec",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW35-2024-04-26T1912Z/bootstrap-static.json.gz": "cf3b8fc7d24d1652e6bd427aa15b9c0a1f1e6f6048d6202611165b1248d4d9c1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW35-2024-04-26T1912Z/manifest.json": "b972707fefb175dfebc05d7d54dec96286c1690ea5bd5d72f347bf7b45c284af",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW36-2024-05-03T0700Z/bootstrap-static.json.gz": "a4950a185f59d75b3057ac2f3d1788fbc9e83d7910b7f94e0d4562803f9637ce",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW36-2024-05-03T0700Z/manifest.json": "05d874c252d04045939ff3fad703a992958b37c16a0dd933bcfca48c2e24c730",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW37-2024-05-11T0000Z/bootstrap-static.json.gz": "c0911a11f9eabb9d3a6d5acf575f3d8c8cad4db33849f0a2a026c0316309bcd1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW37-2024-05-11T0000Z/manifest.json": "5b1777c651439eafc244b55227936fdbe631a75d5d566867423bb68e59c0340c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW38-2024-05-19T1100Z/bootstrap-static.json.gz": "77f341571c869ff2a2280027b2f345fb48981f6ddfea69b79c9e9afd1f743070",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/GW38-2024-05-19T1100Z/manifest.json": "c95ef53e5a58c7aeec54a370a9247085a438c9a8bdef5a52fb6767bf315dbeae",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2023-24/deadlines.json": "0b5485df8bcd5255ddd1d705902d78dd5be1b64a31d465ffd09f1e3d3737508a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW01-2024-08-16T1233Z/bootstrap-static.json.gz": "fb4f2712a0c7c09edc3c4f13a95692b075f119b8957e8318f9b4144f75790d77",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW01-2024-08-16T1233Z/manifest.json": "91a302873e558b1598da3c1a250c64d7d8dbeb617b12dbf8bf33887107ea4ee1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW02-2024-08-24T0000Z/bootstrap-static.json.gz": "d31143d1ceab4669cc9e09c1cb9b2abbc6a590e5a3637861160244acd4639f22",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW02-2024-08-24T0000Z/manifest.json": "76274d2b59c36ae1155e62e34fb7d827ab366645f92972bc9d908a9db9219fe4",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW03-2024-08-31T0000Z/bootstrap-static.json.gz": "c66116be4dc0407712aba1c4779ac44c3a99ad0cab8eca49d8a14fe505597960",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW03-2024-08-31T0000Z/manifest.json": "50a0d72b2b4fc24b032821cb538719b1e91a8a02aaf8143c1dcfdaaae5c8389e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW04-2024-09-13T2113Z/bootstrap-static.json.gz": "349c8c3a0e9e7eadebe722c26f26c79f25db1bbdebe164c31139464e04eab93d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW04-2024-09-13T2113Z/manifest.json": "e1ec418aab8bdb1b6c71dca2b638a3a6eddc39b4473fa7a8cf619481fd4a21bb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW05-2024-09-21T0300Z/bootstrap-static.json.gz": "92043185feb13241ff28bb44431fa7990c6b9bb947f299c86c90bb30f69f0d2a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW05-2024-09-21T0300Z/manifest.json": "ae37689d9ad388955c0cdace19a0638510d7b74d0f6663f5b1b1133122b9b059",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW06-2024-09-28T0000Z/bootstrap-static.json.gz": "5dbcc8f518cfd472b776868c6bd29e310399aaf7bedd54a405d159e82bd85dc9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW06-2024-09-28T0000Z/manifest.json": "4370b2bb90d6674b771ca2bf89139ff064e0fe633991c606485659617eda3fc5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW07-2024-10-05T0000Z/bootstrap-static.json.gz": "f9caec870613e55c331846da6fc442f5d1406f1d962dd561973faa88ed6ce166",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW07-2024-10-05T0000Z/manifest.json": "ef3bb64945504b930f5b0edac66b584bd63da94d0609a448b51925ac139924c5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW08-2024-10-10T0009Z/bootstrap-static.json.gz": "5919019140ca955db50b6c981f9ef3f0075554b5eea5a098e5f4f2eec85f1b5d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW08-2024-10-10T0009Z/manifest.json": "66afa2a99b7512720a97f70fcfd7e3ca04cd60c5d0145a8db2ffb43ae712a560",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW09-2024-10-10T0009Z/bootstrap-static.json.gz": "5919019140ca955db50b6c981f9ef3f0075554b5eea5a098e5f4f2eec85f1b5d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW09-2024-10-10T0009Z/manifest.json": "b260fe068d8b14f89bf591d28a8b4af94eaf9328815b9bd86ea0319c74a20a41",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW10-2024-10-10T0009Z/bootstrap-static.json.gz": "5919019140ca955db50b6c981f9ef3f0075554b5eea5a098e5f4f2eec85f1b5d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW10-2024-10-10T0009Z/manifest.json": "47833aef34fdc2b6bb4011ce1d332b6337e062879d76872f2451c6ea84787618",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW11-2024-11-09T1013Z/bootstrap-static.json.gz": "30522ea2b33322aac3f95e046069dfadd14b1ec3c6681f41c36c1503ae602bf0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW11-2024-11-09T1013Z/manifest.json": "9df2291eb1fab625c01ec8ae0ec420e0f9e4fbfb929632d5160b97910ca13c89",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW12-2024-11-22T2317Z/bootstrap-static.json.gz": "bc5365725e19b13313d9a9d53514dcfd8486dc3300143f0935c84a65e3d380da",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW12-2024-11-22T2317Z/manifest.json": "3f5f3198825b9f75b76bea8fc6556f4b74b3ed67c023df126886b25063a8ab67",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW13-2024-11-29T1200Z/bootstrap-static.json.gz": "071f20b04b22b967817333f13b9da161da6e834521ad5e9a45bec971963238df",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW13-2024-11-29T1200Z/manifest.json": "442d0cbd4b8119bb05c9fda74f75c0b73004c3111e697cd2cd6d30ec108112d9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW14-2024-12-03T1200Z/bootstrap-static.json.gz": "c36a5c54a3a265c2a56dce8aee152d19ca1783a03ad639b3ccb7dae4592aa5cf",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW14-2024-12-03T1200Z/manifest.json": "85fa340f2a65d336b3d9c3e918ee14e63aaa39cfbcab5473a66ad9dcef41defd",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW15-2024-12-07T0000Z/bootstrap-static.json.gz": "abc8be2db9f4a12136e55bef9e7aa1ee1ebec02284fd44c27e2c95c23dc67f50",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW15-2024-12-07T0000Z/manifest.json": "11815c6f1f2983fef494da6678788e4dad0e705e54c4a4d0e3ddb063208a67cd",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW16-2024-12-14T1200Z/bootstrap-static.json.gz": "51ed560025ad792ab723a6799b042e97f0bfe920560670fe698727407d9e597d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW16-2024-12-14T1200Z/manifest.json": "9cbe5c86abab273ba947175bc486a9a9e5adcee600a11512160dfeb4dec5438e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW17-2024-12-21T1047Z/bootstrap-static.json.gz": "ff64bb871e0034585b30e6c4a8a22291279e137bebc007787a7577b6bab9386e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW17-2024-12-21T1047Z/manifest.json": "467f6d47dabd2d4cd311cdf86f7875fcb326e2f3ca137800b9fc5e1184ede7b0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW18-2024-12-26T1040Z/bootstrap-static.json.gz": "5ad878e1d755878c9943c7b91a13c8ba1c9af221fa9b84598d5c24ed6420f68e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW18-2024-12-26T1040Z/manifest.json": "e1f96c3528abce383591cbe59324912a619fcd3c02dd899d0ef2a19ca399ebb7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW19-2024-12-29T1200Z/bootstrap-static.json.gz": "992a98beae128f47f0c0f2ab1309498046e89a01096cd0c9ce5524346f72b5df",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW19-2024-12-29T1200Z/manifest.json": "9ed71b3efce5fa650f0f615210d518e288010a4bbe4397803784cdc4d8f882a1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW20-2025-01-04T0955Z/bootstrap-static.json.gz": "64c9d2c7cef9477986487644fbd66730ae1344da39490bb47e95f955a4ab4393",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW20-2025-01-04T0955Z/manifest.json": "07f56115725f4ac20a8e38130e41609e3b9e710cc419a7f8be3b5cfea171b138",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW21-2025-01-14T1200Z/bootstrap-static.json.gz": "b06a99c53afab17d63700f3b80eb68bce1e47781976420d88047d5f6f67976eb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW21-2025-01-14T1200Z/manifest.json": "6b5217ced4040480008731cdaef8e648e106234a3e6592041a144516fa02b32b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW22-2025-01-18T0800Z/bootstrap-static.json.gz": "723183b65903dea7b61ec2a54d3fbc75907486ec59c7791a1aa0d12dc114e5f4",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW22-2025-01-18T0800Z/manifest.json": "9afee380e4d611570ab4c418f8caedd34468ad4543c2d9e424570709c7ce01ec",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW23-2025-01-25T0800Z/bootstrap-static.json.gz": "b1a6ebd2b28635bfb742df446da127689a23b2faf42d90628285925b2db45db5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW23-2025-01-25T0800Z/manifest.json": "fa02121b531d28d62bf85d986efe98a5fdec59797405d523f7899d684b742335",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW24-2025-02-01T1059Z/bootstrap-static.json.gz": "7338daffb6fddcf6cd4ad43cd318823775b0920aa32c01e597e4476ace8702b2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW24-2025-02-01T1059Z/manifest.json": "b34f370390e6115b8cdd4e3fd59ab7d69c3b35901de8f884760179e223407c3f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW25-2025-02-14T1804Z/bootstrap-static.json.gz": "f0fc4d33c2f2c3c3dd36ee1f52f37ba83a7befcae27faa9cc0e51859e5a23605",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW25-2025-02-14T1804Z/manifest.json": "26a5713abecd398fe2281cc7eb7b2ab371c8d54f9a44fb2463f3457cf8397c18",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW26-2025-02-21T1703Z/bootstrap-static.json.gz": "1b502b4be7205b5e19d56aeff890df7e7e000705068461529ecabfdb4c6baee7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW26-2025-02-21T1703Z/manifest.json": "f7b9437acbc4bcecfed40aeadd18e8c0259b6bea9cca600456d4cb932d1b846e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW27-2025-02-25T1756Z/bootstrap-static.json.gz": "09c3291af3c6ee2e06d06b600c33935a1c42019e77dd2dc4272073550d6dee3a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW27-2025-02-25T1756Z/manifest.json": "94cec7b8ccb0ae5f71b00efb32186473296ce55c072210c5a0c18f6512a02513",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW28-2025-03-08T1001Z/bootstrap-static.json.gz": "f22f42a85e960721416a848393e87c09ab0e778909f034df92129c6fd2a56614",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW28-2025-03-08T1001Z/manifest.json": "b86892ca24aeacb8d4c76bc25bedd7c345dfbafd521b241ecb38632a141d5fcf",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW29-2025-03-15T0800Z/bootstrap-static.json.gz": "f999162bf449db04a0aece7f5602de636154f9439e5f7bdb9020187e952acc30",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW29-2025-03-15T0800Z/manifest.json": "42bb415cb3aefca240fd2b41ab17e79a79d067ac8cbbc091348fe95a78ff2906",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW30-2025-04-01T1022Z/bootstrap-static.json.gz": "4a9f81dab42dbeb11ecf3d5b4f4bb2c9986901e3859fa5b1e26c7dd578ce5896",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW30-2025-04-01T1022Z/manifest.json": "3ce58b334a558f0fe53a63dfca1c230752bc9897c809dde6ffb07adc4a9e3887",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW31-2025-04-05T0000Z/bootstrap-static.json.gz": "a6ed80e5f185d0bcb6dd08713c1d06118ca6764d3d6470797d36712202c18660",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/GW31-2025-04-05T0000Z/manifest.json": "cd0732c4f8aec05b400417815bd09323bdedee15ff650af1c587cd30b7a1268b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/armband/data/captures/2024-25/deadlines.json": "bc7197def7ff23b94d9d83953ac79ddf77e85cca59a65ee9fdcdc94fb899588a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20200911012542.payload": "1067de41e480ab64af95b7a0c552e7fbb50cd038b6e438dfc23bef68465fdfb3",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20200916120431.payload": "b516c8e84c07eb00a3b2bd2843e78b395fcc1683511f8ccc628ee5c77c51cfeb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201002173241.payload": "1930136382ca1ac75b572194c829a5bdd8f068418b90ba6f5c5c1e4bb26c73dd",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201008075446.payload": "de8b66884851e5e6a886c4980b6048ee879b9e0c87a4056702cc075efc750745",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201017122012.payload": "1f991a35df9f25180162b4068e8dbfe51a9b970572a420cf002a2f5b2feb4fd9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201106102927.payload": "57062e73f53fd9db605dabf90c01860a7607e942881dafb19bfd07924d04be4b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201121101334.payload": "3e61b130e7d832a87e338225becb2ac0abd87e0cec276df23d65d2859e67586f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201127114801.payload": "06dbc2870fac123dd9e5787828006efef027f18a93066c834530efcb47867621",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201205102119.payload": "d9bfe264bf677eba3aea53187152949003fd5d3d38a968f4ae85bbd503779295",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201210163431.payload": "856ab88c1a83498538b68c677d28d57360ab252447762699b3612be7443897e5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201215145647.payload": "d1160bd4f0781526802da203e9276c2b90a823e0861e8e0e4d8cd7193d407d76",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201219101134.payload": "bb8f4997537fc0d595567d0fe585c03f80efc5a4428f3ed871a1dd2af8261098",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201226102648.payload": "d7281ea6a622638f14c6462faa82df1d586a7649da5b26b43a14f2ddfeb681c7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201228124100.payload": "7c6cd8686dbbf1278d91f92fa269d8db9baf6fc43d1c6991182e7fedad066b19",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20201231191338.payload": "688976fa16f8e7dc7f0d8ecccc1a982034a4d6987ce8d9857144b0d81f36fffe",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210111223935.payload": "5bb469c874b72b4453aa32e5c3f75018117a69b4be294770106efedd63a67f85",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210116095954.payload": "ea98f5702b80289d76a32719aeafcc740f815dcc9105b38c161f558fc90c4b77",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210423163230.payload": "e3940a87019ce076c205bbf628a9621bb05f5337424abd13b973bb7d86a4a6b2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210428082951.payload": "b4818e9e546c94a747ab614f2fdc8682fb665967b45e9e2627cfaa2a5107e334",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210507092308.payload": "635325063e5266fac85e42e81745111238a03d6d79b447f8abdc036d6698d706",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210513232536.payload": "6a2478ce99b40b24931b4f96e16601c576875141db6c65e5a60bf1bc9fe23a58",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210518090820.payload": "867b12eea91ca6784b33bfb609b650fd2469e20d0f30350e346aeb84022afbf3",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210523090202.payload": "7b9cad2a6d4d18ad0de2fb96ffd3485f0018674b0bbb4a5c72b527fcc1e4a584",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210813095256.payload": "484b55274134d8441a04183e5e5d59cb2018b9084b9828d69c85fe1c33dcf12e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210821091734.payload": "dc7da21f827053b9ba7ed56193df81425280f682d9c699566570218daaa33ee9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210828090008.payload": "6a76524f44f9e034e5ae475735e9e5ea8d6cfbcb1b913bc673a054f1ad634854",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210911073343.payload": "c07105df8e9245118b054acb65806cdee9c4326cc8d2d8b17f98f3ddb9027fcb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210916183005.payload": "764754e648116bf9b3580fbb00193a969a26fb5f2a7ea9fa054a6e9e1125ad7c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210923183042.payload": "99667dbc38e5a32508fdc0ba1f0251f166b98eff78471f737dc89c79c0735977",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20210930190056.payload": "5e32f1a8c4340ea23fd72385fef46e91585eaa6dabf40bfcb46f743f933cdeaa",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20211016080900.payload": "c8e97cddf22da8ed16ddb5e4c3446a165727e98c957c328e77178a3261d9aaac",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20211019081936.payload": "5e96dd5acede8b0ab0b6686d6aec62c15f9811264726627e6d5ed959cd3d3ce3",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20211027084505.payload": "291dfe508b9c2fae391eb1bc9ff96940e495764d36314532c5cbc8aa4d51a4fe",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20211105095631.payload": "f25f3f5a62fa8f4bddaed6342e69c78ed7c33000252b2f2ca878b097823a3f1a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20211120093459.payload": "08c58c8d4da059983d593dcc21bced8ff7b3bac7f2f3aa8c77c2713175eac16d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20211127102607.payload": "580e206ee1b8ab319d03057785eee3243c10c55ea6d0e7726a969708ac31ec4c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20211130093959.payload": "f39560e5142b9a70fb418c449ec0c2a84ad683b24397f96267f7243d80795801",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220211100551.payload": "1f0ed8fd77330d2cb9070e7ee3a88a0836990cfe4abd3c2309451d5502c725af",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220225100121.payload": "0ffd7ece1cb17651b846a6ac0158e8b945dcfc4801ea8b733b9dcede5688a2d9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220303100906.payload": "635f050cebf66c8ec9cc5906a56962e2efc984a2eb4bfa63e5ef3a96d8a5a95b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220312095347.payload": "d52e21fe2e3328073749ba9ac7db3f2680b19ae1a79385268657588ab8e2aaa8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220318094944.payload": "8916c91c551942228b9dd88a957ac1b7a14d2eb89631166c05c659836b91e60b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220402093927.payload": "3f902e9f7c7dfc6951033aa93b94e774ec366908afd43776dcd807c0252dafd8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220408141224.payload": "0099a1d184a83a26c20288141646fff1138ab2daea65d32f96731db9917a5bc4",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220415163328.payload": "9f4b9b091393db2e581e3791afc85a6a22aff110c4a0ef35101e58a7c9c00b4e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220423080405.payload": "8a576ac0f2d5b21485dce3ecd8542f0a386d9ffa785e1c03586187cfad63cba6",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220429090445.payload": "276cd6752979c1d78208dd92149679c87b76830a6555ad778449313ca71b59bb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220506104611.payload": "ebfcda1a205e499dbc68b34ba3648aa95b7cfd66b5f55c39b05d35e8a8d9648b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220515033730.payload": "73f7602ff3569e85f943c0ef8cdd50210608a0b2909419c82e745765e9b1b74a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220522005824.payload": "e3825b3f63ba3c60426bd986f8155b0c1b90c9609716cde1521205e1d24223b5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220811205244.payload": "c3d5d3baae68f25d67ddca6ab0de79895afc9f2ffc2c8a599e32cb505ebe874a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220820084647.payload": "77ad38234586055446c8e3beaa6391335107526ce6a1ced261fd7cd74ecb3fd8",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220827084820.payload": "4dcd9584fb897dfbf1b2bcff1ecf5174d94767c070708758da621d58fc2e6762",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220829213000.payload": "41426cedffca7fc0039982496b70ed0d682117a7adae3aa62f5de33ced6cea00",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220903093215.payload": "81504b5d9644430a825864700adec41da521cea929e5917307b9e7ac26330814",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220909084709.payload": "65879926a1b2c4bbc418cc365a3b35aa4e8fdb7c4eeaaca8ecb468dda6df8b5d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20220916075151.payload": "4bd80d67db6b225b2a6a505bb2d6a2a81f8e777dd0feed98493688d656b08a29",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20221229213131.payload": "a01afe59a817deaca86ae84efcdf492ed9db3bf36ae3683ef011eb17c9fb4d3e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230112205411.payload": "696d246ad6665b3455faaf48430155d92e4404ecab2d0c005f7ca43e6ee6a79f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230203160119.payload": "43eedf3d9f23fae05357c1071e3c5283b39e2faee632a7704de715b707c1ffac",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230211080005.payload": "0d43a7f33a72454a15f009beb66505f720f63c8424625e786224b714cfccb4a9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230218080008.payload": "c4c216a44bb97bb9de44352a0d4e4523077f976310579e08d883f4bc0433c62a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230224000333.payload": "881a65720b720408998b74064ac13f2568378473450d6c745b1195c412492e61",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230304000154.payload": "5a6a9afc4d2b3ad13110278eeb4ef2c12b680b5af0deeaffa59b61f3c51b7f54",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230311102159.payload": "932f0c76f4ccc8155dae4c0462890c7cc8754d5b9c512d230b0cfaac4fbc00b7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230317154956.payload": "3b7b60e461fc50c14cdd350b629ce1414ee3f564b44ba6fa9a0ea29e3a6077cc",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230401000438.payload": "0773ae2de11dfba37dc246f4cf005fa7d68b9a551b218d78b8c22ec1341b5ed7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230408070007.payload": "9e9fb0785a7ea9a9dbd2dff81bdea098f8e36b51076eb324910b0f52d95a2c36",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230415084823.payload": "9fda8b43145cad24828f99de22263801086adb828121efb4bb3b89e7ec161a27",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230421110040.payload": "c27576f8d668f36a346d70a1cb473ae48ef2dde05e52ee62a4492200f6503fdb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230425081247.payload": "81efaa2344caf251cd438398bf6d6405d8beed42844d961b89fba7426f031850",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230429030018.payload": "13e2d77955d4e98999f0b9b0ce125786955434cce931632e4b89f179297f40e9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230506110043.payload": "eb5b6ad1aed95bed86704e75edff8b19af843e64edfb447f40fe0275526e4807",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230513095609.payload": "3953449cd622d62b744e587c7e434332b35bfa31611fddb6b27301fd2b65723e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230520030005.payload": "d168ba8f329d87e3a4edc40848295b30f5fdbe64605e7138ad63fea296e9fbb1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230528110006.payload": "6d310f92cc42bfccd748871c802ac8d7baf64754a9a7d9c15c00ad44684fb0ea",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230811083723.payload": "f72393eb70914e72ae037b423107c33fc30ccf395341f187292e60527950a274",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230818150010.payload": "55fd14a2622521902d8f02ead29639bfbb81c064cf47c6080c8a812d299aa687",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230825150033.payload": "55f55f8582049e2203c40dbccde907fbd1662866ca573373cb3a0e43d7475a23",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230901150008.payload": "933e023f3ec561f920669ff7397d82df2a5640f9069bc7b11dfdeed58b2c1608",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230916030006.payload": "d06525c61ad6871d63c7020524380cf9cc825723e0a3b0d2d284bb1788d697a0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230923030007.payload": "f6f78ca9ec3a7cfcfe8c35c6b8f6c7f23ede5241475cf23ae3578efa81593adc",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20230930070005.payload": "c35773e1dce8ae81f5dabfdf5a005ad65ba6e9695bac8e51dc5fdeb3002c2089",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20231007070103.payload": "43df668fbf687c834ebbbee3491972beb49618c88f20e5047d8b13408e61ae5f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20231021070008.payload": "920f4be9906d44830e34796c3270ad8f1b33e2da506875536591d2d6fc15de1e",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20231027070006.payload": "c287bc47b4641ff94bf7fdd5394fd7aa42c6ed64bc674201324134289e81b579",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20231104000019.payload": "5cf6a72fdbfcd7465f2b3839f47d5186034bf1050637581e303e2e97a71cddb2",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20231111095709.payload": "77df7507af617cc769f654f0ef4cfb5578ef3f702af481edcc0238c31f0fe481",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20231125103547.payload": "95182e2bd85b5302381baccb04693e2643204e05d844e9c8c3a5134f249dae85",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20231202081544.payload": "13eff83043b4f56a6a06ab771678b83caa0783bc6a8ea1e0e541ed0fc972af6f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20231221080006.payload": "97eedea2a56257782504f7dad5f240d96efe8d2ddabcf45641e1fb2c7ba60943",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20231230080008.payload": "1c5214050f73c0003a9071548e77389c3ff7dc0c4eea5f821f573ac4c984d243",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240112120015.payload": "9217252aa9fb93aef086e8a2b758fc50744756afc6569be431e8ce4159c7cf49",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240130120005.payload": "61cb884f4c01d2643af967823bbf0211733dfed0018be291c8797086f9618dee",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240203000002.payload": "1e17de9c7a97f879369e6802f45b70560c44494beb5bbb7353d92843df1675e9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240210000144.payload": "d20387c1524f844a7dd564730cb97984e26e90ddc0a81ffbea223f0de6cfa6e7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240217000332.payload": "2cb003e71fc842690d67166ae2bc3189ac67b2ba2494b91633a8b8fb6fbcdeb3",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240224122834.payload": "a57c4b69f32d151333ed9de898702138c6a7c6915ddef99484c9db095302295a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240302040006.payload": "931937b6cec606ed71e38815383fcdbaf169b1139e9e507304e9b33ab0dd0aa1",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240309102320.payload": "a462663f293f527a1bd2ceb81bbf286aba2636636b15bb21dc9ade412d272f12",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240316040006.payload": "6020554dfa792c16ee19754491d596820f823586d6d8377d049ecf5181e67f39",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240330100312.payload": "0e37e5b9c560657d5e7daa011f867c6a2b511cc4a107cdd0a51b11d8c740133c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240402101340.payload": "f275d95a0109db4bfb6a7eb2dcef260f783ce11714afb09802301abe69530804",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240406000016.payload": "8df240b16dc4c2aee1b4e0b6e7271d4948e8512f7c6eab3ee7a32a01ad3c7fcf",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240413030237.payload": "21e94d9739d63e8c488792aeefc78448b9b52a441bbf69f21efd3206b070c1f5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240420070006.payload": "e79d241470f31a7672e7c9a185f26375c991223963805bc2935a093d02a02667",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240426191210.payload": "e3aafacf037167864effc6f74c5907e1233d94ecd3c7f6d36d464865a31d3e6f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240503070032.payload": "7b2cc4327ed463dbddb542114bdee69e997954f675b177a46be71aa5f197edcc",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240511000020.payload": "52c74ca52ab923a013ce8211b6ede7ae273e60e704aeb4524cf376e8c70893e0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240519110009.payload": "a04cdd1fc30c19a4ecd9431c72750655c6eef9d1382015474fd0f8b97c78ac02",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240816123317.payload": "f57885541a75c39cfeff0c8a643f5c6c08ee326bc7e0bd34a9e2b7ca929cd5b5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240824000017.payload": "9bab3ad7d07724532347325dd6e46b798cd723636a3c968df738bc36c56865d5",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240831000004.payload": "94553aaa305b5d0d1f3ec0affcfa59e466f41a80a4e753ff3445f8d32b55222a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240913211305.payload": "0f634618c3aa1ee0954c451665c8e068a31603789d6c416bdb5286878243054f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240921030036.payload": "b891fae4a0e3b1d4db4dda989740f93de7d63835794b4668109ac147c0ce0914",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20240928000000.payload": "38cb80e32e644d77daa44f7761141c398b51b8b429f08ca3f03a61795384de2b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241005000011.payload": "939b1da5072584ff2ff83f1e5cca6bf74eb721e8c2ad69ac2a56a0562748978f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241010000904.payload": "3fa6c8f928581d24c4c4c787f6a5d0822fcdeb8ce0c1f372e04b16d3424f810f",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241109101324.payload": "94fb9eb937a64f0ff5d3fc6b2c02a1bda3285ed6cb4d6d473f231edd1eff137d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241122231742.payload": "42cb679e59da374abf6267d140a4ad22adebe9a95ee7100193b4a5cc96b719d0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241129120018.payload": "034aa2015d3251360650983032fc9e15b881a73e20961fb6898eb260b61b6072",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241203120019.payload": "67449a2af017bb1af162b8bca711007ee6dd9fa42fd952eddc6adfa3cc81099c",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241207000016.payload": "659fcf6951cb4b38e21f27017e455be335cb96b7559ce0d0afa263fc4720cb1b",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241214120015.payload": "1e80d583bb9809ba626efb149ea4a7277a70c444aca376659e4646542c4b7c05",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241221104752.payload": "8668927225244452a423351467253cdb9837d9cc80ac2de947c75eba09e88545",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241226104009.payload": "2684e766725e4255b9ddeeedd64f9af891dff6e0740b2272d9df07230d5811eb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20241229120011.payload": "f9d2f40384e5d8f38799f3afba47531d1199a3783ee2f524c6c47a8170647106",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250104095512.payload": "7dc0da2624d19070029ad6c0a903e817503fbffc270381dd3f9ea384972eafc4",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250114120012.payload": "d923ead592ef3d2e3f73ed3f8d92ac2640f46a2a81b15df3891e8f41b81863e9",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250118080006.payload": "7448c18395505b77c290296051d22b8a8241b65558d583977ab73785864904ac",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250125080010.payload": "60217f3d95df538f898337d3c0507886bf4258bbe94a9fa385cf77592fdb8fa0",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250201105909.payload": "68e5c4cacaf5d95570866fc3a73ae945c7ae6a4dbcb37830c3b152ae24149125",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250214180458.payload": "54062bdf9590b570f0a8f9a8c29dd2a62981d2cf6a8a88d6e0e5fda3a083d23d",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250221170347.payload": "d3856a7dab553ee594af37251f8da8e747b4bc43f2761e901eaac9c1ee252141",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250225175658.payload": "5409fb72b85aeabc24c1944fce13b008d316661936b113a539b4e34f94dbbdb7",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250308100109.payload": "f5f6ac5b2c5dcefc4407245770d2272cd17b0aa1dd4bcd49f25efd00725481eb",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250315080040.payload": "024f004a62ca9525ed996f5e33a3afbf50d7681025b0e3b87bb7c0367322b039",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250401102259.payload": "d4b0b8a1d698442108f2593574cda36397e2e875811797e84b62070728c1706a",
+    "experiments/deadline_snapshot_audit_2026-10-03/captures/wayback/20250405000018.payload": "7b1f414f0c32f88a0be9a40adfd7175a7ac83bb552ae83bae850e89ebf9a30f7",
+    "experiments/deadline_snapshot_audit_2026-10-03/discovery_download_manifest.json": "ae2c28b0768dc68574d6d25f4f918480865e5a542e266f3bd0e10916ad20c31b",
+    "experiments/deadline_snapshot_audit_2026-10-03/discovery_wayback_verification.json": "f15dc5465e3c52a964bec49597391dd3d6ebf3808471e94687226623c0e42720",
+    "experiments/deadline_snapshot_audit_2026-10-03/download_manifest.json": "21c052a93206fccbf489e9fa4b87ffc2b166ea57abd77cef2cfc9927cc2d4491",
+    "experiments/deadline_snapshot_audit_2026-10-03/inventory/discovery_wayback_index.json": "18ada74acb437ec15b40a62896d0a403508038155b72dc1aa5f764f2a7237fd7",
+    "experiments/deadline_snapshot_audit_2026-10-03/inventory/wayback_index.json": "47b716ea0638df7e77a306726d4a1f87529b3d55f7a4efcc4931af2b75e77f35",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/README.md": "c122f57e04aab07c61fb1105c2b753d232a7b579ffbd4867f4e54daa86bfce3b",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/docs/backfill.md": "19341dbf71c2ff06e70bcb989c3879a6729cc1154f6841ed85302ee2d9d8dc55",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/backfill/backfill.go": "b1e980f657954bf017cc352a02cadbab6fda2579c2a3fc9d75576a19ba658ac2",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/backfill/backfill_test.go": "8ff5052fab6605643aff674300ac2925027bccce08d0ac8cc1b187ebcdb4a642",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/backfill/isolation_test.go": "e12bd5cb3b49fe6ef42ba8bb4be3507c583876320826967dd1b4f092a12d0616",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/backfill/resolve_test.go": "f4481e6f4f66571945981e2a5ea77d76e115cb8d4cf82f1522b307847fd5fe9f",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/backfill/run.go": "360a208b2393dfb7595de5c06f271bcd60bc8937830a4d55f02f67356b2d2427",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/capture/analysisfixture_test.go": "bdcfa55e5ed76dfd67838d1b33752f3e54f64734fc42affb78f972a6298709d5",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/capture/backfilled.go": "ab7c1d43112bbf9fb519c22c90b49932783baabc9779e3f381ac5ff7c39498c9",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/capture/backfilled_test.go": "6fe8f5c781fdaf1da0ab991893ffb74facbc671e830f0a9466fe13ca68c248c1",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/capture/capture.go": "c17196b20818d07e7f4f559c611d847ebfde57f0cc9ff9f246739248c18792e9",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/capture/capture_test.go": "22a568eb35ca31a2025237df86f9f23250aed427ac2803bed1f00dbff839d3b6",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/capture/honesty_test.go": "38f34768e7397185b8aa6a6d5e901e337689e69466dad96172b93b5e3a69694c",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/capture/replay.go": "780465d52f215555564f01c4a18c8c2b025065e9c2dff3f2477c6534a5f4ef7e",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/capture/replay_test.go": "11da5db40ca6dbd38930b2ed806a34c0199a0c7be43bda743aaeda70388d63fc",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/capture/store.go": "633a74584377156a6bb9512a8c8853d37b58f1ad81e348a4d6a22f97e7f4da19",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/wayback/wayback.go": "cef10c9813bbfaa0fd8696cd923742a70f0706a94758bd55981a94e280999d58",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/armband/internal/wayback/wayback_test.go": "290ed2aed3f9505d89ff7092503651bf07f1ff6edd95c1ef77deef8f66acc453",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/fplcache/.github/workflows/cache.yml": "b171430c5db44988022fa92ad24dcf205f3d2264b1accb41db723aec032c709e",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/fplcache/LICENSE": "6b0382b16279f26ff69014300541967a356a666eb0b91b422f6862f6b7dad17e",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/fplcache/README.md": "5b264c24ac093761b9d56f8ef93e7c3b2f38e0f587fcadd1bdd84f3a87040076",
+    "experiments/deadline_snapshot_audit_2026-10-03/source_documents/fplcache/cache.py": "465d027a4eb87eb0d821ac8f4428340dc3550ad8434cb61cc4e1d8ea381c10dc",
+    "experiments/deadline_snapshot_audit_2026-10-03/wayback_verification.json": "bd0bed84935ddc689582eafcd8e7b5573c76166f718b7591122f0f6f16f12af0",
+    "fpl/data/frozen_research_dataset_gw231.json": "b5da31cd34c286751c88326b19705cf26668885201505db4a038b32fd144cfce"
+  },
+  "max_age_hours": 24.0,
+  "origins": [
+    {
+      "origin": 1,
+      "reason": "capture age 32.5717h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 2,
+      "reason": "capture age 69.9247h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 3,
+      "reason": "capture age 237.925h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 16.455277777777777,
+      "excluded_managers": 0,
+      "origin": 4,
+      "players": 558,
+      "status": "admitted"
+    },
+    {
+      "origin": 5,
+      "reason": "capture age 218.087h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 6,
+      "reason": "capture age 149.163h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 7,
+      "reason": "capture age 318.163h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 5.509166666666666,
+      "excluded_managers": 0,
+      "origin": 8,
+      "players": 597,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.7738888888888888,
+      "excluded_managers": 0,
+      "origin": 9,
+      "players": 600,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.699722222222222,
+      "excluded_managers": 0,
+      "origin": 10,
+      "players": 601,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.6447222222222222,
+      "excluded_managers": 0,
+      "origin": 11,
+      "players": 603,
+      "status": "admitted"
+    },
+    {
+      "origin": 12,
+      "reason": "capture age 25.9247h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 1.553611111111111,
+      "excluded_managers": 0,
+      "origin": 13,
+      "players": 607,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.8072222222222222,
+      "excluded_managers": 0,
+      "origin": 14,
+      "players": 607,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.5533333333333333,
+      "excluded_managers": 0,
+      "origin": 15,
+      "players": 611,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.8166666666666667,
+      "excluded_managers": 0,
+      "origin": 16,
+      "players": 614,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 20.772777777777776,
+      "excluded_managers": 0,
+      "origin": 17,
+      "players": 616,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 17.84027777777778,
+      "excluded_managers": 0,
+      "origin": 18,
+      "players": 628,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.0016666666666667,
+      "excluded_managers": 0,
+      "origin": 19,
+      "players": 633,
+      "status": "admitted"
+    },
+    {
+      "origin": 20,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 21,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 22,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 23,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 24,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 25,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 26,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 27,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 28,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 29,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 30,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 31,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 32,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 0.9583333333333334,
+      "excluded_managers": 0,
+      "origin": 33,
+      "players": 691,
+      "status": "admitted"
+    },
+    {
+      "origin": 34,
+      "reason": "capture age 57.0025h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 8.114444444444445,
+      "excluded_managers": 0,
+      "origin": 35,
+      "players": 695,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 18.073333333333334,
+      "excluded_managers": 0,
+      "origin": 36,
+      "players": 703,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.361111111111111,
+      "excluded_managers": 0,
+      "origin": 37,
+      "players": 703,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 4.466111111111111,
+      "excluded_managers": 0,
+      "origin": 38,
+      "players": 706,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 7.6177777777777775,
+      "excluded_managers": 0,
+      "origin": 39,
+      "players": 529,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.7072222222222222,
+      "excluded_managers": 0,
+      "origin": 40,
+      "players": 559,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.9977777777777778,
+      "excluded_managers": 0,
+      "origin": 41,
+      "players": 567,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.4380555555555556,
+      "excluded_managers": 0,
+      "origin": 42,
+      "players": 594,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 22.99861111111111,
+      "excluded_managers": 0,
+      "origin": 43,
+      "players": 599,
+      "status": "admitted"
+    },
+    {
+      "origin": 44,
+      "reason": "capture age 39.4883h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 45,
+      "reason": "capture age 38.9844h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 1.85,
+      "excluded_managers": 0,
+      "origin": 46,
+      "players": 613,
+      "status": "admitted"
+    },
+    {
+      "origin": 47,
+      "reason": "capture age 81.1733h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 48,
+      "reason": "capture age 73.2486h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 8.558055555555555,
+      "excluded_managers": 0,
+      "origin": 49,
+      "players": 623,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.4169444444444443,
+      "excluded_managers": 0,
+      "origin": 50,
+      "players": 624,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.5647222222222222,
+      "excluded_managers": 0,
+      "origin": 51,
+      "players": 631,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 8.33361111111111,
+      "excluded_managers": 0,
+      "origin": 52,
+      "players": 633,
+      "status": "admitted"
+    },
+    {
+      "origin": 53,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 54,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 55,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 56,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 57,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 58,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 59,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 60,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 61,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 62,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 63,
+      "reason": "capture age 24.9025h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 64,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 8.4775,
+      "excluded_managers": 0,
+      "origin": 65,
+      "players": 711,
+      "status": "admitted"
+    },
+    {
+      "origin": 66,
+      "reason": "capture age 48.8483h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 1.103611111111111,
+      "excluded_managers": 0,
+      "origin": 67,
+      "players": 714,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 8.671111111111111,
+      "excluded_managers": 0,
+      "origin": 68,
+      "players": 714,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.3425,
+      "excluded_managers": 0,
+      "origin": 69,
+      "players": 714,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 3.2933333333333334,
+      "excluded_managers": 0,
+      "origin": 70,
+      "players": 720,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 17.442222222222224,
+      "excluded_managers": 0,
+      "origin": 71,
+      "players": 722,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.9319444444444445,
+      "excluded_managers": 0,
+      "origin": 72,
+      "players": 726,
+      "status": "admitted"
+    },
+    {
+      "origin": 73,
+      "reason": "capture age 24.9208h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 74,
+      "reason": "capture age 25.7303h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 5.875,
+      "excluded_managers": 0,
+      "origin": 75,
+      "players": 734,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 12.526666666666667,
+      "excluded_managers": 0,
+      "origin": 76,
+      "players": 736,
+      "status": "admitted"
+    },
+    {
+      "origin": 77,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 78,
+      "reason": "capture age 37.1211h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 1.2202777777777778,
+      "excluded_managers": 0,
+      "origin": 79,
+      "players": 589,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.1944444444444444,
+      "excluded_managers": 0,
+      "origin": 80,
+      "players": 594,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 19.5,
+      "excluded_managers": 0,
+      "origin": 81,
+      "players": 601,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.4625,
+      "excluded_managers": 0,
+      "origin": 82,
+      "players": 623,
+      "status": "admitted"
+    },
+    {
+      "origin": 83,
+      "reason": "capture age 25.2142h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 9.635833333333334,
+      "excluded_managers": 0,
+      "origin": 84,
+      "players": 627,
+      "status": "admitted"
+    },
+    {
+      "origin": 85,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 86,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 87,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 88,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 89,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 90,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 91,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 92,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 93,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 20.724722222222223,
+      "excluded_managers": 0,
+      "origin": 94,
+      "players": 675,
+      "status": "admitted"
+    },
+    {
+      "origin": 95,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 21.596944444444443,
+      "excluded_managers": 0,
+      "origin": 96,
+      "players": 692,
+      "status": "admitted"
+    },
+    {
+      "origin": 97,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 2.4780555555555557,
+      "excluded_managers": 0,
+      "origin": 98,
+      "players": 734,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.998611111111111,
+      "excluded_managers": 0,
+      "origin": 99,
+      "players": 740,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.997777777777778,
+      "excluded_managers": 0,
+      "origin": 100,
+      "players": 745,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 18.440833333333334,
+      "excluded_managers": 0,
+      "origin": 101,
+      "players": 746,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.968333333333334,
+      "excluded_managers": 0,
+      "origin": 102,
+      "players": 746,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.6336111111111111,
+      "excluded_managers": 0,
+      "origin": 103,
+      "players": 747,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.667777777777778,
+      "excluded_managers": 0,
+      "origin": 104,
+      "players": 750,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.922777777777778,
+      "excluded_managers": 0,
+      "origin": 105,
+      "players": 751,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.9980555555555557,
+      "excluded_managers": 0,
+      "origin": 106,
+      "players": 754,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.1936111111111112,
+      "excluded_managers": 0,
+      "origin": 107,
+      "players": 754,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.488888888888889,
+      "excluded_managers": 0,
+      "origin": 108,
+      "players": 759,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 8.786944444444444,
+      "excluded_managers": 0,
+      "origin": 109,
+      "players": 760,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.995,
+      "excluded_managers": 0,
+      "origin": 110,
+      "players": 761,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.4880555555555555,
+      "excluded_managers": 0,
+      "origin": 111,
+      "players": 762,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.06416666666666666,
+      "excluded_managers": 0,
+      "origin": 112,
+      "players": 763,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.998611111111111,
+      "excluded_managers": 0,
+      "origin": 113,
+      "players": 765,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.9983333333333335,
+      "excluded_managers": 0,
+      "origin": 114,
+      "players": 775,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 8.876944444444444,
+      "excluded_managers": 0,
+      "origin": 115,
+      "players": 641,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.2472222222222222,
+      "excluded_managers": 0,
+      "origin": 116,
+      "players": 666,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.4908333333333332,
+      "excluded_managers": 0,
+      "origin": 117,
+      "players": 678,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.497777777777778,
+      "excluded_managers": 0,
+      "origin": 118,
+      "players": 699,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.998333333333333,
+      "excluded_managers": 0,
+      "origin": 119,
+      "players": 714,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.498055555555556,
+      "excluded_managers": 0,
+      "origin": 120,
+      "players": 717,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.998611111111111,
+      "excluded_managers": 0,
+      "origin": 121,
+      "players": 718,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.9825,
+      "excluded_managers": 0,
+      "origin": 122,
+      "players": 722,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.997777777777778,
+      "excluded_managers": 0,
+      "origin": 123,
+      "players": 726,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.498333333333333,
+      "excluded_managers": 0,
+      "origin": 124,
+      "players": 730,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.994722222222222,
+      "excluded_managers": 0,
+      "origin": 125,
+      "players": 731,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.0475,
+      "excluded_managers": 0,
+      "origin": 126,
+      "players": 733,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.4036111111111111,
+      "excluded_managers": 0,
+      "origin": 127,
+      "players": 743,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.237777777777778,
+      "excluded_managers": 0,
+      "origin": 128,
+      "players": 747,
+      "status": "admitted"
+    },
+    {
+      "origin": 129,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 130,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "origin": 131,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 10.498333333333333,
+      "excluded_managers": 0,
+      "origin": 132,
+      "players": 765,
+      "status": "admitted"
+    },
+    {
+      "origin": 133,
+      "reason": "no verified capture",
+      "status": "missing"
+    },
+    {
+      "age_hours": 2.997777777777778,
+      "excluded_managers": 0,
+      "origin": 134,
+      "players": 771,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.245833333333334,
+      "excluded_managers": 0,
+      "origin": 135,
+      "players": 775,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.998611111111111,
+      "excluded_managers": 0,
+      "origin": 136,
+      "players": 790,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.999444444444444,
+      "excluded_managers": 0,
+      "origin": 137,
+      "players": 808,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.971111111111112,
+      "excluded_managers": 0,
+      "origin": 138,
+      "players": 809,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.94111111111111,
+      "excluded_managers": 0,
+      "origin": 139,
+      "players": 815,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.0238888888888888,
+      "excluded_managers": 0,
+      "origin": 140,
+      "players": 823,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.498333333333333,
+      "excluded_managers": 0,
+      "origin": 141,
+      "players": 828,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.6111111111111112,
+      "excluded_managers": 0,
+      "origin": 142,
+      "players": 832,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.498333333333333,
+      "excluded_managers": 0,
+      "origin": 143,
+      "players": 838,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.9466666666666667,
+      "excluded_managers": 0,
+      "origin": 144,
+      "players": 838,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.772222222222222,
+      "excluded_managers": 0,
+      "origin": 145,
+      "players": 842,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.995555555555555,
+      "excluded_managers": 0,
+      "origin": 146,
+      "players": 844,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.956388888888889,
+      "excluded_managers": 0,
+      "origin": 147,
+      "players": 846,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.498333333333333,
+      "excluded_managers": 0,
+      "origin": 148,
+      "players": 851,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 14.797222222222222,
+      "excluded_managers": 0,
+      "origin": 149,
+      "players": 856,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.491111111111111,
+      "excluded_managers": 0,
+      "origin": 150,
+      "players": 859,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.994444444444444,
+      "excluded_managers": 0,
+      "origin": 151,
+      "players": 859,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.4975,
+      "excluded_managers": 0,
+      "origin": 152,
+      "players": 861,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 4.945277777777778,
+      "excluded_managers": 0,
+      "origin": 153,
+      "players": 610,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.995277777777778,
+      "excluded_managers": 0,
+      "origin": 154,
+      "players": 625,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.998888888888889,
+      "excluded_managers": 0,
+      "origin": 155,
+      "players": 637,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 12.781944444444445,
+      "excluded_managers": 0,
+      "origin": 156,
+      "players": 655,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.99,
+      "excluded_managers": 0,
+      "origin": 157,
+      "players": 659,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.0,
+      "excluded_managers": 0,
+      "origin": 158,
+      "players": 661,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.996944444444445,
+      "excluded_managers": 0,
+      "origin": 159,
+      "players": 664,
+      "status": "admitted"
+    },
+    {
+      "origin": 160,
+      "reason": "capture age 225.849h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 161,
+      "reason": "capture age 377.349h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "origin": 162,
+      "reason": "capture age 562.849h exceeds maximum 24h",
+      "status": "missing"
+    },
+    {
+      "age_hours": 3.276666666666667,
+      "excluded_managers": 0,
+      "origin": 163,
+      "players": 674,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 11.705,
+      "excluded_managers": 0,
+      "origin": 164,
+      "players": 678,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.495,
+      "excluded_managers": 0,
+      "origin": 165,
+      "players": 684,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.994722222222222,
+      "excluded_managers": 0,
+      "origin": 166,
+      "players": 690,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 10.995555555555555,
+      "excluded_managers": 0,
+      "origin": 167,
+      "players": 693,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.4958333333333333,
+      "excluded_managers": 0,
+      "origin": 168,
+      "players": 693,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.20222222222222222,
+      "excluded_managers": 0,
+      "origin": 169,
+      "players": 701,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.3308333333333333,
+      "excluded_managers": 0,
+      "origin": 170,
+      "players": 701,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.9969444444444444,
+      "excluded_managers": 0,
+      "origin": 171,
+      "players": 705,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.08,
+      "excluded_managers": 0,
+      "origin": 172,
+      "players": 709,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.996666666666667,
+      "excluded_managers": 0,
+      "origin": 173,
+      "players": 718,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 2.9983333333333335,
+      "excluded_managers": 0,
+      "origin": 174,
+      "players": 726,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.497222222222222,
+      "excluded_managers": 20,
+      "origin": 175,
+      "players": 735,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.014166666666666666,
+      "excluded_managers": 20,
+      "origin": 176,
+      "players": 737,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.4172222222222222,
+      "excluded_managers": 20,
+      "origin": 177,
+      "players": 753,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 1.4369444444444444,
+      "excluded_managers": 20,
+      "origin": 178,
+      "players": 759,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.050555555555555555,
+      "excluded_managers": 20,
+      "origin": 179,
+      "players": 763,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 0.9808333333333333,
+      "excluded_managers": 20,
+      "origin": 180,
+      "players": 765,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 5.488888888888889,
+      "excluded_managers": 20,
+      "origin": 181,
+      "players": 769,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 6.866944444444444,
+      "excluded_managers": 20,
+      "origin": 182,
+      "players": 769,
+      "status": "admitted"
+    },
+    {
+      "age_hours": 9.995,
+      "excluded_managers": 20,
+      "origin": 183,
+      "players": 771,
+      "status": "admitted"
+    }
+  ],
+  "scope": "offline archive admission; no models or outcomes",
+  "source_sha256": {
+    "experiments/deadline_snapshot_audit_2026-10-03/verify_admission.py": "77e6bd31b8e7989e21c4bb4ed4245b85b88874e371912a1dc96f96dd99865317",
+    "fpl/config.py": "a9fbfe6de2d4c4ba195c85d48266ad023e80116f6358111c7e16cb976f7adf5d",
+    "fpl/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/data/deadline_snapshots.py": "00d2f2a73a670106c19542e3ec5d06f5a144da7323efe8c12d5a2047fede5feb",
+    "fpl/data/external.py": "db38873a567aa51ad85fc264e97626b05bb6c84ad7c5b32802afc49eda754d11",
+    "fpl/data/feature_cache.py": "dd587e3355b0a4732a57614cd8e5d50ef1c01a7727c44ee9583145e257c7a8bb",
+    "fpl/data/fetch.py": "ece93d1be41d669e62b858da31f0219893553655ac73ae4f40173ed0b70b0764",
+    "fpl/data/origin_prices.py": "d9c7c149d4fe3a66fa04b517138d4ce7d8ae90da69d23e24b6427af5ff421f6c",
+    "fpl/data/provenance.py": "569d4fef2247c8dfd6a6dea7992ac09cfc444c11d0b1a5c17d719c5807a858aa",
+    "fpl/data/research.py": "a3f92b92088915c541956b68c300b7ab8f7ff5ddd4595ec8e366821383710434",
+    "fpl/experiment.py": "2780bf8ead3e6c0c4f3a988fd176ccd98769acbb652d1cc3ca52fc30bf6b5404",
+    "fpl/features.py": "df09943d91ced157ee36091526a527dd26013516055383c9976bf2df94afae7d",
+    "fpl/milp/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+    "fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "fpl/milp/compare_backtests.py": "0be8917170884f3d5fa31ace4d796d457d8d312c43023cd8c6f8fd6c14e9e739",
+    "fpl/milp/optimize.py": "8aaccfe87943ecc60c875c8ebdce5f936d3445d1521c84b147178bed096ca639",
+    "fpl/milp/solio.py": "44e89d100e888e6341d6342196b57240ab1a113921d55cf7645155fc5d21863e",
+    "fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+    "fpl/milp/solio_output.py": "22724577e69f8e440f38d005e8837626e2e1232fa43bcb47e77a4a4fb83ca56e",
+    "fpl/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fpl/model/availability_research.py": "5148945d90a00dd487b9bc89a19a9e557068cb0ae81d29135623256cedb634e3",
+    "fpl/model/baselines.py": "7147a8801e27003c25bdf40a71898be49fd19711303447f6723e68e6d9b535de",
+    "fpl/model/blend_research.py": "115a7708b2d995826dd3ec01897c244d09519aa3fe8744f1fa8cca45228d8a18",
+    "fpl/model/cnn_process.py": "74c6827496972cd93d9b41fe2972ad236d21d83b65bd96b6aaf92c2109914c2f",
+    "fpl/model/cnn_research.py": "1d4ab1eaa18fef8d5045c18053022367ccfe484c99a62225e2216f2fc4e14b7e",
+    "fpl/model/cnn_worker.py": "0ee5be8ea265d7036331ede3dc79120f099a39d1b14f17b9d8f5f9164ab35982",
+    "fpl/model/cold_start.py": "039a645266e2f3e1326336298dbbb904ecff4e8dc913b95ea61a14c587bbc4c5",
+    "fpl/model/deadline_availability.py": "cdc9a660f7fa496b5934fdd80805241762eb9a8281ef4676ea8b740f249fa469",
+    "fpl/model/ensemble.py": "d960e588b8c9ad75738128f96df77dd8648752ce52815d9f1888e83b818cc8e8",
+    "fpl/model/expert_policy.py": "d57d549c92fb132e27b654bee02a6a32e728be5d45b1be4f66d9ca9a1794e67b",
+    "fpl/model/horizon_price_research.py": "55d8027af118427aadd1d4a70e8a8b9c19359d14d8507d6440379a4b66667f05",
+    "fpl/model/interval_calibration.py": "6b1b70f7afcbd4beac28c0d15c29959ffcaf3bee4f2dbf983000262d911f8a0a",
+    "fpl/model/interval_research.py": "db2b472caf9b00529356115ade57cfd0b32ff35da74833480e11fe1baaa8c483",
+    "fpl/model/metrics.py": "3592bebfe9922ca5b38e2c3c71be75d79592987d39db8341c46ec1b3a496bad7",
+    "fpl/model/mid_gate.py": "3798843118ef6f53ac832fb5c181d2d4b4b18855e7fbe3cdacb1511e6413a151",
+    "fpl/model/models.py": "16dc89c77cd736ca63aab611d20377592d44e2ace681f40384656006f737f28b",
+    "fpl/model/moe_promotion.py": "93982d906ca6805acb676d13933e49d99a6817ea3fc72b862b331d8812e31337",
+    "fpl/model/moe_tournament.py": "484a17fa26848696470af514457b586fd85e8d09a307c438f009665397e5f23e",
+    "fpl/model/oof_panel.py": "d899f24d4e35b6abc98e950aad63794ba2eaedbe39ed1979eb1f819ef8c5a4b1",
+    "fpl/model/predict.py": "deaa0d5e7c4c6c87b472859cb70dbe4fd75c4f6663e46916a0e19626380259f3",
+    "fpl/model/price_research.py": "244ea0684072ace4895b61c784a423336c89d302fe45cebf903454dca2a5b9dd",
+    "fpl/model/probabilistic.py": "6844a48b428042f89f833b45f6293ccb64e89fe06a4e4bbf9955e0047516eedd",
+    "fpl/model/probabilistic_buckets.py": "9592610fd0312621280656577a5618c63a5b43c07bd61bf6d108588d735ef3dd",
+    "fpl/model/research_package.py": "13b65fcc8623d8a04e310defdc910eb407a30f934449fe85d2a138850981d899",
+    "fpl/model/screen.py": "b5827a438c0e3d5bb6c81d645e735ad49c7997c45697bb9407b59508fa8e28e7",
+    "fpl/model/sequence_cnn.py": "257aedd0bd26e9100de21368ff94b4f68e2eb2594a591c3fd957318f203b9128",
+    "fpl/model/sequence_features.py": "0fba4921fe05c50a55d66002923490fc360b6116e468bb65eed5f18fee760341",
+    "fpl/model/temporal_blend.py": "a857a865f8ed93e0b139194f3ffd2d67bcf63694615a8b51db56c955f4a4098d",
+    "fpl/model/train.py": "9b834aeffea049bed398a6fe7187846dc2759c9386ea1af68450a065bdca8a85",
+    "fpl/model/tuning.py": "39f59413234997e9d66a9cd0e10e1e40fc426ff2636bc5e86a38b8e1aa40b2d7",
+    "fpl/model/tuning_checkpoint.py": "f04b5bb78f81eb2350a22fb53a797f6eb871463019e537cd71d1bdb882895cdc",
+    "fpl/model/walk_forward.py": "08aa034fe8abb947d898f1b3cd625140486d5c09ad32e53d4abbfc99496947d0",
+    "fpl/run_week.py": "e67f6ad32a3865e7cf0bfd6828a7451c49b78c47acaf85cdf400c370b66d1401"
+  },
+  "stale_capture_age_hours": {
+    "1": 32.571666666666665,
+    "12": 25.924722222222222,
+    "160": 225.8488888888889,
+    "161": 377.3488888888889,
+    "162": 562.8488888888888,
+    "2": 69.92472222222223,
+    "3": 237.92472222222221,
+    "34": 57.0025,
+    "44": 39.48833333333334,
+    "45": 38.98444444444444,
+    "47": 81.17333333333333,
+    "48": 73.24861111111112,
+    "5": 218.0872222222222,
+    "6": 149.16333333333333,
+    "63": 24.9025,
+    "66": 48.848333333333336,
+    "7": 318.16333333333336,
+    "73": 24.920833333333334,
+    "74": 25.73027777777778,
+    "78": 37.12111111111111,
+    "83": 25.214166666666667
+  },
+  "status": "PASS",
+  "verified_capture_counts": {
+    "discovery_wayback_verification.json": 96,
+    "wayback_verification.json": 47
+  },
+  "windows": {
+    "discovery": {
+      "admitted": 78,
+      "excluded_managers": 0,
+      "no_verified_capture": 40,
+      "origins": 136,
+      "stale": 18
+    },
+    "reference": {
+      "admitted": 28,
+      "excluded_managers": 180,
+      "no_verified_capture": 0,
+      "origins": 31,
+      "stale": 3
+    },
+    "selection": {
+      "admitted": 16,
+      "excluded_managers": 0,
+      "no_verified_capture": 0,
+      "origins": 16,
+      "stale": 0
+    }
+  }
+}

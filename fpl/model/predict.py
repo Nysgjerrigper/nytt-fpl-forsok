@@ -31,9 +31,27 @@ from fpl.model.train import fit_holdout_weights, fit_level_calibration, fit_posi
 from fpl.model.walk_forward import walk_forward_steps
 
 
+def _validate_explicit_fit_settings(weight_strategy, parameters_by_pos, seed,
+                                    mid_gate=None, calibrate_level=False):
+    """Refuse overrides that auxiliary fitters cannot honor reproducibly.
+
+    Explicit parameters/seeds currently cover single-member positional refits.
+    Weight learning, level calibration and MID-gate refits use separate ambient
+    settings, so combining them with explicit overrides must fail before fitting.
+    """
+    if parameters_by_pos is None and seed is None:
+        return
+    strategies = (weight_strategy.values() if isinstance(weight_strategy, dict)
+                  else [weight_strategy])
+    if (mid_gate is not None or calibrate_level
+            or any(not isinstance(strategy, str) or not strategy.startswith("single:")
+                   for strategy in strategies)):
+        raise ValueError("Explicit parameters/seed require single-model strategies without MID gate or level calibration; auxiliary fits do not support these overrides")
+
+
 def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16,
                              weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY, calibrate_level=False,
-                             expert_map=None, mid_gate=None):
+                             expert_map=None, mid_gate=None, *, parameters_by_pos=None, seed=None):
     """Predict every GW in [start_gw, end_gw] using only data from earlier GWs.
 
     Combination weights are fit ONCE, on the `weight_window` gameweeks strictly before
@@ -55,6 +73,7 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
     """
     rows = []
     weight_strategy = resolve_weight_strategy(weight_strategy, expert_map)
+    _validate_explicit_fit_settings(weight_strategy, parameters_by_pos, seed, mid_gate, calibrate_level)
     print(f"Fitting combination weights (strategy={weight_strategy}) "
           f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
     weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
@@ -71,7 +90,10 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
               + ", ".join(f"{pos}={s:.3f}" for pos, s in level_scalars.items()))
 
     def fit_fn(train_df):
-        fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        fitted = (fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+                  if parameters_by_pos is None and seed is None else
+                  fit_position_ensembles(train_df, feature_cols, weights_by_pos,
+                                         parameters_by_pos=parameters_by_pos, seed=seed))
         return (fitted, fit_mid_gate_experts(train_df, feature_cols, mid_gate)) if mid_gate else fitted
 
     for gw, models_cache, test_df in walk_forward_steps(
@@ -100,7 +122,9 @@ def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1
 def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon,
                              retrain_every=4, weight_window=16,
                              weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY,
-                             expert_map=None, mid_gate=None):
+                             expert_map=None, mid_gate=None, *, parameters_by_pos=None, seed=None,
+                             snapshot_builder=None, extra_player_features=(),
+                             origin_snapshot_builder=None):
     """Deploy-honest backtest export: for each origin GW t, predict ALL of t..t+horizon-1
     with player form frozen at t's deadline (information through GW t-1 only).
 
@@ -133,11 +157,34 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
 
     Output matches the standard CSV plus an `origin_gw` column; fpl.milp.optimize uses
     the origin-t rows for the solve at GW t.
+
+    Opt-in research adapters can provide ``snapshot_builder(hist_raw)`` and an
+    explicit ``extra_player_features`` list. Every listed feature is overwritten
+    across the entire horizon from that origin-truncated snapshot. Such features
+    must exist in the fitted frame and the rebuilt snapshot; missing columns or
+    ambiguous player identities fail instead of retaining future target form.
+    Alternatively, ``origin_snapshot_builder(hist_raw, origin)`` receives the exact
+    forecast origin for dated external observations. The two builders are mutually
+    exclusive; deriving that origin from the latest observed fixture is unsafe.
     """
     from fpl.run_week import build_live_snapshot
 
-    frozen_cols = features._player_shifted_columns(df)
+    extra_player_features = list(extra_player_features)
+    if (len(extra_player_features) != len(set(extra_player_features))
+            or not set(extra_player_features).issubset(feature_cols)
+            or not set(extra_player_features).issubset(df.columns)):
+        raise ValueError("extra player features must be unique fitted frame columns")
+    if snapshot_builder is not None and origin_snapshot_builder is not None:
+        raise ValueError("origin snapshot builders are mutually exclusive")
+    if extra_player_features and snapshot_builder is None and origin_snapshot_builder is None:
+        raise ValueError("extra player features require an origin snapshot builder")
+    if snapshot_builder is not None and not callable(snapshot_builder):
+        raise ValueError("origin snapshot builder must be callable")
+    if origin_snapshot_builder is not None and not callable(origin_snapshot_builder):
+        raise ValueError("dated origin snapshot builder must be callable")
+    frozen_cols = list(dict.fromkeys(features._player_shifted_columns(df) + extra_player_features))
     weight_strategy = resolve_weight_strategy(weight_strategy, expert_map)
+    _validate_explicit_fit_settings(weight_strategy, parameters_by_pos, seed, mid_gate)
     print(f"Fitting combination weights (strategy={weight_strategy}) "
           f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
     weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
@@ -147,7 +194,10 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
     rows = []
 
     def fit_fn(train_df):
-        fitted = fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+        fitted = (fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+                  if parameters_by_pos is None and seed is None else
+                  fit_position_ensembles(train_df, feature_cols, weights_by_pos,
+                                         parameters_by_pos=parameters_by_pos, seed=seed))
         return (fitted, fit_mid_gate_experts(train_df, feature_cols, mid_gate)) if mid_gate else fitted
 
     # The retrain-and-step skeleton drives the OUTER origin loop; the snapshot rebuild
@@ -158,7 +208,13 @@ def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon
         df, start_gw, end_gw, retrain_every, fit_fn, gw_word="origin GW"
     ):
         hist_raw = raw_df[raw_df["GW_global"] < origin]
-        snapshot = build_live_snapshot(hist_raw)
+        snapshot = (origin_snapshot_builder(hist_raw, origin) if origin_snapshot_builder is not None
+                    else build_live_snapshot(hist_raw) if snapshot_builder is None
+                    else snapshot_builder(hist_raw))
+        if ("player_id" not in snapshot or snapshot.player_id.isna().any()
+                or snapshot.player_id.duplicated().any()
+                or not set(frozen_cols).issubset(snapshot.columns)):
+            raise ValueError("origin snapshot lacks unambiguous player identities or frozen features")
         snapshot = snapshot.set_index("player_id")
         opp_form = features.team_form_asof(hist_raw)
 

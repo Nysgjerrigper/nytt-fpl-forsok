@@ -1,0 +1,9 @@
+{
+  "cnn_advances": false,
+  "finalists": [],
+  "retrain_every": 100,
+  "selection_rule": "Best tree by earlier origin net points; tree ties prefer mae_full then mae_sequence then rmse_sequence. CNN advances only on a strict net-points gain.",
+  "selection_summary_sha256": "4ce1e2972938f7b520ae96d09f3761533819cf814b60687026c3c528988add68",
+  "settings": {},
+  "tree_best": "rmse_sequence"
+}

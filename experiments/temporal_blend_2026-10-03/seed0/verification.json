@@ -1,0 +1,157 @@
+{
+  "archived_sources": 47,
+  "comparisons": {
+    "pilot_blend_vs_rmse": {
+      "block_len": 3,
+      "boot_mean": 76.0943,
+      "ci_high": 141.0,
+      "ci_low": 9.0,
+      "n_gws": 8,
+      "p_a_better": 1.0,
+      "sign_test": {
+        "p_a_better": 0.0625,
+        "p_value": 0.125,
+        "ties": 1,
+        "wins_a": 6,
+        "wins_b": 1
+      },
+      "total_a": 579.0,
+      "total_b": 504.0,
+      "total_diff": 75.0
+    },
+    "reference_blend_vs_mae_full": {
+      "origin": {
+        "block_len": 3,
+        "boot_mean": 39.0032,
+        "ci_high": 251.0,
+        "ci_low": -172.0,
+        "n_gws": 31,
+        "p_a_better": 0.6337,
+        "sign_test": {
+          "p_a_better": 0.06802297383546829,
+          "p_value": 0.13604594767093658,
+          "ties": 2,
+          "wins_a": 19,
+          "wins_b": 10
+        },
+        "total_a": 1956.0,
+        "total_b": 1906.0,
+        "total_diff": 50.0
+      },
+      "standard": {
+        "block_len": 3,
+        "boot_mean": 86.5856,
+        "ci_high": 226.0,
+        "ci_low": -48.0,
+        "n_gws": 31,
+        "p_a_better": 0.8866,
+        "sign_test": {
+          "p_a_better": 0.4252770096063614,
+          "p_value": 0.8505540192127228,
+          "ties": 3,
+          "wins_a": 15,
+          "wins_b": 13
+        },
+        "total_a": 2112.0,
+        "total_b": 2032.0,
+        "total_diff": 80.0
+      }
+    },
+    "reference_blend_vs_rmse_sequence": {
+      "origin": {
+        "block_len": 3,
+        "boot_mean": 3.8929,
+        "ci_high": 147.02499999999964,
+        "ci_low": -148.0,
+        "n_gws": 31,
+        "p_a_better": 0.5222,
+        "sign_test": {
+          "p_a_better": 0.572232224047184,
+          "p_value": 1.0,
+          "ties": 1,
+          "wins_a": 15,
+          "wins_b": 15
+        },
+        "total_a": 1956.0,
+        "total_b": 1944.0,
+        "total_diff": 12.0
+      },
+      "standard": {
+        "block_len": 3,
+        "boot_mean": 65.774,
+        "ci_high": 161.0,
+        "ci_low": -22.0,
+        "n_gws": 31,
+        "p_a_better": 0.9271,
+        "sign_test": {
+          "p_a_better": 0.23656482994556427,
+          "p_value": 0.47312965989112854,
+          "ties": 0,
+          "wins_a": 18,
+          "wins_b": 13
+        },
+        "total_a": 2112.0,
+        "total_b": 2056.0,
+        "total_diff": 56.0
+      }
+    }
+  },
+  "elapsed_seconds": 1460.2807990410365,
+  "optimal_solves": 202,
+  "pilot_lock_sha256": "2b40d254da661597ec85321e6a470f6ccd123bc1820482c7d43b1481922cfbee",
+  "promotion_eligible": false,
+  "registration_sha256": "231d7017ff65130bded5a82ce8f20ae7fb418f51cb0744eeaa8b7d12b5660765",
+  "scores": {
+    "evaluation/blend/origin": {
+      "gross": 1960.0,
+      "hits": 4.0,
+      "net": 1956.0
+    },
+    "evaluation/blend/standard": {
+      "gross": 2112.0,
+      "hits": 0.0,
+      "net": 2112.0
+    },
+    "evaluation/mae_full/origin": {
+      "gross": 1906.0,
+      "hits": 0.0,
+      "net": 1906.0
+    },
+    "evaluation/mae_full/standard": {
+      "gross": 2032.0,
+      "hits": 0.0,
+      "net": 2032.0
+    },
+    "evaluation/rmse_sequence/origin": {
+      "gross": 1944.0,
+      "hits": 0.0,
+      "net": 1944.0
+    },
+    "evaluation/rmse_sequence/standard": {
+      "gross": 2056.0,
+      "hits": 0.0,
+      "net": 2056.0
+    },
+    "pilot/blend/origin": {
+      "gross": 587.0,
+      "hits": 8.0,
+      "net": 579.0
+    },
+    "pilot/rmse_sequence/origin": {
+      "gross": 520.0,
+      "hits": 16.0,
+      "net": 504.0
+    }
+  },
+  "status": "VERIFIED",
+  "summary_sha256": "0c7788908b8d362c53d15b52761ab0cf5924c9174ee194f5a102dfcfcefb5e5f",
+  "verifier_sha256": "f2f45ea8f14b9d43205210392b909715e70c0bd8f0710ac5f5af4a55a85c585b",
+  "weights": {
+    "DEF": 0.3816267814975975,
+    "FWD": 0.034353238033164764,
+    "GK": 0.42830434501151843,
+    "MID": 0.3756859836041112
+  },
+  "weights_lock_sha256": "8f6fa8fa0bf2e7131a9f04b1ecfc7d09a3683a34eac8b6899a5ee01bd5c0db60",
+  "weights_sha256": "e8ba30d6b87c62d1ae18676a03e54a83c4fb53de4ec339d3d672e02135d09780"
+}

@@ -15,8 +15,8 @@ What it does, in order:
    gameweek that hasn't been played) and predicts points for every player
    over the next `--horizon` gameweeks, projecting each player's current form
    forward.
-4. If `--team-id` is given, pulls your actual current squad/bank from the
-   public FPL API and asks the MILP optimizer for the best transfers/lineup/
+4. If `--team-id` is given, pulls your latest completed-round squad/bank from the
+   public FPL API (which may exclude subsequent transfers) and asks the MILP optimizer for the best transfers/lineup/
    captain/chip continuing from that squad. Without it, prints fresh-build
    advice as if drafting a squad from scratch.
 
@@ -29,6 +29,7 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import requests
 
@@ -37,6 +38,9 @@ from fpl.data import fetch
 from fpl.model.expert_policy import (
     fit_mid_gate_experts, parse_expert_map, predict_by_position, predict_with_mid_gate,
     resolve_weight_strategy,
+)
+from fpl.model.cold_start import (
+    add_registered_cold_starts, fit_pooled_priors, predict_cold_starts,
 )
 from fpl.model.mid_gate import MidGateConfig
 from fpl.model.train import fit_holdout_weights, fit_position_ensembles
@@ -98,30 +102,71 @@ def build_team_fixture_map(bootstrap, gw):
 
 
 def get_user_squad(team_id, bootstrap, known_player_ids):
-    """Public FPL API: current squad, bank and free transfers for an existing team.
+    """Return all 15 owned stable codes and bank from the latest completed round.
 
-    Squad players are matched to dataset player_ids by FPL `code` (== player_id).
-    A pick whose code is absent from `known_player_ids` (no appearance in the dataset,
-    e.g. a brand-new signing with zero PL history) is excluded with a warning - the
-    optimizer cannot reason about a player it has no rows for.
+    Public previous-round picks are not guaranteed to include current transfers.
+    Match exact bootstrap element IDs to stable FPL codes, refusing partial or
+    ambiguous holdings and unknown forecast identities rather than dropping assets.
+    Before the first completed round this public owner-state path is unavailable.
     """
-    last_finished_gw = max(e["id"] for e in bootstrap["events"] if e["finished"])
+    def positive_id(value):
+        return isinstance(value, (int, np.integer)) and not isinstance(value, (bool, np.bool_)) and value > 0
+
+    if not isinstance(bootstrap, dict):
+        raise ValueError("Invalid bootstrap payload for owned-squad retrieval")
+    events = bootstrap.get("events")
+    elements = bootstrap.get("elements")
+    if not isinstance(events, list) or any(
+        not isinstance(event, dict) or not positive_id(event.get("id"))
+        or type(event.get("finished")) is not bool for event in events
+    ):
+        raise ValueError("Invalid bootstrap event IDs/finished flags for owned-squad retrieval")
+    finished = [event["id"] for event in events if event["finished"]]
+    if not finished:
+        raise ValueError("Public previous-round picks are unavailable before the first completed GW; "
+                         "provide an explicit owner-state path or use fresh-squad advice without --team-id.")
+    if not isinstance(elements, list):
+        raise ValueError("Missing bootstrap elements for owned-squad identity mapping")
+    elements_by_id = {}
+    stable_codes = set()
+    for element in elements:
+        if not isinstance(element, dict):
+            raise ValueError("Invalid bootstrap element for owned-squad identity mapping")
+        identifier, code = element.get("id"), element.get("code")
+        if not positive_id(identifier) or not positive_id(code):
+            raise ValueError(f"Invalid bootstrap element/code for owned-squad mapping: element={identifier!r}, code={code!r}; "
+                             "refresh and verify the official bootstrap identity mapping")
+        if identifier in elements_by_id or code in stable_codes:
+            raise ValueError(f"Ambiguous bootstrap element/code for owned-squad mapping: element={identifier}, code={code}; "
+                             "refresh and verify the official bootstrap identity mapping")
+        elements_by_id[identifier] = element
+        stable_codes.add(code)
+    last_finished_gw = max(finished)
     resp = requests.get(f"{FPL_API}/entry/{team_id}/event/{last_finished_gw}/picks/", timeout=30)
     resp.raise_for_status()
     data = resp.json()
-
-    elements_by_id = {el["id"]: el for el in bootstrap["elements"]}
+    picks = data.get("picks") if isinstance(data, dict) else None
+    if not isinstance(picks, list) or len(picks) != 15:
+        raise ValueError("Public owned-squad payload must contain exactly 15 picks; cannot optimize a partial squad")
     squad_ids = []
-    for pick in data["picks"]:
-        el = elements_by_id[pick["element"]]
-        player_id = el.get("code")
-        if player_id not in known_player_ids:
-            print(f"WARNING: FPL player '{el['first_name']} {el['second_name']}' (code={player_id}) "
-                  f"has no rows in the dataset - excluded from optimization.")
-            continue
-        squad_ids.append(player_id)
-
-    bank = data["entry_history"]["bank"]  # in 0.1m units, matches `value` column
+    for pick in picks:
+        identifier = pick.get("element") if isinstance(pick, dict) else None
+        if not positive_id(identifier) or identifier not in elements_by_id:
+            raise ValueError(f"Owned pick element ID {identifier!r} is missing or invalid in bootstrap; "
+                             "refresh and verify the owner-state identity mapping")
+        squad_ids.append(elements_by_id[identifier]["code"])
+    if len(set(squad_ids)) != 15:
+        raise ValueError(f"Owned-squad payload contains duplicate stable player IDs: {squad_ids}")
+    missing = sorted(set(squad_ids).difference(known_player_ids))
+    if missing:
+        raise ValueError(f"Owned stable player IDs missing from the known forecast identities: {missing}; "
+                         "cannot optimize the complete owned squad. For registered players without historical "
+                         "rows, try --cold-start-priors; otherwise provide complete validated owner-state forecasts.")
+    entry_history = data.get("entry_history")
+    bank = entry_history.get("bank") if isinstance(entry_history, dict) else None
+    if (isinstance(bank, (bool, np.bool_)) or not isinstance(bank, (int, float, np.integer, np.floating))
+            or not np.isfinite(bank) or bank < 0):
+        raise ValueError("Public owned-squad bank must be finite and nonnegative in 0.1m units")
     return squad_ids, float(bank)
 
 
@@ -226,10 +271,28 @@ def availability_multipliers(bootstrap):
 def apply_availability(preds, factors):
     """Scale predicted_total_points by each player's availability factor (1.0 when unknown).
 
-    Separated from main() so the scaling arithmetic is unit-testable without the API."""
+    For cold priors, availability is heuristically an independent Bernoulli gate:
+    mean becomes q*mean, variance q*variance + q*(1-q)*mean**2, and participation
+    probabilities become q*p. This is not a calibrated availability distribution.
+    Separated from main() so the arithmetic is unit-testable without the API."""
     scale = preds["player_id"].map(factors).fillna(1.0)
     preds = preds.copy()
-    preds["predicted_total_points"] = preds["predicted_total_points"] * scale
+    original_mean = preds["predicted_total_points"].copy()
+    if "prior_std" in preds:
+        marked = preds.get("is_cold_start", pd.Series(False, index=preds.index)).fillna(False).astype(bool)
+        if "forecast_source" in preds:
+            marked = marked | preds["forecast_source"].eq("pooled_prior")
+        prior_rows = marked & np.isfinite(preds["prior_std"])
+        q = scale.loc[prior_rows]
+        if not np.isfinite(q).all() or ((q < 0) | (q > 1)).any():
+            raise ValueError("Cold-prior availability factors must be finite probabilities in [0, 1]")
+        variance = preds.loc[prior_rows, "prior_std"] ** 2
+        mean = original_mean.loc[prior_rows]
+        preds.loc[prior_rows, "prior_std"] = np.sqrt(q * variance + q * (1 - q) * mean ** 2)
+        for column in ("p_played", "p60"):
+            if column in preds:
+                preds.loc[prior_rows, column] = preds.loc[prior_rows, column] * q
+    preds["predicted_total_points"] = original_mean * scale
     flagged, zeroed = int((scale < 1.0).sum()), int((scale == 0.0).sum())
     print(f"Availability scaling: {flagged} of {len(preds)} prediction rows scaled down ({zeroed} zeroed).")
     return preds
@@ -293,7 +356,7 @@ def build_live_snapshot(raw_df):
 
 
 def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw, horizon,
-                             opp_form=None, mid_gate=None, mid_experts=None):
+                             opp_form=None, mid_gate=None, mid_experts=None, *, cold_start_priors=None):
     """Predict every horizon gameweek from the live snapshot, with per-GW fixture info
     (opponent, home/away, official FDR) taken from the FPL API's fixture list - the
     fixture-difficulty features MUST be per-future-GW, not copied from the player's last
@@ -303,7 +366,11 @@ def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw
     opponent's trailing form for the opp_* features. Without it the snapshot's own opp_*
     values would be carried forward, and those describe the form of the player's PREVIOUS
     fixture's opponent - the same staleness class as the fixture-difficulty bug above
-    (found 2026-07-11 while building the origin-based backtest, TODO 3.6)."""
+    (found 2026-07-11 while building the origin-based backtest, TODO 3.6).
+
+    With cold_start_priors supplied, marked new rows bypass every fitted model and
+    use empirical fixture priors. Source, spread and probability metadata are
+    added only in that opt-in mode; spread is not a calibrated interval."""
     # Prefetch two GWs past the horizon so fixture_difficulty_next3 has a full window.
     fixture_maps = {}
     for gw in range(start_gw, start_gw + horizon + 2):
@@ -329,7 +396,7 @@ def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw
              "fixture_difficulty": fdr}
             for team, fixtures in fixture_map.items()
             for opp, is_home, fdr in fixtures
-        ])
+        ], columns=["team", "opponent_team", "was_home", "fixture_difficulty"])
         # Trailing-3-GW mean difficulty per TEAM (flattened across DGW fixtures), shared
         # by all of that team's rows this GW.
         fdr3_by_team = {}
@@ -350,10 +417,30 @@ def build_future_predictions(snapshot, feature_cols, models, bootstrap, start_gw
             for col in features.OPPONENT_FEATURES:
                 gw_rows[col] = gw_rows["opponent_team"].map(opp_form[col]).to_numpy()
 
-        gw_rows["predicted_total_points"] = (
-            predict_with_mid_gate(gw_rows, feature_cols, models, mid_gate, mid_experts)
-            if mid_gate else predict_by_position(gw_rows, feature_cols, models)
-        )
+        if gw_rows.empty:
+            continue
+        if cold_start_priors is None:
+            gw_rows["predicted_total_points"] = (
+                predict_with_mid_gate(gw_rows, feature_cols, models, mid_gate, mid_experts)
+                if mid_gate else predict_by_position(gw_rows, feature_cols, models)
+            )
+        else:
+            cold = gw_rows.get("is_cold_start", pd.Series(False, index=gw_rows.index)).fillna(False).astype(bool)
+            regular = gw_rows.loc[~cold]
+            gw_rows["predicted_total_points"] = float("nan")
+            if not regular.empty:
+                gw_rows.loc[~cold, "predicted_total_points"] = (
+                    predict_with_mid_gate(regular, feature_cols, models, mid_gate, mid_experts)
+                    if mid_gate else predict_by_position(regular, feature_cols, models)
+                )
+            gw_rows["forecast_source"] = "model"
+            for column in ("prior_std", "p_played", "p60", "prior_count"):
+                gw_rows[column] = float("nan")
+            if cold.any():
+                prior_predictions = predict_cold_starts(gw_rows.loc[cold], cold_start_priors)
+                for column in prior_predictions:
+                    gw_rows.loc[cold, column] = prior_predictions[column]
+                gw_rows.loc[cold, "forecast_source"] = "pooled_prior"
         rows.append(gw_rows)
     return pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
 
@@ -378,6 +465,8 @@ def main():
     )
     parser.add_argument("--mid-gate-config", default=None,
                         help="Frozen MidGateConfig JSON for optional experimental MID routing.")
+    parser.add_argument("--cold-start-priors", action="store_true",
+                        help="Opt-in pooled fixture priors for registered players without historical snapshot rows; spreads are empirical, not calibrated intervals.")
     args = parser.parse_args()
     if args.optimizer_state_json and args.optimizer != "solio":
         parser.error("optimizer-state-json requires --optimizer solio")
@@ -413,9 +502,14 @@ def main():
     print(f"--- Target gameweek: {target_gw} ---")
 
     snapshot = apply_live_identity(build_live_snapshot(raw), bootstrap)
+    cold_start_priors = None
+    if args.cold_start_priors:
+        snapshot = add_registered_cold_starts(snapshot, bootstrap)
+        cold_start_priors = fit_pooled_priors(raw, origin_gw=max_played_gw + 1)
     opp_form = features.team_form_asof(raw)
     preds = build_future_predictions(snapshot, feature_cols, models, bootstrap, target_gw, args.horizon,
-                                     opp_form=opp_form, mid_gate=mid_gate, mid_experts=mid_experts)
+                                     opp_form=opp_form, mid_gate=mid_gate, mid_experts=mid_experts,
+                                     cold_start_priors=cold_start_priors)
     if preds.empty:
         sys.exit("Could not build any predictions - fixtures for the target gameweek aren't published yet.")
 
@@ -427,6 +521,8 @@ def main():
 
     out_cols = ["player_id", "GW", "name", "position", "team", "value", "predicted_total_points"]
     out_cols.extend(col for col in ("opponent_team", "was_home") if col in preds)
+    if args.cold_start_priors:
+        out_cols.extend(["is_cold_start", "forecast_source", "prior_std", "p_played", "p60", "prior_count"])
     preds = preds[out_cols]
     config.PREDICTIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
     preds.to_csv(config.PREDICTIONS_PATH, index=False)
@@ -441,7 +537,9 @@ def main():
     ]
 
     if args.team_id:
-        squad_ids, bank = get_user_squad(args.team_id, bootstrap, set(feat_df["player_id"]))
+        known_ids = set(snapshot["player_id"] if args.cold_start_priors else feat_df["player_id"])
+        squad_ids, bank = get_user_squad(args.team_id, bootstrap, known_ids)
+        optimize.validate_owned_forecast_pool(squad_ids, list(preds["player_id"]))
         print(f"--- Continuing team {args.team_id}: {len(squad_ids)} matched players, bank={bank} ---")
         opt_args += [
             "--initial-squad", ",".join(map(str, squad_ids)),

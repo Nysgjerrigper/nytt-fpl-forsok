@@ -1,0 +1,25 @@
+{
+  "classification_at_recording": "completed: exec session 84806 observed exit_code 0",
+  "classified_at_utc": "2026-10-03T17:00:31.418870+00:00",
+  "exec_session_id": 84806,
+  "last_observed_seed1_selection": {
+    "mae_full": 991.0,
+    "mae_without_fixture": 1031.0,
+    "mae_without_minutes": 896.0,
+    "mae_without_opponent": 1005.0,
+    "rmse_full": 1130.0
+  },
+  "last_observed_seed1_status": "running",
+  "production_changed": false,
+  "protocol_sha256": "1a00af8f14da7a1add769693aa83bcd25ea0f603c185341a169cb0b6594d965c",
+  "publication": "local research artifacts only",
+  "runner": "robustness_launcher.py",
+  "seed1_status": "complete",
+  "seed2_status": "complete",
+  "seed2_status_at_recording": "queued by serial launcher",
+  "seeds": [
+    1,
+    2
+  ],
+  "training_running": false
+}
