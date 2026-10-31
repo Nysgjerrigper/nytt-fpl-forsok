@@ -294,10 +294,28 @@ def availability_multipliers(bootstrap):
 def apply_availability(preds, factors):
     """Scale predicted_total_points by each player's availability factor (1.0 when unknown).
 
-    Separated from main() so the scaling arithmetic is unit-testable without the API."""
+    For cold priors, availability is heuristically an independent Bernoulli gate:
+    mean becomes q*mean, variance q*variance + q*(1-q)*mean**2, and participation
+    probabilities become q*p. This is not a calibrated availability distribution.
+    Separated from main() so the arithmetic is unit-testable without the API."""
     scale = preds["player_id"].map(factors).fillna(1.0)
     preds = preds.copy()
-    preds["predicted_total_points"] = preds["predicted_total_points"] * scale
+    original_mean = preds["predicted_total_points"].copy()
+    if "prior_std" in preds:
+        marked = preds.get("is_cold_start", pd.Series(False, index=preds.index)).fillna(False).astype(bool)
+        if "forecast_source" in preds:
+            marked = marked | preds["forecast_source"].eq("pooled_prior")
+        prior_rows = marked & np.isfinite(preds["prior_std"])
+        q = scale.loc[prior_rows]
+        if not np.isfinite(q).all() or ((q < 0) | (q > 1)).any():
+            raise ValueError("Cold-prior availability factors must be finite probabilities in [0, 1]")
+        variance = preds.loc[prior_rows, "prior_std"] ** 2
+        mean = original_mean.loc[prior_rows]
+        preds.loc[prior_rows, "prior_std"] = np.sqrt(q * variance + q * (1 - q) * mean ** 2)
+        for column in ("p_played", "p60"):
+            if column in preds:
+                preds.loc[prior_rows, column] = preds.loc[prior_rows, column] * q
+    preds["predicted_total_points"] = original_mean * scale
     flagged, zeroed = int((scale < 1.0).sum()), int((scale == 0.0).sum())
     print(f"Availability scaling: {flagged} of {len(preds)} prediction rows scaled down ({zeroed} zeroed).")
     return preds
@@ -484,6 +502,8 @@ def main():
     )
     parser.add_argument("--mid-gate-config", default=None,
                         help="Frozen MidGateConfig JSON for optional experimental MID routing.")
+    parser.add_argument("--cold-start-priors", action="store_true",
+                        help="Opt-in empirical pooled priors for registered players without history; not calibrated intervals.")
     args = parser.parse_args()
     if args.optimizer_state_json and args.optimizer != "solio":
         parser.error("optimizer-state-json requires --optimizer solio")
@@ -509,9 +529,18 @@ def main():
     raw = pd.read_csv(config.MASTER_DATASET_PATH, low_memory=False)
     feat_df = features.build_feature_frame(raw)
     feature_cols = features.feature_columns(feat_df)
+    cold_start_priors = None
+    cold_snapshot = None
+    if args.cold_start_priors:
+        from fpl.model.cold_start import add_registered_cold_starts, fit_pooled_priors
+        cold_snapshot = apply_live_identity(build_live_snapshot(raw), bootstrap)
+        origin = config.season_start_gw(fetch.active_season_from_bootstrap(bootstrap)) + target_gw - 1
+        cold_snapshot["GW_global"] = origin
+        cold_snapshot = add_registered_cold_starts(cold_snapshot, bootstrap)
+        cold_start_priors = fit_pooled_priors(raw, origin_gw=origin)
     squad_ids, bank = None, 1000.0
     if args.team_id is not None:
-        squad_ids, bank = get_user_squad(args.team_id, bootstrap, set(feat_df["player_id"]))
+        squad_ids, bank = get_user_squad(args.team_id, bootstrap, set(cold_snapshot["player_id"] if args.cold_start_priors else feat_df["player_id"]))
         print("OWNER VERIFICATION REQUIRED: public last-deadline picks/bank are a scenario; "
               "check current holdings, bank, selling prices and remaining chips before entry.")
 
@@ -533,10 +562,11 @@ def main():
                 if args.mid_gate_config else None)
     mid_experts = fit_mid_gate_experts(feat_df, feature_cols, mid_gate) if mid_gate else None
 
-    snapshot = apply_live_identity(build_live_snapshot(raw), bootstrap)
+    snapshot = cold_snapshot if args.cold_start_priors else apply_live_identity(build_live_snapshot(raw), bootstrap)
     opp_form = features.team_form_asof(raw)
+    cold_kwargs = {"cold_start_priors": cold_start_priors} if args.cold_start_priors else {}
     preds = build_future_predictions(snapshot, feature_cols, models, bootstrap, target_gw, args.horizon,
-                                     opp_form=opp_form, mid_gate=mid_gate, mid_experts=mid_experts)
+                                     opp_form=opp_form, mid_gate=mid_gate, mid_experts=mid_experts, **cold_kwargs)
     if preds.empty:
         sys.exit("Could not build any predictions - fixtures for the target gameweek aren't published yet.")
 
@@ -554,6 +584,8 @@ def main():
 
     out_cols = ["player_id", "GW", "name", "position", "team", "value", "predicted_total_points"]
     out_cols.extend(col for col in ("opponent_team", "was_home") if col in preds)
+    if args.cold_start_priors:
+        out_cols.extend(["is_cold_start", "forecast_source", "prior_std", "p_played", "p60", "prior_count"])
     preds = preds[out_cols]
     config.PREDICTIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
     preds.to_csv(config.PREDICTIONS_PATH, index=False)

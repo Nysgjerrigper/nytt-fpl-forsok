@@ -53,14 +53,16 @@ def scored_points(df: pd.DataFrame, *, points_col: str = POINTS_COL) -> pd.Serie
     """
     if points_col not in (POINTS_COL, "actual_net_points"):
         raise ValueError("points_col must be actual_total_points or actual_net_points")
+    if not isinstance(df, pd.DataFrame) or not df.columns.is_unique:
+        raise ValueError("backtest requires a nonempty frame with unique columns")
     if df.empty:
-        raise ValueError("empty backtest run")
+        raise ValueError("empty backtest run; requires a nonempty frame with unique columns")
     for column in (GW_COL, POINTS_COL):
         if column not in df:
-            raise ValueError(f"run has no '{column}' column")
+            raise ValueError(f"run has no '{column}' column; missing required columns")
         values = df[column]
         if (not pd.api.types.is_numeric_dtype(values)
-                or pd.api.types.is_bool_dtype(values) or not np.isfinite(values).all()):
+                or pd.api.types.is_bool_dtype(values) or pd.api.types.is_complex_dtype(values) or values.isna().any() or not np.isfinite(values).all()):
             raise ValueError(f"{column} must contain finite numeric values")
     weeks = df[GW_COL]
     if not ((weeks > 0) & (weeks % 1 == 0)).all():
@@ -80,7 +82,17 @@ def scored_points(df: pd.DataFrame, *, points_col: str = POINTS_COL) -> pd.Serie
         if (not pd.api.types.is_numeric_dtype(paid) or pd.api.types.is_bool_dtype(paid)
                 or not np.isfinite(paid).all() or not ((paid >= 0) & (paid % 1 == 0)).all()):
             raise ValueError("alpha must contain nonnegative integer paid transfers")
-        net = df[POINTS_COL] - config.TRANSFER_HIT_POINTS * paid
+        gross = df[POINTS_COL]
+        if ("points_accounting" in df and df.points_accounting.eq("net_after_transfer_hits").all()
+                and "gross_actual_total_points" in df):
+            # Retained pre-split research exports label POINTS_COL as net and retain
+            # its gross source. Validate that historical schema without paying hits twice.
+            gross = df.gross_actual_total_points
+            if (not pd.api.types.is_numeric_dtype(gross) or pd.api.types.is_bool_dtype(gross)
+                    or not np.isfinite(gross).all()
+                    or not np.allclose(df[POINTS_COL], gross - config.TRANSFER_HIT_POINTS * paid, rtol=0, atol=1e-9)):
+                raise ValueError("labelled research net points must equal preserved gross minus hits")
+        net = gross - config.TRANSFER_HIT_POINTS * paid
     if "transfer_hit_points" in df:
         supplied_cost = df.transfer_hit_points
         if (net is None or not pd.api.types.is_numeric_dtype(supplied_cost)
@@ -107,6 +119,17 @@ def paired_gw_differences(df_a: pd.DataFrame, df_b: pd.DataFrame, *,
     gameweek set - a paired analysis over mismatched windows would be comparing
     different seasons' difficulty, so that raises instead of silently intersecting.
     """
+    for label in ("scoring_protocol", "points_accounting"):
+        if label not in df_a and label not in df_b:
+            continue
+        if label not in df_a or label not in df_b:
+            raise ValueError(f"both runs must declare {label}")
+        for frame in (df_a, df_b):
+            if (frame[label].isna().any() or frame[label].nunique() != 1
+                    or not frame[label].map(lambda value: isinstance(value, str) and bool(value.strip())).all()):
+                raise ValueError(f"run requires one nonmissing nonblank string {label}")
+        if df_a[label].iloc[0] != df_b[label].iloc[0]:
+            raise ValueError(f"runs have different {label}")
     a = scored_points(df_a, points_col=points_col)
     b = scored_points(df_b, points_col=points_col)
     if ("scoring_protocol" in df_a) != ("scoring_protocol" in df_b):
@@ -124,6 +147,8 @@ def paired_gw_differences(df_a: pd.DataFrame, df_b: pd.DataFrame, *,
 
 def _finite_differences(diffs) -> np.ndarray:
     """Admit a nonempty finite one-dimensional paired-difference vector."""
+    if np.iscomplexobj(diffs):
+        raise ValueError("differences must be a finite real one-dimensional series")
     d = np.asarray(diffs, dtype=float)
     if d.ndim != 1 or not d.size or not np.isfinite(d).all():
         raise ValueError("differences must be a nonempty finite one-dimensional series")

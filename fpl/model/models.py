@@ -662,6 +662,40 @@ EXPERT_SPECS.update({
 REGISTERED_MODEL_NAMES = tuple(EXPERT_SPECS)
 
 
+def _raw_sequence_cnn(params, seed, position):
+    """Load the separate bounded CPU experiment only when explicitly requested."""
+    from fpl.model.cnn_process import IsolatedSequenceCNNRegressor
+    return IsolatedSequenceCNNRegressor(**{**dict(params), "seed": seed})
+
+
+def _raw_temporal_blend(params, seed, position):
+    """Use earlier-only registered convex weights with explicit member settings."""
+    from fpl.model.temporal_blend import TemporalCNNTreeBlendRegressor
+    return TemporalCNNTreeBlendRegressor(**{**dict(params), "seed": seed, "position": position})
+
+
+def _required_temporal_blend_params(seed):
+    raise ValueError("temporal blend requires registered earlier-only weights and explicit member parameters")
+
+
+# Separate families do not extend the registered MoE artifact/promotion universe.
+# Explicit single-model fitting can use these specs; production/tuning catalogs stay fixed.
+EXPLORATORY_SPECS = {
+    "sequence_cnn": ExpertSpec(
+        _raw_sequence_cnn, None,
+        _defaults(dict(epochs=config.CNN_EPOCHS, batch_size=config.CNN_BATCH_SIZE,
+                       channels=config.CNN_CHANNELS, hidden=config.CNN_HIDDEN,
+                       learning_rate=config.CNN_LEARNING_RATE, weight_decay=config.CNN_WEIGHT_DECAY,
+                       grad_clip=config.CNN_GRAD_CLIP)),
+        "fold_local_sequence_and_context_scaling", (), 0,
+        "Bounded CPU temporal CNN; separate exploratory protocol"),
+    "temporal_cnn_blend": ExpertSpec(
+        _raw_temporal_blend, None, _required_temporal_blend_params,
+        "member_training_local_preprocessing_and_frozen_convex_weights", (), 0,
+        "Earlier-only CNN/RMSE blend; separate exploratory protocol"),
+}
+
+
 def build_registered_model(name: str, params: Mapping[str, Any] | None = None,
                            *, seed: int | None = None, position: str | None = None):
     """Build a registered tournament expert without fitting it."""
@@ -758,7 +792,12 @@ def fit_model(
             raise ValueError("lgbm_rank needs the `gw` (GW_global) group label")
         return LambdaRankScorer(position=position).fit(X, y, gw=gw)
     params = _tuned_params(name, position, max_train_gw=max_train_gw) if params is None else params
-    if name in EXPERT_SPECS:
+    if name in EXPLORATORY_SPECS:
+        spec = EXPLORATORY_SPECS[name]
+        resolved_seed = spec.seed if seed is None else seed
+        model = spec.factory(spec.default_params(resolved_seed) if params is None else params,
+                             resolved_seed, position)
+    elif name in EXPERT_SPECS:
         model = build_registered_model(name, params=params, seed=seed, position=position)
     else:
         if name not in FACTORIES:

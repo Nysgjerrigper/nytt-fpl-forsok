@@ -31,7 +31,7 @@ from fpl import config, features
 from fpl.data.feature_cache import load_frozen_feature_frame
 from fpl.data.provenance import load_frozen_research_dataset
 from fpl.model import models
-from fpl.model.recipes import resolve_fit_recipe
+from fpl.model.recipes import resolve_pipeline_recipe
 from fpl.model.expert_policy import POSITIONS
 from fpl.model.ensemble import PositionEnsemble, fit_weights
 from fpl.model.metrics import (
@@ -434,7 +434,7 @@ def fit_position_ensembles(
 
     if cold_start_mask(df).any():
         raise ValueError("Synthetic cold-start rows cannot enter feature building or model fitting")
-    recipe = resolve_fit_recipe(weights_by_pos, params_by_pos, seed)
+    recipe = resolve_pipeline_recipe(weights_by_pos, params_by_pos, seed)
     ensembles = {}
     for pos in POSITIONS:
         pos_df = df[df["position"] == pos]
