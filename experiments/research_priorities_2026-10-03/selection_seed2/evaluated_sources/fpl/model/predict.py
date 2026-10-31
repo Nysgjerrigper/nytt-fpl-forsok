@@ -1,0 +1,289 @@
+"""
+Generate a predictions CSV in the format the MILP optimizer expects
+(fpl/milp/optimize.py): player_id, GW, name, position, team, value,
+predicted_total_points, actual_total_points.
+
+Two modes:
+- Walk-forward backtest: for each GW in [start_gw, end_gw], train only on
+  data strictly before it and predict that GW - this is what a real
+  in-season run would have seen, so it's the right way to backtest the
+  MILP against history (see fpl/model/train.py for the plain accuracy eval).
+- Live: train on ALL available data and predict the next unplayed GW(s),
+  using fixture/home-away info supplied by the caller (run_week.py fetches
+  this from the official FPL API, since vaastav's historical data obviously
+  has no rows yet for a gameweek that hasn't been played).
+"""
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+from fpl import config, features
+from fpl.data.feature_cache import load_frozen_feature_frame
+from fpl.data.provenance import load_frozen_research_dataset
+from fpl.model.expert_policy import (POSITIONS, fit_mid_gate_experts, parse_expert_map,
+                                     predict_by_position, predict_with_mid_gate,
+                                     resolve_weight_strategy)
+from fpl.model.mid_gate import MidGateConfig
+from fpl.model.train import fit_holdout_weights, fit_level_calibration, fit_position_ensembles
+from fpl.model.walk_forward import walk_forward_steps
+
+
+def walk_forward_predictions(df, feature_cols, start_gw, end_gw, retrain_every=1, weight_window=16,
+                             weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY, calibrate_level=False,
+                             expert_map=None, mid_gate=None, *, parameters_by_pos=None, seed=None):
+    """Predict every GW in [start_gw, end_gw] using only data from earlier GWs.
+
+    Combination weights are fit ONCE, on the `weight_window` gameweeks strictly before
+    start_gw (members trained on data before that window) - so no weight ever sees
+    a gameweek this function goes on to predict. The old scheme reused weights
+    saved by train.py, which were fit INSIDE the GW153-183 test window and leaked
+    into any backtest over it (RESEARCH_LOG.md 2026-07-04). Zero-weight members
+    are skipped at every retrain - no point fitting a model the blend ignores.
+
+    `weight_strategy` passes through to train.fit_holdout_weights: "nnls"/"top_k"/"ridge",
+    or "single:<model>" (e.g. "single:catboost", which the GW169-226 head-to-head found
+    beats every blend - see RESEARCH_LOG.md 2026-07-05).
+
+    `calibrate_level=True` multiplies each position's predictions by a scalar fit on the same
+    pre-window holdout (train.fit_level_calibration), correcting the median-flattened LEVEL of
+    MAE-loss forecasts before they hit the MILP's absolute-scale transfer/chip logic. Rankings
+    (and therefore MASE-style comparisons between calibrated and uncalibrated runs) are NOT
+    comparable on MAE after scaling - the point of this flag is realized MILP points, not MAE.
+    """
+    rows = []
+    weight_strategy = resolve_weight_strategy(weight_strategy, expert_map)
+    print(f"Fitting combination weights (strategy={weight_strategy}) "
+          f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
+    weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
+                                         window=weight_window, strategy=weight_strategy)
+    for pos in POSITIONS:
+        picked = ", ".join(f"{n}={w:.2f}" for n, w in weights_by_pos[pos].items() if w > 0.01)
+        print(f"    weights ({pos}): {picked}")
+
+    level_scalars = {pos: 1.0 for pos in POSITIONS}
+    if calibrate_level:
+        level_scalars = fit_level_calibration(df, feature_cols, first_holdout_gw=start_gw,
+                                              weights_by_pos=weights_by_pos, window=weight_window)
+        print("    level calibration scalars: "
+              + ", ".join(f"{pos}={s:.3f}" for pos, s in level_scalars.items()))
+
+    def fit_fn(train_df):
+        fitted = (fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+                  if parameters_by_pos is None and seed is None else
+                  fit_position_ensembles(train_df, feature_cols, weights_by_pos,
+                                         parameters_by_pos=parameters_by_pos, seed=seed))
+        return (fitted, fit_mid_gate_experts(train_df, feature_cols, mid_gate)) if mid_gate else fitted
+
+    for gw, models_cache, test_df in walk_forward_steps(
+        df, start_gw, end_gw, retrain_every, fit_fn
+    ):
+        test_df = test_df.copy()
+        if mid_gate:
+            fitted, mid_experts = models_cache
+            test_df["predicted_total_points"] = predict_with_mid_gate(
+                test_df, feature_cols, fitted, mid_gate, mid_experts, level_scalars)
+        else:
+            test_df["predicted_total_points"] = predict_by_position(
+                test_df, feature_cols, models_cache, level_scalars=level_scalars)
+        rows.append(test_df)
+
+    result = pd.concat(rows, ignore_index=True)
+    out_cols = ["player_id", "GW_global", "name", "position", "team", "value",
+                "predicted_total_points", "total_points"]
+    if "minutes" in result:
+        out_cols.append("minutes")
+    out_cols.extend(col for col in ("fixture", "opponent_team", "was_home") if col in result)
+    result = result[out_cols].rename(columns={"GW_global": "GW", "total_points": "actual_total_points"})
+    return result
+
+
+def origin_based_predictions(df, raw_df, feature_cols, start_gw, end_gw, horizon,
+                             retrain_every=4, weight_window=16,
+                             weight_strategy=config.PRODUCTION_WEIGHT_STRATEGY,
+                             expert_map=None, mid_gate=None, *, parameters_by_pos=None, seed=None,
+                             snapshot_builder=None, extra_player_features=()):
+    """Deploy-honest backtest export: for each origin GW t, predict ALL of t..t+horizon-1
+    with player form frozen at t's deadline (information through GW t-1 only).
+
+    Why this exists (audit finding B2): the standard walk-forward gives the MILP's
+    lookahead terms forecasts for t+1/t+2 that were built with the OUTCOMES of GW t and
+    t+1 - the transfer locked in at t is informed by data realized after t. A live run can
+    never have that; it freezes form at "now" for the whole horizon (fpl.run_week). This
+    export reproduces the live information set inside the backtest, so the realized-points
+    number it produces is the honest expectation for deployment; the gap to the standard
+    protocol measures the lookahead optimism once.
+
+    Mechanics per origin t:
+    - members are (re)trained on GW < t (every `retrain_every` origins, like the standard
+      walk-forward); combination weights are fit once, strictly before `start_gw`;
+    - a synthetic-snapshot frame is built from raw data truncated to GW < t
+      (run_week.build_live_snapshot - the exact live code path), giving each active
+      player's form features as of the deadline;
+    - each target GW's REAL rows supply what a live run legitimately knows ahead: fixture
+      identity (opponent, home/away, official FDR) - plus the actual points/value used
+      for scoring, exactly as in the standard protocol so value handling is identical on
+      both sides of the comparison;
+    - the player-shifted feature columns of those target rows are OVERWRITTEN with the
+      snapshot's frozen values, and opp_* is recomputed as the actual upcoming opponent's
+      form through GW t-1 (features.team_form_asof) - NOT the target row's own opp_* (form through
+      target-1: future information), and NOT the snapshot's opp_* (the PREVIOUS fixture's
+      opponent - the staleness bug run_week also had, fixed 2026-07-11).
+
+    Players with no snapshot row (no appearance in the trailing season before t) are
+    dropped from that origin's pool - live would have no prediction for them either.
+
+    Output matches the standard CSV plus an `origin_gw` column; fpl.milp.optimize uses
+    the origin-t rows for the solve at GW t.
+
+    Opt-in research adapters can provide ``snapshot_builder(hist_raw)`` and an
+    explicit ``extra_player_features`` list. Every listed feature is overwritten
+    across the entire horizon from that origin-truncated snapshot. Such features
+    must exist in the fitted frame and the rebuilt snapshot; missing columns or
+    ambiguous player identities fail instead of retaining future target form.
+    """
+    from fpl.run_week import build_live_snapshot
+
+    extra_player_features = list(extra_player_features)
+    if (len(extra_player_features) != len(set(extra_player_features))
+            or not set(extra_player_features).issubset(feature_cols)
+            or not set(extra_player_features).issubset(df.columns)):
+        raise ValueError("extra player features must be unique fitted frame columns")
+    if extra_player_features and snapshot_builder is None:
+        raise ValueError("extra player features require an origin snapshot builder")
+    if snapshot_builder is not None and not callable(snapshot_builder):
+        raise ValueError("origin snapshot builder must be callable")
+    frozen_cols = list(dict.fromkeys(features._player_shifted_columns(df) + extra_player_features))
+    weight_strategy = resolve_weight_strategy(weight_strategy, expert_map)
+    print(f"Fitting combination weights (strategy={weight_strategy}) "
+          f"on holdout GW{start_gw - weight_window}-{start_gw - 1}...")
+    weights_by_pos = fit_holdout_weights(df, feature_cols, first_holdout_gw=start_gw,
+                                         window=weight_window, strategy=weight_strategy)
+
+    played_gws = set(df["GW_global"].unique())
+    rows = []
+
+    def fit_fn(train_df):
+        fitted = (fit_position_ensembles(train_df, feature_cols, weights_by_pos)
+                  if parameters_by_pos is None and seed is None else
+                  fit_position_ensembles(train_df, feature_cols, weights_by_pos,
+                                         parameters_by_pos=parameters_by_pos, seed=seed))
+        return (fitted, fit_mid_gate_experts(train_df, feature_cols, mid_gate)) if mid_gate else fitted
+
+    # The retrain-and-step skeleton drives the OUTER origin loop; the snapshot rebuild
+    # below and the inner horizon loop are this backtest's own per-origin body (the
+    # snapshot is rebuilt every origin, not only on retrain). test_df (rows at the
+    # origin GW) is unused here - each target GW's rows are fetched inside the horizon loop.
+    for origin, models_cache, _ in walk_forward_steps(
+        df, start_gw, end_gw, retrain_every, fit_fn, gw_word="origin GW"
+    ):
+        hist_raw = raw_df[raw_df["GW_global"] < origin]
+        snapshot = (build_live_snapshot(hist_raw) if snapshot_builder is None
+                    else snapshot_builder(hist_raw))
+        if ("player_id" not in snapshot or snapshot.player_id.isna().any()
+                or snapshot.player_id.duplicated().any()
+                or not set(frozen_cols).issubset(snapshot.columns)):
+            raise ValueError("origin snapshot lacks unambiguous player identities or frozen features")
+        snapshot = snapshot.set_index("player_id")
+        opp_form = features.team_form_asof(hist_raw)
+
+        origin_rows = 0
+        for gw in range(origin, min(origin + horizon, end_gw + 1)):
+            if gw not in played_gws:
+                continue
+            target = df[df["GW_global"] == gw].copy()
+            known = target["player_id"].isin(snapshot.index)
+            target = target[known].copy()
+            if target.empty:
+                continue
+            # Freeze player form at the origin deadline; keep the target row's known-ahead
+            # fixture columns and its actuals (scoring/value, same as standard protocol).
+            target[frozen_cols] = snapshot.loc[target["player_id"], frozen_cols].to_numpy()
+            for col in ("opp_attack_roll6", "opp_defense_roll6", "opp_cs_rate_roll6"):
+                mapped = target["opponent_team"].map(opp_form[col])
+                target[col] = mapped.to_numpy()
+
+            if mid_gate:
+                fitted, mid_experts = models_cache
+                prediction = predict_with_mid_gate(
+                    target, feature_cols, fitted, mid_gate, mid_experts)
+            else:
+                prediction = predict_by_position(target, feature_cols, models_cache)
+            target = pd.concat(
+                [target, pd.DataFrame({"predicted_total_points": prediction,
+                                       "origin_gw": origin}, index=target.index)],
+                axis=1,
+            )
+            rows.append(target)
+            origin_rows += len(target)
+        print(f"Origin GW {origin}: predicted {origin_rows} rows "
+              f"over GW{origin}-{min(origin + horizon - 1, end_gw)}")
+
+    result = pd.concat(rows, ignore_index=True)
+    out_cols = ["player_id", "origin_gw", "GW_global", "name", "position", "team", "value",
+                "predicted_total_points", "total_points"]
+    if "minutes" in result:
+        out_cols.append("minutes")
+    out_cols.extend(col for col in ("fixture", "opponent_team", "was_home") if col in result)
+    return result[out_cols].rename(columns={"GW_global": "GW", "total_points": "actual_total_points"})
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--start-gw", type=int, required=True)
+    parser.add_argument("--end-gw", type=int, required=True)
+    parser.add_argument("--retrain-every", type=int, default=4,
+                         help="Retrain models every N gameweeks instead of every single GW (much faster).")
+    parser.add_argument("--weight-strategy", type=str, default=config.PRODUCTION_WEIGHT_STRATEGY,
+                         help="Combination strategy: nnls | top_k | ridge | single:<model>. "
+                              "Defaults to the production strategy (config.PRODUCTION_WEIGHT_STRATEGY) "
+                              "so backtests measure the same configuration live runs use.")
+    parser.add_argument(
+        "--expert-map", type=parse_expert_map, default=None,
+        help="Experimental complete position override, e.g. "
+             "GK=catboost,DEF=lightgbm,MID=tabm,FWD=catboost. "
+             "Overrides --weight-strategy; production remains single:catboost.",
+    )
+    parser.add_argument("--mid-gate-config", default=None,
+                        help="Frozen MidGateConfig JSON for the optional experimental MID router.")
+    parser.add_argument("--calibrate-level", action="store_true",
+                         help="Rescale each position's predictions by sum(actual)/sum(predicted) "
+                              "fit on the pre-window holdout - corrects MAE-loss median-flattening "
+                              "before the MILP's absolute-scale transfer/chip decisions.")
+    parser.add_argument("--origin-based", action="store_true",
+                         help="Deploy-honest export: for each origin GW t, predict all of "
+                              "t..t+horizon-1 with player form frozen at t's deadline (the live "
+                              "information set), adding an origin_gw column the MILP solves "
+                              "per-origin. The standard walk-forward instead gives lookahead "
+                              "forecasts future information live can never have (audit B2).")
+    parser.add_argument("--horizon", type=int, default=3,
+                         help="Lookahead length for --origin-based (match the MILP --horizon).")
+    parser.add_argument("--output", type=str, default=str(config.PREDICTIONS_PATH))
+    args = parser.parse_args()
+
+    raw = load_frozen_research_dataset()
+    df = load_frozen_feature_frame(raw)
+    feature_cols = features.feature_columns(df)
+
+    mid_gate = (MidGateConfig.from_dict(json.loads(Path(args.mid_gate_config).read_text()))
+                if args.mid_gate_config else None)
+    if args.origin_based:
+        if args.calibrate_level:
+            sys.exit("--calibrate-level is not supported with --origin-based (documented "
+                     "negative result; keep the comparison surface minimal).")
+        preds = origin_based_predictions(df, raw, feature_cols, args.start_gw, args.end_gw,
+                                         horizon=args.horizon, retrain_every=args.retrain_every,
+                                         weight_strategy=args.weight_strategy,
+                                         expert_map=args.expert_map, mid_gate=mid_gate)
+    else:
+        preds = walk_forward_predictions(df, feature_cols, args.start_gw, args.end_gw, args.retrain_every,
+                                         weight_strategy=args.weight_strategy,
+                                         calibrate_level=args.calibrate_level,
+                                         expert_map=args.expert_map, mid_gate=mid_gate)
+    Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+    preds.to_csv(args.output, index=False)
+    print(f"Saved {len(preds)} rows to {args.output}")

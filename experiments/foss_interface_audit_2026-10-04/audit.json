@@ -1,0 +1,17 @@
+{
+  "status": "verified_source_audit",
+  "inventory_sha256": "541fb221dcff953abe59fd0d980eec99a3f6246be3663f3bf543e6d32f48610c",
+  "findings_sha256": "9f039752bb0f9e4081bdfc3a9d79df2f1e36dd00ecfc7a1c0e0c69745809f0d0",
+  "issue": "https://github.com/Nysgjerrigper/nytt-fpl-forsok/issues/15",
+  "public_findings_comment": "blocked_pending_explicit_payload_approval",
+  "upstream_code_executed": false,
+  "upstream_ui_adopted": false,
+  "candidate_count": 5,
+  "actual_license_files": 3,
+  "missing_license_files": 2,
+  "limitations": [
+    "Actual code and asset licensing compatibility must be resolved before adoption.",
+    "Source inspection is not a successful UI runtime test.",
+    "Implementation estimates are planning estimates only."
+  ]
+}

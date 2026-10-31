@@ -1,0 +1,11 @@
+{
+  "finalists": [
+    "mae_full",
+    "rmse_full",
+    "mae_without_fixture"
+  ],
+  "selected_ablation": "mae_without_fixture",
+  "selection_rule": "Highest selection-origin MILP total among MAE ablations; full control retained on ties. RMSE is predeclared.",
+  "selection_summary": "selection_summary.json",
+  "selection_summary_sha256": "6cc349143e85e1f4085f1932c761b517ad26141f5139dd85c78609ebcb3df416"
+}

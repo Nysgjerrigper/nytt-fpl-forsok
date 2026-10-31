@@ -1,0 +1,74 @@
+{
+  "checks": [
+    "original/current archive, frozen data, source and catalog locks",
+    "catalog latest prior observations rebuilt independently",
+    "unchanged numerical cached forecasts and identical policy replay CSVs",
+    "all output/admission/result/log hashes",
+    "known-price eligibility and current budgets",
+    "net gross hit arithmetic",
+    "all paired bootstrap/sign-test reports"
+  ],
+  "elapsed_seconds": 408.3102342498023,
+  "immutable_outputs": 74,
+  "independently_reconstructed_current_budgets": 94,
+  "limitations": [
+    "Conditional horizon sensitivity uses the reconstructed replay current-origin vector, not verified deadline prices.",
+    "Current prices can retain legacy forward/back filling; roster and selling-price rules remain historical approximations.",
+    "Known-lagged-price eligibility remains identical to the verified price study, with no adaptive age filter.",
+    "The earlier price proxy experiment changed both current and horizon vectors; this policy isolates the horizon conditional on its reconstructed current vector.",
+    "Both windows are repeatedly examined historical evidence; no complete PIT, availability or promotion claim.",
+    "Only new horizon arms are scored; verified replay/asof controls are reused without model fitting or tuning.",
+    "Horizon freeze holds the reconstructed current vector fixed; current publication, roster and filling gaps remain."
+  ],
+  "optimal_solves": 94,
+  "promotion_eligible": false,
+  "registration_sha256": "6420838f4ebbb180fbdeb1c03a37964beb77e8fd516a7c13abfdd3be4cd96c6f",
+  "results": {
+    "reference": {
+      "mae_horizon": 1938.0,
+      "rmse_horizon": 1856.0
+    },
+    "selection": {
+      "mae_horizon": 930.0,
+      "rmse_horizon": 993.0
+    }
+  },
+  "selected_proxy_diagnostics": {
+    "reference/mae_horizon": {
+      "absent_current_fixture_player_rounds": 15,
+      "absent_horizon_fixture_player_rounds": 9,
+      "eligibility_observation_age_max": 47,
+      "eligibility_observation_age_mean": 1.8279569892473118,
+      "older_than_38_rounds": 9,
+      "selected_player_rounds": 465
+    },
+    "reference/rmse_horizon": {
+      "absent_current_fixture_player_rounds": 27,
+      "absent_horizon_fixture_player_rounds": 19,
+      "eligibility_observation_age_max": 22,
+      "eligibility_observation_age_mean": 1.5096774193548388,
+      "older_than_38_rounds": 0,
+      "selected_player_rounds": 465
+    },
+    "selection/mae_horizon": {
+      "absent_current_fixture_player_rounds": 14,
+      "absent_horizon_fixture_player_rounds": 0,
+      "eligibility_observation_age_max": 2,
+      "eligibility_observation_age_mean": 1.0583333333333333,
+      "older_than_38_rounds": 0,
+      "selected_player_rounds": 240
+    },
+    "selection/rmse_horizon": {
+      "absent_current_fixture_player_rounds": 12,
+      "absent_horizon_fixture_player_rounds": 0,
+      "eligibility_observation_age_max": 2,
+      "eligibility_observation_age_mean": 1.05,
+      "older_than_38_rounds": 0,
+      "selected_player_rounds": 240
+    }
+  },
+  "source_files": 50,
+  "status": "verified",
+  "summary_sha256": "fcd53056c55473c727cae6cef84f0a196b243b6eaca795ece725f3b77aa736b9",
+  "verified_at_utc": "2026-10-03T17:51:52.885438+00:00"
+}

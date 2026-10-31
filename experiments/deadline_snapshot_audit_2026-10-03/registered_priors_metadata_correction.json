@@ -1,0 +1,8 @@
+{
+  "correction": "The frozen CSV loader parses complete outcome columns. The coverage calculation and prior prediction use only outcomes strictly before each origin; current/future outcomes are neither scored nor used. Interpret this flag as target_outcomes_used=false, not as absence of file parsing.",
+  "current_or_future_outcomes_used": false,
+  "decision_evaluation": false,
+  "field": "target_outcomes_read",
+  "registration_sha256": "48bfefead5e62fb764010fb45f5143c1faf5bacf32e210a8420fd88471c82708",
+  "scientific_results_changed": false
+}

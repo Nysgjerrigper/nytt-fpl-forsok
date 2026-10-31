@@ -1,0 +1,40 @@
+{
+  "archived_sources": 45,
+  "decision": "CNN did not beat selected tree; historical reference not constructed or evaluated. No general CNN inferiority or production promotion claim.",
+  "elapsed_seconds": 491.70509570883587,
+  "optimal_solves": 64,
+  "registration_sha256": "1d318dcc0ce36bb731572a9323c8a1e65873474c2ca5510d9ffcbd1d93f912a3",
+  "selection": {
+    "cnn_sequence": {
+      "forecast_seconds": 82.3774129578378,
+      "gross": 1022.0,
+      "hit_points": 40.0,
+      "milp_seconds": 74.63079687487334,
+      "net": 982.0
+    },
+    "mae_full": {
+      "forecast_seconds": 29.040317917009816,
+      "gross": 926.0,
+      "hit_points": 0.0,
+      "milp_seconds": 59.327814458170906,
+      "net": 926.0
+    },
+    "mae_sequence": {
+      "forecast_seconds": 33.07013287511654,
+      "gross": 893.0,
+      "hit_points": 0.0,
+      "milp_seconds": 42.989185666898265,
+      "net": 893.0
+    },
+    "rmse_sequence": {
+      "forecast_seconds": 111.33218779205345,
+      "gross": 1056.0,
+      "hit_points": 32.0,
+      "milp_seconds": 54.10917470813729,
+      "net": 1024.0
+    }
+  },
+  "selection_lock_sha256": "db208cfd6df49c2fb7dbe3daefeb016b11ad3fdc295b7a4cf88c919698a146a1",
+  "status": "VERIFIED",
+  "summary_sha256": "ceff744b26b2ffccf968b0384c8bfae1067b20499a9ca0362ad968bc09a0e616"
+}

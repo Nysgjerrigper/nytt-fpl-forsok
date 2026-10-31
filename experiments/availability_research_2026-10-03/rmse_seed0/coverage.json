@@ -1,0 +1,1303 @@
+{
+  "counts": {
+    "reference": {
+      "covered_fixture_rows": 87307,
+      "evaluation_covered_fixture_rows": 19638,
+      "evaluation_fixture_rows": 21750,
+      "evaluation_missing_fixture_rows": 2112,
+      "fixture_rows": 127691,
+      "missing_fixture_rows": 40384
+    },
+    "selection": {
+      "covered_fixture_rows": 67669,
+      "evaluation_covered_fixture_rows": 13586,
+      "evaluation_fixture_rows": 13652,
+      "evaluation_missing_fixture_rows": 66,
+      "fixture_rows": 105941,
+      "missing_fixture_rows": 38272
+    }
+  },
+  "origins": [
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 1,
+      "reason": "capture age 32.5717h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 2,
+      "reason": "capture age 69.9247h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 3,
+      "reason": "capture age 237.925h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 4,
+      "reason": null,
+      "roster_players": 558
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 5,
+      "reason": "capture age 218.087h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 6,
+      "reason": "capture age 149.163h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 7,
+      "reason": "capture age 318.163h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 8,
+      "reason": null,
+      "roster_players": 597
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 9,
+      "reason": null,
+      "roster_players": 600
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 10,
+      "reason": null,
+      "roster_players": 601
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 11,
+      "reason": null,
+      "roster_players": 603
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 12,
+      "reason": "capture age 25.9247h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 13,
+      "reason": null,
+      "roster_players": 607
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 14,
+      "reason": null,
+      "roster_players": 607
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 15,
+      "reason": null,
+      "roster_players": 611
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 16,
+      "reason": null,
+      "roster_players": 614
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 17,
+      "reason": null,
+      "roster_players": 616
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 18,
+      "reason": null,
+      "roster_players": 628
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 19,
+      "reason": null,
+      "roster_players": 633
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 20,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 21,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 22,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 23,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 24,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 25,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 26,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 27,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 28,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 29,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 30,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 31,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 32,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 33,
+      "reason": null,
+      "roster_players": 691
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 34,
+      "reason": "capture age 57.0025h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 35,
+      "reason": null,
+      "roster_players": 695
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 36,
+      "reason": null,
+      "roster_players": 703
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 37,
+      "reason": null,
+      "roster_players": 703
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 38,
+      "reason": null,
+      "roster_players": 706
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 39,
+      "reason": null,
+      "roster_players": 529
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 40,
+      "reason": null,
+      "roster_players": 559
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 41,
+      "reason": null,
+      "roster_players": 567
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 42,
+      "reason": null,
+      "roster_players": 594
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 43,
+      "reason": null,
+      "roster_players": 599
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 44,
+      "reason": "capture age 39.4883h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 45,
+      "reason": "capture age 38.9844h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 46,
+      "reason": null,
+      "roster_players": 613
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 47,
+      "reason": "capture age 81.1733h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 48,
+      "reason": "capture age 73.2486h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 49,
+      "reason": null,
+      "roster_players": 623
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 50,
+      "reason": null,
+      "roster_players": 624
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 51,
+      "reason": null,
+      "roster_players": 631
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 52,
+      "reason": null,
+      "roster_players": 633
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 53,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 54,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 55,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 56,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 57,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 58,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 59,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 60,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 61,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 62,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 63,
+      "reason": "capture age 24.9025h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 64,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 65,
+      "reason": null,
+      "roster_players": 711
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 66,
+      "reason": "capture age 48.8483h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 67,
+      "reason": null,
+      "roster_players": 714
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 68,
+      "reason": null,
+      "roster_players": 714
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 69,
+      "reason": null,
+      "roster_players": 714
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 70,
+      "reason": null,
+      "roster_players": 720
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 71,
+      "reason": null,
+      "roster_players": 722
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 72,
+      "reason": null,
+      "roster_players": 726
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 73,
+      "reason": "capture age 24.9208h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 74,
+      "reason": "capture age 25.7303h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 75,
+      "reason": null,
+      "roster_players": 734
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 76,
+      "reason": null,
+      "roster_players": 736
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 77,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 78,
+      "reason": "capture age 37.1211h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 79,
+      "reason": null,
+      "roster_players": 589
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 80,
+      "reason": null,
+      "roster_players": 594
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 81,
+      "reason": null,
+      "roster_players": 601
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 82,
+      "reason": null,
+      "roster_players": 623
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 83,
+      "reason": "capture age 25.2142h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 84,
+      "reason": null,
+      "roster_players": 627
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 85,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 86,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 87,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 88,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 89,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 90,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 91,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 92,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 93,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 94,
+      "reason": null,
+      "roster_players": 675
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 95,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 96,
+      "reason": null,
+      "roster_players": 692
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 97,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 98,
+      "reason": null,
+      "roster_players": 734
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 99,
+      "reason": null,
+      "roster_players": 740
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 100,
+      "reason": null,
+      "roster_players": 745
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 101,
+      "reason": null,
+      "roster_players": 746
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 102,
+      "reason": null,
+      "roster_players": 746
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 103,
+      "reason": null,
+      "roster_players": 747
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 104,
+      "reason": null,
+      "roster_players": 750
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 105,
+      "reason": null,
+      "roster_players": 751
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 106,
+      "reason": null,
+      "roster_players": 754
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 107,
+      "reason": null,
+      "roster_players": 754
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 108,
+      "reason": null,
+      "roster_players": 759
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 109,
+      "reason": null,
+      "roster_players": 760
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 110,
+      "reason": null,
+      "roster_players": 761
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 111,
+      "reason": null,
+      "roster_players": 762
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 112,
+      "reason": null,
+      "roster_players": 763
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 113,
+      "reason": null,
+      "roster_players": 765
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 114,
+      "reason": null,
+      "roster_players": 775
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 115,
+      "reason": null,
+      "roster_players": 641
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 116,
+      "reason": null,
+      "roster_players": 666
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 117,
+      "reason": null,
+      "roster_players": 678
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 118,
+      "reason": null,
+      "roster_players": 699
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 119,
+      "reason": null,
+      "roster_players": 714
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 120,
+      "reason": null,
+      "roster_players": 717
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 121,
+      "reason": null,
+      "roster_players": 718
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 122,
+      "reason": null,
+      "roster_players": 722
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 123,
+      "reason": null,
+      "roster_players": 726
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 124,
+      "reason": null,
+      "roster_players": 730
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 125,
+      "reason": null,
+      "roster_players": 731
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 126,
+      "reason": null,
+      "roster_players": 733
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 127,
+      "reason": null,
+      "roster_players": 743
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 128,
+      "reason": null,
+      "roster_players": 747
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 129,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 130,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 131,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 132,
+      "reason": null,
+      "roster_players": 765
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 133,
+      "reason": "no verified capture",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 134,
+      "reason": null,
+      "roster_players": 771
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 135,
+      "reason": null,
+      "roster_players": 775
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 136,
+      "reason": null,
+      "roster_players": 790
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 137,
+      "reason": null,
+      "roster_players": 808
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 138,
+      "reason": null,
+      "roster_players": 809
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 139,
+      "reason": null,
+      "roster_players": 815
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 140,
+      "reason": null,
+      "roster_players": 823
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 141,
+      "reason": null,
+      "roster_players": 828
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 142,
+      "reason": null,
+      "roster_players": 832
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 143,
+      "reason": null,
+      "roster_players": 838
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 144,
+      "reason": null,
+      "roster_players": 838
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 145,
+      "reason": null,
+      "roster_players": 842
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 146,
+      "reason": null,
+      "roster_players": 844
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 147,
+      "reason": null,
+      "roster_players": 846
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 148,
+      "reason": null,
+      "roster_players": 851
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 149,
+      "reason": null,
+      "roster_players": 856
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 150,
+      "reason": null,
+      "roster_players": 859
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 151,
+      "reason": null,
+      "roster_players": 859
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 152,
+      "reason": null,
+      "roster_players": 861
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 153,
+      "reason": null,
+      "roster_players": 610
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 154,
+      "reason": null,
+      "roster_players": 625
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 155,
+      "reason": null,
+      "roster_players": 637
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 156,
+      "reason": null,
+      "roster_players": 655
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 157,
+      "reason": null,
+      "roster_players": 659
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 158,
+      "reason": null,
+      "roster_players": 661
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 159,
+      "reason": null,
+      "roster_players": 664
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 160,
+      "reason": "capture age 225.849h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 161,
+      "reason": "capture age 377.349h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": false,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 162,
+      "reason": "capture age 562.849h exceeds maximum 24h",
+      "roster_players": 0
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 163,
+      "reason": null,
+      "roster_players": 674
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 164,
+      "reason": null,
+      "roster_players": 678
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 165,
+      "reason": null,
+      "roster_players": 684
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 166,
+      "reason": null,
+      "roster_players": 690
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 167,
+      "reason": null,
+      "roster_players": 693
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 168,
+      "reason": null,
+      "roster_players": 693
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 169,
+      "reason": null,
+      "roster_players": 701
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 170,
+      "reason": null,
+      "roster_players": 701
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 171,
+      "reason": null,
+      "roster_players": 705
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 172,
+      "reason": null,
+      "roster_players": 709
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 173,
+      "reason": null,
+      "roster_players": 718
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 0,
+      "origin_gw": 174,
+      "reason": null,
+      "roster_players": 726
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 20,
+      "origin_gw": 175,
+      "reason": null,
+      "roster_players": 735
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 20,
+      "origin_gw": 176,
+      "reason": null,
+      "roster_players": 737
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 20,
+      "origin_gw": 177,
+      "reason": null,
+      "roster_players": 753
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 20,
+      "origin_gw": 178,
+      "reason": null,
+      "roster_players": 759
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 20,
+      "origin_gw": 179,
+      "reason": null,
+      "roster_players": 763
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 20,
+      "origin_gw": 180,
+      "reason": null,
+      "roster_players": 765
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 20,
+      "origin_gw": 181,
+      "reason": null,
+      "roster_players": 769
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 20,
+      "origin_gw": 182,
+      "reason": null,
+      "roster_players": 769
+    },
+    {
+      "available": true,
+      "excluded_nonplayer_count": 20,
+      "origin_gw": 183,
+      "reason": null,
+      "roster_players": 771
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "device": "cpu",
+  "full_suite": {
+    "log_sha256": "6d3f9de3dac428573a00ea07bd3964ed0f830494b45eedaf2abb6f4109493d35",
+    "passed": 847,
+    "seconds": 24.96,
+    "skipped_in_parent": 4,
+    "warnings": 2
+  },
+  "later_runner_checks": "Two additional mocked selection-input rejection checks passed in primary focused runner/adapter/registry suite (30 passed).",
+  "scope": "Synthetic runtime evidence only; no predictive quality or MILP benefit established.",
+  "skipped_contracts": "Four direct native tests execute and pass inside one fresh subprocess; parent does not retry the mixed GBM/Torch path.",
+  "status": "ISOLATED_CPU_VALIDATION_PASS",
+  "threads": 5,
+  "torch": "2.13.0",
+  "worker_checks": "Fresh worker with GBM-importing parent: Torch absent in parent, distinct PID, finite predictions, deterministic refits, unchanged training statistics, schema errors, clean shutdown. Mock native exit/timeout/partial response fail closed without retries."
+}

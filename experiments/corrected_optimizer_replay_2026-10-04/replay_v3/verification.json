@@ -1,0 +1,132 @@
+{
+  "comparisons": {
+    "0": {
+      "origin": {
+        "block_len": 3,
+        "boot_mean": 26.8517,
+        "ci_high": 191.02499999999964,
+        "ci_low": -147.0,
+        "n_gws": 31,
+        "p_a_better": 0.6203,
+        "sign_test": {
+          "p_a_better": 0.644464448094368,
+          "p_value": 1.0,
+          "ties": 2,
+          "wins_a": 14,
+          "wins_b": 15
+        },
+        "total_a": 1840.0,
+        "total_b": 1825.0,
+        "total_diff": 15.0
+      },
+      "standard": {
+        "block_len": 3,
+        "boot_mean": -72.0211,
+        "ci_high": 49.0,
+        "ci_low": -192.0,
+        "n_gws": 31,
+        "p_a_better": 0.1174,
+        "sign_test": {
+          "p_a_better": 0.42776777595281607,
+          "p_value": 0.8555355519056321,
+          "ties": 1,
+          "wins_a": 16,
+          "wins_b": 14
+        },
+        "total_a": 2036.0,
+        "total_b": 2091.0,
+        "total_diff": -55.0
+      }
+    },
+    "1": {
+      "origin": {
+        "block_len": 3,
+        "boot_mean": -155.9458,
+        "ci_high": -1.0,
+        "ci_low": -307.025,
+        "n_gws": 31,
+        "p_a_better": 0.0239,
+        "sign_test": {
+          "p_a_better": 0.9251936078071594,
+          "p_value": 0.28104151505976915,
+          "ties": 0,
+          "wins_a": 12,
+          "wins_b": 19
+        },
+        "total_a": 1811.0,
+        "total_b": 1945.0,
+        "total_diff": -134.0
+      },
+      "standard": {
+        "block_len": 3,
+        "boot_mean": -79.0571,
+        "ci_high": 75.0,
+        "ci_low": -224.0,
+        "n_gws": 31,
+        "p_a_better": 0.1527,
+        "sign_test": {
+          "p_a_better": 0.9251936078071594,
+          "p_value": 0.28104151505976915,
+          "ties": 0,
+          "wins_a": 12,
+          "wins_b": 19
+        },
+        "total_a": 1997.0,
+        "total_b": 2080.0,
+        "total_diff": -83.0
+      }
+    },
+    "2": {
+      "origin": {
+        "block_len": 3,
+        "boot_mean": -164.9357,
+        "ci_high": 0.0,
+        "ci_low": -354.0,
+        "n_gws": 31,
+        "p_a_better": 0.0248,
+        "sign_test": {
+          "p_a_better": 0.995934970676899,
+          "p_value": 0.0241195447742939,
+          "ties": 2,
+          "wins_a": 8,
+          "wins_b": 21
+        },
+        "total_a": 1824.0,
+        "total_b": 2007.0,
+        "total_diff": -183.0
+      },
+      "standard": {
+        "block_len": 3,
+        "boot_mean": -192.2325,
+        "ci_high": -11.0,
+        "ci_low": -366.0,
+        "n_gws": 31,
+        "p_a_better": 0.02,
+        "sign_test": {
+          "p_a_better": 0.8594792424701154,
+          "p_value": 0.47312965989112854,
+          "ties": 0,
+          "wins_a": 13,
+          "wins_b": 18
+        },
+        "total_a": 1877.0,
+        "total_b": 2059.0,
+        "total_diff": -182.0
+      }
+    }
+  },
+  "independently_reconstructed_rounds": 372,
+  "limitations": [
+    "Historical reference is repeatedly examined, not an untouched holdout.",
+    "Floating-point native optimality certificate; requested tolerances are exactly zero.",
+    "No refits, production promotion or revised modern-chip policy."
+  ],
+  "maximum_achieved_gap": 3.390499645677776e-16,
+  "missing_all_origin_squad_rows": 88,
+  "promotion_eligible": false,
+  "rechecked_artifacts": 137,
+  "roundoff_relative_tolerance": 1.4210854715202004e-14,
+  "status": "verified",
+  "summary_sha256": "9fbfb93c783b7a73282e8822e17d92b36639eb7fa77e2246e23cd028d70e677d",
+  "verifier_sha256": "64f65b66ae66a221fac6a65adee0152e1c12cd90183fa2997617bafd5ed66ac6"
+}

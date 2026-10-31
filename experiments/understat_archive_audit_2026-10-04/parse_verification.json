@@ -1,0 +1,22 @@
+{
+  "status": "parsed_verified_capture",
+  "parser_sha256": "508071835ee74fde97d4a3b08a182b2c8edddb75248c445540bdda7cdcf95bb9",
+  "capture_sha256": "771cff0ba2eb4288a87732bc6d63eae11be5b08b4f47c95c56e177cacda95849",
+  "cdx_verification_sha256": "f33fa2d878af5cccbc59534f5a9fdcf946857e52a64829f460523255daff5a41",
+  "parsed_collections_sha256": "1c9c234bc50e38c88fad14524a286b34d7dee83950be15835f7226ddcb7b1255",
+  "fixture_records": 38,
+  "player_aggregate_records": 21,
+  "statistics_groups": 7,
+  "completed_match_count": 7,
+  "upcoming_match_count": 31,
+  "training_admitted": false,
+  "numeric_strings_preserved": true,
+  "datetime_timezone_inferred": false,
+  "limitations": [
+    "One team/season capture only; no complete historical deadline coverage.",
+    "Team-page player statistics are season aggregates, not player-match history.",
+    "No league/season IDs verified inside records; URL scope only.",
+    "Match datetime timezone and exact identity joins require separate validation.",
+    "No upstream code executed or fitted."
+  ]
+}

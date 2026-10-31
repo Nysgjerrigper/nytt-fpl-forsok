@@ -1,0 +1,31 @@
+{
+  "status": "verified",
+  "promotion_eligible": false,
+  "coverage_only": true,
+  "summary_sha256": "5ff8198d5f9d697c86e83ee6735cb3d4d0413d2fcffe9fed615bb1a9569e992f",
+  "registration_sha256": "9c72d1fcc31857f5b1dbd78f6f6cff1f309da42e108981aa9dbe23a736419445",
+  "counts": {
+    "player_origin_rows": 191,
+    "observed_rows": 191,
+    "unobserved_rows": 0,
+    "positive_minutes_rows": 93,
+    "positive_points_rows": 88,
+    "observed_total_points": 180.0,
+    "observed_fixture_rows": 192,
+    "position_mismatch_rows": 0,
+    "team_mismatch_rows": 0
+  },
+  "original_rows_unchanged": true,
+  "fixture_labels_independently_reconstructed": true,
+  "immutable_artifacts": 62,
+  "code_files": 55,
+  "limitations": [
+    "Coverage only: no forecast accuracy, model selection, or MILP decision gain assessment.",
+    "Retrospective fixture occurrence does not prove deadline-known fixtures or player eligibility.",
+    "Repeated player codes across origins are not independent observations.",
+    "Selected captures are strictly pre-deadline and at most 24 hours old; they do not prove exact deadline or throughout-horizon registration completeness.",
+    "Absent dataset labels stay missing; partial label coverage is not zero points or zero minutes.",
+    "Observed fixture counts never adjust saved priors or generate new forecasts.",
+    "Previously examined historical outcomes; no fresh holdout claim."
+  ]
+}
