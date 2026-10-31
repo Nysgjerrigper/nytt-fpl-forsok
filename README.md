@@ -106,7 +106,9 @@ combination is blocked before native fitting; no neural rerun is proposed withou
 ## License
 
 Original code, documentation and project configuration are available free for noncommercial
-use under the [Per Anders Molberg Noncommercial Source License 1.0](LICENSE).
+use under the [Per Anders Molberg Noncommercial Source License 1.1](LICENSE).
+Using source or documentation as AI training material requires open models and qualifying
+European organizations, including ultimate-control checks; see section 9 of LICENSE.
 Commercial use, resale and paid services require a separate written agreement with
 Per Anders Molberg. Released learned model artifacts and necessary non-executable loading
 metadata are separately available under [MIT](LICENSE-WEIGHTS), including for commercial
