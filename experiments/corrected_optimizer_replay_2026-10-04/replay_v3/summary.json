@@ -1,0 +1,1465 @@
+{
+  "comparisons": {
+    "0": {
+      "origin": {
+        "block_len": 3,
+        "boot_mean": 26.8517,
+        "ci_high": 191.02499999999964,
+        "ci_low": -147.0,
+        "n_gws": 31,
+        "p_a_better": 0.6203,
+        "sign_test": {
+          "p_a_better": 0.644464448094368,
+          "p_value": 1.0,
+          "ties": 2,
+          "wins_a": 14,
+          "wins_b": 15
+        },
+        "total_a": 1840.0,
+        "total_b": 1825.0,
+        "total_diff": 15.0
+      },
+      "standard": {
+        "block_len": 3,
+        "boot_mean": -72.0211,
+        "ci_high": 49.0,
+        "ci_low": -192.0,
+        "n_gws": 31,
+        "p_a_better": 0.1174,
+        "sign_test": {
+          "p_a_better": 0.42776777595281607,
+          "p_value": 0.8555355519056321,
+          "ties": 1,
+          "wins_a": 16,
+          "wins_b": 14
+        },
+        "total_a": 2036.0,
+        "total_b": 2091.0,
+        "total_diff": -55.0
+      }
+    },
+    "1": {
+      "origin": {
+        "block_len": 3,
+        "boot_mean": -155.9458,
+        "ci_high": -1.0,
+        "ci_low": -307.025,
+        "n_gws": 31,
+        "p_a_better": 0.0239,
+        "sign_test": {
+          "p_a_better": 0.9251936078071594,
+          "p_value": 0.28104151505976915,
+          "ties": 0,
+          "wins_a": 12,
+          "wins_b": 19
+        },
+        "total_a": 1811.0,
+        "total_b": 1945.0,
+        "total_diff": -134.0
+      },
+      "standard": {
+        "block_len": 3,
+        "boot_mean": -79.0571,
+        "ci_high": 75.0,
+        "ci_low": -224.0,
+        "n_gws": 31,
+        "p_a_better": 0.1527,
+        "sign_test": {
+          "p_a_better": 0.9251936078071594,
+          "p_value": 0.28104151505976915,
+          "ties": 0,
+          "wins_a": 12,
+          "wins_b": 19
+        },
+        "total_a": 1997.0,
+        "total_b": 2080.0,
+        "total_diff": -83.0
+      }
+    },
+    "2": {
+      "origin": {
+        "block_len": 3,
+        "boot_mean": -164.9357,
+        "ci_high": 0.0,
+        "ci_low": -354.0,
+        "n_gws": 31,
+        "p_a_better": 0.0248,
+        "sign_test": {
+          "p_a_better": 0.995934970676899,
+          "p_value": 0.0241195447742939,
+          "ties": 2,
+          "wins_a": 8,
+          "wins_b": 21
+        },
+        "total_a": 1824.0,
+        "total_b": 2007.0,
+        "total_diff": -183.0
+      },
+      "standard": {
+        "block_len": 3,
+        "boot_mean": -192.2325,
+        "ci_high": -11.0,
+        "ci_low": -366.0,
+        "n_gws": 31,
+        "p_a_better": 0.02,
+        "sign_test": {
+          "p_a_better": 0.8594792424701154,
+          "p_value": 0.47312965989112854,
+          "ties": 0,
+          "wins_a": 13,
+          "wins_b": 18
+        },
+        "total_a": 1877.0,
+        "total_b": 2059.0,
+        "total_diff": -182.0
+      }
+    }
+  },
+  "elapsed_seconds": 1520.2938978748862,
+  "immutable_output_sha256": {
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/config.py": "5cbc52dc76c85aee288d7a9cf5c7b4cb3ad331d2da383a1e60941113284031fb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/data/deadline_snapshots.py": "00d2f2a73a670106c19542e3ec5d06f5a144da7323efe8c12d5a2047fede5feb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/data/external.py": "db38873a567aa51ad85fc264e97626b05bb6c84ad7c5b32802afc49eda754d11",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/data/feature_cache.py": "dd587e3355b0a4732a57614cd8e5d50ef1c01a7727c44ee9583145e257c7a8bb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/data/fetch.py": "ece93d1be41d669e62b858da31f0219893553655ac73ae4f40173ed0b70b0764",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/data/origin_prices.py": "d9c7c149d4fe3a66fa04b517138d4ce7d8ae90da69d23e24b6427af5ff421f6c",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/data/provenance.py": "569d4fef2247c8dfd6a6dea7992ac09cfc444c11d0b1a5c17d719c5807a858aa",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/data/research.py": "a3f92b92088915c541956b68c300b7ab8f7ff5ddd4595ec8e366821383710434",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/experiment.py": "2780bf8ead3e6c0c4f3a988fd176ccd98769acbb652d1cc3ca52fc30bf6b5404",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/features.py": "df09943d91ced157ee36091526a527dd26013516055383c9976bf2df94afae7d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/milp/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/milp/compare_backtests.py": "c8e5b61edc8e0108d52272717d292407e82c6410a0d9c6e7cd231be636258bfc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/milp/optimize.py": "83ac635aa0ea2d0ecd175c3bb41110fc534dc5a926277cc57779ace45ee7c870",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/milp/solio.py": "44e89d100e888e6341d6342196b57240ab1a113921d55cf7645155fc5d21863e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/milp/solio_output.py": "22724577e69f8e440f38d005e8837626e2e1232fa43bcb47e77a4a4fb83ca56e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/availability_research.py": "748d841d3faceefaf1e186b2490a64368671511d1b6913caeca4b8ff2681637f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/baselines.py": "7147a8801e27003c25bdf40a71898be49fd19711303447f6723e68e6d9b535de",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/blend_research.py": "115a7708b2d995826dd3ec01897c244d09519aa3fe8744f1fa8cca45228d8a18",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/cnn_process.py": "74c6827496972cd93d9b41fe2972ad236d21d83b65bd96b6aaf92c2109914c2f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/cnn_research.py": "1d4ab1eaa18fef8d5045c18053022367ccfe484c99a62225e2216f2fc4e14b7e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/cnn_worker.py": "0ee5be8ea265d7036331ede3dc79120f099a39d1b14f17b9d8f5f9164ab35982",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/cold_start.py": "039a645266e2f3e1326336298dbbb904ecff4e8dc913b95ea61a14c587bbc4c5",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/deadline_availability.py": "cdc9a660f7fa496b5934fdd80805241762eb9a8281ef4676ea8b740f249fa469",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/ensemble.py": "d960e588b8c9ad75738128f96df77dd8648752ce52815d9f1888e83b818cc8e8",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/expert_policy.py": "d57d549c92fb132e27b654bee02a6a32e728be5d45b1be4f66d9ca9a1794e67b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/grouped_interval_calibration.py": "c9afc2ddd549fc1280d1b56d5efcc3c3e6bcb7038b4fdf4b109b72aa19569bdb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/grouped_interval_research.py": "24866630adf454800a4e100f12344314cd9429b6d8154f1f1fe1737764af0d85",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/horizon_price_research.py": "55d8027af118427aadd1d4a70e8a8b9c19359d14d8507d6440379a4b66667f05",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/interval_calibration.py": "6b1b70f7afcbd4beac28c0d15c29959ffcaf3bee4f2dbf983000262d911f8a0a",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/interval_research.py": "07152970fc05a157c7a3c882788999c1e4133978e2d573107ef6cb0abd7e430d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/metrics.py": "3592bebfe9922ca5b38e2c3c71be75d79592987d39db8341c46ec1b3a496bad7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/mid_gate.py": "3798843118ef6f53ac832fb5c181d2d4b4b18855e7fbe3cdacb1511e6413a151",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/models.py": "16dc89c77cd736ca63aab611d20377592d44e2ace681f40384656006f737f28b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/moe_promotion.py": "93982d906ca6805acb676d13933e49d99a6817ea3fc72b862b331d8812e31337",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/moe_tournament.py": "484a17fa26848696470af514457b586fd85e8d09a307c438f009665397e5f23e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/oof_panel.py": "d899f24d4e35b6abc98e950aad63794ba2eaedbe39ed1979eb1f819ef8c5a4b1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/predict.py": "ec328ed752515bdfa48be6749945c912ff1626922c21451bcbec88fdab98a7c1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/price_research.py": "244ea0684072ace4895b61c784a423336c89d302fe45cebf903454dca2a5b9dd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/probabilistic.py": "6844a48b428042f89f833b45f6293ccb64e89fe06a4e4bbf9955e0047516eedd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/probabilistic_buckets.py": "9592610fd0312621280656577a5618c63a5b43c07bd61bf6d108588d735ef3dd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/research_package.py": "8c960e2564128a2c462646c1661d26325ce0a197f774339520814d538881b00b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/screen.py": "b5827a438c0e3d5bb6c81d645e735ad49c7997c45697bb9407b59508fa8e28e7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/sequence_cnn.py": "257aedd0bd26e9100de21368ff94b4f68e2eb2594a591c3fd957318f203b9128",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/sequence_features.py": "0fba4921fe05c50a55d66002923490fc360b6116e468bb65eed5f18fee760341",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/temporal_blend.py": "a857a865f8ed93e0b139194f3ffd2d67bcf63694615a8b51db56c955f4a4098d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/train.py": "9b834aeffea049bed398a6fe7187846dc2759c9386ea1af68450a065bdca8a85",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/tuning.py": "39f59413234997e9d66a9cd0e10e1e40fc426ff2636bc5e86a38b8e1aa40b2d7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/tuning_checkpoint.py": "f04b5bb78f81eb2350a22fb53a797f6eb871463019e537cd71d1bdb882895cdc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/model/walk_forward.py": "08aa034fe8abb947d898f1b3cd625140486d5c09ad32e53d4abbfc99496947d0",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/evaluated_sources/fpl/run_week.py": "007bd42cf36e2c1a0b8f9121ea5d9899f88249f55347df10d87eb851887a36cd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_origin.admission.json": "d183126fc3d27f14a079c5bd10c3f19ecb0b2a075bbb98429c1d4f2e9cf2832d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_origin.log": "ad8cd875df66bf81db971533360124d28f711460265b72d5acb73c5d32f2187d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_origin.predictions.csv": "682e9d6f4b156f8278ae61acce8c80a74566a73aed0ad4072b72cd8ae6f6e745",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_origin.result.json": "0c36cdfaaa077d0e50081def38a54f9b1a1b041323809c8f6c1847060775f858",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_origin.squads.csv": "1c5f5e16b645ca76704bb51e9fd2cf60e6bdbefdb46bd55337eb25657cdcfa48",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_standard.admission.json": "8b0a2e015fa9b53015a58a0ce411e812b5a88f8a409686cdac97c2e606de79b5",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_standard.log": "79f97218564688d15ed20294b787e8ebc2b6f4e573dd811df453069db3656cec",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_standard.predictions.csv": "580ad825dc69c97bd944d00dc9e9fed31264b0763ea09b238e54c8d69e8147d0",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_standard.result.json": "e8ec2ef5f92fbbd614668b6c19839b4463e325d8a37722dd89bfe961e77e3835",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/mae_full_standard.squads.csv": "69a42624dd1ae7f0870fa52a6d365a241ceeb6cafcad6c2c4543e4a726321c66",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_origin.admission.json": "bce7975a251a36ed35aa7a2420fdb386eabf68eaebfba30123826436fa2dda29",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_origin.log": "ff5ee26c73021227e53653826d00b328d0f8fb2c34ea2d6ff81537440ffe5685",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_origin.predictions.csv": "d95a84408080f25a7d6a7040727ac51730162fb6c3eaf2a02396e8f8d1973bea",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_origin.result.json": "b41efb95b6bc652272a3ee05e0d17ba11cb78be7dda3e2bf3f16be91d7e60fca",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_origin.squads.csv": "3a2f137e33d77986c77ab4df23f2e60352d583c22b9230d57c6038eea4a75c28",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_standard.admission.json": "44ab6db45146e90805df9a2a48e5eb9226e0c1b0bea0f764d444b56b86057c15",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_standard.log": "8c1eff0300e8d317323100e227d366a4e3bbc7293aae5a63e7515e8bc970923b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_standard.predictions.csv": "3ed15c3c0f05b59382491ce6c9acf29340f9e93be055fd03d09378c5d33faa47",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_standard.result.json": "3350a665d28911bc5120dfc2e7ee3a7db2652c063174846775ebdd0aac1d6c62",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed0/rmse_full_standard.squads.csv": "ca2e2ef37389659ff9ddeb76735e304cc379a97c41407e7387f9df88ded5a93f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_origin.admission.json": "883c0661f0016b1ffe911d0cece5dcaac13003924b592b55289ea5569bdbe1ca",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_origin.log": "8b115ad37dd7d4f6ef9b5db0d9c1f8c6ad174ad074a33fc80c9c43faf402e971",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_origin.predictions.csv": "d840b86ad9ea8023c2de78b533b558830d40c621ace3c13083577bb65fa47c83",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_origin.result.json": "5f5c6c2e0ecb4a78a465ec46ca774a9f0c2a5a86a7b9737cf32ed497ecbab79f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_origin.squads.csv": "934df14e1dcb9b6f5b053f79beb7b7bacb7d043b6082b8193c3ba84af3474586",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_standard.admission.json": "03a188207ff9ff7f69d141b08d4cb5cf2704754c5bfc82732ea9fdd7dc8257b5",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_standard.log": "b0f070241b60afb45f2c448eb2fd06977a06d9c0c1ef04e0440970306e70a65d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_standard.predictions.csv": "d9c9c8e1289b2e33e270e180c668c8040b368eed224b19da0f5e85fd0e9df3ad",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_standard.result.json": "4b302db4f2a55b191a0853bc905758235d1d190b54fbc45150e7fc0b503cc9a0",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/mae_full_standard.squads.csv": "0accafb3d67780b3ab44235d347632b2461f3135519cf3e0b5a715a641563e85",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_origin.admission.json": "f25d0e95b72d765a51e8f25b965e7c1d2c1c56ab8e3a97c1adbf04a01dbe0240",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_origin.log": "68cb05326c648c3648031c6294676290f9d08c0ab73ddc519640a632e61126eb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_origin.predictions.csv": "2e2edca56c9b73f907ee959356b31ec92d04060911e53dec95e6f8f27b3e8bb2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_origin.result.json": "101e8d237aeb3874d97e513b568a588abb56a6b9c014678d2f6d6376d1a3f0e7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_origin.squads.csv": "7b3d0bdc93750fe663d8fbf7e27c7abba0ae19c00e6c16e4f4b7d3db6939ec0d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_standard.admission.json": "14c741526fb5ae5638cd54418e193263d9a4e13eca7bc7e13c977f14686a67a4",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_standard.log": "c351f3e24e256a4f65a2bfb6b2756b601efd553b6c29405d4222238d9e7a03b3",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_standard.predictions.csv": "612c7d812be151a0df77aeef300c8f718c9001bfff24a7771e389ec0bab3ee99",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_standard.result.json": "8f364c1196aed8721bdbaef3c2358a5070ee9afe24a1ce1e041d8191372f8aad",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed1/rmse_full_standard.squads.csv": "788ef2eb6f7ea39b8310b630779a719e524c0e56e15d1ecf7c3b1058b6e5f212",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_origin.admission.json": "8675c3bfec2265b3a7e1350d781c6e9af5e8571e6c22906a4f3521ba4ed406f9",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_origin.log": "66a27b92846863f4eadd49e7d10e57bb3f7046c64bbf12739d1b88ba20d78276",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_origin.predictions.csv": "8d9db9182b2ec3e8c497627cc754add0c19919b1b27a53cdfad99f755403bf8b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_origin.result.json": "06dc016ab9aa662b785a6db924257864c67a29d564976867226563a601523d07",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_origin.squads.csv": "3106e0137935be6a4062320922b3a0c5c086f293af48154765610049e42f7edd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_standard.admission.json": "37cb06d6c44d73e13ac3caa1f27bd2d584ab4e02dabb2e53d05b8d700dcadb7e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_standard.log": "3f1dd1401bde9ac3afbf079ea1b2b9929b68ef5cc63504e54d88d5b2350c854f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_standard.predictions.csv": "bfebb712553ae4b6a179d292d0660f5fe93738e7586f8f8e818a745575f23d30",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_standard.result.json": "9ec39095d0a4cb42ce70e79a8bff1147a4455a4370a1aef28a806994ff2b736d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/mae_full_standard.squads.csv": "9f230a841c38b7b4efcc743549d555becd53fc0f09bd7bf6a4aa0770361b6d36",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_origin.admission.json": "5d6f82b3e690e69b603487784d19fe4d6abd3ba213bb14fbceb5649eb3d07d2e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_origin.log": "967db853e7644ac1f5df35d246ad8c64f3d657caa631c06ee446543219bb70d0",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_origin.predictions.csv": "953fd73afa14d291cd91bf81cdb985eeb704c34a021f052a2be203110ed35ecc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_origin.result.json": "46f92d78c7a355a14bc3d2651197687e58594d1111344409ef0a6324d7227d27",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_origin.squads.csv": "bc6ee7f1059d7126c400aecbf109418f5ffd783322008afccbaa1da10b6b346d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_standard.admission.json": "1b94acfc4bc517485c5632f8b1b591584b9b1a30116434e3e3a37543aab4e0c5",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_standard.log": "13156d577833104a0239cb639107a6cb8a651762e7c5bb5f270629f438891a96",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_standard.predictions.csv": "d23f1b858f4b83bdbf0b46f0140da7ae128a51619cac1514fa14fbf3cc7841dd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_standard.result.json": "166b6c2e2b04a3d6d5da44b55d6ea4d68735a073246555efbfeb4e408dd9e7d6",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/corrected_optimizer_replay_2026-10-04/replay_v3/seed2/rmse_full_standard.squads.csv": "c9c7e6b88c81290b4e0b5c4d2779a84f83c130ab1522d1cc0a7a174446d2b6f0"
+  },
+  "optimal_solves": 372,
+  "promotion_eligible": false,
+  "registration_sha256": "d68851c84b316f4156bf3ee67ee0a6cde81c0c6071ad32832e4b1f765dbccf61",
+  "results": [
+    {
+      "diagnostics": [
+        {
+          "bias": -0.5829489916298596,
+          "mae": 0.8593457644148252,
+          "mase": 0.6225607063701858,
+          "position": "DEF",
+          "rmse": 1.9821210423887121,
+          "rounds": 7215,
+          "spearman": 0.6065942477099809,
+          "top1_capture": 0.34805194805194806,
+          "total_calibration": 0.4333858312529385
+        },
+        {
+          "bias": -0.7598558507226191,
+          "mae": 1.0356584663811603,
+          "mase": 0.7330477695511085,
+          "position": "FWD",
+          "rmse": 2.554462063918766,
+          "rounds": 2387,
+          "spearman": 0.7452129732153359,
+          "top1_capture": 0.36792452830188677,
+          "total_calibration": 0.47058496331731126
+        },
+        {
+          "bias": -0.3940107989074595,
+          "mae": 0.6216945402517264,
+          "mase": 0.6866394480729296,
+          "position": "GK",
+          "rmse": 1.6991086816465537,
+          "rounds": 2271,
+          "spearman": 0.6415985569915797,
+          "top1_capture": 0.3265993265993266,
+          "total_calibration": 0.5643629385010513
+        },
+        {
+          "bias": -0.5028209547850077,
+          "mae": 0.8932599556092911,
+          "mase": 0.6953144895124753,
+          "position": "MID",
+          "rmse": 2.1362173017028843,
+          "rounds": 9733,
+          "spearman": 0.7141825285757575,
+          "top1_capture": 0.585635359116022,
+          "total_calibration": 0.6075730612683442
+        }
+      ],
+      "difference_from_previous": 9.0,
+      "fit_seconds": 0.0,
+      "gross_points": 2091.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 98.89108491619118,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Daniel Munoz",
+            "Dean Henderson",
+            "Mohamed Salah",
+            "Trent Alexander-Arnold"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "standard",
+      "origin": false,
+      "prediction_sha256": "580ad825dc69c97bd944d00dc9e9fed31264b0763ea09b238e54c8d69e8147d0",
+      "predictions": "mae_full_standard.predictions.csv",
+      "previous_total": 2082.0,
+      "seed": 0,
+      "squad_sha256": "69a42624dd1ae7f0870fa52a6d365a241ceeb6cafcad6c2c4543e4a726321c66",
+      "squads": "mae_full_standard.squads.csv",
+      "total_points": 2091.0,
+      "transfer_hit_points": 0.0,
+      "variant": "mae_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.5855311381882672,
+          "mae": 0.8645682980211007,
+          "mase": 0.6263790665979497,
+          "position": "DEF",
+          "rmse": 1.990151449925161,
+          "rounds": 7123,
+          "spearman": 0.6078533306985517,
+          "top1_capture": 0.34805194805194806,
+          "total_calibration": 0.43501242247154875
+        },
+        {
+          "bias": -0.7565077978729979,
+          "mae": 1.0357849896845668,
+          "mase": 0.7331224763448642,
+          "position": "FWD",
+          "rmse": 2.5581894701933754,
+          "rounds": 2359,
+          "spearman": 0.7512990537714438,
+          "top1_capture": 0.38207547169811323,
+          "total_calibration": 0.4744988530087155
+        },
+        {
+          "bias": -0.39491188767957897,
+          "mae": 0.6232910819511329,
+          "mase": 0.6884012315376751,
+          "position": "GK",
+          "rmse": 1.704822420712996,
+          "rounds": 2243,
+          "spearman": 0.6459437320386907,
+          "top1_capture": 0.32996632996632996,
+          "total_calibration": 0.5660032513153868
+        },
+        {
+          "bias": -0.5010217512558713,
+          "mae": 0.8949562394727669,
+          "mase": 0.6966435077459956,
+          "position": "MID",
+          "rmse": 2.141871853194437,
+          "rounds": 9622,
+          "spearman": 0.7161970021545334,
+          "top1_capture": 0.585635359116022,
+          "total_calibration": 0.6106895509501741
+        }
+      ],
+      "difference_from_previous": -80.0,
+      "fit_seconds": 0.0,
+      "gross_points": 1833.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 94.06040841597132,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Mohamed Salah"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Mohamed Salah",
+            "Ollie Watkins",
+            "Tyrick Mitchell",
+            "Virgil van Dijk"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "origin",
+      "origin": true,
+      "prediction_sha256": "682e9d6f4b156f8278ae61acce8c80a74566a73aed0ad4072b72cd8ae6f6e745",
+      "predictions": "mae_full_origin.predictions.csv",
+      "previous_total": 1905.0,
+      "seed": 0,
+      "squad_sha256": "1c5f5e16b645ca76704bb51e9fd2cf60e6bdbefdb46bd55337eb25657cdcfa48",
+      "squads": "mae_full_origin.squads.csv",
+      "total_points": 1825.0,
+      "transfer_hit_points": 8.0,
+      "variant": "mae_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.03568815024127604,
+          "mae": 0.9894292679091068,
+          "mase": 0.7167090986619349,
+          "position": "DEF",
+          "rmse": 1.8098395528712146,
+          "rounds": 7215,
+          "spearman": 0.6324546663609714,
+          "top1_capture": 0.34805194805194806,
+          "total_calibration": 0.965311867979145
+        },
+        {
+          "bias": -0.060092361742726724,
+          "mae": 1.2331299939274594,
+          "mase": 0.8728100545508813,
+          "position": "FWD",
+          "rmse": 2.2935181695479114,
+          "rounds": 2387,
+          "spearman": 0.7469993285198563,
+          "top1_capture": 0.419811320754717,
+          "total_calibration": 0.9581317958319064
+        },
+        {
+          "bias": -0.0037866288372867558,
+          "mae": 0.7342898259973757,
+          "mase": 0.8109149608448831,
+          "position": "GK",
+          "rmse": 1.5736755907734417,
+          "rounds": 2271,
+          "spearman": 0.6817984972517812,
+          "top1_capture": 0.3838383838383838,
+          "total_calibration": 0.9958133232281021
+        },
+        {
+          "bias": 0.01119602679251052,
+          "mae": 1.0228873581049949,
+          "mase": 0.7962200129296755,
+          "position": "MID",
+          "rmse": 1.9847262002702715,
+          "rounds": 9733,
+          "spearman": 0.7261324876098753,
+          "top1_capture": 0.574585635359116,
+          "total_calibration": 1.0087379463372228
+        }
+      ],
+      "difference_from_previous": 97.0,
+      "fit_seconds": 0.0,
+      "gross_points": 2052.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 128.0665938751772,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 154,
+          "missing_all_origin_actual_rows": [
+            "Oliwier Zych"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Mohamed Salah"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Daniel Munoz",
+            "Mohamed Salah",
+            "Oliwier Zych",
+            "Ollie Watkins"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "standard",
+      "origin": false,
+      "prediction_sha256": "3ed15c3c0f05b59382491ce6c9acf29340f9e93be055fd03d09378c5d33faa47",
+      "predictions": "rmse_full_standard.predictions.csv",
+      "previous_total": 1939.0,
+      "seed": 0,
+      "squad_sha256": "ca2e2ef37389659ff9ddeb76735e304cc379a97c41407e7387f9df88ded5a93f",
+      "squads": "rmse_full_standard.squads.csv",
+      "total_points": 2036.0,
+      "transfer_hit_points": 16.0,
+      "variant": "rmse_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.03933480786774659,
+          "mae": 0.9918369666860749,
+          "mase": 0.7184983540768314,
+          "position": "DEF",
+          "rmse": 1.816870227243054,
+          "rounds": 7123,
+          "spearman": 0.634982080798459,
+          "top1_capture": 0.34285714285714286,
+          "total_calibration": 0.9620452673473369
+        },
+        {
+          "bias": -0.054591639805484836,
+          "mae": 1.235098704047389,
+          "mase": 0.8741918334500293,
+          "position": "FWD",
+          "rmse": 2.297099963499688,
+          "rounds": 2359,
+          "spearman": 0.7519769201320244,
+          "top1_capture": 0.41273584905660377,
+          "total_calibration": 0.9620784221728096
+        },
+        {
+          "bias": -0.0030108473847969596,
+          "mae": 0.7351905429978839,
+          "mase": 0.811910064884365,
+          "position": "GK",
+          "rmse": 1.5796805460675425,
+          "rounds": 2243,
+          "spearman": 0.6848192201761591,
+          "top1_capture": 0.3602693602693603,
+          "total_calibration": 0.9966911657598728
+        },
+        {
+          "bias": 0.01191235417489732,
+          "mae": 1.0241676700643352,
+          "mase": 0.7972244714397207,
+          "position": "MID",
+          "rmse": 1.9907119427895723,
+          "rounds": 9622,
+          "spearman": 0.7287086895820587,
+          "top1_capture": 0.5524861878453039,
+          "total_calibration": 1.0092562926488622
+        }
+      ],
+      "difference_from_previous": -12.0,
+      "fit_seconds": 0.0,
+      "gross_points": 1888.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 162.16407629102468,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 153,
+          "missing_all_origin_actual_rows": [
+            "Danny Ward"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Jordan Pickford",
+            "Mohamed Salah"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Daniel Munoz",
+            "Mohamed Salah",
+            "Ollie Watkins"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "origin",
+      "origin": true,
+      "prediction_sha256": "d95a84408080f25a7d6a7040727ac51730162fb6c3eaf2a02396e8f8d1973bea",
+      "predictions": "rmse_full_origin.predictions.csv",
+      "previous_total": 1852.0,
+      "seed": 0,
+      "squad_sha256": "3a2f137e33d77986c77ab4df23f2e60352d583c22b9230d57c6038eea4a75c28",
+      "squads": "rmse_full_origin.squads.csv",
+      "total_points": 1840.0,
+      "transfer_hit_points": 48.0,
+      "variant": "rmse_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.589806347776592,
+          "mae": 0.8606495613840812,
+          "mase": 0.6235092885972031,
+          "position": "DEF",
+          "rmse": 1.9865164207881485,
+          "rounds": 7215,
+          "spearman": 0.6050059772495725,
+          "top1_capture": 0.3142857142857143,
+          "total_calibration": 0.42672062519087817
+        },
+        {
+          "bias": -0.7613412813024535,
+          "mae": 1.0339726428651288,
+          "mase": 0.7318583001272236,
+          "position": "FWD",
+          "rmse": 2.5476108999052784,
+          "rounds": 2387,
+          "spearman": 0.7435691268903235,
+          "top1_capture": 0.37971698113207547,
+          "total_calibration": 0.4695500179600244
+        },
+        {
+          "bias": -0.3944388389697458,
+          "mae": 0.622622935993941,
+          "mase": 0.6876629372411228,
+          "position": "GK",
+          "rmse": 1.7007999525162518,
+          "rounds": 2271,
+          "spearman": 0.6464581653951246,
+          "top1_capture": 0.3400673400673401,
+          "total_calibration": 0.5638896770689908
+        },
+        {
+          "bias": -0.5024918623793865,
+          "mae": 0.8938293617666461,
+          "mase": 0.6957577584091924,
+          "position": "MID",
+          "rmse": 2.137022458141085,
+          "rounds": 9733,
+          "spearman": 0.7110941217500387,
+          "top1_capture": 0.585635359116022,
+          "total_calibration": 0.6078299016487395
+        }
+      ],
+      "difference_from_previous": 143.0,
+      "fit_seconds": 0.0,
+      "gross_points": 2080.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 99.87518216692843,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Jordan Pickford"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Alexander Isak",
+            "Daniel Munoz",
+            "Morgan Rogers",
+            "Nick Pope",
+            "Trent Alexander-Arnold",
+            "Virgil van Dijk"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "standard",
+      "origin": false,
+      "prediction_sha256": "d9c9c8e1289b2e33e270e180c668c8040b368eed224b19da0f5e85fd0e9df3ad",
+      "predictions": "mae_full_standard.predictions.csv",
+      "previous_total": 1937.0,
+      "seed": 1,
+      "squad_sha256": "0accafb3d67780b3ab44235d347632b2461f3135519cf3e0b5a715a641563e85",
+      "squads": "mae_full_standard.squads.csv",
+      "total_points": 2080.0,
+      "transfer_hit_points": 0.0,
+      "variant": "mae_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.5923724731513731,
+          "mae": 0.8658422780394229,
+          "mase": 0.6273065239907062,
+          "position": "DEF",
+          "rmse": 1.994462145534838,
+          "rounds": 7123,
+          "spearman": 0.6065537524548806,
+          "top1_capture": 0.3142857142857143,
+          "total_calibration": 0.42841111809032373
+        },
+        {
+          "bias": -0.7581869016092212,
+          "mae": 1.034158134392433,
+          "mase": 0.7319749302424903,
+          "position": "FWD",
+          "rmse": 2.551411711189872,
+          "rounds": 2359,
+          "spearman": 0.7494486146577841,
+          "top1_capture": 0.37971698113207547,
+          "total_calibration": 0.4733324791236299
+        },
+        {
+          "bias": -0.395300613202603,
+          "mae": 0.6242480052638156,
+          "mase": 0.689456149513744,
+          "position": "GK",
+          "rmse": 1.7066461805965685,
+          "rounds": 2243,
+          "spearman": 0.6511121270277056,
+          "top1_capture": 0.36363636363636365,
+          "total_calibration": 0.5655760532026268
+        },
+        {
+          "bias": -0.500409374666566,
+          "mae": 0.8954822424112366,
+          "mase": 0.69705306189759,
+          "position": "MID",
+          "rmse": 2.142558764243365,
+          "rounds": 9622,
+          "spearman": 0.7136265717809852,
+          "top1_capture": 0.585635359116022,
+          "total_calibration": 0.6111653877863444
+        }
+      ],
+      "difference_from_previous": -20.0,
+      "fit_seconds": 0.0,
+      "gross_points": 1945.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 104.60114874993451,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Mohamed Salah"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Emiliano Martinez Romero",
+            "Mohamed Salah",
+            "Trent Alexander-Arnold",
+            "Tyrick Mitchell"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "origin",
+      "origin": true,
+      "prediction_sha256": "d840b86ad9ea8023c2de78b533b558830d40c621ace3c13083577bb65fa47c83",
+      "predictions": "mae_full_origin.predictions.csv",
+      "previous_total": 1965.0,
+      "seed": 1,
+      "squad_sha256": "934df14e1dcb9b6f5b053f79beb7b7bacb7d043b6082b8193c3ba84af3474586",
+      "squads": "mae_full_origin.squads.csv",
+      "total_points": 1945.0,
+      "transfer_hit_points": 0.0,
+      "variant": "mae_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.0377884165381518,
+          "mae": 0.9867275475260253,
+          "mase": 0.7147764374395579,
+          "position": "DEF",
+          "rmse": 1.8108971284099573,
+          "rounds": 7215,
+          "spearman": 0.6331325451449311,
+          "top1_capture": 0.42077922077922075,
+          "total_calibration": 0.963270453277278
+        },
+        {
+          "bias": -0.05573942293149848,
+          "mae": 1.2320669799250679,
+          "mase": 0.872054392888669,
+          "position": "FWD",
+          "rmse": 2.29029356773608,
+          "rounds": 2387,
+          "spearman": 0.7481724353072953,
+          "top1_capture": 0.41509433962264153,
+          "total_calibration": 0.9611646227269449
+        },
+        {
+          "bias": -0.010188608608069173,
+          "mae": 0.7311624497931576,
+          "mase": 0.8074525651819865,
+          "position": "GK",
+          "rmse": 1.575774211470079,
+          "rounds": 2271,
+          "spearman": 0.6801423659212491,
+          "top1_capture": 0.32323232323232326,
+          "total_calibration": 0.9887349901903968
+        },
+        {
+          "bias": 0.015063225330165563,
+          "mae": 1.0245717753232444,
+          "mase": 0.797533283104481,
+          "position": "MID",
+          "rmse": 1.986788149981285,
+          "rounds": 9733,
+          "spearman": 0.725668018494862,
+          "top1_capture": 0.6095764272559853,
+          "total_calibration": 1.011756103932203
+        }
+      ],
+      "difference_from_previous": 18.0,
+      "fit_seconds": 0.0,
+      "gross_points": 2009.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 120.0757842080202,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 153,
+          "missing_all_origin_actual_rows": [
+            "Asmir Begovic"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Asmir Begovic",
+            "Mohamed Salah",
+            "Trent Alexander-Arnold"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Daniel Munoz",
+            "Mohamed Salah",
+            "Ollie Watkins"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "standard",
+      "origin": false,
+      "prediction_sha256": "612c7d812be151a0df77aeef300c8f718c9001bfff24a7771e389ec0bab3ee99",
+      "predictions": "rmse_full_standard.predictions.csv",
+      "previous_total": 1979.0,
+      "seed": 1,
+      "squad_sha256": "788ef2eb6f7ea39b8310b630779a719e524c0e56e15d1ecf7c3b1058b6e5f212",
+      "squads": "rmse_full_standard.squads.csv",
+      "total_points": 1997.0,
+      "transfer_hit_points": 12.0,
+      "variant": "rmse_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.041064674585892504,
+          "mae": 0.9890139917297043,
+          "mase": 0.7164781349758405,
+          "position": "DEF",
+          "rmse": 1.8174404692385655,
+          "rounds": 7123,
+          "spearman": 0.6362490988823672,
+          "top1_capture": 0.42077922077922075,
+          "total_calibration": 0.9603760935958666
+        },
+        {
+          "bias": -0.05035323395742426,
+          "mae": 1.2346611223942274,
+          "mase": 0.8738798101407375,
+          "position": "FWD",
+          "rmse": 2.2941484934817233,
+          "rounds": 2359,
+          "spearman": 0.7532324230429742,
+          "top1_capture": 0.419811320754717,
+          "total_calibration": 0.9650225916061356
+        },
+        {
+          "bias": -0.009210447516790737,
+          "mae": 0.7316140943778082,
+          "mase": 0.8079529447023321,
+          "position": "GK",
+          "rmse": 1.580430492098045,
+          "rounds": 2243,
+          "spearman": 0.6836278916097441,
+          "top1_capture": 0.32323232323232326,
+          "total_calibration": 0.9898779844291221
+        },
+        {
+          "bias": 0.0162221828586941,
+          "mae": 1.0261934141033577,
+          "mase": 0.7988029725857241,
+          "position": "MID",
+          "rmse": 1.9927015655670348,
+          "rounds": 9622,
+          "spearman": 0.7284421961924347,
+          "top1_capture": 0.6095764272559853,
+          "total_calibration": 1.0126051718861628
+        }
+      ],
+      "difference_from_previous": -102.0,
+      "fit_seconds": 0.0,
+      "gross_points": 1843.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 177.57549620908685,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 153,
+          "missing_all_origin_actual_rows": [
+            "Danny Ward"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Andrew Robertson",
+            "Jordan Pickford",
+            "Mohamed Salah",
+            "Virgil van Dijk"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Daniel Munoz",
+            "Mohamed Salah"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "origin",
+      "origin": true,
+      "prediction_sha256": "2e2edca56c9b73f907ee959356b31ec92d04060911e53dec95e6f8f27b3e8bb2",
+      "predictions": "rmse_full_origin.predictions.csv",
+      "previous_total": 1913.0,
+      "seed": 1,
+      "squad_sha256": "7b3d0bdc93750fe663d8fbf7e27c7abba0ae19c00e6c16e4f4b7d3db6939ec0d",
+      "squads": "rmse_full_origin.squads.csv",
+      "total_points": 1811.0,
+      "transfer_hit_points": 32.0,
+      "variant": "rmse_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.5872922372838756,
+          "mae": 0.8609484532081698,
+          "mase": 0.6237238835547327,
+          "position": "DEF",
+          "rmse": 1.9862619177716507,
+          "rounds": 7215,
+          "spearman": 0.6087572850923292,
+          "top1_capture": 0.35324675324675325,
+          "total_calibration": 0.42916428775385135
+        },
+        {
+          "bias": -0.7601487166744503,
+          "mae": 1.0327218935393432,
+          "mase": 0.7309716275866356,
+          "position": "FWD",
+          "rmse": 2.550190006871153,
+          "rounds": 2387,
+          "spearman": 0.7424036513144772,
+          "top1_capture": 0.37971698113207547,
+          "total_calibration": 0.4703809145645321
+        },
+        {
+          "bias": -0.3933111135981999,
+          "mae": 0.6207455962990178,
+          "mase": 0.6855953169157663,
+          "position": "GK",
+          "rmse": 1.69754669816323,
+          "rounds": 2271,
+          "spearman": 0.6494705628668482,
+          "top1_capture": 0.38047138047138046,
+          "total_calibration": 0.5651365438259435
+        },
+        {
+          "bias": -0.5037393434188643,
+          "mae": 0.8930544726679371,
+          "mase": 0.6951547143613808,
+          "position": "MID",
+          "rmse": 2.1361042524116773,
+          "rounds": 9733,
+          "spearman": 0.7126522969612858,
+          "top1_capture": 0.6151012891344383,
+          "total_calibration": 0.6068563042662332
+        }
+      ],
+      "difference_from_previous": 80.0,
+      "fit_seconds": 0.0,
+      "gross_points": 2059.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 104.29705795808695,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 153,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 154,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 155,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 156,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 157,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 158,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 159,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 160,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 161,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 162,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 163,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 164,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 165,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 166,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna",
+            "Mohamed Salah",
+            "Virgil van Dijk"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 168,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 169,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 170,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 171,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 172,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 173,
+          "missing_all_origin_actual_rows": [
+            "Callan McKenna"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Mohamed Salah",
+            "Virgil van Dijk"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "standard",
+      "origin": false,
+      "prediction_sha256": "bfebb712553ae4b6a179d292d0660f5fe93738e7586f8f8e818a745575f23d30",
+      "predictions": "mae_full_standard.predictions.csv",
+      "previous_total": 1979.0,
+      "seed": 2,
+      "squad_sha256": "9f230a841c38b7b4efcc743549d555becd53fc0f09bd7bf6a4aa0770361b6d36",
+      "squads": "mae_full_standard.squads.csv",
+      "total_points": 2059.0,
+      "transfer_hit_points": 0.0,
+      "variant": "mae_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.589745103870474,
+          "mae": 0.8660827490247136,
+          "mase": 0.6274792678524624,
+          "position": "DEF",
+          "rmse": 1.9940117278186336,
+          "rounds": 7123,
+          "spearman": 0.6099115174152375,
+          "top1_capture": 0.34805194805194806,
+          "total_calibration": 0.43094630521953586
+        },
+        {
+          "bias": -0.7570144003056749,
+          "mae": 1.0329744758908348,
+          "mase": 0.7311358403498444,
+          "position": "FWD",
+          "rmse": 2.5543439168082647,
+          "rounds": 2359,
+          "spearman": 0.7477843413051217,
+          "top1_capture": 0.37971698113207547,
+          "total_calibration": 0.47414694631298965
+        },
+        {
+          "bias": -0.3945103011174222,
+          "mae": 0.6225814223971522,
+          "mase": 0.6876206110991898,
+          "position": "GK",
+          "rmse": 1.7044438724511994,
+          "rounds": 2243,
+          "spearman": 0.651907510800334,
+          "top1_capture": 0.38047138047138046,
+          "total_calibration": 0.5664445833383744
+        },
+        {
+          "bias": -0.5018266524869418,
+          "mae": 0.8946668598463917,
+          "mase": 0.6964185603405432,
+          "position": "MID",
+          "rmse": 2.141601107788136,
+          "rounds": 9622,
+          "spearman": 0.7157046713569022,
+          "top1_capture": 0.6151012891344383,
+          "total_calibration": 0.6100641161084265
+        }
+      ],
+      "difference_from_previous": 20.0,
+      "fit_seconds": 0.0,
+      "gross_points": 2007.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 114.68756983289495,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 153,
+          "missing_all_origin_actual_rows": [
+            "Mateusz Lis"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Mohamed Salah"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Daniel Munoz",
+            "Mohamed Salah",
+            "Virgil van Dijk"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "origin",
+      "origin": true,
+      "prediction_sha256": "8d9db9182b2ec3e8c497627cc754add0c19919b1b27a53cdfad99f755403bf8b",
+      "predictions": "mae_full_origin.predictions.csv",
+      "previous_total": 1987.0,
+      "seed": 2,
+      "squad_sha256": "3106e0137935be6a4062320922b3a0c5c086f293af48154765610049e42f7edd",
+      "squads": "mae_full_origin.squads.csv",
+      "total_points": 2007.0,
+      "transfer_hit_points": 0.0,
+      "variant": "mae_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.04053645899624488,
+          "mae": 0.9877421120833481,
+          "mase": 0.7155165268880805,
+          "position": "DEF",
+          "rmse": 1.813021757047744,
+          "rounds": 7215,
+          "spearman": 0.6320116427007034,
+          "top1_capture": 0.36623376623376624,
+          "total_calibration": 0.9605994137602173
+        },
+        {
+          "bias": -0.057204369427697375,
+          "mae": 1.2337599767929701,
+          "mase": 0.8732498013002041,
+          "position": "FWD",
+          "rmse": 2.2950513158618024,
+          "rounds": 2387,
+          "spearman": 0.7471212819064518,
+          "top1_capture": 0.4386792452830189,
+          "total_calibration": 0.9601439492633059
+        },
+        {
+          "bias": -0.014351423818648597,
+          "mae": 0.7306407547147636,
+          "mase": 0.8068932817096843,
+          "position": "GK",
+          "rmse": 1.5761493445631556,
+          "rounds": 2271,
+          "spearman": 0.6812982887926963,
+          "top1_capture": 0.3265993265993266,
+          "total_calibration": 0.9841323838889234
+        },
+        {
+          "bias": 0.014379505414007485,
+          "mae": 1.0249151795012288,
+          "mase": 0.7978017379574365,
+          "position": "MID",
+          "rmse": 1.9874275689424972,
+          "rounds": 9733,
+          "spearman": 0.7258276133610095,
+          "top1_capture": 0.6243093922651933,
+          "total_calibration": 1.0112224942822976
+        }
+      ],
+      "difference_from_previous": -5.0,
+      "fit_seconds": 0.0,
+      "gross_points": 1897.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 125.70738854096271,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Mohamed Salah"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Mohamed Salah",
+            "Ollie Watkins",
+            "Virgil van Dijk"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "standard",
+      "origin": false,
+      "prediction_sha256": "d23f1b858f4b83bdbf0b46f0140da7ae128a51619cac1514fa14fbf3cc7841dd",
+      "predictions": "rmse_full_standard.predictions.csv",
+      "previous_total": 1882.0,
+      "seed": 2,
+      "squad_sha256": "c9c7e6b88c81290b4e0b5c4d2779a84f83c130ab1522d1cc0a7a174446d2b6f0",
+      "squads": "rmse_full_standard.squads.csv",
+      "total_points": 1877.0,
+      "transfer_hit_points": 20.0,
+      "variant": "rmse_full"
+    },
+    {
+      "diagnostics": [
+        {
+          "bias": -0.04323401598259987,
+          "mae": 0.9897934646688745,
+          "mase": 0.7170511343173066,
+          "position": "DEF",
+          "rmse": 1.819277127996929,
+          "rounds": 7123,
+          "spearman": 0.6352834173832568,
+          "top1_capture": 0.36623376623376624,
+          "total_calibration": 0.9582828642855515
+        },
+        {
+          "bias": -0.051480869144509035,
+          "mae": 1.2365953576995665,
+          "mase": 0.8752461431486601,
+          "position": "FWD",
+          "rmse": 2.299577766780855,
+          "rounds": 2359,
+          "spearman": 0.7515233426311831,
+          "top1_capture": 0.44339622641509435,
+          "total_calibration": 0.964239290249736
+        },
+        {
+          "bias": -0.014100461364608394,
+          "mae": 0.7309562667092687,
+          "mase": 0.8072436655620633,
+          "position": "GK",
+          "rmse": 1.580936710802801,
+          "rounds": 2243,
+          "spearman": 0.6846335571844907,
+          "top1_capture": 0.3265993265993266,
+          "total_calibration": 0.9845040005679487
+        },
+        {
+          "bias": 0.014808526451402002,
+          "mae": 1.0260838895722015,
+          "mase": 0.7987194872065793,
+          "position": "MID",
+          "rmse": 1.9933430215103733,
+          "rounds": 9622,
+          "spearman": 0.7285133806603331,
+          "top1_capture": 0.6022099447513812,
+          "total_calibration": 1.0115067141658232
+        }
+      ],
+      "difference_from_previous": -57.0,
+      "fit_seconds": 0.0,
+      "gross_points": 1872.0,
+      "independently_reconstructed_rounds": 31,
+      "milp_seconds": 187.37597220903262,
+      "missing_actual_row_evidence": [
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 153,
+          "missing_all_origin_actual_rows": [
+            "Carlos Miguel dos Santos Pereira"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 167,
+          "missing_all_origin_actual_rows": [
+            "Andrew Robertson",
+            "Jordan Pickford",
+            "Mohamed Salah"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        },
+        {
+          "absent_current_origin_with_other_origin_actual": [],
+          "gameweek": 181,
+          "missing_all_origin_actual_rows": [
+            "Daniel Munoz",
+            "Mohamed Salah",
+            "Ollie Watkins"
+          ],
+          "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+        }
+      ],
+      "mode": "origin",
+      "origin": true,
+      "prediction_sha256": "953fd73afa14d291cd91bf81cdb985eeb704c34a021f052a2be203110ed35ecc",
+      "predictions": "rmse_full_origin.predictions.csv",
+      "previous_total": 1881.0,
+      "seed": 2,
+      "squad_sha256": "bc6ee7f1059d7126c400aecbf109418f5ffd783322008afccbaa1da10b6b346d",
+      "squads": "rmse_full_origin.squads.csv",
+      "total_points": 1824.0,
+      "transfer_hit_points": 48.0,
+      "variant": "rmse_full"
+    }
+  ],
+  "status": "complete"
+}

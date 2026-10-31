@@ -1,0 +1,1488 @@
+{
+  "elapsed_seconds": 5.356188292149454,
+  "immutable_output_sha256": {
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/reference/calibration.csv": "d8496d640050782927c9d4912e10aefeed296421b40a940da51efbc0cbddcb9d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/reference/calibration_lock.json": "12d52faab5693bdc7874133c39ad79a6aa38d7edcf2ae0487dc586b5e9034b9a",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/reference/phase_summary.json": "29bd890670d436bb7fa7581b74f9c1d76cca12e295c9c125357537a6186a5f64",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/reference/predictions.csv": "c05a81acd2232edcc728670f3296a827a054df5e01fe08c23b16bb1e569257b5",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/registration.json": "2ba399fadc2a188e3f97b3924f432dcbf767fa74b4ee40ee1b0e630dc2f36c8c",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/selection/calibration.csv": "8dc4650d1a094fdee87a30712162229dcc23a69c9710734ee6edae2479ed6b94",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/selection/calibration_lock.json": "475b6cfa8be63504f57fb185626923234e4bcea235d9959197a333c63d429723",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/selection/phase_summary.json": "b91e8292b98a3feb1cb9dfa65d9183a32601ad5cce94de1d1341577f343e6664",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/selection/predictions.csv": "d2db5e7b80f99548376063870c474cb5b0ef11ccf860b2b4e3ad2f3bffe7baee",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/config.py": "5cbc52dc76c85aee288d7a9cf5c7b4cb3ad331d2da383a1e60941113284031fb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/data/deadline_snapshots.py": "00d2f2a73a670106c19542e3ec5d06f5a144da7323efe8c12d5a2047fede5feb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/data/external.py": "db38873a567aa51ad85fc264e97626b05bb6c84ad7c5b32802afc49eda754d11",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/data/feature_cache.py": "dd587e3355b0a4732a57614cd8e5d50ef1c01a7727c44ee9583145e257c7a8bb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/data/fetch.py": "ece93d1be41d669e62b858da31f0219893553655ac73ae4f40173ed0b70b0764",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/data/origin_prices.py": "d9c7c149d4fe3a66fa04b517138d4ce7d8ae90da69d23e24b6427af5ff421f6c",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/data/provenance.py": "569d4fef2247c8dfd6a6dea7992ac09cfc444c11d0b1a5c17d719c5807a858aa",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/data/research.py": "a3f92b92088915c541956b68c300b7ab8f7ff5ddd4595ec8e366821383710434",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/experiment.py": "2780bf8ead3e6c0c4f3a988fd176ccd98769acbb652d1cc3ca52fc30bf6b5404",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/features.py": "df09943d91ced157ee36091526a527dd26013516055383c9976bf2df94afae7d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/milp/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/milp/compare_backtests.py": "0be8917170884f3d5fa31ace4d796d457d8d312c43023cd8c6f8fd6c14e9e739",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/milp/optimize.py": "8aaccfe87943ecc60c875c8ebdce5f936d3445d1521c84b147178bed096ca639",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/milp/solio.py": "44e89d100e888e6341d6342196b57240ab1a113921d55cf7645155fc5d21863e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/milp/solio_output.py": "22724577e69f8e440f38d005e8837626e2e1232fa43bcb47e77a4a4fb83ca56e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/availability_research.py": "a2f6a6b31f5c22e1aa53bfbd00aa21ef2da4bddb0b5722f115025cf6b0a8b8fb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/baselines.py": "7147a8801e27003c25bdf40a71898be49fd19711303447f6723e68e6d9b535de",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/blend_research.py": "115a7708b2d995826dd3ec01897c244d09519aa3fe8744f1fa8cca45228d8a18",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/cnn_process.py": "74c6827496972cd93d9b41fe2972ad236d21d83b65bd96b6aaf92c2109914c2f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/cnn_research.py": "1d4ab1eaa18fef8d5045c18053022367ccfe484c99a62225e2216f2fc4e14b7e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/cnn_worker.py": "0ee5be8ea265d7036331ede3dc79120f099a39d1b14f17b9d8f5f9164ab35982",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/cold_start.py": "039a645266e2f3e1326336298dbbb904ecff4e8dc913b95ea61a14c587bbc4c5",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/deadline_availability.py": "cdc9a660f7fa496b5934fdd80805241762eb9a8281ef4676ea8b740f249fa469",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/ensemble.py": "d960e588b8c9ad75738128f96df77dd8648752ce52815d9f1888e83b818cc8e8",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/expert_policy.py": "d57d549c92fb132e27b654bee02a6a32e728be5d45b1be4f66d9ca9a1794e67b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/grouped_interval_calibration.py": "c9afc2ddd549fc1280d1b56d5efcc3c3e6bcb7038b4fdf4b109b72aa19569bdb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/grouped_interval_research.py": "9e75f8b93dba123aa3ba3a67c884c1c60d216558a9f5bcc549e2ff4890618390",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/horizon_price_research.py": "55d8027af118427aadd1d4a70e8a8b9c19359d14d8507d6440379a4b66667f05",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/interval_calibration.py": "6b1b70f7afcbd4beac28c0d15c29959ffcaf3bee4f2dbf983000262d911f8a0a",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/interval_research.py": "db2b472caf9b00529356115ade57cfd0b32ff35da74833480e11fe1baaa8c483",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/metrics.py": "3592bebfe9922ca5b38e2c3c71be75d79592987d39db8341c46ec1b3a496bad7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/mid_gate.py": "3798843118ef6f53ac832fb5c181d2d4b4b18855e7fbe3cdacb1511e6413a151",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/models.py": "16dc89c77cd736ca63aab611d20377592d44e2ace681f40384656006f737f28b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/moe_promotion.py": "93982d906ca6805acb676d13933e49d99a6817ea3fc72b862b331d8812e31337",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/moe_tournament.py": "484a17fa26848696470af514457b586fd85e8d09a307c438f009665397e5f23e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/oof_panel.py": "d899f24d4e35b6abc98e950aad63794ba2eaedbe39ed1979eb1f819ef8c5a4b1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/predict.py": "deaa0d5e7c4c6c87b472859cb70dbe4fd75c4f6663e46916a0e19626380259f3",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/price_research.py": "244ea0684072ace4895b61c784a423336c89d302fe45cebf903454dca2a5b9dd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/probabilistic.py": "6844a48b428042f89f833b45f6293ccb64e89fe06a4e4bbf9955e0047516eedd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/probabilistic_buckets.py": "9592610fd0312621280656577a5618c63a5b43c07bd61bf6d108588d735ef3dd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/research_package.py": "13b65fcc8623d8a04e310defdc910eb407a30f934449fe85d2a138850981d899",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/screen.py": "b5827a438c0e3d5bb6c81d645e735ad49c7997c45697bb9407b59508fa8e28e7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/sequence_cnn.py": "257aedd0bd26e9100de21368ff94b4f68e2eb2594a591c3fd957318f203b9128",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/sequence_features.py": "0fba4921fe05c50a55d66002923490fc360b6116e468bb65eed5f18fee760341",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/temporal_blend.py": "a857a865f8ed93e0b139194f3ffd2d67bcf63694615a8b51db56c955f4a4098d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/train.py": "9b834aeffea049bed398a6fe7187846dc2759c9386ea1af68450a065bdca8a85",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/tuning.py": "39f59413234997e9d66a9cd0e10e1e40fc426ff2636bc5e86a38b8e1aa40b2d7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/tuning_checkpoint.py": "f04b5bb78f81eb2350a22fb53a797f6eb871463019e537cd71d1bdb882895cdc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/model/walk_forward.py": "08aa034fe8abb947d898f1b3cd625140486d5c09ad32e53d4abbfc99496947d0",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/grouped_interval_calibration_2026-10-04/seed0/source_archive/fpl/run_week.py": "e67f6ad32a3865e7cf0bfd6828a7451c49b78c47acaf85cdf400c370b66d1401"
+  },
+  "phases": {
+    "reference": {
+      "calibration": {
+        "alpha": 0.2,
+        "cells": [
+          {
+            "adjustment": 0.0,
+            "group": null,
+            "n": 2191,
+            "position": "DEF"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "high",
+            "n": 485,
+            "position": "DEF"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "low",
+            "n": 1243,
+            "position": "DEF"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "mid",
+            "n": 459,
+            "position": "DEF"
+          },
+          {
+            "adjustment": 0.0,
+            "group": null,
+            "n": 893,
+            "position": "FWD"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "high",
+            "n": 114,
+            "position": "FWD"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "low",
+            "n": 628,
+            "position": "FWD"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "mid",
+            "n": 148,
+            "position": "FWD"
+          },
+          {
+            "adjustment": 0.0,
+            "group": null,
+            "n": 773,
+            "position": "GK"
+          },
+          {
+            "adjustment": 0.9999997924696652,
+            "group": "high",
+            "n": 135,
+            "position": "GK"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "low",
+            "n": 558,
+            "position": "GK"
+          },
+          {
+            "adjustment": 0.0,
+            "group": null,
+            "n": 2943,
+            "position": "MID"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "high",
+            "n": 522,
+            "position": "MID"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "low",
+            "n": 1858,
+            "position": "MID"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "mid",
+            "n": 561,
+            "position": "MID"
+          }
+        ],
+        "group_counts": [
+          [
+            "DEF",
+            "high",
+            485
+          ],
+          [
+            "DEF",
+            "low",
+            1243
+          ],
+          [
+            "DEF",
+            "mid",
+            459
+          ],
+          [
+            "DEF",
+            "missing",
+            4
+          ],
+          [
+            "FWD",
+            "high",
+            114
+          ],
+          [
+            "FWD",
+            "low",
+            628
+          ],
+          [
+            "FWD",
+            "mid",
+            148
+          ],
+          [
+            "FWD",
+            "missing",
+            3
+          ],
+          [
+            "GK",
+            "high",
+            135
+          ],
+          [
+            "GK",
+            "low",
+            558
+          ],
+          [
+            "GK",
+            "mid",
+            77
+          ],
+          [
+            "GK",
+            "missing",
+            3
+          ],
+          [
+            "MID",
+            "high",
+            522
+          ],
+          [
+            "MID",
+            "low",
+            1858
+          ],
+          [
+            "MID",
+            "mid",
+            561
+          ],
+          [
+            "MID",
+            "missing",
+            2
+          ]
+        ],
+        "min_group_size": 100
+      },
+      "calibration_sha256": "d8496d640050782927c9d4912e10aefeed296421b40a940da51efbc0cbddcb9d",
+      "metrics": {
+        "all": {
+          "control": {
+            "coverage": 0.8998426363047302,
+            "interval_score": 4.732212255972699,
+            "lower_miss_rate": 0.011941127464593169,
+            "mean_width": 2.5220819376939736,
+            "upper_miss_rate": 0.08821623623067666
+          },
+          "grouped": {
+            "coverage": 0.9026196426918448,
+            "interval_score": 4.729229919416756,
+            "lower_miss_rate": 0.010089789873183375,
+            "mean_width": 2.5711423736848027,
+            "upper_miss_rate": 0.08729056743497177
+          },
+          "player_rounds": 21606
+        },
+        "by_minutes_group": {
+          "high": {
+            "control": {
+              "coverage": 0.8126424870466321,
+              "interval_score": 10.097291816092406,
+              "lower_miss_rate": 0.03585492227979275,
+              "mean_width": 5.668262379612177,
+              "upper_miss_rate": 0.15150259067357513
+            },
+            "grouped": {
+              "coverage": 0.8250777202072539,
+              "interval_score": 10.083937129330188,
+              "lower_miss_rate": 0.027564766839378238,
+              "mean_width": 5.887951453191006,
+              "upper_miss_rate": 0.14735751295336788
+            },
+            "player_rounds": 4825
+          },
+          "low": {
+            "control": {
+              "coverage": 0.9497865072587532,
+              "interval_score": 1.586490870118202,
+              "lower_miss_rate": 0.0006831767719897524,
+              "mean_width": 0.6929184604833057,
+              "upper_miss_rate": 0.04953031596925705
+            },
+            "grouped": {
+              "coverage": 0.9497865072587532,
+              "interval_score": 1.586490870118202,
+              "lower_miss_rate": 0.0006831767719897524,
+              "mean_width": 0.6929184604833057,
+              "upper_miss_rate": 0.04953031596925705
+            },
+            "player_rounds": 11710
+          },
+          "mid": {
+            "control": {
+              "coverage": 0.8657937806873978,
+              "interval_score": 6.98428887678181,
+              "lower_miss_rate": 0.015752864157119476,
+              "mean_width": 3.7951415135279007,
+              "upper_miss_rate": 0.11845335515548282
+            },
+            "grouped": {
+              "coverage": 0.8657937806873978,
+              "interval_score": 6.98428887678181,
+              "lower_miss_rate": 0.015752864157119476,
+              "mean_width": 3.7951415135279007,
+              "upper_miss_rate": 0.11845335515548282
+            },
+            "player_rounds": 4888
+          },
+          "missing": {
+            "control": {
+              "coverage": 0.912568306010929,
+              "interval_score": 4.41384082571946,
+              "lower_miss_rate": 0.0,
+              "mean_width": 2.6120736273407057,
+              "upper_miss_rate": 0.08743169398907104
+            },
+            "grouped": {
+              "coverage": 0.912568306010929,
+              "interval_score": 4.41384082571946,
+              "lower_miss_rate": 0.0,
+              "mean_width": 2.6120736273407057,
+              "upper_miss_rate": 0.08743169398907104
+            },
+            "player_rounds": 183
+          }
+        },
+        "by_position": {
+          "DEF": {
+            "control": {
+              "coverage": 0.8984060984060984,
+              "interval_score": 4.532064193164074,
+              "lower_miss_rate": 0.008454608454608454,
+              "mean_width": 2.6038564978219823,
+              "upper_miss_rate": 0.09313929313929314
+            },
+            "grouped": {
+              "coverage": 0.8984060984060984,
+              "interval_score": 4.532064193164074,
+              "lower_miss_rate": 0.008454608454608454,
+              "mean_width": 2.6038564978219823,
+              "upper_miss_rate": 0.09313929313929314
+            },
+            "player_rounds": 7215
+          },
+          "FWD": {
+            "control": {
+              "coverage": 0.8839547549224969,
+              "interval_score": 5.7492764189538486,
+              "lower_miss_rate": 0.01466275659824047,
+              "mean_width": 2.708779140595265,
+              "upper_miss_rate": 0.10138248847926268
+            },
+            "grouped": {
+              "coverage": 0.8839547549224969,
+              "interval_score": 5.7492764189538486,
+              "lower_miss_rate": 0.01466275659824047,
+              "mean_width": 2.708779140595265,
+              "upper_miss_rate": 0.10138248847926268
+            },
+            "player_rounds": 2387
+          },
+          "GK": {
+            "control": {
+              "coverage": 0.91369440774989,
+              "interval_score": 3.516228545183136,
+              "lower_miss_rate": 0.02289740202553941,
+              "mean_width": 1.748676009482077,
+              "upper_miss_rate": 0.06340819022457067
+            },
+            "grouped": {
+              "coverage": 0.9401144870101277,
+              "interval_score": 3.487854981278382,
+              "lower_miss_rate": 0.005284015852047556,
+              "mean_width": 2.2154306462138447,
+              "upper_miss_rate": 0.054601497137824744
+            },
+            "player_rounds": 2271
+          },
+          "MID": {
+            "control": {
+              "coverage": 0.9015719716428645,
+              "interval_score": 4.914872804963897,
+              "lower_miss_rate": 0.011301756909483202,
+              "mean_width": 2.596134664327104,
+              "upper_miss_rate": 0.08712627144765232
+            },
+            "grouped": {
+              "coverage": 0.9015719716428645,
+              "interval_score": 4.914872804963897,
+              "lower_miss_rate": 0.011301756909483202,
+              "mean_width": 2.596134664327104,
+              "upper_miss_rate": 0.08712627144765232
+            },
+            "player_rounds": 9733
+          }
+        },
+        "by_position_and_group": [
+          {
+            "group": "high",
+            "metrics": {
+              "control": {
+                "coverage": 0.8298666666666666,
+                "interval_score": 9.253917412387409,
+                "lower_miss_rate": 0.015466666666666667,
+                "mean_width": 5.628399653325216,
+                "upper_miss_rate": 0.15466666666666667
+              },
+              "grouped": {
+                "coverage": 0.8298666666666666,
+                "interval_score": 9.253917412387409,
+                "lower_miss_rate": 0.015466666666666667,
+                "mean_width": 5.628399653325216,
+                "upper_miss_rate": 0.15466666666666667
+              },
+              "player_rounds": 1875
+            },
+            "position": "DEF"
+          },
+          {
+            "group": "low",
+            "metrics": {
+              "control": {
+                "coverage": 0.9465522016062032,
+                "interval_score": 1.428601167581125,
+                "lower_miss_rate": 0.001661589587371919,
+                "mean_width": 0.6082716274973253,
+                "upper_miss_rate": 0.051786208806424816
+              },
+              "grouped": {
+                "coverage": 0.9465522016062032,
+                "interval_score": 1.428601167581125,
+                "lower_miss_rate": 0.001661589587371919,
+                "mean_width": 0.6082716274973253,
+                "upper_miss_rate": 0.051786208806424816
+              },
+              "player_rounds": 3611
+            },
+            "position": "DEF"
+          },
+          {
+            "group": "mid",
+            "metrics": {
+              "control": {
+                "coverage": 0.8687537627934979,
+                "interval_score": 5.975024045733157,
+                "lower_miss_rate": 0.015653220951234198,
+                "mean_width": 3.5144212562751194,
+                "upper_miss_rate": 0.11559301625526791
+              },
+              "grouped": {
+                "coverage": 0.8687537627934979,
+                "interval_score": 5.975024045733157,
+                "lower_miss_rate": 0.015653220951234198,
+                "mean_width": 3.5144212562751194,
+                "upper_miss_rate": 0.11559301625526791
+              },
+              "player_rounds": 1661
+            },
+            "position": "DEF"
+          },
+          {
+            "group": "missing",
+            "metrics": {
+              "control": {
+                "coverage": 0.9558823529411765,
+                "interval_score": 3.890503666973378,
+                "lower_miss_rate": 0.0,
+                "mean_width": 2.936069532867777,
+                "upper_miss_rate": 0.04411764705882353
+              },
+              "grouped": {
+                "coverage": 0.9558823529411765,
+                "interval_score": 3.890503666973378,
+                "lower_miss_rate": 0.0,
+                "mean_width": 2.936069532867777,
+                "upper_miss_rate": 0.04411764705882353
+              },
+              "player_rounds": 68
+            },
+            "position": "DEF"
+          },
+          {
+            "group": "high",
+            "metrics": {
+              "control": {
+                "coverage": 0.7296222664015904,
+                "interval_score": 13.622225500209508,
+                "lower_miss_rate": 0.0536779324055666,
+                "mean_width": 6.360897545308972,
+                "upper_miss_rate": 0.21669980119284293
+              },
+              "grouped": {
+                "coverage": 0.7296222664015904,
+                "interval_score": 13.622225500209508,
+                "lower_miss_rate": 0.0536779324055666,
+                "mean_width": 6.360897545308972,
+                "upper_miss_rate": 0.21669980119284293
+              },
+              "player_rounds": 503
+            },
+            "position": "FWD"
+          },
+          {
+            "group": "low",
+            "metrics": {
+              "control": {
+                "coverage": 0.9509408602150538,
+                "interval_score": 2.014849051228246,
+                "lower_miss_rate": 0.0,
+                "mean_width": 0.999909760001214,
+                "upper_miss_rate": 0.049059139784946235
+              },
+              "grouped": {
+                "coverage": 0.9509408602150538,
+                "interval_score": 2.014849051228246,
+                "lower_miss_rate": 0.0,
+                "mean_width": 0.999909760001214,
+                "upper_miss_rate": 0.049059139784946235
+              },
+              "player_rounds": 1488
+            },
+            "position": "FWD"
+          },
+          {
+            "group": "mid",
+            "metrics": {
+              "control": {
+                "coverage": 0.8218085106382979,
+                "interval_score": 9.990472659244173,
+                "lower_miss_rate": 0.02127659574468085,
+                "mean_width": 4.539604131115764,
+                "upper_miss_rate": 0.15691489361702127
+              },
+              "grouped": {
+                "coverage": 0.8218085106382979,
+                "interval_score": 9.990472659244173,
+                "lower_miss_rate": 0.02127659574468085,
+                "mean_width": 4.539604131115764,
+                "upper_miss_rate": 0.15691489361702127
+              },
+              "player_rounds": 376
+            },
+            "position": "FWD"
+          },
+          {
+            "group": "missing",
+            "metrics": {
+              "control": {
+                "coverage": 0.95,
+                "interval_score": 5.851513866700783,
+                "lower_miss_rate": 0.0,
+                "mean_width": 3.5783733564575235,
+                "upper_miss_rate": 0.05
+              },
+              "grouped": {
+                "coverage": 0.95,
+                "interval_score": 5.851513866700783,
+                "lower_miss_rate": 0.0,
+                "mean_width": 3.5783733564575235,
+                "upper_miss_rate": 0.05
+              },
+              "player_rounds": 20
+            },
+            "position": "FWD"
+          },
+          {
+            "group": "high",
+            "metrics": {
+              "control": {
+                "coverage": 0.7679245283018868,
+                "interval_score": 9.348016312199965,
+                "lower_miss_rate": 0.0830188679245283,
+                "mean_width": 5.172211656971721,
+                "upper_miss_rate": 0.1490566037735849
+              },
+              "grouped": {
+                "coverage": 0.8811320754716981,
+                "interval_score": 9.226438267619407,
+                "lower_miss_rate": 0.007547169811320755,
+                "mean_width": 7.172211241911051,
+                "upper_miss_rate": 0.11132075471698114
+              },
+              "player_rounds": 530
+            },
+            "position": "GK"
+          },
+          {
+            "group": "low",
+            "metrics": {
+              "control": {
+                "coverage": 0.976073187895848,
+                "interval_score": 0.871436238641536,
+                "lower_miss_rate": 0.0,
+                "mean_width": 0.1780459954856854,
+                "upper_miss_rate": 0.023926812104152005
+              },
+              "grouped": {
+                "coverage": 0.976073187895848,
+                "interval_score": 0.871436238641536,
+                "lower_miss_rate": 0.0,
+                "mean_width": 0.1780459954856854,
+                "upper_miss_rate": 0.023926812104152005
+              },
+              "player_rounds": 1421
+            },
+            "position": "GK"
+          },
+          {
+            "group": "mid",
+            "metrics": {
+              "control": {
+                "coverage": 0.8811881188118812,
+                "interval_score": 5.6704288447756594,
+                "lower_miss_rate": 0.026402640264026403,
+                "mean_width": 3.1100977594974393,
+                "upper_miss_rate": 0.0924092409240924
+              },
+              "grouped": {
+                "coverage": 0.8811881188118812,
+                "interval_score": 5.6704288447756594,
+                "lower_miss_rate": 0.026402640264026403,
+                "mean_width": 3.1100977594974393,
+                "upper_miss_rate": 0.0924092409240924
+              },
+              "player_rounds": 303
+            },
+            "position": "GK"
+          },
+          {
+            "group": "missing",
+            "metrics": {
+              "control": {
+                "coverage": 0.8235294117647058,
+                "interval_score": 4.379737974604232,
+                "lower_miss_rate": 0.0,
+                "mean_width": 2.035768154464808,
+                "upper_miss_rate": 0.17647058823529413
+              },
+              "grouped": {
+                "coverage": 0.8235294117647058,
+                "interval_score": 4.379737974604232,
+                "lower_miss_rate": 0.0,
+                "mean_width": 2.035768154464808,
+                "upper_miss_rate": 0.17647058823529413
+              },
+              "player_rounds": 17
+            },
+            "position": "GK"
+          },
+          {
+            "group": "high",
+            "metrics": {
+              "control": {
+                "coverage": 0.8299426186750131,
+                "interval_score": 10.204439119639071,
+                "lower_miss_rate": 0.03808033385498174,
+                "mean_width": 5.662656749169823,
+                "upper_miss_rate": 0.13197704747000522
+              },
+              "grouped": {
+                "coverage": 0.8299426186750131,
+                "interval_score": 10.204439119639071,
+                "lower_miss_rate": 0.03808033385498174,
+                "mean_width": 5.662656749169823,
+                "upper_miss_rate": 0.13197704747000522
+              },
+              "player_rounds": 1917
+            },
+            "position": "MID"
+          },
+          {
+            "group": "low",
+            "metrics": {
+              "control": {
+                "coverage": 0.9445086705202312,
+                "interval_score": 1.7693107879790844,
+                "lower_miss_rate": 0.0003853564547206166,
+                "mean_width": 0.8047663281116962,
+                "upper_miss_rate": 0.05510597302504817
+              },
+              "grouped": {
+                "coverage": 0.9445086705202312,
+                "interval_score": 1.7693107879790844,
+                "lower_miss_rate": 0.0003853564547206166,
+                "mean_width": 0.8047663281116962,
+                "upper_miss_rate": 0.05510597302504817
+              },
+              "player_rounds": 5190
+            },
+            "position": "MID"
+          },
+          {
+            "group": "mid",
+            "metrics": {
+              "control": {
+                "coverage": 0.8685243328100472,
+                "interval_score": 7.354839650668711,
+                "lower_miss_rate": 0.013736263736263736,
+                "mean_width": 3.9497438135887584,
+                "upper_miss_rate": 0.11773940345368916
+              },
+              "grouped": {
+                "coverage": 0.8685243328100472,
+                "interval_score": 7.354839650668711,
+                "lower_miss_rate": 0.013736263736263736,
+                "mean_width": 3.9497438135887584,
+                "upper_miss_rate": 0.11773940345368916
+              },
+              "player_rounds": 2548
+            },
+            "position": "MID"
+          },
+          {
+            "group": "missing",
+            "metrics": {
+              "control": {
+                "coverage": 0.8846153846153846,
+                "interval_score": 4.50888203654082,
+                "lower_miss_rate": 0.0,
+                "mean_width": 2.2074515360677953,
+                "upper_miss_rate": 0.11538461538461539
+              },
+              "grouped": {
+                "coverage": 0.8846153846153846,
+                "interval_score": 4.50888203654082,
+                "lower_miss_rate": 0.0,
+                "mean_width": 2.2074515360677953,
+                "upper_miss_rate": 0.11538461538461539
+              },
+              "player_rounds": 78
+            },
+            "position": "MID"
+          }
+        ],
+        "post_outcome_played_diagnostic_only": {
+          "control": {
+            "coverage": 0.7828883885493728,
+            "interval_score": 9.58800037225623,
+            "lower_miss_rate": 0.012758657660555377,
+            "mean_width": 4.617262091659895,
+            "upper_miss_rate": 0.20435295379007185
+          },
+          "grouped": {
+            "coverage": 0.7866409349201243,
+            "interval_score": 9.594386521139958,
+            "lower_miss_rate": 0.011150423501661842,
+            "mean_width": 4.717401451171707,
+            "upper_miss_rate": 0.20220864157821378
+          },
+          "player_rounds": 9327
+        }
+      },
+      "paired_interval_score": {
+        "block_len": 3,
+        "ci_high": 0.004867152972662333,
+        "ci_low": -0.010867157557522496,
+        "direction": "candidate minus control; lower is better",
+        "mean_interval_score_delta": -0.0029823365559425606,
+        "n_boot": 10000,
+        "player_rounds": 21606,
+        "rounds": 31,
+        "seed": 0
+      },
+      "predictions_sha256": "c05a81acd2232edcc728670f3296a827a054df5e01fe08c23b16bb1e569257b5"
+    },
+    "selection": {
+      "calibration": {
+        "alpha": 0.2,
+        "cells": [
+          {
+            "adjustment": 0.0,
+            "group": null,
+            "n": 1954,
+            "position": "DEF"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "high",
+            "n": 479,
+            "position": "DEF"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "low",
+            "n": 1002,
+            "position": "DEF"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "mid",
+            "n": 467,
+            "position": "DEF"
+          },
+          {
+            "adjustment": 0.0,
+            "group": null,
+            "n": 774,
+            "position": "FWD"
+          },
+          {
+            "adjustment": 0.4151840839011083,
+            "group": "high",
+            "n": 116,
+            "position": "FWD"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "low",
+            "n": 499,
+            "position": "FWD"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "mid",
+            "n": 156,
+            "position": "FWD"
+          },
+          {
+            "adjustment": 0.0,
+            "group": null,
+            "n": 688,
+            "position": "GK"
+          },
+          {
+            "adjustment": 0.9999997924696652,
+            "group": "high",
+            "n": 125,
+            "position": "GK"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "low",
+            "n": 476,
+            "position": "GK"
+          },
+          {
+            "adjustment": 0.0,
+            "group": null,
+            "n": 2615,
+            "position": "MID"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "high",
+            "n": 525,
+            "position": "MID"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "low",
+            "n": 1533,
+            "position": "MID"
+          },
+          {
+            "adjustment": 0.0,
+            "group": "mid",
+            "n": 541,
+            "position": "MID"
+          }
+        ],
+        "group_counts": [
+          [
+            "DEF",
+            "high",
+            479
+          ],
+          [
+            "DEF",
+            "low",
+            1002
+          ],
+          [
+            "DEF",
+            "mid",
+            467
+          ],
+          [
+            "DEF",
+            "missing",
+            6
+          ],
+          [
+            "FWD",
+            "high",
+            116
+          ],
+          [
+            "FWD",
+            "low",
+            499
+          ],
+          [
+            "FWD",
+            "mid",
+            156
+          ],
+          [
+            "FWD",
+            "missing",
+            3
+          ],
+          [
+            "GK",
+            "high",
+            125
+          ],
+          [
+            "GK",
+            "low",
+            476
+          ],
+          [
+            "GK",
+            "mid",
+            84
+          ],
+          [
+            "GK",
+            "missing",
+            3
+          ],
+          [
+            "MID",
+            "high",
+            525
+          ],
+          [
+            "MID",
+            "low",
+            1533
+          ],
+          [
+            "MID",
+            "mid",
+            541
+          ],
+          [
+            "MID",
+            "missing",
+            16
+          ]
+        ],
+        "min_group_size": 100
+      },
+      "calibration_sha256": "8dc4650d1a094fdee87a30712162229dcc23a69c9710734ee6edae2479ed6b94",
+      "metrics": {
+        "all": {
+          "control": {
+            "coverage": 0.9167908399341228,
+            "interval_score": 4.254322462969618,
+            "lower_miss_rate": 0.011763783232687633,
+            "mean_width": 2.284980578745324,
+            "upper_miss_rate": 0.07144537683318955
+          },
+          "grouped": {
+            "coverage": 0.9200062740177241,
+            "interval_score": 4.248076187463082,
+            "lower_miss_rate": 0.009881577915457612,
+            "mean_width": 2.3408755255602,
+            "upper_miss_rate": 0.07011214806681829
+          },
+          "player_rounds": 12751
+        },
+        "by_minutes_group": {
+          "high": {
+            "control": {
+              "coverage": 0.8157560355781448,
+              "interval_score": 11.026889475784515,
+              "lower_miss_rate": 0.043202033036848796,
+              "mean_width": 6.057626459075628,
+              "upper_miss_rate": 0.14104193138500634
+            },
+            "grouped": {
+              "coverage": 0.8331215586615841,
+              "interval_score": 10.993155355079795,
+              "lower_miss_rate": 0.03303684879288437,
+              "mean_width": 6.359497050704802,
+              "upper_miss_rate": 0.13384159254553155
+            },
+            "player_rounds": 2361
+          },
+          "low": {
+            "control": {
+              "coverage": 0.960806697108067,
+              "interval_score": 1.193250178727162,
+              "lower_miss_rate": 0.0012683916793505834,
+              "mean_width": 0.5114374492348074,
+              "upper_miss_rate": 0.03792491121258244
+            },
+            "grouped": {
+              "coverage": 0.960806697108067,
+              "interval_score": 1.193250178727162,
+              "lower_miss_rate": 0.0012683916793505834,
+              "mean_width": 0.5114374492348074,
+              "upper_miss_rate": 0.03792491121258244
+            },
+            "player_rounds": 7884
+          },
+          "mid": {
+            "control": {
+              "coverage": 0.871033360455655,
+              "interval_score": 7.583947576848146,
+              "lower_miss_rate": 0.015459723352318959,
+              "mean_width": 4.327952123643687,
+              "upper_miss_rate": 0.11350691619202603
+            },
+            "grouped": {
+              "coverage": 0.871033360455655,
+              "interval_score": 7.583947576848146,
+              "lower_miss_rate": 0.015459723352318959,
+              "mean_width": 4.327952123643687,
+              "upper_miss_rate": 0.11350691619202603
+            },
+            "player_rounds": 2458
+          },
+          "missing": {
+            "control": {
+              "coverage": 1.0,
+              "interval_score": 3.405252500430573,
+              "lower_miss_rate": 0.0,
+              "mean_width": 3.405252500430573,
+              "upper_miss_rate": 0.0
+            },
+            "grouped": {
+              "coverage": 1.0,
+              "interval_score": 3.405252500430573,
+              "lower_miss_rate": 0.0,
+              "mean_width": 3.405252500430573,
+              "upper_miss_rate": 0.0
+            },
+            "player_rounds": 48
+          }
+        },
+        "by_position": {
+          "DEF": {
+            "control": {
+              "coverage": 0.9093788063337394,
+              "interval_score": 4.47428497946352,
+              "lower_miss_rate": 0.01559074299634592,
+              "mean_width": 2.5693351229967814,
+              "upper_miss_rate": 0.07503045066991473
+            },
+            "grouped": {
+              "coverage": 0.9093788063337394,
+              "interval_score": 4.47428497946352,
+              "lower_miss_rate": 0.01559074299634592,
+              "mean_width": 2.5693351229967814,
+              "upper_miss_rate": 0.07503045066991473
+            },
+            "player_rounds": 4105
+          },
+          "FWD": {
+            "control": {
+              "coverage": 0.9046762589928058,
+              "interval_score": 4.64566481421586,
+              "lower_miss_rate": 0.015587529976019185,
+              "mean_width": 2.1373819681455775,
+              "upper_miss_rate": 0.07973621103117506
+            },
+            "grouped": {
+              "coverage": 0.907673860911271,
+              "interval_score": 4.620496624739536,
+              "lower_miss_rate": 0.015587529976019185,
+              "mean_width": 2.2409290777995707,
+              "upper_miss_rate": 0.07673860911270983
+            },
+            "player_rounds": 1668
+          },
+          "GK": {
+            "control": {
+              "coverage": 0.935127674258109,
+              "interval_score": 2.717583562018603,
+              "lower_miss_rate": 0.018633540372670808,
+              "mean_width": 1.3035934876688389,
+              "upper_miss_rate": 0.04623878536922015
+            },
+            "grouped": {
+              "coverage": 0.9599723947550034,
+              "interval_score": 2.691589277037694,
+              "lower_miss_rate": 0.002070393374741201,
+              "mean_width": 1.6762642177817573,
+              "upper_miss_rate": 0.03795721187025535
+            },
+            "player_rounds": 1449
+          },
+          "MID": {
+            "control": {
+              "coverage": 0.92114306384518,
+              "interval_score": 4.375687898924007,
+              "lower_miss_rate": 0.005968529571351058,
+              "mean_width": 2.3755844805897763,
+              "upper_miss_rate": 0.07288840658346898
+            },
+            "grouped": {
+              "coverage": 0.92114306384518,
+              "interval_score": 4.375687898924007,
+              "lower_miss_rate": 0.005968529571351058,
+              "mean_width": 2.3755844805897763,
+              "upper_miss_rate": 0.07288840658346898
+            },
+            "player_rounds": 5529
+          }
+        },
+        "by_position_and_group": [
+          {
+            "group": "high",
+            "metrics": {
+              "control": {
+                "coverage": 0.828039430449069,
+                "interval_score": 10.206411669154233,
+                "lower_miss_rate": 0.040525739320920046,
+                "mean_width": 6.0034417384294425,
+                "upper_miss_rate": 0.13143483023001096
+              },
+              "grouped": {
+                "coverage": 0.828039430449069,
+                "interval_score": 10.206411669154233,
+                "lower_miss_rate": 0.040525739320920046,
+                "mean_width": 6.0034417384294425,
+                "upper_miss_rate": 0.13143483023001096
+              },
+              "player_rounds": 913
+            },
+            "position": "DEF"
+          },
+          {
+            "group": "low",
+            "metrics": {
+              "control": {
+                "coverage": 0.9552899513058876,
+                "interval_score": 1.1886538655141323,
+                "lower_miss_rate": 0.0035413899955732625,
+                "mean_width": 0.48929577972172617,
+                "upper_miss_rate": 0.041168658698539175
+              },
+              "grouped": {
+                "coverage": 0.9552899513058876,
+                "interval_score": 1.1886538655141323,
+                "lower_miss_rate": 0.0035413899955732625,
+                "mean_width": 0.48929577972172617,
+                "upper_miss_rate": 0.041168658698539175
+              },
+              "player_rounds": 2259
+            },
+            "position": "DEF"
+          },
+          {
+            "group": "mid",
+            "metrics": {
+              "control": {
+                "coverage": 0.8756815703380589,
+                "interval_score": 6.86903080243248,
+                "lower_miss_rate": 0.020719738276990186,
+                "mean_width": 4.248902451026611,
+                "upper_miss_rate": 0.10359869138495092
+              },
+              "grouped": {
+                "coverage": 0.8756815703380589,
+                "interval_score": 6.86903080243248,
+                "lower_miss_rate": 0.020719738276990186,
+                "mean_width": 4.248902451026611,
+                "upper_miss_rate": 0.10359869138495092
+              },
+              "player_rounds": 917
+            },
+            "position": "DEF"
+          },
+          {
+            "group": "missing",
+            "metrics": {
+              "control": {
+                "coverage": 1.0,
+                "interval_score": 4.0259786708077545,
+                "lower_miss_rate": 0.0,
+                "mean_width": 4.0259786708077545,
+                "upper_miss_rate": 0.0
+              },
+              "grouped": {
+                "coverage": 1.0,
+                "interval_score": 4.0259786708077545,
+                "lower_miss_rate": 0.0,
+                "mean_width": 4.0259786708077545,
+                "upper_miss_rate": 0.0
+              },
+              "player_rounds": 16
+            },
+            "position": "DEF"
+          },
+          {
+            "group": "high",
+            "metrics": {
+              "control": {
+                "coverage": 0.7403846153846154,
+                "interval_score": 14.522477314171622,
+                "lower_miss_rate": 0.07692307692307693,
+                "mean_width": 6.335577964942853,
+                "upper_miss_rate": 0.18269230769230768
+              },
+              "grouped": {
+                "coverage": 0.7644230769230769,
+                "interval_score": 14.320647794717255,
+                "lower_miss_rate": 0.07692307692307693,
+                "mean_width": 7.165946132745071,
+                "upper_miss_rate": 0.15865384615384615
+              },
+              "player_rounds": 208
+            },
+            "position": "FWD"
+          },
+          {
+            "group": "low",
+            "metrics": {
+              "control": {
+                "coverage": 0.9547872340425532,
+                "interval_score": 1.6348902797845486,
+                "lower_miss_rate": 0.0,
+                "mean_width": 0.610761159490563,
+                "upper_miss_rate": 0.04521276595744681
+              },
+              "grouped": {
+                "coverage": 0.9547872340425532,
+                "interval_score": 1.6348902797845486,
+                "lower_miss_rate": 0.0,
+                "mean_width": 0.610761159490563,
+                "upper_miss_rate": 0.04521276595744681
+              },
+              "player_rounds": 1128
+            },
+            "position": "FWD"
+          },
+          {
+            "group": "mid",
+            "metrics": {
+              "control": {
+                "coverage": 0.8322981366459627,
+                "interval_score": 8.811962879917647,
+                "lower_miss_rate": 0.031055900621118012,
+                "mean_width": 4.694810473352328,
+                "upper_miss_rate": 0.13664596273291926
+              },
+              "grouped": {
+                "coverage": 0.8322981366459627,
+                "interval_score": 8.811962879917647,
+                "lower_miss_rate": 0.031055900621118012,
+                "mean_width": 4.694810473352328,
+                "upper_miss_rate": 0.13664596273291926
+              },
+              "player_rounds": 322
+            },
+            "position": "FWD"
+          },
+          {
+            "group": "missing",
+            "metrics": {
+              "control": {
+                "coverage": 1.0,
+                "interval_score": 4.668534583390483,
+                "lower_miss_rate": 0.0,
+                "mean_width": 4.668534583390483,
+                "upper_miss_rate": 0.0
+              },
+              "grouped": {
+                "coverage": 1.0,
+                "interval_score": 4.668534583390483,
+                "lower_miss_rate": 0.0,
+                "mean_width": 4.668534583390483,
+                "upper_miss_rate": 0.0
+              },
+              "player_rounds": 10
+            },
+            "position": "FWD"
+          },
+          {
+            "group": "high",
+            "metrics": {
+              "control": {
+                "coverage": 0.7592592592592593,
+                "interval_score": 9.67548495374348,
+                "lower_miss_rate": 0.08888888888888889,
+                "mean_width": 4.9334188307762075,
+                "upper_miss_rate": 0.15185185185185185
+              },
+              "grouped": {
+                "coverage": 0.8925925925925926,
+                "interval_score": 9.535982291012601,
+                "lower_miss_rate": 0.0,
+                "mean_width": 6.933418415715537,
+                "upper_miss_rate": 0.10740740740740741
+              },
+              "player_rounds": 270
+            },
+            "position": "GK"
+          },
+          {
+            "group": "low",
+            "metrics": {
+              "control": {
+                "coverage": 0.9858088930936613,
+                "interval_score": 0.4996853416568994,
+                "lower_miss_rate": 0.000946073793755913,
+                "mean_width": 0.15267658855666208,
+                "upper_miss_rate": 0.013245033112582781
+              },
+              "grouped": {
+                "coverage": 0.9858088930936613,
+                "interval_score": 0.4996853416568994,
+                "lower_miss_rate": 0.000946073793755913,
+                "mean_width": 0.15267658855666208,
+                "upper_miss_rate": 0.013245033112582781
+              },
+              "player_rounds": 1057
+            },
+            "position": "GK"
+          },
+          {
+            "group": "mid",
+            "metrics": {
+              "control": {
+                "coverage": 0.8782608695652174,
+                "interval_score": 6.812597785120152,
+                "lower_miss_rate": 0.017391304347826087,
+                "mean_width": 3.3193324589923727,
+                "upper_miss_rate": 0.10434782608695652
+              },
+              "grouped": {
+                "coverage": 0.8782608695652174,
+                "interval_score": 6.812597785120152,
+                "lower_miss_rate": 0.017391304347826087,
+                "mean_width": 3.3193324589923727,
+                "upper_miss_rate": 0.10434782608695652
+              },
+              "player_rounds": 115
+            },
+            "position": "GK"
+          },
+          {
+            "group": "missing",
+            "metrics": {
+              "control": {
+                "coverage": 1.0,
+                "interval_score": 1.9687846334367367,
+                "lower_miss_rate": 0.0,
+                "mean_width": 1.9687846334367367,
+                "upper_miss_rate": 0.0
+              },
+              "grouped": {
+                "coverage": 1.0,
+                "interval_score": 1.9687846334367367,
+                "lower_miss_rate": 0.0,
+                "mean_width": 1.9687846334367367,
+                "upper_miss_rate": 0.0
+              },
+              "player_rounds": 7
+            },
+            "position": "GK"
+          },
+          {
+            "group": "high",
+            "metrics": {
+              "control": {
+                "coverage": 0.8360824742268042,
+                "interval_score": 11.425748432506174,
+                "lower_miss_rate": 0.02577319587628866,
+                "mean_width": 6.361948929560606,
+                "upper_miss_rate": 0.13814432989690723
+              },
+              "grouped": {
+                "coverage": 0.8360824742268042,
+                "interval_score": 11.425748432506174,
+                "lower_miss_rate": 0.02577319587628866,
+                "mean_width": 6.361948929560606,
+                "upper_miss_rate": 0.13814432989690723
+              },
+              "player_rounds": 970
+            },
+            "position": "MID"
+          },
+          {
+            "group": "low",
+            "metrics": {
+              "control": {
+                "coverage": 0.9587209302325581,
+                "interval_score": 1.2645615363837817,
+                "lower_miss_rate": 0.00029069767441860465,
+                "mean_width": 0.6036441690017718,
+                "upper_miss_rate": 0.04098837209302326
+              },
+              "grouped": {
+                "coverage": 0.9587209302325581,
+                "interval_score": 1.2645615363837817,
+                "lower_miss_rate": 0.00029069767441860465,
+                "mean_width": 0.6036441690017718,
+                "upper_miss_rate": 0.04098837209302326
+              },
+              "player_rounds": 3440
+            },
+            "position": "MID"
+          },
+          {
+            "group": "mid",
+            "metrics": {
+              "control": {
+                "coverage": 0.8777173913043478,
+                "interval_score": 7.899946653478132,
+                "lower_miss_rate": 0.006340579710144928,
+                "mean_width": 4.391676238334429,
+                "upper_miss_rate": 0.11594202898550725
+              },
+              "grouped": {
+                "coverage": 0.8777173913043478,
+                "interval_score": 7.899946653478132,
+                "lower_miss_rate": 0.006340579710144928,
+                "mean_width": 4.391676238334429,
+                "upper_miss_rate": 0.11594202898550725
+              },
+              "player_rounds": 1104
+            },
+            "position": "MID"
+          },
+          {
+            "group": "missing",
+            "metrics": {
+              "control": {
+                "coverage": 1.0,
+                "interval_score": 2.5713082013187627,
+                "lower_miss_rate": 0.0,
+                "mean_width": 2.5713082013187627,
+                "upper_miss_rate": 0.0
+              },
+              "grouped": {
+                "coverage": 1.0,
+                "interval_score": 2.5713082013187627,
+                "lower_miss_rate": 0.0,
+                "mean_width": 2.5713082013187627,
+                "upper_miss_rate": 0.0
+              },
+              "player_rounds": 15
+            },
+            "position": "MID"
+          }
+        ],
+        "post_outcome_played_diagnostic_only": {
+          "control": {
+            "coverage": 0.7821180555555556,
+            "interval_score": 10.364217790641513,
+            "lower_miss_rate": 0.020182291666666668,
+            "mean_width": 5.033037575847591,
+            "upper_miss_rate": 0.1976996527777778
+          },
+          "grouped": {
+            "coverage": 0.7884114583333334,
+            "interval_score": 10.369324750990918,
+            "lower_miss_rate": 0.017578125,
+            "mean_width": 5.171442491704332,
+            "upper_miss_rate": 0.19401041666666666
+          },
+          "player_rounds": 4608
+        }
+      },
+      "paired_interval_score": {
+        "block_len": 3,
+        "ci_high": 0.003477601789872968,
+        "ci_low": -0.018995929174261447,
+        "direction": "candidate minus control; lower is better",
+        "mean_interval_score_delta": -0.006246275506536387,
+        "n_boot": 10000,
+        "player_rounds": 12751,
+        "rounds": 16,
+        "seed": 0
+      },
+      "predictions_sha256": "d2db5e7b80f99548376063870c474cb5b0ef11ccf860b2b4e3ad2f3bffe7baee"
+    }
+  },
+  "promotion_eligible": false,
+  "registration_sha256": "2ba399fadc2a188e3f97b3924f432dcbf767fa74b4ee40ee1b0e630dc2f36c8c",
+  "status": "complete"
+}

@@ -1,0 +1,426 @@
+{
+  "checks": [
+    "All input/output/own driver/helper and archived pipeline byte hashes.",
+    "Frozen capped fixture calendars, strict earlier round/date context and earliest DGW clock.",
+    "Exact ordered115/118 features, strict earlier gate and sealed finalist lock.",
+    "Paired forecast metadata, corrected gross-minus-four-hits and optimal solve counts.",
+    "Current-price budgets/eligibility and exported realized squad/lineup/captain sums.",
+    "Independent player-round forecast diagnostics, block-bootstrap CIs and exact sign tests."
+  ],
+  "current_origin_absent_other_origin_observed_count": 0,
+  "independently_reconstructed_context_rows": {
+    "reference": 3484,
+    "selection": 2870
+  },
+  "independently_reconstructed_current_budgets": 156,
+  "limitations": [
+    "Historical EPL schedule proxy; no publication-time or all-competition claim.",
+    "No model refits or optimizer execution; no untouched holdout or promotion assessment."
+  ],
+  "missing_actual_row_evidence": {
+    "reference/mae_full/origin": [
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 153,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 154,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 155,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 156,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 157,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 158,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 159,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 160,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 161,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 167,
+        "missing_all_origin_actual_rows": [
+          "Harvey Davies",
+          "Jordan Pickford"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 181,
+        "missing_all_origin_actual_rows": [
+          "Daniel Munoz",
+          "Emiliano Martinez Romero",
+          "Mohamed Salah",
+          "Tyrick Mitchell"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      }
+    ],
+    "reference/mae_full/standard": [
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 153,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 154,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 155,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 156,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 157,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 158,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 159,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 160,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 161,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 162,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 163,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 164,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 165,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 166,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 167,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna",
+          "Virgil van Dijk"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 168,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 169,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 170,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 171,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 172,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 173,
+        "missing_all_origin_actual_rows": [
+          "Callan McKenna"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 181,
+        "missing_all_origin_actual_rows": [
+          "Daniel Munoz",
+          "Morgan Rogers",
+          "Trent Alexander-Arnold",
+          "Virgil van Dijk"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      }
+    ],
+    "reference/mae_league_workload/origin": [
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 167,
+        "missing_all_origin_actual_rows": [
+          "Virgil van Dijk"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 181,
+        "missing_all_origin_actual_rows": [
+          "Daniel Munoz",
+          "Dean Henderson",
+          "Filip Marschall",
+          "Trent Alexander-Arnold",
+          "Virgil van Dijk"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      }
+    ],
+    "reference/mae_league_workload/standard": [
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 181,
+        "missing_all_origin_actual_rows": [
+          "John Ruddy",
+          "Mohamed Salah",
+          "Trent Alexander-Arnold",
+          "Virgil van Dijk"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      }
+    ],
+    "selection/mae_full/origin": [
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 140,
+        "missing_all_origin_actual_rows": [
+          "Elijah Adebayo",
+          "Pedro Porro",
+          "Richarlison de Andrade",
+          "Virgil van Dijk"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 143,
+        "missing_all_origin_actual_rows": [
+          "Andre Onana",
+          "Bruno Borges Fernandes",
+          "Bukayo Saka",
+          "Gabriel dos Santos Magalhaes",
+          "Josko Gvardiol",
+          "Kieran Trippier",
+          "Phil Foden",
+          "Virgil van Dijk"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 148,
+        "missing_all_origin_actual_rows": [
+          "Pedro Porro",
+          "Son Heung-min"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      }
+    ],
+    "selection/mae_league_workload/origin": [
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 140,
+        "missing_all_origin_actual_rows": [
+          "Elijah Adebayo",
+          "Pedro Porro",
+          "Virgil van Dijk"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 143,
+        "missing_all_origin_actual_rows": [
+          "Bruno Borges Fernandes",
+          "Bukayo Saka",
+          "James Tarkowski",
+          "Jordan Pickford",
+          "Josko Gvardiol",
+          "Kieran Trippier",
+          "Phil Foden",
+          "Virgil van Dijk"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      },
+      {
+        "absent_current_origin_with_other_origin_actual": [],
+        "gameweek": 148,
+        "missing_all_origin_actual_rows": [
+          "Pedro Porro",
+          "Son Heung-min"
+        ],
+        "scorer_behavior": "Unobserved matrix cells omitted from whole-squad sum; missing minutes default inactive."
+      }
+    ]
+  },
+  "missing_all_origin_squad_row_count": 78,
+  "optimal_solves": 156,
+  "promotion_eligible": false,
+  "rechecked_artifacts": 114,
+  "registration_sha256": "b7dd1e3258277d3ac9c742c121f8a30476dc34091af08b79bfd13138f641155d",
+  "results": {
+    "reference/mae_full/origin": 1938.0,
+    "reference/mae_full/standard": 2082.0,
+    "reference/mae_league_workload/origin": 1897.0,
+    "reference/mae_league_workload/standard": 2019.0,
+    "selection/mae_full/origin": 930.0,
+    "selection/mae_league_workload/origin": 1008.0
+  },
+  "source_files": 55,
+  "status": "verified",
+  "summary_sha256": "7deff58f6b259af4f3794c154dae3a00834797d6e1ad628c922084db260e17f9",
+  "supersedes_failed_verification": "Original verifier raised KeyError on an absent squad player-round; original script and model outputs preserved.",
+  "verified_at_utc": "2026-10-04T12:28:59.082146+00:00",
+  "verifier_sha256": "c6d2aa3b8cd11a89e4ff4d7265a815d0f7153bd815f1e6b768cbbedfcf934716",
+  "verifier_version": 2
+}

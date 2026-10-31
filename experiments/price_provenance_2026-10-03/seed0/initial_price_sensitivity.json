@@ -1,0 +1,67 @@
+{
+  "initial_squad_costs": {
+    "reference/mae_asof": {
+      "exported_initial_bank": -0.0,
+      "lagged_catalog_cost": 1000.0,
+      "origin": 153,
+      "reconstructed_target_current_cost": 1035.0,
+      "target_current_cost_exceeds_fresh_budget": true
+    },
+    "reference/mae_replay": {
+      "exported_initial_bank": 0.0,
+      "lagged_catalog_cost": 989.0,
+      "origin": 153,
+      "reconstructed_target_current_cost": 1000.0,
+      "target_current_cost_exceeds_fresh_budget": false
+    },
+    "reference/rmse_asof": {
+      "exported_initial_bank": 21.0,
+      "lagged_catalog_cost": 979.0,
+      "origin": 153,
+      "reconstructed_target_current_cost": 1080.0,
+      "target_current_cost_exceeds_fresh_budget": true
+    },
+    "reference/rmse_replay": {
+      "exported_initial_bank": 5.0,
+      "lagged_catalog_cost": 912.0,
+      "origin": 153,
+      "reconstructed_target_current_cost": 995.0,
+      "target_current_cost_exceeds_fresh_budget": false
+    },
+    "selection/mae_asof": {
+      "exported_initial_bank": 4.0,
+      "lagged_catalog_cost": 996.0,
+      "origin": 137,
+      "reconstructed_target_current_cost": 995.0,
+      "target_current_cost_exceeds_fresh_budget": false
+    },
+    "selection/mae_replay": {
+      "exported_initial_bank": 5.0,
+      "lagged_catalog_cost": 996.0,
+      "origin": 137,
+      "reconstructed_target_current_cost": 995.0,
+      "target_current_cost_exceeds_fresh_budget": false
+    },
+    "selection/rmse_asof": {
+      "exported_initial_bank": 39.0,
+      "lagged_catalog_cost": 961.0,
+      "origin": 137,
+      "reconstructed_target_current_cost": 959.0,
+      "target_current_cost_exceeds_fresh_budget": false
+    },
+    "selection/rmse_replay": {
+      "exported_initial_bank": 41.0,
+      "lagged_catalog_cost": 961.0,
+      "origin": 137,
+      "reconstructed_target_current_cost": 959.0,
+      "target_current_cost_exceeds_fresh_budget": false
+    }
+  },
+  "limitations": [
+    "These target-row/reconstructed current prices are not verified deadline prices.",
+    "Lagged prices crossing a season boundary can retain old season prices.",
+    "This is a price-proxy feasibility sensitivity, not a historical registration/deadline legality finding."
+  ],
+  "price_summary_sha256": "abd278ab943deda2ed3434bb30408cf81a48f14e0beb77eb725a7ec1734f41f7",
+  "status": "descriptive_verified_lookup"
+}

@@ -71,6 +71,33 @@ TUNING_TRAIN_MAX_GW = 152
 SCREEN_RETRAIN_EVERY = 4
 SCREEN_WARMUP_WEEKS = 4
 
+# Opt-in research settings; these do not change production fitting or forecasts.
+RESEARCH_MODEL_THREADS = 5
+RESEARCH_ABLATION_FAMILIES = ("fixture", "minutes", "opponent", "xp")
+EXTERNAL_SOURCE_SCHEMA = "external_fixture_v1"
+DEADLINE_SNAPSHOT_MAX_AGE_HOURS = 24.0
+DEADLINE_SNAPSHOT_MAX_BODY_BYTES = 3_000_000
+INTERVAL_CALIBRATION_WEEKS = 8
+INTERVAL_ALPHA = 0.2
+INTERVAL_SEED = 0
+GROUPED_INTERVAL_MIN_CALIBRATION_ROWS = 100
+GROUPED_INTERVAL_MINUTES_THRESHOLDS = (0.2, 0.8)
+GROUPED_INTERVAL_BOOTSTRAP_SAMPLES = 10000
+GROUPED_INTERVAL_BLOCK_LENGTH = 3
+CNN_SEQUENCE_LENGTH = 8
+CNN_SEQUENCE_STATS = ("total_points", "minutes", "goals_scored", "assists", "bps",
+                      "influence", "creativity", "threat")
+CNN_EPOCHS = 15
+CNN_BATCH_SIZE = 1024
+CNN_CHANNELS = 16
+CNN_HIDDEN = 32
+CNN_LEARNING_RATE = 0.001
+CNN_WEIGHT_DECAY = 0.0001
+CNN_GRAD_CLIP = 1.0
+CNN_RETRAIN_EVERY = 100  # Fixed pre-window fit for the bounded exploratory comparison.
+CNN_WORKER_TIMEOUT_SECONDS = 600
+BLEND_WEIGHT_WEEKS = 8
+
 # MILP solver settings for fpl/milp/optimize.py, benchmarked 2026-07-16 on the
 # GW153-183 standard backtest (see RESEARCH_LOG.md). MILP_SOLVER: "highs" (via the
 # highspy package) or "cbc" (PuLP's bundled COIN-OR CBC) - both prove optimality,

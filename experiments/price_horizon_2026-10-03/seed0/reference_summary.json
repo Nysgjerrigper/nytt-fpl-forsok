@@ -1,0 +1,218 @@
+{
+  "comparisons": {
+    "mae_horizon_vs_asof": {
+      "block_len": 3,
+      "boot_mean": 64.7302,
+      "ci_high": 216.0,
+      "ci_low": -68.0,
+      "n_gws": 31,
+      "p_a_better": 0.8107,
+      "sign_test": {
+        "p_a_better": 0.8997557889670134,
+        "p_value": 0.36159460805356514,
+        "ties": 1,
+        "wins_a": 12,
+        "wins_b": 18
+      },
+      "total_a": 1938.0,
+      "total_b": 1889.0,
+      "total_diff": 49.0
+    },
+    "mae_horizon_vs_replay": {
+      "block_len": 3,
+      "boot_mean": 32.1035,
+      "ci_high": 91.0,
+      "ci_low": -24.0,
+      "n_gws": 31,
+      "p_a_better": 0.8556,
+      "sign_test": {
+        "p_a_better": 0.07579481601715088,
+        "p_value": 0.15158963203430176,
+        "ties": 7,
+        "wins_a": 16,
+        "wins_b": 8
+      },
+      "total_a": 1938.0,
+      "total_b": 1905.0,
+      "total_diff": 33.0
+    },
+    "rmse_horizon_vs_asof": {
+      "block_len": 3,
+      "boot_mean": -273.667,
+      "ci_high": -128.0,
+      "ci_low": -414.025,
+      "n_gws": 31,
+      "p_a_better": 0.0001,
+      "sign_test": {
+        "p_a_better": 0.9506314266473055,
+        "p_value": 0.20048842206597334,
+        "ties": 1,
+        "wins_a": 11,
+        "wins_b": 19
+      },
+      "total_a": 1856.0,
+      "total_b": 2110.0,
+      "total_diff": -254.0
+    },
+    "rmse_horizon_vs_mae_horizon": {
+      "block_len": 3,
+      "boot_mean": -84.0271,
+      "ci_high": 98.0,
+      "ci_low": -259.0,
+      "n_gws": 31,
+      "p_a_better": 0.1733,
+      "sign_test": {
+        "p_a_better": 0.9506314266473055,
+        "p_value": 0.20048842206597334,
+        "ties": 1,
+        "wins_a": 11,
+        "wins_b": 19
+      },
+      "total_a": 1856.0,
+      "total_b": 1938.0,
+      "total_diff": -82.0
+    },
+    "rmse_horizon_vs_replay": {
+      "block_len": 3,
+      "boot_mean": 172.628,
+      "ci_high": 312.0,
+      "ci_low": 42.0,
+      "n_gws": 31,
+      "p_a_better": 0.9959,
+      "sign_test": {
+        "p_a_better": 0.004065029323101044,
+        "p_value": 0.008130058646202087,
+        "ties": 2,
+        "wins_a": 22,
+        "wins_b": 7
+      },
+      "total_a": 1856.0,
+      "total_b": 1678.0,
+      "total_diff": 178.0
+    }
+  },
+  "results": {
+    "mae_horizon": {
+      "diagnostics": [
+        {
+          "bias": -0.5855311381882672,
+          "mae": 0.8645682980211007,
+          "mase": 0.6263790665979497,
+          "position": "DEF",
+          "rmse": 1.990151449925161,
+          "rounds": 7123,
+          "spearman": 0.6078533306985517,
+          "top1_capture": 0.34805194805194806,
+          "total_calibration": 0.43501242247154875
+        },
+        {
+          "bias": -0.7565077978729979,
+          "mae": 1.0357849896845668,
+          "mase": 0.7331224763448642,
+          "position": "FWD",
+          "rmse": 2.5581894701933754,
+          "rounds": 2359,
+          "spearman": 0.7512990537714438,
+          "top1_capture": 0.38207547169811323,
+          "total_calibration": 0.4744988530087155
+        },
+        {
+          "bias": -0.39491188767957897,
+          "mae": 0.6232910819511329,
+          "mase": 0.6884012315376751,
+          "position": "GK",
+          "rmse": 1.704822420712996,
+          "rounds": 2243,
+          "spearman": 0.6459437320386907,
+          "top1_capture": 0.32996632996632996,
+          "total_calibration": 0.5660032513153868
+        },
+        {
+          "bias": -0.5010217512558713,
+          "mae": 0.8949562394727669,
+          "mase": 0.6966435077459956,
+          "position": "MID",
+          "rmse": 2.141871853194437,
+          "rounds": 9622,
+          "spearman": 0.7161970021545334,
+          "top1_capture": 0.585635359116022,
+          "total_calibration": 0.6106895509501741
+        }
+      ],
+      "fit_seconds": 0.001004332909360528,
+      "gross_points": 1938.0,
+      "milp_seconds": 98.42352279089391,
+      "origin": true,
+      "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+      "origin_price_policy": "origin-current-proxy",
+      "prediction_sha256": "8e352ada519e0f90bb048caf551d95f6b6be9dfd1264c6db5bf666b3a59a197c",
+      "predictions": "mae_horizon_origin.predictions.csv",
+      "squad_sha256": "bc2225664a26eb2d7056866a36356c6ac5357f31de8a5500b73b19e9d43b4baa",
+      "squads": "mae_horizon_origin.squads.csv",
+      "total_points": 1938.0,
+      "transfer_hit_points": 0.0,
+      "variant": "mae_horizon"
+    },
+    "rmse_horizon": {
+      "diagnostics": [
+        {
+          "bias": -0.03933480786774662,
+          "mae": 0.9918369666860749,
+          "mase": 0.7184983540768315,
+          "position": "DEF",
+          "rmse": 1.816870227243054,
+          "rounds": 7123,
+          "spearman": 0.634982080798459,
+          "top1_capture": 0.34285714285714286,
+          "total_calibration": 0.9620452673473369
+        },
+        {
+          "bias": -0.05459163980548485,
+          "mae": 1.235098704047389,
+          "mase": 0.8741918334500293,
+          "position": "FWD",
+          "rmse": 2.297099963499688,
+          "rounds": 2359,
+          "spearman": 0.7519769201320244,
+          "top1_capture": 0.41273584905660377,
+          "total_calibration": 0.9620784221728096
+        },
+        {
+          "bias": -0.0030108473847969834,
+          "mae": 0.7351905429978839,
+          "mase": 0.811910064884365,
+          "position": "GK",
+          "rmse": 1.5796805460675425,
+          "rounds": 2243,
+          "spearman": 0.6848192201761591,
+          "top1_capture": 0.3602693602693603,
+          "total_calibration": 0.9966911657598728
+        },
+        {
+          "bias": 0.011912354174897312,
+          "mae": 1.024167670064335,
+          "mase": 0.7972244714397207,
+          "position": "MID",
+          "rmse": 1.9907119427895723,
+          "rounds": 9622,
+          "spearman": 0.7287086895820587,
+          "top1_capture": 0.5524861878453039,
+          "total_calibration": 1.0092562926488622
+        }
+      ],
+      "fit_seconds": 0.0017305831424891949,
+      "gross_points": 1868.0,
+      "milp_seconds": 179.37925758305937,
+      "origin": true,
+      "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+      "origin_price_policy": "origin-current-proxy",
+      "prediction_sha256": "4c143823c97433f4526655619f2dfaf3e177e359e133a9425124208242f29216",
+      "predictions": "rmse_horizon_origin.predictions.csv",
+      "squad_sha256": "ca3f62f8d648415cc358f3dae283f18c94f3daa984bf4f71090ce9644d15a8fd",
+      "squads": "rmse_horizon_origin.squads.csv",
+      "total_points": 1856.0,
+      "transfer_hit_points": 12.0,
+      "variant": "rmse_horizon"
+    }
+  }
+}

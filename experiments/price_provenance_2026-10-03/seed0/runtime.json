@@ -1,0 +1,10 @@
+{
+  "classification": "completed: exec session11710 observed exit_code0",
+  "classified_at_utc": "2026-10-03T17:23:12.241575+00:00",
+  "exec_session_id": 11710,
+  "expected_optimal_solves": 188,
+  "production_changed": false,
+  "solver": "serial HiGHS MILP",
+  "solver_running": false,
+  "training_jobs": 0
+}

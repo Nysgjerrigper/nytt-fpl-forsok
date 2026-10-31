@@ -1,0 +1,34 @@
+{
+  "arms": {
+    "mae_current": [
+      "mae_full",
+      "catboost_mae",
+      "origin-current-proxy"
+    ],
+    "mae_replay": [
+      "mae_full",
+      "catboost_mae",
+      "target-replay"
+    ],
+    "rmse_current": [
+      "rmse_full",
+      "catboost_rmse",
+      "origin-current-proxy"
+    ],
+    "rmse_replay": [
+      "rmse_full",
+      "catboost_rmse",
+      "target-replay"
+    ]
+  },
+  "origin_price_catalog_sha256": {
+    "reference": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2"
+  },
+  "registration_sha256": "c685836d268f250b43c716a6158ad4ff867222759a9145fff25c937314dd2570",
+  "windows": {
+    "reference": [
+      153,
+      183
+    ]
+  }
+}

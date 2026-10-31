@@ -1,0 +1,1176 @@
+{
+  "catalog_diagnostics": {
+    "reference": [
+      {
+        "age_max": 115,
+        "age_mean": 6.955706984667803,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 587,
+        "origin_gw": 153,
+        "unknown": 184
+      },
+      {
+        "age_max": 78,
+        "age_mean": 1.8729198184568836,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 661,
+        "origin_gw": 154,
+        "unknown": 110
+      },
+      {
+        "age_max": 79,
+        "age_mean": 1.6876876876876876,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 666,
+        "origin_gw": 155,
+        "unknown": 105
+      },
+      {
+        "age_max": 80,
+        "age_mean": 1.5250737463126844,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 678,
+        "origin_gw": 156,
+        "unknown": 93
+      },
+      {
+        "age_max": 81,
+        "age_mean": 1.5502183406113537,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 687,
+        "origin_gw": 157,
+        "unknown": 84
+      },
+      {
+        "age_max": 82,
+        "age_mean": 1.5892597968069666,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 689,
+        "origin_gw": 158,
+        "unknown": 82
+      },
+      {
+        "age_max": 83,
+        "age_mean": 1.5643994211287988,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 691,
+        "origin_gw": 159,
+        "unknown": 80
+      },
+      {
+        "age_max": 84,
+        "age_mean": 1.5375722543352601,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 692,
+        "origin_gw": 160,
+        "unknown": 79
+      },
+      {
+        "age_max": 85,
+        "age_mean": 1.5743145743145743,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 693,
+        "origin_gw": 161,
+        "unknown": 78
+      },
+      {
+        "age_max": 86,
+        "age_mean": 1.5302593659942363,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 694,
+        "origin_gw": 162,
+        "unknown": 77
+      },
+      {
+        "age_max": 49,
+        "age_mean": 1.4252873563218391,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 696,
+        "origin_gw": 163,
+        "unknown": 75
+      },
+      {
+        "age_max": 50,
+        "age_mean": 1.3696275071633237,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 698,
+        "origin_gw": 164,
+        "unknown": 73
+      },
+      {
+        "age_max": 51,
+        "age_mean": 1.3783783783783783,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 703,
+        "origin_gw": 165,
+        "unknown": 68
+      },
+      {
+        "age_max": 52,
+        "age_mean": 1.384180790960452,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 708,
+        "origin_gw": 166,
+        "unknown": 63
+      },
+      {
+        "age_max": 53,
+        "age_mean": 1.388732394366197,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 710,
+        "origin_gw": 167,
+        "unknown": 61
+      },
+      {
+        "age_max": 54,
+        "age_mean": 1.5014084507042254,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 710,
+        "origin_gw": 168,
+        "unknown": 61
+      },
+      {
+        "age_max": 55,
+        "age_mean": 1.3225806451612903,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 713,
+        "origin_gw": 169,
+        "unknown": 58
+      },
+      {
+        "age_max": 56,
+        "age_mean": 1.3394109396914446,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 713,
+        "origin_gw": 170,
+        "unknown": 58
+      },
+      {
+        "age_max": 57,
+        "age_mean": 1.329608938547486,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 716,
+        "origin_gw": 171,
+        "unknown": 55
+      },
+      {
+        "age_max": 58,
+        "age_mean": 1.317107093184979,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 719,
+        "origin_gw": 172,
+        "unknown": 52
+      },
+      {
+        "age_max": 59,
+        "age_mean": 1.3027777777777778,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 720,
+        "origin_gw": 173,
+        "unknown": 51
+      },
+      {
+        "age_max": 22,
+        "age_mean": 1.1440329218106995,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 729,
+        "origin_gw": 174,
+        "unknown": 42
+      },
+      {
+        "age_max": 23,
+        "age_mean": 1.1200545702592086,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 733,
+        "origin_gw": 175,
+        "unknown": 38
+      },
+      {
+        "age_max": 24,
+        "age_mean": 1.1243243243243244,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 740,
+        "origin_gw": 176,
+        "unknown": 31
+      },
+      {
+        "age_max": 25,
+        "age_mean": 1.128686327077748,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 746,
+        "origin_gw": 177,
+        "unknown": 25
+      },
+      {
+        "age_max": 26,
+        "age_mean": 1.0984251968503937,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 762,
+        "origin_gw": 178,
+        "unknown": 9
+      },
+      {
+        "age_max": 27,
+        "age_mean": 1.0679738562091503,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 765,
+        "origin_gw": 179,
+        "unknown": 6
+      },
+      {
+        "age_max": 28,
+        "age_mean": 1.0704960835509139,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 766,
+        "origin_gw": 180,
+        "unknown": 5
+      },
+      {
+        "age_max": 1,
+        "age_mean": 1.0,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 769,
+        "origin_gw": 181,
+        "unknown": 2
+      },
+      {
+        "age_max": 2,
+        "age_mean": 1.1898569570871262,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 769,
+        "origin_gw": 182,
+        "unknown": 2
+      },
+      {
+        "age_max": 1,
+        "age_mean": 1.0,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 771,
+        "origin_gw": 183,
+        "unknown": 0
+      }
+    ],
+    "selection": [
+      {
+        "age_max": 23,
+        "age_mean": 1.218091697645601,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 807,
+        "origin_gw": 137,
+        "unknown": 55
+      },
+      {
+        "age_max": 24,
+        "age_mean": 1.2252141982864138,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 817,
+        "origin_gw": 138,
+        "unknown": 45
+      },
+      {
+        "age_max": 25,
+        "age_mean": 1.175609756097561,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 820,
+        "origin_gw": 139,
+        "unknown": 42
+      },
+      {
+        "age_max": 26,
+        "age_mean": 1.1509661835748792,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 828,
+        "origin_gw": 140,
+        "unknown": 34
+      },
+      {
+        "age_max": 27,
+        "age_mean": 1.3401442307692308,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 832,
+        "origin_gw": 141,
+        "unknown": 30
+      },
+      {
+        "age_max": 28,
+        "age_mean": 1.1291866028708133,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 836,
+        "origin_gw": 142,
+        "unknown": 26
+      },
+      {
+        "age_max": 29,
+        "age_mean": 1.1330166270783848,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 842,
+        "origin_gw": 143,
+        "unknown": 20
+      },
+      {
+        "age_max": 30,
+        "age_mean": 1.7244655581947743,
+        "age_median": 2.0,
+        "age_min": 1,
+        "eligible": 842,
+        "origin_gw": 144,
+        "unknown": 20
+      },
+      {
+        "age_max": 31,
+        "age_mean": 1.106508875739645,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 845,
+        "origin_gw": 145,
+        "unknown": 17
+      },
+      {
+        "age_max": 32,
+        "age_mean": 1.0732860520094563,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 846,
+        "origin_gw": 146,
+        "unknown": 16
+      },
+      {
+        "age_max": 33,
+        "age_mean": 1.0754716981132075,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 848,
+        "origin_gw": 147,
+        "unknown": 14
+      },
+      {
+        "age_max": 34,
+        "age_mean": 1.0387323943661972,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 852,
+        "origin_gw": 148,
+        "unknown": 10
+      },
+      {
+        "age_max": 35,
+        "age_mean": 1.087514585764294,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 857,
+        "origin_gw": 149,
+        "unknown": 5
+      },
+      {
+        "age_max": 36,
+        "age_mean": 1.0406976744186047,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 860,
+        "origin_gw": 150,
+        "unknown": 2
+      },
+      {
+        "age_max": 37,
+        "age_mean": 1.041860465116279,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 860,
+        "origin_gw": 151,
+        "unknown": 2
+      },
+      {
+        "age_max": 38,
+        "age_mean": 1.04292343387471,
+        "age_median": 1.0,
+        "age_min": 1,
+        "eligible": 862,
+        "origin_gw": 152,
+        "unknown": 0
+      }
+    ]
+  },
+  "comparisons": {
+    "reference": {
+      "mae_asof_vs_replay": {
+        "block_len": 3,
+        "boot_mean": -32.6267,
+        "ci_high": 90.0,
+        "ci_low": -174.0,
+        "n_gws": 31,
+        "p_a_better": 0.3196,
+        "sign_test": {
+          "p_a_better": 0.42776777595281607,
+          "p_value": 0.8555355519056321,
+          "ties": 1,
+          "wins_a": 16,
+          "wins_b": 14
+        },
+        "total_a": 1889.0,
+        "total_b": 1905.0,
+        "total_diff": -16.0
+      },
+      "rmse_asof_vs_replay": {
+        "block_len": 3,
+        "boot_mean": 446.295,
+        "ci_high": 569.0249999999996,
+        "ci_low": 326.0,
+        "n_gws": 31,
+        "p_a_better": 1.0,
+        "sign_test": {
+          "p_a_better": 9.609758853912354e-05,
+          "p_value": 0.00019219517707824707,
+          "ties": 0,
+          "wins_a": 26,
+          "wins_b": 5
+        },
+        "total_a": 2110.0,
+        "total_b": 1678.0,
+        "total_diff": 432.0
+      },
+      "rmse_vs_mae_asof": {
+        "block_len": 3,
+        "boot_mean": 254.3701,
+        "ci_high": 483.0,
+        "ci_low": 36.0,
+        "n_gws": 31,
+        "p_a_better": 0.9902,
+        "sign_test": {
+          "p_a_better": 0.23656482994556427,
+          "p_value": 0.47312965989112854,
+          "ties": 0,
+          "wins_a": 18,
+          "wins_b": 13
+        },
+        "total_a": 2110.0,
+        "total_b": 1889.0,
+        "total_diff": 221.0
+      },
+      "rmse_vs_mae_replay": {
+        "block_len": 3,
+        "boot_mean": -224.5516,
+        "ci_high": -18.0,
+        "ci_low": -427.0,
+        "n_gws": 31,
+        "p_a_better": 0.0161,
+        "sign_test": {
+          "p_a_better": 0.9646222270093858,
+          "p_value": 0.14961278438568115,
+          "ties": 0,
+          "wins_a": 11,
+          "wins_b": 20
+        },
+        "total_a": 1678.0,
+        "total_b": 1905.0,
+        "total_diff": -227.0
+      }
+    },
+    "selection": {
+      "mae_asof_vs_replay": {
+        "block_len": 3,
+        "boot_mean": 22.8033,
+        "ci_high": 80.0,
+        "ci_low": -46.0,
+        "n_gws": 16,
+        "p_a_better": 0.7594,
+        "sign_test": {
+          "p_a_better": 0.604736328125,
+          "p_value": 1.0,
+          "ties": 2,
+          "wins_a": 7,
+          "wins_b": 7
+        },
+        "total_a": 942.0,
+        "total_b": 930.0,
+        "total_diff": 12.0
+      },
+      "rmse_asof_vs_replay": {
+        "block_len": 3,
+        "boot_mean": -21.2642,
+        "ci_high": -2.0,
+        "ci_low": -41.0,
+        "n_gws": 16,
+        "p_a_better": 0.0117,
+        "sign_test": {
+          "p_a_better": 0.828125,
+          "p_value": 0.75390625,
+          "ties": 6,
+          "wins_a": 4,
+          "wins_b": 6
+        },
+        "total_a": 975.0,
+        "total_b": 1000.0,
+        "total_diff": -25.0
+      },
+      "rmse_vs_mae_asof": {
+        "block_len": 3,
+        "boot_mean": 40.3058,
+        "ci_high": 165.0,
+        "ci_low": -75.0,
+        "n_gws": 16,
+        "p_a_better": 0.7306,
+        "sign_test": {
+          "p_a_better": 0.5981903076171875,
+          "p_value": 1.0,
+          "ties": 0,
+          "wins_a": 8,
+          "wins_b": 8
+        },
+        "total_a": 975.0,
+        "total_b": 942.0,
+        "total_diff": 33.0
+      },
+      "rmse_vs_mae_replay": {
+        "block_len": 3,
+        "boot_mean": 84.3733,
+        "ci_high": 207.0,
+        "ci_low": -12.0,
+        "n_gws": 16,
+        "p_a_better": 0.9472,
+        "sign_test": {
+          "p_a_better": 0.5981903076171875,
+          "p_value": 1.0,
+          "ties": 0,
+          "wins_a": 8,
+          "wins_b": 8
+        },
+        "total_a": 1000.0,
+        "total_b": 930.0,
+        "total_diff": 70.0
+      }
+    }
+  },
+  "elapsed_seconds": 817.752777250018,
+  "immutable_output_sha256": {
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/catalog_lock.json": "16e2f341278cbec7da0a1f9c35c00b5b57e838feec623620bfe5b652e728d073",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_asof_origin.admission.json": "574a7b7dffed718f81d6f8f9312972d31c7a560f81e621b7d583c545170ae1cc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_asof_origin.log": "8858ff0430b5becb8bcb104d1a8da744125d6db780218cee2f0862e077540f57",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_asof_origin.predictions.csv": "8e352ada519e0f90bb048caf551d95f6b6be9dfd1264c6db5bf666b3a59a197c",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_asof_origin.result.json": "ab0751c97e9d60128ff20683a0a8b6d8acc587fc95a1f2cc527b6f2ee9c9ca89",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_asof_origin.squads.csv": "8330362edea818b1d15a31047cf25f63556424ec496518827285df14dc26d459",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_replay_origin.admission.json": "5b30bbcd3226472c9c346c9e6620bde2d0e31bc904552b7bf554d885bcd294bb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_replay_origin.log": "b29b4a267888fe8119168534c2274598acd1c5fc07d86eef6ccaae36e5480fdf",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_replay_origin.predictions.csv": "8e352ada519e0f90bb048caf551d95f6b6be9dfd1264c6db5bf666b3a59a197c",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_replay_origin.result.json": "a5bf8e691710fc55cdb1c647ff3bdc278443b20334ce391bb6e19ac61f861f87",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/mae_replay_origin.squads.csv": "eba554407490cccf39ca353ba008281e59867067bb1cbe5ff17286f5a1ae94af",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_asof_origin.admission.json": "f8f829b2f8387bd4eb61bf7837e3e1844814f76ed6b5a1039faa61f3b15ea8c1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_asof_origin.log": "f4b40cb15106ef203a6aa744cebccc51dfd1b86c93413fde3f99fb454b443315",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_asof_origin.predictions.csv": "4c143823c97433f4526655619f2dfaf3e177e359e133a9425124208242f29216",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_asof_origin.result.json": "badaa9a356d64a1380bab61a41485d199a4ef5df8a7d0345f53f75310bea0269",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_asof_origin.squads.csv": "dfa410cb7878a9c8e8a87fae4183fb67b8fabd1f434f949e777f34a67ac08086",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_replay_origin.admission.json": "e6395b9d2e6f46badda737c379d5263490df68405c423990989bedb404bba3a7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_replay_origin.log": "127592e093c8fb6ca6580f0e9c7eadc36717ca9b86c8b5895dbfe2944eb8e435",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_replay_origin.predictions.csv": "4c143823c97433f4526655619f2dfaf3e177e359e133a9425124208242f29216",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_replay_origin.result.json": "db1df8c6ec9778ff37afb13db7308ab0c2f1e612883ea6d35912f32c3dd00e62",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference/rmse_replay_origin.squads.csv": "7fcc929a64c20e5412a36315fc5e2c16991360bc1a61dbf2fb8d7d2dc4729056",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference_origin_prices.csv": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/reference_summary.json": "c0cce054957a69b4fac42de4b9277efbc1e3676fed9104dc2fc526e8184c6fd0",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/registration.json": "d63b9f9b8d9d48c2c13f573366cff7698fa477baaf9f3b7756e1833248b0abb1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_asof_origin.admission.json": "be176116cbcf54212c950d41a30523b0cbcdd031e0aebe800d06240eb206503d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_asof_origin.log": "db09858d5d520794a5977e919b932ef07ebd0af6ab13cc5ee5578f2097487e82",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_asof_origin.predictions.csv": "9b90929a6847a3ff255f678e7fd33e4437555ed9cbba84e096cd96b12c0f9157",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_asof_origin.result.json": "fe5c5ae49c4750038d9a0e7502f6ba73148a7b4777ad61ac5072c43c22792020",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_asof_origin.squads.csv": "17efba46774472532777c480bd6730a5e6fe30132f3ecc4c52d4722831b28303",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_replay_origin.admission.json": "1368417af048aed6b42fc20d81c2baeb66943b51c578783058d962e4db32f572",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_replay_origin.log": "4e0535b4d2e33ec111b2eae8879fb9f18886030805b6e6209a779a9b3966f574",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_replay_origin.predictions.csv": "9b90929a6847a3ff255f678e7fd33e4437555ed9cbba84e096cd96b12c0f9157",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_replay_origin.result.json": "b2d7d3e090373c8dee1aaebda31fe67b920efb71ab65c58bb7629383eff21c97",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/mae_replay_origin.squads.csv": "db434743f5b2fd3a9ce4e4c1ac83cea4949f9d34a90e77d42b31da9f584b93c1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_asof_origin.admission.json": "263abd5a484013fb8bf9d2665fe14fc00abc0c75206a4edd6b3487601e6bc1d3",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_asof_origin.log": "524aeb631b40d712c75b40790b75616cfc93373d4e46a2a3d2481399d7854efd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_asof_origin.predictions.csv": "828d0790d7ed7610684852cba41823bb693f041cfc3171db38665b70ceb6d4d1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_asof_origin.result.json": "3929c077ed54938825370372f0803750a426402795c044732c1507f7198c70ac",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_asof_origin.squads.csv": "e91cb877c3fa6cf807c7250644f52f591b400398735f73fc98f6ddd0d42fceb1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_replay_origin.admission.json": "c171b6bd43bc5a6fb632cc7fa814543c3ecf8dbbd6cb1b9d35ea2ab2e66d552a",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_replay_origin.log": "0152dffd035d487b075e0bf36b2d6b847ad9d8ca7a1b6b706dc30acaede8c57d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_replay_origin.predictions.csv": "828d0790d7ed7610684852cba41823bb693f041cfc3171db38665b70ceb6d4d1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_replay_origin.result.json": "d3f4c1a016ea1048f52760140d0c0a4c9ced29ae428b9b775c38f3db6f12db25",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection/rmse_replay_origin.squads.csv": "0a0f0eca7154977f9c5e6149543f4b3306bf794bb833b56183b5949038baf3c9",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection_origin_prices.csv": "024ee295f8a22822d7cfe43736d9e74a64b26cc4231d17656dac5daeffbd0826",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/selection_summary.json": "b5e896aa4d08abcab9df691b14b931b9e4a59b22a3457c5d47371af6c3ef4cdf",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/config.py": "229f7404b91873cfea47b5b9192977542ca7179760b6559ac7d69c704b78426f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/data/external.py": "db38873a567aa51ad85fc264e97626b05bb6c84ad7c5b32802afc49eda754d11",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/data/feature_cache.py": "dd587e3355b0a4732a57614cd8e5d50ef1c01a7727c44ee9583145e257c7a8bb",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/data/fetch.py": "ece93d1be41d669e62b858da31f0219893553655ac73ae4f40173ed0b70b0764",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/data/origin_prices.py": "d9c7c149d4fe3a66fa04b517138d4ce7d8ae90da69d23e24b6427af5ff421f6c",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/data/provenance.py": "569d4fef2247c8dfd6a6dea7992ac09cfc444c11d0b1a5c17d719c5807a858aa",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/data/research.py": "a3f92b92088915c541956b68c300b7ab8f7ff5ddd4595ec8e366821383710434",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/experiment.py": "2780bf8ead3e6c0c4f3a988fd176ccd98769acbb652d1cc3ca52fc30bf6b5404",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/features.py": "df09943d91ced157ee36091526a527dd26013516055383c9976bf2df94afae7d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/milp/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/milp/_vendor/solio/__init__.py": "868ddfd204cb25ddeff22fbb0454e0836f8345077c3231af5422df8d28e0409e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/milp/_vendor/solio/solver.py": "3026c124f4ee4756fc86fc0447dbdbaf5ebdc512f33591e011e27ceeda5d98c2",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/milp/compare_backtests.py": "0be8917170884f3d5fa31ace4d796d457d8d312c43023cd8c6f8fd6c14e9e739",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/milp/optimize.py": "560ae2c8fe3407c5e3ecc667a7e0fde7da0c491873f1aeb1720922470077d846",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/milp/solio.py": "44e89d100e888e6341d6342196b57240ab1a113921d55cf7645155fc5d21863e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/milp/solio_inputs.py": "718022707c01c461df4d3a321841a98170772f7ecbe1fef160e6c9c5d99ccc79",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/milp/solio_output.py": "22724577e69f8e440f38d005e8837626e2e1232fa43bcb47e77a4a4fb83ca56e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/baselines.py": "7147a8801e27003c25bdf40a71898be49fd19711303447f6723e68e6d9b535de",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/blend_research.py": "115a7708b2d995826dd3ec01897c244d09519aa3fe8744f1fa8cca45228d8a18",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/cnn_process.py": "74c6827496972cd93d9b41fe2972ad236d21d83b65bd96b6aaf92c2109914c2f",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/cnn_research.py": "1d4ab1eaa18fef8d5045c18053022367ccfe484c99a62225e2216f2fc4e14b7e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/cnn_worker.py": "0ee5be8ea265d7036331ede3dc79120f099a39d1b14f17b9d8f5f9164ab35982",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/cold_start.py": "039a645266e2f3e1326336298dbbb904ecff4e8dc913b95ea61a14c587bbc4c5",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/ensemble.py": "d960e588b8c9ad75738128f96df77dd8648752ce52815d9f1888e83b818cc8e8",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/expert_policy.py": "d57d549c92fb132e27b654bee02a6a32e728be5d45b1be4f66d9ca9a1794e67b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/interval_calibration.py": "6b1b70f7afcbd4beac28c0d15c29959ffcaf3bee4f2dbf983000262d911f8a0a",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/interval_research.py": "02bd3e5c5c32b81c9daeb9cbfca2232ad52fb8470c44be24c92371f442c7110b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/metrics.py": "3592bebfe9922ca5b38e2c3c71be75d79592987d39db8341c46ec1b3a496bad7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/mid_gate.py": "3798843118ef6f53ac832fb5c181d2d4b4b18855e7fbe3cdacb1511e6413a151",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/models.py": "16dc89c77cd736ca63aab611d20377592d44e2ace681f40384656006f737f28b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/moe_promotion.py": "93982d906ca6805acb676d13933e49d99a6817ea3fc72b862b331d8812e31337",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/moe_tournament.py": "484a17fa26848696470af514457b586fd85e8d09a307c438f009665397e5f23e",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/oof_panel.py": "d899f24d4e35b6abc98e950aad63794ba2eaedbe39ed1979eb1f819ef8c5a4b1",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/predict.py": "0ea21d211a6d262a1f5ff67e38c3c34dc03a4b1cab4d7a0a2ed59eab78db15d6",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/price_research.py": "a97eda54a5627aa9d563c6725789d6a0cd7b1ad10986df4ed2601bd592a6400b",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/probabilistic.py": "6844a48b428042f89f833b45f6293ccb64e89fe06a4e4bbf9955e0047516eedd",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/probabilistic_buckets.py": "25a62219fe5237a6520f29464f8f92d1cf219351993e895abcde345d5fe74e7c",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/research_package.py": "bdd10964908cb488c75e22f8ec3084a3d794138bead864f244978a46389e5ffa",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/screen.py": "b5827a438c0e3d5bb6c81d645e735ad49c7997c45697bb9407b59508fa8e28e7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/sequence_cnn.py": "257aedd0bd26e9100de21368ff94b4f68e2eb2594a591c3fd957318f203b9128",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/sequence_features.py": "0fba4921fe05c50a55d66002923490fc360b6116e468bb65eed5f18fee760341",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/temporal_blend.py": "a857a865f8ed93e0b139194f3ffd2d67bcf63694615a8b51db56c955f4a4098d",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/train.py": "9b834aeffea049bed398a6fe7187846dc2759c9386ea1af68450a065bdca8a85",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/tuning.py": "39f59413234997e9d66a9cd0e10e1e40fc426ff2636bc5e86a38b8e1aa40b2d7",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/tuning_checkpoint.py": "f04b5bb78f81eb2350a22fb53a797f6eb871463019e537cd71d1bdb882895cdc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/model/walk_forward.py": "08aa034fe8abb947d898f1b3cd625140486d5c09ad32e53d4abbfc99496947d0",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/price_provenance_2026-10-03/seed0/source_archive/fpl/run_week.py": "9be24eb1d2125cad7c95aa8dfb725793fccf1ea933b4da49faddc918c63def6e"
+  },
+  "phases": {
+    "reference": {
+      "mae_asof": {
+        "diagnostics": [
+          {
+            "bias": -0.5855311381882672,
+            "mae": 0.8645682980211007,
+            "mase": 0.6263790665979497,
+            "position": "DEF",
+            "rmse": 1.990151449925161,
+            "rounds": 7123,
+            "spearman": 0.6078533306985517,
+            "top1_capture": 0.34805194805194806,
+            "total_calibration": 0.43501242247154875
+          },
+          {
+            "bias": -0.7565077978729979,
+            "mae": 1.0357849896845668,
+            "mase": 0.7331224763448642,
+            "position": "FWD",
+            "rmse": 2.5581894701933754,
+            "rounds": 2359,
+            "spearman": 0.7512990537714438,
+            "top1_capture": 0.38207547169811323,
+            "total_calibration": 0.4744988530087155
+          },
+          {
+            "bias": -0.39491188767957897,
+            "mae": 0.6232910819511329,
+            "mase": 0.6884012315376751,
+            "position": "GK",
+            "rmse": 1.704822420712996,
+            "rounds": 2243,
+            "spearman": 0.6459437320386907,
+            "top1_capture": 0.32996632996632996,
+            "total_calibration": 0.5660032513153868
+          },
+          {
+            "bias": -0.5010217512558713,
+            "mae": 0.8949562394727669,
+            "mase": 0.6966435077459956,
+            "position": "MID",
+            "rmse": 2.141871853194437,
+            "rounds": 9622,
+            "spearman": 0.7161970021545334,
+            "top1_capture": 0.585635359116022,
+            "total_calibration": 0.6106895509501741
+          }
+        ],
+        "fit_seconds": 0.0035320420283824205,
+        "gross_points": 1889.0,
+        "milp_seconds": 113.40911991591565,
+        "origin": true,
+        "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+        "origin_price_policy": "origin-asof",
+        "prediction_sha256": "8e352ada519e0f90bb048caf551d95f6b6be9dfd1264c6db5bf666b3a59a197c",
+        "predictions": "mae_asof_origin.predictions.csv",
+        "squad_sha256": "8330362edea818b1d15a31047cf25f63556424ec496518827285df14dc26d459",
+        "squads": "mae_asof_origin.squads.csv",
+        "total_points": 1889.0,
+        "transfer_hit_points": 0.0,
+        "variant": "mae_asof"
+      },
+      "mae_replay": {
+        "diagnostics": [
+          {
+            "bias": -0.5855311381882672,
+            "mae": 0.8645682980211007,
+            "mase": 0.6263790665979497,
+            "position": "DEF",
+            "rmse": 1.990151449925161,
+            "rounds": 7123,
+            "spearman": 0.6078533306985517,
+            "top1_capture": 0.34805194805194806,
+            "total_calibration": 0.43501242247154875
+          },
+          {
+            "bias": -0.7565077978729979,
+            "mae": 1.0357849896845668,
+            "mase": 0.7331224763448642,
+            "position": "FWD",
+            "rmse": 2.5581894701933754,
+            "rounds": 2359,
+            "spearman": 0.7512990537714438,
+            "top1_capture": 0.38207547169811323,
+            "total_calibration": 0.4744988530087155
+          },
+          {
+            "bias": -0.39491188767957897,
+            "mae": 0.6232910819511329,
+            "mase": 0.6884012315376751,
+            "position": "GK",
+            "rmse": 1.704822420712996,
+            "rounds": 2243,
+            "spearman": 0.6459437320386907,
+            "top1_capture": 0.32996632996632996,
+            "total_calibration": 0.5660032513153868
+          },
+          {
+            "bias": -0.5010217512558713,
+            "mae": 0.8949562394727669,
+            "mase": 0.6966435077459956,
+            "position": "MID",
+            "rmse": 2.141871853194437,
+            "rounds": 9622,
+            "spearman": 0.7161970021545334,
+            "top1_capture": 0.585635359116022,
+            "total_calibration": 0.6106895509501741
+          }
+        ],
+        "fit_seconds": 0.001903916010633111,
+        "gross_points": 1905.0,
+        "milp_seconds": 111.85233150003478,
+        "origin": true,
+        "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+        "origin_price_policy": "target-replay",
+        "prediction_sha256": "8e352ada519e0f90bb048caf551d95f6b6be9dfd1264c6db5bf666b3a59a197c",
+        "predictions": "mae_replay_origin.predictions.csv",
+        "squad_sha256": "eba554407490cccf39ca353ba008281e59867067bb1cbe5ff17286f5a1ae94af",
+        "squads": "mae_replay_origin.squads.csv",
+        "total_points": 1905.0,
+        "transfer_hit_points": 0.0,
+        "variant": "mae_replay"
+      },
+      "rmse_asof": {
+        "diagnostics": [
+          {
+            "bias": -0.03933480786774662,
+            "mae": 0.9918369666860749,
+            "mase": 0.7184983540768315,
+            "position": "DEF",
+            "rmse": 1.816870227243054,
+            "rounds": 7123,
+            "spearman": 0.634982080798459,
+            "top1_capture": 0.34285714285714286,
+            "total_calibration": 0.9620452673473369
+          },
+          {
+            "bias": -0.05459163980548485,
+            "mae": 1.235098704047389,
+            "mase": 0.8741918334500293,
+            "position": "FWD",
+            "rmse": 2.297099963499688,
+            "rounds": 2359,
+            "spearman": 0.7519769201320244,
+            "top1_capture": 0.41273584905660377,
+            "total_calibration": 0.9620784221728096
+          },
+          {
+            "bias": -0.0030108473847969834,
+            "mae": 0.7351905429978839,
+            "mase": 0.811910064884365,
+            "position": "GK",
+            "rmse": 1.5796805460675425,
+            "rounds": 2243,
+            "spearman": 0.6848192201761591,
+            "top1_capture": 0.3602693602693603,
+            "total_calibration": 0.9966911657598728
+          },
+          {
+            "bias": 0.011912354174897312,
+            "mae": 1.024167670064335,
+            "mase": 0.7972244714397207,
+            "position": "MID",
+            "rmse": 1.9907119427895723,
+            "rounds": 9622,
+            "spearman": 0.7287086895820587,
+            "top1_capture": 0.5524861878453039,
+            "total_calibration": 1.0092562926488622
+          }
+        ],
+        "fit_seconds": 0.0017502079717814922,
+        "gross_points": 2110.0,
+        "milp_seconds": 115.60481220809743,
+        "origin": true,
+        "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+        "origin_price_policy": "origin-asof",
+        "prediction_sha256": "4c143823c97433f4526655619f2dfaf3e177e359e133a9425124208242f29216",
+        "predictions": "rmse_asof_origin.predictions.csv",
+        "squad_sha256": "dfa410cb7878a9c8e8a87fae4183fb67b8fabd1f434f949e777f34a67ac08086",
+        "squads": "rmse_asof_origin.squads.csv",
+        "total_points": 2110.0,
+        "transfer_hit_points": 0.0,
+        "variant": "rmse_asof"
+      },
+      "rmse_replay": {
+        "diagnostics": [
+          {
+            "bias": -0.03933480786774662,
+            "mae": 0.9918369666860749,
+            "mase": 0.7184983540768315,
+            "position": "DEF",
+            "rmse": 1.816870227243054,
+            "rounds": 7123,
+            "spearman": 0.634982080798459,
+            "top1_capture": 0.34285714285714286,
+            "total_calibration": 0.9620452673473369
+          },
+          {
+            "bias": -0.05459163980548485,
+            "mae": 1.235098704047389,
+            "mase": 0.8741918334500293,
+            "position": "FWD",
+            "rmse": 2.297099963499688,
+            "rounds": 2359,
+            "spearman": 0.7519769201320244,
+            "top1_capture": 0.41273584905660377,
+            "total_calibration": 0.9620784221728096
+          },
+          {
+            "bias": -0.0030108473847969834,
+            "mae": 0.7351905429978839,
+            "mase": 0.811910064884365,
+            "position": "GK",
+            "rmse": 1.5796805460675425,
+            "rounds": 2243,
+            "spearman": 0.6848192201761591,
+            "top1_capture": 0.3602693602693603,
+            "total_calibration": 0.9966911657598728
+          },
+          {
+            "bias": 0.011912354174897312,
+            "mae": 1.024167670064335,
+            "mase": 0.7972244714397207,
+            "position": "MID",
+            "rmse": 1.9907119427895723,
+            "rounds": 9622,
+            "spearman": 0.7287086895820587,
+            "top1_capture": 0.5524861878453039,
+            "total_calibration": 1.0092562926488622
+          }
+        ],
+        "fit_seconds": 0.0016358341090381145,
+        "gross_points": 1702.0,
+        "milp_seconds": 206.7281940409448,
+        "origin": true,
+        "origin_price_catalog_sha256": "7e101232f6023912f969c28ea2dfbbe2449d764f0c073ae1fb7a5fb850c08fc2",
+        "origin_price_policy": "target-replay",
+        "prediction_sha256": "4c143823c97433f4526655619f2dfaf3e177e359e133a9425124208242f29216",
+        "predictions": "rmse_replay_origin.predictions.csv",
+        "squad_sha256": "7fcc929a64c20e5412a36315fc5e2c16991360bc1a61dbf2fb8d7d2dc4729056",
+        "squads": "rmse_replay_origin.squads.csv",
+        "total_points": 1678.0,
+        "transfer_hit_points": 24.0,
+        "variant": "rmse_replay"
+      }
+    },
+    "selection": {
+      "mae_asof": {
+        "diagnostics": [
+          {
+            "bias": -0.5198725555881155,
+            "mae": 0.8277245691941572,
+            "mase": 0.5875324087290105,
+            "position": "DEF",
+            "rmse": 2.0997736690569027,
+            "rounds": 4087,
+            "spearman": 0.5940731256258728,
+            "top1_capture": 0.47435897435897434,
+            "total_calibration": 0.454220617855477
+          },
+          {
+            "bias": -0.6179097938472439,
+            "mae": 0.8343481889902232,
+            "mase": 0.582145698956608,
+            "position": "FWD",
+            "rmse": 2.3609057569798435,
+            "rounds": 1657,
+            "spearman": 0.7200147806888489,
+            "top1_capture": 0.4186991869918699,
+            "total_calibration": 0.4743960326463639
+          },
+          {
+            "bias": -0.28921993689384806,
+            "mae": 0.4900063304332133,
+            "mase": 0.531381199101924,
+            "position": "GK",
+            "rmse": 1.515079568099835,
+            "rounds": 1440,
+            "spearman": 0.6011981535604596,
+            "top1_capture": 0.3869047619047619,
+            "total_calibration": 0.5983831155958137
+          },
+          {
+            "bias": -0.5006602844979503,
+            "mae": 0.8086977507445515,
+            "mase": 0.621917195971751,
+            "position": "MID",
+            "rmse": 2.161489240564457,
+            "rounds": 5509,
+            "spearman": 0.7323357178535379,
+            "top1_capture": 0.3262411347517731,
+            "total_calibration": 0.5800003795798373
+          }
+        ],
+        "fit_seconds": 0.0013553330209106207,
+        "gross_points": 942.0,
+        "milp_seconds": 52.75177395786159,
+        "origin": true,
+        "origin_price_catalog_sha256": "024ee295f8a22822d7cfe43736d9e74a64b26cc4231d17656dac5daeffbd0826",
+        "origin_price_policy": "origin-asof",
+        "prediction_sha256": "9b90929a6847a3ff255f678e7fd33e4437555ed9cbba84e096cd96b12c0f9157",
+        "predictions": "mae_asof_origin.predictions.csv",
+        "squad_sha256": "17efba46774472532777c480bd6730a5e6fe30132f3ecc4c52d4722831b28303",
+        "squads": "mae_asof_origin.squads.csv",
+        "total_points": 942.0,
+        "transfer_hit_points": 0.0,
+        "variant": "mae_asof"
+      },
+      "mae_replay": {
+        "diagnostics": [
+          {
+            "bias": -0.5198725555881155,
+            "mae": 0.8277245691941572,
+            "mase": 0.5875324087290105,
+            "position": "DEF",
+            "rmse": 2.0997736690569027,
+            "rounds": 4087,
+            "spearman": 0.5940731256258728,
+            "top1_capture": 0.47435897435897434,
+            "total_calibration": 0.454220617855477
+          },
+          {
+            "bias": -0.6179097938472439,
+            "mae": 0.8343481889902232,
+            "mase": 0.582145698956608,
+            "position": "FWD",
+            "rmse": 2.3609057569798435,
+            "rounds": 1657,
+            "spearman": 0.7200147806888489,
+            "top1_capture": 0.4186991869918699,
+            "total_calibration": 0.4743960326463639
+          },
+          {
+            "bias": -0.28921993689384806,
+            "mae": 0.4900063304332133,
+            "mase": 0.531381199101924,
+            "position": "GK",
+            "rmse": 1.515079568099835,
+            "rounds": 1440,
+            "spearman": 0.6011981535604596,
+            "top1_capture": 0.3869047619047619,
+            "total_calibration": 0.5983831155958137
+          },
+          {
+            "bias": -0.5006602844979503,
+            "mae": 0.8086977507445515,
+            "mase": 0.621917195971751,
+            "position": "MID",
+            "rmse": 2.161489240564457,
+            "rounds": 5509,
+            "spearman": 0.7323357178535379,
+            "top1_capture": 0.3262411347517731,
+            "total_calibration": 0.5800003795798373
+          }
+        ],
+        "fit_seconds": 0.0009980001486837864,
+        "gross_points": 930.0,
+        "milp_seconds": 69.3520314169582,
+        "origin": true,
+        "origin_price_catalog_sha256": "024ee295f8a22822d7cfe43736d9e74a64b26cc4231d17656dac5daeffbd0826",
+        "origin_price_policy": "target-replay",
+        "prediction_sha256": "9b90929a6847a3ff255f678e7fd33e4437555ed9cbba84e096cd96b12c0f9157",
+        "predictions": "mae_replay_origin.predictions.csv",
+        "squad_sha256": "db434743f5b2fd3a9ce4e4c1ac83cea4949f9d34a90e77d42b31da9f584b93c1",
+        "squads": "mae_replay_origin.squads.csv",
+        "total_points": 930.0,
+        "transfer_hit_points": 0.0,
+        "variant": "mae_replay"
+      },
+      "rmse_asof": {
+        "diagnostics": [
+          {
+            "bias": 0.04178283398541802,
+            "mae": 0.9868685994234092,
+            "mase": 0.7004187267726865,
+            "position": "DEF",
+            "rmse": 1.9326826006746318,
+            "rounds": 4087,
+            "spearman": 0.6232736100024134,
+            "top1_capture": 0.43162393162393164,
+            "total_calibration": 1.0438649993574116
+          },
+          {
+            "bias": -0.038516061231849766,
+            "mae": 0.9920358171466097,
+            "mase": 0.69222460291845,
+            "position": "FWD",
+            "rmse": 2.122971121704208,
+            "rounds": 1657,
+            "spearman": 0.7404702221013097,
+            "top1_capture": 0.5040650406504065,
+            "total_calibration": 0.9672376214265015
+          },
+          {
+            "bias": 0.044247716674485224,
+            "mae": 0.5849282602220959,
+            "mase": 0.6339801409568622,
+            "position": "GK",
+            "rmse": 1.397843854300224,
+            "rounds": 1440,
+            "spearman": 0.6436578029801887,
+            "top1_capture": 0.5714285714285714,
+            "total_calibration": 1.0614433095576266
+          },
+          {
+            "bias": -0.0009615219748305645,
+            "mae": 0.9289776978306432,
+            "mase": 0.7143851288622729,
+            "position": "MID",
+            "rmse": 1.9770064658922668,
+            "rounds": 5509,
+            "spearman": 0.7572163151919642,
+            "top1_capture": 0.36524822695035464,
+            "total_calibration": 0.999193387458605
+          }
+        ],
+        "fit_seconds": 0.0005534999072551727,
+        "gross_points": 1007.0,
+        "milp_seconds": 63.81008258298971,
+        "origin": true,
+        "origin_price_catalog_sha256": "024ee295f8a22822d7cfe43736d9e74a64b26cc4231d17656dac5daeffbd0826",
+        "origin_price_policy": "origin-asof",
+        "prediction_sha256": "828d0790d7ed7610684852cba41823bb693f041cfc3171db38665b70ceb6d4d1",
+        "predictions": "rmse_asof_origin.predictions.csv",
+        "squad_sha256": "e91cb877c3fa6cf807c7250644f52f591b400398735f73fc98f6ddd0d42fceb1",
+        "squads": "rmse_asof_origin.squads.csv",
+        "total_points": 975.0,
+        "transfer_hit_points": 32.0,
+        "variant": "rmse_asof"
+      },
+      "rmse_replay": {
+        "diagnostics": [
+          {
+            "bias": 0.04178283398541802,
+            "mae": 0.9868685994234092,
+            "mase": 0.7004187267726865,
+            "position": "DEF",
+            "rmse": 1.9326826006746318,
+            "rounds": 4087,
+            "spearman": 0.6232736100024134,
+            "top1_capture": 0.43162393162393164,
+            "total_calibration": 1.0438649993574116
+          },
+          {
+            "bias": -0.038516061231849766,
+            "mae": 0.9920358171466097,
+            "mase": 0.69222460291845,
+            "position": "FWD",
+            "rmse": 2.122971121704208,
+            "rounds": 1657,
+            "spearman": 0.7404702221013097,
+            "top1_capture": 0.5040650406504065,
+            "total_calibration": 0.9672376214265015
+          },
+          {
+            "bias": 0.044247716674485224,
+            "mae": 0.5849282602220959,
+            "mase": 0.6339801409568622,
+            "position": "GK",
+            "rmse": 1.397843854300224,
+            "rounds": 1440,
+            "spearman": 0.6436578029801887,
+            "top1_capture": 0.5714285714285714,
+            "total_calibration": 1.0614433095576266
+          },
+          {
+            "bias": -0.0009615219748305645,
+            "mae": 0.9289776978306432,
+            "mase": 0.7143851288622729,
+            "position": "MID",
+            "rmse": 1.9770064658922668,
+            "rounds": 5509,
+            "spearman": 0.7572163151919642,
+            "top1_capture": 0.36524822695035464,
+            "total_calibration": 0.999193387458605
+          }
+        ],
+        "fit_seconds": 0.002715416019782424,
+        "gross_points": 1032.0,
+        "milp_seconds": 71.89912816719152,
+        "origin": true,
+        "origin_price_catalog_sha256": "024ee295f8a22822d7cfe43736d9e74a64b26cc4231d17656dac5daeffbd0826",
+        "origin_price_policy": "target-replay",
+        "prediction_sha256": "828d0790d7ed7610684852cba41823bb693f041cfc3171db38665b70ceb6d4d1",
+        "predictions": "rmse_replay_origin.predictions.csv",
+        "squad_sha256": "0a0f0eca7154977f9c5e6149543f4b3306bf794bb833b56183b5949038baf3c9",
+        "squads": "rmse_replay_origin.squads.csv",
+        "total_points": 1000.0,
+        "transfer_hit_points": 32.0,
+        "variant": "rmse_replay"
+      }
+    }
+  },
+  "promotion_eligible": false,
+  "registration_sha256": "d63b9f9b8d9d48c2c13f573366cff7698fa477baaf9f3b7756e1833248b0abb1",
+  "status": "complete"
+}

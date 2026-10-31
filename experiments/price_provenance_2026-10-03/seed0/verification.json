@@ -1,0 +1,109 @@
+{
+  "checks": [
+    "original/current archive, frozen data, source and catalog locks",
+    "catalog latest prior observations rebuilt independently",
+    "unchanged numerical cached forecasts and identical policy replay CSVs",
+    "all output/admission/result/log hashes",
+    "known-price eligibility and current budgets",
+    "net gross hit arithmetic",
+    "all paired bootstrap/sign-test reports"
+  ],
+  "elapsed_seconds": 817.752777250018,
+  "immutable_outputs": 95,
+  "independently_reconstructed_current_budgets": 188,
+  "limitations": [
+    "Latest recorded prices are descriptive proxies, not actual verified historical deadline prices.",
+    "Archived fixtures and prices lack complete publication-time provenance; no full PIT or availability claim.",
+    "Both policies restrict eligibility to known lagged prices, so these controls differ from unrestricted historical controls.",
+    "Selection and reference are repeatedly examined historical data, not fresh independent evidence.",
+    "No fitting, tuning, production changes or promotion assessment.",
+    "As-of changes current origin prices and horizon paths; cannot isolate future lookahead from current proxy error/preseason repricing."
+  ],
+  "optimal_solves": 188,
+  "promotion_eligible": false,
+  "registration_sha256": "d63b9f9b8d9d48c2c13f573366cff7698fa477baaf9f3b7756e1833248b0abb1",
+  "results": {
+    "reference": {
+      "mae_asof": 1889.0,
+      "mae_replay": 1905.0,
+      "rmse_asof": 2110.0,
+      "rmse_replay": 1678.0
+    },
+    "selection": {
+      "mae_asof": 942.0,
+      "mae_replay": 930.0,
+      "rmse_asof": 975.0,
+      "rmse_replay": 1000.0
+    }
+  },
+  "selected_proxy_diagnostics": {
+    "reference/mae_asof": {
+      "absent_current_fixture_player_rounds": 7,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.0193548387096774,
+      "selected_player_rounds": 465
+    },
+    "reference/mae_replay": {
+      "absent_current_fixture_player_rounds": 5,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.0150537634408603,
+      "selected_player_rounds": 465
+    },
+    "reference/rmse_asof": {
+      "absent_current_fixture_player_rounds": 6,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.0150537634408603,
+      "selected_player_rounds": 465
+    },
+    "reference/rmse_replay": {
+      "absent_current_fixture_player_rounds": 7,
+      "absent_horizon_fixture_player_rounds": 1,
+      "older_than_38_rounds": 1,
+      "price_age_max": 39,
+      "price_age_mean": 1.0989247311827957,
+      "selected_player_rounds": 465
+    },
+    "selection/mae_asof": {
+      "absent_current_fixture_player_rounds": 16,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.075,
+      "selected_player_rounds": 240
+    },
+    "selection/mae_replay": {
+      "absent_current_fixture_player_rounds": 14,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.0583333333333333,
+      "selected_player_rounds": 240
+    },
+    "selection/rmse_asof": {
+      "absent_current_fixture_player_rounds": 12,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.05,
+      "selected_player_rounds": 240
+    },
+    "selection/rmse_replay": {
+      "absent_current_fixture_player_rounds": 12,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.05,
+      "selected_player_rounds": 240
+    }
+  },
+  "source_files": 49,
+  "status": "verified",
+  "summary_sha256": "abd278ab943deda2ed3434bb30408cf81a48f14e0beb77eb725a7ec1734f41f7",
+  "verified_at_utc": "2026-10-03T17:23:12.240561+00:00"
+}

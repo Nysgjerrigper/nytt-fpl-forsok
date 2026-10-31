@@ -1,0 +1,164 @@
+--- a/fpl/model/availability_research.py
++++ b/fpl/model/availability_research.py
+@@ -73,7 +73,7 @@
+     return roster, coverage, inputs
+ 
+ 
+-def run(dataset: str | Path, output_dir: str | Path, *, audit_dir: str | Path) -> dict[str, Any]:
++def run(dataset: str | Path, output_dir: str | Path, *, audit_dir: str | Path, seed: int = 0) -> dict[str, Any]:
+     """Register an equal-capacity MAE challenger and advance on strict earlier net gain.
+ 
+     Missing admitted archive signals stay NaN while every historical outcome row
+@@ -81,6 +81,8 @@
+     Origin arms share known-prior-price eligibility and current-price horizon proxies;
+     standard reference forecasts use target-price replay as historical diagnostics.
+     """
++    if isinstance(seed, bool) or not isinstance(seed, int) or seed not in (0, 1, 2):
++        raise ValueError("seed must be an integer in 0, 1, 2")
+     dataset, output_dir, audit_dir = Path(dataset), Path(output_dir), Path(audit_dir)
+     if output_dir.exists():
+         raise ValueError("Output directory already exists; choose a new availability study")
+@@ -95,7 +97,7 @@
+         dataset_digest = research_package.file_hash(dataset)
+         rosters, coverage, inputs = _rosters(audit_dir, cutoffs)
+         blend_research._bind(inputs, provenance.FROZEN_MANIFEST_PATH)
+-        parameters, tuned_hashes = research_package.resolve_parameters("selection", 0)
++        parameters, tuned_hashes = research_package.resolve_parameters("selection", seed)
+         parameters = {"catboost_mae": parameters["catboost_mae"]}
+         for relative, digest in tuned_hashes.items():
+             blend_research._bind(inputs, config.ROOT / relative, digest)
+@@ -132,7 +134,8 @@
+                                       "evaluation_missing_fixture_rows": int((evaluation_mask.to_numpy() & ~mask.availability_known.to_numpy()).sum()),
+                                       "missing_fixture_rows": int((~mask.availability_known).sum())}
+         variants = {"mae_full": base_columns, "mae_availability": base_columns + extra}
+-        registration = {"status": "registered", "seed": 0, "promotion_eligible": False,
++        registration = {"status": "registered", "seed": seed, "promotion_eligible": False,
++                        "parameter_protocol": "Same registered seed-zero tuned capacity; requested seed overrides refitting only, no new HPO.",
+                         "hypothesis": "Pre-deadline availability may improve equal-capacity MAE decisions despite incomplete archive coverage.",
+                         "dataset": str(dataset.resolve()), "dataset_sha256": dataset_digest,
+                         "code_sha256": code_hashes, "source_archive": "source_archive", "input_sha256": inputs,
+@@ -144,7 +147,7 @@
+                         "extra_player_features": extra, "max_capture_age_hours": config.DEADLINE_SNAPSHOT_MAX_AGE_HOURS,
+                         "comparison_labels": ["selection_origin", "reference_standard", "reference_origin"], "coverage": coverage, "coverage_counts": coverage_counts,
+                         "selection_rule": "Candidate advances only if selection-origin net points strictly exceed control; ties reject.",
+-                        "comparison": {"n_boot": 10000, "block_len": 3, "seed": 0},
++                        "comparison": {"n_boot": 10000, "block_len": 3, "seed": seed},
+                         "python": platform.python_version(), "versions": experiment._library_versions(),
+                         "limitations": ["Incomplete temporal capture coverage; absent signals stay NaN and all outcome rows remain.",
+                                         "Status and prices describe selected crawl time, not the deadline itself.",
+@@ -153,6 +156,8 @@
+                                         "No complete historical roster or publication-time/PIT price claim.",
+                                         "Current-price proxies retain reconstructed/backfilled prices and old FT/selling policies.",
+                                         "Repeatedly examined historical selection/reference; standard forecasts are diagnostics.",
++                                        "Seeds share historical outcomes and are not independent pooled samples.",
++                                        "No new hyperparameter search, family selection changes or production promotion.",
+                                         "No production change or promotion assessment."]}
+         cnn_research._archive_sources(output_dir / 'source_archive', code_hashes)
+         for relative, digest in code_hashes.items():
+@@ -195,7 +200,7 @@
+                 if arm == 'mae_availability':
+                     kwargs.update(origin_snapshot_builder=snapshot, extra_player_features=extra)
+             result = research_package.evaluate_variant(raw, frame, variants[arm], arm, parameters,
+-                       *windows[phase], origin, directory, 0, model_name='catboost_mae', retrain_every=4, **kwargs)
++                       *windows[phase], origin, directory, seed, model_name='catboost_mae', retrain_every=4, **kwargs)
+             if not np.isfinite(result['total_points']):
+                 raise ValueError('Availability net points must be finite')
+             for name, digest_key in (('predictions','prediction_sha256'),('squads','squad_sha256')):
+@@ -257,8 +262,12 @@
+     parser.add_argument('--dataset',type=Path,default=config.FROZEN_RESEARCH_DATASET_PATH)
+     parser.add_argument('--output-dir',type=Path,required=True)
+     parser.add_argument('--audit-dir',type=Path,required=True)
++    parser.add_argument('--seed',type=int,choices=(0,1,2),default=0)
+     args=parser.parse_args(argv)
+-    run(args.dataset,args.output_dir,audit_dir=args.audit_dir)
++    options: dict[str, Any] = {"audit_dir": args.audit_dir}
++    if args.seed:
++        options["seed"] = args.seed
++    run(args.dataset,args.output_dir,**options)
+ 
+ 
+ if __name__ == '__main__':
+--- a/tests/test_availability_research.py
++++ b/tests/test_availability_research.py
+@@ -59,13 +59,23 @@
+     monkeypatch.setattr(runner,'load_research_features',features)
+     tuned=tmp_path/'tuned.json';tuned.write_text('tracked parameters')
+     params={'catboost_mae':{pos:{'catboost_mae':{'depth':3,'random_seed':0}} for pos in config.ONFIELD_POSITIONS}}
+-    monkeypatch.setattr(runner.research_package,'resolve_parameters',lambda mode,seed:(params,{'tuned.json':runner.research_package.file_hash(tuned)}))
++    resolved={'seed':0,'calls':[]}
++    def resolve(mode,seed):
++        assert mode=='selection'
++        resolved['seed']=seed
++        resolved['calls'].append((mode,seed))
++        for position in config.ONFIELD_POSITIONS:
++            params['catboost_mae'][position]['catboost_mae']['random_seed']=seed
++        return params,{'tuned.json':runner.research_package.file_hash(tuned)}
++    monkeypatch.setattr(runner.research_package,'resolve_parameters',resolve)
+     logs=[];evaluated=[];compares=[];net={'mae_full':10.,'mae_availability':11.}
+     monkeypatch.setattr(runner.experiment,'_library_versions',lambda:{'mock':'1'})
+     monkeypatch.setattr(runner.experiment,'log_result',lambda *args:logs.append(args))
+     monkeypatch.setattr(runner,'build_live_snapshot',lambda hist:hist[['player_id']].drop_duplicates().copy())
+     def evaluate(rawframe,frame,columns,arm,parameters,start,end,origin,directory,seed,**kwargs):
+-        assert logs[0][0]=='availability_research_registration' and seed==0
++        assert logs[0][0]=='availability_research_registration' and seed==resolved['seed']
++        assert logs[0][1]['seed']==seed
++        assert all(p['catboost_mae']['random_seed']==seed for p in parameters['catboost_mae'].values())
+         assert loaded_rosters==[1,2,3,4,5] and loaded==[3,5]
+         assert (out/'selection_origin_prices.csv').is_file() and (out/'reference_origin_prices.csv').is_file()
+         assert (out/'rosters.csv').is_file() and (out/'coverage_mask.csv').is_file()
+@@ -106,11 +116,11 @@
+         return result
+     monkeypatch.setattr(runner.research_package,'evaluate_variant',evaluate)
+     def compare(a,b,**kwargs):
+-        assert kwargs=={'n_boot':10000,'block_len':3,'seed':0}
++        assert kwargs=={'n_boot':10000,'block_len':3,'seed':resolved['seed']}
+         compares.append((a,b));return {'total_diff':1.}
+     monkeypatch.setattr(runner.research_package.compare_backtests,'compare',compare)
+     return SimpleNamespace(dataset=dataset,audit=audit,out=out,raw=raw,loaded=loaded,logs=logs,
+-                           evaluated=evaluated,compares=compares,net=net,source=source,tuned=tuned,captures=capture_paths,manifest=manifest)
++                           evaluated=evaluated,compares=compares,net=net,source=source,tuned=tuned,captures=capture_paths,manifest=manifest,resolved=resolved)
+ 
+ 
+ def run(study):return runner.run(study.dataset,study.out,audit_dir=study.audit)
+@@ -216,3 +226,41 @@
+     monkeypatch.setattr(runner.research_package,'evaluate_variant',changed)
+     with pytest.raises(ValueError,match='paired forecasts differ'):run(study)
+     assert len(study.evaluated)==2 and not (study.out/'selection_lock.json').exists()
++
++
++@pytest.mark.parametrize('seed',[0,1,2])
++def test_requested_seed_propagates_same_capacity_to_every_arm_and_ci(study,seed):
++    summary=runner.run(study.dataset,study.out,audit_dir=study.audit,seed=seed)
++    assert summary['status']=='complete' and len(study.evaluated)==6
++    assert study.resolved['calls']==[('selection',seed)]
++    reg=json.loads((study.out/'registration.json').read_text())
++    assert reg['seed']==seed and reg['comparison']['seed']==seed
++    for position in config.ONFIELD_POSITIONS:
++        assert reg['parameters']['catboost_mae'][position]['catboost_mae']=={'depth':3,'random_seed':seed}
++    assert 'no new HPO' in reg['parameter_protocol']
++    assert any('not independent pooled samples' in text for text in reg['limitations'])
++    assert len(study.compares)==3
++
++
++@pytest.mark.parametrize('seed',[1,2])
++@pytest.mark.parametrize('net',[9.,10.])
++def test_nonzero_seeds_keep_strict_selection_gate(study,seed,net):
++    study.net['mae_availability']=net
++    summary=runner.run(study.dataset,study.out,audit_dir=study.audit,seed=seed)
++    assert summary['status']=='selection_rejected' and summary['evaluation']=={}
++    assert len(study.evaluated)==2
++
++
++@pytest.mark.parametrize('seed',[True,False,-1,3,1.0,'1',None])
++def test_invalid_seed_refused_without_artifacts_or_input_reads(study,seed):
++    with pytest.raises(ValueError,match='seed must be an integer'):
++        runner.run(study.dataset,study.out,audit_dir=study.audit,seed=seed)
++    assert not study.out.exists() and not study.loaded and not study.logs
++    assert study.resolved['calls']==[] and study.evaluated==[]
++
++
++def test_cli_explicit_nonzero_seed(monkeypatch):
++    calls=[]
++    monkeypatch.setattr(runner,'run',lambda *args,**kwargs:calls.append((args,kwargs)))
++    runner.main(['--dataset','frozen','--output-dir','new','--audit-dir','audit','--seed','2'])
++    assert calls==[((Path('frozen'),Path('new')),{'audit_dir':Path('audit'),'seed':2})]

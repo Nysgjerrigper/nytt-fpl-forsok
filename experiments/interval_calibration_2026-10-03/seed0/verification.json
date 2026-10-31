@@ -1,0 +1,100 @@
+{
+  "checks": [
+    "All archived sources match registration.",
+    "Calibration/evaluation CSV hashes recomputed.",
+    "Signed earlier-round order statistics recomputed.",
+    "Raw and calibrated endpoints byte-numeric identical; medians preserved.",
+    "Raw interval metrics independently recomputed."
+  ],
+  "decision": "No interval improvement; all eight position/phase adjustments are zero. Large zero-score atoms prevent smooth 80% inclusive coverage. No refit/retune based on reference; no production or MILP input changes.",
+  "registration_sha256": "9b30600e435f5de2a7c263b3c4d2e74991054df073139da6b2307148f3de1c14",
+  "reports": {
+    "reference": {
+      "calibration_score_ties": {
+        "DEF": {
+          "calibration_rounds": 2191,
+          "negative_score_fraction": 0.24874486535828388,
+          "zero_score_fraction": 0.6649931538110452
+        },
+        "FWD": {
+          "calibration_rounds": 893,
+          "negative_score_fraction": 0.2687569988801792,
+          "zero_score_fraction": 0.6472564389697648
+        },
+        "GK": {
+          "calibration_rounds": 773,
+          "negative_score_fraction": 0.15265200517464425,
+          "zero_score_fraction": 0.7761966364812419
+        },
+        "MID": {
+          "calibration_rounds": 2943,
+          "negative_score_fraction": 0.3041114509004417,
+          "zero_score_fraction": 0.6146788990825688
+        }
+      },
+      "descriptive_subgroups": {
+        "DNP": {
+          "coverage": 0.9886798599234465,
+          "interval_score": 1.0438063792256935,
+          "lower_miss_rate": 0.011320140076553466,
+          "mean_width": 0.930605001783871,
+          "rounds": 12279,
+          "upper_miss_rate": 0.0
+        },
+        "played": {
+          "coverage": 0.7828883885493728,
+          "interval_score": 9.58800037225623,
+          "lower_miss_rate": 0.012758657660555377,
+          "mean_width": 4.617262091659895,
+          "rounds": 9327,
+          "upper_miss_rate": 0.20435295379007185
+        }
+      }
+    },
+    "selection": {
+      "calibration_score_ties": {
+        "DEF": {
+          "calibration_rounds": 1954,
+          "negative_score_fraction": 0.2533265097236438,
+          "zero_score_fraction": 0.6484135107471852
+        },
+        "FWD": {
+          "calibration_rounds": 774,
+          "negative_score_fraction": 0.2777777777777778,
+          "zero_score_fraction": 0.6098191214470284
+        },
+        "GK": {
+          "calibration_rounds": 688,
+          "negative_score_fraction": 0.15843023255813954,
+          "zero_score_fraction": 0.7572674418604651
+        },
+        "MID": {
+          "calibration_rounds": 2615,
+          "negative_score_fraction": 0.3151051625239006,
+          "zero_score_fraction": 0.5900573613766731
+        }
+      },
+      "descriptive_subgroups": {
+        "DNP": {
+          "coverage": 0.993000122804863,
+          "interval_score": 0.7968255122251621,
+          "lower_miss_rate": 0.006999877195136927,
+          "mean_width": 0.7298968697133648,
+          "rounds": 8143,
+          "upper_miss_rate": 0.0
+        },
+        "played": {
+          "coverage": 0.7821180555555556,
+          "interval_score": 10.364217790641513,
+          "lower_miss_rate": 0.020182291666666668,
+          "mean_width": 5.033037575847591,
+          "rounds": 4608,
+          "upper_miss_rate": 0.1976996527777778
+        }
+      }
+    }
+  },
+  "source_files": 40,
+  "status": "VERIFIED",
+  "summary_sha256": "e4eeb7a62299454b4b8dfc9817018dadad25ba9934e7efc8cc3749fbbe2ffc06"
+}

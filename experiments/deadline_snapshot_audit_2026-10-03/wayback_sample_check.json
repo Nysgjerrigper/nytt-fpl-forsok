@@ -1,0 +1,15 @@
+{
+  "cdx": {
+    "url": "https://web.archive.org/cdx/search/cdx?url=https%3A%2F%2Ffantasy.premierleague.com%2Fapi%2Fbootstrap-static%2F&from=20240816123317&to=20240816123317&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cmimetype%2Cdigest&filter=statuscode%3A200",
+    "status": 200,
+    "sha256": "57332a881b05e1783dbbc52ddfbecb199c206808f4112990e2b98df4dcf27485",
+    "bytes": 198
+  },
+  "raw": {
+    "url": "https://web.archive.org/web/20240816123317id_/https://fantasy.premierleague.com/api/bootstrap-static/",
+    "status": 200,
+    "sha256": "f57885541a75c39cfeff0c8a643f5c6c08ee326bc7e0bd34a9e2b7ca929cd5b5",
+    "bytes": 102516,
+    "uncompressed_matches_github_capture": true
+  }
+}

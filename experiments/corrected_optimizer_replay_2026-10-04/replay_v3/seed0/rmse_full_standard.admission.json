@@ -1,0 +1,128 @@
+{
+  "byte_identical": true,
+  "cached_replay": true,
+  "end_gw": 183,
+  "horizon": 3,
+  "parameters": {
+    "catboost_mae": {
+      "DEF": {
+        "catboost_mae": {
+          "allow_writing_files": false,
+          "depth": 6,
+          "iterations": 355,
+          "l2_leaf_reg": 0.1743320668488672,
+          "learning_rate": 0.010470133267489799,
+          "loss_function": "MAE",
+          "random_seed": 0,
+          "subsample": 0.7510643868773437,
+          "thread_count": 5,
+          "verbose": 0
+        }
+      },
+      "FWD": {
+        "catboost_mae": {
+          "allow_writing_files": false,
+          "depth": 4,
+          "iterations": 405,
+          "l2_leaf_reg": 0.7233355905430102,
+          "learning_rate": 0.01211990638680825,
+          "loss_function": "MAE",
+          "random_seed": 0,
+          "subsample": 0.5001648499070181,
+          "thread_count": 5,
+          "verbose": 0
+        }
+      },
+      "GK": {
+        "catboost_mae": {
+          "allow_writing_files": false,
+          "depth": 5,
+          "iterations": 255,
+          "l2_leaf_reg": 9.680658561875074,
+          "learning_rate": 0.012148696338098964,
+          "loss_function": "MAE",
+          "random_seed": 0,
+          "subsample": 0.9192415056252703,
+          "thread_count": 5,
+          "verbose": 0
+        }
+      },
+      "MID": {
+        "catboost_mae": {
+          "allow_writing_files": false,
+          "depth": 5,
+          "iterations": 659,
+          "l2_leaf_reg": 0.9410853196984645,
+          "learning_rate": 0.01047345397611031,
+          "loss_function": "MAE",
+          "random_seed": 0,
+          "subsample": 0.6330854135058765,
+          "thread_count": 5,
+          "verbose": 0
+        }
+      }
+    },
+    "catboost_rmse": {
+      "DEF": {
+        "catboost_rmse": {
+          "allow_writing_files": false,
+          "depth": 9,
+          "iterations": 284,
+          "l2_leaf_reg": 3.8114313867604324,
+          "learning_rate": 0.03487286814135709,
+          "loss_function": "RMSE",
+          "random_seed": 0,
+          "subsample": 0.5562502653625537,
+          "thread_count": 5,
+          "verbose": 0
+        }
+      },
+      "FWD": {
+        "catboost_rmse": {
+          "allow_writing_files": false,
+          "depth": 10,
+          "iterations": 611,
+          "l2_leaf_reg": 14.81192692108277,
+          "learning_rate": 0.011677703052064928,
+          "loss_function": "RMSE",
+          "random_seed": 0,
+          "subsample": 0.9950851781878232,
+          "thread_count": 5,
+          "verbose": 0
+        }
+      },
+      "GK": {
+        "catboost_rmse": {
+          "allow_writing_files": false,
+          "depth": 10,
+          "iterations": 291,
+          "l2_leaf_reg": 3.9980378606207996,
+          "learning_rate": 0.021964115748881005,
+          "loss_function": "RMSE",
+          "random_seed": 0,
+          "subsample": 0.8703467962617494,
+          "thread_count": 5,
+          "verbose": 0
+        }
+      },
+      "MID": {
+        "catboost_rmse": {
+          "allow_writing_files": false,
+          "depth": 10,
+          "iterations": 799,
+          "l2_leaf_reg": 1.7268882163044021,
+          "learning_rate": 0.015259527429305189,
+          "loss_function": "RMSE",
+          "random_seed": 0,
+          "subsample": 0.8428688655479761,
+          "thread_count": 5,
+          "verbose": 0
+        }
+      }
+    }
+  },
+  "prediction_sha256": "3ed15c3c0f05b59382491ce6c9acf29340f9e93be055fd03d09378c5d33faa47",
+  "seed": 0,
+  "source_prediction": "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/research_priorities_2026-10-03/selection_seed0/evaluation/rmse_full_standard.predictions.csv",
+  "start_gw": 153
+}

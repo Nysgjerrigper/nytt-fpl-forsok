@@ -1,0 +1,105 @@
+{
+  "aggregate_optimal_solves": 2082,
+  "bound_replication_manifest_entries": 542,
+  "checked_at_utc": "2026-10-04T07:41:37.399054+00:00",
+  "current_pipeline_snapshot_drift": [
+    "fpl/config.py"
+  ],
+  "limitations": [
+    "Checks preserved bytes and report consistency; no fits, solves or fresh numerical reconstruction.",
+    "Seed timings are wall times, not CPU-core seconds; rejected seeds have selection timing only.",
+    "Refit seeds share outcomes and tuning; no independent-sample pooling or promotion claim.",
+    "Current pipeline hashes are observational; archived source hashes bind completed studies."
+  ],
+  "new_rmse_replication_optimal_solves": 64,
+  "original_optimal_solves": 1642,
+  "rehash_wall_seconds": 0.868121667066589,
+  "report_sha256": {
+    "experiments/availability_research_2026-10-03/rmse_robustness_verification.json": "469575a7d9065a302f968770f2acc0d6cf963f31754e74e484b0fad6eba75b97",
+    "experiments/research_priorities_2026-10-03/compute_timings_with_replications_verified.json": "cd910680d6d6bf5bdfc337bc3dac5cc01f9ace4a9dfdba27c38549c4140bd57d",
+    "experiments/research_priorities_2026-10-03/package_with_availability_replications_verification.json": "16cac4b6941661efba6ad73270532c27b80f312903d49b9b833387aabc3fb5aa"
+  },
+  "rmse_family_optimal_solves": 220,
+  "rmse_replication_parent_wall_seconds": 1430.9585195421241,
+  "seed_results": {
+    "0": {
+      "advanced": true,
+      "comparisons": {
+        "reference_origin": {
+          "block_len": 3,
+          "ci_high": 207.0,
+          "ci_low": -65.0,
+          "n_gws": 31,
+          "total_a": 1943.0,
+          "total_b": 1856.0,
+          "total_diff": 87.0
+        },
+        "reference_standard": {
+          "block_len": 3,
+          "ci_high": 237.0,
+          "ci_low": -16.0,
+          "n_gws": 31,
+          "total_a": 2055.0,
+          "total_b": 1939.0,
+          "total_diff": 116.0
+        },
+        "selection_origin": {
+          "block_len": 3,
+          "ci_high": 119.0,
+          "ci_low": -96.0,
+          "n_gws": 16,
+          "total_a": 996.0,
+          "total_b": 993.0,
+          "total_diff": 3.0
+        }
+      },
+      "forecast_generation_seconds": 4612.980857624905,
+      "milp_seconds": 843.19837824977,
+      "optimal_solves": 156,
+      "status": "complete",
+      "whole_study_wall_seconds": 5473.192347833188
+    },
+    "1": {
+      "advanced": false,
+      "comparisons": {
+        "selection_origin": {
+          "block_len": 3,
+          "ci_high": 57.0,
+          "ci_low": -122.0,
+          "n_gws": 16,
+          "total_a": 1062.0,
+          "total_b": 1081.0,
+          "total_diff": -19.0
+        }
+      },
+      "forecast_generation_seconds": 535.2077807912137,
+      "milp_seconds": 147.6502297502011,
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "whole_study_wall_seconds": 692.3859045410063
+    },
+    "2": {
+      "advanced": false,
+      "comparisons": {
+        "selection_origin": {
+          "block_len": 3,
+          "ci_high": 23.0,
+          "ci_low": -181.0,
+          "n_gws": 16,
+          "total_a": 1050.0,
+          "total_b": 1116.0,
+          "total_diff": -66.0
+        }
+      },
+      "forecast_generation_seconds": 575.0766415419057,
+      "milp_seconds": 145.5392929171212,
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "whole_study_wall_seconds": 730.390839291038
+    }
+  },
+  "status": "verified",
+  "studies": 16,
+  "unique_immutable_outputs": 953,
+  "unique_rechecked_artifacts": 1351
+}

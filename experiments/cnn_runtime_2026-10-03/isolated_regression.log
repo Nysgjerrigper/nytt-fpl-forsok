@@ -1,0 +1,24 @@
+........................................................................ [  8%]
+........................................................................ [ 16%]
+........................................................................ [ 25%]
+........................................................................ [ 33%]
+........................................................................ [ 42%]
+........................................................................ [ 50%]
+........................................................................ [ 59%]
+........................................................................ [ 67%]
+ssss.................................................................... [ 76%]
+........................................................................ [ 84%]
+........................................................................ [ 93%]
+...........................................................              [100%]
+=============================== warnings summary ===============================
+tests/test_lambdarank.py::test_learns_within_round_ranking
+  /Users/perandersmolberg/Developer/MSc-BusAdm-25-EBA-PAM/.venv/lib/python3.11/site-packages/joblib/externals/loky/backend/context.py:131: UserWarning: Could not find the number of physical cores for the following reason:
+  invalid literal for int() with base 10: ''
+  Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+    warnings.warn(
+
+tests/test_origin_predictions.py::test_historical_cli_exports_minutes_from_admitted_raw
+  <frozen runpy>:128: RuntimeWarning: 'fpl.model.predict' found in sys.modules after import of package 'fpl.model', but prior to execution of 'fpl.model.predict'; this may result in unpredictable behaviour
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+847 passed, 4 skipped, 2 warnings in 24.96s

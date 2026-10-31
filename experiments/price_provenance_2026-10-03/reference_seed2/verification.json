@@ -1,0 +1,73 @@
+{
+  "checks": [
+    "original/current archive, frozen data, source and catalog locks",
+    "catalog latest prior observations rebuilt independently",
+    "unchanged numerical cached forecasts and identical policy replay CSVs",
+    "all output/admission/result/log hashes",
+    "known-price eligibility and current budgets",
+    "net gross hit arithmetic",
+    "all paired bootstrap/sign-test reports"
+  ],
+  "elapsed_seconds": 736.9957401249558,
+  "immutable_outputs": 74,
+  "independently_reconstructed_current_budgets": 124,
+  "limitations": [
+    "Latest recorded prices are descriptive proxies, not actual verified historical deadline prices.",
+    "Archived fixtures and prices lack complete publication-time provenance; no full PIT or availability claim.",
+    "All policies restrict eligibility to known lagged prices, so these controls differ from unrestricted historical controls.",
+    "Selection and reference are repeatedly examined historical data, not fresh independent evidence.",
+    "Optional lagged-proxy exclusion reflects season-repricing budget incompatibility, not adaptive model selection.",
+    "Current-origin proxies may retain legacy forward/backfills and approximate roster/selling rules.",
+    "No fitting, tuning, production changes or promotion assessment.",
+    "Current-price freezing retains reconstructed current vectors and matched eligibility; no deadline-price proof."
+  ],
+  "optimal_solves": 124,
+  "promotion_eligible": false,
+  "registration_sha256": "c685836d268f250b43c716a6158ad4ff867222759a9145fff25c937314dd2570",
+  "results": {
+    "reference": {
+      "mae_current": 1999.0,
+      "mae_replay": 1995.0,
+      "rmse_current": 2016.0,
+      "rmse_replay": 1881.0
+    }
+  },
+  "selected_proxy_diagnostics": {
+    "reference/mae_current": {
+      "absent_current_fixture_player_rounds": 5,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.0150537634408603,
+      "selected_player_rounds": 465
+    },
+    "reference/mae_replay": {
+      "absent_current_fixture_player_rounds": 4,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.0129032258064516,
+      "selected_player_rounds": 465
+    },
+    "reference/rmse_current": {
+      "absent_current_fixture_player_rounds": 6,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 2,
+      "price_age_mean": 1.0150537634408603,
+      "selected_player_rounds": 465
+    },
+    "reference/rmse_replay": {
+      "absent_current_fixture_player_rounds": 9,
+      "absent_horizon_fixture_player_rounds": 0,
+      "older_than_38_rounds": 0,
+      "price_age_max": 3,
+      "price_age_mean": 1.0236559139784946,
+      "selected_player_rounds": 465
+    }
+  },
+  "source_files": 50,
+  "status": "verified",
+  "summary_sha256": "3889b180c8dd4a4ad4d58df5c12e9c73ec68499bc1cea100e3e40dcf04e30e54",
+  "verified_at_utc": "2026-10-03T18:58:46.655863+00:00"
+}

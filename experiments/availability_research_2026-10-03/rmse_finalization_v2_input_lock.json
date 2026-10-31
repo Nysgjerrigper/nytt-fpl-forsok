@@ -1,0 +1,10 @@
+{
+  "reason": "Finalizer rejects optimized Python and rechecks provenance after both children; original waiter classified exit1, model job unchanged",
+  "script_sha256": {
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/availability_research_2026-10-03/finalize_rmse_evidence.py": "84a0889af1a24912c71b59cce0e013f9158a4faabe959ab7f81f068a9dac635a",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/research_priorities_2026-10-03/summarize_compute.py": "cc3710c5e2b0a037cd60aa31b7f02750263666a91d8022e2e693c75c7b8d96bc",
+    "/Users/perandersmolberg/.codex/worktrees/6048/MSc-BusAdm-25-EBA-PAM/experiments/research_priorities_2026-10-03/verify_package.py": "a23724c0f0800a85aab7dfef23a04e64ca9f9c8ede47a7ac0171d596eeb22870"
+  },
+  "supersedes": "rmse_finalization_input_lock.json",
+  "timeout_seconds": 10800
+}

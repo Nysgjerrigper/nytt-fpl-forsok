@@ -1,0 +1,132 @@
+{
+  "base_package_sha256": "16cac4b6941661efba6ad73270532c27b80f312903d49b9b833387aabc3fb5aa",
+  "limitations": [
+    "Per-study independent reports remain evidence for numerical reconstruction.",
+    "Historical reference outcomes repeatedly examined; no fresh holdout.",
+    "Refit seeds share outcomes and fixed seed-zero tuning; no independent-sample pooling.",
+    "Historical prices, registered rosters and external publication times remain incompletely verified.",
+    "Current source hashes describe subsequent state; archived sources bind completed studies.",
+    "No model promotion, production change, commit, push or merge.",
+    "Two additional diagnostics supply no new optimizer solves or model-promotion evidence."
+  ],
+  "production_strategy": "single:catboost",
+  "promotion_eligible": false,
+  "rechecked_artifacts": 1116,
+  "rechecked_unique_immutable_outputs": 1074,
+  "status": "verified",
+  "studies": {
+    "availability_research_2026-10-03/rmse_seed0": {
+      "optimal_solves": 156,
+      "status": "complete",
+      "summary_sha256": "ed4bb9809814222552303594dbeefee416fe25708a3d07ee7a6297826b53fb91",
+      "verification_sha256": "67f493ba79d561197ac0605d380a69ad8181e4a70b3c8b0bace9cb3dd16b15ac"
+    },
+    "availability_research_2026-10-03/rmse_seed1": {
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "189cc0869a1e21bf3e6f7479cbba635b0182c16de3bec76cb48d3e3e14b88e3e",
+      "verification_sha256": "93b10e1c2fe621d56ec5d4c009e89734dd5530518969d5ef9f5d6883719103bd"
+    },
+    "availability_research_2026-10-03/rmse_seed2": {
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "a10462eaa2e5a24a731763d6424c3238cd65e560d1c1d936902cb974aec9fed7",
+      "verification_sha256": "63d2e524f7044770c964180a781c912749b534ec379ff04d0a3fa5a8eec3e2c0"
+    },
+    "availability_research_2026-10-03/seed0": {
+      "optimal_solves": 156,
+      "status": "complete",
+      "summary_sha256": "e8db77bd7152eeb05d90b96cfcf3d4fad9ea2db1f8286645958f34f9fdff2174",
+      "verification_sha256": "e816383b846764a4fa0ec88f3662466b3e9b794d2fe6d3e6c6db324ae61640bb"
+    },
+    "availability_research_2026-10-03/seed1": {
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "e70b0098e3a0025864cb634fc3010d81d4bb0fa2fb7ac5013b9222c903c0714b",
+      "verification_sha256": "5e2f91bf41d5272dd2e4baff9bbc2b530cf71e7b2b4c790c3e5da19a7fb62a00"
+    },
+    "availability_research_2026-10-03/seed2": {
+      "optimal_solves": 32,
+      "status": "selection_rejected",
+      "summary_sha256": "d06ec81d77ec50cf5c01643b789f811fe01943be175419ef8f6c8753b9eb1099",
+      "verification_sha256": "08d677e5bb8de71b7d6f249d2fad265586604e2115fa35b867a256ed1ea31f4d"
+    },
+    "cnn_research_2026-10-03/seed0": {
+      "optimal_solves": 64,
+      "status": "selection_rejected",
+      "summary_sha256": "ceff744b26b2ffccf968b0384c8bfae1067b20499a9ca0362ad968bc09a0e616",
+      "verification_sha256": "a113250414b23b928825ac2b6e5d84063024d7c5a0d29656f6d95ac4576d3e10"
+    },
+    "grouped_interval_calibration_2026-10-04/seed0": {
+      "diagnostic_only": true,
+      "optimal_solves": 0,
+      "status": "complete",
+      "summary_sha256": "702d6c9e2b380f37fcc995daae69acbc4dd483337508edcb3def5e623342fbb7",
+      "verification_sha256": "7555036926726b1d9eeb635edc8c4fc0cb8d7c484ae2364e16d8fd959d59fe24"
+    },
+    "interval_calibration_2026-10-03/seed0": {
+      "optimal_solves": 0,
+      "status": "complete",
+      "summary_sha256": "e4eeb7a62299454b4b8dfc9817018dadad25ba9934e7efc8cc3749fbbe2ffc06",
+      "verification_sha256": "575c2a78a4a44fae3e6d09e1522997efed61222007ef0c3442d5a697e974fa77"
+    },
+    "price_horizon_2026-10-03/seed0": {
+      "optimal_solves": 94,
+      "status": "complete",
+      "summary_sha256": "fcd53056c55473c727cae6cef84f0a196b243b6eaca795ece725f3b77aa736b9",
+      "verification_sha256": "829ecc6ded80e6346d4a2c8211e9a73836e510fcb8d05524b038926995da466e"
+    },
+    "price_provenance_2026-10-03/reference_seed1": {
+      "optimal_solves": 124,
+      "status": "complete",
+      "summary_sha256": "c8702353d90779634e04d31d5476f2b83b7050e65ddb374e200adb0241fde383",
+      "verification_sha256": "81b2129d8c0362939b22884aa040df85f38e6f663c2d1f71d56f5196c9de2dc9"
+    },
+    "price_provenance_2026-10-03/reference_seed2": {
+      "optimal_solves": 124,
+      "status": "complete",
+      "summary_sha256": "3889b180c8dd4a4ad4d58df5c12e9c73ec68499bc1cea100e3e40dcf04e30e54",
+      "verification_sha256": "373acf300e6fdbaa25477246f2ff818a75419b00527c9eead93e374e7482e23b"
+    },
+    "price_provenance_2026-10-03/seed0": {
+      "optimal_solves": 188,
+      "status": "complete",
+      "summary_sha256": "abd278ab943deda2ed3434bb30408cf81a48f14e0beb77eb725a7ec1734f41f7",
+      "verification_sha256": "d45a11e2df6772fd8986a822f672d1695f00038eccfcdd3bc5c67fbeeb040c31"
+    },
+    "registered_cold_outcomes_2026-10-04/seed0": {
+      "diagnostic_only": true,
+      "optimal_solves": 0,
+      "status": "complete",
+      "summary_sha256": "5ff8198d5f9d697c86e83ee6735cb3d4d0413d2fcffe9fed615bb1a9569e992f",
+      "verification_sha256": "02c13afe41a56e9ae3b012b2695ad1f493cff05797afee4af9f173f8da4376f1"
+    },
+    "research_priorities_2026-10-03/selection_seed0": {
+      "optimal_solves": 282,
+      "status": "complete",
+      "summary_sha256": "9d421af2cea36abaa33a8339c7bd981927fea4e117c75587a80bda14f8bbc5d7",
+      "verification_sha256": "3486338ca0f2387e582293e1e79e7e3377081303d84f8300cc4b4b9f026cf3d7"
+    },
+    "research_priorities_2026-10-03/selection_seed1": {
+      "optimal_solves": 282,
+      "status": "complete",
+      "summary_sha256": "cd5198d055cf1a740cd1c4c2b9cb824882c00bb1f499abb098e9297946042b5c",
+      "verification_sha256": "10e9eb32fb555fb657470e5f6b9d6aeea0ac322c597af6f8d2aece86957685ac"
+    },
+    "research_priorities_2026-10-03/selection_seed2": {
+      "optimal_solves": 282,
+      "status": "complete",
+      "summary_sha256": "7bf58bb439d88190c94ff70f5b5545de5778c8d0647f45392d31a03be18f00ae",
+      "verification_sha256": "6d17f23de0d04784a81a3e217694a44f9bfbd30a1cf28baa0e00a4749dfe5568"
+    },
+    "temporal_blend_2026-10-03/seed0": {
+      "optimal_solves": 202,
+      "status": "complete",
+      "summary_sha256": "0c7788908b8d362c53d15b52761ab0cf5924c9174ee194f5a102dfcfcefb5e5f",
+      "verification_sha256": "2b640d274b1e2733c0b008d2fc754e7ca0a89ca3d60586925ff2b1388b3ee562"
+    }
+  },
+  "verified_at_utc": "2026-10-04T08:07:18.190806+00:00",
+  "verified_optimal_solves": 2082,
+  "verifier_sha256": "081fe5548440e6e2cb586e0177e30809f83ca3f1ab3dac32a2cac21ff9554686"
+}

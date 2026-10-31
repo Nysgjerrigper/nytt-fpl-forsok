@@ -1,0 +1,14 @@
+{
+  "byte_identical_controls": true,
+  "gross_points": 1939.0,
+  "prediction_sha256": "3ed15c3c0f05b59382491ce6c9acf29340f9e93be055fd03d09378c5d33faa47",
+  "previous_summary_sha256": "9d421af2cea36abaa33a8339c7bd981927fea4e117c75587a80bda14f8bbc5d7",
+  "previous_verification_sha256": "3486338ca0f2387e582293e1e79e7e3377081303d84f8300cc4b4b9f026cf3d7",
+  "promotion_eligible": false,
+  "scope": "standard reference RMSE control only; entire availability pilot still running",
+  "squad_sha256": "89b928f37ff2b3f7e423a6fc08203734242e10dd63467e7aad13a99570e61c58",
+  "status": "verified",
+  "total_points": 1939.0,
+  "transfer_hit_points": 0.0,
+  "verified_at_utc": "2026-10-03T22:59:57.540690+00:00"
+}

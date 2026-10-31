@@ -264,3 +264,53 @@ def add_registered_cold_starts(snapshot: pd.DataFrame, bootstrap: dict) -> pd.Da
     result = snapshot.copy()
     result["is_cold_start"] = False
     return pd.concat([result, pd.DataFrame(additions)], ignore_index=True) if additions else result
+
+
+def retrospective_cold_start_predictions(
+    raw: pd.DataFrame, start_gw: int, end_gw: int,
+) -> pd.DataFrame:
+    """Forecast first-recorded player rounds using strictly earlier fixture priors.
+
+    The cohort includes DNPs and every fixture in a player's first recorded DGW.
+    This retrospective diagnostic does not establish historical registration or
+    optimizer performance; empirical spreads are not calibrated intervals.
+    Rows later than ``end_gw`` are excluded before cohort grouping or fitting.
+    """
+    for bound in (start_gw, end_gw):
+        if isinstance(bound, bool) or not np.isfinite(bound) or bound < 1 or int(bound) != bound:
+            raise ValueError("Cold-start diagnostic bounds must be positive integers")
+    if start_gw > end_gw:
+        raise ValueError("Cold-start diagnostic requires start_gw <= end_gw")
+    required = {"player_id", "position", "team", "GW_global", "total_points", "minutes"}
+    if missing := required.difference(raw.columns):
+        raise ValueError(f"Cold-start diagnostic missing columns: {sorted(missing)}")
+    identity_columns = ["player_id", "position", "team", "GW_global"]
+    if "fixture" in raw:
+        identity_columns.append("fixture")
+    output_columns = identity_columns + ["actual_total_points", "minutes"] + PRIOR_COLUMNS[2:] + ["origin_gw"]
+    rounds = pd.to_numeric(raw["GW_global"], errors="coerce")
+    if not np.isfinite(rounds).all() or (rounds < 1).any() or (rounds % 1 != 0).any():
+        raise ValueError("Cold-start diagnostic has invalid GW_global")
+    admitted = raw.loc[rounds <= end_gw].copy()
+    admitted["GW_global"] = rounds.loc[rounds <= end_gw]
+    if admitted["player_id"].isna().any():
+        raise ValueError("Cold-start diagnostic has missing player identity")
+    first_round = admitted.groupby("player_id")["GW_global"].transform("min")
+    cohort = admitted.loc[(admitted["GW_global"] == first_round) & (admitted["GW_global"] >= start_gw)]
+    if cohort.empty:
+        return pd.DataFrame(columns=output_columns)
+    rows = []
+    # One fitting operation per origin round; no player-level iteration or synthetic history.
+    for gw, target in cohort.groupby("GW_global", sort=True):
+        target = target.reset_index(drop=True)
+        for column in ("total_points", "minutes"):
+            numeric = pd.to_numeric(target[column], errors="coerce")
+            if not np.isfinite(numeric).all() or (column == "minutes" and (numeric < 0).any()):
+                raise ValueError(f"Cold-start diagnostic has invalid target {column}")
+            target[column] = numeric
+        prediction = predict_cold_starts(target[["position", "team"]], fit_pooled_priors(admitted, int(gw)), origin_gw=int(gw))
+        result = target[identity_columns + ["total_points", "minutes"]].rename(columns={"total_points": "actual_total_points"})
+        result = pd.concat([result, prediction], axis=1)
+        result["origin_gw"] = int(gw)
+        rows.append(result)
+    return pd.concat(rows, ignore_index=True)[output_columns]

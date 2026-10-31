@@ -1,0 +1,72 @@
+{
+  "cached_replay": true,
+  "dated_origin_snapshot": false,
+  "end_gw": 183,
+  "extra_player_features": [],
+  "feature_columns": [],
+  "horizon": 3,
+  "origin": false,
+  "parameters": {
+    "DEF": {
+      "catboost_mae": {
+        "allow_writing_files": false,
+        "depth": 6,
+        "iterations": 355,
+        "l2_leaf_reg": 0.1743320668488672,
+        "learning_rate": 0.010470133267489799,
+        "loss_function": "MAE",
+        "random_seed": 0,
+        "subsample": 0.7510643868773437,
+        "thread_count": 5,
+        "verbose": 0
+      }
+    },
+    "FWD": {
+      "catboost_mae": {
+        "allow_writing_files": false,
+        "depth": 4,
+        "iterations": 405,
+        "l2_leaf_reg": 0.7233355905430102,
+        "learning_rate": 0.01211990638680825,
+        "loss_function": "MAE",
+        "random_seed": 0,
+        "subsample": 0.5001648499070181,
+        "thread_count": 5,
+        "verbose": 0
+      }
+    },
+    "GK": {
+      "catboost_mae": {
+        "allow_writing_files": false,
+        "depth": 5,
+        "iterations": 255,
+        "l2_leaf_reg": 9.680658561875074,
+        "learning_rate": 0.012148696338098964,
+        "loss_function": "MAE",
+        "random_seed": 0,
+        "subsample": 0.9192415056252703,
+        "thread_count": 5,
+        "verbose": 0
+      }
+    },
+    "MID": {
+      "catboost_mae": {
+        "allow_writing_files": false,
+        "depth": 5,
+        "iterations": 659,
+        "l2_leaf_reg": 0.9410853196984645,
+        "learning_rate": 0.01047345397611031,
+        "loss_function": "MAE",
+        "random_seed": 0,
+        "subsample": 0.6330854135058765,
+        "thread_count": 5,
+        "verbose": 0
+      }
+    }
+  },
+  "prediction_sha256": "1ae45997660505e700e396e774a2d0bb50732591aa0c106c8ac05b0546c68439",
+  "retrain_every": 4,
+  "seed": 0,
+  "start_gw": 153,
+  "variant": "mae_full"
+}

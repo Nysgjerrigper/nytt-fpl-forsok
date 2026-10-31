@@ -1,0 +1,13 @@
+{
+  "status": "verified",
+  "wheel": "/tmp/fpl-wheel-grouped-2026-10-04/fpl_forecast_optimizer-0.1.0-py3-none-any.whl",
+  "wheel_sha256": "70123381a7a3701683558cc731be46b43b88f5971c1483ed76be296c7205bbf8",
+  "pipeline_files": 55,
+  "required_package_data": [
+    "fpl/data/frozen_research_dataset_gw231.json",
+    "fpl/model/grouped_interval_calibration.py",
+    "fpl/model/grouped_interval_research.py",
+    "fpl/milp/_vendor/solio/LICENSE"
+  ],
+  "fit_or_solve": false
+}

@@ -1,0 +1,228 @@
+{
+  "elapsed_seconds": 44.73048695921898,
+  "phases": {
+    "reference": {
+      "adjustments": {
+        "DEF": 0.0,
+        "FWD": 0.0,
+        "GK": 0.0,
+        "MID": 0.0
+      },
+      "calibration_csv": "experiments/interval_calibration_2026-10-03/seed0/reference/calibration.csv",
+      "calibration_sha256": "9ba4e1cd136636a566b33447102380528bf195baa8641d9a5c5932c6bad93390",
+      "fit_seconds": 20.180494418134913,
+      "metrics": {
+        "DEF": {
+          "calibrated": {
+            "coverage": 0.8984060984060984,
+            "interval_score": 4.532064193164074,
+            "lower_miss_rate": 0.008454608454608454,
+            "mean_width": 2.6038564978219823,
+            "upper_miss_rate": 0.09313929313929314
+          },
+          "raw": {
+            "coverage": 0.8984060984060984,
+            "interval_score": 4.532064193164074,
+            "lower_miss_rate": 0.008454608454608454,
+            "mean_width": 2.6038564978219823,
+            "upper_miss_rate": 0.09313929313929314
+          },
+          "rounds": 7215
+        },
+        "FWD": {
+          "calibrated": {
+            "coverage": 0.8839547549224969,
+            "interval_score": 5.7492764189538486,
+            "lower_miss_rate": 0.01466275659824047,
+            "mean_width": 2.7087791405952646,
+            "upper_miss_rate": 0.10138248847926268
+          },
+          "raw": {
+            "coverage": 0.8839547549224969,
+            "interval_score": 5.7492764189538486,
+            "lower_miss_rate": 0.01466275659824047,
+            "mean_width": 2.7087791405952646,
+            "upper_miss_rate": 0.10138248847926268
+          },
+          "rounds": 2387
+        },
+        "GK": {
+          "calibrated": {
+            "coverage": 0.91369440774989,
+            "interval_score": 3.516228545183136,
+            "lower_miss_rate": 0.02289740202553941,
+            "mean_width": 1.748676009482077,
+            "upper_miss_rate": 0.06340819022457067
+          },
+          "raw": {
+            "coverage": 0.91369440774989,
+            "interval_score": 3.516228545183136,
+            "lower_miss_rate": 0.02289740202553941,
+            "mean_width": 1.748676009482077,
+            "upper_miss_rate": 0.06340819022457067
+          },
+          "rounds": 2271
+        },
+        "MID": {
+          "calibrated": {
+            "coverage": 0.9015719716428645,
+            "interval_score": 4.914872804963897,
+            "lower_miss_rate": 0.011301756909483202,
+            "mean_width": 2.596134664327104,
+            "upper_miss_rate": 0.08712627144765232
+          },
+          "raw": {
+            "coverage": 0.9015719716428645,
+            "interval_score": 4.914872804963897,
+            "lower_miss_rate": 0.011301756909483202,
+            "mean_width": 2.596134664327104,
+            "upper_miss_rate": 0.08712627144765232
+          },
+          "rounds": 9733
+        },
+        "pooled": {
+          "calibrated": {
+            "coverage": 0.8998426363047302,
+            "interval_score": 4.732212255972699,
+            "lower_miss_rate": 0.011941127464593169,
+            "mean_width": 2.5220819376939736,
+            "upper_miss_rate": 0.08821623623067666
+          },
+          "raw": {
+            "coverage": 0.8998426363047302,
+            "interval_score": 4.732212255972699,
+            "lower_miss_rate": 0.011941127464593169,
+            "mean_width": 2.5220819376939736,
+            "upper_miss_rate": 0.08821623623067666
+          },
+          "rounds": 21606
+        }
+      },
+      "phase_seconds": 20.711287959013134,
+      "prediction_seconds": 0.208640459459275,
+      "predictions_csv": "experiments/interval_calibration_2026-10-03/seed0/reference/predictions.csv",
+      "predictions_sha256": "156633e4d4f414826d2915e8ac49271e4f539762b5e0b1f3a40531ff3aa0ed53",
+      "preprocessing_seconds": 2.228217832976952,
+      "split": {
+        "calibration_max_gw": 152,
+        "calibration_min_gw": 145,
+        "evaluation_max_gw": 183,
+        "evaluation_min_gw": 153,
+        "train_max_gw": 144
+      }
+    },
+    "selection": {
+      "adjustments": {
+        "DEF": 0.0,
+        "FWD": 0.0,
+        "GK": 0.0,
+        "MID": 0.0
+      },
+      "calibration_csv": "experiments/interval_calibration_2026-10-03/seed0/selection/calibration.csv",
+      "calibration_sha256": "985f5d8bb0849421a93b340ba949dc56dd2caaf455b5952057d7be93114e9d27",
+      "fit_seconds": 18.941063585225493,
+      "metrics": {
+        "DEF": {
+          "calibrated": {
+            "coverage": 0.9093788063337394,
+            "interval_score": 4.47428497946352,
+            "lower_miss_rate": 0.01559074299634592,
+            "mean_width": 2.5693351229967814,
+            "upper_miss_rate": 0.07503045066991473
+          },
+          "raw": {
+            "coverage": 0.9093788063337394,
+            "interval_score": 4.47428497946352,
+            "lower_miss_rate": 0.01559074299634592,
+            "mean_width": 2.5693351229967814,
+            "upper_miss_rate": 0.07503045066991473
+          },
+          "rounds": 4105
+        },
+        "FWD": {
+          "calibrated": {
+            "coverage": 0.9046762589928058,
+            "interval_score": 4.64566481421586,
+            "lower_miss_rate": 0.015587529976019185,
+            "mean_width": 2.1373819681455775,
+            "upper_miss_rate": 0.07973621103117506
+          },
+          "raw": {
+            "coverage": 0.9046762589928058,
+            "interval_score": 4.64566481421586,
+            "lower_miss_rate": 0.015587529976019185,
+            "mean_width": 2.1373819681455775,
+            "upper_miss_rate": 0.07973621103117506
+          },
+          "rounds": 1668
+        },
+        "GK": {
+          "calibrated": {
+            "coverage": 0.935127674258109,
+            "interval_score": 2.717583562018603,
+            "lower_miss_rate": 0.018633540372670808,
+            "mean_width": 1.3035934876688389,
+            "upper_miss_rate": 0.04623878536922015
+          },
+          "raw": {
+            "coverage": 0.935127674258109,
+            "interval_score": 2.717583562018603,
+            "lower_miss_rate": 0.018633540372670808,
+            "mean_width": 1.3035934876688389,
+            "upper_miss_rate": 0.04623878536922015
+          },
+          "rounds": 1449
+        },
+        "MID": {
+          "calibrated": {
+            "coverage": 0.92114306384518,
+            "interval_score": 4.375687898924007,
+            "lower_miss_rate": 0.005968529571351058,
+            "mean_width": 2.3755844805897763,
+            "upper_miss_rate": 0.07288840658346898
+          },
+          "raw": {
+            "coverage": 0.92114306384518,
+            "interval_score": 4.375687898924007,
+            "lower_miss_rate": 0.005968529571351058,
+            "mean_width": 2.3755844805897763,
+            "upper_miss_rate": 0.07288840658346898
+          },
+          "rounds": 5529
+        },
+        "pooled": {
+          "calibrated": {
+            "coverage": 0.9167908399341228,
+            "interval_score": 4.254322462969618,
+            "lower_miss_rate": 0.011763783232687633,
+            "mean_width": 2.284980578745324,
+            "upper_miss_rate": 0.07144537683318955
+          },
+          "raw": {
+            "coverage": 0.9167908399341228,
+            "interval_score": 4.254322462969618,
+            "lower_miss_rate": 0.011763783232687633,
+            "mean_width": 2.284980578745324,
+            "upper_miss_rate": 0.07144537683318955
+          },
+          "rounds": 12751
+        }
+      },
+      "phase_seconds": 19.366345667047426,
+      "prediction_seconds": 0.15190250030718744,
+      "predictions_csv": "experiments/interval_calibration_2026-10-03/seed0/selection/predictions.csv",
+      "predictions_sha256": "67b64f7cfc46eff0aa92a694e97388b595ea08227be1b5bac3a37376db80d355",
+      "preprocessing_seconds": 2.256089458009228,
+      "split": {
+        "calibration_max_gw": 136,
+        "calibration_min_gw": 129,
+        "evaluation_max_gw": 152,
+        "evaluation_min_gw": 137,
+        "train_max_gw": 128
+      }
+    }
+  },
+  "promotion_eligible": false,
+  "registration_sha256": "9b30600e435f5de2a7c263b3c4d2e74991054df073139da6b2307148f3de1c14",
+  "status": "complete"
+}
