@@ -1,7 +1,8 @@
 FPL forecasting and squad optimization
 
 Original material: Per Anders Molberg, 2026, to the extent owned/licensable.
-Root terms: LICENSE (custom noncommercial source license).
+Root terms: LICENSE (custom noncommercial source license 1.1, with additional
+AI-training conditions on model openness and European organizational control).
 Released learned model artifacts: LICENSE-WEIGHTS (MIT, scope-limited to learned
 parameters/state; no commercial restriction on those artifacts).
 

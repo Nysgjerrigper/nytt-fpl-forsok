@@ -1,5 +1,5 @@
-Per Anders Molberg Noncommercial Source License 1.0
-SPDX-License-Identifier: LicenseRef-Per-Anders-Molberg-Noncommercial
+Per Anders Molberg Noncommercial Source License 1.1
+SPDX-License-Identifier: LicenseRef-PAM-Noncommercial-European-Open-AI-1.1
 
 Copyright (c) 2026 Per Anders Molberg, to the extent applicable rights exist
 and are owned by, or available for licensing by, Per Anders Molberg.
@@ -28,8 +28,9 @@ Subject to these terms, the Licensor grants everyone a worldwide, nonexclusive,
 royalty-free copyright license to use, inspect, run, copy, modify and redistribute
 Covered Material, including modified versions, solely for noncommercial purposes.
 This includes personal study, hobby use, and genuinely noncommercial research,
-education and community projects. Access is not limited to particular persons,
-nationalities or organizations. Noncommercial redistribution must be free of
+education and community projects. Ordinary noncommercial use is available
+worldwide. AI Training Use is subject to the additional conditions in section 9,
+which prevail over this permission. Noncommercial redistribution must be free of
 charge, preserve this license and applicable copyright and attribution notices,
 and identify modifications without implying endorsement by the Licensor.
 
@@ -113,3 +114,79 @@ OSI-approved open-source license and must not be described as one. The separate
 MIT license for learned artifacts does not make the entire project permissively
 licensed. A separate written agreement controls where it expressly differs
 from these terms.
+
+9. Additional conditions for AI Training Use
+
+"AI Training Use" means reproducing, extracting, collecting, transforming or
+otherwise using Covered Material or its protected expression as training data,
+training targets, examples or feedback to develop or improve a machine-learning
+model. It includes pretraining, fine-tuning, continued training, reinforcement
+learning, distillation, and synthetic-data generation for those purposes,
+including through intermediate datasets, translations, paraphrases or other
+transformations that retain protected expression. Preparing or supplying such
+material for another person's AI Training Use is subject to the same conditions.
+Facts, ideas and independently created material remain outside this definition.
+
+Merely running or modifying the project's forecasting, training or optimization
+software for an otherwise permitted purpose is not AI Training Use of its source
+or documentation. Ordinary inference, retrieval and assistant-assisted development
+are not AI Training Use unless Covered Material is also used to train or improve
+a model. Other license conditions, including noncommercial use, still apply.
+
+AI Training Use is permitted only if BOTH of the following conditions hold:
+(a) Every model trained or improved with Covered Material is an Open Model.
+(b) Every company or other organization conducting, directing or commissioning
+    that use, or for whose specific benefit it is conducted, is a Qualifying
+    European Entity. Individuals acting independently for personal purposes
+    remain subject to (a); acting for an organization does not avoid (b).
+These conditions apply equally to commercial and noncommercial organizations,
+research partnerships, affiliates, contractors and intermediaries. Section 3
+continues to require a separate agreement for any commercial use.
+
+An "Open Model" is a model whose complete trained parameters (including weights,
+adapters and other learned state), architecture, inference and training source
+code, training configuration, and sufficiently detailed information about the
+training data and process to enable a skilled person to reproduce and modify
+its training are publicly available without charge. Those releases must permit
+anyone to use, study, modify and redistribute the model and released code for
+any purpose, including commercially, without individual approval or a separate
+commercial agreement. API-only access, a research-only release, or public weights
+alone do not qualify. The required releases must occur no later than the first
+use of the resulting model beyond training, validation and evaluation necessary
+to prepare that release, and remain available for as long as the model is used
+or distributed. A plan to release later does not authorize closed deployment.
+
+"European Territory" means the European Economic Area (the European Union,
+Norway, Iceland and Liechtenstein), the United Kingdom, and Switzerland.
+
+A "Qualifying European Entity" is an entity incorporated or legally established
+in the European Territory whose actual headquarters, central administration and
+principal place of management are located there. Every ultimate controlling
+entity must meet the same requirements, and every natural person exercising
+ultimate control must be habitually resident in the European Territory. Where
+there is no controlling owner, the entity's actual governing body and management
+must exercise ultimate decision-making authority from the European Territory.
+
+"Control" means the direct or indirect ability, individually or jointly, to
+direct management or material policies, through ownership, voting rights, board
+appointment rights, contractual arrangements, decisive veto rights, trusts,
+nominees or otherwise. It includes effective control without majority ownership
+and is assessed through every intermediate entity. A passive minority investment
+alone does not establish control. European incorporation, a registered office,
+tax residence, local computing infrastructure or an intermediate European holding
+company does not alone establish qualification.
+
+AI Training Use by, on behalf of, at the direction of, or for the specific benefit
+of a non-qualifying organization is prohibited, including through a European
+subsidiary, affiliate, contractor, research institution, proxy or arrangement
+intended to circumvent these conditions. Qualification must be maintained during
+AI Training Use; outsourcing or transferring that use does not remove the gates.
+Distributors must preserve these terms with Covered Material supplied for AI
+Training Use and may not grant permission to bypass them.
+
+To the extent applicable law permits reservation, the Licensor expressly reserves
+text-and-data-mining rights for AI Training Use outside these conditions,
+including under Article 4(3) of Directive (EU) 2019/790. This reservation does
+not restrict mandatory statutory exceptions or claim control of third-party
+rights. Section 9 does not alter LICENSE-WEIGHTS, prior grants applicable to
+previously received versions, or an expressly differing written agreement.
